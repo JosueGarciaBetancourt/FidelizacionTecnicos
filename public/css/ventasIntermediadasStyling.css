@@ -1,0 +1,132 @@
+.ventasIntermediadasContainer {
+    border-radius: var(--border-radius-mainSectionContainer);
+    padding: var(--padding-mainSectionContainer);
+    background-color: var(--background-color-mainSectionContainer);
+    padding-right: 10px;
+    width: 100%;
+}
+
+.firstRow{
+    display: grid;
+    width: 100%;
+    height: 5%;
+    gap: 1.5rem;
+    grid-template-columns: 30rem 10rem;
+    align-items: center;
+}
+
+.thirdRow{
+    margin-top: 1rem;
+    width: auto;
+    height: 5%;
+    align-items: left;
+}
+
+.searcherContainer{
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 5% auto;
+    width: 100%;
+    height: 2rem;
+    background-color: #F3F3F3;
+    padding: 0.25rem 1rem 0.5rem 1rem;
+    border-radius: 2rem 2rem 2rem 2rem;;
+    align-items: center;
+}
+
+.searcherContainer span{
+    color: #AAA;
+    font-size: 1.25rem;
+}
+
+.searcher{
+    width: 100%;
+    height: 100%
+}
+
+.searcher input{
+    width: 100%;
+    height: 100%;
+    color: #000;
+    background-color: transparent;
+    border: 0;
+    outline: 0;
+    font-size: 0.9rem;
+}
+
+.searcher input::placeholder {
+    color: #AAA;
+}
+
+.agregarNuevaVentaContainer {
+    background: #2E1572;
+    border-radius: 40px;
+    display: flex; 
+    max-width: 10rem; 
+    min-height: 3rem; 
+    align-items: center;
+    padding: 0.1rem 1rem;
+    margin: 0;
+    transition-duration: .4s;
+}
+
+.agregarNuevaVentaContainer:hover{
+    background-color: #3a13a7;
+}
+
+.btnAgregarNuevaVenta {
+    color: #FFF;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    width: 100%; /* Toma todo el ancho disponible del contenedor padre */
+    padding: 0.3rem; 
+    align-items: center;
+    justify-content: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    white-space: normal; /* Permite que el texto se ajuste automáticamente */
+    word-break: break-word; /* Asegura que las palabras largas se rompan correctamente */
+}
+
+.btnAgregarNuevaVenta span {
+    font-size: 1.5rem;
+    color: #FFF;
+}
+
+/* Estilos específicos de celdas de Estado */
+
+.estado__celda {
+    padding: 0 !important;
+    margin: 0 !important;
+    text-align: center !important; 
+}
+
+.estado__celda span {
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0;
+    font-weight: bold;
+    font-size: 0.85rem;
+    display: inline-block;
+    width: 80%;
+}
+
+.estado__span-redimido {
+    color: #139161;
+    background-color: rgb(35 218 149 / 20%) !important;
+}
+
+.estado__span-en-espera {
+    color: #2394da;
+    background-color: rgba(35, 78, 218, 0.2)!important;
+}
+
+.estado__span-tiempo-agotado {
+    color: #da2926;
+    background-color: rgba(218, 35, 35, 0.2) !important;
+    width: max-content;
+}
+
+

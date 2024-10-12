@@ -1,0 +1,16 @@
+#modalEditarRecompensa-dialog {
+	max-width: 700px; 
+}
+
+#recompensaEditInput {
+	width: 30rem;
+}
+
+#idModalBodyEditarRecompensa {
+	padding: 0;
+}
+
+#idH5EditRecompensaModalContainer > h5 {
+	font-size: 0.9rem;
+	color: #555;
+}

@@ -1,0 +1,399 @@
+html {
+    font-size: 16px; 
+	font-family: "Source Sans 3", sans-serif;
+}
+
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	border: 0;
+	text-decoration: none;
+    user-select: text;
+	/*list-style: none;*/
+	/*appearance: none;*/
+}
+  
+body{
+	width: 100vw;
+	height: 100vh;
+	user-select: none;
+	overflow-x: hidden;
+}
+
+:root {
+	--clr-primary: #7380ec;
+	--clr-danger: #ff7782;
+	--clr-success: #41f1b6;
+	--clr-white: #fff;
+	--clr-info-dark: #687D9F;
+	--clr-info-light: #dce1eb;
+	--clr-dark: #363949;
+	--clr-warnig: #ff4edc;
+	--clr-light: rgba(132, 139, 200, 0.18);
+	--clr-primary-variant: #0074FF;
+	--clr-primary-variant2: #033878;
+    --clr-primary-variant3: #1F3B84;
+	--clr-dark-variant: #677483;
+	--clr-color-background: #f6f6f9;
+
+	--card-border-radius: 2rem;
+	--border-radius-1: 0.4rem;
+	--border-radius-2: 0.8rem;
+	--border-radius-3: 1.2rem;
+
+	--card-padding: 1.8rem;
+	--padding-1: 1.2rem;
+	--box-shadow: 0 2rem 3rem var(--clr-light);
+
+	--padding-top-mainDashboardContainer: 1.4rem;
+	--padding-bottom-mainDashboardContainer: 1.4rem;
+	--padding-right-mainDashboardContainer: 2rem;
+	--padding-left-mainDashboardContainer: 1rem;
+	
+	--padding-mainSectionContainer: 2rem;
+	--border-radius-mainSectionContainer: 1rem;
+	--background-color-mainSectionContainer: #fff;
+}
+
+/* dark theme */
+.dark-theme-variables {
+	--clr-color-background: #181a1e;
+	--clr-white: #202528;
+	--clr-light: rgba(0, 0, 0, 0.4);
+	--clr-dark: #edeffd;
+	--clr-dark-variant: #677483;
+	--box-shadow: 0 2rem 3rem var(--clr-light)
+}
+
+/*Títulos*/
+h1{
+    color: #027EB3;
+    font-weight: bold;
+	font-size: 2.5rem;
+    line-height: 2.5rem;
+    letter-spacing: 0;
+    text-align: center; 
+    margin: 0;
+}
+
+/*Subtítulos*/
+h2{
+	color: #000000;
+    font-weight: bold;
+	font-size: 1.5rem;
+    line-height: 1.5rem;
+    letter-spacing: 0;
+    text-align: left; 
+    margin: 0;
+}
+
+/*Texto negrita mediano*/
+h3{
+	color: #000000;
+    font-weight: bold;
+	font-size: 1rem;
+    line-height: 2rem;
+    letter-spacing: 0;
+    text-align: left; 
+    margin: 0;
+}
+
+/*Texto normal mediano*/
+h4{
+	color: #000000;
+    font-weight: 500;
+	font-size: 1rem;
+    line-height: 2rem;
+    letter-spacing: 0.3px;
+    margin: 0;
+}
+
+/*Texto gris mediano*/
+h5{
+	color: #AAA;
+    font-weight: 500;
+	font-size: 1rem;
+    line-height: 1rem;
+    letter-spacing: 0.3px;
+    margin: 0;
+}
+
+/*Texto gris pequeño*/
+h6{
+	color: #AAA;
+    font-weight: 500;
+	font-size: 0.5rem;
+    line-height: 1rem;
+    letter-spacing: 0.3px;
+    margin: 0;
+}
+
+/*Estilos generales de los botones de la app*/
+/*CREATE*/
+.btnCreateItem-container {
+    background: #2E1572;
+    border-radius: 40px;
+    display: flex; 
+    max-width: 12rem; 
+    min-height: 3rem; 
+    align-items: center;
+    padding: 0.1rem 1rem;
+    margin: 0;
+    transition-duration: .4s;
+}
+
+.btnCreateItem-container:hover{
+    background-color: #3a13a7;
+}
+
+.btnCreateItem {
+    color: #FFF;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    width: 100%; /* Toma todo el ancho disponible del contenedor padre */
+    padding: 0.3rem; 
+    align-items: center;
+    justify-content: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    white-space: normal; /* Permite que el texto se ajuste automáticamente */
+    word-break: break-word; /* Asegura que las palabras largas se rompan correctamente */
+}
+
+.btnCreateItem span {
+    margin-left: 0.3rem;
+    font-size: 1.5rem;
+    color: #FFF;
+}
+
+/*EDIT*/
+.btnEditItem-container {
+    background: #5125AD;
+    border-radius: 40px;
+    display: flex; 
+    max-width: 15rem; 
+    min-height: 3rem; 
+    align-items: center;
+    padding: 0.1rem 1rem;
+    margin: 0;
+    transition-duration: .4s;
+}
+
+.btnEditItem-container:hover{
+    background-color: #5b2ddb;
+}
+
+.btnEditItem {
+    color: #FFF;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    width: 100%; /* Toma todo el ancho disponible del contenedor padre */
+    padding: 0.3rem; 
+    align-items: center;
+    justify-content: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    white-space: normal; /* Permite que el texto se ajuste automáticamente */
+    word-break: break-word; /* Asegura que las palabras largas se rompan correctamente */
+}
+
+.btnEditItem span {
+	padding-left: 0.5rem;
+    font-size: 1.2rem;
+    color: #FFF;
+}
+
+/*DELETE*/
+.btnDeleteItem-container {
+    background: #570E28;
+    border-radius: 40px;
+    display: flex; 
+    max-width: 15rem; 
+    min-height: 3rem; 
+    align-items: center;
+    padding: 0.1rem 1rem;
+    margin: 0;
+    transition-duration: .4s;
+}
+
+.btnDeleteItem-container:hover{
+    background-color: #922f52;
+}
+
+.btnDeleteItem {
+    color: #FFF;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    width: 100%; /* Toma todo el ancho disponible del contenedor padre */
+    padding: 0.3rem; 
+    align-items: center;
+    justify-content: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    white-space: normal; /* Permite que el texto se ajuste automáticamente */
+    word-break: break-word; /* Asegura que las palabras largas se rompan correctamente */
+}
+
+.btnDeleteItem span {
+	padding-left: 0.5rem;
+    font-size: 1.2rem;
+    color: #FFF;
+}
+
+
+input[type="date"] {
+    font-family: "Source Sans 3", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+}
+
+/* Estilos para el modo oscuro */
+body.dark-mode {
+    --clr-background: #161d31 !important;
+    --clr-text: #f5f5f5;
+    --clr-white: #444;
+    --clr-dark: #f5f5f5;
+    --clr-info-light: #aaa;
+    --background-color-mainSectionContainer: #283046 !important;
+}
+
+body.dark-mode,
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4, 
+body.dark-mode h5, 
+body.dark-mode p, 
+body.dark-mode label,
+body.dark-mode .sidebar a,
+body.dark-mode .header {
+    color: var(--clr-text);
+}
+
+body.dark-mode .dashboard-container,
+body.dark-mode .main,
+body.dark-mode .config-section {
+    background-color: var(--clr-background);
+}
+
+body.dark-mode .sidebar,
+body.dark-mode .header {
+    background-color: var(--clr-white);
+}
+
+/* Estilos para el combobox en modo oscuro */
+body.dark-mode select,
+body.dark-mode option {
+    background-color: var(--clr-white) !important;
+    color: var(--clr-text) !important;
+}
+
+/* Mantener el color de los botones del sidebar */
+.sidebar a {
+    background-color: transparent;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar a.active {
+    background-color: var(--button-color);
+    color: white;
+}
+
+.dark-mode .sidebar a {
+    color: #f5f5f5;
+}
+
+.dark-mode .sidebar a.active {
+    background-color: var(--button-color);
+    color: white;
+}
+
+body.font-small {
+    font-size: 14px;
+}
+
+body.font-medium {
+    font-size: 16px;
+}
+
+body.font-large {
+    font-size: 18px;
+}
+
+html.font-small {
+    font-size: 14px;
+}
+
+html.font-medium {
+    font-size: 16px;
+}
+
+html.font-large {
+    font-size: 18px;
+}
+
+body {
+    font-size: inherit;
+}
+
+/* Estilos para el modo oscuro */
+body.dark-mode {
+    --clr-background: #333;
+    --clr-text: #f5f5f5;
+    --clr-white: #444;
+    --clr-dark: #f5f5f5;
+    --clr-info-light: #aaa;
+    --background-color-mainSectionContainer: #222;
+}
+
+body.dark-mode,
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3, 
+body.dark-mode h4, 
+body.dark-mode h5, 
+body.dark-mode p, 
+body.dark-mode label,
+body.dark-mode .sidebar a,
+body.dark-mode .header {
+    color: var(--clr-text);
+}
+
+body.dark-mode .dashboard-container,
+body.dark-mode .main,
+body.dark-mode .config-section {
+    background-color: var(--clr-background);
+}
+
+body.dark-mode .sidebar,
+body.dark-mode .header {
+    background-color: var(--clr-white);
+}
+
+/* Mantener el color de los botones del sidebar */
+.sidebar a {
+    background-color: transparent;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.sidebar a.active {
+    background-color: var(--button-color);
+    color: white;
+}
+
+.dark-mode .sidebar a {
+    color: #f5f5f5;
+}
+
+.dark-mode .sidebar a.active {
+    background-color: var(--button-color);
+    color: white;
+}

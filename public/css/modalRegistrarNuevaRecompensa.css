@@ -1,0 +1,30 @@
+#modalRegistrarNuevaRecompensa-dialog {
+	max-width: 460px; 
+}
+
+#idModalBodyRegistrarNuevaRecompensa {
+    padding: 10px 0 0 0;
+}
+
+#formRegistrarNuevaRecompensa {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+}
+
+#modalRegistrarNuevaRecompensa .modal-dialog {
+    transform: translateY(0); /* Inicialmente desplazado hacia arriba */
+}
+
+#modalRegistrarNuevaRecompensa .modal-dialog.open {
+    transform: translateY(-2rem);
+}
+
+#codigoRecompensaInput {
+	width: 7rem;
+}
+
+#costoUnitarioInput {
+	width: 4rem;
+}
+

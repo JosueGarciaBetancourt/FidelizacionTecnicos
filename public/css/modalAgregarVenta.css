@@ -1,0 +1,67 @@
+#modalAgregarVenta-dialog {
+    max-width: 1100px; 
+}
+
+#modalAgregarVenta-dialog.open {
+    transform: translateY(-20%); /* En su posición original */
+}
+
+#modalAgregarVenta-content {
+    max-height: 700px;
+}
+
+#modalAgregarVenta-body {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+#idLabelTecnico {
+    margin-left: 0;
+}
+
+#idSelectFilesContainer {
+    height: 15rem;
+    margin: auto;
+}
+
+#labelClienteAgregarVenta,
+#labelVentaAgregarVenta {
+    margin-left: 0;
+}
+
+#tipoCodigoClienteInput {
+    max-width: 5rem;
+}
+
+#puntosGanadosInput {
+    max-width: 7rem;
+    color: rgb(12, 179, 12);
+    font-weight: bold;
+}
+
+#nombreClienteInput {
+    width: 20rem;
+}
+
+#group-items-centered {
+    align-items: center;
+}
+
+#montoTotalInput {
+    max-width: 8rem;
+    text-align: center;
+}
+
+.marginTop {
+    margin: 15px 0 0 0;
+}
+
+#fechaHoraEmisionVentaIntermediadaInput {
+    max-width: 25rem;
+}
+
+#tecnicoInput {
+    width: 28rem;
+}

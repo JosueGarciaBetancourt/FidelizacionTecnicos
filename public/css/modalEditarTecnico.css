@@ -1,0 +1,29 @@
+#modalEditarTecnico-dialog {
+	max-width: 700px; 
+    transform: translateY(-10px);
+}
+
+#modalEditarTecnico .modal-dialog.open {
+    transform: translateY(-90px); 
+}
+
+#tecnicoEditInput {
+	width: 20rem;
+}
+
+#idModalBodyEditarTecnico {
+	padding: 0;
+}
+
+#historicoPuntosInputEdit, #puntosActualesInputEdit {
+	max-width: 5rem;
+}
+
+#rangoInputEdit {
+	max-width: 9rem;
+}
+
+#idH5EditTecnicoModalContainer > h5{
+	font-size: 0.9rem;
+	color: #555;
+}

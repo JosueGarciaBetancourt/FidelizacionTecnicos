@@ -1,0 +1,37 @@
+#modalEliminarTecnico-dialog {
+	max-width: 700px; 
+    transform: translateY(-10px);
+}
+
+#modalEliminarTecnico .modal-dialog.open {
+    transform: translateY(-100px); 
+}
+
+#tecnicoDeleteInput {
+	width: 20rem;
+}
+
+#idModalBodyDeleteTecnico {
+	padding: 0;
+}
+
+#historicoPuntosInputDelete, #puntosActualesInputDelete {
+	max-width: 5rem;
+}
+
+#rangoInputDelete {
+	max-width: 9rem;
+}
+
+#idH5DeleteTecnicoModalContainer > h5{
+	font-size: 1rem;
+	color: #555;
+}
+
+#celularInputDelete {
+	max-width: 7rem;
+}
+
+#oficioInputDelete {
+	max-width: 9rem;
+}

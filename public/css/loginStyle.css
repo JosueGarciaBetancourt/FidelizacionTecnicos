@@ -1,0 +1,252 @@
+/* Contenedor principal */
+.main_container {
+    width: 100%; /* Ancho máximo del contenedor principal */
+    height: 100vh; /* Altura máxima de la pantalla */
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start; /* Alinea los elementos al inicio del contenedor */
+    padding: 0;
+    margin: 0;
+    overflow: hidden; /* Para evitar cualquier desbordamiento */
+}
+
+/* Contenedores izquierdo y derecho */
+.left_content {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; /* Centra los elementos verticalmente */
+    height: 100%;
+    margin: 0 1% 0 3%;
+    max-width: 25%;
+    flex: 1; /* Flex para permitir que el contenedor crezca/shrink */
+    box-sizing: border-box;
+}
+
+/* Logo DIMACOF */
+.logo_DIMACOF_container {
+    margin-top: 5%;
+    margin-bottom: 2%; /* Espacio entre el logo y el formulario */
+    height: auto;
+    width: 100%;
+    display: flex; /* Utiliza Flexbox */
+    align-items: center; 
+    justify-content: center; /* Centra horizontalmente los elementos */
+    box-sizing: border-box;
+}
+
+.logo_DIMACOF_container img {
+    width: 30%;
+    height: auto;
+}
+
+.right_content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinea los elementos al inicio del contenedor */
+    max-width: 70%;
+    flex: 3; /* Permite que el contenedor derecho crezca más que el izquierdo */
+    margin: 0;
+    margin-left: 2%;
+    height: 100%; /* Establece la altura del contenedor al 100% del contenedor principal */
+    box-sizing: border-box;
+}
+
+.enchapadorImg_container {
+    width: 100%; /* Ajusta el ancho del contenedor */
+    height: 100%; /* Ajusta la altura del contenedor */
+    box-sizing: border-box;
+}
+
+.enchapadorImg_container img {
+	height: 100%;
+	width: 100%;
+    object-fit: cover; /* Asegura que la imagen cubra el contenedor */
+}
+
+.title_container{
+    text-align: center; /* Centra el texto dentro del contenedor */
+    width: 70%;
+}
+
+.subtitle_container{
+	width: 250px;
+    height: 30px;
+}
+
+.otherText_container{
+	text-align: center;
+	width: 16.5rem;
+    height: 2rem;
+}
+
+.credential-box-input{
+	width: 16.5rem;
+	height: 2rem;
+	padding: 0px 10px 0px 20px;
+	background: #FFFFFF;
+	color: #000000;
+	border-color: #D6D6D6;
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 4px 4px 4px 4px;
+	font-family: "Source Sans 3";
+	font-weight: 500;
+	font-size: 1rem;
+	text-align: left;
+}
+
+.credential-box-input::placeholder{
+	color: #777; 
+	opacity: 1; 	
+}
+
+
+.remember_check{
+	width: 13rem;
+	color: #000000;
+	font-family: "Source Sans 3";
+	align-items: center; 
+	justify-content: center;
+	text-align: left;
+	margin: 5px;
+	margin-left: 0;
+}
+
+.remember_check span{
+	font-weight: 400;
+	font-size: 0.9rem;
+	text-decoration: underline;
+}
+
+.form-check-input{
+	margin: 0;
+	margin-right: 5px;
+}
+
+.recover-password-link{
+	color: var(--clr-primary-variant);
+}
+
+.recover-password-link:hover{
+	color:var(--clr-primary-variant2);
+}
+
+.button_container{
+	width: 16.5rem;
+	height: 3rem;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.login_button{
+	width: 100%;
+	height: 100%;
+	background: #A76307;
+	color: #FFFFFF;
+	border-color: #00000000;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 4px 4px 4px 4px;
+	font-family: "Source Sans 3";
+	font-weight: 600;
+	font-size: 20px;
+	text-align: center;
+    cursor: pointer; /* Cambia el cursor al pasar el mouse sobre el botón */
+}
+
+.login_button:hover{
+	background: #ca872b;
+}
+
+.login_button:active{
+	font-weight: bold;
+}
+
+
+/* Media Query para pantallas pequeñas */
+@media (max-width: 980px) {
+    .main_container {
+        flex-direction: column; /* Cambia la dirección de los elementos a columna en pantallas pequeñas */
+        align-items: center; /* Centra los elementos horizontalmente */
+		width: 100%; /* Ancho máximo del contenedor principal */
+    	height: 100%;
+		padding: 0;
+		margin: 0;
+    }
+
+	.left_content {
+		margin-right: 1%;
+		margin-left: 3%;
+		max-width: 100%;
+	}
+	
+	.right_content {
+        max-width: 100%; /* Asegura que los contenedores no excedan el ancho de la pantalla */
+		margin: 0;
+        margin-top: 3%;
+    }
+
+    .logo_DIMACOF_container {
+        margin-top: 3%; /* Ajusta el margen superior para pantallas pequeñas */
+    }
+
+	.title_container{
+		font-size: 20px;
+	}
+
+	.login_button{
+		font-size: 1.2rem;
+	}
+
+	.button_container{
+		width: 20rem;
+		height: 2.33rem;
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+
+	.enchapadorImg_container{
+		width: 100%;
+		height: 100%;
+	}
+
+	.enchapadorImg_container img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover; /* Asegura que la imagen cubra el contenedor */
+	}
+
+	.credential-box-input{
+		width: 20rem;
+	}
+}
+
+.error {
+	color: rgb(222, 25, 25);
+}
+
+/* Contenedor para alinear el input y el checkbox */
+.input-password-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre el input y el checkbox */
+}
+
+.show-password-container {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Espacio entre el checkbox y la etiqueta */
+}
+
+#show_password_checkbox {
+    cursor: pointer;
+}
+
+.material-symbols-outlined.eyeIcon {
+	cursor: default;
+}
+
+.credential-box-input {
+    flex: 1; /* Permite que el input ocupe el espacio disponible */
+}

@@ -1,0 +1,32 @@
+#idModalBodyAgregarNuevoTecnico {
+    padding: 10px 0 0 0;
+}
+
+#modalAgregarNuevoTecnico .modal-dialog {
+    transform: translateY(15px); /* Inicialmente desplazado hacia arriba */
+}
+
+#modalAgregarNuevoTecnico .modal-dialog.open {
+    transform: translateY(0px); /* Inicialmente desplazado hacia arriba */
+}
+
+#phoneInput {
+    max-width: 9rem;
+}
+
+#dniInput {
+    width: 8rem;
+}
+
+#bornDateLabel {
+    margin-right: 0;
+    max-width: 6rem;
+}
+
+#bornDateInput {
+    min-width: 8.5rem;
+}
+
+#nameInput {
+    width: 15rem;
+}
