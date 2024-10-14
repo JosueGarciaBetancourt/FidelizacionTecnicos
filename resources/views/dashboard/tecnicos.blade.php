@@ -17,11 +17,11 @@
 			</x-btn-create-item>
 			@include('modals.tecnicos.modalAgregarNuevoTecnico')
 
-			<x-btn-edit-item onclick="openModal('modalEditarTecnico')"> Editar </x-btn-edit-item>
+			{{--<x-btn-edit-item onclick="openModal('modalEditarTecnico')"> Editar </x-btn-edit-item>
 			@include('modals.tecnicos.modalEditarTecnico')
 
 			<x-btn-delete-item onclick="openModal('modalEliminarTecnico')"> Eliminar </x-btn-delete-item>
-			@include('modals.tecnicos.modalEliminarTecnico')
+			@include('modals.tecnicos.modalEliminarTecnico')--}}
 		</div>
 		
 		<x-modalSuccessAction 
@@ -39,7 +39,7 @@
 			:message="'Técnico eliminado correctamente'"
 		/>
 
-		<!--Tabla de ventas intermediadas-->
+		<!--Tabla de técnicos-->
 		<div class="secondRow">
 			<table id="tblTecnicos">
 				<thead>

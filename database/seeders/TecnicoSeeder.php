@@ -33,6 +33,6 @@ class TecnicoSeeder extends Seeder
             'rangoTecnico' => 'Plata',
         ]);
 
-        Tecnico::factory(10)->create();
+        Tecnico::factory(100)->create();
     }
 }
