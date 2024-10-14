@@ -235,6 +235,9 @@ async function filterNumComprobantesInputWithTecnicoFetch(idTecnico) {
     }
 }
     
+let incrementInterval; // Para el incremento
+let decrementInterval; // Para el decremento
+
 function countUpCantidadRecompensa() {
     if (cantidadRecompensaCanjesInput.value == null || cantidadRecompensaCanjesInput.value == "") {
         cantidadRecompensaCanjesInput.value = 1;
@@ -250,6 +253,33 @@ function countDownCantidadRecompensa() {
         cantidadRecompensaCanjesInput.value = parseInt(cantidadRecompensaCanjesInput.value) - 1;
     }  
 }
+
+// Manejo del evento de mouse para incrementar
+document.getElementById('incrementButton').addEventListener('mousedown', function() {
+    countUpCantidadRecompensa(); // Llamar una vez para iniciar
+    incrementInterval = setInterval(countUpCantidadRecompensa, 250); // Ajusta el intervalo según sea necesario
+});
+
+// Manejo del evento de mouse para decrementar
+document.getElementById('decrementButton').addEventListener('mousedown', function() {
+    countDownCantidadRecompensa(); // Llamar una vez para iniciar
+    decrementInterval = setInterval(countDownCantidadRecompensa, 250); // Ajusta el intervalo según sea necesario
+});
+
+// Detener el incremento o decremento al soltar el botón
+document.addEventListener('mouseup', function() {
+    clearInterval(incrementInterval);
+    clearInterval(decrementInterval);
+});
+
+// Detener el intervalo si el ratón sale del botón
+/*document.getElementById('incrementButton').addEventListener('mouseleave', function() {
+    clearInterval(incrementInterval);
+});
+
+document.getElementById('decrementButton').addEventListener('mouseleave', function() {
+    clearInterval(decrementInterval);
+});*/
 
 document.addEventListener('DOMContentLoaded', function() {
     // Recuperar valores guardados y establecerlos en los inputs

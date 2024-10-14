@@ -152,8 +152,8 @@
 					<input class="input-item persist-input" id="cantidadRecompensaCanjesInput" type="text" maxlength="3" 
 							placeholder="0" name="cantidadRecompensa_Canje" oninput="validateNumberWithMaxLimitRealTime(this, 100)">
 					<div class="counters">
-						<span class="material-symbols-outlined" onclick="countUpCantidadRecompensa()">add</span>
-						<span class="material-symbols-outlined" onclick="countDownCantidadRecompensa()">remove</span>
+						<span class="material-symbols-outlined" id="incrementButton">add</span>
+						<span class="material-symbols-outlined" id="decrementButton">remove</span>
 					</div>
 				</div>
 			</div>
