@@ -13,6 +13,7 @@ let puntosRestantesCanjesInput = document.getElementById('puntosRestantesCanjesI
 let clienteCanjesTextarea = document.getElementById('clienteCanjesTextarea');
 let fechaEmisionCanjesInput = document.getElementById('fechaEmisionCanjesInput');
 let fechaCargadaCanjesInput = document.getElementById('fechaCargadaCanjesInput');
+let cantidadRecompensaCanjesInput = document.getElementById('cantidadRecompensaCanjesInput');
 
 function getFormattedDate() {
     let today = new Date();
@@ -60,7 +61,7 @@ function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
                 fechaEmisionCanjesInput.classList.remove("noEditable");
                 fechaCargadaCanjesInput.classList.remove("noEditable");
 
-                console.log("Comprobante seleccionado:", comprobanteSeleccionado);
+                //console.log("Comprobante seleccionado:", comprobanteSeleccionado);
             } else {
                 console.error("No se encontró el comprobante con el ID:", value);
             }
@@ -83,9 +84,9 @@ function toggleNumComprobanteCanjesOptions(idInput, idOptions) {
     const allItems = getAllLiText(idTecnicoOptions); 
     const itemEncontrado = allItems.includes(tecnicoValue);
 
-    console.log(allItems);
+    /*console.log(allItems);
     console.log(tecnicoValue);
-    console.log(itemEncontrado);
+    console.log(itemEncontrado);*/
 
     if (itemEncontrado) {
         toggleOptions(idInput, idOptions); // Mostrar u ocultar las opciones
@@ -234,3 +235,60 @@ async function filterNumComprobantesInputWithTecnicoFetch(idTecnico) {
     }
 }
     
+function countUpCantidadRecompensa() {
+    if (cantidadRecompensaCanjesInput.value == null || cantidadRecompensaCanjesInput.value == "") {
+        cantidadRecompensaCanjesInput.value = 1;
+    }  else {
+        // Convertir texto a entero y aumentar en 1 el valor de la actual cantidad
+        cantidadRecompensaCanjesInput.value = parseInt(cantidadRecompensaCanjesInput.value) + 1;
+    }  
+}
+
+function countDownCantidadRecompensa() {
+    if (cantidadRecompensaCanjesInput.value != null && cantidadRecompensaCanjesInput.value != "" && cantidadRecompensaCanjesInput.value > 0) {
+        // Convertir texto a entero y disminuir en 1 el valor de la actual cantidad
+        cantidadRecompensaCanjesInput.value = parseInt(cantidadRecompensaCanjesInput.value) - 1;
+    }  
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Recuperar valores guardados y establecerlos en los inputs
+    document.querySelectorAll('.persist-input').forEach(function(input) {
+        //console.log(input.id);
+        var savedValue = localStorage.getItem(input.id);
+        if (savedValue !== null) {
+            input.value = savedValue;
+            //console.log(input.id + ": " + input.value);
+        }
+    });
+
+    // Función para manejar el guardado del valor
+    function handleInputChange(event) {
+        console.log("Cambio detectado en: ", event.target.id);
+        console.log("Nuevo valor: ", event.target.value);
+        localStorage.setItem(event.target.id, event.target.value);
+    }
+
+    // Añadir event listeners para guardar valores cuando cambien
+    document.querySelectorAll('.persist-input').forEach(function(input) {
+        input.addEventListener('input', handleInputChange);
+        input.addEventListener('change', handleInputChange);
+    });
+});
+
+// Función para limpiar todos los valores guardados
+function clearAllPersistedInputs() {
+    document.querySelectorAll('.persist-input').forEach(function(input) {
+        localStorage.removeItem(input.id);
+        input.value = '';
+    });
+}
+
+// Función para limpiar un input específico
+function clearPersistedInput(inputId) {
+    localStorage.removeItem(inputId);
+    var input = document.getElementById(inputId);
+    if (input) {
+        input.value = '';
+    }
+}
