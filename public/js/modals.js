@@ -236,6 +236,13 @@ function validateNumberRealTime(input) {
     input.value = input.value.replace(/[^0-9]/g, '');
 }
 
+function validateNumberWithMaxLimitRealTime(input, maxLimit) {
+    validateNumberRealTime(input);
+    if (input.value > maxLimit) {
+        input.value = 0;
+    } 
+}
+
 function validateRealTimeInputLength(input, length) {
     if (input.value.length > length) {
         input.value = input.value.slice(0, length);
