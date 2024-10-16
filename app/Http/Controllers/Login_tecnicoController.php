@@ -31,10 +31,21 @@ class Login_tecnicoController extends Controller
                 ->first();
 
             if ($loginTecnico && Hash::check($password, $loginTecnico->password)) {
+                // Verificar si es el primer inicio de sesión
+                $isFirstLogin = $loginTecnico->isFirstLogin;
+
+                // Si es el primer inicio de sesión, actualizarlo a 1
+                if ($isFirstLogin == 0) {
+                    DB::table('login_tecnicos')
+                        ->where('idTecnico', $tecnico->idTecnico)
+                        ->update(['isFirstLogin' => 1]);
+                }
+
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Login exitoso',
-                    'idTecnico' => $tecnico->idTecnico
+                    'idTecnico' => $tecnico->idTecnico,
+                    'isFirstLogin' => $isFirstLogin == 0, 
                 ]);
             }
         }
@@ -62,8 +73,8 @@ class Login_tecnicoController extends Controller
     public function getVentasIntermediadas($idTecnico)
     {
         $ventas = DB::table('ventasintermediadas')
-        ->where('idTecnico', $idTecnico)
-        ->get();
+            ->where('idTecnico', $idTecnico)
+            ->get();
         
         return response()->json($ventas);
     }
@@ -74,18 +85,18 @@ class Login_tecnicoController extends Controller
             ->where('idTecnico', $idTecnico)
             ->first();
             
-            return response()->json([
-                'tecnico' => [ // Devolver los datos del técnico
-                    'idTecnico' => $datostecnico->idTecnico,
-                    'nombreTecnico' => $datostecnico->nombreTecnico,
-                    'celularTecnico' => $datostecnico->celularTecnico,
-                    'oficioTecnico' => $datostecnico-> oficioTecnico,
-                    'fechaNacimiento_Tecnico' => $datostecnico->fechaNacimiento_Tecnico,
-                    'totalPuntosActuales_Tecnico' => $datostecnico->totalPuntosActuales_Tecnico,
-                    'historicoPuntos_Tecnico' => $datostecnico->historicoPuntos_Tecnico,
-                    'rangoTecnico' => $datostecnico->rangoTecnico
-                ]
-            ]);
+        return response()->json([
+            'tecnico' => [ // Devolver los datos del técnico
+                'idTecnico' => $datostecnico->idTecnico,
+                'nombreTecnico' => $datostecnico->nombreTecnico,
+                'celularTecnico' => $datostecnico->celularTecnico,
+                'oficioTecnico' => $datostecnico->oficioTecnico,
+                'fechaNacimiento_Tecnico' => $datostecnico->fechaNacimiento_Tecnico,
+                'totalPuntosActuales_Tecnico' => $datostecnico->totalPuntosActuales_Tecnico,
+                'historicoPuntos_Tecnico' => $datostecnico->historicoPuntos_Tecnico,
+                'rangoTecnico' => $datostecnico->rangoTecnico
+            ]
+        ]);
     }
 
     public function getAllLoginTecnicos() 
@@ -102,5 +113,28 @@ class Login_tecnicoController extends Controller
             ->get();
 
         return response()->json($recompensas);
+    }
+    
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'idTecnico' => 'required|string',
+            'currentPassword' => 'required|string',
+            'newPassword' => 'required|string|min:6',
+        ]);
+
+        $tecnico = DB::table('login_tecnicos')
+            ->where('idTecnico', $request->input('idTecnico'))
+            ->first();
+
+        if ($tecnico && Hash::check($request->input('currentPassword'), $tecnico->password)) {
+            DB::table('login_tecnicos')
+                ->where('idTecnico', $request->input('idTecnico'))
+                ->update(['password' => Hash::make($request->input('newPassword'))]);
+
+            return response()->json(['status' => 'success', 'message' => 'Contraseña cambiada con éxito']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'La contraseña actual no es correcta'], 401);
+        }
     }
 }

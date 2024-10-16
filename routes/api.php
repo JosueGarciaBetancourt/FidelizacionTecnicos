@@ -17,3 +17,4 @@ Route::get('/user', function (Request $request) {
     Route::get('/csrf-token', [Login_tecnicoController::class, 'getCsrfToken']);
     Route::get('/ventas-intermediadas/{idTecnico}', [Login_tecnicoController::class, 'getVentasIntermediadas']);
     Route::get('/recompensas', [Login_tecnicoController::class, 'obtenerRecompensas']);
+    Route::post('/cambiar-password', [Login_tecnicoController::class, 'changePassword']);
