@@ -39,7 +39,7 @@ class TecnicoController extends Controller
         // Guardar el técnico en la tabla login_tecnicos con la contraseña por defecto (DNI) que podrá ser cambiado desde la APP
         $login_tecnico = new Login_Tecnico([
             'idTecnico' => $validatedDatLoginTecnico['idTecnico'],
-            'password' => $validatedDatLoginTecnico['idTecnico'],
+            'password' => bcrypt($validatedDatLoginTecnico['idTecnico']),
         ]);
 
         $login_tecnico->save();
