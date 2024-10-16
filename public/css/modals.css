@@ -519,6 +519,39 @@
     max-width: 7rem;
 }
 
+.input-counter {
+    display: flex;
+    flex-direction: row;
+}
+
+.input-counter .counters {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-counter .counters span {
+    height: 20px;
+    width: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+    background-color: #f5f7fa;
+    border: 1px solid #c0c4cc;
+    border-left: none;
+    user-select: none;
+}
+
+.input-counter .counters span:first-child {
+    border-bottom: none;
+}
+
+.input-counter .counters span:hover {
+    color: var(--clr-primary-variant);
+}
+
 input[type="date"] {
     color: #666;
 }

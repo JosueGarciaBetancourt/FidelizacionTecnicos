@@ -13,6 +13,7 @@ let puntosRestantesCanjesInput = document.getElementById('puntosRestantesCanjesI
 let clienteCanjesTextarea = document.getElementById('clienteCanjesTextarea');
 let fechaEmisionCanjesInput = document.getElementById('fechaEmisionCanjesInput');
 let fechaCargadaCanjesInput = document.getElementById('fechaCargadaCanjesInput');
+let cantidadRecompensaCanjesInput = document.getElementById('cantidadRecompensaCanjesInput');
 
 function getFormattedDate() {
     let today = new Date();
@@ -60,7 +61,7 @@ function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
                 fechaEmisionCanjesInput.classList.remove("noEditable");
                 fechaCargadaCanjesInput.classList.remove("noEditable");
 
-                console.log("Comprobante seleccionado:", comprobanteSeleccionado);
+                //console.log("Comprobante seleccionado:", comprobanteSeleccionado);
             } else {
                 console.error("No se encontró el comprobante con el ID:", value);
             }
@@ -83,9 +84,9 @@ function toggleNumComprobanteCanjesOptions(idInput, idOptions) {
     const allItems = getAllLiText(idTecnicoOptions); 
     const itemEncontrado = allItems.includes(tecnicoValue);
 
-    console.log(allItems);
+    /*console.log(allItems);
     console.log(tecnicoValue);
-    console.log(itemEncontrado);
+    console.log(itemEncontrado);*/
 
     if (itemEncontrado) {
         toggleOptions(idInput, idOptions); // Mostrar u ocultar las opciones
@@ -234,3 +235,165 @@ async function filterNumComprobantesInputWithTecnicoFetch(idTecnico) {
     }
 }
     
+let incrementInterval; // Para el incremento
+let decrementInterval; // Para el decremento
+
+function countUpCantidadRecompensa() {
+    cantidadRecompensaCanjesInput.value = (parseInt(cantidadRecompensaCanjesInput.value) || 0) + 1;
+    // Esto asegura que se dispare el observer
+    cantidadRecompensaCanjesInput.setAttribute('value', (parseInt(cantidadRecompensaCanjesInput.value) || 0) + 1); 
+}
+
+function countDownCantidadRecompensa() {
+    if (cantidadRecompensaCanjesInput.value != null && cantidadRecompensaCanjesInput.value != "" && cantidadRecompensaCanjesInput.value > 0) {
+        // Convertir texto a entero y disminuir en 1 el valor de la actual cantidad
+        cantidadRecompensaCanjesInput.value = parseInt(cantidadRecompensaCanjesInput.value) - 1;
+        cantidadRecompensaCanjesInput.setAttribute('value', parseInt(cantidadRecompensaCanjesInput.value) - 1); 
+    }  
+}
+
+// Manejo del evento de mouse para incrementar
+document.getElementById('incrementButton').addEventListener('mousedown', function() {
+    countUpCantidadRecompensa(); // Llamar una vez para iniciar
+    incrementInterval = setInterval(countUpCantidadRecompensa, 250); // Ajusta el intervalo según sea necesario
+});
+
+// Manejo del evento de mouse para decrementar
+document.getElementById('decrementButton').addEventListener('mousedown', function() {
+    countDownCantidadRecompensa(); // Llamar una vez para iniciar
+    decrementInterval = setInterval(countDownCantidadRecompensa, 250); // Ajusta el intervalo según sea necesario
+});
+
+// Detener el incremento o decremento al soltar el botón
+document.addEventListener('mouseup', function() {
+    clearInterval(incrementInterval);
+    clearInterval(decrementInterval);
+});
+
+// Detener el intervalo si el ratón sale del botón
+/*document.getElementById('incrementButton').addEventListener('mouseleave', function() {
+    clearInterval(incrementInterval);
+});
+
+document.getElementById('decrementButton').addEventListener('mouseleave', function() {
+    clearInterval(decrementInterval);
+});*/
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Recuperar valores guardados y establecerlos en los inputs
+    document.querySelectorAll('.persist-input').forEach(function(input) {
+        //console.log(input.id);
+        var savedValue = localStorage.getItem(input.id);
+        if (savedValue !== null) {
+            input.value = savedValue;
+            //console.log(input.id + ": " + input.value);
+        }
+    });
+
+    // Función para manejar el guardado del valor
+    function handleInputChange(event) {
+        console.log("Cambio detectado en: ", event.target.id);
+        console.log("Nuevo valor: ", event.target.value);
+        localStorage.setItem(event.target.id, event.target.value);
+    }
+
+    // Añadir event listeners para guardar valores cuando cambien
+    document.querySelectorAll('.persist-input').forEach(function(input) {
+        input.addEventListener('input', handleInputChange);
+        //input.addEventListener('change', handleInputChange);
+    });
+});
+
+// Función para limpiar todos los valores guardados
+function clearAllPersistedInputs() {
+    document.querySelectorAll('.persist-input').forEach(function(input) {
+        localStorage.removeItem(input.id);
+        input.value = '';
+    });
+}
+
+// Función para limpiar un input específico
+function clearPersistedInput(inputId) {
+    localStorage.removeItem(inputId);
+    var input = document.getElementById(inputId);   
+    if (input) {
+        input.value = '';
+    }
+}
+
+/*
+// Function to save form data to local storage
+function saveFormData() {
+    document.querySelectorAll('input, textarea').forEach(element => {
+        if (element.id) {
+            localStorage.setItem(element.id, element.value);
+        }
+    });
+}
+
+// Function to load form data from local storage
+function loadFormData() {
+    document.querySelectorAll('input, textarea').forEach(element => {
+        if (element.id) {
+            const savedValue = localStorage.getItem(element.id);
+            if (savedValue !== null) {
+                element.value = savedValue;
+            }
+        }
+    });
+}
+
+// Function to clear all saved form data
+function clearAllFormData() {
+    localStorage.clear();
+    document.querySelectorAll('input, textarea').forEach(element => {
+        element.value = '';
+    });
+}
+
+// Set up MutationObserver to watch for changes
+const observerConfig = { attributes: true, childList: true, subtree: true };
+
+const observerCallback = function(mutationsList, observer) {
+    for(let mutation of mutationsList) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
+            saveFormData();
+        }
+    }
+};
+
+const observer = new MutationObserver(observerCallback);
+
+// Start observing the document with the configured parameters
+observer.observe(document.body, observerConfig);
+
+// Add event listeners for input changes
+document.addEventListener('input', saveFormData);
+document.addEventListener('change', saveFormData);
+
+// Load saved data when the page loads
+document.addEventListener('DOMContentLoaded', loadFormData);
+*/
+
+// Función que se ejecutará cuando el valor del input cambie
+function handleInputChange(mutationsList, observer) {
+    mutationsList.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
+            console.log('El valor del input ha sido observado:', mutation.target.id, mutation.target.value);
+            // Aquí puedes manejar el cambio del valor
+            localStorage.setItem(mutation.target.id, mutation.target.value);
+        }
+    });
+}
+
+// Seleccionar el input al que le queremos aplicar el observador
+const input = document.getElementById('cantidadRecompensaCanjesInput');
+
+// Configurar el observador para que observe cambios en los atributos
+const observer = new MutationObserver(handleInputChange);
+
+// Opciones de configuración del observador
+const config = { attributes: true, attributeFilter: ['value'] };
+
+// Iniciar la observación del input
+observer.observe(input, config);

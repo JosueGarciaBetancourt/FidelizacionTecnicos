@@ -39,7 +39,7 @@
 			:message="'Técnico eliminado correctamente'"
 		/>
 
-		<!--Tabla de ventas intermediadas-->
+		<!--Tabla de técnicos-->
 		<div class="secondRow">
 			<table id="tblTecnicos">
 				<thead>

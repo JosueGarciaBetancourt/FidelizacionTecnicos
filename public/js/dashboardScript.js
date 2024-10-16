@@ -132,7 +132,7 @@ function getAllLiText(idOptions) {
         items.push(li.textContent.trim());
     }
 
-    console.log(items);
+    //console.log(items);
     return items;
 }
 

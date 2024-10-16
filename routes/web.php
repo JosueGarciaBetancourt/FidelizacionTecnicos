@@ -21,7 +21,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    Route::get('/tblTecnicos', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
+    Route::get('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
 
 
     Route::get('/dashboard-ventasIntermediadas', [VentaIntermediadaController::class, 'create'])->name('ventasIntermediadas.create');

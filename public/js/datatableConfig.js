@@ -549,8 +549,8 @@ $(document).ready(function() {
 
 	$('#tblTecnicos').DataTable({
 		// Configuración inicial
-		lengthMenu: [3, 10, 15], 
-		pageLength: 10, 
+		lengthMenu: [15, 30, 100], 
+		pageLength: 15, 
 		dom: "Blifrtp", //B:buttons f:filter r:processing t:table
 						//i:info l:length ("Mostrar n registros") p:paging
 		buttons: [
@@ -582,7 +582,7 @@ $(document).ready(function() {
 			"infoFiltered": "(filtrado de un total de _MAX_ registros)",
 			"search": "<span class='material-symbols-outlined'>search</span>",
 			"searchPlaceholder": "Buscar DNI/Nombre de recompensa", // Placeholder para el campo de búsqueda
-			"loadingRecords": "Cargando...",
+			"loadingRecords": "Cargando datos...",
 			"paginate": {
 				"first": "Primero",
 				"last": "Último",
@@ -748,9 +748,9 @@ $(document).ready(function() {
 					"0": "Dom",
 					"1": "Lun",
 					"2": "Mar",
+					"3": "Mié",
 					"4": "Jue",
 					"5": "Vie",
-					"3": "Mié",
 					"6": "Sáb"
 				},
 				"next": "Próximo"
@@ -836,17 +836,27 @@ $(document).ready(function() {
 			tdRango.appendChild(span);
 		},
 
-		ajax: "tblTecnicos",
-			columns: [
-				{data: null, name: '#', class: 'celda-centered tdContador'},
-				{data: 'idTecnico', name: 'idTecnico', class: 'celda-centered'},
-				{data: 'nombreTecnico', name: 'nombreTecnico'/*, class: 'celda-centered'*/},
-				{data: 'oficioTecnico', name: 'oficioTecnico', class: 'celda-centered'},
-				{data: 'celularTecnico', name: 'celularTecnico', class: 'celda-centered'},
-				{data: 'fechaNacimiento_Tecnico', name: 'fechaNacimiento_Tecnico', class: 'celda-centered'},
-				{data: 'totalPuntosActuales_Tecnico', name: 'totalPuntosActuales_Tecnico', class: 'celda-centered'},
-				{data: 'historicoPuntos_Tecnico', name: 'historicoPuntos_Tecnico', class: 'celda-centered'},
-				{data: 'rangoTecnico', name: 'rangoTecnico', class: 'celda-centered celda__rangoTecnico'},
-			]
+		ajax: {
+			url: "tblTecnicosData",  // Asegúrate de que la ruta esté correcta
+			type: "GET",
+			dataType: "json",  // Tipo de datos esperados del servidor
+			error: function(xhr, status, error) {
+				console.log("Error en Ajax:");
+				console.log("Estado: " + status);
+				console.log("Error: " + error);
+				console.log(xhr.responseText);  // Esto imprimirá la respuesta completa del servidor
+			}
+		},
+		columns: [
+			{data: null, name: '#', class: 'celda-centered tdContador'},
+			{data: 'idTecnico', name: 'idTecnico', class: 'celda-centered'},
+			{data: 'nombreTecnico', name: 'nombreTecnico'/*, class: 'celda-centered'*/},
+			{data: 'oficioTecnico', name: 'oficioTecnico', class: 'celda-centered'},
+			{data: 'celularTecnico', name: 'celularTecnico', class: 'celda-centered'},
+			{data: 'fechaNacimiento_Tecnico', name: 'fechaNacimiento_Tecnico', class: 'celda-centered'},
+			{data: 'totalPuntosActuales_Tecnico', name: 'totalPuntosActuales_Tecnico', class: 'celda-centered'},
+			{data: 'historicoPuntos_Tecnico', name: 'historicoPuntos_Tecnico', class: 'celda-centered'},
+			{data: 'rangoTecnico', name: 'rangoTecnico', class: 'celda-centered celda__rangoTecnico'},
+		]
 	});
 });

@@ -66,7 +66,7 @@
 				</div>
 				<x-onlySelect-input 
 						:idSelect="'comprobanteSelect'"
-						:inputClassName="'onlySelectInput'"
+						:inputClassName="'onlySelectInput persist-input'"
 						:idInput="'comprobanteCanjesInput'"
 						:idOptions="'comprobanteOptions'"
 						:placeholder="'Seleccionar Comp.'"
@@ -147,11 +147,15 @@
 				</div>
 			</div>
 			<div class="verticalPairGroup">
-				<label class="primary-label noEditable centered"> Cantidad </label>
-				<input class="input-item" id="cantidadRecompensaCanjesInput" type="number" min="1" max="100" 
-					   placeholder="0" name="cantidadRecompensa_Canje"
-					   oninput="validateRealTimeInputLength(this, 3), validateNumberRealTime(this), 
-					   			validateMinMaxRealTime(this, 1, 100)">
+				<label class="primary-label noEditable centered" id="labelCantidadRecompensa_Canjes">Cantidad </label>
+				<div class="input-counter">
+						<input class="input-item persist-input" id="cantidadRecompensaCanjesInput" type="text" maxlength="3" 
+								placeholder="0" name="cantidadRecompensa_Canje" oninput="validateNumberWithMaxLimitRealTime(this, 100)">
+						<div class="counters">
+						<span class="material-symbols-outlined" id="incrementButton">add</span>
+						<span class="material-symbols-outlined" id="decrementButton">remove</span>
+					</div>
+				</div>
 			</div>
 
 			<x-btn-addRowTable-item
