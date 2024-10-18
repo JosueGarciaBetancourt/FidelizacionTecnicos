@@ -105,6 +105,10 @@ h3 {
 	width: 5rem;
 }
 
+#numComprobanteLabel {
+	width: 12rem;
+}
+
 #idFechaCanjeInput{
 	height: 2.3rem;
 	max-width: 60%;

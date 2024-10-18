@@ -60,7 +60,7 @@
 
 		<div class="thirdCanjesRow">
 			<div class="verticalPairGroup tooltipInside">
-				<label class="primary-label"> Número de comprobante </label>
+				<label class="primary-label" id="numComprobanteLabel"> Número de comprobante </label>
 				<div class="tooltip-container">
 					<span class="tooltip red" id="idNumComprobanteCanjesTooltip">Este es el mensaje del tooltip</span>
 				</div>
@@ -125,7 +125,7 @@
 					<div class="tooltip-container"> <!-- Aquí se manejará el color del tooltip dinámicamente -->
 						<span class="tooltip" id="idRecompensaCanjesTooltip">Este es el mensaje del tooltip</span>
 					</div>
-					<input class="input-select-item" type="text" id='{{ $idRecompensaInput }}' maxlength="50" placeholder="Código | Tipo | Descripción"
+					<input class="input-select-item" type="text" id='{{ $idRecompensaInput }}' maxlength="200" placeholder="Código | Tipo | Descripción"
 						oninput="filterOptions('{{ $idRecompensaInput }}', '{{ $idRecompensaOptions }}'), validateNumComprobanteInputNoEmpty(this)
 								validateOptionRecompensaCanjes(this, '{{ $idRecompensaOptions }}', '{{ $idRecompensaMessageError }}', {{ json_encode($recompensasDB) }})"
 						onclick="toggleOptions('{{ $idRecompensaInput }}', '{{ $idRecompensaOptions }}')">
@@ -133,7 +133,7 @@
 						@foreach ($recompensasDB as $recompensa)
 							@php
 								$value = $recompensa->idRecompensa . " | " . $recompensa->tipoRecompensa .
-										 " | " . $recompensa->descripcionRecompensa;
+										 " | " . $recompensa->descripcionRecompensa . " | " . $recompensa->costoPuntos_Recompensa . " puntos";
 								$idRecompensa = $recompensa->idRecompensa;
 								$costoPuntosRecompensa = $recompensa->costoPuntos_Recompensa;
 							@endphp

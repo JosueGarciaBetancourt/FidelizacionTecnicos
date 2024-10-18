@@ -239,7 +239,12 @@ let incrementInterval; // Para el incremento
 let decrementInterval; // Para el decremento
 
 function countUpCantidadRecompensa() {
-    cantidadRecompensaCanjesInput.value = (parseInt(cantidadRecompensaCanjesInput.value) || 0) + 1;
+    if (cantidadRecompensaCanjesInput.value == null || cantidadRecompensaCanjesInput.value == "" ) {
+        cantidadRecompensaCanjesInput.value = "0";
+    } else if (cantidadRecompensaCanjesInput.value < 100) {
+        cantidadRecompensaCanjesInput.vaglue = parseInt(cantidadRecompensaCanjesInput.value) + 1;
+    }
+
     // Esto asegura que se dispare el observer
     cantidadRecompensaCanjesInput.setAttribute('value', (parseInt(cantidadRecompensaCanjesInput.value) || 0) + 1); 
 }
@@ -288,19 +293,22 @@ document.addEventListener('DOMContentLoaded', function() {
             input.value = savedValue;
             //console.log(input.id + ": " + input.value);
         }
-    });
 
-    // Función para manejar el guardado del valor
-    function handleInputChange(event) {
-        console.log("Cambio detectado en: ", event.target.id);
-        console.log("Nuevo valor: ", event.target.value);
-        localStorage.setItem(event.target.id, event.target.value);
-    }
+        // Configurar el observador para que observe cambios en los atributos
+        const observer = new MutationObserver(handleInputChange);
 
-    // Añadir event listeners para guardar valores cuando cambien
-    document.querySelectorAll('.persist-input').forEach(function(input) {
-        input.addEventListener('input', handleInputChange);
-        //input.addEventListener('change', handleInputChange);
+        // Opciones de configuración del observador
+        const config = { attributes: true, attributeFilter: ['value'] };
+
+        // Iniciar la observación del input
+        observer.observe(input, config);
+
+        // Añadir event listener para guardar el valor cuando cambie
+        input.addEventListener('input', function() {
+            // Guardar el valor actual en localStorage
+            console.log("Guardando en local storage: ", input.id, " con valor: ", input.value)
+            localStorage.setItem(input.id, input.value);
+        });
     });
 });
 
@@ -321,60 +329,6 @@ function clearPersistedInput(inputId) {
     }
 }
 
-/*
-// Function to save form data to local storage
-function saveFormData() {
-    document.querySelectorAll('input, textarea').forEach(element => {
-        if (element.id) {
-            localStorage.setItem(element.id, element.value);
-        }
-    });
-}
-
-// Function to load form data from local storage
-function loadFormData() {
-    document.querySelectorAll('input, textarea').forEach(element => {
-        if (element.id) {
-            const savedValue = localStorage.getItem(element.id);
-            if (savedValue !== null) {
-                element.value = savedValue;
-            }
-        }
-    });
-}
-
-// Function to clear all saved form data
-function clearAllFormData() {
-    localStorage.clear();
-    document.querySelectorAll('input, textarea').forEach(element => {
-        element.value = '';
-    });
-}
-
-// Set up MutationObserver to watch for changes
-const observerConfig = { attributes: true, childList: true, subtree: true };
-
-const observerCallback = function(mutationsList, observer) {
-    for(let mutation of mutationsList) {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
-            saveFormData();
-        }
-    }
-};
-
-const observer = new MutationObserver(observerCallback);
-
-// Start observing the document with the configured parameters
-observer.observe(document.body, observerConfig);
-
-// Add event listeners for input changes
-document.addEventListener('input', saveFormData);
-document.addEventListener('change', saveFormData);
-
-// Load saved data when the page loads
-document.addEventListener('DOMContentLoaded', loadFormData);
-*/
-
 // Función que se ejecutará cuando el valor del input cambie
 function handleInputChange(mutationsList, observer) {
     mutationsList.forEach(function(mutation) {
@@ -385,15 +339,3 @@ function handleInputChange(mutationsList, observer) {
         }
     });
 }
-
-// Seleccionar el input al que le queremos aplicar el observador
-const input = document.getElementById('cantidadRecompensaCanjesInput');
-
-// Configurar el observador para que observe cambios en los atributos
-const observer = new MutationObserver(handleInputChange);
-
-// Opciones de configuración del observador
-const config = { attributes: true, attributeFilter: ['value'] };
-
-// Iniciar la observación del input
-observer.observe(input, config);
