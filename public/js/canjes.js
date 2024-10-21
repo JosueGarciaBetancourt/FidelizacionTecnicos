@@ -14,6 +14,8 @@ let clienteCanjesTextarea = document.getElementById('clienteCanjesTextarea');
 let fechaEmisionCanjesInput = document.getElementById('fechaEmisionCanjesInput');
 let fechaCargadaCanjesInput = document.getElementById('fechaCargadaCanjesInput');
 let cantidadRecompensaCanjesInput = document.getElementById('cantidadRecompensaCanjesInput');
+let agregarRecompensaTablaBtn = document.getElementById('idAgregarRecompensaTablaBtn');
+let recompensasCanjesInput = document.getElementById('recompensasCanjesInput');
 
 function getFormattedDate() {
     let today = new Date();
@@ -240,7 +242,7 @@ let decrementInterval; // Para el decremento
 
 function countUpCantidadRecompensa() {
     if (cantidadRecompensaCanjesInput.value == null || cantidadRecompensaCanjesInput.value == "" ) {
-        cantidadRecompensaCanjesInput.value = 0;
+        cantidadRecompensaCanjesInput.value = 1;
     } else if (cantidadRecompensaCanjesInput.value < 100) {
         cantidadRecompensaCanjesInput.value = parseInt(cantidadRecompensaCanjesInput.value) + 1;
     }
@@ -338,4 +340,106 @@ function handleInputChange(mutationsList, observer) {
             localStorage.setItem(mutation.target.id, mutation.target.value);
         }
     });
+}
+
+// Lógica de la tabla de recompensas agregadas en la sección CANJES
+function agregarFilaRecompensa() {
+    try {
+        // Verifica si el campo de recompensas tiene un valor
+        if (!recompensasCanjesInput.value) {
+            throw new Error('Por favor, ingrese una recompensa válida.');
+        }
+
+        // Verifica si el campo de cantidad tiene un valor
+        if (!cantidadRecompensaCanjesInput.value || isNaN(cantidadRecompensaCanjesInput.value) || cantidadRecompensaCanjesInput.value <= 0) {
+            throw new Error('Por favor, ingrese una cantidad válida.');
+        }
+
+        const partesRecompensaValue = recompensasCanjesInput.value.split(" | ");
+
+        // Verifica que el formato de la recompensa sea correcto (se esperan 5 partes)
+        if (partesRecompensaValue.length !== 4) {
+            throw new Error('El formato de la recompensa es incorrecto. Se requieren 4 partes separadas por " | ".');
+        }
+
+        // Asignación de variables a cada parte
+        const [codigo, categoria, descripcion, costoRaw] = partesRecompensaValue;
+        const costo = parseInt(costoRaw.replace(" puntos", "").trim(), 10);
+
+        // Validar que el costo sea un número válido
+        if (isNaN(costo) || costo <= 0) {
+            throw new Error('El costo de la recompensa no es válido.');
+        }
+
+        const cantidad = parseInt(cantidadRecompensaCanjesInput.value, 10);
+
+        // Validar que la cantidad sea un número entero positivo
+        if (isNaN(cantidad) || cantidad <= 0) {
+            throw new Error('La cantidad ingresada no es válida.');
+        }
+
+        // Calcular puntos totales
+        const puntosTotales = costo * cantidad;
+        
+        /*console.log(`Código: ${codigo}`);
+        console.log(`Categoría: ${categoria}`);
+        console.log(`Descripción: ${descripcion}`);
+        console.log(`Costo: ${costo}`);
+        console.log(`Cantidad: ${cantidad}`);
+        console.log(`Puntos Totales: ${puntosTotales}`);*/
+
+        addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotales);
+
+    } catch (error) {
+        console.error('Error al agregar la recompensa:', error.message);
+        // Aquí podrías mostrar el mensaje de error en la UI, por ejemplo en un campo de alerta
+    }
+}
+
+// SOBREESCRIBIR FILAS CON EL MISMO CODIGO DE RECOMPENSA
+
+function addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotales) {
+    const tableBody = document.querySelector('#tblCanjes tbody');
+    const newRow = document.createElement('tr');
+
+    // Crea las celdas (td) correspondientes y agrega los valores
+    const cellNumero = document.createElement('td');
+    cellNumero.classList.add('celda-centered');
+    cellNumero.textContent = tableBody.rows.length + 1; // Número de fila
+
+    const cellCodigo = document.createElement('td');
+    cellCodigo.classList.add('celda-centered');
+    cellCodigo.textContent = codigo;
+
+    const cellCategoria = document.createElement('td');
+    cellCategoria.classList.add('celda-centered');
+    cellCategoria.textContent = categoria;
+
+    const cellDescripcion = document.createElement('td');
+    cellDescripcion.classList.add('celda-centered');
+    cellDescripcion.textContent = descripcion;
+
+    const cellCosto = document.createElement('td');
+    cellCosto.classList.add('celda-centered');
+    cellCosto.textContent = `${costo} puntos`;
+
+    const cellCantidad = document.createElement('td');
+    cellCantidad.classList.add('celda-centered');
+    cellCantidad.textContent = cantidad;
+
+    const cellPuntosTotales = document.createElement('td');
+    cellPuntosTotales.classList.add('celda-centered');
+    cellPuntosTotales.textContent = puntosTotales;
+
+    // Añadir las celdas a la fila
+    newRow.appendChild(cellNumero);
+    newRow.appendChild(cellCodigo);
+    newRow.appendChild(cellCategoria);
+    newRow.appendChild(cellDescripcion);
+    newRow.appendChild(cellCosto);
+    newRow.appendChild(cellCantidad);
+    newRow.appendChild(cellPuntosTotales);
+
+    // Agregar la fila al cuerpo de la tabla
+    tableBody.appendChild(newRow);
 }

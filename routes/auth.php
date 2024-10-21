@@ -24,7 +24,7 @@ Route::middleware('guest')->group(function () {
 
     // Iniciar sesión
     Route::post('login', [AuthenticatedSessionController::class, 'store'])
-                ->middleware('throttle:1,10') 
+                //->middleware('throttle:1,1') 
                 ->name('loginPost');
 
     //Ir a la vista de Recuperar contraseña

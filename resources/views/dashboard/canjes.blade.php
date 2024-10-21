@@ -160,7 +160,7 @@
 
 			<x-btn-addRowTable-item
 				id="idAgregarRecompensaTablaBtn" 
-				onclick="">
+				onclick="agregarFilaRecompensa()">
 				Agregar a tabla
 			</x-btn-addRowTable-item>
 
@@ -186,24 +186,7 @@
                     </tr>
                 </thead>
                 <tbody>
-					<tr>
-						<td class="celda-centered">1</td>
-						<td class="celda-centered">RECOM-008</td>
-						<td class="celda-centered">Herramienta</td>
-						<td class="celda-centered word-wrap" id="descripcionCanjes">Palustre de 9225mmREF.: BK1040 Marca: BRICKELL</td>
-						<td class="celda-centered">100</td>
-						<td class="celda-centered">2</td>
-						<td class="celda-centered">200</td>
-					</tr>
-					<tr>
-						<td class="celda-centered">2</td>
-						<td class="celda-centered">RECOM-002</td>
-						<td class="celda-centered">EPP</td>
-						<td class="celda-centered word-wrap">Par de rodilleras para cerámica</td>
-						<td class="celda-centered">35</td>
-						<td class="celda-centered">1</td>
-						<td class="celda-centered">35</td>
-					</tr>
+					{{-- Las filas se crearán dinámicamente según el usario vaya agregando más recompensas--}}
                 </tbody>
             </table>
 
