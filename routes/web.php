@@ -1,15 +1,18 @@
 <?php
 
+use App\Mail\ResetPasswordMail;
+use App\Models\VentaIntermediada;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CanjeController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TecnicoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RecompensaController;
 use App\Http\Controllers\VentaIntermediadaController;
-use App\Http\Controllers\TecnicoController;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\ResetPasswordMail;
-use App\Models\VentaIntermediada;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');

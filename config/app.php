@@ -122,8 +122,8 @@ return [
     */
 
     'providers' => ServiceProvider::defaultProviders()->merge([
-        Yajra\DataTables\DataTablesServiceProvider::class,
-        ])->toArray(),
+        Yajra\DataTables\DataTablesServiceProvider::class, 
+        ])->toArray(), 
     
     'aliases' => Facade::defaultAliases()->merge([
         'DataTables' => Yajra\DataTables\Facades\DataTables::class,

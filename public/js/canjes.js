@@ -240,9 +240,9 @@ let decrementInterval; // Para el decremento
 
 function countUpCantidadRecompensa() {
     if (cantidadRecompensaCanjesInput.value == null || cantidadRecompensaCanjesInput.value == "" ) {
-        cantidadRecompensaCanjesInput.value = "0";
+        cantidadRecompensaCanjesInput.value = 0;
     } else if (cantidadRecompensaCanjesInput.value < 100) {
-        cantidadRecompensaCanjesInput.vaglue = parseInt(cantidadRecompensaCanjesInput.value) + 1;
+        cantidadRecompensaCanjesInput.value = parseInt(cantidadRecompensaCanjesInput.value) + 1;
     }
 
     // Esto asegura que se dispare el observer

@@ -51,7 +51,7 @@ class VentaIntermediadaController extends Controller
         // Obtener todas las ventas intermediadas con sus canjes y cargar los modelos relacionados
         $ventasIntermediadas = VentaIntermediada::with('canjes')->get();
 
-        Log::info('ventasIntermediadas: ' . $ventasIntermediadas);
+        //Log::info('ventasIntermediadas: ' . $ventasIntermediadas);
 
         $ventas = $ventasIntermediadas->map(function ($venta) {
 
