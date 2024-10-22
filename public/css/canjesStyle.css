@@ -223,6 +223,15 @@ h3 {
 
 /* Tabla */
 
+#tblCanjes {
+	border-collapse: collapse;
+}
+
+#tblCanjes tbody tr:hover {
+	background-color: #f0f9ff;
+	cursor: default;
+}
+
 #celdaNumeroOrdenRecompensa {
 	width: 2rem;
 }

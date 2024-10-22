@@ -187,6 +187,15 @@
                 </thead>
                 <tbody>
 					{{-- Las filas se crearán dinámicamente según el usuario vaya agregando más recompensas--}}
+					<tr>
+						<td class="celda-centered">1</td>
+						<td class="celda-centered">RECOM-99</td>
+						<td class="celda-centered">Prueba</td>
+						<td class="celda-centered">Fila de prueba</td>
+						<td class="celda-centered">99</td>
+						<td class="celda-centered">99</td>
+						<td class="celda-centered">9801</td>
+					</tr>
                 </tbody>
             </table>
 
