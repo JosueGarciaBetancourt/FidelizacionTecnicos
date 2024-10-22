@@ -3,6 +3,8 @@
     padding: var(--padding-mainSectionContainer);
 	padding-top: 0.5rem;
     background-color: var(--background-color-mainSectionContainer);
+	display: flex;
+	flex-direction: column;
     width: 100%;
 	height: 100%;
 }
@@ -72,14 +74,15 @@ h3 {
 .fithCanjesRow{
     display: flex;
 	flex-direction: row;
-    width: 100%;
+    max-width: 100rem;
 	height: auto;
-	justify-content: start;
 	align-items: start;
 	margin-top: 1rem;
 	gap: 2rem;
 	padding-top: 1rem;
 	padding-bottom: 1rem;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 .verticalPairGroup {
@@ -227,11 +230,6 @@ h3 {
 	border-collapse: collapse;
 }
 
-#tblCanjes tbody tr:hover {
-	background-color: #f0f9ff;
-	cursor: default;
-}
-
 #celdaNumeroOrdenRecompensa {
 	width: 2rem;
 }
@@ -250,4 +248,51 @@ h3 {
 
 #celdaPuntosTotalesRecompensa {
 	width: 3rem;
+}
+
+
+/* Fila hover*/
+#tblCanjes tbody tr:hover {
+	background-color: #f0f9ff;
+	cursor: default;
+}
+
+#tblCanjes tbody tr:hover td:first-child {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+#tblCanjes tbody tr:hover td:last-child {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+/* Fila seleccionada*/
+#tblCanjes tbody tr.selectedCanjes {
+	background-color: #b6d6ec;
+}
+
+.tblCanjesContainer {
+	display: flex;
+	flex-direction: column;
+}
+
+#tblCanjesMessageBelow {
+	display: block;
+	font-size: 0.9rem;
+	text-align: center;
+}
+
+#tblCanjesMessageBelow.hidden {
+	display: none;
+}
+
+#tblCanjes tbody tr.selectedCanjes  td:first-child{
+	border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+#tblCanjes tbody tr.selectedCanjes  td:last-child{
+	border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
 }

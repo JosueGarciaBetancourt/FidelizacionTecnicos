@@ -166,38 +166,42 @@
 
 			<x-btn-delete-item 
 				id="idQuitarRecompensaTablaBtn" 
-				onclick="">
+				onclick="eliminarFilaTabla()">
 				Quitar
 			</x-btn-delete-item>
 		</div>	
 
 		<!--Tabla de canjes-->
         <div class="fithCanjesRow">
-            <table class="ownTable" id="tblCanjes">
-                <thead>
-                    <tr>
-                        <th class="celda-centered" id="celdaNumeroOrdenRecompensa">#</th>
-                        <th class="celda-centered" id="celdaCodigoRecompensa">Código</th>
-                        <th class="celda-centered" id="celdaTipoRecompensa">Tipo</th>
-                        <th class="celda-centered" id="celdaDescripcionRecompensa">Descripción</th>
-                        <th class="celda-centered">Costo puntos</th>
-                        <th class="celda-centered">Cantidad</th>
-                        <th class="celda-centered" id="celdaPuntosTotalesRecompensa">Puntos Totales</th>
-                    </tr>
-                </thead>
-                <tbody>
-					{{-- Las filas se crearán dinámicamente según el usuario vaya agregando más recompensas--}}
-					<tr>
-						<td class="celda-centered">1</td>
-						<td class="celda-centered">RECOM-99</td>
-						<td class="celda-centered">Prueba</td>
-						<td class="celda-centered">Fila de prueba</td>
-						<td class="celda-centered">99</td>
-						<td class="celda-centered">99</td>
-						<td class="celda-centered">9801</td>
-					</tr>
-                </tbody>
-            </table>
+			<div class="tblCanjesContainer">
+				<table class="ownTable" id="tblCanjes">
+					<thead>
+						<tr>
+							<th class="celda-centered" id="celdaNumeroOrdenRecompensa">#</th>
+							<th class="celda-centered" id="celdaCodigoRecompensa">Código</th>
+							<th class="celda-centered" id="celdaTipoRecompensa">Tipo</th>
+							<th class="celda-centered" id="celdaDescripcionRecompensa">Descripción</th>
+							<th class="celda-centered">Costo puntos</th>
+							<th class="celda-centered">Cantidad</th>
+							<th class="celda-centered" id="celdaPuntosTotalesRecompensa">Puntos Totales</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{-- Las filas se crearán dinámicamente según el usuario vaya agregando más recompensas
+						<tr>
+							<td class="celda-centered">1</td>
+							<td class="celda-centered">2</td>
+							<td class="celda-centered">3</td>
+							<td class="celda-centered">4</td>
+							<td class="celda-centered">5</td>
+							<td class="celda-centered">6</td>
+							<td class="celda-centered">7</td>
+						</tr> --}}
+					</tbody>
+				</table>
+				<span id="tblCanjesMessageBelow">Aún no hay recompensas agregadas</span>
+			</div>
+         
 
 			<div class="resumenContainer" id="idResumenContainer">
 				<h3>RESUMEN</h3>

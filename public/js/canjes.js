@@ -16,6 +16,12 @@ let fechaCargadaCanjesInput = document.getElementById('fechaCargadaCanjesInput')
 let cantidadRecompensaCanjesInput = document.getElementById('cantidadRecompensaCanjesInput');
 let agregarRecompensaTablaBtn = document.getElementById('idAgregarRecompensaTablaBtn');
 let recompensasCanjesInput = document.getElementById('recompensasCanjesInput');
+let tblCanjesMessageBelow = document.getElementById('tblCanjesMessageBelow');
+let tableCanjesBody = document.querySelector('#tblCanjes tbody');
+let numFilaSeleccionada = null;
+let lastNumFilaSeleccionada = null;
+let listaFilasSeleccionadas = [];
+let lastSelectedRow = null;
 
 function getFormattedDate() {
     let today = new Date();
@@ -33,6 +39,7 @@ let recompensaFilledCorrectlySearchField = false;
 document.addEventListener("DOMContentLoaded", function() {
     let fechaCanjeInput = document.getElementById('idFechaCanjeInput');
     fechaCanjeInput.value = date;  // Asigna la fecha en formato YYYY-MM-DD
+    verificarFilasTablaCanjes(); // Llamar cuando se carga la página
 });
 
 function consoleLogJSONItems(items) {
@@ -388,7 +395,7 @@ function agregarFilaRecompensa() {
         console.log(`Puntos Totales: ${puntosTotales}`);*/
 
         addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotales);
-
+        verificarFilasTablaCanjes(); // Verificar después de agregar la fila
     } catch (error) {
         console.error('Error al agregar la recompensa:', error.message);
         // Aquí podrías mostrar el mensaje de error en la UI, por ejemplo en un campo de alerta
@@ -415,7 +422,6 @@ function rowCodigoDuplicated(codigo, cantidad, puntosTotales) {
 }
 
 function addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotales) {
-    // Si la fila con el código ya existe y se actualizó, no agregar una nueva fila
     if (rowCodigoDuplicated(codigo, cantidad, puntosTotales)) {
         return;
     }
@@ -423,44 +429,73 @@ function addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, punt
     const tableBody = document.querySelector('#tblCanjes tbody');
     const newRow = document.createElement('tr');
 
-    // Crea las celdas (td) correspondientes y agrega los valores
-    const cellNumeroOrden = document.createElement('td');
-    cellNumeroOrden.classList.add('celda-centered');
-    cellNumeroOrden.textContent = tableBody.rows.length + 1; // Número de fila
+    // Datos que serán agregados en las celdas
+    const datosFila = [
+        tableBody.rows.length + 1,  // Número de fila
+        codigo,
+        categoria,
+        descripcion,
+        costo,
+        cantidad,
+        puntosTotales
+    ];
 
-    const cellCodigo = document.createElement('td');
-    cellCodigo.classList.add('celda-centered');
-    cellCodigo.textContent = codigo;
-
-    const cellCategoria = document.createElement('td');
-    cellCategoria.classList.add('celda-centered');
-    cellCategoria.textContent = categoria;
-
-    const cellDescripcion = document.createElement('td');
-    cellDescripcion.classList.add('celda-centered');
-    cellDescripcion.textContent = descripcion;
-
-    const cellCosto = document.createElement('td');
-    cellCosto.classList.add('celda-centered');
-    cellCosto.textContent = costo;
-
-    const cellCantidad = document.createElement('td');
-    cellCantidad.classList.add('celda-centered');
-    cellCantidad.textContent = cantidad;
-
-    const cellPuntosTotales = document.createElement('td');
-    cellPuntosTotales.classList.add('celda-centered');
-    cellPuntosTotales.textContent = puntosTotales;
-
-    // Añadir las celdas a la fila (en orden)
-    newRow.appendChild(cellNumeroOrden);
-    newRow.appendChild(cellCodigo);
-    newRow.appendChild(cellCategoria);
-    newRow.appendChild(cellDescripcion);
-    newRow.appendChild(cellCosto);
-    newRow.appendChild(cellCantidad);
-    newRow.appendChild(cellPuntosTotales);
+    // Crear y agregar celdas a la fila
+    datosFila.forEach(dato => {
+        const cell = document.createElement('td');
+        cell.classList.add('celda-centered');
+        cell.textContent = dato;
+        newRow.appendChild(cell);
+    });
 
     // Agregar la fila al cuerpo de la tabla
     tableBody.appendChild(newRow);
+
+    // Detectar clic en la fila
+    newRow.addEventListener('click', function () {
+        toggleRowSelection(newRow);
+    });
 }
+
+function toggleRowSelection(newRow) {
+    const selectedRow = document.querySelector('tr.selectedCanjes');
+
+    // Si la fila seleccionada es la misma que la clicada, deseleccionamos
+    if (selectedRow === newRow) {
+        newRow.classList.remove('selectedCanjes');
+        lastSelectedRow = null; // Reseteamos la fila seleccionada
+    } else {
+        // Deseleccionamos la fila previamente seleccionada
+        if (selectedRow) {
+            selectedRow.classList.remove('selectedCanjes');
+        }
+        // Seleccionamos la nueva fila
+        newRow.classList.add('selectedCanjes');
+        lastSelectedRow = newRow; // Actualizamos la fila seleccionada
+        console.log("Fila seleccionada de verdad: " + lastSelectedRow.rowIndex);
+    }
+}
+
+function verificarFilasTablaCanjes(newRow) {
+    // Verificamos si hay filas en el tbody de la tabla
+    if (tableCanjesBody.rows.length === 0) {
+        tblCanjesMessageBelow.classList.remove('hidden');  // Mostrar mensaje si no hay filas
+    } else {
+        tblCanjesMessageBelow.classList.add('hidden');  // Ocultar mensaje si hay filas
+    }
+}
+
+// Update the eliminarFilaTabla function
+function eliminarFilaTabla() {
+    if (numFilaSeleccionada && numFilaSeleccionada.parentElement) {
+        numFilaSeleccionada.remove();
+        numFilaSeleccionada = null;
+        verificarFilasTablaCanjes();
+    }
+}
+
+// Helper function to get the selected row index
+function obtenerFila() {
+    return numFilaSeleccionada ? numFilaSeleccionada.rowIndex - 1 : -1;
+}
+
