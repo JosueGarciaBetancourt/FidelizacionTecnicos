@@ -176,17 +176,17 @@
             <table class="ownTable" id="tblCanjes">
                 <thead>
                     <tr>
-                        <th class="celda-centered">#</th>
+                        <th class="celda-centered" id="celdaNumeroOrdenRecompensa">#</th>
                         <th class="celda-centered" id="celdaCodigoRecompensa">Código</th>
-                        <th class="celda-centered">Tipo</th>
-                        <th class="celda-centered">Descripción</th>
-                        <th class="celda-centered">Puntos unitario</th>
+                        <th class="celda-centered" id="celdaTipoRecompensa">Tipo</th>
+                        <th class="celda-centered" id="celdaDescripcionRecompensa">Descripción</th>
+                        <th class="celda-centered">Costo puntos</th>
                         <th class="celda-centered">Cantidad</th>
-                        <th class="celda-centered">Puntos Totales</th>
+                        <th class="celda-centered" id="celdaPuntosTotalesRecompensa">Puntos Totales</th>
                     </tr>
                 </thead>
                 <tbody>
-					{{-- Las filas se crearán dinámicamente según el usario vaya agregando más recompensas--}}
+					{{-- Las filas se crearán dinámicamente según el usuario vaya agregando más recompensas--}}
                 </tbody>
             </table>
 

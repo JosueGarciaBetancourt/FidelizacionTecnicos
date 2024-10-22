@@ -66,7 +66,7 @@ h3 {
 	margin-top: 1rem;
 	gap: 1rem;
 	padding-bottom: 1rem;
-	border-bottom: 1.5px solid #ccc;
+	border-bottom: none;
 }
 
 .fithCanjesRow{
@@ -222,10 +222,23 @@ h3 {
 }
 
 /* Tabla */
-#celdaCodigoRecompensa {
-    width: 6rem;
+
+#celdaNumeroOrdenRecompensa {
+	width: 2rem;
 }
 
-#descripcionCanjes {
-    width: 15rem;
+#celdaCodigoRecompensa {
+    width: 7rem;
+}
+
+#celdaTipoRecompensa {
+	width: 7rem;
+}
+
+#celdaDescripcionRecompensa {
+    width: 16rem;
+}
+
+#celdaPuntosTotalesRecompensa {
+	width: 3rem;
 }

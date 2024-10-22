@@ -396,3 +396,19 @@ body.dark-mode .header {
     background-color: var(--button-color);
     color: white;
 }
+
+/*Tablas*/
+.ownTable th, td{
+    font-size: 0.95rem;
+    padding: 0.4rem 0.7rem;
+    width: auto;
+    height: auto;
+}
+
+.celda-centered {
+    text-align: center !important;
+}
+
+.celda-centered.word-wrap {
+    word-wrap: break-word;
+}

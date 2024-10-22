@@ -97,7 +97,6 @@ function toggleNumComprobanteCanjesOptions(idInput, idOptions) {
     }
 }
 
-
 function validateOptionTecnicoCanjes(input, idOptions, idMessageError, tecnicosDB) {
     const value = input.value;
     const messageError = document.getElementById(idMessageError);
@@ -396,16 +395,38 @@ function agregarFilaRecompensa() {
     }
 }
 
-// SOBREESCRIBIR FILAS CON EL MISMO CODIGO DE RECOMPENSA
+function rowCodigoDuplicated(codigo, cantidad, puntosTotales) {
+    const tableBody = document.querySelector('#tblCanjes tbody');
+
+    // Recorrer todas las filas del cuerpo de la tabla
+    for (let row of tableBody.rows) {
+        const cellCodigo = row.cells[1]; // Segunda columna (índice 1)
+
+        // Si el código ya existe
+        if (cellCodigo.textContent === codigo) {
+            // Sobreescribir el costo, cantidad y puntos totales en la fila existente
+            row.cells[5].textContent = cantidad; // Columna de cantidad (índice 5)
+            row.cells[6].textContent = puntosTotales; // Columna de puntos totales (índice 6)
+            return true; // Devolver true indicando que se encontró y actualizó
+        }
+    }
+    
+    return false; // Devolver false si no se encontró el código duplicado
+}
 
 function addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotales) {
+    // Si la fila con el código ya existe y se actualizó, no agregar una nueva fila
+    if (rowCodigoDuplicated(codigo, cantidad, puntosTotales)) {
+        return;
+    }
+
     const tableBody = document.querySelector('#tblCanjes tbody');
     const newRow = document.createElement('tr');
 
     // Crea las celdas (td) correspondientes y agrega los valores
-    const cellNumero = document.createElement('td');
-    cellNumero.classList.add('celda-centered');
-    cellNumero.textContent = tableBody.rows.length + 1; // Número de fila
+    const cellNumeroOrden = document.createElement('td');
+    cellNumeroOrden.classList.add('celda-centered');
+    cellNumeroOrden.textContent = tableBody.rows.length + 1; // Número de fila
 
     const cellCodigo = document.createElement('td');
     cellCodigo.classList.add('celda-centered');
@@ -421,7 +442,7 @@ function addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, punt
 
     const cellCosto = document.createElement('td');
     cellCosto.classList.add('celda-centered');
-    cellCosto.textContent = `${costo} puntos`;
+    cellCosto.textContent = costo;
 
     const cellCantidad = document.createElement('td');
     cellCantidad.classList.add('celda-centered');
@@ -431,8 +452,8 @@ function addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, punt
     cellPuntosTotales.classList.add('celda-centered');
     cellPuntosTotales.textContent = puntosTotales;
 
-    // Añadir las celdas a la fila
-    newRow.appendChild(cellNumero);
+    // Añadir las celdas a la fila (en orden)
+    newRow.appendChild(cellNumeroOrden);
     newRow.appendChild(cellCodigo);
     newRow.appendChild(cellCategoria);
     newRow.appendChild(cellDescripcion);
