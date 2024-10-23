@@ -181,8 +181,8 @@
 							<th class="celda-centered" id="celdaCodigoRecompensa">Código</th>
 							<th class="celda-centered" id="celdaTipoRecompensa">Tipo</th>
 							<th class="celda-centered" id="celdaDescripcionRecompensa">Descripción</th>
-							<th class="celda-centered">Costo puntos</th>
-							<th class="celda-centered">Cantidad</th>
+							<th class="celda-centered" id="celdaCostoPuntosRecompensa">Costo puntos</th>
+							<th class="celda-centered" id="celdaCantidadnRecompensa">Cantidad</th>
 							<th class="celda-centered" id="celdaPuntosTotalesRecompensa">Puntos Totales</th>
 						</tr>
 					</thead>
@@ -198,10 +198,10 @@
 							<td class="celda-centered">7</td>
 						</tr> --}}
 					</tbody>
-					<tfoot class="active">
+					<tfoot class="hidden">
 						<tr>
 							<td colspan="6" class="celda-righted"><strong>Total</strong></td>
-							<td class="celda-centered" id="totalPuntos">0</td>
+							<td class="celda-centered" id="celdaTotalPuntos">0</td>
 						</tr> 
 					</tfoot>
 				</table>

@@ -224,36 +224,47 @@ h3 {
     text-align: right;
 }
 
-/* Tabla */
+/* ================== Estilo General de la Tabla ================== */
+#tblCanjesContainer {
+	display: flex;
+    flex-direction: column;
+}
 
 #tblCanjes {
-	border-collapse: collapse;
+    border-collapse: collapse;
+    min-width: 45rem;
+	max-width: 55rem;
+    background-color: var(--background-color-mainSectionContainer);
 }
 
-#celdaNumeroOrdenRecompensa {
-	width: 2rem;
+/* ================== Encabezado de la Tabla (thead) ================== */
+#tblCanjes thead {
+    background-color: #4b8dab; /* Color de fondo más oscuro */
+    color: #fff; /* Color de texto blanco para mejor legibilidad */
 }
 
-#celdaCodigoRecompensa {
-    width: 7rem;
+#tblCanjes thead th {
+    padding: 0.2rem 1rem; /* Espaciado adecuado */
+    font-size: 0.9rem;
+    font-weight: bold; /* Texto más grueso */
 }
 
-#celdaTipoRecompensa {
-	width: 7rem;
+/* ================== Cuerpo de la Tabla (tbody) ================== */
+#tblCanjes td, #tblCanjes th {
+    padding: 0.4rem 0.8rem; /* Espaciado dentro de las celdas */
+    text-align: left; /* Alineación a la izquierda */
+    border-bottom: 1px solid #ddd; /* Línea inferior para separar filas */
 }
 
-#celdaDescripcionRecompensa {
-    width: 16rem;
+/* Color de fondo de filas alternas */
+#tblCanjes tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Color claro alterno */
 }
 
-#celdaPuntosTotalesRecompensa {
-	width: 3rem;
-}
-
-/* Fila hover*/
+/* Fila hover */
 #tblCanjes tbody tr:hover {
-	background-color: #f0f9ff;
-	cursor: default;
+    background-color: #d9f0fc; /* Suave tono azul */
+    cursor: pointer;
 }
 
 #tblCanjes tbody tr:hover td:first-child {
@@ -266,33 +277,74 @@ h3 {
     border-bottom-right-radius: 0.5rem;
 }
 
-/* Fila seleccionada*/
+/* Fila seleccionada */
 #tblCanjes tbody tr.selectedCanjes {
-	background-color: #b6d6ec;
+    background-color: #b3d9ff; /* Tono azul más fuerte */
+    color: #333; /* Texto oscuro para mejor contraste */
 }
 
-.tblCanjesContainer {
-	display: flex;
-	flex-direction: column;
+/* Bordes redondeados en la fila seleccionada */
+#tblCanjes tbody tr.selectedCanjes td:first-child {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+#tblCanjes tbody tr.selectedCanjes td:last-child {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+/* ================== Pie de la Tabla (tfoot) ================== */
+#tblCanjes tfoot.hidden {
+    padding: 0 1rem;
+    background-color: #4b8dab; /* Mismo color que el encabezado */
+    color: #fff; /* Texto en blanco */
+	display: none;
+}
+
+#tblCanjes tfoot th {
+    padding: 0rem 1rem; /* Espaciado en el pie */
+}
+
+#tblCanjes tfoot {
+	display: table-row-group;
 }
 
 #tblCanjesMessageBelow {
 	display: block;
-	font-size: 0.9rem;
 	text-align: center;
+	width: 100%;
 }
 
 #tblCanjesMessageBelow.hidden {
 	display: none;
 }
 
-#tblCanjes tbody tr.selectedCanjes  td:first-child{
-	border-top-left-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
+/*Estilo individual de cada celda del head de tblCanjes*/
+#celdaNumeroOrdenRecompensa {
+	width: 3rem; /* 47px ≈ 3rem */
 }
 
-#tblCanjes tbody tr.selectedCanjes  td:last-child{
-	border-top-right-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
+#celdaCodigoRecompensa {
+	width: 7rem; /* 82.78px ≈ 5rem */
 }
 
+#celdaTipoRecompensa {
+	width: 7rem; /* 105.59px ≈ 7rem */
+}
+
+#celdaDescripcionRecompensa {
+	width: 14rem; /* 224.56px ≈ 14rem */
+}
+
+#celdaCostoPuntosRecompensa {
+	width: 6rem; /* 94.73px ≈ 6rem */
+}
+
+#celdaCantidadnRecompensa {
+	width: 6rem; /* 89.79px ≈ 6rem */
+}
+
+#celdaPuntosTotalesRecompensa {
+	width: 6rem; /* 100.1px ≈ 6rem */
+}

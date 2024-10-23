@@ -18,6 +18,8 @@ let agregarRecompensaTablaBtn = document.getElementById('idAgregarRecompensaTabl
 let recompensasCanjesInput = document.getElementById('recompensasCanjesInput');
 let tblCanjesMessageBelow = document.getElementById('tblCanjesMessageBelow');
 let tableCanjesBody = document.querySelector('#tblCanjes tbody');
+let tableCanjesFooter = document.querySelector('#tblCanjes tfoot');
+let celdaTotalPuntos = document.getElementById('celdaTotalPuntos');
 let numFilaSeleccionada = null;
 let lastNumFilaSeleccionada = null;
 let listaFilasSeleccionadas = [];
@@ -451,9 +453,16 @@ function addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, punt
     ];
 
     // Crear y agregar celdas a la fila
-    datosFila.forEach(dato => {
+    datosFila.forEach((dato, index) => {
         const cell = document.createElement('td');
-        cell.classList.add('celda-centered');
+
+        // Comprobar si es el índice de puntosTotales (último índice en este caso)
+        if (index === datosFila.length - 1) {
+            cell.classList.add('celda-centered', 'subtotalPuntos'); // Agregar ambas clases
+        } else {
+            cell.classList.add('celda-centered'); // Solo agregar 'celda-centered' para otras celdas
+        }
+
         cell.textContent = dato;
         newRow.appendChild(cell);
     });
@@ -461,15 +470,12 @@ function addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, punt
     // Agregar la fila al cuerpo de la tabla
     tableBody.appendChild(newRow);
 
-    // Mostrar el footer
-    const tableFooter = document.querySelector('#tblCanjes tfoot');
-    tableFooter.classList.add("active");
-
     // Detectar clic en la fila
     newRow.addEventListener('click', function () {
         toggleRowSelection(newRow);
     });
 }
+
 
 function toggleRowSelection(newRow) {
     const selectedRow = document.querySelector('tr.selectedCanjes');
@@ -490,12 +496,29 @@ function toggleRowSelection(newRow) {
     }
 }
 
+function calcTotalPuntosTfoot() {
+    const allCeldasPuntosTotales = document.querySelectorAll('.celda-centered.subtotalPuntos')
+    var suma = 0;
+
+    allCeldasPuntosTotales.forEach(celda => {
+        const valorNumericoCeldaPuntosTotales = parseInt(celda.textContent);
+        suma += valorNumericoCeldaPuntosTotales;
+    });
+g
+    console.log("Suma de puntos totales", suma);
+    celdaTotalPuntos.textContent = suma;
+}
+
 function verificarFilasTablaCanjes(newRow) {
     // Verificamos si hay filas en el tbody de la tabla
     if (tableCanjesBody.rows.length === 0) {
         tblCanjesMessageBelow.classList.remove('hidden');  // Mostrar mensaje si no hay filas
+        tableCanjesFooter.classList.add("hidden");
     } else {
         tblCanjesMessageBelow.classList.add('hidden');  // Ocultar mensaje si hay filas
+        tableCanjesFooter.classList.remove("hidden");
+        // Calcular total de puntos
+        calcTotalPuntosTfoot();
     }
 }
 
