@@ -18,41 +18,49 @@ class RecompensaSeeder extends Seeder
                 'tipoRecompensa' => 'Efectivo',
                 'descripcionRecompensa' => 'Sin descripción',
                 'costoPuntos_Recompensa' => 1,
+                'stock_Recompensa' => 100,
             ],
             [
                 'tipoRecompensa' => 'EPP',
                 'descripcionRecompensa' => 'Par de rodilleras para cerámica',
                 'costoPuntos_Recompensa' => 35,
+                'stock_Recompensa' => 100,
             ],
             [
                 'tipoRecompensa' => 'Accesorio',
                 'descripcionRecompensa' => 'LLavero DIMACOF',
                 'costoPuntos_Recompensa' => 5,
+                'stock_Recompensa' => 100,
             ],
             [
                 'tipoRecompensa' => 'Herramienta',
                 'descripcionRecompensa' => 'Juego de destornilladores',
                 'costoPuntos_Recompensa' => 40,
+                'stock_Recompensa' => 100,
             ],
             [
                 'tipoRecompensa' => 'EPP',
                 'descripcionRecompensa' => 'Casco de seguridad',
                 'costoPuntos_Recompensa' => 25,
+                'stock_Recompensa' => 100,
             ],
             [
                 'tipoRecompensa' => 'Herramienta',
                 'descripcionRecompensa' => 'Taladro inalámbrico',
                 'costoPuntos_Recompensa' => 60,
+                'stock_Recompensa' => 100,
             ],
             [
                 'tipoRecompensa' => 'Accesorio',
                 'descripcionRecompensa' => 'Caja de herramientas vacía',
                 'costoPuntos_Recompensa' => 50,
+                'stock_Recompensa' => 100,
             ],
             [
                 'tipoRecompensa' => 'Herramienta',
                 'descripcionRecompensa' => 'Palustre de 9225mmREF.: BK1040 Marca: BRICKELL',
                 'costoPuntos_Recompensa' => 100,
+                'stock_Recompensa' => 100,
             ],
         ];
 

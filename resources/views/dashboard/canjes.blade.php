@@ -84,11 +84,13 @@
 					   placeholder="0" disabled>
 			</div>
 
+			{{--
 			<div class="verticalPairGroup">
 				<label class="primary-label noEditable centered"> Puntos restantes </label>
 				<input class="input-item noEditable" id="puntosRestantesCanjesInput" maxlength="4" 
 					   placeholder="0" disabled>
 			</div>
+			--}}
 
 			<div class="verticalPairGroup">
 				<label class="primary-label noEditable centered"> Cliente  </label>
@@ -113,7 +115,7 @@
 			<div class="verticalPairGroup tooltipInside">
 				<label class="primary-label"> Recompensas </label>
 				<div class="tooltip-container">
-					<span class="tooltip red" id="idRecompensasCanjesTooltip">Este es el mensaje del tooltip</span>
+					<span class="tooltip red" id="idRecompensasCanjesTooltip"></span>
 				</div>
 				 @php
 					$idRecompensaInput = 'recompensasCanjesInput';
@@ -122,8 +124,8 @@
 					$recompensasDB = $RecompensasWithoutEfectivo;
 				@endphp
 				<div class="input-select" id="tecnicoSelect">
-					<div class="tooltip-container"> <!-- Aquí se manejará el color del tooltip dinámicamente -->
-						<span class="tooltip" id="idRecompensaCanjesTooltip">Este es el mensaje del tooltip</span>
+					<div class="tooltip-container"> 
+						<span class="tooltip" id="idRecompensaCanjesTooltip"></span>
 					</div>
 					<input class="input-select-item" type="text" id='{{ $idRecompensaInput }}' maxlength="200" placeholder="Código | Tipo | Descripción"
 						oninput="filterOptions('{{ $idRecompensaInput }}', '{{ $idRecompensaOptions }}'), validateNumComprobanteInputNoEmpty(this)
@@ -149,6 +151,9 @@
 			<div class="verticalPairGroup">
 				<label class="primary-label noEditable centered" id="labelCantidadRecompensa_Canjes">Cantidad </label>
 				<div class="input-counter">
+						<div class="tooltip-container">
+							<span class="tooltip" id="idCantidadCanjesTooltip"></span>
+						</div>
 						<input class="input-item persist-input" id="cantidadRecompensaCanjesInput" type="text" maxlength="3" 
 								placeholder="0" name="cantidadRecompensa_Canje" oninput="validateNumberWithMaxLimitRealTime(this, 100)">
 						<div class="counters">
@@ -211,12 +216,12 @@
 			<div class="resumenContainer" id="idResumenContainer">
 				<h3>RESUMEN</h3>
 				<div class="resumenContent">
-					<h4>Puntos Comprobante</h4>
-					<label class="labelPuntosComprobante" id="labelPuntosComprobante"></label>
-					<h4>Puntos Canjeados</h4>
-					<label class="labelPuntosCanjeados" id="labelPuntosCanjeados"></label>
-					<h4>Puntos Restantes</h4>
-					<label class="labelPuntosRestantes" id="labelPuntosRestantes"></label>
+					<h4>Puntos actuales</h4>
+					<label class="labelPuntosComprobante" id="labelPuntosComprobante">0</label>
+					<h4>Puntos a canjear</h4>
+					<label class="labelPuntosCanjeados" id="labelPuntosCanjeados">0</label>
+					<h4>Puntos restantes</h4>
+					<label class="labelPuntosRestantes" id="labelPuntosRestantes">0</label>
 				</div>
 			</div>
         </div>

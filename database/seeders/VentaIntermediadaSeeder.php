@@ -30,8 +30,8 @@ class VentaIntermediadaSeeder extends Seeder
                 'codigoCliente_VentaIntermediada' => '10703047951',
                 'nombreCliente_VentaIntermediada' => 'BERMUDEZ ROJAS MISHELL',
                 'fechaHoraEmision_VentaIntermediada' => '2024-05-30 08:25:11',
-                'montoTotal_VentaIntermediada' => 20,
-                'puntosGanados_VentaIntermediada' => 20,
+                'montoTotal_VentaIntermediada' => 25,
+                'puntosGanados_VentaIntermediada' => 25,
                 'estadoVentaIntermediada' => 'En espera',
             ],
             [

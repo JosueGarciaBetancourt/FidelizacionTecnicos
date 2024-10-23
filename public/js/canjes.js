@@ -3,13 +3,14 @@ let idTecnicoOptions = 'tecnicoCanjesOptions';
 let tecnicoCanjesTooltip = document.getElementById('idTecnicoCanjesTooltip');
 let messageErrorTecnicoCanjesInput = document.getElementById('messageErrorTecnicoCanjes')
 let recompensaCanjesTooltip = document.getElementById('idRecompensaCanjesTooltip');
+let cantidadCanjesTooltip = document.getElementById('idCantidadCanjesTooltip');
 let numComprobanteCanjesTooltip = document.getElementById('idNumComprobanteCanjesTooltip');
 let resumenContainer = document.getElementById('idResumenContainer');
 let numComprobanteCanjesInput = document.getElementById('comprobanteCanjesInput');
 let puntosActualesCanjesInput = document.getElementById('puntosActualesCanjesInput');
 let comprobantesFetch = [];
 let puntosGeneradosCanjesInput = document.getElementById('puntosGeneradosCanjesInput');
-let puntosRestantesCanjesInput = document.getElementById('puntosRestantesCanjesInput');
+//let puntosRestantesCanjesInput = document.getElementById('puntosRestantesCanjesInput');
 let clienteCanjesTextarea = document.getElementById('clienteCanjesTextarea');
 let fechaEmisionCanjesInput = document.getElementById('fechaEmisionCanjesInput');
 let fechaCargadaCanjesInput = document.getElementById('fechaCargadaCanjesInput');
@@ -27,6 +28,8 @@ let lastSelectedRow = null;
 let puntosComprobanteResumen = document.getElementById('labelPuntosComprobante');
 let puntosCanjeadosResumen = document.getElementById('labelPuntosCanjeados');
 let puntosRestantesResumen = document.getElementById('labelPuntosRestantes');
+let sumaPuntosTotalesTablaRecompensasCanjes = 0;
+let allCeldasSubtotalPuntos;
 
 function getFormattedDate() {
     let today = new Date();
@@ -64,7 +67,7 @@ function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
             if (comprobanteSeleccionado) {
                 // Asignamos los valores del comprobante seleccionado a los inputs
                 puntosGeneradosCanjesInput.value = comprobanteSeleccionado.puntosGanados_VentaIntermediada || '';
-                puntosRestantesCanjesInput.value = comprobanteSeleccionado.montoTotal_VentaIntermediada || '';
+                //puntosRestantesCanjesInput.value = comprobanteSeleccionado.montoTotal_VentaIntermediada || '';
                 clienteCanjesTextarea.value = 
                     (comprobanteSeleccionado.nombreCliente_VentaIntermediada +  "\n" + 
                     comprobanteSeleccionado.tipoCodigoCliente_VentaIntermediada +  ": " + 
@@ -75,14 +78,8 @@ function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
                 fechaEmisionCanjesInput.classList.remove("noEditable");
                 fechaCargadaCanjesInput.classList.remove("noEditable");
 
-                console.log(puntosGeneradosCanjesInput.value, puntosRestantesCanjesInput.value);
-
                 // Llenar los campos del cuadro Resumen
                 puntosComprobanteResumen.textContent = puntosGeneradosCanjesInput.value;
-                puntosCanjeadosResumen.textContent = puntosGeneradosCanjesInput.value - puntosRestantesCanjesInput.value;
-                puntosRestantesResumen.textContent = puntosRestantesCanjesInput.value;
-
-                //console.log("Comprobante seleccionado:", comprobanteSeleccionado);
             } else {
                 console.error("No se encontró el comprobante con el ID:", value);
             }
@@ -154,6 +151,7 @@ function selectOptionTecnicoCanjes(value, idInput, idOptions, puntosActuales, id
 
 function selectOptionRecompensaCanjes(value, idInput, idOptions) {
     if(!numComprobanteCanjesInput.value) {
+        recompensaFilledCorrectlySearchField = false;
         showHideTooltip(numComprobanteCanjesTooltip, "Seleccione un Número de comprobante primero");
         return;
     }
@@ -161,6 +159,7 @@ function selectOptionRecompensaCanjes(value, idInput, idOptions) {
     selectOption(value, idInput, idOptions);
     recompensaCanjesTooltip.classList.remove('red');
     recompensaCanjesTooltip.classList.add('green');
+    recompensaFilledCorrectlySearchField = true;
     showHideTooltip(recompensaCanjesTooltip, "Recompensa encontrada");
 }
 
@@ -174,7 +173,7 @@ function validateOptionRecompensaCanjes(input, idOptions, idMessageError, recomp
     // Comparar el valor ingresado con la lista de items 
     const itemEncontrado = allItems.includes(value);
    
-    // Valor no encontrado o 
+    // Valor no encontrado 
     if (value && !itemEncontrado)  {
         //messageError.classList.add('shown'); 
         recompensaFilledCorrectlySearchField = false;
@@ -363,21 +362,31 @@ function handleInputChange(mutationsList, observer) {
 // Lógica de la tabla de recompensas agregadas en la sección CANJES
 function agregarFilaRecompensa() {
     try {
-        // Verifica si el campo de recompensas tiene un valor
-        if (!recompensasCanjesInput.value) {
-            throw new Error('Por favor, ingrese una recompensa válida.');
+        if (!recompensaFilledCorrectlySearchField) {
+            recompensaCanjesTooltip.classList.remove("green");
+            recompensaCanjesTooltip.classList.add("red");
+            showHideTooltip(recompensaCanjesTooltip, "Ingrese una recompensa válida");
+            throw new Error('Ingrese una recompensa válida');
         }
 
         // Verifica si el campo de cantidad tiene un valor
         if (!cantidadRecompensaCanjesInput.value || isNaN(cantidadRecompensaCanjesInput.value) || cantidadRecompensaCanjesInput.value <= 0) {
-            throw new Error('Por favor, ingrese una cantidad válida.');
+            cantidadCanjesTooltip.classList.remove("green");
+            cantidadCanjesTooltip.classList.add("red");
+            showHideTooltip(cantidadCanjesTooltip, "Ingrese una cantidad válida");
+            throw new Error('Ingrese una cantidad válida');
         }
+
+        const cantidad = parseInt(cantidadRecompensaCanjesInput.value, 10);
 
         const partesRecompensaValue = recompensasCanjesInput.value.split(" | ");
 
-        // Verifica que el formato de la recompensa sea correcto (se esperan 5 partes)
+        // Verifica que el formato de la recompensa sea correcto (se esperan 4 partes)
         if (partesRecompensaValue.length !== 4) {
-            throw new Error('El formato de la recompensa es incorrecto. Se requieren 4 partes separadas por " | ".');
+            recompensaCanjesTooltip.classList.remove("green");
+            recompensaCanjesTooltip.classList.add("red");
+            showHideTooltip(recompensaCanjesTooltip, 'El formato de la recompensa es incorrecto.  Se requieren 4 partes separadas por " | "');
+            throw new Error('El formato de la recompensa es incorrecto. Se requieren 4 partes separadas por " | "');
         }
 
         // Asignación de variables a cada parte
@@ -386,58 +395,120 @@ function agregarFilaRecompensa() {
 
         // Validar que el costo sea un número válido
         if (isNaN(costo) || costo <= 0) {
-            throw new Error('El costo de la recompensa no es válido.');
+            recompensaCanjesTooltip.classList.remove("green");
+            recompensaCanjesTooltip.classList.add("red");
+            showHideTooltip(recompensaCanjesTooltip, 'El costo de la recompensa es menor igual a 0, no es válido');
+            throw new Error('El costo de la recompensa es menor igual a 0, no es válido');
         }
 
-        const cantidad = parseInt(cantidadRecompensaCanjesInput.value, 10);
+        // Calcular puntos totales de la recompensa nueva
+        const puntosTotalesRecompensaNueva = cantidad * costo;
 
-        // Validar que la cantidad sea un número entero positivo
-        if (isNaN(cantidad) || cantidad <= 0) {
-            throw new Error('La cantidad ingresada no es válida.');
-        }
-
-        // Calcular puntos totales
-        const puntosTotales = costo * cantidad;
+        // Calcular la suma de puntos totales de todas las recompensas agregadas en las filas de la tabla y la recompensa nueva
+        const sumaPuntosTotalesFilas = getSumaTotalPuntosTblRecompensasCanjes() + puntosTotalesRecompensaNueva;
         
-        /*console.log(`Código: ${codigo}`);
-        console.log(`Categoría: ${categoria}`);
-        console.log(`Descripción: ${descripcion}`);
-        console.log(`Costo: ${costo}`);
-        console.log(`Cantidad: ${cantidad}`);
-        console.log(`Puntos Totales: ${puntosTotales}`);*/
+        // Validar que la suma no exceda a la cantidad de puntos generados del comprobante
+        if (sumaPuntosTotalesFilas > puntosGeneradosCanjesInput.value) {
+            recompensaCanjesTooltip.classList.remove("green");
+            recompensaCanjesTooltip.classList.add("red");
+            showHideTooltip(recompensaCanjesTooltip, `El total de puntos (${sumaPuntosTotalesFilas}) excede a los puntos generados por el comprobante (${puntosGeneradosCanjesInput.value})`);
+            throw new Error(`El total de puntos (${sumaPuntosTotalesFilas}) excede a los puntos generados por el comprobante (${puntosGeneradosCanjesInput.value})`);
+        }
 
-        addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotales);
-        verificarFilasTablaCanjes(); // Verificar después de agregar la fila
+        // Agregar la nueva recompensa a la tabla 
+        addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotalesRecompensaNueva);
     } catch (error) {
         console.error('Error al agregar la recompensa:', error.message);
         // Aquí podrías mostrar el mensaje de error en la UI, por ejemplo en un campo de alerta
     }
 }
 
+function verificarFilasTablaCanjes() {
+    // No hay filas en la tabla
+    if (tableCanjesBody.rows.length === 0) {
+        tblCanjesMessageBelow.classList.remove('hidden');  
+        tableCanjesFooter.classList.add("hidden");
+        console.error("No hay filas en el tbody de la tabla de recompensas (Canjes section)");
+        return false;
+    } 
+
+    // Sí existen filas
+    tblCanjesMessageBelow.classList.add('hidden'); 
+    tableCanjesFooter.classList.remove("hidden");
+    return true;
+}
+
+function getCeldasSubtotalPuntos() {
+    const celdasSubtotalPuntos = document.querySelectorAll('.celda-centered.subtotalPuntos');
+    
+    // Si no hay celdas de subtotal de puntos
+    if (celdasSubtotalPuntos.length === 0) {
+        console.error("No se encontraron celdas con la clase 'celda-centered subtotalPuntos'");
+        return false;
+    }
+
+    // Sí hay celdas de subtotal de puntos
+    return celdasSubtotalPuntos;
+}
+
+function getSumaTotalPuntosTblRecompensasCanjes() {
+    if (!verificarFilasTablaCanjes()) {
+        return 0;
+    }
+    
+    const allCeldasSubtotalPuntos = getCeldasSubtotalPuntos();
+    if (allCeldasSubtotalPuntos === false) {
+        return 0;
+    }
+
+    // Calcular la suma de puntos totales de todas las filas
+    let suma = 0;
+    allCeldasSubtotalPuntos.forEach(celda => {
+        const valorNumCelda = parseInt(celda.textContent, 10);  // Asegurar base decimal
+        if (!isNaN(valorNumCelda)) {  // Validar que sea un número
+            suma += valorNumCelda;
+        }
+    });
+
+    // Guardar la suma en una variable global
+    sumaPuntosTotalesTablaRecompensasCanjes = suma;
+
+    return suma;
+}
+
 function rowCodigoDuplicated(codigo, cantidad, puntosTotales) {
-    const tableBody = document.querySelector('#tblCanjes tbody');
+    if (verificarFilasTablaCanjes()) {
+        const tableBody = document.querySelector('#tblCanjes tbody');
+        
+        // Verificar que el cuerpo de la tabla existe
+        if (!tableBody) {
+            console.error('El cuerpo de la tabla no existe.');
+            return false;
+        }
 
-    // Recorrer todas las filas del cuerpo de la tabla
-    for (let row of tableBody.rows) {
-        const cellCodigo = row.cells[1]; // Segunda columna (índice 1)
+        // Recorrer todas las filas del cuerpo de la tabla
+        for (let row of tableBody.rows) {
+            const cellCodigo = row.cells[1]; // Segunda columna (índice 1)
 
-        // Si el código ya existe
-        if (cellCodigo.textContent === codigo) {
-            // Sobreescribir el costo, cantidad y puntos totales en la fila existente
-            row.cells[5].textContent = cantidad; // Columna de cantidad (índice 5)
-            row.cells[6].textContent = puntosTotales; // Columna de puntos totales (índice 6)
-            return true; // Devolver true indicando que se encontró y actualizó
+            // Si el código ya existe (con trim para evitar espacios)
+            if (cellCodigo.textContent.trim() === codigo) {
+                // Sobreescribir el costo, cantidad y puntos totales en la fila existente
+                row.cells[5].textContent = cantidad; // Columna de cantidad (índice 5)
+                row.cells[6].textContent = puntosTotales; // Columna de puntos totales (índice 6)
+                return true; // Devolver true indicando que se encontró y actualizó
+            }
         }
     }
     
-    return false; // Devolver false si no se encontró el código duplicado
+    return false; // Devolver false si aún no hay filas en la tabla o si no se encontró el código duplicado
 }
 
 function addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotales) {
+    // Validar si hay un código de recompensa duplicado para poder sobreescribir sus valores numéricos
     if (rowCodigoDuplicated(codigo, cantidad, puntosTotales)) {
         return;
     }
-
+  
     const tableBody = document.querySelector('#tblCanjes tbody');
     const newRow = document.createElement('tr');
 
@@ -466,16 +537,14 @@ function addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, punt
         cell.textContent = dato;
         newRow.appendChild(cell);
     });
-
-    // Agregar la fila al cuerpo de la tabla
+    
     tableBody.appendChild(newRow);
 
-    // Detectar clic en la fila
+    // Detectar click en la fila
     newRow.addEventListener('click', function () {
         toggleRowSelection(newRow);
     });
 }
-
 
 function toggleRowSelection(newRow) {
     const selectedRow = document.querySelector('tr.selectedCanjes');
@@ -498,27 +567,29 @@ function toggleRowSelection(newRow) {
 
 function calcTotalPuntosTfoot() {
     const allCeldasPuntosTotales = document.querySelectorAll('.celda-centered.subtotalPuntos')
-    var suma = 0;
 
-    allCeldasPuntosTotales.forEach(celda => {
-        const valorNumericoCeldaPuntosTotales = parseInt(celda.textContent);
-        suma += valorNumericoCeldaPuntosTotales;
-    });
-g
-    console.log("Suma de puntos totales", suma);
-    celdaTotalPuntos.textContent = suma;
+    if (allCeldasPuntosTotales) {
+        sumaPuntosTotalesTablaRecompensasCanjes = 0;
+
+        allCeldasPuntosTotales.forEach(celda => {
+            const valorNumericoCeldaPuntosTotales = parseInt(celda.textContent);
+            sumaPuntosTotalesTablaRecompensasCanjes += valorNumericoCeldaPuntosTotales;
+        });
+    
+        console.log("Suma de puntos totales", sumaPuntosTotalesTablaRecompensasCanjes);
+        celdaTotalPuntos.textContent = sumaPuntosTotalesTablaRecompensasCanjes;
+    } else {
+        console.error("No existen celdas con la clase celda-centered.subtotalPuntos");
+    }
 }
 
-function verificarFilasTablaCanjes(newRow) {
-    // Verificamos si hay filas en el tbody de la tabla
-    if (tableCanjesBody.rows.length === 0) {
-        tblCanjesMessageBelow.classList.remove('hidden');  // Mostrar mensaje si no hay filas
-        tableCanjesFooter.classList.add("hidden");
+function updateResumenBoard() {
+    if (sumaPuntosTotalesTablaRecompensasCanjes <= puntosGeneradosCanjesInput.value) {
+        puntosCanjeadosResumen.textContent = sumaPuntosTotalesTablaRecompensasCanjes;
+        puntosRestantesResumen.textContent = puntosGeneradosCanjesInput.value - sumaPuntosTotalesTablaRecompensasCanjes;
     } else {
-        tblCanjesMessageBelow.classList.add('hidden');  // Ocultar mensaje si hay filas
-        tableCanjesFooter.classList.remove("hidden");
-        // Calcular total de puntos
-        calcTotalPuntosTfoot();
+        puntosCanjeadosResumen.textContent = 0;
+        puntosRestantesResumen.textContent = 0;
     }
 }
 
