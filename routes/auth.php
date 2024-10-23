@@ -17,8 +17,7 @@ Route::middleware('guest')->group(function () {
 
     Route::post('register', [RegisteredUserController::class, 'store']);
 
-    /*Route::get('', function () {return view('welcome');})
-            ->name('welcome');*/
+    //Route::get('', function () {return view('welcome');})->name('welcome');
 
     Route::get('', [AuthenticatedSessionController::class, 'create']);
 
@@ -27,6 +26,7 @@ Route::middleware('guest')->group(function () {
 
     // Iniciar sesión
     Route::post('login', [AuthenticatedSessionController::class, 'store'])
+                //->middleware('throttle:1,1') 
                 ->name('loginPost');
 
     //Ir a la vista de Recuperar contraseña

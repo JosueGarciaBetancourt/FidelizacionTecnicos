@@ -60,7 +60,7 @@
 
 		<div class="thirdCanjesRow">
 			<div class="verticalPairGroup tooltipInside">
-				<label class="primary-label"> Número de comprobante </label>
+				<label class="primary-label" id="numComprobanteLabel"> Número de comprobante </label>
 				<div class="tooltip-container">
 					<span class="tooltip red" id="idNumComprobanteCanjesTooltip">Este es el mensaje del tooltip</span>
 				</div>
@@ -81,13 +81,13 @@
 			<div class="verticalPairGroup">
 				<label class="primary-label noEditable"> Puntos generados </label>
 				<input class="input-item noEditable" id="puntosGeneradosCanjesInput" maxlength="4" 
-					   placeholder="0" name="bbb" disabled>
+					   placeholder="0" disabled>
 			</div>
 
 			<div class="verticalPairGroup">
 				<label class="primary-label noEditable centered"> Puntos restantes </label>
 				<input class="input-item noEditable" id="puntosRestantesCanjesInput" maxlength="4" 
-					   placeholder="0" name="bbb" disabled>
+					   placeholder="0" disabled>
 			</div>
 
 			<div class="verticalPairGroup">
@@ -125,7 +125,7 @@
 					<div class="tooltip-container"> <!-- Aquí se manejará el color del tooltip dinámicamente -->
 						<span class="tooltip" id="idRecompensaCanjesTooltip">Este es el mensaje del tooltip</span>
 					</div>
-					<input class="input-select-item" type="text" id='{{ $idRecompensaInput }}' maxlength="50" placeholder="Código | Tipo | Descripción"
+					<input class="input-select-item" type="text" id='{{ $idRecompensaInput }}' maxlength="200" placeholder="Código | Tipo | Descripción"
 						oninput="filterOptions('{{ $idRecompensaInput }}', '{{ $idRecompensaOptions }}'), validateNumComprobanteInputNoEmpty(this)
 								validateOptionRecompensaCanjes(this, '{{ $idRecompensaOptions }}', '{{ $idRecompensaMessageError }}', {{ json_encode($recompensasDB) }})"
 						onclick="toggleOptions('{{ $idRecompensaInput }}', '{{ $idRecompensaOptions }}')">
@@ -133,7 +133,7 @@
 						@foreach ($recompensasDB as $recompensa)
 							@php
 								$value = $recompensa->idRecompensa . " | " . $recompensa->tipoRecompensa .
-										 " | " . $recompensa->descripcionRecompensa;
+										 " | " . $recompensa->descripcionRecompensa . " | " . $recompensa->costoPuntos_Recompensa . " puntos";
 								$idRecompensa = $recompensa->idRecompensa;
 								$costoPuntosRecompensa = $recompensa->costoPuntos_Recompensa;
 							@endphp
@@ -160,62 +160,63 @@
 
 			<x-btn-addRowTable-item
 				id="idAgregarRecompensaTablaBtn" 
-				onclick="">
+				onclick="agregarFilaRecompensa()">
 				Agregar a tabla
 			</x-btn-addRowTable-item>
 
 			<x-btn-delete-item 
 				id="idQuitarRecompensaTablaBtn" 
-				onclick="">
+				onclick="eliminarFilaTabla()">
 				Quitar
 			</x-btn-delete-item>
 		</div>	
 
 		<!--Tabla de canjes-->
         <div class="fithCanjesRow">
-            <table class="ownTable" id="tblCanjes">
-                <thead>
-                    <tr>
-                        <th class="celda-centered">#</th>
-                        <th class="celda-centered" id="celdaCodigoRecompensa">Código</th>
-                        <th class="celda-centered">Tipo</th>
-                        <th class="celda-centered">Descripción</th>
-                        <th class="celda-centered">Puntos unitario</th>
-                        <th class="celda-centered">Cantidad</th>
-                        <th class="celda-centered">Puntos Totales</th>
-                    </tr>
-                </thead>
-                <tbody>
-					<tr>
-						<td class="celda-centered">1</td>
-						<td class="celda-centered">RECOM-008</td>
-						<td class="celda-centered">Herramienta</td>
-						<td class="celda-centered word-wrap" id="descripcionCanjes">Palustre de 9225mmREF.: BK1040 Marca: BRICKELL</td>
-						<td class="celda-centered">100</td>
-						<td class="celda-centered">2</td>
-						<td class="celda-centered">200</td>
-					</tr>
-					<tr>
-						<td class="celda-centered">2</td>
-						<td class="celda-centered">RECOM-002</td>
-						<td class="celda-centered">EPP</td>
-						<td class="celda-centered word-wrap">Par de rodilleras para cerámica</td>
-						<td class="celda-centered">35</td>
-						<td class="celda-centered">1</td>
-						<td class="celda-centered">35</td>
-					</tr>
-                </tbody>
-            </table>
+			<div class="tblCanjesContainer">
+				<table class="ownTable" id="tblCanjes">
+					<thead>
+						<tr>
+							<th class="celda-centered" id="celdaNumeroOrdenRecompensa">#</th>
+							<th class="celda-centered" id="celdaCodigoRecompensa">Código</th>
+							<th class="celda-centered" id="celdaTipoRecompensa">Tipo</th>
+							<th class="celda-centered" id="celdaDescripcionRecompensa">Descripción</th>
+							<th class="celda-centered" id="celdaCostoPuntosRecompensa">Costo puntos</th>
+							<th class="celda-centered" id="celdaCantidadnRecompensa">Cantidad</th>
+							<th class="celda-centered" id="celdaPuntosTotalesRecompensa">Puntos Totales</th>
+						</tr>
+					</thead>
+					<tbody>
+						{{-- Las filas se crearán dinámicamente según el usuario vaya agregando más recompensas 
+						<tr>
+							<td class="celda-centered">1</td>
+							<td class="celda-centered">2</td>
+							<td class="celda-centered">3</td>
+							<td class="celda-centered">4</td>
+							<td class="celda-centered">5</td>
+							<td class="celda-centered">6</td>
+							<td class="celda-centered">7</td>
+						</tr> --}}
+					</tbody>
+					<tfoot class="hidden">
+						<tr>
+							<td colspan="6" class="celda-righted"><strong>Total</strong></td>
+							<td class="celda-centered" id="celdaTotalPuntos">0</td>
+						</tr> 
+					</tfoot>
+				</table>
+				<span id="tblCanjesMessageBelow">Aún no hay recompensas agregadas</span>
+			</div>
 
 			<div class="resumenContainer" id="idResumenContainer">
 				<h3>RESUMEN</h3>
 				<div class="resumenContent">
 					<h4>Puntos Comprobante</h4>
-					<label class="labelPuntosComprobante">100</label>
+					<label class="labelPuntosComprobante" id="labelPuntosComprobante"></label>
 					<h4>Puntos Canjeados</h4>
-					<label class="labelPuntosCanjeados">100</label>
+					<label class="labelPuntosCanjeados" id="labelPuntosCanjeados"></label>
 					<h4>Puntos Restantes</h4>
-					<label class="labelPuntosRestantes">80</label>
+					<label class="labelPuntosRestantes" id="labelPuntosRestantes"></label>
 				</div>
 			</div>
         </div>

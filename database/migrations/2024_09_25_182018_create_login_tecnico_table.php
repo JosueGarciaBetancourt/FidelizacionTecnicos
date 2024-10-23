@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('login_tecnicos', function (Blueprint $table) {
-            $table->string('idTecnico', 8)->primary();  // Cambiado a 'idTecnico' para consistencia
+            $table->string('idTecnico', 8)->primary(); // Cambiado a 'idTecnico' para consistencia
             $table->string('password');
             $table->foreign('idTecnico')  // Relacionando correctamente 'idTecnico' con la tabla 'Tecnicos'
                   ->references('idTecnico')

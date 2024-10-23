@@ -278,13 +278,13 @@ function validateNumComprobanteInput(numComprobanteInput) {
         numComprobanteIsValid = false;
         numComprobanteTooltip.classList.remove('green');
         numComprobanteTooltip.classList.add('red');
-        showHideTooltip(numComprobanteTooltip, "Número de comprobante inválido. Debe seguir la forma: F001-00000096 ó B001-00000096");
+        showHideTooltip(numComprobanteTooltip, "Número de comprobante con formato inválido. Debe seguir la forma: F001-00000096 ó B001-00000096");
         return;
     }
 
     numComprobanteTooltip.classList.remove('red');
     numComprobanteTooltip.classList.add('green');
-    showHideTooltip(numComprobanteTooltip, "Número de comprobante válido");
+    showHideTooltip(numComprobanteTooltip, "Número de comprobante con formato válido");
     numComprobanteIsValid = true;
 }
 
@@ -535,12 +535,12 @@ let mensajeCombinado = "";
 function validateDNIRUCLength() {
     if (tipoCodigoClienteInput.value === "DNI") {
         if (codigoClienteInput.value.length !== 8) {
-            mensajeCombinado += "Número de documento no es de longitud 8. ";
+            mensajeCombinado += "El número de DNI debe de tener 8 dígitos.";
             return false;
         }
     } else {
         if (codigoClienteInput.value.length !== 11) {
-            mensajeCombinado += "Número de documento no es de longitud 11. ";
+            mensajeCombinado += "El número de RUC debe de tener 11 dígitos.";
             return false;
         }
     }
@@ -622,6 +622,7 @@ function guardarModalAgregarVenta(idModal, idForm, ventasDB) {
             multiMessageError2.classList.add("shown");
         }
     } else {
+        console.log("Todos los campos del formulario deben estar rellenados correctamente.");
         multiMessageError2.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
         multiMessageError2.classList.add("shown");
     }

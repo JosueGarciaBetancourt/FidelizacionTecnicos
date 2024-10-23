@@ -14,6 +14,19 @@ let clienteCanjesTextarea = document.getElementById('clienteCanjesTextarea');
 let fechaEmisionCanjesInput = document.getElementById('fechaEmisionCanjesInput');
 let fechaCargadaCanjesInput = document.getElementById('fechaCargadaCanjesInput');
 let cantidadRecompensaCanjesInput = document.getElementById('cantidadRecompensaCanjesInput');
+let agregarRecompensaTablaBtn = document.getElementById('idAgregarRecompensaTablaBtn');
+let recompensasCanjesInput = document.getElementById('recompensasCanjesInput');
+let tblCanjesMessageBelow = document.getElementById('tblCanjesMessageBelow');
+let tableCanjesBody = document.querySelector('#tblCanjes tbody');
+let tableCanjesFooter = document.querySelector('#tblCanjes tfoot');
+let celdaTotalPuntos = document.getElementById('celdaTotalPuntos');
+let numFilaSeleccionada = null;
+let lastNumFilaSeleccionada = null;
+let listaFilasSeleccionadas = [];
+let lastSelectedRow = null;
+let puntosComprobanteResumen = document.getElementById('labelPuntosComprobante');
+let puntosCanjeadosResumen = document.getElementById('labelPuntosCanjeados');
+let puntosRestantesResumen = document.getElementById('labelPuntosRestantes');
 
 function getFormattedDate() {
     let today = new Date();
@@ -31,6 +44,7 @@ let recompensaFilledCorrectlySearchField = false;
 document.addEventListener("DOMContentLoaded", function() {
     let fechaCanjeInput = document.getElementById('idFechaCanjeInput');
     fechaCanjeInput.value = date;  // Asigna la fecha en formato YYYY-MM-DD
+    verificarFilasTablaCanjes(); // Llamar cuando se carga la página
 });
 
 function consoleLogJSONItems(items) {
@@ -60,6 +74,13 @@ function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
                 
                 fechaEmisionCanjesInput.classList.remove("noEditable");
                 fechaCargadaCanjesInput.classList.remove("noEditable");
+
+                console.log(puntosGeneradosCanjesInput.value, puntosRestantesCanjesInput.value);
+
+                // Llenar los campos del cuadro Resumen
+                puntosComprobanteResumen.textContent = puntosGeneradosCanjesInput.value;
+                puntosCanjeadosResumen.textContent = puntosGeneradosCanjesInput.value - puntosRestantesCanjesInput.value;
+                puntosRestantesResumen.textContent = puntosRestantesCanjesInput.value;
 
                 //console.log("Comprobante seleccionado:", comprobanteSeleccionado);
             } else {
@@ -94,7 +115,6 @@ function toggleNumComprobanteCanjesOptions(idInput, idOptions) {
         showHideTooltip(tecnicoCanjesTooltip, "Seleccione un Técnico primero");
     }
 }
-
 
 function validateOptionTecnicoCanjes(input, idOptions, idMessageError, tecnicosDB) {
     const value = input.value;
@@ -239,7 +259,12 @@ let incrementInterval; // Para el incremento
 let decrementInterval; // Para el decremento
 
 function countUpCantidadRecompensa() {
-    cantidadRecompensaCanjesInput.value = (parseInt(cantidadRecompensaCanjesInput.value) || 0) + 1;
+    if (cantidadRecompensaCanjesInput.value == null || cantidadRecompensaCanjesInput.value == "" ) {
+        cantidadRecompensaCanjesInput.value = 1;
+    } else if (cantidadRecompensaCanjesInput.value < 100) {
+        cantidadRecompensaCanjesInput.value = parseInt(cantidadRecompensaCanjesInput.value) + 1;
+    }
+
     // Esto asegura que se dispare el observer
     cantidadRecompensaCanjesInput.setAttribute('value', (parseInt(cantidadRecompensaCanjesInput.value) || 0) + 1); 
 }
@@ -288,19 +313,22 @@ document.addEventListener('DOMContentLoaded', function() {
             input.value = savedValue;
             //console.log(input.id + ": " + input.value);
         }
-    });
 
-    // Función para manejar el guardado del valor
-    function handleInputChange(event) {
-        console.log("Cambio detectado en: ", event.target.id);
-        console.log("Nuevo valor: ", event.target.value);
-        localStorage.setItem(event.target.id, event.target.value);
-    }
+        // Configurar el observador para que observe cambios en los atributos
+        const observer = new MutationObserver(handleInputChange);
 
-    // Añadir event listeners para guardar valores cuando cambien
-    document.querySelectorAll('.persist-input').forEach(function(input) {
-        input.addEventListener('input', handleInputChange);
-        //input.addEventListener('change', handleInputChange);
+        // Opciones de configuración del observador
+        const config = { attributes: true, attributeFilter: ['value'] };
+
+        // Iniciar la observación del input
+        observer.observe(input, config);
+
+        // Añadir event listener para guardar el valor cuando cambie
+        input.addEventListener('input', function() {
+            // Guardar el valor actual en localStorage
+            console.log("Guardando en local storage: ", input.id, " con valor: ", input.value)
+            localStorage.setItem(input.id, input.value);
+        });
     });
 });
 
@@ -321,60 +349,6 @@ function clearPersistedInput(inputId) {
     }
 }
 
-/*
-// Function to save form data to local storage
-function saveFormData() {
-    document.querySelectorAll('input, textarea').forEach(element => {
-        if (element.id) {
-            localStorage.setItem(element.id, element.value);
-        }
-    });
-}
-
-// Function to load form data from local storage
-function loadFormData() {
-    document.querySelectorAll('input, textarea').forEach(element => {
-        if (element.id) {
-            const savedValue = localStorage.getItem(element.id);
-            if (savedValue !== null) {
-                element.value = savedValue;
-            }
-        }
-    });
-}
-
-// Function to clear all saved form data
-function clearAllFormData() {
-    localStorage.clear();
-    document.querySelectorAll('input, textarea').forEach(element => {
-        element.value = '';
-    });
-}
-
-// Set up MutationObserver to watch for changes
-const observerConfig = { attributes: true, childList: true, subtree: true };
-
-const observerCallback = function(mutationsList, observer) {
-    for(let mutation of mutationsList) {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
-            saveFormData();
-        }
-    }
-};
-
-const observer = new MutationObserver(observerCallback);
-
-// Start observing the document with the configured parameters
-observer.observe(document.body, observerConfig);
-
-// Add event listeners for input changes
-document.addEventListener('input', saveFormData);
-document.addEventListener('change', saveFormData);
-
-// Load saved data when the page loads
-document.addEventListener('DOMContentLoaded', loadFormData);
-*/
-
 // Función que se ejecutará cuando el valor del input cambie
 function handleInputChange(mutationsList, observer) {
     mutationsList.forEach(function(mutation) {
@@ -386,14 +360,178 @@ function handleInputChange(mutationsList, observer) {
     });
 }
 
-// Seleccionar el input al que le queremos aplicar el observador
-const input = document.getElementById('cantidadRecompensaCanjesInput');
+// Lógica de la tabla de recompensas agregadas en la sección CANJES
+function agregarFilaRecompensa() {
+    try {
+        // Verifica si el campo de recompensas tiene un valor
+        if (!recompensasCanjesInput.value) {
+            throw new Error('Por favor, ingrese una recompensa válida.');
+        }
 
-// Configurar el observador para que observe cambios en los atributos
-const observer = new MutationObserver(handleInputChange);
+        // Verifica si el campo de cantidad tiene un valor
+        if (!cantidadRecompensaCanjesInput.value || isNaN(cantidadRecompensaCanjesInput.value) || cantidadRecompensaCanjesInput.value <= 0) {
+            throw new Error('Por favor, ingrese una cantidad válida.');
+        }
 
-// Opciones de configuración del observador
-const config = { attributes: true, attributeFilter: ['value'] };
+        const partesRecompensaValue = recompensasCanjesInput.value.split(" | ");
 
-// Iniciar la observación del input
-observer.observe(input, config);
+        // Verifica que el formato de la recompensa sea correcto (se esperan 5 partes)
+        if (partesRecompensaValue.length !== 4) {
+            throw new Error('El formato de la recompensa es incorrecto. Se requieren 4 partes separadas por " | ".');
+        }
+
+        // Asignación de variables a cada parte
+        const [codigo, categoria, descripcion, costoRaw] = partesRecompensaValue;
+        const costo = parseInt(costoRaw.replace(" puntos", "").trim(), 10);
+
+        // Validar que el costo sea un número válido
+        if (isNaN(costo) || costo <= 0) {
+            throw new Error('El costo de la recompensa no es válido.');
+        }
+
+        const cantidad = parseInt(cantidadRecompensaCanjesInput.value, 10);
+
+        // Validar que la cantidad sea un número entero positivo
+        if (isNaN(cantidad) || cantidad <= 0) {
+            throw new Error('La cantidad ingresada no es válida.');
+        }
+
+        // Calcular puntos totales
+        const puntosTotales = costo * cantidad;
+        
+        /*console.log(`Código: ${codigo}`);
+        console.log(`Categoría: ${categoria}`);
+        console.log(`Descripción: ${descripcion}`);
+        console.log(`Costo: ${costo}`);
+        console.log(`Cantidad: ${cantidad}`);
+        console.log(`Puntos Totales: ${puntosTotales}`);*/
+
+        addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotales);
+        verificarFilasTablaCanjes(); // Verificar después de agregar la fila
+    } catch (error) {
+        console.error('Error al agregar la recompensa:', error.message);
+        // Aquí podrías mostrar el mensaje de error en la UI, por ejemplo en un campo de alerta
+    }
+}
+
+function rowCodigoDuplicated(codigo, cantidad, puntosTotales) {
+    const tableBody = document.querySelector('#tblCanjes tbody');
+
+    // Recorrer todas las filas del cuerpo de la tabla
+    for (let row of tableBody.rows) {
+        const cellCodigo = row.cells[1]; // Segunda columna (índice 1)
+
+        // Si el código ya existe
+        if (cellCodigo.textContent === codigo) {
+            // Sobreescribir el costo, cantidad y puntos totales en la fila existente
+            row.cells[5].textContent = cantidad; // Columna de cantidad (índice 5)
+            row.cells[6].textContent = puntosTotales; // Columna de puntos totales (índice 6)
+            return true; // Devolver true indicando que se encontró y actualizó
+        }
+    }
+    
+    return false; // Devolver false si no se encontró el código duplicado
+}
+
+function addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotales) {
+    if (rowCodigoDuplicated(codigo, cantidad, puntosTotales)) {
+        return;
+    }
+
+    const tableBody = document.querySelector('#tblCanjes tbody');
+    const newRow = document.createElement('tr');
+
+    // Datos que serán agregados en las celdas
+    const datosFila = [
+        tableBody.rows.length + 1,  // Número de fila
+        codigo,
+        categoria,
+        descripcion,
+        costo,
+        cantidad,
+        puntosTotales
+    ];
+
+    // Crear y agregar celdas a la fila
+    datosFila.forEach((dato, index) => {
+        const cell = document.createElement('td');
+
+        // Comprobar si es el índice de puntosTotales (último índice en este caso)
+        if (index === datosFila.length - 1) {
+            cell.classList.add('celda-centered', 'subtotalPuntos'); // Agregar ambas clases
+        } else {
+            cell.classList.add('celda-centered'); // Solo agregar 'celda-centered' para otras celdas
+        }
+
+        cell.textContent = dato;
+        newRow.appendChild(cell);
+    });
+
+    // Agregar la fila al cuerpo de la tabla
+    tableBody.appendChild(newRow);
+
+    // Detectar clic en la fila
+    newRow.addEventListener('click', function () {
+        toggleRowSelection(newRow);
+    });
+}
+
+
+function toggleRowSelection(newRow) {
+    const selectedRow = document.querySelector('tr.selectedCanjes');
+
+    // Si la fila seleccionada es la misma que la clicada, deseleccionamos
+    if (selectedRow === newRow) {
+        newRow.classList.remove('selectedCanjes');
+        lastSelectedRow = null; // Reseteamos la fila seleccionada
+    } else {
+        // Deseleccionamos la fila previamente seleccionada
+        if (selectedRow) {
+            selectedRow.classList.remove('selectedCanjes');
+        }
+        // Seleccionamos la nueva fila
+        newRow.classList.add('selectedCanjes');
+        lastSelectedRow = newRow; // Actualizamos la fila seleccionada
+        console.log("Fila seleccionada de verdad: " + lastSelectedRow.rowIndex);
+    }
+}
+
+function calcTotalPuntosTfoot() {
+    const allCeldasPuntosTotales = document.querySelectorAll('.celda-centered.subtotalPuntos')
+    var suma = 0;
+
+    allCeldasPuntosTotales.forEach(celda => {
+        const valorNumericoCeldaPuntosTotales = parseInt(celda.textContent);
+        suma += valorNumericoCeldaPuntosTotales;
+    });
+g
+    console.log("Suma de puntos totales", suma);
+    celdaTotalPuntos.textContent = suma;
+}
+
+function verificarFilasTablaCanjes(newRow) {
+    // Verificamos si hay filas en el tbody de la tabla
+    if (tableCanjesBody.rows.length === 0) {
+        tblCanjesMessageBelow.classList.remove('hidden');  // Mostrar mensaje si no hay filas
+        tableCanjesFooter.classList.add("hidden");
+    } else {
+        tblCanjesMessageBelow.classList.add('hidden');  // Ocultar mensaje si hay filas
+        tableCanjesFooter.classList.remove("hidden");
+        // Calcular total de puntos
+        calcTotalPuntosTfoot();
+    }
+}
+
+function eliminarFilaTabla() {
+    if (lastSelectedRow) {
+        lastSelectedRow.remove();
+        lastSelectedRow = null;
+        verificarFilasTablaCanjes();
+    }
+}
+
+// Helper function to get the selected row index
+function obtenerFila() {
+    return numFilaSeleccionada ? numFilaSeleccionada.rowIndex - 1 : -1;
+}
+

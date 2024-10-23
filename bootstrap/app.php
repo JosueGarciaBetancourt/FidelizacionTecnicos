@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -12,8 +13,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        // 
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
-    })->create();
+        $exceptions->renderable(function (ThrottleRequestsException $e, $request) {
+            return response()->json([
+                'error' => 'Demasiados intentos de login. Por favor intenta después.',
+            ], 429);
+        });
+    })
+    ->create();

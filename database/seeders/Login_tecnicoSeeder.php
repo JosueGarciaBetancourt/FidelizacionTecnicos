@@ -28,9 +28,9 @@ class Login_tecnicoSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
-                Log::info('Login creado para técnico: ' . $tecnico->idTecnico);
+                //Log::info('Login creado para técnico: ' . $tecnico->idTecnico);
             } else {
-                Log::info('Login ya existe para técnico: ' . $tecnico->idTecnico);
+                //Log::info('Login ya existe para técnico: ' . $tecnico->idTecnico);
             }
         }
 

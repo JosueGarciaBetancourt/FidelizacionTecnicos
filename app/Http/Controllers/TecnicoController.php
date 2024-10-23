@@ -39,7 +39,7 @@ class TecnicoController extends Controller
         // Guardar el técnico en la tabla login_tecnicos con la contraseña por defecto (DNI) que podrá ser cambiado desde la APP
         $login_tecnico = new Login_Tecnico([
             'idTecnico' => $validatedDatLoginTecnico['idTecnico'],
-            'password' => bcrypt($validatedDatLoginTecnico['idTecnico']) ,
+            'password' => bcrypt($validatedDatLoginTecnico['idTecnico']),
         ]);
 
         $login_tecnico->save();
@@ -70,10 +70,10 @@ class TecnicoController extends Controller
 
     public function delete(Request $request) 
     {
-        // Encuentra la recompensa usando el idRecompensa
+        // Encuentra el técnico usando el idTécnico
         $tecnico = Tecnico::where("idTecnico", $request->idTecnico)->first();
     
-        // Verifica si se encontró la recompensa
+        // Verifica si se encontró el técnico
         if ($tecnico) {
             // Aplica soft delete
             $tecnico->delete();
