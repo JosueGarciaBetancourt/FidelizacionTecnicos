@@ -81,13 +81,13 @@
 			<div class="verticalPairGroup">
 				<label class="primary-label noEditable"> Puntos generados </label>
 				<input class="input-item noEditable" id="puntosGeneradosCanjesInput" maxlength="4" 
-					   placeholder="0" name="bbb" disabled>
+					   placeholder="0" disabled>
 			</div>
 
 			<div class="verticalPairGroup">
 				<label class="primary-label noEditable centered"> Puntos restantes </label>
 				<input class="input-item noEditable" id="puntosRestantesCanjesInput" maxlength="4" 
-					   placeholder="0" name="bbb" disabled>
+					   placeholder="0" disabled>
 			</div>
 
 			<div class="verticalPairGroup">
@@ -187,7 +187,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{{-- Las filas se crearán dinámicamente según el usuario vaya agregando más recompensas
+						{{-- Las filas se crearán dinámicamente según el usuario vaya agregando más recompensas 
 						<tr>
 							<td class="celda-centered">1</td>
 							<td class="celda-centered">2</td>
@@ -198,20 +198,25 @@
 							<td class="celda-centered">7</td>
 						</tr> --}}
 					</tbody>
+					<tfoot class="active">
+						<tr>
+							<td colspan="6" class="celda-righted"><strong>Total</strong></td>
+							<td class="celda-centered" id="totalPuntos">0</td>
+						</tr> 
+					</tfoot>
 				</table>
 				<span id="tblCanjesMessageBelow">Aún no hay recompensas agregadas</span>
 			</div>
-         
 
 			<div class="resumenContainer" id="idResumenContainer">
 				<h3>RESUMEN</h3>
 				<div class="resumenContent">
 					<h4>Puntos Comprobante</h4>
-					<label class="labelPuntosComprobante">100</label>
+					<label class="labelPuntosComprobante" id="labelPuntosComprobante"></label>
 					<h4>Puntos Canjeados</h4>
-					<label class="labelPuntosCanjeados">100</label>
+					<label class="labelPuntosCanjeados" id="labelPuntosCanjeados"></label>
 					<h4>Puntos Restantes</h4>
-					<label class="labelPuntosRestantes">80</label>
+					<label class="labelPuntosRestantes" id="labelPuntosRestantes"></label>
 				</div>
 			</div>
         </div>

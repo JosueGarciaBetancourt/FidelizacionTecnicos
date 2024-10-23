@@ -22,6 +22,9 @@ let numFilaSeleccionada = null;
 let lastNumFilaSeleccionada = null;
 let listaFilasSeleccionadas = [];
 let lastSelectedRow = null;
+let puntosComprobanteResumen = document.getElementById('labelPuntosComprobante');
+let puntosCanjeadosResumen = document.getElementById('labelPuntosCanjeados');
+let puntosRestantesResumen = document.getElementById('labelPuntosRestantes');
 
 function getFormattedDate() {
     let today = new Date();
@@ -69,6 +72,13 @@ function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
                 
                 fechaEmisionCanjesInput.classList.remove("noEditable");
                 fechaCargadaCanjesInput.classList.remove("noEditable");
+
+                console.log(puntosGeneradosCanjesInput.value, puntosRestantesCanjesInput.value);
+
+                // Llenar los campos del cuadro Resumen
+                puntosComprobanteResumen.textContent = puntosGeneradosCanjesInput.value;
+                puntosCanjeadosResumen.textContent = puntosGeneradosCanjesInput.value - puntosRestantesCanjesInput.value;
+                puntosRestantesResumen.textContent = puntosRestantesCanjesInput.value;
 
                 //console.log("Comprobante seleccionado:", comprobanteSeleccionado);
             } else {
@@ -451,6 +461,10 @@ function addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, punt
     // Agregar la fila al cuerpo de la tabla
     tableBody.appendChild(newRow);
 
+    // Mostrar el footer
+    const tableFooter = document.querySelector('#tblCanjes tfoot');
+    tableFooter.classList.add("active");
+
     // Detectar clic en la fila
     newRow.addEventListener('click', function () {
         toggleRowSelection(newRow);
@@ -485,11 +499,10 @@ function verificarFilasTablaCanjes(newRow) {
     }
 }
 
-// Update the eliminarFilaTabla function
 function eliminarFilaTabla() {
-    if (numFilaSeleccionada && numFilaSeleccionada.parentElement) {
-        numFilaSeleccionada.remove();
-        numFilaSeleccionada = null;
+    if (lastSelectedRow) {
+        lastSelectedRow.remove();
+        lastSelectedRow = null;
         verificarFilasTablaCanjes();
     }
 }

@@ -409,6 +409,10 @@ body.dark-mode .header {
     text-align: center !important;
 }
 
+.celda-righted {
+    text-align: right !important;
+}
+
 .celda-centered.word-wrap {
     word-wrap: break-word;
 }
