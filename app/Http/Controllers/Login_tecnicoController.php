@@ -114,13 +114,13 @@ class Login_tecnicoController extends Controller
 
         return response()->json($recompensas);
     }
-    
+
     public function changePassword(Request $request)
     {
         $request->validate([
             'idTecnico' => 'required|string',
             'currentPassword' => 'required|string',
-            'newPassword' => 'required|string|min:6',
+            'newPassword' => 'required|string|min:2',
         ]);
 
         $tecnico = DB::table('login_tecnicos')
@@ -133,6 +133,31 @@ class Login_tecnicoController extends Controller
                 ->update(['password' => Hash::make($request->input('newPassword'))]);
 
             return response()->json(['status' => 'success', 'message' => 'Contraseña cambiada con éxito']);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'La contraseña actual no es correcta'], 401);
+        }
+    }
+
+    public function changeJob(Request $request)
+    {
+        $request->validate([
+            'idTecnico' => 'required|string',
+            'currentPassword' => 'required|string',
+            'newJob' => 'required|string',
+        ]);
+
+        $tecnico = DB::table('login_tecnicos')
+            ->where('idTecnico', $request->input('idTecnico'))
+            ->first();
+
+        // Verificar si la contraseña actual es correcta
+        if ($tecnico && Hash::check($request->input('currentPassword'), $tecnico->password)) {
+            // Actualizar el oficio del técnico
+            DB::table('Tecnicos')
+                ->where('idTecnico', $request->input('idTecnico'))
+                ->update(['oficioTecnico' => $request->input('newJob')]);
+
+            return response()->json(['status' => 'success', 'message' => 'Oficio cambiado con éxito']);
         } else {
             return response()->json(['status' => 'error', 'message' => 'La contraseña actual no es correcta'], 401);
         }
