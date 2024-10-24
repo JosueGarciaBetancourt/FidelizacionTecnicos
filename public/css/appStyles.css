@@ -48,9 +48,11 @@ body{
 
 	--padding-top-mainDashboardContainer: 1.4rem;
 	--padding-bottom-mainDashboardContainer: 1.4rem;
-	--padding-right-mainDashboardContainer: 2rem;
+	--padding-right-mainDashboardContainer: 0.83rem;
 	--padding-left-mainDashboardContainer: 1rem;
 	
+    --margin-right-headerDashboardContainer: var(--padding-right-mainDashboardContainer);
+    
 	--padding-mainSectionContainer: 2rem;
 	--border-radius-mainSectionContainer: 1rem;
 	--background-color-mainSectionContainer: #fff;

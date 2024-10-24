@@ -4,15 +4,15 @@
     grid-template-rows: auto 1fr; 
     height: 100vh; 
     max-width: 100%;
-    overflow-x:visible;
     background-color: #e7ebf2;
+    overflow-x: auto !important;
 }
 
 .header {
     grid-column: 2; 
     grid-row: 1; 
     height: 4rem;
-    margin: 0.5rem 1.5rem 0 0;
+    margin: 0.5rem var(--margin-right-headerDashboardContainer) 0 0;
     display: grid;
     grid-template-columns: 4% 93%;
     align-items: center;
@@ -225,12 +225,13 @@ aside .sidebar a {
 }
   
 aside .sidebar a span {
-	font-size: 1.6rem;
 	transition: color 0.5s, .4s ease-in-out;
+    font-size: 1.3rem;
 }
 
 aside .sidebar a h5 {
 	transition: color 0.5s, .4s ease-in-out;
+    font-size: 0.95rem;
 }
 
 aside .sidebar a:last-child {
@@ -288,7 +289,7 @@ aside .sidebar a:hover span {
 }
 
 aside.hovered {
-    width: 13rem; /* Anchura cuando el aside está expandido */
+    width: 12rem; /* Anchura cuando el aside está expandido */
 }
 
 

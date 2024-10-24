@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
     const dashboardContainer = document.querySelector('.dashboard-container');
-    const routes = JSON.parse(dashboardContainer.getAttribute('data-routes'));
     const menuToggleButton = document.getElementById('menu_toggle_button');
     const aside = document.querySelector('aside');
     const linksSidebar = document.querySelectorAll('aside .sidebar a'); // Selecciona todos los enlaces 

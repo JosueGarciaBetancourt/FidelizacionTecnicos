@@ -14,6 +14,7 @@ let puntosGeneradosCanjesInput = document.getElementById('puntosGeneradosCanjesI
 let clienteCanjesTextarea = document.getElementById('clienteCanjesTextarea');
 let fechaEmisionCanjesInput = document.getElementById('fechaEmisionCanjesInput');
 let fechaCargadaCanjesInput = document.getElementById('fechaCargadaCanjesInput');
+let diasTranscurridosInput = document.getElementById('diasTranscurridosInput');
 let cantidadRecompensaCanjesInput = document.getElementById('cantidadRecompensaCanjesInput');
 let agregarRecompensaTablaBtn = document.getElementById('idAgregarRecompensaTablaBtn');
 let recompensasCanjesInput = document.getElementById('recompensasCanjesInput');
@@ -54,6 +55,20 @@ function consoleLogJSONItems(items) {
     console.log(JSON.stringify(items, null, 2));
 }
 
+function getDiasTranscurridos(fechaEmision, fechaCargada) {
+    // Asignar las fechas de los inputs
+    var emi = new Date(fechaEmision); // Convierte la fecha de emisión a un objeto Date
+    var carg = new Date(fechaCargada); // Convierte la fecha cargada a un objeto Date
+
+    // Calcula la diferencia en milisegundos
+    var diferenciaMilisegundos = Math.abs(carg - emi);
+
+    // Convertir milisegundos a días
+    var diasTranscurridos = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
+
+    return Math.floor(diasTranscurridos); // Redondea hacia abajo al número entero más cercano
+}
+
 function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
     if (tecnicoCanjesInput.value && tecnicoFilledCorrectlySearchField) {
         resumenContainer.classList.add('shown');
@@ -74,7 +89,9 @@ function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
                     comprobanteSeleccionado.codigoCliente_VentaIntermediada) || '';
                 fechaEmisionCanjesInput.value = comprobanteSeleccionado.fechaHoraEmision_VentaIntermediada ? comprobanteSeleccionado.fechaHoraEmision_VentaIntermediada.split(' ')[0] : ''; // Solo la fecha
                 fechaCargadaCanjesInput.value = comprobanteSeleccionado.fechaHoraCargada_VentaIntermediada ? comprobanteSeleccionado.fechaHoraCargada_VentaIntermediada.split(' ')[0] : ''; // Solo la fecha
-                
+
+                diasTranscurridosInput.value = getDiasTranscurridos(fechaEmisionCanjesInput.value , fechaCargadaCanjesInput.value);
+
                 fechaEmisionCanjesInput.classList.remove("noEditable");
                 fechaCargadaCanjesInput.classList.remove("noEditable");
 
@@ -217,14 +234,18 @@ function validateNumComprobanteInputNoEmpty(recompensaCanjesInput) {
     } 
 }
 
-function hideResumeContainer() {
-    console.log("Limpiando input Número de comprobante");
-    resumenContainer.classList.remove('shown');
+function cleanAllNumeroComprobante() {
+    // Limpiar todos los campos correspondientes al número de comprobante 
     puntosGeneradosCanjesInput.value = "";
-    puntosRestantesCanjesInput.value = "";
     clienteCanjesTextarea.value = "";
     fechaEmisionCanjesInput.value = "";
     fechaCargadaCanjesInput.value = "";
+    diasTranscurridosInput.value = "";
+    fechaEmisionCanjesInput.classList.add("noEditable");
+    fechaCargadaCanjesInput.classList.add("noEditable");
+
+    // Ocultar cuadro resumen
+    resumenContainer.classList.remove('shown');
 }
 
 function returnPuntosActualesDBWithRequestedTecnicoID(idTecnico, tecnicosDB) {
@@ -496,8 +517,11 @@ function verificarFilasTablaCanjes() {
     tblCanjesMessageBelow.classList.add('hidden'); 
     tableCanjesFooter.classList.remove("hidden");
 
-    // Actulizar suma total en el tfoot
+    // Actualizar suma total en el tfoot
     celdaTotalPuntos.textContent = sumaPuntosTotalesTablaRecompensasCanjes;
+
+    // Actualizar puntos a canjear en el cuadro resumen
+    updateResumenBoard();
     return true;
 }
 
@@ -552,7 +576,13 @@ function isCodigoDuplicated(codigo) {
 
             // Si el código ya existe (con trim para evitar espacios)
             if (cellCodigo.textContent.trim() === codigo) {
-                puntosTotalesRecompensaEncontrada = parseInt(row.cells[6].textContent, 10); // Columna de puntos totales (índice 6)
+                // Resaltar el color de fondo de la fila
+                row.classList.add("duplicated");
+                setTimeout(() => {
+                    row.classList.remove("duplicated");
+                }, 1000); 
+
+                puntosTotalesRecompensaEncontrada = parseInt(row.cells[6].textContent, 10); 
                 return puntosTotalesRecompensaEncontrada; // Código duplicado encontrado
             }
         }
@@ -645,6 +675,7 @@ function eliminarFilaTabla() {
         // Actualizar celda de puntos totales en el footer de la tabla
         sumaPuntosTotalesTablaRecompensasCanjes = getSumaTotalPuntosTblRecompensasCanjes();
         verificarFilasTablaCanjes();
+        updateResumenBoard();
     }
 }
 

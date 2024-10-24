@@ -118,6 +118,12 @@ h3 {
 	padding-right: 0;
 }
 
+#diasTranscurridosInput {
+	width: 8rem;
+	text-align: center;
+	padding-left: 1px;
+}
+
 #tecnicoCanjesInput {
 	width: 19rem;
 }
@@ -261,6 +267,7 @@ h3 {
 #tblCanjes tbody tr:hover {
     background-color: #d9f0fc; /* Suave tono azul */
     cursor: pointer;
+    transition: none; /* Sin transición para hover */
 }
 
 #tblCanjes tbody tr:hover td:first-child {
@@ -277,6 +284,26 @@ h3 {
 #tblCanjes tbody tr.selectedCanjes {
     background-color: #b3d9ff; /* Tono azul más fuerte */
     color: #333; /* Texto oscuro para mejor contraste */
+    transition: none; /* Sin transición para selectedCanjes */
+}
+
+/* Animación personalizada para que el color aparezca y desaparezca */
+@keyframes cambiarColorFila {
+    0% {
+        background-color: white; /* Color inicial */
+    }
+    30% {
+        background-color: #9bed9b; /* Color verde en la mitad */
+    }
+    100% {
+        background-color: white; /* Vuelve al color blanco */
+    }
+}
+
+/* Fila duplicada al agregar recompensa */
+#tblCanjes tbody tr.duplicated {
+    animation: cambiarColorFila 1s ease-in-out; /* Animación de 1 segundo para entrada y salida */
+    color: #333; /* Texto oscuro */
 }
 
 /* Bordes redondeados en la fila seleccionada */
@@ -289,6 +316,7 @@ h3 {
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
 }
+
 
 /* ================== Pie de la Tabla (tfoot) ================== */
 #tblCanjes tfoot.hidden {

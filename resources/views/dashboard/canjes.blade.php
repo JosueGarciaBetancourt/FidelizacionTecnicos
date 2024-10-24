@@ -73,7 +73,7 @@
 						:name="'idVentaIntermediada'"
 						:options="$optionsNumComprobante"
 						:onSelectFunction="'selectOptionNumComprobanteCanjes'"
-						:onSpanClickFunction="'hideResumeContainer'"
+						:onSpanClickFunction="'cleanAllNumeroComprobante'"
 						:onClickFunction="'toggleNumComprobanteCanjesOptions'"
 				/>
 			</div>
@@ -108,6 +108,11 @@
 			<div class="verticalPairGroup noEditable">
 				<label class="primary-label noEditable centered"> Fecha Cargada </label>
 				<input class="input-item noEditable" id ="fechaCargadaCanjesInput" type="date" disabled>
+			</div>
+
+			<div class="verticalPairGroup noEditable">
+				<label class="primary-label noEditable centered"> Días transcurridos </label>
+				<input class="input-item noEditable" id ="diasTranscurridosInput" maxlength="3" placeholder="0" disabled>
 			</div>
 		</div>
 

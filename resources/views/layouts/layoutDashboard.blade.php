@@ -11,15 +11,7 @@
 @endpush
 
 @section('content')
-    <div class="dashboard-container" 
-         data-routes='{
-             "ventasIntermediadas": "{{ route('ventasIntermediadas.create') }}",
-             "canjes": "{{ route('canjes.create') }}",
-             "recompensas": "{{ route('recompensas.create') }}",
-             "tecnicos": "{{ route('tecnicos.create') }}",
-             "configuracion": "{{ route('configuracion') }}",
-             "perfil": "{{ route('profile.edit') }}"
-         }'>
+    <div class="dashboard-container">
 
         <!-- aside section-->
         <aside>
@@ -70,7 +62,6 @@
                 </form>
             </div>
         </aside>
-
         <!-- header section-->
         <div class="header">
             <div class="left_menu_close" id="menu_toggle_button">
@@ -83,7 +74,7 @@
                     <span class="notification_count">14</span>
                 </a>
                 <div class="profile-photo">
-                  <img src="{{ asset('images/profile_picture.png') }} " alt="1_admin_picture">
+                <img src="{{ asset('images/profile_picture.png') }} " alt="1_admin_picture">
                 </div>
                 <div class="user_options_List" id="user_options_List">
                     <div class="div-input-select" id="idUserDivList">
@@ -105,7 +96,6 @@
             @yield('main-content')
         </main>
     </div>
-
 @endsection
 
 @push('scripts')
