@@ -16,7 +16,7 @@
     position: absolute;
     z-index: 1;
     transition: opacity 0.4s, visibility 0.4s;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Sombra suave */
 }
 

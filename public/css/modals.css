@@ -103,6 +103,14 @@
     max-width: 100%;
 }
 
+.group-items.centered{
+    align-items: center;
+}
+
+.group-items.gap{
+    gap: 1rem;
+}
+
 .modal-footer {
     border-top: 1px solid #ddd;
     padding-top: 10px;

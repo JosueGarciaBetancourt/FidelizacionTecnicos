@@ -127,7 +127,7 @@
 					<div class="tooltip-container"> 
 						<span class="tooltip" id="idRecompensaCanjesTooltip"></span>
 					</div>
-					<input class="input-select-item" type="text" id='{{ $idRecompensaInput }}' maxlength="200" placeholder="Código | Tipo | Descripción"
+					<input class="input-select-item" type="text" id='{{ $idRecompensaInput }}' maxlength="200" placeholder="Código | Tipo | Descripción | Puntos"
 						oninput="filterOptions('{{ $idRecompensaInput }}', '{{ $idRecompensaOptions }}'), validateNumComprobanteInputNoEmpty(this)
 								validateOptionRecompensaCanjes(this, '{{ $idRecompensaOptions }}', '{{ $idRecompensaMessageError }}', {{ json_encode($recompensasDB) }})"
 						onclick="toggleOptions('{{ $idRecompensaInput }}', '{{ $idRecompensaOptions }}')">
@@ -163,17 +163,19 @@
 				</div>
 			</div>
 
-			<x-btn-addRowTable-item
-				id="idAgregarRecompensaTablaBtn" 
-				onclick="agregarFilaRecompensa()">
-				Agregar a tabla
-			</x-btn-addRowTable-item>
+			<div class="group-items centered gap">
+				<x-btn-addRowTable-item
+					id="idAgregarRecompensaTablaBtn" 
+					onclick="agregarFilaRecompensa()">
+					Agregar a tabla
+				</x-btn-addRowTable-item>
 
-			<x-btn-delete-item 
-				id="idQuitarRecompensaTablaBtn" 
-				onclick="eliminarFilaTabla()">
-				Quitar
-			</x-btn-delete-item>
+				<x-btn-delete-item 
+					id="idQuitarRecompensaTablaBtn" 
+					onclick="eliminarFilaTabla()">
+					Quitar
+				</x-btn-delete-item>
+			</div>
 		</div>	
 
 		<!--Tabla de canjes-->
@@ -181,7 +183,7 @@
 			<div class="tblCanjesContainer">
 				<table class="ownTable" id="tblCanjes">
 					<thead>
-						<tr>
+						<gi>
 							<th class="celda-centered" id="celdaNumeroOrdenRecompensa">#</th>
 							<th class="celda-centered" id="celdaCodigoRecompensa">Código</th>
 							<th class="celda-centered" id="celdaTipoRecompensa">Tipo</th>

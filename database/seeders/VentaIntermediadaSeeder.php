@@ -20,7 +20,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'fechaHoraEmision_VentaIntermediada' => '2024-04-30 08:25:11',
                 'montoTotal_VentaIntermediada' => 74.5,
                 'puntosGanados_VentaIntermediada' => 75,
-                'estadoVentaIntermediada' => 'Redimido',
+                'estadoVentaIntermediada' => 'En espera',
             ],
             [
                 'idVentaIntermediada' => 'F001-00000073',
@@ -30,8 +30,8 @@ class VentaIntermediadaSeeder extends Seeder
                 'codigoCliente_VentaIntermediada' => '10703047951',
                 'nombreCliente_VentaIntermediada' => 'BERMUDEZ ROJAS MISHELL',
                 'fechaHoraEmision_VentaIntermediada' => '2024-05-30 08:25:11',
-                'montoTotal_VentaIntermediada' => 25,
-                'puntosGanados_VentaIntermediada' => 25,
+                'montoTotal_VentaIntermediada' => 300,
+                'puntosGanados_VentaIntermediada' => 300,
                 'estadoVentaIntermediada' => 'En espera',
             ],
             [
@@ -42,8 +42,8 @@ class VentaIntermediadaSeeder extends Seeder
                 'codigoCliente_VentaIntermediada' => '47982407',
                 'nombreCliente_VentaIntermediada' => 'VENTURA ALMONACID, NILTON',
                 'fechaHoraEmision_VentaIntermediada' => '2024-06-30 08:25:11',
-                'montoTotal_VentaIntermediada' => 120,
-                'puntosGanados_VentaIntermediada' => 120,
+                'montoTotal_VentaIntermediada' => 125,
+                'puntosGanados_VentaIntermediada' => 125,
                 'estadoVentaIntermediada' => 'Tiempo agotado',
             ],
             [
@@ -54,8 +54,8 @@ class VentaIntermediadaSeeder extends Seeder
                 'codigoCliente_VentaIntermediada' => '10456418771',
                 'nombreCliente_VentaIntermediada' => 'PEREZ VIDALON LUIS EDGAR',
                 'fechaHoraEmision_VentaIntermediada' => '2024-04-30 08:25:11',
-                'montoTotal_VentaIntermediada' => 74.5,
-                'puntosGanados_VentaIntermediada' => 75,
+                'montoTotal_VentaIntermediada' => 99.99,
+                'puntosGanados_VentaIntermediada' => 300,
                 'estadoVentaIntermediada' => 'Redimido',
             ],
             [
@@ -66,8 +66,8 @@ class VentaIntermediadaSeeder extends Seeder
                 'codigoCliente_VentaIntermediada' => '72385453',
                 'nombreCliente_VentaIntermediada' => 'OSORIO VILLAFUERTE, JOSE LUIS',
                 'fechaHoraEmision_VentaIntermediada' => '2024-05-30 08:25:11',
-                'montoTotal_VentaIntermediada' => 20,
-                'puntosGanados_VentaIntermediada' => 20,
+                'montoTotal_VentaIntermediada' => 300,
+                'puntosGanados_VentaIntermediada' => 300,
                 'estadoVentaIntermediada' => 'En espera',
             ],
             [
@@ -78,9 +78,9 @@ class VentaIntermediadaSeeder extends Seeder
                 'codigoCliente_VentaIntermediada' => '45404787',
                 'nombreCliente_VentaIntermediada' => 'BAQUERIZO QUISPE, ELIZABETH SILVIA',
                 'fechaHoraEmision_VentaIntermediada' => '2024-06-30 08:25:11',
-                'montoTotal_VentaIntermediada' => 120,
-                'puntosGanados_VentaIntermediada' => 120,
-                'estadoVentaIntermediada' => 'Tiempo agotado',
+                'montoTotal_VentaIntermediada' => 300,
+                'puntosGanados_VentaIntermediada' => 300,
+                'estadoVentaIntermediada' => 'En espera',
             ],
         ];
 
