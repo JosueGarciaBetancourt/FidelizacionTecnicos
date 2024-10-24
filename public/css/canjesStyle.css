@@ -6,7 +6,7 @@
 	display: flex;
 	flex-direction: column;
     width: 100%;
-	height: 100%;
+	height: auto;
 }
 
 h3 {
@@ -61,7 +61,7 @@ h3 {
 .fourthCanjesRow{
     display: flex;
 	flex-direction: row;
-    max-width: 60rem;
+    max-width: 63rem;
 	height: auto;
 	justify-content: space-between;
 	align-items: center;
@@ -74,13 +74,33 @@ h3 {
 .fithCanjesRow{
     display: flex;
 	flex-direction: row;
-    max-width: 100rem;
+    max-width: 65rem;
 	height: auto;
 	align-items: start;
 	margin-top: 1rem;
 	gap: 2rem;
 	padding-top: 1rem;
+}
+
+.btnCanjesSectionContainer {
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
+	margin-top: 1rem;
+}
+
+.sixthCanjesRow{
+    display: flex;
+	flex-direction: row;
+    max-width: 65rem;
+	height: auto;
+	align-items: center;
+	justify-content: end;
+	gap: 1rem;
+	margin-top: 1rem;
+	padding-top: 1rem;
 	padding-bottom: 1rem;
+	padding-right: 2rem;
 }
 
 .verticalPairGroup {
@@ -201,6 +221,10 @@ h3 {
 	font-size: 1rem;
 	color: black;
 	text-align: center;
+}
+
+.resumenContainer h4 {
+	line-height: 1.2rem;
 }
 
 .resumenContent {
@@ -371,4 +395,8 @@ h3 {
 
 #celdaPuntosTotalesRecompensa {
 	width: 6rem; /* 100.1px ≈ 6rem */
+}
+
+#btnGuardarCanje {
+	background-color: #4b8dab;
 }

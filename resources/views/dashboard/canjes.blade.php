@@ -220,20 +220,27 @@
 				<span id="tblCanjesMessageBelow">Aún no hay recompensas agregadas</span>
 			</div>
 
-			<div class="resumenContainer" id="idResumenContainer">
-				<h3>RESUMEN</h3>
-				<div class="resumenContent">
-					<h4>Puntos actuales</h4>
-					<label class="labelPuntosComprobante" id="labelPuntosComprobante">0</label>
-					<h4>Puntos a canjear</h4>
-					<label class="labelPuntosCanjeados" id="labelPuntosCanjeados">0</label>
-					<h4>Puntos restantes</h4>
-					<label class="labelPuntosRestantes" id="labelPuntosRestantes">0</label>
+			<div>
+				<div class="resumenContainer" id="idResumenContainer">
+					<h3>RESUMEN</h3>
+					<div class="resumenContent">
+						<h4>Puntos actuales</h4>
+						<label class="labelPuntosComprobante" id="labelPuntosComprobante">0</label>
+						<h4>Puntos a canjear</h4>
+						<label class="labelPuntosCanjeados" id="labelPuntosCanjeados">0</label>
+						<h4>Puntos restantes</h4>
+						<label class="labelPuntosRestantes" id="labelPuntosRestantes">0</label>
+					</div>
+				</div>
+				
+				<div class="btnCanjesSectionContainer"> 
+					<button type="button" class="btn btn-secondary" onclick="cleanAllCanjesSection('modalAgregarVenta')">Limpiar todo</button>
+					<button type="button" class="btn btn-primary" id="btnGuardarCanje" onclick="openModal('modalConfirmarCanje')">Guardar canje</button>
 				</div>
 			</div>
         </div>
 	</div>
-@endsection
+@endsection	
 
 @push('scripts')
 	<script src="{{ asset('js/canjes.js') }}"></script>

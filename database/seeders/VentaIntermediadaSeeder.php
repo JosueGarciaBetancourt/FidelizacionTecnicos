@@ -30,8 +30,8 @@ class VentaIntermediadaSeeder extends Seeder
                 'codigoCliente_VentaIntermediada' => '10703047951',
                 'nombreCliente_VentaIntermediada' => 'BERMUDEZ ROJAS MISHELL',
                 'fechaHoraEmision_VentaIntermediada' => '2024-05-30 08:25:11',
-                'montoTotal_VentaIntermediada' => 300,
-                'puntosGanados_VentaIntermediada' => 300,
+                'montoTotal_VentaIntermediada' => 450,
+                'puntosGanados_VentaIntermediada' => 450,
                 'estadoVentaIntermediada' => 'En espera',
             ],
             [
@@ -55,7 +55,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'nombreCliente_VentaIntermediada' => 'PEREZ VIDALON LUIS EDGAR',
                 'fechaHoraEmision_VentaIntermediada' => '2024-04-30 08:25:11',
                 'montoTotal_VentaIntermediada' => 99.99,
-                'puntosGanados_VentaIntermediada' => 300,
+                'puntosGanados_VentaIntermediada' => 450,
                 'estadoVentaIntermediada' => 'Redimido',
             ],
             [
@@ -66,8 +66,8 @@ class VentaIntermediadaSeeder extends Seeder
                 'codigoCliente_VentaIntermediada' => '72385453',
                 'nombreCliente_VentaIntermediada' => 'OSORIO VILLAFUERTE, JOSE LUIS',
                 'fechaHoraEmision_VentaIntermediada' => '2024-05-30 08:25:11',
-                'montoTotal_VentaIntermediada' => 300,
-                'puntosGanados_VentaIntermediada' => 300,
+                'montoTotal_VentaIntermediada' => 450,
+                'puntosGanados_VentaIntermediada' => 450,
                 'estadoVentaIntermediada' => 'En espera',
             ],
             [
@@ -78,8 +78,8 @@ class VentaIntermediadaSeeder extends Seeder
                 'codigoCliente_VentaIntermediada' => '45404787',
                 'nombreCliente_VentaIntermediada' => 'BAQUERIZO QUISPE, ELIZABETH SILVIA',
                 'fechaHoraEmision_VentaIntermediada' => '2024-06-30 08:25:11',
-                'montoTotal_VentaIntermediada' => 300,
-                'puntosGanados_VentaIntermediada' => 300,
+                'montoTotal_VentaIntermediada' => 450,
+                'puntosGanados_VentaIntermediada' => 450,
                 'estadoVentaIntermediada' => 'En espera',
             ],
         ];
