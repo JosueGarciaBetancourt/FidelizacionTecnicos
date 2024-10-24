@@ -5,6 +5,8 @@ let messageErrorTecnicoCanjesInput = document.getElementById('messageErrorTecnic
 let recompensaCanjesTooltip = document.getElementById('idRecompensaCanjesTooltip');
 let cantidadCanjesTooltip = document.getElementById('idCantidadCanjesTooltip');
 let numComprobanteCanjesTooltip = document.getElementById('idNumComprobanteCanjesTooltip');
+let celdaTotalPuntosTooltip = document.getElementById('idCeldaTotalPuntosTooltip');
+let isAnyComprobanteSelected = false;
 let resumenContainer = document.getElementById('idResumenContainer');
 let numComprobanteCanjesInput = document.getElementById('comprobanteCanjesInput');
 let puntosActualesCanjesInput = document.getElementById('puntosActualesCanjesInput');
@@ -32,6 +34,8 @@ let puntosRestantesResumen = document.getElementById('labelPuntosRestantes');
 let sumaPuntosTotalesTablaRecompensasCanjes = 0;
 let allCeldasSubtotalPuntos;
 
+let puntosTotalesExcedenPuntosGenerados = false;
+
 function getFormattedDate() {
     let today = new Date();
     let day = String(today.getDate()).padStart(2, '0'); // Obtener el día y añadir un 0 si es necesario
@@ -44,12 +48,6 @@ function getFormattedDate() {
 let date = getFormattedDate();
 let tecnicoFilledCorrectlySearchField = false;
 let recompensaFilledCorrectlySearchField = false;
-
-document.addEventListener("DOMContentLoaded", function() {
-    let fechaCanjeInput = document.getElementById('idFechaCanjeInput');
-    fechaCanjeInput.value = date;  // Asigna la fecha en formato YYYY-MM-DD
-    verificarFilasTablaCanjes(); // Llamar cuando se carga la página
-});
 
 function consoleLogJSONItems(items) {
     console.log(JSON.stringify(items, null, 2));
@@ -71,8 +69,8 @@ function getDiasTranscurridos(fechaEmision, fechaCargada) {
 
 function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
     if (tecnicoCanjesInput.value && tecnicoFilledCorrectlySearchField) {
-        resumenContainer.classList.add('shown');
         selectOption(value, idInput, idOptions); 
+        isAnyComprobanteSelected = true
 
         // Verificamos si `comprobantesFetch` contiene datos
         if (comprobantesFetch && comprobantesFetch.length > 0) {
@@ -96,7 +94,8 @@ function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
                 fechaCargadaCanjesInput.classList.remove("noEditable");
 
                 // Llenar los campos del cuadro Resumen
-                puntosComprobanteResumen.textContent = puntosGeneradosCanjesInput.value;
+                resumenContainer.classList.add('shown');
+                updateResumenBoard();
             } else {
                 console.error("No se encontró el comprobante con el ID:", value);
             }
@@ -349,6 +348,9 @@ document.getElementById('decrementButton').addEventListener('mouseleave', functi
 });*/
 
 document.addEventListener('DOMContentLoaded', function() {
+    let fechaCanjeInput = document.getElementById('idFechaCanjeInput');
+    fechaCanjeInput.value = date;  // Asigna la fecha en formato YYYY-MM-DD
+
     // Recuperar valores guardados y establecerlos en los inputs
     document.querySelectorAll('.persist-input').forEach(function(input) {
         //console.log(input.id);
@@ -370,7 +372,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Añadir event listener para guardar el valor cuando cambie
         input.addEventListener('input', function() {
             // Guardar el valor actual en localStorage
-            console.log("Guardando en local storage: ", input.id, " con valor: ", input.value)
+            //console.log("Guardando en local storage: ", input.id, " con valor: ", input.value)
             localStorage.setItem(input.id, input.value);
         });
     });
@@ -397,7 +399,7 @@ function clearPersistedInput(inputId) {
 function handleInputChange(mutationsList, observer) {
     mutationsList.forEach(function(mutation) {
         if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
-            console.log('El valor del input ha sido observado:', mutation.target.id, mutation.target.value);
+            //console.log('El valor del input ha sido observado:', mutation.target.id, mutation.target.value);
             // Aquí puedes manejar el cambio del valor
             localStorage.setItem(mutation.target.id, mutation.target.value);
         }
@@ -493,9 +495,11 @@ function agregarFilaRecompensa() {
             
             // Actualizar variable global
             sumaPuntosTotalesTablaRecompensasCanjes = sumaPuntosTotalesFilas;
+            puntosTotalesExcedenPuntosGenerados = false;
 
             // Actualizar celda de puntos totales en el footer de la tabla
             verificarFilasTablaCanjes();
+            console.log(puntosTotalesExcedenPuntosGenerados);
             return;
         } 
 
@@ -505,16 +509,19 @@ function agregarFilaRecompensa() {
         // Validar que la suma no exceda a la cantidad de puntos generados del comprobante
         validatePuntosExceeds(sumaPuntosTotalesFilas, puntosGenerados);
 
-        // Agregar la nueva recompensa a la tabla 
+        // Después de validar todo, agregar la nueva recompensa a la tabla 
         addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotalesRecompensaNueva);
         
-        // Actualizar variable global
+        // Actualizar variables globales
         sumaPuntosTotalesTablaRecompensasCanjes = sumaPuntosTotalesFilas;
-
+        puntosTotalesExcedenPuntosGenerados = false;
+        
         // Actualizar celda de puntos totales en el footer de la tabla
         verificarFilasTablaCanjes();
+        console.log(puntosTotalesExcedenPuntosGenerados);
     } catch (error) {
         console.error('Error al agregar la recompensa:', error.message);
+        console.log(puntosTotalesExcedenPuntosGenerados);
     }
 }
 
@@ -677,7 +684,7 @@ function toggleRowSelection(newRow) {
         // Seleccionamos la nueva fila
         newRow.classList.add('selectedCanjes');
         lastSelectedRow = newRow; // Actualizamos la fila seleccionada
-        console.log("Fila seleccionada de verdad: " + lastSelectedRow.rowIndex);
+        //console.log("Fila seleccionada de verdad: " + lastSelectedRow.rowIndex);
     }
 }
 
@@ -694,11 +701,40 @@ function eliminarFilaTabla() {
 }
 
 function updateResumenBoard() {
+    puntosComprobanteResumen.textContent = puntosGeneradosCanjesInput.value;
+
     if (sumaPuntosTotalesTablaRecompensasCanjes <= puntosGeneradosCanjesInput.value) {
         puntosCanjeadosResumen.textContent = sumaPuntosTotalesTablaRecompensasCanjes;
         puntosRestantesResumen.textContent = puntosGeneradosCanjesInput.value - sumaPuntosTotalesTablaRecompensasCanjes;
+        puntosTotalesExcedenPuntosGenerados = false;
     } else {
+        // El total de puntos de la tabla supera a los puntos generados del comprobante seleccionado
         puntosCanjeadosResumen.textContent = 0;
         puntosRestantesResumen.textContent = 0;
+
+        puntosTotalesExcedenPuntosGenerados = true;
+
+        // Mostrar mensaje al usuario
+        if (isAnyComprobanteSelected) {
+            celdaTotalPuntosTooltip = document.getElementById("idCeldaTotalPuntosTooltip");
+            const message  = `El total de puntos ( ${sumaPuntosTotalesTablaRecompensasCanjes}) excede a los puntos generados por el comprobante (${puntosGeneradosCanjesInput.value})` 
+            showHideTooltip(celdaTotalPuntosTooltip, message);
+        }
+    }
+
+    console.log(puntosTotalesExcedenPuntosGenerados);
+    /*
+    console.log("UPDATING RESUMEN BOARD");
+    console.log("Puntos generados: " + puntosGeneradosCanjesInput.value,
+                "Puntos totales tabla: " + sumaPuntosTotalesTablaRecompensasCanjes,
+                "Puntos restantes: " + puntosRestantesResumen.textContent)
+    */
+}
+
+function probandoGuardarCanje() {
+    if (puntosTotalesExcedenPuntosGenerados) {
+        console.error("LOS PUNTOS TOTALES DE LA TABLA NO DEBEN EXCEDER A LOS PUNTOS GENERADOS");
+    } else {
+        console.log("PROCESANDO CANNJE");
     }
 }

@@ -213,6 +213,9 @@
 					<tfoot class="hidden">
 						<tr>
 							<td colspan="6" class="celda-righted"><strong>Total</strong></td>
+							<div class="tooltip-container">
+								<span class="tooltip red" id="idCeldaTotalPuntosTooltip"></span>
+							</div>
 							<td class="celda-centered" id="celdaTotalPuntos">0</td>
 						</tr> 
 					</tfoot>
@@ -235,7 +238,7 @@
 				
 				<div class="btnCanjesSectionContainer"> 
 					<button type="button" class="btn btn-secondary" onclick="cleanAllCanjesSection('modalAgregarVenta')">Limpiar todo</button>
-					<button type="button" class="btn btn-primary" id="btnGuardarCanje" onclick="openModal('modalConfirmarCanje')">Guardar canje</button>
+					<button type="button" class="btn btn-primary" id="btnGuardarCanje" onclick="probandoGuardarCanje()">Guardar canje</button>
 				</div>
 			</div>
         </div>
