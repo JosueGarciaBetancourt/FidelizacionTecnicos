@@ -407,6 +407,20 @@ function handleInputChange(mutationsList, observer) {
 // Lógica de la tabla de recompensas agregadas en la sección CANJES
 function agregarFilaRecompensa() {
     try {
+        if (!tecnicoCanjesInput.value) {
+            tecnicoCanjesTooltip.classList.remove("green");
+            tecnicoCanjesTooltip.classList.add("red");
+            showHideTooltip(tecnicoCanjesTooltip, "Seleccione un Técnico primero");
+            throw new Error('Seleccione un Técnico primero');
+        }
+
+        if (!numComprobanteCanjesInput.value) {
+            numComprobanteCanjesTooltip.classList.remove("green");
+            numComprobanteCanjesTooltip.classList.add("red");
+            showHideTooltip(numComprobanteCanjesTooltip, "Seleccione un Número de comprobante primero");
+            throw new Error('Seleccione un Número de comprobante primero');
+        }
+
         if (!recompensasCanjesInput.value) {
             recompensaCanjesTooltip.classList.remove("green");
             recompensaCanjesTooltip.classList.add("red");
