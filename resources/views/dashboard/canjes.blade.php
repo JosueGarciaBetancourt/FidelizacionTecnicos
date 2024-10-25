@@ -237,7 +237,7 @@
 				</div>
 				
 				<div class="btnCanjesSectionContainer"> 
-					<button type="button" class="btn btn-secondary" onclick="cleanAllCanjesSection('modalAgregarVenta')">Limpiar tabla</button>
+					<button type="button" class="btn btn-secondary" onclick="cleanAllCanjesSection()">Limpiar tabla</button>
 					<button type="button" class="btn btn-primary" id="btnGuardarCanje" onclick="guardarCanje('formRegistrarCanje')">Guardar canje</button>
 				</div>
 			</div>

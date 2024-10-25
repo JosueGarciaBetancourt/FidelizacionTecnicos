@@ -11,7 +11,7 @@
                 <h5 class="modal-title confirm">Confirmar acción</h5>
             </div>
             <div class="modal-body confirm">
-				<i class="fa-solid fa-circle-check"></i>
+				<i class="fa-solid fa-triangle-exclamation"></i>
                 <p>{{ $messageToConfirm }}</p>
             </div>
             <div class="modal-footer confirm">

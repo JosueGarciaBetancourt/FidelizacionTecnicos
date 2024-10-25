@@ -104,9 +104,11 @@ function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
         return;
     }
 
+    /*isAnyComprobanteSelected = false;
+
     fechaEmisionCanjesInput.classList.add("noEditable");
     fechaCargadaCanjesInput.classList.add("noEditable");
-    resumenContainer.classList.remove('shown');
+    resumenContainer.classList.remove('shown');*/
 }
 
 function toggleNumComprobanteCanjesOptions(idInput, idOptions) {
@@ -405,9 +407,12 @@ function handleInputChange(mutationsList, observer) {
     });
 }
 
-// Lógica de la tabla de recompensas agregadas en la sección CANJES
+// Lógica de la tabla de recompensas agregadas en la sección CANJES llamada desde el botón en canjes.blade.php
 function agregarFilaRecompensa() {
     try {
+
+        isAnyComprobanteSelected = false;
+        
         if (!tecnicoCanjesInput.value) {
             tecnicoCanjesTooltip.classList.remove("green");
             tecnicoCanjesTooltip.classList.add("red");
@@ -530,6 +535,7 @@ function verificarFilasTablaCanjes() {
         tblCanjesMessageBelow.classList.remove('hidden');  
         tableCanjesFooter.classList.add("hidden");
         //console.error("No hay filas en el tbody de la tabla de recompensas (Canjes section)");
+        updateResumenBoard();
         return false;
     } 
 
@@ -695,7 +701,6 @@ function eliminarFilaTabla() {
         // Actualizar celda de puntos totales en el footer de la tabla
         sumaPuntosTotalesTablaRecompensasCanjes = getSumaTotalPuntosTblRecompensasCanjes();
         verificarFilasTablaCanjes();
-        updateResumenBoard();
     }
 }
 
@@ -730,17 +735,18 @@ function updateResumenBoard() {
     */
 }
 
-function validarCamposVaciosCanjesSection() {
-    if (!verificarFilasTablaCanjes()) {
-        return false;
+function cleanAllCanjesSection() {
+    console.log("Limpiadon la tabla de recompensas en Canjes section");
+    while (tableCanjesBody.firstChild) {
+        tableCanjesBody.removeChild(tableCanjesBody.firstChild);
     }
 
-    return true;
+    verificarFilasTablaCanjes();
 }
 
 function guardarCanje(idForm) {
     // Validación de campos que se enviarán al formulario
-    if (puntosTotalesExcedenPuntosGenerados || !validarCamposVaciosCanjesSection()) {
+    if (puntosTotalesExcedenPuntosGenerados || !verificarFilasTablaCanjes()) {
         console.error("Error al guardar canje: RELLENA BIEN TODO");
         return;
     }  
@@ -748,12 +754,14 @@ function guardarCanje(idForm) {
     // Mostrar el modal y esperar la respuesta del usuario
     openConfirmModal('modalConfirmActionGuardarCanje').then((answer) => {
         if (answer) {
+            // Respuesta afirmativa
             console.log("PROCESANDO CANJE");
-            // Aquí va la lógica para procesar el canje
+
             //document.getElementById(idForm).submit();
             return;
         }
         
+        // Respuesta negativa
         console.log("NO QUISISTE CANJEAR");
     });
 }

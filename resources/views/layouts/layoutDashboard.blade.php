@@ -2,10 +2,11 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/dashboardStyle.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/datatables.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tooltip.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/modals.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/datatables.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalSuccess.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalConfirm.css') }}">
     <link rel="stylesheet" href="{{ asset('css/configuracionStyle.css') }}">
     @stack('styles')
 @endpush
