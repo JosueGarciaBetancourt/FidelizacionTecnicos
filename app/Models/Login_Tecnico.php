@@ -19,4 +19,9 @@ class Login_Tecnico extends Model
         'idTecnico',
         'password',
     ];
+
+    public function Tecnico()
+    {
+        return $this->belongsTo(Tecnico::class, 'idTecnico', 'idTecnico');
+    }
 }

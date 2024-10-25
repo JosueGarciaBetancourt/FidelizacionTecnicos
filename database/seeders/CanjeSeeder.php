@@ -63,7 +63,6 @@ class CanjeSeeder extends Seeder
 
         foreach ($canjes as $canje) {
             $canje['idCanje'] = $canjeController->generarIdCanje();
-            $canje['rutaPDF_Canje'] = $canjeController->generarRutaPDFCanje();
             Canje::create($canje);
         }
     }

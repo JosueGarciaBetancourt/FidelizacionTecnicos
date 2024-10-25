@@ -32,7 +32,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Canjes
     // Registrar 
     Route::get('/dashboard-registrarCanje', [CanjeController::class, 'create'])->name('canjes.create');  
-    Route::get('/dashboard-registrarCanje-storeCanje', [CanjeController::class, 'store'])->name('canjes.store');  
+    Route::post('/dashboard-registrarCanje-storeCanje', [CanjeController::class, 'store'])->name('canjes.store');  
     // Ver historial 
     Route::get('/dashboard-historial-canje', [CanjeController::class, 'create'])->name('canjes.historial');  
     // Ver solicitudes (app móvil) 

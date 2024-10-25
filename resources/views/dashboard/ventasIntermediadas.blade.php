@@ -47,7 +47,7 @@
                         <th class="celda-centered">Puntos Generados</th>
                         <th>Técnico</th>
                         <th class="celda-centered">Fecha y Hora Redimida</th>
-                        <th class="celda-centered">Puntos restantes</th>
+                        <th class="celda-centered">Días hasta hoy</th>
                         <th class="celda-centered">Estado</th> 
                     </tr>
                 </thead>
@@ -74,7 +74,7 @@
                             <small>DNI: {{ $venta->idTecnico }}</small>
                         </td>
                         <td class="celda-centered">{{ $venta->fechaHoraCanje }}</td>
-                        <td class="celda-centered">{{ $venta->puntosRestantes}}</td>
+                        <td class="celda-centered">{{ $venta->diasTranscurridos}}</td>
                         <td class="estado__celda">
                             <span class="estado__span-{{strtolower(str_replace(' ', '-', $venta->estadoVentaIntermediada))}}">
                                 {{ $venta->estadoVentaIntermediada }}

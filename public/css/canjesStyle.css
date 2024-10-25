@@ -204,6 +204,7 @@ h3 {
 	max-height: 2rem;
 }
 
+/* Estilo del cuadro resumen*/
 .resumenContainer {
     padding: 20px;
     border: 1px solid #ccc;
@@ -242,12 +243,21 @@ h3 {
     margin: 0;
 }
 
-.resumenContent .labelPuntosComprobante, 
-.resumenContent .labelPuntosCanjeados, 
-.resumenContent .labelPuntosRestantes {
+.resumenContent .labelPuntosComprobante {
     font-size: 16px;
     font-weight: bold;
     text-align: right;
+}
+
+.resumenContainer #inputPuntosCanjeados_Canje_Hidden,
+.resumenContainer #inputPuntosRestantes_Canje_Hidden {
+	font-size: 16px;
+    font-weight: bold;
+    text-align: right;
+	justify-self: flex-end;
+	background: none;
+	outline: none;
+	width: 3rem;
 }
 
 /* ================== Estilo General de la Tabla ================== */

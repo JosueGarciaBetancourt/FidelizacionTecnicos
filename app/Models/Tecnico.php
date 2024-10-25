@@ -32,4 +32,8 @@ class Tecnico extends Model
     public function ventasIntermediadas() {
         return $this->hasMany(VentaIntermediada::class, 'idTecnico', 'idTecnico');
     }
+
+    public function LoginTecnico() {
+        return $this->hasOne(Login_Tecnico::class, 'idTecnico', 'idTecnico');
+    }
 }

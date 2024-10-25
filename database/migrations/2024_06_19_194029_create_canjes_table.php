@@ -17,7 +17,8 @@ return new class extends Migration
             $table->integer('puntosComprobante_Canje')->unsigned();
             $table->integer('puntosCanjeados_Canje')->unsigned();
             $table->integer('puntosRestantes_Canje')->unsigned(); 
-            $table->string('rutaPDF_Canje')->nullable(); //public/detallesCanje/CANJ-00001.pdf
+            //$table->json('[(idRecompensa1, cantidad1), (idRecompensa2, cantidad2)...]')->nullable();
+
             $table->unsignedBigInteger('idUser');
            
             $table->foreign('idVentaIntermediada')->references('idVentaIntermediada')->on('VentasIntermediadas');

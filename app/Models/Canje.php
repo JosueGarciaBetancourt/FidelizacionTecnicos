@@ -19,13 +19,13 @@ class Canje extends Model
 
     protected $fillable = [
         'idCanje',
-        'idRecompensa',
         'idVentaIntermediada',
+        'fechaHoraEmision_VentaIntermediada',
         'fechaHora_Canje',
-        'cantidadRecompensa_Canje',
-        'totalPuntosCanjeados_Canje',
         'diasTranscurridos_Canje',
-        'rutaPDF_Canje',
+        'puntosComprobante_Canje',
+        'puntosCanjeados_Canje',
+        'puntosRestantes_Canje',
         'idUser',
     ];
 

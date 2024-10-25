@@ -9,6 +9,7 @@ use App\Models\VentaIntermediada;
 use App\Models\Canje;
 use App\Models\Tecnico;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class VentaIntermediadaController extends Controller
 {
@@ -118,6 +119,9 @@ class VentaIntermediadaController extends Controller
             $fechaMasReciente = $ultimoCanje ? $ultimoCanje->fechaHora_Canje : 'Sin fecha';
             $puntosRestantes = $ultimoCanje ? $ultimoCanje->puntosRestantes_Canje : $venta->puntosGanados_VentaIntermediada;
 
+            // Calcular dos días transcurridos desde la fecha de emisión del comprobante hasta la fecha de hoy
+            $diasTranscurridos = $this->returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
+            
             // Crear un objeto para retorno
             $ventaObj = new \stdClass();
             $ventaObj->idVentaIntermediada = $idLimpio;
@@ -133,6 +137,7 @@ class VentaIntermediadaController extends Controller
             $ventaObj->puntosGanados_VentaIntermediada = $venta->puntosGanados_VentaIntermediada;
             $ventaObj->estadoVentaIntermediada = $venta->estadoVentaIntermediada;
             $ventaObj->puntosRestantes = $puntosRestantes;
+            $ventaObj->diasTranscurridos = $diasTranscurridos;
             $ventaObj->fechaHoraCanje = $fechaMasReciente;
 
             return $ventaObj;

@@ -11,10 +11,8 @@ return new class extends Migration
         Schema::create('login_tecnicos', function (Blueprint $table) {
             $table->string('idTecnico', 8)->primary(); // Cambiado a 'idTecnico' para consistencia
             $table->string('password');
-            $table->foreign('idTecnico')  // Relacionando correctamente 'idTecnico' con la tabla 'Tecnicos'
-                  ->references('idTecnico')
-                  ->on('Tecnicos')
-                  ->onDelete('cascade');
+            $table->foreign('idTecnico')->references('idTecnico')->on('Tecnicos')->onDelete('cascade');
+
             $table->boolean('isFirstLogin')->default(0); // columna para verificar si el usuario logeo alguna vez
             $table->rememberToken();
             $table->timestamps();

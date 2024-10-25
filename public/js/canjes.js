@@ -29,8 +29,8 @@ let lastNumFilaSeleccionada = null;
 let listaFilasSeleccionadas = [];
 let lastSelectedRow = null;
 let puntosComprobanteResumen = document.getElementById('labelPuntosComprobante');
-let puntosCanjeadosResumen = document.getElementById('labelPuntosCanjeados');
-let puntosRestantesResumen = document.getElementById('labelPuntosRestantes');
+let puntosCanjeadosResumen = document.getElementById('inputPuntosCanjeados_Canje_Hidden');
+let puntosRestantesResumen = document.getElementById('inputPuntosRestantes_Canje_Hidden');
 let sumaPuntosTotalesTablaRecompensasCanjes = 0;
 let allCeldasSubtotalPuntos;
 let puntosTotalesExcedenPuntosGenerados = true;
@@ -85,15 +85,16 @@ function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
                     comprobanteSeleccionado.tipoCodigoCliente_VentaIntermediada +  ": " + 
                     comprobanteSeleccionado.codigoCliente_VentaIntermediada) || '';
                 fechaEmisionCanjesInput.value = comprobanteSeleccionado.fechaHoraEmision_VentaIntermediada ? comprobanteSeleccionado.fechaHoraEmision_VentaIntermediada.split(' ')[0] : ''; // Solo la fecha
-                fechaCargadaCanjesInput.value = comprobanteSeleccionado.fechaHoraCargada_VentaIntermediada ? comprobanteSeleccionado.fechaHoraCargada_VentaIntermediada.split(' ')[0] : ''; // Solo la fecha
+                //fechaCargadaCanjesInput.value = comprobanteSeleccionado.fechaHoraCargada_VentaIntermediada ? comprobanteSeleccionado.fechaHoraCargada_VentaIntermediada.split(' ')[0] : ''; // Solo la fecha
 
-                diasTranscurridosInput.value = getDiasTranscurridos(fechaEmisionCanjesInput.value , fechaCargadaCanjesInput.value);
+                diasTranscurridosInput.value = getDiasTranscurridos(fechaEmisionCanjesInput.value , fechaCanjeInput.value);
 
                 fechaEmisionCanjesInput.classList.remove("noEditable");
-                fechaCargadaCanjesInput.classList.remove("noEditable");
+                //fechaCargadaCanjesInput.classList.remove("noEditable");
 
                 // Llenar los campos del cuadro Resumen
                 resumenContainer.classList.add('shown');
+                console.log("mostrando cuadro resumen");
                 updateResumenBoard();
             } else {
                 console.error("No se encontró el comprobante con el ID:", value);
@@ -348,8 +349,10 @@ document.getElementById('decrementButton').addEventListener('mouseleave', functi
     clearInterval(decrementInterval);
 });*/
 
+let fechaCanjeInput;
+
 document.addEventListener('DOMContentLoaded', function() {
-    let fechaCanjeInput = document.getElementById('idFechaCanjeInput');
+    fechaCanjeInput = document.getElementById('idFechaCanjeInput');
     fechaCanjeInput.value = date;  // Asigna la fecha en formato YYYY-MM-DD
 
     // Recuperar valores guardados y establecerlos en los inputs
@@ -708,13 +711,13 @@ function updateResumenBoard() {
     puntosComprobanteResumen.textContent = puntosGeneradosCanjesInput.value;
 
     if (sumaPuntosTotalesTablaRecompensasCanjes <= puntosGeneradosCanjesInput.value) {
-        puntosCanjeadosResumen.textContent = sumaPuntosTotalesTablaRecompensasCanjes;
-        puntosRestantesResumen.textContent = puntosGeneradosCanjesInput.value - sumaPuntosTotalesTablaRecompensasCanjes;
+        puntosCanjeadosResumen.value = sumaPuntosTotalesTablaRecompensasCanjes;
+        puntosRestantesResumen.value = puntosGeneradosCanjesInput.value - sumaPuntosTotalesTablaRecompensasCanjes;
         puntosTotalesExcedenPuntosGenerados = false;
     } else {
         // El total de puntos de la tabla supera a los puntos generados del comprobante seleccionado
-        puntosCanjeadosResumen.textContent = 0;
-        puntosRestantesResumen.textContent = 0;
+        puntosCanjeadosResumen.value = 0;
+        puntosRestantesResumen.value = 0;
 
         puntosTotalesExcedenPuntosGenerados = true;
 
@@ -756,8 +759,7 @@ function guardarCanje(idForm) {
         if (answer) {
             // Respuesta afirmativa
             console.log("PROCESANDO CANJE");
-
-            //document.getElementById(idForm).submit();
+            document.getElementById(idForm).submit();
             return;
         }
         

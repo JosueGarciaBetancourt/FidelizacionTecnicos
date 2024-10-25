@@ -7,6 +7,9 @@ use App\Models\Canje;
 use App\Models\Recompensa;
 use App\Models\Tecnico;
 use App\Models\VentaIntermediada;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CanjeController extends Controller
 {
@@ -25,17 +28,6 @@ class CanjeController extends Controller
         $nuevoIdCanje = 'CANJ-' . str_pad($nuevoNumero, 5, '0', STR_PAD_LEFT);
 
         return $nuevoIdCanje;
-    }
-
-    public function generarRutaPDFCanje()
-    {
-        // Reutilizar la lógica de generar el ID de canje
-        $nuevoIdCanje = $this->generarIdCanje();
-
-        // Generar la ruta del PDF utilizando el ID de canje generado
-        $rutaPDFCanje = "public/PDFCanjes/{$nuevoIdCanje}.pdf";
-
-        return $rutaPDFCanje;
     }
 
     public function create()
@@ -61,7 +53,77 @@ class CanjeController extends Controller
     }
 
     public function store(Request $request) {
-        $nuevoIdCanje = $this->generarIdCanje();
-        dd("nuevoIdCanje: " . $nuevoIdCanje, $request);
+        try {
+            // Comenzar una transacción
+            DB::beginTransaction();
+            
+            //dd($request->all());
+
+            // Validar los datos de entrada
+            $validatedData = $request->validate([
+                'idVentaIntermediada' => 'required|exists:VentasIntermediadas,idVentaIntermediada',
+                'puntosComprobante_Canje' => 'required|numeric|min:0',
+                'puntosCanjeados_Canje' => 'required|numeric|min:0',
+                'puntosRestantes_Canje' => 'required|numeric|min:0',
+            ]);
+
+            $idCanje = $this->generarIdCanje();
+            // Obtener el objeto VentaIntermediada completo
+            $venta = VentaIntermediada::findOrFail($validatedData['idVentaIntermediada']);
+            $fechaHoraEmision = $venta->fechaHoraEmision_VentaIntermediada;
+            // Calcular los días transcurridos
+            $diasTranscurridos = $this->returnDiasTranscurridosHastaHoy($fechaHoraEmision);
+            $idUser = Auth::id(); // Obtiene el id del usuario autenticado
+
+            /*  ===========================MIGRACIÓN DE LA TABLA CANJES===========================
+                $table->string('idCanje', 10); //CANJ-00001 (se genera automáticamente)
+                $table->string('idVentaIntermediada', 13);
+                $table->dateTime('fechaHoraEmision_VentaIntermediada');
+                $table->dateTime('fechaHora_Canje')->useCurrent();
+                $table->integer('diasTranscurridos_Canje')->unsigned(); 
+                $table->integer('puntosComprobante_Canje')->unsigned();
+                $table->integer('puntosCanjeados_Canje')->unsigned();
+                $table->integer('puntosRestantes_Canje')->unsigned(); 
+                $table->string('[(idRecompensa, cantidad), ]')->nullable();
+                $table->unsignedBigInteger('idUser');
+            */
+
+            // Crear el nuevo canje
+            $canje = Canje::create([
+                'idCanje' => $idCanje,
+                'idVentaIntermediada' => $validatedData['idVentaIntermediada'],
+                'fechaHoraEmision_VentaIntermediada' => $fechaHoraEmision,
+                'diasTranscurridos_Canje' => $diasTranscurridos,
+                'puntosComprobante_Canje' => $validatedData['puntosComprobante_Canje'],
+                'puntosCanjeados_Canje' => $validatedData['puntosCanjeados_Canje'],
+                'puntosRestantes_Canje' => $validatedData['puntosRestantes_Canje'],
+                'idUser' => $idUser,
+            ]);
+
+            //dd($canje);
+
+            // Actualizar los campos en la venta intermediada
+            $venta->update([
+                'puntosActuales_VentaIntermediada' => $validatedData['puntosRestantes_Canje'],
+                'estadoVentaIntermediada' => "Redimido",
+            ]);
+
+            // Si todo sale bien, confirmar la transacción
+            DB::commit();
+
+            // Redirigir con éxito
+            return redirect()->route('canjes.create')->with('successCanjeStore', 'Canje guardado correctamente.');
+
+        } catch (ValidationException $e) {
+            // Revertir la transacción si ocurre un error de validación
+            DB::rollBack();
+            dd($e);
+            return back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            // Revertir la transacción si ocurre cualquier otra excepción
+            DB::rollBack();
+            dd($e);
+            return back()->withErrors(['error' => 'Error al procesar el dosaje o la predicción: ' . $e->getMessage()])->withInput();
+        }
     }
 }

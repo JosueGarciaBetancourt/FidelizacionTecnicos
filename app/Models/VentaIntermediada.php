@@ -29,6 +29,7 @@ class VentaIntermediada extends Model
         'fechaHoraCargada_VentaIntermediada',
         'montoTotal_VentaIntermediada',
         'puntosGanados_VentaIntermediada',
+        'puntosActuales_VentaIntermediada',
         'estadoVentaIntermediada',
     ];
 
