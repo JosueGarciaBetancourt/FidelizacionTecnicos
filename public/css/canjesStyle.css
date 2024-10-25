@@ -398,5 +398,10 @@ h3 {
 }
 
 #btnGuardarCanje {
-	background-color: #4b8dab;
+	background-color: #066344;
 }
+
+#btnGuardarCanje:hover {
+	background-color: #18ad5b;
+}
+

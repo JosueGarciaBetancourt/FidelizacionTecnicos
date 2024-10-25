@@ -22,8 +22,10 @@ return new class extends Migration
             $table->dateTime('fechaHoraCargada_VentaIntermediada')->useCurrent();
             $table->double('montoTotal_VentaIntermediada')->unsigned(); //200.50 xml
             $table->integer('puntosGanados_VentaIntermediada')->unsigned(); //201 (redondear el monto total del xml)
+            $table->integer('puntosActuales_VentaIntermediada')->unsigned(); //201 (redondear el monto total del xml)
             $table->string('estadoVentaIntermediada', 14)->default('En espera'); //Tiempo Agotado, Redimido, En espera
             $table->timestamps(); //created_at updated_at
+            $table->softDeletes(); //deleted_at
         });
     }
 

@@ -33,8 +33,7 @@ let puntosCanjeadosResumen = document.getElementById('labelPuntosCanjeados');
 let puntosRestantesResumen = document.getElementById('labelPuntosRestantes');
 let sumaPuntosTotalesTablaRecompensasCanjes = 0;
 let allCeldasSubtotalPuntos;
-
-let puntosTotalesExcedenPuntosGenerados = false;
+let puntosTotalesExcedenPuntosGenerados = true;
 
 function getFormattedDate() {
     let today = new Date();
@@ -731,10 +730,31 @@ function updateResumenBoard() {
     */
 }
 
-function probandoGuardarCanje() {
-    if (puntosTotalesExcedenPuntosGenerados) {
-        console.error("LOS PUNTOS TOTALES DE LA TABLA NO DEBEN EXCEDER A LOS PUNTOS GENERADOS");
-    } else {
-        console.log("PROCESANDO CANNJE");
+function validarCamposVaciosCanjesSection() {
+    if (!verificarFilasTablaCanjes()) {
+        return false;
     }
+
+    return true;
 }
+
+function guardarCanje(idForm) {
+    // Validación de campos que se enviarán al formulario
+    if (puntosTotalesExcedenPuntosGenerados || !validarCamposVaciosCanjesSection()) {
+        console.error("Error al guardar canje: RELLENA BIEN TODO");
+        return;
+    }  
+    
+    // Mostrar el modal y esperar la respuesta del usuario
+    openConfirmModal('modalConfirmActionGuardarCanje').then((answer) => {
+        if (answer) {
+            console.log("PROCESANDO CANJE");
+            // Aquí va la lógica para procesar el canje
+            //document.getElementById(idForm).submit();
+            return;
+        }
+        
+        console.log("NO QUISISTE CANJEAR");
+    });
+}
+

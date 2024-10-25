@@ -59,4 +59,9 @@ class CanjeController extends Controller
         return view('dashboard.canjes', compact('tecnicos', 'ventas', 'optionsNumComprobante', 
                                                 'RecompensasWithoutEfectivo', 'recomEfectivo'));
     }
+
+    public function store(Request $request) {
+        $nuevoIdCanje = $this->generarIdCanje();
+        dd("nuevoIdCanje: " . $nuevoIdCanje, $request);
+    }
 }

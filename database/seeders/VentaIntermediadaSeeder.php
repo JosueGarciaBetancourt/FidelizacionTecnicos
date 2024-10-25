@@ -20,7 +20,8 @@ class VentaIntermediadaSeeder extends Seeder
                 'fechaHoraEmision_VentaIntermediada' => '2024-04-30 08:25:11',
                 'montoTotal_VentaIntermediada' => 74.5,
                 'puntosGanados_VentaIntermediada' => 75,
-                'estadoVentaIntermediada' => 'En espera',
+                'puntosActuales_VentaIntermediada'=> 0,
+                'estadoVentaIntermediada' => 'Redimido',
             ],
             [
                 'idVentaIntermediada' => 'F001-00000073',
@@ -32,6 +33,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'fechaHoraEmision_VentaIntermediada' => '2024-05-30 08:25:11',
                 'montoTotal_VentaIntermediada' => 400,
                 'puntosGanados_VentaIntermediada' => 400,
+                'puntosActuales_VentaIntermediada'=> 400,
                 'estadoVentaIntermediada' => 'En espera',
             ],
             [
@@ -44,6 +46,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'fechaHoraEmision_VentaIntermediada' => '2024-06-30 08:25:11',
                 'montoTotal_VentaIntermediada' => 125,
                 'puntosGanados_VentaIntermediada' => 125,
+                'puntosActuales_VentaIntermediada'=> 125,
                 'estadoVentaIntermediada' => 'Tiempo agotado',
             ],
             [
@@ -53,10 +56,12 @@ class VentaIntermediadaSeeder extends Seeder
                 'tipoCodigoCliente_VentaIntermediada' => 'RUC',
                 'codigoCliente_VentaIntermediada' => '10456418771',
                 'nombreCliente_VentaIntermediada' => 'PEREZ VIDALON LUIS EDGAR',
-                'fechaHoraEmision_VentaIntermediada' => '2024-04-30 08:25:11',
+                'fechaHoraEmision_VentaIntermediada' => '2024-10-10 10:00:00',
+                'fechaHoraCargada_VentaIntermediada' => '2024-10-25 10:00:00', 
                 'montoTotal_VentaIntermediada' => 99.99,
-                'puntosGanados_VentaIntermediada' => 450,
-                'estadoVentaIntermediada' => 'Redimido',
+                'puntosGanados_VentaIntermediada' => 100,
+                'puntosActuales_VentaIntermediada' => 100,
+                'estadoVentaIntermediada' => 'En espera',
             ],
             [
                 'idVentaIntermediada' => 'F001-00000076',
@@ -68,19 +73,23 @@ class VentaIntermediadaSeeder extends Seeder
                 'fechaHoraEmision_VentaIntermediada' => '2024-05-30 08:25:11',
                 'montoTotal_VentaIntermediada' => 450,
                 'puntosGanados_VentaIntermediada' => 450,
+                'puntosActuales_VentaIntermediada' => 450,
                 'estadoVentaIntermediada' => 'En espera',
             ],
             [
+                // Está venta intermediada ha sido canjeada en dos partes (más detalle en CanjeSeeder.php)
                 'idVentaIntermediada' => 'F001-00000077',
                 'idTecnico' => '77665544',
                 'nombreTecnico' => 'Manuel Carrasco',
                 'tipoCodigoCliente_VentaIntermediada' => 'DNI',
                 'codigoCliente_VentaIntermediada' => '45404787',
                 'nombreCliente_VentaIntermediada' => 'BAQUERIZO QUISPE, ELIZABETH SILVIA',
-                'fechaHoraEmision_VentaIntermediada' => '2024-06-30 08:25:11',
+                'fechaHoraEmision_VentaIntermediada' => '2024-10-20 10:00:00',
+                'fechaHoraCargada_VentaIntermediada' => '2024-10-25 10:00:00',
                 'montoTotal_VentaIntermediada' => 450,
                 'puntosGanados_VentaIntermediada' => 450,
-                'estadoVentaIntermediada' => 'En espera',
+                'puntosActuales_VentaIntermediada' => 0,
+                'estadoVentaIntermediada' => 'Redimido',
             ],
         ];
 

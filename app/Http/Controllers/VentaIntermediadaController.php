@@ -46,7 +46,7 @@ class VentaIntermediadaController extends Controller
         return $tipoComprobante;
     }
 
-    public function create()
+    /*public function create()
     {
         // Obtener todas las ventas intermediadas con sus canjes y cargar los modelos relacionados
         $ventasIntermediadas = VentaIntermediada::with('canjes')->get();
@@ -67,11 +67,12 @@ class VentaIntermediadaController extends Controller
             // Obtener la fecha más reciente de todas las fechas de canje
             $fechaMasReciente = !empty($fechasCanjes) ? max($fechasCanjes) : 'Sin fecha';
         
-            // Sumar 'totalPuntosCanjeados_Canje' para cada venta intermediada
-            $totalPuntosCanjeados = $venta->canjes->sum('totalPuntosCanjeados_Canje');
-        
-            // Calcular puntos restantes
-            $puntosRestantes = $venta->puntosGanados_VentaIntermediada - $totalPuntosCanjeados;
+            // Obtener 'puntosRestantes_Canje' del último canje y si no existe asignar puntos ganados
+            $puntosRestantes = $venta->canjes->pluck('puntosRestantes_Canje');
+
+            if (!$puntosRestantes) {
+                $puntosRestantes = $venta->puntosGanados_VentaIntermediada;
+            }
         
             // Crear un objeto para retorno
             $ventaObj = new \stdClass();
@@ -87,13 +88,58 @@ class VentaIntermediadaController extends Controller
             $ventaObj->montoTotal_VentaIntermediada = $venta->montoTotal_VentaIntermediada;
             $ventaObj->puntosGanados_VentaIntermediada = $venta->puntosGanados_VentaIntermediada;
             $ventaObj->estadoVentaIntermediada = $venta->estadoVentaIntermediada;
-            $ventaObj->totalPuntosCanjeados = $totalPuntosCanjeados;
             $ventaObj->puntosRestantes = $puntosRestantes;
             $ventaObj->fechaHoraCanje = $fechaMasReciente;
         
             return $ventaObj;
         });
         
+        $tecnicos = Tecnico::all();
+        return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos'));
+    }*/
+
+    public function create()
+    {
+        // Obtener todas las ventas intermediadas con sus canjes y cargar los modelos relacionados
+        $ventasIntermediadas = VentaIntermediada::with('canjes')->get();
+
+        $ventas = $ventasIntermediadas->map(function ($venta) {
+
+            // Limpiar id
+            $idLimpio = $this->limpiarIDs($venta->idVentaIntermediada);
+
+            // Obtener tipo de comprobante
+            $tipoComprobante = $this->detectarTipoComprobante($venta->idVentaIntermediada);
+
+            // Obtener el último canje basado en la fecha más reciente
+            $ultimoCanje = $venta->canjes->sortByDesc('fechaHora_Canje')->first();
+
+            // Si existe un canje, usa sus valores, si no, usa puntos ganados y asigna 'Sin fecha'
+            $fechaMasReciente = $ultimoCanje ? $ultimoCanje->fechaHora_Canje : 'Sin fecha';
+            $puntosRestantes = $ultimoCanje ? $ultimoCanje->puntosRestantes_Canje : $venta->puntosGanados_VentaIntermediada;
+
+            // Crear un objeto para retorno
+            $ventaObj = new \stdClass();
+            $ventaObj->idVentaIntermediada = $idLimpio;
+            $ventaObj->tipoComprobante = $tipoComprobante;
+            $ventaObj->idTecnico = $venta->idTecnico;
+            $ventaObj->nombreTecnico = $venta->nombreTecnico;
+            $ventaObj->tipoCodigoCliente_VentaIntermediada = $venta->tipoCodigoCliente_VentaIntermediada;
+            $ventaObj->codigoCliente_VentaIntermediada = $venta->codigoCliente_VentaIntermediada;
+            $ventaObj->nombreCliente_VentaIntermediada = $venta->nombreCliente_VentaIntermediada;
+            $ventaObj->fechaHoraEmision_VentaIntermediada = $venta->fechaHoraEmision_VentaIntermediada;
+            $ventaObj->fechaHoraCargada_VentaIntermediada = $venta->fechaHoraCargada_VentaIntermediada;
+            $ventaObj->montoTotal_VentaIntermediada = $venta->montoTotal_VentaIntermediada;
+            $ventaObj->puntosGanados_VentaIntermediada = $venta->puntosGanados_VentaIntermediada;
+            $ventaObj->estadoVentaIntermediada = $venta->estadoVentaIntermediada;
+            $ventaObj->puntosRestantes = $puntosRestantes;
+            $ventaObj->fechaHoraCanje = $fechaMasReciente;
+
+            return $ventaObj;
+        });
+
+        //dd($ventas);
+
         $tecnicos = Tecnico::all();
         return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos'));
     }

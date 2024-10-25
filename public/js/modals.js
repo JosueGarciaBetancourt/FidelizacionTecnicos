@@ -22,6 +22,23 @@ function openModal(modalId, origin=null) {
     }
 }
 
+function openConfirmModal(modalId) {
+    console.log("Abriendo modal de confirmación con id: ", modalId);
+    return new Promise((resolve) => {
+        openModal(modalId);
+        // Registrar eventos de confirmación
+        window.yesConfirmAction = function () {
+            closeModal(modalId);
+            resolve(true); // Resuelve la promesa como true
+        };
+
+        window.noConfirmAction = function () {
+            closeModal(modalId);
+            resolve(false); // Resuelve la promesa como false
+        };
+    });
+}
+
 function closeModal(modalId) {
     var modal = document.getElementById(modalId);
     if (modal) {

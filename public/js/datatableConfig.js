@@ -3,7 +3,7 @@ $(document).ready(function() {
 
 		// Configuración inicial
 		lengthMenu: [5, 10, 20], 
-		pageLength: 5, 
+		pageLength: 10, 
 		dom: "Blifrtp", //B:buttons f:filter r:processing t:table
 						//i:info l:length ("Mostrar n registros") p:paging
 		buttons: [

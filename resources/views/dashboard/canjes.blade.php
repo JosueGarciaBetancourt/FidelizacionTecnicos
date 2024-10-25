@@ -237,11 +237,16 @@
 				</div>
 				
 				<div class="btnCanjesSectionContainer"> 
-					<button type="button" class="btn btn-secondary" onclick="cleanAllCanjesSection('modalAgregarVenta')">Limpiar todo</button>
-					<button type="button" class="btn btn-primary" id="btnGuardarCanje" onclick="probandoGuardarCanje()">Guardar canje</button>
+					<button type="button" class="btn btn-secondary" onclick="cleanAllCanjesSection('modalAgregarVenta')">Limpiar tabla</button>
+					<button type="button" class="btn btn-primary" id="btnGuardarCanje" onclick="guardarCanje('formRegistrarCanje')">Guardar canje</button>
 				</div>
 			</div>
         </div>
+
+		<x-modalConfirmACtion 
+			:idConfirmModal="'modalConfirmActionGuardarCanje'"
+			:message="'¿Está seguro de guardar el canje?'"
+		/>
 	</div>
 @endsection	
 

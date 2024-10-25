@@ -145,8 +145,16 @@ h6{
     transition-duration: .4s;
 }
 
+.btnCreateItem-container.addRowTable {
+    background: #3b7692;
+}
+
 .btnCreateItem-container:hover{
     background-color: #3a13a7;
+}
+
+.btnCreateItem-container.addRowTable:hover {
+    background: #68a2bc;
 }
 
 .btnCreateItem {
