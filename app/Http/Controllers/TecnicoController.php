@@ -11,48 +11,60 @@ class TecnicoController extends Controller
 {   
     public function create()
     {
-        // Obtener todas las recompensas activas
+        // Obtener todas los técnicos activas
         $tecnicos = Tecnico::all();
-        
+       
         return view('dashboard.tecnicos', compact('tecnicos'));
     }
 
     function store(Request $request) 
     {   
         $validatedDataTecnico = $request->validate([
-            'idTecnico' => 'required|unique:Tecnicos|max:8',
+            'idTecnico' => 'required|max:8', // FALTA VALIDAR CORRECTAMENTE ESTE CAMPO PARA MAYOR SEGURIDAD
             'nombreTecnico' => 'required|string|max:100',
             'celularTecnico' => 'required|max:9',
             'oficioTecnico' => 'required|string',
             'fechaNacimiento_Tecnico' => 'required',
         ]);
         
-        // Guardar el técnico en la base de datos
-        $tecnico = new Tecnico($validatedDataTecnico);
-        $tecnico->save();
-
-        
-        $validatedDatLoginTecnico = $request->validate([
-            'idTecnico' => 'required|unique:login_tecnicos|max:8',
-        ]);
-        
-        // Guardar el técnico en la tabla login_tecnicos con la contraseña por defecto (DNI) que podrá ser cambiado desde la APP
-        $login_tecnico = new Login_Tecnico([
-            'idTecnico' => $validatedDatLoginTecnico['idTecnico'],
-            'password' => bcrypt($validatedDatLoginTecnico['idTecnico']),
-        ]);
-
-        $login_tecnico->save();
-
         // Obtener el origen de la solicitud
-        $origin = $request->input('origin');
+        $origin = $request->input('origin'); // Con JS se modifica el valor del input en modalAgregarNuevoTecnico.blade.php
+
+        // Comprobar si el técnico fue borrado con soft delete
+        $tecnicoBorrado = Tecnico::onlyTrashed()->where('idTecnico', $validatedDataTecnico['idTecnico'])->first();
+
+        if ($tecnicoBorrado) {
+            // Restaurar el técnico si ha sido eliminado lógicamente
+            $tecnicoBorrado->restore();
+            $tecnicoBorrado->update($validatedDataTecnico);
+            $origin = "recontratado";
+        } else {
+            // Crear un nuevo técnico si no existe
+            $tecnico = new Tecnico($validatedDataTecnico);
+            $tecnico->save();
+            
+            // Login tecnico
+            $validatedDatLoginTecnico = $request->validate([
+                'idTecnico' => 'required|unique:login_tecnicos|max:8',
+            ]);
+            
+            // Contraseña por defecto (DNI) que podrá ser cambiada desde la APP
+            $login_tecnico = new Login_Tecnico([
+                'idTecnico' => $validatedDatLoginTecnico['idTecnico'],
+                'password' => bcrypt($validatedDatLoginTecnico['idTecnico']),
+            ]);
+
+            $login_tecnico->save();
+        }
 
         // Redirigir basado en el origen
         switch ($origin) { 
             case 'ventasIntermediadas.create':
-                return redirect()->route('ventasIntermediadas.create')->with('successTecnicoStore', 'Técnico agregado exitosamente desde ventas.');
+                return redirect()->route('ventasIntermediadas.create')->with('successTecnicoStore', 'Técnico agregado exitósamente desde ventas.');
+            case 'recontratado':
+                return redirect()->route('tecnicos.create')->with('successTecnicoRecontratadoStore', 'Técnico agregado exitósamente.');
             default:
-                return redirect()->route('tecnicos.create')->with('successTecnicoStore', 'Técnico agregado exitosamente.');
+                return redirect()->route('tecnicos.create')->with('successTecnicoStore', 'Técnico agregado exitósamente.');
         }
     }
 

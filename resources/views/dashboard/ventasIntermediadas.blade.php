@@ -22,17 +22,6 @@
             @include('modals.tecnicos.modalAgregarNuevoTecnico')
         </div>
 
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalVentaIntermediadaGuardada'"
-            :message="'Venta Intermediada registrada correctamente'"
-        />
-
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalTecnicoGuardado'"
-            :message="'Técnico guardado correctamente'"
-        />
-
-
         <!--Tabla de ventas intermediadas-->
         <div class="thirdRow">
             <table id="tblVentasIntermediadas">
@@ -85,6 +74,22 @@
                 </tbody>
             </table>
         </div>
+
+        
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalVentaIntermediadaGuardada'"
+            :message="'Venta Intermediada registrada correctamente'"
+        />
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalTecnicoGuardado'"
+            :message="'Técnico guardado correctamente'"
+        />
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalTecnicoRecontratado'"
+            :message="'Técnico recontratado correctamente'"
+        />
     </div>
 @endsection
 
@@ -98,6 +103,9 @@
             @endif
             @if(session('successTecnicoStore'))
                     openModal('successModalTecnicoGuardado');
+            @endif
+            @if(session('successTecnicoRecontratadoStore'))
+                    openModal('successModalTecnicoRecontratado');
             @endif
         });
     </script>

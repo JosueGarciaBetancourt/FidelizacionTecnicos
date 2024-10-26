@@ -24,21 +24,6 @@
 			@include('modals.tecnicos.modalEliminarTecnico')
 		</div>
 		
-		<x-modalSuccessAction 
-			:idSuccesModal="'successModalTecnicoGuardado'"
-			:message="'Técnico guardado correctamente'"
-		/>
-		
-		<x-modalSuccessAction 
-			:idSuccesModal="'successModalTecnicoActualizado'"
-			:message="'Técnico actualizado correctamente'"
-		/>
-
-		<x-modalSuccessAction 
-			:idSuccesModal="'successModalTecnicoEliminado'"
-			:message="'Técnico eliminado correctamente'"
-		/>
-
 		<!--Tabla de técnicos-->
 		<div class="secondRow">
 			<table id="tblTecnicos">
@@ -59,6 +44,26 @@
 				</tbody>
 			</table>
 		</div>
+
+		<x-modalSuccessAction 
+			:idSuccesModal="'successModalTecnicoGuardado'"
+			:message="'Técnico guardado correctamente'"
+		/>
+		
+		<x-modalSuccessAction 
+			:idSuccesModal="'successModalTecnicoActualizado'"
+			:message="'Técnico actualizado correctamente'"
+		/>
+
+		<x-modalSuccessAction 
+			:idSuccesModal="'successModalTecnicoEliminado'"
+			:message="'Técnico eliminado correctamente'"
+		/>
+
+		<x-modalSuccessAction 
+			:idSuccesModal="'successModalTecnicoRecontratado'"
+			:message="'Técnico recontratado correctamente'"
+		/>
 	</div>
 @endsection
 
@@ -76,6 +81,9 @@
 			@endif
 			@if(session('successTecnicoDelete'))
 				openModal('successModalTecnicoEliminado');
+			@endif
+			@if(session('successTecnicoRecontratadoStore'))
+				openModal('successModalTecnicoRecontratado');
 			@endif
 		});
 	</script>
