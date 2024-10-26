@@ -109,6 +109,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Función para agregar la clase 'hovered' al aside
     function handleMouseEnter() {
         aside.classList.add('hovered');
+        mainSection.classList.add('asideHovered')
+        headerSection.classList.add('asideHovered')
+
         h5Elements.forEach(function(h5) {
             h5.classList.remove('hidden');
         });
@@ -117,6 +120,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Función para remover la clase 'hovered' del aside
     function handleMouseLeave() {
         aside.classList.remove('hovered');
+        mainSection.classList.remove('asideHovered')
+        headerSection.classList.remove('asideHovered')
+
         initializeSidebarState(); // Reestablecer el sidebar al estado correcto
     }
 });

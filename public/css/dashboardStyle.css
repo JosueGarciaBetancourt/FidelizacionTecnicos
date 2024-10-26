@@ -31,6 +31,10 @@
     padding-left: 6rem;
 }
 
+.header.asideHovered {
+    padding-left: 12rem;
+}
+
 .header .left_menu_close {
     cursor: pointer;
 }
@@ -175,11 +179,15 @@
     margin-left: 12rem;
     width: auto;
     height: auto;
-    transition: margin-left 0.3s ease; /* Transición para cambiar el margin */
+    transition: margin 0.3s ease; /* Transición para cambiar el margin */
 }
 
 .main.asideClosed {
     margin-left: 6rem;
+}
+
+.main.asideHovered {
+    margin-left: 12rem;
 }
 
 aside {
@@ -259,13 +267,11 @@ aside .sidebar a h5 {
     font-size: 0.95rem;
 }
 
-/*
 aside .sidebar a:last-child {
-	position: absolute;
-	bottom: 1rem; 
+	margin-top: 8.5rem; 
 	width: 100%;
 }
-*/
+
 
 aside .sidebar a:hover h5 {
     color: var(--clr-primary-variant);
