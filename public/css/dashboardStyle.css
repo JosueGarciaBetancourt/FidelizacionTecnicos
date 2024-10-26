@@ -183,7 +183,7 @@
 }
 
 .main.asideClosed {
-    margin-left: 6rem;
+    margin-left: 5rem;
 }
 
 .main.asideHovered {
@@ -194,6 +194,7 @@ aside {
     grid-row: 1 / span 2; 
     height: 100%;
     position: fixed;
+    overflow: hidden;
     width: 12rem; /* Anchura inicial del aside */
     background-color: var(--clr-aside);
     box-shadow: 1px 0px 10px rgba(0, 0, 0, 0.1); /* Ajusta los valores según tus preferencias */
@@ -208,7 +209,7 @@ aside.closed {
 }
 
 aside .sidebar a h5.hidden {
-    display: none;
+    opacity: 0; /* Mantiene oculto cuando tiene la clase hidden */
 }
 
 aside .top {
@@ -263,7 +264,7 @@ aside .sidebar a span {
 }
 
 aside .sidebar a h5 {
-	transition: color 0.5s, .4s ease-in-out;
+	transition: color 0.5s, .25s ease-in-out;
     font-size: 0.95rem;
 }
 

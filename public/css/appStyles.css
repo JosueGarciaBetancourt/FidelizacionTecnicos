@@ -62,7 +62,6 @@ body{
 /* dark theme */
 .dark-theme-variables {
 	--clr-color-background: #181a1e;
-	--clr-white: #202528;
 	--clr-light: rgba(0, 0, 0, 0.4);
 	--clr-dark: #edeffd;
 	--clr-dark-variant: #677483;
@@ -269,7 +268,7 @@ input[type="date"] {
 body.dark-mode {
     --clr-background: #161d31 !important;
     --clr-text: #f5f5f5;
-    --clr-white: #444;
+    --clr-aside: #161d31;
     --clr-dark: #f5f5f5;
     --clr-info-light: #aaa;
     --background-color-mainSectionContainer: #283046 !important;
@@ -385,7 +384,7 @@ body.dark-mode .config-section {
 
 body.dark-mode .sidebar,
 body.dark-mode .header {
-    background-color: var(--clr-white);
+    background-color: var(--clr-aside);
 }
 
 /* Mantener el color de los botones del sidebar */
