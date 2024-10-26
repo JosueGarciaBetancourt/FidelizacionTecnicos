@@ -55,23 +55,23 @@
     gap: 1rem;
 }
 
-.btn.btn-primary {
+.btn.btn-primary.confirm {
     background-color: #007b55; /* Verde más oscuro */
     color: #fff;
     border: none;
     transition: background-color 0.3s ease;
 }
 
-.btn.btn-primary:hover {
+.btn.btn-primary.confirm:hover {
     background-color: #0ac48c; /* Verde más vivo en hover */
 }
 
-.btn.btn-secondary {
+.btn.btn-secondary.confirm {
     color: #721c24; /* Texto rojo oscuro */
     border: 1px solid #f5c6cb;
 }
 
-.btn.btn-secondary:hover {
+.btn.btn-secondary.confirm:hover {
     background-color: #f5b5b8; /* Tonalidad más viva en hover */
     color: #721c24;
 }

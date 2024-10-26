@@ -15,8 +15,8 @@
                 <p>{{ $messageToConfirm }}</p>
             </div>
             <div class="modal-footer confirm">
-                <button type="button" class="btn btn-secondary" onclick="noConfirmAction()">No</button>
-                <button type="button" class="btn btn-primary" onclick="yesConfirmAction()">Sí</button>
+                <button type="button" class="btn btn-secondary confirm" onclick="noConfirmAction()">No</button>
+                <button type="button" class="btn btn-primary confirm" onclick="yesConfirmAction()">Sí</button>
             </div>
         </div>
     </div>
