@@ -39,6 +39,17 @@ class CanjeSeeder extends Seeder
             ],
             [
                 // Primer canje (parcial)
+                'idVentaIntermediada' => 'F001-00000076',
+                'fechaHoraEmision_VentaIntermediada' => '2024-10-20 08:25:11',
+                'fechaHora_Canje' => '2024-10-25 10:00:00',
+                'diasTranscurridos_Canje' => 5,
+                'puntosComprobante_Canje' => 450,
+                'puntosCanjeados_Canje' => 50,
+                'puntosRestantes_Canje' => 400,
+                'idUser' => 1, // Admin
+            ],
+            [
+                // Primer canje (parcial)
                 'idVentaIntermediada' => 'F001-00000077',
                 'fechaHoraEmision_VentaIntermediada' => '2024-10-20 10:00:00',
                 'fechaHora_Canje' => '2024-10-25 10:00:00',

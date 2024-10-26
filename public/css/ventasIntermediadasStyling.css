@@ -110,23 +110,33 @@
     font-weight: bold;
     font-size: 0.85rem;
     display: inline-block;
-    width: 80%;
+    width: 90%;
 }
 
-.estado__span-redimido {
-    color: #139161;
-    background-color: rgb(35 218 149 / 20%) !important;
-}
-
-.estado__span-en-espera {
+/*En espera */
+.estado__span-1 { 
     color: #2394da;
     background-color: rgba(35, 78, 218, 0.2)!important;
 }
 
-.estado__span-tiempo-agotado {
-    color: #da2926;
-    background-color: rgba(218, 35, 35, 0.2) !important;
+/* Redimido (parcial) */
+.estado__span-2 {
+    color: #ff9800;
+    background-color: rgba(255, 152, 0, 0.2) !important;
+}
+
+/* Redimido (completo) */
+.estado__span-3 {
+    color: #4caf50;
+    background-color: rgba(76, 175, 80, 0.2) !important;
+}   
+
+/* Tiempo agorado */
+.estado__span-4 {
+    color: #f44336;
+    background-color: rgba(244, 67, 54, 0.2) !important;
     width: max-content;
 }
+
 
 

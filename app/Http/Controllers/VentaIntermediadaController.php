@@ -3,13 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use function Psy\debug;
 use App\Models\VentaIntermediada;
-use App\Models\Canje;
 use App\Models\Tecnico;
-use Illuminate\Support\Facades\Log;
-use Carbon\Carbon;
+use App\Models\EstadoVenta;
 
 class VentaIntermediadaController extends Controller
 {
@@ -99,13 +95,13 @@ class VentaIntermediadaController extends Controller
         return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos'));
     }*/
 
-    public function create()
+    /*public function create()
     {
-        // Obtener todas las ventas intermediadas con sus canjes y cargar los modelos relacionados
-        $ventasIntermediadas = VentaIntermediada::with('canjes')->get();
+        // Obtener todas las ventas intermediadas con sus canjes y estado de venta
+        $ventasIntermediadas = VentaIntermediada::all(); 
+        //dd($ventasIntermediadas);
 
         $ventas = $ventasIntermediadas->map(function ($venta) {
-
             // Limpiar id
             $idLimpio = $this->limpiarIDs($venta->idVentaIntermediada);
 
@@ -135,7 +131,8 @@ class VentaIntermediadaController extends Controller
             $ventaObj->fechaHoraCargada_VentaIntermediada = $venta->fechaHoraCargada_VentaIntermediada;
             $ventaObj->montoTotal_VentaIntermediada = $venta->montoTotal_VentaIntermediada;
             $ventaObj->puntosGanados_VentaIntermediada = $venta->puntosGanados_VentaIntermediada;
-            $ventaObj->estadoVentaIntermediada = $venta->estadoVentaIntermediada;
+            $ventaObj->idEstadoVenta = $venta->idEstadoVenta;
+            $ventaObj->nombre_EstadoVenta = $venta->nombre_EstadoVenta;
             $ventaObj->puntosRestantes = $puntosRestantes;
             $ventaObj->diasTranscurridos = $diasTranscurridos;
             $ventaObj->fechaHoraCanje = $fechaMasReciente;
@@ -147,8 +144,68 @@ class VentaIntermediadaController extends Controller
 
         $tecnicos = Tecnico::all();
         return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos'));
-    }
+    }*/
 
+    public function create() {
+        // Obtener todas las ventas intermediadas con sus canjes y estado de venta
+        $ventasIntermediadas = VentaIntermediada::query()
+            ->leftJoin('Canjes', 'VentasIntermediadas.idVentaIntermediada', '=', 'Canjes.idVentaIntermediada')
+            ->join('EstadoVentas', 'VentasIntermediadas.idEstadoVenta', '=', 'EstadoVentas.idEstadoVenta')
+            ->select([
+                'VentasIntermediadas.*',
+                'Canjes.fechaHora_Canje as fechaHora_Canje',
+                'Canjes.puntosRestantes_Canje as puntosRestantes_Canje',
+                'EstadoVentas.nombre_EstadoVenta as nombre_EstadoVenta'
+            ])
+            ->get();
+    
+        // Agrupar por idVentaIntermediada y seleccionar el más reciente
+        $ventasAgrupadas = $ventasIntermediadas->groupBy('idVentaIntermediada')->map(function ($grupo) {
+            return $grupo->sortByDesc('fechaHora_Canje')->first(); // Tomar la venta con la fechaHora_Canje más reciente
+        });
+    
+        // Mapear los resultados para añadir campos adicionales
+        $ventas = $ventasAgrupadas->map(function ($venta) {
+            // Limpiar id
+            $idLimpio = $this->limpiarIDs($venta->idVentaIntermediada);
+    
+            // Obtener tipo de comprobante
+            $tipoComprobante = $this->detectarTipoComprobante($venta->idVentaIntermediada);
+    
+            // Obtener el último canje basado en la fecha más reciente
+            $ultimoCanje = $venta->fechaHora_Canje ? $venta->fechaHora_Canje : 'Sin fecha';
+            $puntosRestantes = $venta->puntosRestantes_Canje ?? $venta->puntosGanados_VentaIntermediada;
+    
+            // Calcular días transcurridos desde la fecha de emisión del comprobante hasta hoy
+            $diasTranscurridos = $this->returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
+    
+            // Crear un objeto para retorno
+            $ventaObj = new \stdClass();
+            $ventaObj->idVentaIntermediada = $idLimpio;
+            $ventaObj->tipoComprobante = $tipoComprobante;
+            $ventaObj->idTecnico = $venta->idTecnico;
+            $ventaObj->nombreTecnico = $venta->nombreTecnico;
+            $ventaObj->tipoCodigoCliente_VentaIntermediada = $venta->tipoCodigoCliente_VentaIntermediada;
+            $ventaObj->codigoCliente_VentaIntermediada = $venta->codigoCliente_VentaIntermediada;
+            $ventaObj->nombreCliente_VentaIntermediada = $venta->nombreCliente_VentaIntermediada;
+            $ventaObj->fechaHoraEmision_VentaIntermediada = $venta->fechaHoraEmision_VentaIntermediada;
+            $ventaObj->fechaHoraCargada_VentaIntermediada = $venta->fechaHoraCargada_VentaIntermediada;
+            $ventaObj->montoTotal_VentaIntermediada = $venta->montoTotal_VentaIntermediada;
+            $ventaObj->puntosGanados_VentaIntermediada = $venta->puntosGanados_VentaIntermediada;
+            $ventaObj->idEstadoVenta = $venta->idEstadoVenta;
+            $ventaObj->nombre_EstadoVenta = $venta->nombre_EstadoVenta;
+            $ventaObj->puntosRestantes = $puntosRestantes;
+            $ventaObj->diasTranscurridos = $diasTranscurridos;
+            $ventaObj->fechaHoraCanje = $ultimoCanje;
+    
+            return $ventaObj;
+        });
+    
+        // Cargar la vista con las ventas y los técnicos
+        $tecnicos = Tecnico::all();
+        return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos'));
+    }
+    
     function store(Request $request) 
     {
         // Crear una venta intermediada con todos los campos de la request recepcionada
@@ -161,7 +218,7 @@ class VentaIntermediadaController extends Controller
     {
         // Filtramos por 'idTecnico' y 'estadoVentaIntermediada'
         $comprobantes = VentaIntermediada::where('idTecnico', $idTecnico)
-                                        ->where('estadoVentaIntermediada', 'En espera')
+                                        ->whereIn('idEstadoVenta', [1,2])
                                         ->get();
 
         return response()->json($comprobantes);

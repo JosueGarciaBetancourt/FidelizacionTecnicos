@@ -68,7 +68,7 @@
                                    {{ $venta->codigoCliente_VentaIntermediada }}
                             </small>
                         </td>
-                        <td class="celda-centered">{{ $venta->montoTotal_VentaIntermediada }}</td>
+                        <td class="celda-centered">S/. {{ $venta->montoTotal_VentaIntermediada }}</td>
                         <td class="celda-centered">{{ $venta->puntosGanados_VentaIntermediada }}</td>
                         <td>{{ $venta->nombreTecnico }} <br>
                             <small>DNI: {{ $venta->idTecnico }}</small>
@@ -76,8 +76,8 @@
                         <td class="celda-centered">{{ $venta->fechaHoraCanje }}</td>
                         <td class="celda-centered">{{ $venta->diasTranscurridos}}</td>
                         <td class="estado__celda">
-                            <span class="estado__span-{{strtolower(str_replace(' ', '-', $venta->estadoVentaIntermediada))}}">
-                                {{ $venta->estadoVentaIntermediada }}
+                            <span class="estado__span-{{strtolower(str_replace(' ', '-', $venta->idEstadoVenta))}}">
+                                {{ $venta->nombre_EstadoVenta }}
                             </span>
                         </td>
                     </tr>

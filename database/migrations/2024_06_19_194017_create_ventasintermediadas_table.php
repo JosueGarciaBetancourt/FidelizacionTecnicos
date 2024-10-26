@@ -13,8 +13,8 @@ return new class extends Migration
 
             $table->string('idTecnico', 8);
             $table->foreign('idTecnico')->references('idTecnico')->on('Tecnicos');
+           
             $table->string('nombreTecnico', 255);   
-            
             $table->string('tipoCodigoCliente_VentaIntermediada', 3); //DNI - RUC xml
             $table->string('codigoCliente_VentaIntermediada', 11); //77043114 - 10703047951 xml
             $table->string('nombreCliente_VentaIntermediada', 100); //Josué García Betancourt xml
@@ -23,7 +23,10 @@ return new class extends Migration
             $table->double('montoTotal_VentaIntermediada')->unsigned(); //200.50 xml
             $table->integer('puntosGanados_VentaIntermediada')->unsigned(); //201 (redondear el monto total del xml)
             $table->integer('puntosActuales_VentaIntermediada')->unsigned(); //201 (redondear el monto total del xml)
-            $table->string('estadoVentaIntermediada', 14)->default('En espera'); //Tiempo Agotado, Redimido, En espera
+           
+            $table->unsignedBigInteger('idEstadoVenta'); //1: En espera, 2: Redimido (parcial), 3: Redimido (completo), 4: Tiempo Agotado
+            $table->foreign('idEstadoVenta')->references('idEstadoVenta')->on('EstadoVentas');
+
             $table->timestamps(); //created_at updated_at
             $table->softDeletes(); //deleted_at
         });

@@ -30,12 +30,17 @@ class VentaIntermediada extends Model
         'montoTotal_VentaIntermediada',
         'puntosGanados_VentaIntermediada',
         'puntosActuales_VentaIntermediada',
-        'estadoVentaIntermediada',
+        'idEstadoVenta',
     ];
 
     // Relación uno a muchos (inversa)
     public function tecnico() {
         return $this->belongsTo(Tecnico::class, 'idTecnico', 'idTecnico');
+    }
+
+    // Relación uno a muchos (inversa)
+    public function estadoVenta() {
+        return $this->belongsTo(EstadoVenta::class, 'idEstadoVenta', 'idEstadoVenta');
     }
 
     // Relación uno a muchos

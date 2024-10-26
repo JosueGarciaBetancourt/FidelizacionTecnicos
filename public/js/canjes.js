@@ -78,7 +78,7 @@ function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
 
             if (comprobanteSeleccionado) {
                 // Asignamos los valores del comprobante seleccionado a los inputs
-                puntosGeneradosCanjesInput.value = comprobanteSeleccionado.puntosGanados_VentaIntermediada || '';
+                puntosGeneradosCanjesInput.value = comprobanteSeleccionado.puntosActuales_VentaIntermediada || '';
                 //puntosRestantesCanjesInput.value = comprobanteSeleccionado.montoTotal_VentaIntermediada || '';
                 clienteCanjesTextarea.value = 
                     (comprobanteSeleccionado.nombreCliente_VentaIntermediada +  "\n" + 
@@ -240,10 +240,10 @@ function cleanAllNumeroComprobante() {
     puntosGeneradosCanjesInput.value = "";
     clienteCanjesTextarea.value = "";
     fechaEmisionCanjesInput.value = "";
-    fechaCargadaCanjesInput.value = "";
-    diasTranscurridosInput.value = "";
     fechaEmisionCanjesInput.classList.add("noEditable");
-    fechaCargadaCanjesInput.classList.add("noEditable");
+    diasTranscurridosInput.value = "";
+    //fechaCargadaCanjesInput.value = "";
+    //fechaCargadaCanjesInput.classList.add("noEditable");
 
     // Ocultar cuadro resumen
     resumenContainer.classList.remove('shown');
@@ -261,7 +261,7 @@ function returnPuntosActualesDBWithRequestedTecnicoID(idTecnico, tecnicosDB) {
 async function filterNumComprobantesInputWithTecnicoFetch(idTecnico) {
     //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/tecnico/${idTecnico}`;
     const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`; // Esto adaptará la URL al dominio actual
-    const url = `${baseUrl}/dashboard-canjes/tecnico/${idTecnico}`;
+    const url = `${baseUrl}/dashboard-canjes/tecnico/${idTecnico}`; 
     console.warn("fetch", url);
 
     try {

@@ -22,7 +22,7 @@
 			<div class="firstCanjesRow">
 				<h3>Registrar nuevo canje</h3>
 				<div class="fechaContainer">
-					<label class="secondary-label"> Fecha de hoy: </label>
+					<label class="secondary-label" id="idFechaHoyLabel"> Fecha de hoy: </label>
 					<input class="input-item" id ="idFechaCanjeInput" type="date" disabled>
 				</div>
 			</div>
@@ -81,7 +81,7 @@
 				</div>
 
 				<div class="verticalPairGroup">
-					<label class="primary-label noEditable"> Puntos generados </label>
+					<label class="primary-label noEditable"> Puntos actuales </label>
 					<input class="input-item noEditable" id="puntosGeneradosCanjesInput" name="puntosComprobante_Canje" maxlength="4" 
 						placeholder="0" readonly>
 				</div>

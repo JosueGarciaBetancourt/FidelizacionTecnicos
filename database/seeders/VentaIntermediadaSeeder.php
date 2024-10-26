@@ -21,7 +21,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'montoTotal_VentaIntermediada' => 74.5,
                 'puntosGanados_VentaIntermediada' => 75,
                 'puntosActuales_VentaIntermediada'=> 0,
-                'estadoVentaIntermediada' => 'Redimido',
+                'idEstadoVenta' => 3,
             ],
             [
                 'idVentaIntermediada' => 'F001-00000073',
@@ -34,7 +34,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'montoTotal_VentaIntermediada' => 400,
                 'puntosGanados_VentaIntermediada' => 400,
                 'puntosActuales_VentaIntermediada'=> 400,
-                'estadoVentaIntermediada' => 'En espera',
+                'idEstadoVenta' => 1,
             ],
             [
                 'idVentaIntermediada' => 'F001-00000074',
@@ -47,7 +47,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'montoTotal_VentaIntermediada' => 125,
                 'puntosGanados_VentaIntermediada' => 125,
                 'puntosActuales_VentaIntermediada'=> 125,
-                'estadoVentaIntermediada' => 'Tiempo agotado',
+                'idEstadoVenta' => 4,
             ],
             [
                 'idVentaIntermediada' => 'F001-00000075',
@@ -61,7 +61,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'montoTotal_VentaIntermediada' => 99.99,
                 'puntosGanados_VentaIntermediada' => 100,
                 'puntosActuales_VentaIntermediada' => 100,
-                'estadoVentaIntermediada' => 'En espera',
+                'idEstadoVenta' => 1,
             ],
             [
                 'idVentaIntermediada' => 'F001-00000076',
@@ -70,11 +70,11 @@ class VentaIntermediadaSeeder extends Seeder
                 'tipoCodigoCliente_VentaIntermediada' => 'DNI',
                 'codigoCliente_VentaIntermediada' => '72385453',
                 'nombreCliente_VentaIntermediada' => 'OSORIO VILLAFUERTE, JOSE LUIS',
-                'fechaHoraEmision_VentaIntermediada' => '2024-05-30 08:25:11',
+                'fechaHoraEmision_VentaIntermediada' => '2024-10-20 08:25:11',
                 'montoTotal_VentaIntermediada' => 450,
                 'puntosGanados_VentaIntermediada' => 450,
-                'puntosActuales_VentaIntermediada' => 450,
-                'estadoVentaIntermediada' => 'En espera',
+                'puntosActuales_VentaIntermediada' => 400,
+                'idEstadoVenta' => 2,
             ],
             [
                 // Está venta intermediada ha sido canjeada en dos partes (más detalle en CanjeSeeder.php)
@@ -89,7 +89,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'montoTotal_VentaIntermediada' => 450,
                 'puntosGanados_VentaIntermediada' => 450,
                 'puntosActuales_VentaIntermediada' => 0,
-                'estadoVentaIntermediada' => 'Redimido',
+                'idEstadoVenta' => 3,
             ],
         ];
 

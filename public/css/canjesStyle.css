@@ -244,20 +244,24 @@ h3 {
 }
 
 .resumenContent .labelPuntosComprobante {
-    font-size: 16px;
+	color: #000;
+    font-size: 1rem;
+	font-family: sans-serif;
     font-weight: bold;
     text-align: right;
 }
 
 .resumenContainer #inputPuntosCanjeados_Canje_Hidden,
 .resumenContainer #inputPuntosRestantes_Canje_Hidden {
-	font-size: 16px;
+	color: #000;
+	font-size: 1rem;
+	font-family: sans-serif;
     font-weight: bold;
     text-align: right;
 	justify-self: flex-end;
 	background: none;
 	outline: none;
-	width: 3rem;
+	max-width: 3rem;
 }
 
 /* ================== Estilo General de la Tabla ================== */
@@ -417,4 +421,8 @@ h3 {
 
 .btn {
 	font-weight: bold;
+}
+
+#idFechaHoyLabel {
+	font-size: 1rem;
 }
