@@ -13,7 +13,6 @@
 
 @section('content')
     <div class="dashboard-container">
-
         <!-- aside section-->
         <aside>
             <div class="top">
@@ -63,6 +62,7 @@
                 </form>
             </div>
         </aside>
+
         <!-- header section-->
         <div class="header">
             <div class="left_menu_close" id="menu_toggle_button">

@@ -36,7 +36,8 @@ body{
     --clr-primary-variant3: #1F3B84;
 	--clr-dark-variant: #677483;
 	--clr-color-background: #f6f6f9;
-
+    --clr-aside: #F7FAFF;
+    
 	--card-border-radius: 2rem;
 	--border-radius-1: 0.4rem;
 	--border-radius-2: 0.8rem;

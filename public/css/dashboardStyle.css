@@ -9,17 +9,20 @@
 }
 
 .header {
-    grid-column: 2; 
-    grid-row: 1; 
+    position: sticky;
+    top: 0; /* Fija el header en la parte superior de la ventana */
+    width: calc(100% - var(--margin-right-headerDashboardContainer)); /* Ajusta el ancho */
+    z-index: 10; /* Asegura que esté en la capa superior */
+    grid-column: 2;
     height: 4rem;
-    margin: 0.5rem var(--margin-right-headerDashboardContainer) 0 0;
     display: grid;
     grid-template-columns: 4% 93%;
     align-items: center;
     border-bottom: 0.1rem solid #CCC;
-    padding-bottom: 0rem;
-    max-width: 100%;
     background-color: white;
+    padding-bottom: 0rem;
+    padding-left: 0.5rem;
+    margin: 0; /* Elimina el margen superior */
 }
 
 .header .left_menu_close {
@@ -156,10 +159,10 @@
 }
 
 .main {
-    grid-column: 2; 
-    grid-row: 2; 
+    grid-column: 2;
+    grid-row: 2;
     background-color: #e7ebf2;
-    padding-top: var(--padding-top-mainDashboardContainer);
+    padding-top: var(--padding-top-mainDashboardContainer); 
     padding-right: var(--padding-right-mainDashboardContainer);
     padding-bottom: var(--padding-bottom-mainDashboardContainer);
     padding-left: var(--padding-left-mainDashboardContainer);
@@ -167,19 +170,20 @@
     height: auto;
 }
 
+
 aside {
     grid-row: 1 / span 2; 
     height: 200vh;
     width: 12rem; /* Anchura inicial del aside */
-    background-color: var(--clr-white);
+    background-color: var(--clr-aside);
     box-shadow: 1px 0px 10px rgba(0, 0, 0, 0.1); /* Ajusta los valores según tus preferencias */
     transition: width 0.3s ease; /* Transición para cambiar la anchura */
-    z-index: 10;
+    z-index: 100;
     /*display: none; Deshabilitar*/
 }
 
 aside .top {
-	background-color: #F7FAFF;
+	background-color: var(--clr-aside);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
@@ -203,7 +207,7 @@ aside .logo img {
    
 /* Estilos para la barra lateral */
 aside .sidebar {
-	background-color: #F7FAFF;
+	background-color: var(--clr-aside);
 	display: flex;
 	flex-direction: column;
 	height: 90vh; /* Altura máxima */
