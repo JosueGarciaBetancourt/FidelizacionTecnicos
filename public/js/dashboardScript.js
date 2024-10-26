@@ -1,11 +1,9 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const dashboardContainer = document.querySelector('.dashboard-container');
+    const headerSection = document.querySelector('.header');
+    const mainSection = document.querySelector('.main');
     const menuToggleButton = document.getElementById('menu_toggle_button');
     const aside = document.querySelector('aside');
-    const linksSidebar = document.querySelectorAll('aside .sidebar a'); // Selecciona todos los enlaces 
-                                                                        // dentro del sidebar 
     const h5Elements = document.querySelectorAll('.sidebar a h5'); // Selecciona todos los h5 
-                                                                   // dentro de los enlaces del sidebar
     const sidebar = document.querySelectorAll('.sidebar'); 
 
     // Función para obtener el estado guardado del sidebar
@@ -20,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Función para guardar el estado del sidebar
     function saveSidebarState(state) {
         localStorage.setItem('sidebarState', state ? 'closed' : 'open');
-        localStorage.setItem('menuToggleButton', state ? 'closed' : 'open');
+        //localStorage.setItem('menuToggleButton', state ? 'closed' : 'open');
     }
 
     // Inicializa el estado del sidebar según lo guardado en localStorage
@@ -29,6 +27,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const isBtnClosed = getMenuButtonState();
         aside.classList.toggle('closed', isClosed);
         menuToggleButton.classList.toggle('closed', isBtnClosed);
+        headerSection.classList.toggle('asideClosed', isClosed);
+        mainSection.classList.toggle('asideClosed', isClosed);
 
         // Oculta los h5 si el sidebar está cerrado al inicio
         if (isClosed) {
@@ -88,8 +88,10 @@ document.addEventListener('DOMContentLoaded', function() {
     menuToggleButton.addEventListener('click', () => {
         const isClosed = aside.classList.toggle('closed');
         menuToggleButton.classList.toggle('closed', isClosed);
-        
-        // Guarda el estado actual del sidebar y del botón 'menu_toggle_button' en localStorage
+        mainSection.classList.toggle('asideClosed');
+        headerSection.classList.toggle('asideClosed');
+
+        // Guarda el estado actual de los elementos en localStorage
         saveSidebarState(isClosed);
         
         // Toggle para ocultar los h5 cuando se cierra el aside
