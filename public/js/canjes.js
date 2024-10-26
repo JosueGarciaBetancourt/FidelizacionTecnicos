@@ -11,6 +11,7 @@ let resumenContainer = document.getElementById('idResumenContainer');
 let numComprobanteCanjesInput = document.getElementById('comprobanteCanjesInput');
 let puntosActualesCanjesInput = document.getElementById('puntosActualesCanjesInput');
 let comprobantesFetch = [];
+let estadoComprobanteCanjesTextarea = document.getElementById('estadoComprobanteCanjesTextarea');
 let puntosGeneradosCanjesInput = document.getElementById('puntosGeneradosCanjesInput');
 //let puntosRestantesCanjesInput = document.getElementById('puntosRestantesCanjesInput');
 let clienteCanjesTextarea = document.getElementById('clienteCanjesTextarea');
@@ -78,6 +79,8 @@ function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
 
             if (comprobanteSeleccionado) {
                 // Asignamos los valores del comprobante seleccionado a los inputs
+                estadoComprobanteCanjesTextarea.value =  comprobanteSeleccionado.estado_venta.nombre_EstadoVenta || '';
+                estadoComprobanteCanjesTextarea.classList.add(`estado-${comprobanteSeleccionado.idEstadoVenta}`)
                 puntosGeneradosCanjesInput.value = comprobanteSeleccionado.puntosActuales_VentaIntermediada || '';
                 //puntosRestantesCanjesInput.value = comprobanteSeleccionado.montoTotal_VentaIntermediada || '';
                 clienteCanjesTextarea.value = 
@@ -275,9 +278,9 @@ async function filterNumComprobantesInputWithTecnicoFetch(idTecnico) {
         }
 
         comprobantesFetch = await response.json();
-    
+        console.log(comprobantesFetch);
         if (comprobantesFetch.length == 0) {
-            messageErrorTecnicoCanjesInput.textContent = 'El técnico encontrado no tiene ventas intermediadas "EN ESPERA"'
+            messageErrorTecnicoCanjesInput.textContent = 'El técnico encontrado no tiene ventas intermediadas "EN ESPERA" o "REDIMIDO (PARCIAL)"'
             messageErrorTecnicoCanjesInput.classList.add('shown');
         } else {
             messageErrorTecnicoCanjesInput.classList.remove('shown');

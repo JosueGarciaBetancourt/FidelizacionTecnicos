@@ -27,6 +27,8 @@
 				</div>
 			</div>
 
+			<h4 class="messageConditionCanje">Solo se pueden canjear las ventas intermediadas que tengan el estado <span>En espera</span> o <span>Redimido (parcial)</span></h4>
+
 			<div class="secondCanjesRow">
 				<div class="verticalPairGroup tooltipInside">
 					<label class="primary-label"> Técnico </label>
@@ -54,7 +56,7 @@
 					</div>
 				</div>
 				<div class="verticalPairGroup">
-					<label class="primary-label noEditable"> Puntos Actuales </label>
+					<label class="primary-label noEditable centered"> Puntos </label>
 					<input class="input-item" id="puntosActualesCanjesInput" maxlength="4" placeholder="0" readonly>
 				</div>
 				<span class="inline-alert-message" id="{{ $idTecnicoMessageError }}"> No se encontró el técnico buscado </span>      
@@ -81,7 +83,16 @@
 				</div>
 
 				<div class="verticalPairGroup">
-					<label class="primary-label noEditable"> Puntos actuales </label>
+					<label class="primary-label noEditable centered"> Estado </label>
+
+					<textarea class="textarea" id="estadoComprobanteCanjesTextarea" 
+								type="text"
+								rows="2" 
+								placeholder="Selecciona un comprobante" disabled></textarea> 
+				</div>
+
+				<div class="verticalPairGroup">
+					<label class="primary-label noEditable centered"> Puntos actuales </label>
 					<input class="input-item noEditable" id="puntosGeneradosCanjesInput" name="puntosComprobante_Canje" maxlength="4" 
 						placeholder="0" readonly>
 				</div>
@@ -97,14 +108,14 @@
 				<div class="verticalPairGroup">
 					<label class="primary-label noEditable centered"> Cliente  </label>
 					<textarea class="textarea" id="clienteCanjesTextarea" 
-							type="text"
-							rows="2" 
-							placeholder="Nombre&#10;Tipo de Doc.&#10;Número de Doc." disabled></textarea> 
+								type="text"
+								rows="2" 
+								placeholder="Nombre&#10;Tipo de Doc.&#10;Número de Doc." disabled></textarea> 
 				</div>
 
 				<div class="verticalPairGroup">
 					<label class="primary-label noEditable centered"> Fecha Emisión </label>
-					<input class="input-item noEditable " id ="fechaEmisionCanjesInput" type="date" disabled>
+					<input class="input-item noEditable " id="fechaEmisionCanjesInput" type="date" disabled>
 				</div>
 
 				{{--<div class="verticalPairGroup noEditable">
@@ -113,7 +124,7 @@
 				</div>--}}
 
 				<div class="verticalPairGroup noEditable">
-					<label class="primary-label noEditable centered"> Días transcurridos (hasta hoy) </label>
+					<label class="primary-label noEditable centered">Días hasta hoy</label>
 					<input class="input-item noEditable" id ="diasTranscurridosInput" maxlength="3" placeholder="0" disabled>
 				</div>
 			</div>
@@ -130,7 +141,7 @@
 						$idRecompensaMessageError = 'messageErrorRecompensaCanjes';
 						$recompensasDB = $RecompensasWithoutEfectivo;
 					@endphp
-					<div class="input-select" id="tecnicoSelect">
+					<div class="input-select" id="recompensaCanjesSelect">
 						<div class="tooltip-container"> 
 							<span class="tooltip" id="idRecompensaCanjesTooltip"></span>
 						</div>

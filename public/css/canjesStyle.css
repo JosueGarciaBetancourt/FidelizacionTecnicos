@@ -145,7 +145,7 @@ h3 {
 }
 
 #tecnicoCanjesInput {
-	width: 19rem;
+	width: 22rem;
 }
 
 #puntosActualesCanjesInput {
@@ -165,7 +165,7 @@ h3 {
 }
 
 #puntosGeneradosCanjesInput, #puntosRestantesCanjesInput {
-	width: 8rem;
+	width: 7.5rem;
 	text-align: center;
 	padding-left: 1px;
 }
@@ -177,6 +177,12 @@ h3 {
 	padding-right: 0;
 	resize: none; 
 	overflow-y: hidden;	
+}
+
+#fechaEmisionCanjesInput {
+	width: 8rem;
+	padding-left: 1rem;
+	padding-right: 0;
 }
 
 #messageErrorTecnicoCanjes {
@@ -426,3 +432,35 @@ h3 {
 #idFechaHoyLabel {
 	font-size: 1rem;
 }
+
+.messageConditionCanje span {
+	font-weight: bold;
+}
+
+.messageConditionCanje span:first-child {
+	color: #2394da;
+}
+
+.messageConditionCanje span:nth-child(2) {
+	color: #ff9800;
+}
+
+#estadoComprobanteCanjesTextarea {
+	width: 7rem;
+	height: 3.5rem;
+	max-height: 4rem;
+	padding: 5px;
+	resize: none; 
+	overflow-y: hidden;	
+	font-size: 15px;
+	text-align: center;
+}
+
+#estadoComprobanteCanjesTextarea.estado-1 {
+	color: #2394da;
+}
+
+#estadoComprobanteCanjesTextarea.estado-2 {
+	color: #ff9800;
+}
+

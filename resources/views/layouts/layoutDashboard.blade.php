@@ -80,7 +80,7 @@
                 <div class="user_options_List" id="user_options_List">
                     <div class="div-input-select" id="idUserDivList">
                         <label id="labelDesplegable" type="text-autocomplete" placeholder="Admin" onclick="toggleOptionsUser('userList')">
-                            Administador
+                            {{ Auth::check() ? Auth::user()->name : 'Invitado' }}
                             <span class="material-symbols-outlined">keyboard_arrow_down</span>
                         </label>
                         <ul class="select-items-userList" id="userList">

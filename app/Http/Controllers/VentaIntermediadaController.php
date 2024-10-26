@@ -216,11 +216,10 @@ class VentaIntermediadaController extends Controller
 
     public function getComprobantesEnEsperaByIdTecnico($idTecnico)
     {
-        // Filtramos por 'idTecnico' y 'estadoVentaIntermediada'
-        $comprobantes = VentaIntermediada::where('idTecnico', $idTecnico)
-                                        ->whereIn('idEstadoVenta', [1,2])
-                                        ->get();
-
+        $comprobantes = VentaIntermediada::with('estadoVenta') // Cargar la relación con EstadoVentas
+                                            ->where('idTecnico', $idTecnico)
+                                            ->whereIn('idEstadoVenta', [1, 2])
+                                            ->get();
         return response()->json($comprobantes);
     }
 }
