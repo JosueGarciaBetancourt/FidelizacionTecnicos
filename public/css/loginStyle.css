@@ -163,9 +163,12 @@
 	font-weight: bold;
 }
 
+#formLogin {
+	margin-left: 2rem;
+}
 
 /* Media Query para pantallas pequeñas */
-@media (max-width: 980px) {
+@media (max-width: 1050px) {
     .main_container {
         flex-direction: column; /* Cambia la dirección de los elementos a columna en pantallas pequeñas */
         align-items: center; /* Centra los elementos horizontalmente */
@@ -207,8 +210,8 @@
 	}
 
 	.enchapadorImg_container{
-		width: 100%;
-		height: 100%;
+		width: 100dvw;
+		max-height: 100dvh;
 	}
 
 	.enchapadorImg_container img {
@@ -219,6 +222,10 @@
 
 	.credential-box-input{
 		width: 20rem;
+	}
+
+	#formLogin {
+		margin-left: 3.5rem;
 	}
 }
 

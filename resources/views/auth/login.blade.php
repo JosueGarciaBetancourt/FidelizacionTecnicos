@@ -27,7 +27,7 @@
                 </div>
             @endif
 
-            <form method="POST" action="{{ route('loginPost') }}">
+            <form id="formLogin" method="POST" action="{{ route('loginPost') }}">
                 @csrf
                 <!-- Email Address -->
                 <div class="form-group">
@@ -89,7 +89,7 @@
                 </div>
 
                 <div class="button_container">
-                    <button type="submit" class="login_button">Iniciar Sesión</button>
+                    <button type="submit" class="login_button" id="idLoginButton">Iniciar Sesión</button>
                 </div>
             </form>
         </div>

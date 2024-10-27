@@ -78,9 +78,14 @@ function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
             const comprobanteSeleccionado = comprobantesFetch.find(comprobante => comprobante.idVentaIntermediada === value);
 
             if (comprobanteSeleccionado) {
-                // Asignamos los valores del comprobante seleccionado a los inputs
+                // Elimina cualquier clase que comience con 'estado-'
+                estadoComprobanteCanjesTextarea.classList.forEach((className) => {
+                    if (className.startsWith('estado-')) {
+                        estadoComprobanteCanjesTextarea.classList.remove(className);
+                    }
+                });
+                estadoComprobanteCanjesTextarea.classList.add(`estado-${comprobanteSeleccionado.idEstadoVenta}`);
                 estadoComprobanteCanjesTextarea.value =  comprobanteSeleccionado.estado_venta.nombre_EstadoVenta || '';
-                estadoComprobanteCanjesTextarea.classList.add(`estado-${comprobanteSeleccionado.idEstadoVenta}`)
                 puntosGeneradosCanjesInput.value = comprobanteSeleccionado.puntosActuales_VentaIntermediada || '';
                 //puntosRestantesCanjesInput.value = comprobanteSeleccionado.montoTotal_VentaIntermediada || '';
                 clienteCanjesTextarea.value = 
@@ -240,6 +245,12 @@ function validateNumComprobanteInputNoEmpty(recompensaCanjesInput) {
 
 function cleanAllNumeroComprobante() {
     // Limpiar todos los campos correspondientes al número de comprobante 
+    estadoComprobanteCanjesTextarea.value = "";
+    estadoComprobanteCanjesTextarea.classList.forEach((className) => {
+        if (className.startsWith('estado-')) {
+            estadoComprobanteCanjesTextarea.classList.remove(className);
+        }
+    });
     puntosGeneradosCanjesInput.value = "";
     clienteCanjesTextarea.value = "";
     fechaEmisionCanjesInput.value = "";
@@ -609,10 +620,14 @@ function isCodigoDuplicated(codigo) {
             // Si el código ya existe (con trim para evitar espacios)
             if (cellCodigo.textContent.trim() === codigo) {
                 // Resaltar el color de fondo de la fila
-                row.classList.add("duplicated");
-                setTimeout(() => {
-                    row.classList.remove("duplicated");
-                }, 1000); 
+                if (!row.classList.contains("duplicated")) {
+                    console.log("RESALTANDO DE VERDE");
+                    row.classList.add("duplicated");
+            
+                    setTimeout(() => {
+                        row.classList.remove("duplicated");
+                    }, 1000);
+                }
 
                 puntosTotalesRecompensaEncontrada = parseInt(row.cells[6].textContent, 10); 
                 return puntosTotalesRecompensaEncontrada; // Código duplicado encontrado

@@ -458,9 +458,12 @@ h3 {
 
 #estadoComprobanteCanjesTextarea.estado-1 {
 	color: #2394da;
+	padding-top: 1.1rem;
+	font-weight: 600;
 }
 
 #estadoComprobanteCanjesTextarea.estado-2 {
 	color: #ff9800;
+	font-weight: 600;
 }
 
