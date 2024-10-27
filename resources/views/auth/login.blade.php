@@ -40,7 +40,6 @@
                 </div>
 
                 <!-- Password -->
-                <!-- Password -->
                 <div class="form-group">
                     <div class="subtitle_container">    
                         <h3>Contraseña</h3>
@@ -89,7 +88,8 @@
                 </div>
 
                 <div class="button_container">
-                    <button type="submit" class="login_button" id="idLoginButton">Iniciar Sesión</button>
+                    <button type="submit" class="login_button" id="idLoginButton"
+                             onclick="handleFormSubmission('idLoginButton', 'formLogin')">Iniciar Sesión</button>
                 </div>
             </form>
         </div>
@@ -123,5 +123,4 @@
             }
         }
     </script>
-
 @endsection

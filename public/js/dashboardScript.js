@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Función para guardar el estado del sidebar
     function saveSidebarState(state) {
         localStorage.setItem('sidebarState', state ? 'closed' : 'open');
-        //localStorage.setItem('menuToggleButton', state ? 'closed' : 'open');
+        localStorage.setItem('menuToggleButton', state ? 'closed' : 'open');
     }
 
     // Inicializa el estado del sidebar según lo guardado en localStorage
@@ -73,16 +73,26 @@ document.addEventListener('DOMContentLoaded', function() {
         toggleOptionsUser('userList');
     }*/
 
-    // Ir al enlace de la opción de la lista
-    window.linkOption = function(value) {
-        const route = routes[value];
+    const routesData = document.querySelector('.dashboard-container').getAttribute('data-routes');
+    const routes = JSON.parse(routesData);  // Convierte la cadena JSON a un objeto
 
-        if (route) {
-            window.location.href = route;
-        } else {
-            console.error('Ruta no encontrada para la opción:', value);
+    window.linkOption = function(value) {
+        try {
+            const route = routes[value];
+            if (route) {
+                if (value === 'logout') {
+                    // No redirigir para logout, sino manejar el formulario
+                    document.getElementById('logoutForm').submit();
+                } else {
+                    window.location.href = route;  // Redirige a la ruta
+                }
+            } else {
+                console.error('Ruta no encontrada para la opción:', value);
+            }
+        } catch (error) {
+            console.log("Error: ", error);
         }
-    }
+    };
 
     // Manejar el botón de menú para abrir/cerrar el sidebar
     menuToggleButton.addEventListener('click', () => {

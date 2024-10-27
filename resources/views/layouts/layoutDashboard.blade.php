@@ -12,7 +12,7 @@
 @endpush
 
 @section('content')
-    <div class="dashboard-container">
+    <div class="dashboard-container"  data-routes='{"perfil": "{{ route('profile.edit') }}", "logout": "{{ route('logout') }}"}'>
         <!-- aside section-->
         <aside>
             <div class="top">
@@ -55,7 +55,7 @@
                 <!-- Formulario de Logout -->
                 <form id="logoutForm" method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <a href="#" class="btnLogout" id="logoutLink">
+                    <a href="#" class="btnLogout" id="logoutLink" onclick="handleFormSubmission('logoutLink', 'logoutForm', 2000)">
                         <span class="material-symbols-outlined">logout</span>
                         <h5>Cerrar Sesión</h5>
                     </a>
@@ -85,7 +85,7 @@
                         </label>
                         <ul class="select-items-userList" id="userList">
                             <li onclick="linkOption('perfil')">Perfil</li>
-                            <li onclick="linkOption('#')">Opción 2</li>
+                            <li id="li-logout"onclick="linkOption('logout'), handleFormSubmission('li-logout', 'logoutForm')">Cerrar Sesión</li>
                         </ul>
                     </div>
                 </div>

@@ -12,22 +12,22 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Admin',
+            'name' => 'Administrador',
             'email' => 'admin@dimacof.com',
             'password' => Hash::make('12345678'),
             'profile' => 'Administrador'
         ]);
 
         User::create([
-            'name' => 'vendedor1',
-            'email' => 'vendedor1@dimacof.com',
+            'name' => 'Vendedor Raul',
+            'email' => 'vendedorRaul@dimacof.com',
             'password' => Hash::make('12345678'),
             'profile' => 'Vendedor'
         ]);
 
         User::create([
-            'name' => 'vendedor2',
-            'email' => 'vendedor2@dimacof.com',
+            'name' => 'Vendedor Jeison',
+            'email' => 'vendedorJeison@dimacof.com',
             'password' => Hash::make('12345678'),
             'profile' => 'Vendedor'
         ]);

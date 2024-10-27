@@ -619,7 +619,7 @@ function isCodigoDuplicated(codigo) {
 
             // Si el código ya existe (con trim para evitar espacios)
             if (cellCodigo.textContent.trim() === codigo) {
-                // Resaltar el color de fondo de la fila
+                // Resaltar el color de fondo de la fila solo sí es que no está siendo resaltado
                 if (!row.classList.contains("duplicated")) {
                     console.log("RESALTANDO DE VERDE");
                     row.classList.add("duplicated");

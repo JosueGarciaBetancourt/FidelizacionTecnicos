@@ -33,6 +33,7 @@
     align-items: center; 
     justify-content: center; /* Centra horizontalmente los elementos */
     box-sizing: border-box;
+	user-select: none;
 }
 
 .logo_DIMACOF_container img {
@@ -56,6 +57,7 @@
     width: 100%; /* Ajusta el ancho del contenedor */
     height: 100%; /* Ajusta la altura del contenedor */
     box-sizing: border-box;
+	user-select: none;
 }
 
 .enchapadorImg_container img {
@@ -153,6 +155,7 @@
 	font-size: 20px;
 	text-align: center;
     cursor: pointer; /* Cambia el cursor al pasar el mouse sobre el botón */
+	user-select: none;
 }
 
 .login_button:hover{
