@@ -1,17 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Tecnico;
 use Illuminate\Http\Request;
 use App\Models\Login_Tecnico;
 use Yajra\DataTables\DataTables;
+use App\Models\VentaIntermediada;
 
 class TecnicoController extends Controller
 {   
     public function create()
     {
-        // Obtener todas los técnicos activas
+        // Obtener todas los técnicos activos
         $tecnicos = Tecnico::all();
        
         return view('dashboard.tecnicos', compact('tecnicos'));
@@ -36,7 +36,9 @@ class TecnicoController extends Controller
         if ($tecnicoBorrado) {
             // Restaurar el técnico si ha sido eliminado lógicamente
             $tecnicoBorrado->restore();
-            $tecnicoBorrado->update($validatedDataTecnico);
+            $rango = $this->getRango($tecnicoBorrado->historicoPuntos_Tecnico);
+            $tecnicoData = array_merge($validatedDataTecnico, ['rangoTecnico' => $rango]);
+            $tecnicoBorrado->update($tecnicoData);
             $origin = "recontratado";
         } else {
             // Crear un nuevo técnico si no existe
@@ -71,12 +73,15 @@ class TecnicoController extends Controller
     function update(Request $request) 
     {
         $tecnicoSolicitado = Tecnico::find($request->idTecnico);
-        // Actualizar los campos
+        $rango = $this->getRango($tecnicoSolicitado->historicoPuntos_Tecnico);
         $tecnicoSolicitado->update([
             'celularTecnico' => $request->celularTecnico,
-            'oficioTecnico' => $request->oficioTecnico
+            'oficioTecnico' => $request->oficioTecnico,
+            'rangoTecnico' => $rango,
         ]);
+
         $messageUpdate = 'Técnico actualizado correctamente';
+
         return redirect()->route('tecnicos.create')->with('successTecnicoUpdate', $messageUpdate);
     }
 
@@ -96,6 +101,50 @@ class TecnicoController extends Controller
         }
     
         return redirect()->route('tecnicos.create')->with('successTecnicoDelete', $messageDelete);
+    }
+
+    public function getRango(int $puntos): string
+    {
+        if ($puntos < 24000) {
+            return 'Plata';
+        } elseif ($puntos >= 24000 && $puntos < 60000) {
+            return 'Oro';
+        } else {
+            return 'Black';
+        }
+    }
+
+    public static function updatePuntosActualesTecnicoById($idTecnico) {
+        // Actualizar los puntos actuales del técnico
+        $tecnico = Tecnico::where('idTecnico', $idTecnico)->first();
+        $nuevosPuntos = TecnicoController::calcPuntosActualesByIdtecnico($idTecnico);
+        $tecnico->update([
+            'totalPuntosActuales_Tecnico' => $nuevosPuntos,
+        ]);
+    }
+
+    public static function updatePuntosHistoricosTecnicoById($idTecnico) {
+        $tecnico = Tecnico::where('idTecnico', $idTecnico)->first();
+        $nuevoHistoricoPuntos = TecnicoController::calcPuntosHistoricosByIdtecnico($idTecnico);
+        $tecnico->update([
+            'historicoPuntos_Tecnico' => $nuevoHistoricoPuntos,
+        ]);
+    }
+    
+    public static function calcPuntosActualesByIdtecnico($idTecnico) {
+        // Suma de puntos de ventas intermediadas con estado "En espera" y "Redimido (parcial)"
+        $sumaPuntosActuales = VentaIntermediada::where('idTecnico', $idTecnico)
+                                            ->whereIn('idEstadoVenta', [1, 2])
+                                            ->sum('puntosActuales_VentaIntermediada');
+        //dd($sumaPuntosActuales);
+        return $sumaPuntosActuales;
+    }
+
+    public static function calcPuntosHistoricosByIdtecnico($idTecnico) {
+        $sumaPuntosTotales = VentaIntermediada::where('idTecnico', $idTecnico)
+                                                ->sum('puntosGanados_VentaIntermediada');
+        //dd($sumaPuntosTotales);
+        return $sumaPuntosTotales;
     }
 
     public function tabla()

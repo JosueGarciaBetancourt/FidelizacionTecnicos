@@ -127,7 +127,7 @@
                     </div>
                     
                     <div class="form-group start">
-                        <input class="input-item readonly" id="puntosGanadosInput" name="puntosGanados_VentaIntermediada"  placeholder="26" readonly>
+                        <input class="input-item centered readonly" id="puntosGanadosInput" name="puntosGanados_VentaIntermediada"  placeholder="26" readonly>
                     </div>
                 </form>
                 <!-- Seleccionar archivos -->

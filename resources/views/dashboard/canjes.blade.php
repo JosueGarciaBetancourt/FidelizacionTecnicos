@@ -56,7 +56,7 @@
 					</div>
 				</div>
 				<div class="verticalPairGroup">
-					<label class="primary-label noEditable centered"> Puntos </label>
+					<label class="primary-label noEditable centered"> Total de puntos </label>
 					<input class="input-item" id="puntosActualesCanjesInput" maxlength="4" placeholder="0" readonly>
 				</div>
 				<span class="inline-alert-message" id="{{ $idTecnicoMessageError }}"> No se encontró el técnico buscado </span>      

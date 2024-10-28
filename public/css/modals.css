@@ -14,15 +14,15 @@
 }
 
 .modal.first {
-    z-index: 10;
+    z-index: 100;
 }
 
 .modal.second {
-    z-index: 20;
+    z-index: 200;
 }
 
 .modal.third {
-    z-index: 30;
+    z-index: 300;
 }
 
 .modal-dialog {
@@ -254,6 +254,9 @@
     background-color: #fff;
 }
 
+.input-item.centered {
+    text-align: center;
+}
 .input-item.readonly {
     cursor: default;
 }

@@ -50,8 +50,9 @@
                             <th class="celda-centered">#</th>
                             <th>Código</th>
                             <th class="celda-centered">Tipo</th>
-                            <th>Descripción</th>
+                            <th id="idCeldaDescripcionRecompensa">Descripción</th>
                             <th class="celda-centered">Costo (puntos)</th>
+                            <th class="celda-centered">Stock (unidades)</th>
                             <th class="celda-centered">Fecha y hora de creación</th>
                             <th class="celda-centered">Fecha y hora de actualización</th> 
                         </tr>
@@ -71,6 +72,7 @@
                             </td>
                             <td>{{ $recompensa->descripcionRecompensa }}</td>
                             <td class="celda-centered">{{ $recompensa->costoPuntos_Recompensa }}</td>
+                            <td class="celda-centered">{{ $recompensa->stock_Recompensa }}</td>
                             <td class="celda-centered">{{ $recompensa->created_at}}</td>
                             <td class="celda-centered">{{ $recompensa->updated_at}}</td>
                         </tr>

@@ -21,7 +21,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'montoTotal_VentaIntermediada' => 74.5,
                 'puntosGanados_VentaIntermediada' => 75,
                 'puntosActuales_VentaIntermediada'=> 0,
-                'idEstadoVenta' => 3,
+                'idEstadoVenta' => 3, // Redimido (completo)
             ],
             [
                 'idVentaIntermediada' => 'F001-00000073',
@@ -34,7 +34,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'montoTotal_VentaIntermediada' => 400,
                 'puntosGanados_VentaIntermediada' => 400,
                 'puntosActuales_VentaIntermediada'=> 400,
-                'idEstadoVenta' => 1,
+                'idEstadoVenta' => 1, // En espera 
             ],
             [
                 'idVentaIntermediada' => 'F001-00000074',
@@ -47,7 +47,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'montoTotal_VentaIntermediada' => 125,
                 'puntosGanados_VentaIntermediada' => 125,
                 'puntosActuales_VentaIntermediada'=> 125,
-                'idEstadoVenta' => 4,
+                'idEstadoVenta' => 4, // Tiempo agotado
             ],
             [
                 'idVentaIntermediada' => 'F001-00000075',
@@ -61,7 +61,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'montoTotal_VentaIntermediada' => 99.99,
                 'puntosGanados_VentaIntermediada' => 100,
                 'puntosActuales_VentaIntermediada' => 100,
-                'idEstadoVenta' => 1,
+                'idEstadoVenta' => 1, // En espera 
             ],
             [
                 'idVentaIntermediada' => 'F001-00000076',
@@ -74,7 +74,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'montoTotal_VentaIntermediada' => 450,
                 'puntosGanados_VentaIntermediada' => 450,
                 'puntosActuales_VentaIntermediada' => 400,
-                'idEstadoVenta' => 2,
+                'idEstadoVenta' => 2, // Redimido (parcial) 
             ],
             [
                 // Está venta intermediada ha sido canjeada en dos partes (más detalle en CanjeSeeder.php)
@@ -89,7 +89,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'montoTotal_VentaIntermediada' => 450,
                 'puntosGanados_VentaIntermediada' => 450,
                 'puntosActuales_VentaIntermediada' => 0,
-                'idEstadoVenta' => 3,
+                'idEstadoVenta' => 3,  // Redimido (completo)
             ],
         ];
 

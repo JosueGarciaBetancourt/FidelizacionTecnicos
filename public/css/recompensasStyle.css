@@ -62,3 +62,7 @@
 td {
     padding: 1rem 0.5rem !important;
 }
+
+#idCeldaDescripcionRecompensa {
+    width: 13rem;
+}

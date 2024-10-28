@@ -80,8 +80,8 @@
                 
                     <div class="form-group gap">
                         <label class="primary-label" for="costoUnitarioInput">Costo unitario (puntos):</label>
-                        <input class="input-item" id='{{ $idCostoPuntosInput }}' maxlength="4"
-                                   oninput="validateNumberRealTime(this)" placeholder="1000" name="costoPuntos_Recompensa" >
+                        <input class="input-item" id='{{ $idCostoPuntosInput }}' maxlength="5"
+                                oninput="validateNumberWithMaxLimitRealTime(this, 60000)" placeholder="10000" name="costoPuntos_Recompensa" >
                     </div>
 
                     <div class="form-group start">

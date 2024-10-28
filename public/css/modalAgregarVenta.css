@@ -39,6 +39,7 @@
     max-width: 7rem;
     color: rgb(12, 179, 12);
     font-weight: bold;
+    padding-left: 5px;
 }
 
 #nombreClienteInput {

@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Canje;
-use App\Models\Recompensa;
 use App\Models\Tecnico;
+use App\Models\Recompensa;
+use Illuminate\Http\Request;
 use App\Models\VentaIntermediada;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\TecnicoController;
+use Illuminate\Validation\ValidationException;
 
 class CanjeController extends Controller
 {
@@ -110,6 +111,9 @@ class CanjeController extends Controller
 
             // Si todo sale bien, confirmar la transacción
             DB::commit();
+
+            // Actualizar los puntos actuales del técnico
+            TecnicoController::updatePuntosActualesTecnicoById($venta['idTecnico']); // Llamado estático
 
             // Redirigir con éxito
             return redirect()->route('canjes.create')->with('successCanjeStore', 'Canje guardado correctamente.');

@@ -16,7 +16,13 @@ class RecompensaSeeder extends Seeder
         $recompensas = [
             [   
                 'tipoRecompensa' => 'Efectivo',
-                'descripcionRecompensa' => 'Sin descripción',
+                'descripcionRecompensa' => 'Dinero en efectivo',
+                'costoPuntos_Recompensa' => 1,
+                'stock_Recompensa' => 100,
+            ],
+            [   
+                'tipoRecompensa' => 'Accesorio',
+                'descripcionRecompensa' => 'Pulsera de silicona',
                 'costoPuntos_Recompensa' => 1,
                 'stock_Recompensa' => 100,
             ],

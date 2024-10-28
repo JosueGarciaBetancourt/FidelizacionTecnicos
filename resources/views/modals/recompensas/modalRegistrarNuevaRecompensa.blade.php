@@ -33,8 +33,8 @@
                 
                     <div class="form-group gap">
                         <label class="primary-label" id="costoUnitarioLabel" for="costoUnitarioInput">Costo unitario (puntos):</label>
-                        <input class="input-item" id="costoUnitarioInput" name="costoPuntos_Recompensa" maxlength="4"
-                                   oninput="validateNumberRealTime(this)" placeholder="1000">
+                        <input class="input-item" id="costoUnitarioInput" name="costoPuntos_Recompensa" maxlength="5"
+                                   oninput="validateNumberWithMaxLimitRealTime(this, 60000)" placeholder="10000">
                     </div>
 
                     <div class="form-group start">

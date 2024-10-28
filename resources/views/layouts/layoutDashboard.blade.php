@@ -84,8 +84,10 @@
                             <span class="material-symbols-outlined">keyboard_arrow_down</span>
                         </label>
                         <ul class="select-items-userList" id="userList">
-                            <li onclick="linkOption('perfil')">Perfil</li>
-                            <li id="li-logout"onclick="linkOption('logout'), handleFormSubmission('li-logout', 'logoutForm')">Cerrar Sesión</li>
+                            <li onclick="linkOption('perfil'), closeUserList()">Perfil</li>
+                            <li id="li-logout" onclick="linkOption('logout'), handleFormSubmission('li-logout', 'logoutForm'), closeUserList()">
+                                Cerrar Sesión
+                            </li>
                         </ul>
                     </div>
                 </div>

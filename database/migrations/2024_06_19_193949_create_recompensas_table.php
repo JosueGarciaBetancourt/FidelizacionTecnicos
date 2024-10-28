@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('tipoRecompensa', 30)->nullable(); 
             $table->string('descripcionRecompensa', 100)->nullable(); 
             $table->unsignedInteger('costoPuntos_Recompensa')->nullable(); 
-            $table->unsignedInteger('stock_Recompensa')->nullable(); 
+            $table->unsignedInteger('stock_Recompensa')->default(1); 
             $table->timestamps(); //created_at updated_at
             $table->softDeletes(); //deleted_at
         });

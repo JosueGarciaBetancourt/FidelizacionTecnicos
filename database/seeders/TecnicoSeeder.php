@@ -14,12 +14,12 @@ class TecnicoSeeder extends Seeder
         Tecnico::create([
             'idTecnico' => '77043114',
             'nombreTecnico' => 'Josué Daniel García Betancourt',
-            'celularTecnico' =>'964866527', 
+            'celularTecnico' =>'964866527',
             'oficioTecnico' => 'Enchapador',
             'fechaNacimiento_Tecnico' => '2005-05-16',
-            'totalPuntosActuales_Tecnico' => 230,
-            'historicoPuntos_Tecnico' => 23000,
-            'rangoTecnico' => 'Plata',
+            'totalPuntosActuales_Tecnico' => 900, // Suma de puntos de ventas intermediadas En espera y Redimido (parcial)
+            'historicoPuntos_Tecnico' => 1025, // Suma de los puntos de todas las ventas intermediadas
+            'rangoTecnico' => 'Plata', // Menor a 24000 (más detall en TecnicoController.php)
         ]);
         
         Tecnico::create([
@@ -29,8 +29,8 @@ class TecnicoSeeder extends Seeder
             'oficioTecnico' => 'Albañil',
             'fechaNacimiento_Tecnico' => '1998-10-13',
             'totalPuntosActuales_Tecnico' => 0,
-            'historicoPuntos_Tecnico' => 0,
-            'rangoTecnico' => 'Plata',
+            'historicoPuntos_Tecnico' => 575,
+            'rangoTecnico' => 'Plata', // Menor a 24000 (más detalle en TecnicoController.php)
         ]);
 
         Tecnico::factory(100)->create();

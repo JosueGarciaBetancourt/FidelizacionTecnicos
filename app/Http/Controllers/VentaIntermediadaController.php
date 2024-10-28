@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\VentaIntermediada;
 use App\Models\Tecnico;
 use App\Models\EstadoVenta;
+use Illuminate\Http\Request;
+use App\Models\VentaIntermediada;
+use App\Http\Controllers\TecnicoController;
+use Illuminate\Support\Facades\DB;
 
 class VentaIntermediadaController extends Controller
 {
@@ -208,9 +210,31 @@ class VentaIntermediadaController extends Controller
     
     function store(Request $request) 
     {
-        // Crear una venta intermediada con todos los campos de la request recepcionada
-        VentaIntermediada::create($request->all());
-        // Los datos que no se envian tienen valores por default en la migración   
+        $validatedData = $request->validate([
+            'idVentaIntermediada' => 'required|string',
+            'idTecnico' => 'required|exists:Tecnicos,idTecnico',
+            'nombreTecnico' => 'required|string',
+            'tipoCodigoCliente_VentaIntermediada' => 'required|string',
+            'codigoCliente_VentaIntermediada' => 'required|string',
+            'nombreCliente_VentaIntermediada' => 'required|string',
+            'fechaHoraEmision_VentaIntermediada' => 'required|string',
+            'montoTotal_VentaIntermediada' => 'required|numeric',
+            'puntosGanados_VentaIntermediada' => 'required|numeric',
+        ]);
+
+        // Iniciar una transacción
+        DB::transaction(function () use ($validatedData) {
+            // Crear la venta intermediada
+            $venta = VentaIntermediada::create(array_merge($validatedData, [
+                'puntosActuales_VentaIntermediada' => $validatedData['puntosGanados_VentaIntermediada'], // Al inicio tiene todos sus puntos
+            ]));
+
+            // Actualizar los puntos actuales del técnico
+            TecnicoController::updatePuntosActualesTecnicoById($venta['idTecnico']); // Llamado estático
+            // Actualizar los puntos históricos del técnico
+            TecnicoController::updatePuntosHistoricosTecnicoById($venta['idTecnico']); // Llamado estático
+        });
+
         return redirect()->route('ventasIntermediadas.create')->with('successVentaIntermiadaStore', 'Venta Intermediada guardada correctamente');
     }
 

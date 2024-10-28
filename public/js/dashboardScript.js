@@ -94,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
+  
     // Manejar el botón de menú para abrir/cerrar el sidebar
     menuToggleButton.addEventListener('click', () => {
         const isClosed = aside.classList.toggle('closed');
@@ -153,4 +154,6 @@ function getAllLiText(idOptions) {
     return items;
 }
 
-
+function closeUserList() {
+    userList.style.opacity = 0;
+}

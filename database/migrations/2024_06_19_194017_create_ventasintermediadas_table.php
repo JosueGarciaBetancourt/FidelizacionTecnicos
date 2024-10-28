@@ -22,9 +22,9 @@ return new class extends Migration
             $table->dateTime('fechaHoraCargada_VentaIntermediada')->useCurrent();
             $table->double('montoTotal_VentaIntermediada')->unsigned(); //200.50 xml
             $table->integer('puntosGanados_VentaIntermediada')->unsigned(); //201 (redondear el monto total del xml)
-            $table->integer('puntosActuales_VentaIntermediada')->unsigned(); //201 (redondear el monto total del xml)
+            $table->integer('puntosActuales_VentaIntermediada')->unsigned(); 
            
-            $table->unsignedBigInteger('idEstadoVenta'); //1: En espera, 2: Redimido (parcial), 3: Redimido (completo), 4: Tiempo Agotado
+            $table->unsignedBigInteger('idEstadoVenta')->default(1); //1: En espera, 2: Redimido (parcial), 3: Redimido (completo), 4: Tiempo Agotado
             $table->foreign('idEstadoVenta')->references('idEstadoVenta')->on('EstadoVentas');
 
             $table->timestamps(); //created_at updated_at
