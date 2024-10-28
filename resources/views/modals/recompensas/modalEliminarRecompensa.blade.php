@@ -18,9 +18,10 @@
                         $idMessageError = 'searchDeleteRecompensaError';
                         $someHiddenIdInputsArray = ['idDeleteRecompensaInput'];
                         $idCostoPuntosInput = 'costoPuntosInputDelete'; //El valor se debe modificar también en modalEliminarRecompensa.js
+                        $idStockRecompensa = 'stockRecompensaInputDelete'; 
                         $idTipoRecompensaInputDelete = 'tipoRecompensaInputDelete';
                         $idDescripcionRecompensaInputDelete = 'descripcionRecompensaInputDelete';
-                        $otherInputsArray = [ $idTipoRecompensaInputDelete , 'descripcionRecompensaInputDelete', $idCostoPuntosInput];
+                        $otherInputsArray = [$idTipoRecompensaInputDelete , 'descripcionRecompensaInputDelete', $idCostoPuntosInput];
                         $searchDBField = 'idRecompensa';
                     @endphp
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idRecompensa">
@@ -45,12 +46,13 @@
                                         $idRecompensa = htmlspecialchars($recompensa->idRecompensa, ENT_QUOTES, 'UTF-8');
                                         $descripcionRecompensa = htmlspecialchars($recompensa->descripcionRecompensa, ENT_QUOTES, 'UTF-8');
                                         $costoPuntos = htmlspecialchars($recompensa->costoPuntos_Recompensa, ENT_QUOTES, 'UTF-8');
+                                        $stockRecompensa = htmlspecialchars($recompensa->stock_Recompensa, ENT_QUOTES, 'UTF-8');
                                         $tipoRecompensa = htmlspecialchars($recompensa->tipoRecompensa, ENT_QUOTES, 'UTF-8');
                                         $value = $idRecompensa . " - " . $descripcionRecompensa;
                                     @endphp
                             
                                    <li onclick="selectOptionEliminarRecompensa('{{ $value }}', '{{ $idRecompensa }}', '{{ $descripcionRecompensa }}', 
-                                        '{{ $costoPuntos }}', '{{ $tipoRecompensa }}', '{{ $idInput }}', '{{ $idOptions }}',
+                                        '{{ $costoPuntos }}', '{{ $stockRecompensa }}', '{{ $tipoRecompensa }}', '{{ $idInput }}', '{{ $idOptions }}',
                                          {{ json_encode($someHiddenIdInputsArray) }})">
                                         {{ $value }}
                                     </li>
@@ -76,16 +78,21 @@
 
                     <div class="form-group gap">
                         <label class="primary-label noEditable" for="idRecompensaDescripcion">Descripción:</label>
-                        <textarea class="textarea normal" id="descripcionRecompensaInputDelete" name="descripcionRecompensa" 
-                                  placeholder="Breve descripción" disabled></textarea>
+                        <textarea class="textarea normal" id="descripcionRecompensaInputDelete" placeholder="Breve descripción" disabled></textarea>
                     </div>
                 
                     <div class="form-group gap">
-                        <label class="primary-label noEditable" for="costoUnitarioInput">Costo unitario (puntos):</label>
-                        <input class="input-item" id='{{ $idCostoPuntosInput }}' maxlength="4"
-                                   oninput="validateNumberRealTime(this)" placeholder="1000" name="costoPuntos_Recompensa" disabled>
+                        <label class="primary-label noEditable" for='{{ $idCostoPuntosInput }}'>Costo unitario (máx. 60000 puntos):</label>
+                        <input class="input-item" id='{{ $idCostoPuntosInput }}' maxlength="5"
+                                   oninput="validateNumberRealTime(this)" placeholder="60000" disabled>
                     </div>
 
+                    <div class="form-group gap">
+                        <label class="primary-label noEditable" for='{{ $idStockRecompensa }}'>Stock (máx. 1000 unidades):</label>
+                        <input class="input-item" id='{{ $idStockRecompensa }}' maxlength="4"
+                                   oninput="validateNumberRealTime(this)" placeholder="1000" disabled>
+                    </div>
+                    
                     <div class="form-group start">
                         <span class="noInline-alert-message" id="EliminarRecompensaMessageError">  </span>      
                     </div>

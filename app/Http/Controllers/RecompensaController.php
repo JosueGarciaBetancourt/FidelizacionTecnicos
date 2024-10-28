@@ -57,7 +57,19 @@ class RecompensaController extends Controller
     
     public function store(Request $request) 
     {
-        Recompensa::create($request->all());
+        // Validar los datos de entrada
+        $validatedData = $request->validate([
+            'tipoRecompensa' => 'required|string',
+            'descripcionRecompensa' => 'required|string',
+            'costoPuntos_Recompensa' => 'required|numeric|min:0',
+            'stock_Recompensa' => 'required|numeric|min:1',
+        ]);
+
+        $idNuevaRecompensa = $this->generarIdRecompensa();
+        $recompensaData = array_merge(['idRecompensa' => $idNuevaRecompensa], $validatedData);
+        //dd($recompensaData);
+        Recompensa::create($recompensaData);
+    
         $messageStore = 'Recompensa guardada correctamente';
         return redirect()->route('recompensas.create')->with('successRecompensaStore', $messageStore);
     }
@@ -68,7 +80,9 @@ class RecompensaController extends Controller
         // Actualizar los campos
         $recompensaSolicitada->update([
             'costoPuntos_Recompensa' => $request->costoPuntos_Recompensa,
+            'stock_Recompensa' => $request->stock_Recompensa,
         ]);
+
         $messageUpdate = 'Recompensa actualizada correctamente';
         
         return redirect()->route('recompensas.create')->with('successRecompensaUpdate', $messageUpdate);

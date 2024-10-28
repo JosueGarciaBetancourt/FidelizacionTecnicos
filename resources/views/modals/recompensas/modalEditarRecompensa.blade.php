@@ -18,6 +18,7 @@
                         $idMessageError = 'searchEditRecompensaError';
                         $someHiddenIdInputsArray = ['idEditRecompensaInput'];
                         $idCostoPuntosInput = 'costoPuntosInputEdit'; //El valor se debe modificar también en modalEditarRecompensa.js
+                        $idStockInput = 'stockRecompensaInputEdit'; 
                         $idTipoRecompensaInputEdit = 'tipoRecompensaInputEdit';
                         $idDescripcionRecompensaInputEdit = 'descripcionRecompensaInputEdit';
                         $otherInputsArray = [ $idTipoRecompensaInputEdit , 'descripcionRecompensaInputEdit', $idCostoPuntosInput];
@@ -45,11 +46,13 @@
                                         $idRecompensa = htmlspecialchars($recompensa->idRecompensa, ENT_QUOTES, 'UTF-8');
                                         $descripcionRecompensa = htmlspecialchars($recompensa->descripcionRecompensa, ENT_QUOTES, 'UTF-8');
                                         $costoPuntos = htmlspecialchars($recompensa->costoPuntos_Recompensa, ENT_QUOTES, 'UTF-8');
+                                        $stockRecompensa = htmlspecialchars($recompensa->stock_Recompensa, ENT_QUOTES, 'UTF-8');
                                         $tipoRecompensa = htmlspecialchars($recompensa->tipoRecompensa, ENT_QUOTES, 'UTF-8');
                                         $value = $idRecompensa . " - " . $descripcionRecompensa;
                                     @endphp
                             
-                                   <li onclick="selectOptionEditarRecompensa('{{ $value }}', '{{ $idRecompensa }}', '{{ $descripcionRecompensa }}', '{{ $costoPuntos }}', '{{ $tipoRecompensa }}', '{{ $idInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
+                                   <li onclick="selectOptionEditarRecompensa('{{ $value }}', '{{ $idRecompensa }}', '{{ $descripcionRecompensa }}', '{{ $costoPuntos }}',
+                                                '{{ $stockRecompensa }}', '{{ $tipoRecompensa }}', '{{ $idInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
                                         {{ $value }}
                                     </li>
                                 @endforeach
@@ -79,11 +82,17 @@
                     </div>
                 
                     <div class="form-group gap">
-                        <label class="primary-label" for="costoUnitarioInput">Costo unitario (puntos):</label>
+                        <label class="primary-label" for='{{ $idCostoPuntosInput }}'>Costo unitario (máx. 60000 puntos):</label>
                         <input class="input-item" id='{{ $idCostoPuntosInput }}' maxlength="5"
-                                oninput="validateNumberWithMaxLimitRealTime(this, 60000)" placeholder="10000" name="costoPuntos_Recompensa" >
+                                oninput="validateNumberWithMaxLimitRealTime(this, 60000)" placeholder="60000" name="costoPuntos_Recompensa" >
                     </div>
 
+                    <div class="form-group gap">
+                        <label class="primary-label" for='{{ $idStockInput }}'>Stock (máx. 1000 unidades):</label>
+                        <input class="input-item" id='{{ $idStockInput }}' maxlength="4"
+                                oninput="validateNumberWithMaxLimitRealTime(this, 1000)" placeholder="1000" name="stock_Recompensa" >
+                    </div>
+                    
                     <div class="form-group start">
                         <span class="noInline-alert-message" id="editarRecompensaMessageError">  </span>      
                     </div>

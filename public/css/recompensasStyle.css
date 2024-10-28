@@ -63,6 +63,14 @@ td {
     padding: 1rem 0.5rem !important;
 }
 
+.celda-centered.short {
+    max-width: 6.5rem;
+}
+
+.celda-centered.date {
+    width: 9rem;
+}
+
 #idCeldaDescripcionRecompensa {
-    width: 13rem;
+    width: 15rem;
 }

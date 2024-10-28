@@ -32,9 +32,15 @@
                     </div>
                 
                     <div class="form-group gap">
-                        <label class="primary-label" id="costoUnitarioLabel" for="costoUnitarioInput">Costo unitario (puntos):</label>
+                        <label class="primary-label" id="costoUnitarioLabel" for="costoUnitarioInput">Costo unitario (máx. 60000 puntos):</label>
                         <input class="input-item" id="costoUnitarioInput" name="costoPuntos_Recompensa" maxlength="5"
-                                   oninput="validateNumberWithMaxLimitRealTime(this, 60000)" placeholder="10000">
+                                   oninput="validateNumberWithMaxLimitRealTime(this, 60000)" placeholder="60000">
+                    </div>
+
+                    <div class="form-group gap">
+                        <label class="primary-label" id="stockRecompensaLabel" for="stockRecompensaInput">Stock (máx. 1000 unidades):</label>
+                        <input class="input-item" id="stockRecompensaInput" name="stock_Recompensa" maxlength="4"
+                                   oninput="validateNumberWithMaxLimitRealTime(this, 1000)" placeholder="1000">
                     </div>
 
                     <div class="form-group start">

@@ -2,6 +2,7 @@ let codigoRecompensaInput = document.getElementById('codigoRecompensaInput');
 let tipoRecompensaInput = document.getElementById('tipoRecompensaInput');
 let descripcionRecompensaTextarea = document.getElementById('descripcionRecompensaTextarea');
 let costoUnitarioInput = document.getElementById('costoUnitarioInput');
+let stockRecompensaInput = document.getElementById('stockRecompensaInput')
 let registrarRecompensaMessageError = document.getElementById('registrarRecompensaMessageError');
 
 let formInputsArray = [
@@ -9,6 +10,7 @@ let formInputsArray = [
 	tipoRecompensaInput,
 	descripcionRecompensaTextarea,
 	costoUnitarioInput, 
+    stockRecompensaInput,
 ];
 
 let mensajeCombinado = "";
@@ -31,6 +33,11 @@ function validarCamposCorrectosFormularioRegistrar() {
 
     if (costoUnitarioInput.value == 0) {
         mensajeCombinado += "El costo unitario no puede ser 0.";
+        returnError = true;
+	}
+
+    if (stockRecompensaInput.value == 0) {
+        mensajeCombinado += " El stock no puede ser 0.";
         returnError = true;
 	}
 

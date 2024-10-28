@@ -17,7 +17,7 @@
 }
 
 #modalRegistrarNuevaRecompensa .modal-dialog.open {
-    transform: translateY(-2rem);
+    transform: translateY(-3.5rem);
 }
 
 #codigoRecompensaInput {
@@ -26,5 +26,13 @@
 
 #costoUnitarioInput {
 	width: 4rem;
+	text-align: center;
+	padding-left: 6px;
+}
+
+#stockRecompensaInput {
+	width: 4rem;
+	text-align: center;
+	padding-left: 5px;
 }
 

@@ -23,6 +23,7 @@ class Recompensa extends Model
         'tipoRecompensa',
         'descripcionRecompensa',
         'costoPuntos_Recompensa',
+        'stock_Recompensa',
     ];
 
     public function canjes() {

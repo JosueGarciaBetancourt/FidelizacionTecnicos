@@ -276,8 +276,8 @@ $(document).ready(function() {
 	$('#tblRecompensas').DataTable({
 
 		// Configuración inicial
-		lengthMenu: [3, 10, 15], 
-		pageLength: 10, 
+		lengthMenu: [5, 15, 30], 
+		pageLength: 15, 
 		dom: "Blifrtp", //B:buttons f:filter r:processing t:table
 						//i:info l:length ("Mostrar n registros") p:paging
 		buttons: [

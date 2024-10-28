@@ -11,8 +11,8 @@ return new class extends Migration
         Schema::create('Recompensas', function (Blueprint $table) {
             $table->string('idRecompensa', 9)->primary(); //RECOM-001
             $table->string('tipoRecompensa', 30)->nullable(); 
-            $table->string('descripcionRecompensa', 100)->nullable(); 
-            $table->unsignedInteger('costoPuntos_Recompensa')->nullable(); 
+            $table->string('descripcionRecompensa', 100)->default('Sin descripción'); 
+            $table->unsignedInteger('costoPuntos_Recompensa')->default(1); 
             $table->unsignedInteger('stock_Recompensa')->default(1); 
             $table->timestamps(); //created_at updated_at
             $table->softDeletes(); //deleted_at

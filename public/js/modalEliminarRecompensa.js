@@ -2,6 +2,7 @@ let idRecompensaDeleteInput = document.getElementById('recompensaInputDelete');
 let tipoRecompensaInputDelete = document.getElementById('tipoRecompensaInputDelete');
 let descripcionRecompensaInputDelete = document.getElementById('descripcionRecompensaInputDelete');
 let costoPuntosInputDelete = document.getElementById('costoPuntosInputDelete');
+let stockRecompensaDelete = document.getElementById('stockRecompensaInputDelete');
 let searchDeleteRecompensaError = document.getElementById('searchDeleteRecompensaError');
 let eliminarRecompensaMessageError = document.getElementById('EliminarRecompensaMessageError');
 
@@ -10,9 +11,10 @@ let formDeleteInputsArray = [
     tipoRecompensaInputDelete,
     descripcionRecompensaInputDelete,
     costoPuntosInputDelete, 
+    stockRecompensaDelete
 ];
 
-function selectOptionEliminarRecompensa(value, idRecompensa, descripcionRecompensa, costoPuntos, tipoRecompensa, 
+function selectOptionEliminarRecompensa(value, idRecompensa, descripcionRecompensa, costoPuntos, stockRecompensa, tipoRecompensa, 
     idInput, idOptions, someHiddenIdInputsArray) {
 
     // Escapar caracteres especiales en la descripción
@@ -39,6 +41,7 @@ function selectOptionEliminarRecompensa(value, idRecompensa, descripcionRecompen
         tipoRecompensaInputDelete.value = tipoRecompensa;
         descripcionRecompensaInputDelete.value = sanitizedDescripcionRecompensa;
         costoPuntosInputDelete.value = costoPuntos;
+        stockRecompensaDelete.value = stockRecompensa;
 
         // Llenar campos ocultos
         document.getElementById(someHiddenIdInputsArray[0]).value = idRecompensa;
