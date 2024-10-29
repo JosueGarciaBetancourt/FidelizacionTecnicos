@@ -17,8 +17,11 @@ return new class extends Migration
             $table->integer('puntosComprobante_Canje')->unsigned();
             $table->integer('puntosCanjeados_Canje')->unsigned();
             $table->integer('puntosRestantes_Canje')->unsigned(); 
-            //$table->json('[(idRecompensa1, cantidad1), (idRecompensa2, cantidad2)...]')->nullable();
-
+            $table->json('recompensas_Canje')->nullable(); /*
+                                                        {"idRecompensa": "RECOM-001", "cantidad": 2},
+                                                        {"idRecompensa": "RECOM-002", "cantidad": 5},
+                                                        {"idRecompensa": "RECOM-003", "cantidad": 1}
+                                                     */
             $table->unsignedBigInteger('idUser');
            
             $table->foreign('idVentaIntermediada')->references('idVentaIntermediada')->on('VentasIntermediadas');

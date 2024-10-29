@@ -407,5 +407,7 @@ function returnItemDBValueWithRequestedID(searchField, searchValue, itemsDB) {
             return itemsDB[key]; // Devolver el objeto encontrado
         }
     }
+
+    console.log()
     return null; // Retornar null si no se encuentra el objeto
 }

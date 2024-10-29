@@ -12,7 +12,7 @@
                     <!-- Variables globales -->
                     @php
                         $recompensasDB = $recompensasWithoutFirst;
-                        $dbFieldsNameArray = ['tipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa'];
+                        $dbFieldsNameArray = ['tipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa', 'stock_Recompensa'];
                         $idInput = 'recompensaEditInput';
                         $idOptions = 'recompensaEditOptions';
                         $idMessageError = 'searchEditRecompensaError';
@@ -21,7 +21,7 @@
                         $idStockInput = 'stockRecompensaInputEdit'; 
                         $idTipoRecompensaInputEdit = 'tipoRecompensaInputEdit';
                         $idDescripcionRecompensaInputEdit = 'descripcionRecompensaInputEdit';
-                        $otherInputsArray = [ $idTipoRecompensaInputEdit , 'descripcionRecompensaInputEdit', $idCostoPuntosInput];
+                        $otherInputsArray = [ $idTipoRecompensaInputEdit , 'descripcionRecompensaInputEdit', $idCostoPuntosInput, $idStockInput];
                         $searchDBField = 'idRecompensa';
                     @endphp
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idRecompensa">

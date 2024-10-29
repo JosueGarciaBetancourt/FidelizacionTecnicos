@@ -2,7 +2,7 @@ let idRecompensaInput = document.getElementById('recompensaEditInput');
 let tipoRecompensaInputEdit = document.getElementById('tipoRecompensaInputEdit');
 let descripcionRecompensaInputEdit = document.getElementById('descripcionRecompensaInputEdit');
 let costoPuntosInput = document.getElementById('costoPuntosInputEdit');
-let stockRecompensaEditarInput = document.getElementById('stockRecompensaInputEdit');
+let stockRecompensaInputEdit = document.getElementById('stockRecompensaInputEdit');
 let searchRecompensaError = document.getElementById('searchEditRecompensaError');
 let editarRecompensaMessageError = document.getElementById('editarRecompensaMessageError');
 let mensajeCombinadoEditRecompensaEditRecompensa = "";
@@ -11,7 +11,7 @@ let formEditInputsArray = [
   tipoRecompensaInputEdit,
   descripcionRecompensaInputEdit,
   costoPuntosInput, 
-  stockRecompensaEditarInput,
+  stockRecompensaInputEdit,
 ];
 
 function selectOptionEditarRecompensa(value, idRecompensa, descripcionRecompensa, costoPuntos, stockRecompensa, tipoRecompensa, 
@@ -43,13 +43,15 @@ function selectOptionEditarRecompensa(value, idRecompensa, descripcionRecompensa
         tipoRecompensaInputEdit.value = tipoRecompensa;
         descripcionRecompensaInputEdit.value = sanitizedDescripcionRecompensa;
         costoPuntosInput.value = costoPuntos;
-        stockRecompensaEditarInput.value = stockRecompensa;
+        stockRecompensaInputEdit.value = stockRecompensa;
         // Llenar campos ocultos
         document.getElementById(someHiddenIdInputsArray[0]).value = idRecompensa;
-        searchEditRecompensaError.classList.remove("shown");
+        searchRecompensaError.classList.remove("shown");
     } else {
         tipoRecompensaInputEdit.value = "";
         descripcionRecompensaInputEdit.value = "";
+        descripcionRecompensaInputEdit.value = "";
+        stockRecompensaInputEdit.value = "";
     }
 }
 
@@ -62,7 +64,7 @@ function validarCamposCorrectosEdit() {
         returnError = true;
 	}
 
-    if (stockRecompensaEditarInput.value == 0) {
+    if (stockRecompensaInputEdit.value == 0) {
         mensajeCombinadoEditRecompensa += " El stock no puede ser 0.";
         returnError = true;
 	}

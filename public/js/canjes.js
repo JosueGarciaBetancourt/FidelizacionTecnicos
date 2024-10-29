@@ -35,6 +35,7 @@ let puntosRestantesResumen = document.getElementById('inputPuntosRestantes_Canje
 let sumaPuntosTotalesTablaRecompensasCanjes = 0;
 let allCeldasSubtotalPuntos;
 let puntosTotalesExcedenPuntosGenerados = true;
+let jsonRecompensas = document.getElementById('jsonRecompensas');
 
 function getFormattedDate() {
     let today = new Date();
@@ -102,7 +103,7 @@ function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
 
                 // Llenar los campos del cuadro Resumen
                 resumenContainer.classList.add('shown');
-                console.log("mostrando cuadro resumen");
+                //console.log("mostrando cuadro resumen");
                 updateResumenBoard();
             } else {
                 console.error("No se encontró el comprobante con el ID:", value);
@@ -289,7 +290,7 @@ async function filterNumComprobantesInputWithTecnicoFetch(idTecnico) {
         }
 
         comprobantesFetch = await response.json();
-        console.log(comprobantesFetch);
+        //console.log(comprobantesFetch);
         if (comprobantesFetch.length == 0) {
             messageErrorTecnicoCanjesInput.textContent = 'El técnico encontrado no tiene ventas intermediadas "EN ESPERA" o "REDIMIDO (PARCIAL)"'
             messageErrorTecnicoCanjesInput.classList.add('shown');
@@ -427,9 +428,15 @@ function handleInputChange(mutationsList, observer) {
 // Lógica de la tabla de recompensas agregadas en la sección CANJES llamada desde el botón en canjes.blade.php
 function agregarFilaRecompensa() {
     try {
-
         isAnyComprobanteSelected = false;
-        
+
+        if (!recompensaFilledCorrectlySearchField) {
+            recompensaCanjesTooltip.classList.remove("green");
+            recompensaCanjesTooltip.classList.add("red");
+            showHideTooltip(recompensaCanjesTooltip, "Seleccione una recompensa primero");
+            throw new Error('Seleccione una recompensa primero');
+        }
+
         if (!tecnicoCanjesInput.value) {
             tecnicoCanjesTooltip.classList.remove("green");
             tecnicoCanjesTooltip.classList.add("red");
@@ -442,13 +449,6 @@ function agregarFilaRecompensa() {
             numComprobanteCanjesTooltip.classList.add("red");
             showHideTooltip(numComprobanteCanjesTooltip, "Seleccione un Número de comprobante primero");
             throw new Error('Seleccione un Número de comprobante primero');
-        }
-
-        if (!recompensasCanjesInput.value) {
-            recompensaCanjesTooltip.classList.remove("green");
-            recompensaCanjesTooltip.classList.add("red");
-            showHideTooltip(recompensaCanjesTooltip, "Seleccione una recompensa primero");
-            throw new Error('Ingrese una recompensa válida');
         }
 
         // Verifica si el campo de cantidad tiene un valor
@@ -464,16 +464,19 @@ function agregarFilaRecompensa() {
         const partesRecompensaValue = recompensasCanjesInput.value.split(" | ");
 
         // Verifica que el formato de la recompensa sea correcto (se esperan 4 partes)
-        if (partesRecompensaValue.length !== 4) {
+        if (partesRecompensaValue.length !== 5) {
             recompensaCanjesTooltip.classList.remove("green");
             recompensaCanjesTooltip.classList.add("red");
-            showHideTooltip(recompensaCanjesTooltip, 'El formato de la recompensa es incorrecto.  Se requieren 4 partes separadas por " | "');
-            throw new Error('El formato de la recompensa es incorrecto. Se requieren 4 partes separadas por " | "');
+            showHideTooltip(recompensaCanjesTooltip, 'El formato de la recompensa es incorrecto.  Se requieren 5 partes separadas por " | "');
+            throw new Error('El formato de la recompensa es incorrecto. Se requieren 5 partes separadas por " | "');
         }
 
-        // Asignación de variables a cada parte
-        const [codigo, categoria, descripcion, costoRaw] = partesRecompensaValue;
-        const costo = parseInt(costoRaw.replace(" puntos", "").trim(), 10);
+        const [codigo, categoria, descripcion, costoRaw, stockRaw] = partesRecompensaValue;
+        // Usamos una expresión regular para extraer solo el número antes de cualquier palabra
+        const costo = parseInt(costoRaw.replace(/\D+$/, ""), 10);
+        const stock = parseInt(stockRaw.replace(/\D+$/, ""), 10);
+
+        //console.log("costo: " + costo, "stock: " + stock);
 
         // Validar que el costo sea un número válido
         if (isNaN(costo) || costo <= 0) {
@@ -483,10 +486,27 @@ function agregarFilaRecompensa() {
             throw new Error('El costo de la recompensa es menor igual a 0, no es válido');
         }
 
+        // Validar que el stock sea un número válido
+            if (isNaN(stock) || stock <= 0) {
+            recompensaCanjesTooltip.classList.remove("green");
+            recompensaCanjesTooltip.classList.add("red");
+            showHideTooltip(recompensaCanjesTooltip, 'El stock de la recompensa es menor igual a 0, no es válido');
+            throw new Error('El stock de la recompensa es menor igual a 0, no es válido');
+        }
+
+        // Validar que la cantidad no supere el stock actual de la recompensa
+        if (cantidad > stock) {
+            cantidadCanjesTooltip.classList.remove("green");
+            cantidadCanjesTooltip.classList.add("red");
+            const message = `La cantidad no debe superar el stock actual`;
+            showHideTooltip(cantidadCanjesTooltip, message);
+            throw new Error(message);
+        }
+
         // Calcular puntos totales de la recompensa nueva
         const puntosTotalesRecompensaNueva = cantidad * costo;
 
-        // Función para validar que la suma de puntos no exceda el límite
+        // Validar que la suma de puntos no exceda el límite
         function validatePuntosExceeds(sumaPuntosTotalesFilas, puntosGenerados) {
             if (sumaPuntosTotalesFilas > puntosGenerados) {
                 recompensaCanjesTooltip.classList.remove("green");
@@ -496,23 +516,28 @@ function agregarFilaRecompensa() {
                 throw new Error(message);
             }
         }
-
+        
         // Calcular la suma de puntos totales 
         var sumaPuntosTotalesFilas = 0;
         const puntosGenerados = puntosGeneradosCanjesInput.value;
 
+        // Calcular stock restante
+        const stockRestante = stock - cantidad;
+
         // Validar recompensa duplicada en tabla
-        const puntosRecompensaAntigua= isCodigoDuplicated(codigo);
+        const puntosRecompensaAntigua = isCodigoDuplicated(codigo);
+        //console.log(puntosRecompensaAntigua);
         
         if (puntosRecompensaAntigua) {
             // Si la recompensa ya fue agregada entonces calcular la suma de puntos totales con la nueva recompensa
             sumaPuntosTotalesFilas = getSumaTotalPuntosTblRecompensasCanjes() - puntosRecompensaAntigua + puntosTotalesRecompensaNueva;
+            //console.log(sumaPuntosTotalesFilas);
 
             // Validar que la suma no exceda a la cantidad de puntos generados del comprobante
             validatePuntosExceeds(sumaPuntosTotalesFilas, puntosGenerados);
 
             // Actualizar recompensa duplicada
-            updateRow(codigo, cantidad, puntosTotalesRecompensaNueva);
+            updateRow(codigo, stockRestante, cantidad, puntosTotalesRecompensaNueva);
             
             // Actualizar variable global
             sumaPuntosTotalesTablaRecompensasCanjes = sumaPuntosTotalesFilas;
@@ -520,7 +545,7 @@ function agregarFilaRecompensa() {
 
             // Actualizar celda de puntos totales en el footer de la tabla
             verificarFilasTablaCanjes();
-            console.log(puntosTotalesExcedenPuntosGenerados);
+            //console.log(puntosTotalesExcedenPuntosGenerados);
             return;
         } 
 
@@ -531,15 +556,18 @@ function agregarFilaRecompensa() {
         validatePuntosExceeds(sumaPuntosTotalesFilas, puntosGenerados);
 
         // Después de validar todo, agregar la nueva recompensa a la tabla 
-        addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotalesRecompensaNueva);
-        
+        addRowTableCanjes(codigo, categoria, descripcion, stockRestante, costo, cantidad, puntosTotalesRecompensaNueva);
+
         // Actualizar variables globales
         sumaPuntosTotalesTablaRecompensasCanjes = sumaPuntosTotalesFilas;
         puntosTotalesExcedenPuntosGenerados = false;
         
+        // Actulizar campo Json
+        generarJsonCodigoCantidad();
+
         // Actualizar celda de puntos totales en el footer de la tabla
         verificarFilasTablaCanjes();
-        console.log(puntosTotalesExcedenPuntosGenerados);
+        //console.log(puntosTotalesExcedenPuntosGenerados);
     } catch (error) {
         console.error('Error al agregar la recompensa:', error.message);
         console.log(puntosTotalesExcedenPuntosGenerados);
@@ -570,7 +598,7 @@ function verificarFilasTablaCanjes() {
 
 function getCeldasSubtotalPuntos() {
     const celdasSubtotalPuntos = document.querySelectorAll('.celda-centered.subtotalPuntos');
-    
+
     // Si no hay celdas de subtotal de puntos
     if (celdasSubtotalPuntos.length === 0) {
         console.error("No se encontraron celdas con la clase 'celda-centered subtotalPuntos'");
@@ -629,8 +657,14 @@ function isCodigoDuplicated(codigo) {
                     }, 1000);
                 }
 
-                puntosTotalesRecompensaEncontrada = parseInt(row.cells[6].textContent, 10); 
-                return puntosTotalesRecompensaEncontrada; // Código duplicado encontrado
+                // Obtener el valor de la celda con clase 'celda-centered subtotalPuntos'
+                const puntosCelda = row.querySelector('.celda-centered.subtotalPuntos');
+                if (puntosCelda) {
+                    const puntosTotalesRecompensaEncontrada = parseInt(puntosCelda.textContent.trim(), 10);
+                    return puntosTotalesRecompensaEncontrada; // Código duplicado encontrado y valor obtenido
+                }
+                console.error("No se encontró una celda con la clase 'celda-centered subtotalPuntos' en esta fila.");
+                return false;
             }
         }
     }
@@ -638,18 +672,20 @@ function isCodigoDuplicated(codigo) {
     return false; // No se encontró el código duplicado
 }
 
-function updateRow(codigo, cantidad, puntosTotales) {
+function updateRow(codigo, stockRestante, cantidad, puntosTotales) {
     const tableBody = document.querySelector('#tblCanjes tbody');
 
     // Recorrer todas las filas del cuerpo de la tabla
     for (let row of tableBody.rows) {
-        const cellCodigo = row.cells[1]; // Segunda columna (índice 1)
-
-        // Si el código ya existe (con trim para evitar espacios)
+        const cellCodigo = row.cells[1]; // Segunda columna (Código)
+  
         if (cellCodigo.textContent.trim() === codigo) {
-            // Sobreescribir la cantidad y puntos totales en la fila existente
-            row.cells[5].textContent = cantidad; // Columna de cantidad (índice 5)
-            row.cells[6].textContent = puntosTotales; // Columna de puntos totales (índice 6)
+            const stockRestanteCelda = row.querySelector('.celda-centered.stockRestante');
+            const cantidadCelda = row.querySelector('.celda-centered.cantidad');
+            const subtotalPuntos = row.querySelector('.celda-centered.subtotalPuntos');
+            stockRestanteCelda.textContent = stockRestante; 
+            cantidadCelda.textContent = cantidad; 
+            subtotalPuntos.textContent = puntosTotales; 
             return true; // Se actualizó la fila
         }
     }
@@ -657,7 +693,7 @@ function updateRow(codigo, cantidad, puntosTotales) {
     return false; // No se encontró el código para actualizar
 }
 
-function addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotales) {
+function addRowTableCanjes(codigo, categoria, descripcion, stockRestante, costo, cantidad, puntosTotales) {
     const tableBody = document.querySelector('#tblCanjes tbody');
     const newRow = document.createElement('tr');
 
@@ -667,18 +703,28 @@ function addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, punt
         codigo,
         categoria,
         descripcion,
-        costo,
+        stockRestante,
         cantidad,
+        costo,
         puntosTotales
     ];
+
+    console.log(datosFila);
 
     // Crear y agregar celdas a la fila
     datosFila.forEach((dato, index) => {
         const cell = document.createElement('td');
 
-        // Comprobar si es el índice de puntosTotales (último índice en este caso)
-        if (index === datosFila.length - 1) {
-            cell.classList.add('celda-centered', 'subtotalPuntos'); // Agregar ambas clases
+        if (index === datosFila.length - 1) { //puntosTotales
+            cell.classList.add('celda-centered', 'subtotalPuntos'); 
+        } else if (index === 1) { //codigo
+            cell.classList.add('celda-centered', 'codigo');
+        } else if (index === 4) { //stock restante
+            cell.classList.add('celda-centered', 'stockRestante');
+        } else if (index === 5) { //cantidad
+            cell.classList.add('celda-centered', 'cantidad');
+        } else if (index === 6) { //costo
+            cell.classList.add('celda-centered', 'costoPuntos');
         } else {
             cell.classList.add('celda-centered'); // Solo agregar 'celda-centered' para otras celdas
         }
@@ -747,7 +793,7 @@ function updateResumenBoard() {
         }
     }
 
-    console.log(puntosTotalesExcedenPuntosGenerados);
+    //console.log(puntosTotalesExcedenPuntosGenerados);
     /*
     console.log("UPDATING RESUMEN BOARD");
     console.log("Puntos generados: " + puntosGeneradosCanjesInput.value,
@@ -763,6 +809,27 @@ function cleanAllCanjesSection() {
     }
 
     verificarFilasTablaCanjes();
+}
+
+function generarJsonCodigoCantidad() {
+    const tableBody = tableCanjesBody;
+    const data = [];
+
+    // Iterar sobre cada fila del tbody
+    for (let row of tableBody.rows) {
+        // Extraer el código y la cantidad de las celdas correspondientes
+        const idRecompensa = row.querySelector('.celda-centered.codigo').textContent.trim(); 
+        const cantidad = parseInt(row.querySelector('.celda-centered.cantidad').textContent.trim(), 10); 
+
+        // Agregar el objeto, ejemplo: [{"idRecompensa":"RECOM-002","cantidad":50}]
+        data.push({ idRecompensa , cantidad }); 
+    }
+
+    // Convertir el array de objetos a JSON
+    const jsonData = JSON.stringify(data);
+    console.log(jsonData); // Mostrar el JSON en consola para verificar
+
+    jsonRecompensas.value = jsonData;
 }
 
 function guardarCanje(idForm) {

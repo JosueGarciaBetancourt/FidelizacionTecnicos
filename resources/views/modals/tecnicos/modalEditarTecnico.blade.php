@@ -38,7 +38,7 @@
                     <div class="form-group gap">
                         <label class="primary-label" for="tecnicoEditSelect">Tecnico:</label>
                         <div class="input-select" id="tecnicoEditSelect">
-                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI - Nombre"
+                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI - Nombre" autocomplete="off"
                                 oninput="filterOptions('{{ $idInput }}', '{{ $idOptions }}'),
                                         validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
@@ -94,26 +94,21 @@
                         <label class="primary-label noEditable" id="idFechaNacimientoTecnicoLabel" for='{{ $idFechaNacimientoInput }}'>Fecha de nacimiento:</label>
                         <input class="input-item center" type="date" id='{{ $idFechaNacimientoInput }}'
                                name="fechaNacimiento_Tecnico" disabled>
-                    </div>
 
-                    <div class="form-group gap">
                         <label class="primary-label noEditable" id="idPuntosActualesLabel"  for='{{ $idPuntosActualesInput }}' >Puntos actuales:</label>
                         <input class="input-item center" id='{{ $idPuntosActualesInput }}' type="text"
-                               placeholder="0" name="totalPuntosActuales_Tecnico" oninput="validateRealTimeInputLength(this, 4)"
-                               disabled>
-                       
+                                placeholder="0" name="totalPuntosActuales_Tecnico" oninput="validateRealTimeInputLength(this, 4)"
+                                disabled>
                     </div>
 
                     <div class="form-group gap">
                         <label class="primary-label noEditable" id="idHistoricoPuntosLabel"  for='{{ $idHistoricoPuntosInput }}'>Histórico de puntos:</label>
                         <input class="input-item center" id='{{ $idHistoricoPuntosInput }}' type="text" placeholder="0" name="historicoPuntos_Tecnico"
                                 oninput="validateRealTimeInputLength(this, 6)" disabled>
-                    </div>
 
-                    <div class="form-group gap">
                         <label class="primary-label noEditable" id="idRangoInputLabel"  for='{{ $idRangoInputEdit }}'>Rango:</label>
-                        <input class="input-item center" id='{{ $idRangoInputEdit }}' type="text" placeholder="Plata, Oro ó Black" name="rangoTecnico"
-                               oninput="validateRealTimeInputLength(this, 5)" disabled>
+                        <input class="input-item center" id='{{ $idRangoInputEdit }}' type="text" placeholder="Plata | Oro | Black" name="rangoTecnico"
+                                oninput="validateRealTimeInputLength(this, 5)" disabled>
                     </div>
 
                     <div class="form-group start">

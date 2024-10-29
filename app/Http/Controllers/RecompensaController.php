@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Exception;
 use App\Models\Recompensa;
+use Illuminate\Http\Request;
 use Illuminate\Auth\Recaller;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cookie;
 
 
@@ -105,4 +106,33 @@ class RecompensaController extends Controller
     
         return redirect()->route('recompensas.create')->with('successRecompensaDelete', $messageDelete);
     }
+
+    public static function updateStockByIdRecompensaCantidad($idRecompensa, $cantidad) {
+        $recompensa = Recompensa::where('idRecompensa', $idRecompensa)->first();
+    
+        if ($recompensa) {
+            $stockActual = self::calcStockActualByIdRecompensa($idRecompensa);
+            $nuevoStock = $stockActual - $cantidad;
+    
+            $recompensa->update([
+                'stock_Recompensa' => $nuevoStock,
+            ]);
+        } else {
+            // Manejar el caso en el que la recompensa no se encuentra
+            throw new Exception("Recompensa no encontrada con id: {$idRecompensa}");
+        }
+    }
+    
+    public static function calcStockActualByIdRecompensa($idRecompensa) {
+        // Obtener solo el valor de stock_Recompensa
+        $recompensa = Recompensa::where('idRecompensa', $idRecompensa)->first();
+        
+        if ($recompensa) {
+            //dd($recompensa->stock_Recompensa);
+            return $recompensa->stock_Recompensa;
+        } else {
+            throw new Exception("Recompensa no encontrada con id: {$idRecompensa}");
+        }
+    }
+    
 }

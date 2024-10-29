@@ -36,7 +36,7 @@
 						<span class="tooltip red" id="idTecnicoCanjesTooltip">Este es el mensaje del tooltip</span>
 					</div>
 					<div class="input-select" id="tecnicoSelect">
-						<input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI - Nombre"
+						<input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI - Nombre" autocomplete="off" value="77043114 - Josué Daniel García Betancour"
 							oninput="filterOptions('{{ $idInput }}', '{{ $idTecnicoOptions }}'),
 									validateOptionTecnicoCanjes(this, '{{ $idTecnicoOptions }}', '{{ $idTecnicoMessageError }}', {{ json_encode($tecnicosDB) }})"
 							onclick="toggleOptions('{{ $idInput }}', '{{ $idTecnicoOptions }}')">
@@ -145,15 +145,21 @@
 						<div class="tooltip-container"> 
 							<span class="tooltip" id="idRecompensaCanjesTooltip"></span>
 						</div>
-						<input class="input-select-item" type="text" id='{{ $idRecompensaInput }}' maxlength="200" placeholder="Código | Tipo | Descripción | Puntos"
+						<input class="input-select-item" type="text" id='{{ $idRecompensaInput }}' maxlength="200" autocomplete="off" placeholder="Código | Tipo | Descripción | Puntos"
 							oninput="filterOptions('{{ $idRecompensaInput }}', '{{ $idRecompensaOptions }}'), validateNumComprobanteInputNoEmpty(this)
 									validateOptionRecompensaCanjes(this, '{{ $idRecompensaOptions }}', '{{ $idRecompensaMessageError }}', {{ json_encode($recompensasDB) }})"
 							onclick="toggleOptions('{{ $idRecompensaInput }}', '{{ $idRecompensaOptions }}')">
 						<ul class="select-items" id='{{ $idRecompensaOptions }}'>
 							@foreach ($recompensasDB as $recompensa)
 								@php
-									$value = $recompensa->idRecompensa . " | " . $recompensa->tipoRecompensa .
-											" | " . $recompensa->descripcionRecompensa . " | " . $recompensa->costoPuntos_Recompensa . " puntos";
+									$pointSufix = ($recompensa->costoPuntos_Recompensa == 1) ? " punto" : " puntos";
+									$value = implode(" | ", [
+										$recompensa->idRecompensa,
+										$recompensa->tipoRecompensa,
+										$recompensa->descripcionRecompensa,
+										$recompensa->costoPuntos_Recompensa . $pointSufix,
+										$recompensa->stock_Recompensa . " unid. stock",
+									]);
 									$idRecompensa = $recompensa->idRecompensa;
 									$costoPuntosRecompensa = $recompensa->costoPuntos_Recompensa;
 								@endphp
@@ -208,8 +214,9 @@
 								<th class="celda-centered" id="celdaCodigoRecompensa">Código</th>
 								<th class="celda-centered" id="celdaTipoRecompensa">Tipo</th>
 								<th class="celda-centered" id="celdaDescripcionRecompensa">Descripción</th>
-								<th class="celda-centered" id="celdaCostoPuntosRecompensa">Costo puntos</th>
+								<th class="celda-centered">Stock restante</th>
 								<th class="celda-centered" id="celdaCantidadnRecompensa">Cantidad</th>
+								<th class="celda-centered" id="celdaCostoPuntosRecompensa">Costo puntos</th>
 								<th class="celda-centered" id="celdaPuntosTotalesRecompensa">Puntos Totales</th>
 							</tr>
 						</thead>
@@ -227,7 +234,7 @@
 						</tbody>
 						<tfoot class="hidden">
 							<tr>
-								<td colspan="6" class="celda-righted"><strong>Total</strong></td>
+								<td colspan="7" class="celda-righted"><strong>Total</strong></td>
 								<div class="tooltip-container">
 									<span class="tooltip red" id="idCeldaTotalPuntosTooltip"></span>
 								</div>
@@ -235,6 +242,7 @@
 							</tr> 
 						</tfoot>
 					</table>
+					
 					<span id="tblCanjesMessageBelow">Aún no hay recompensas agregadas</span>
 				</div>
 
@@ -259,7 +267,9 @@
 					</div>
 				</div>
 			</div>
+			<input type="hidden" id="jsonRecompensas" name="recompensas_Canje" readonly>
 		</form>
+
 
 		<x-modalConfirmACtion 
 			:idConfirmModal="'modalConfirmActionGuardarCanje'"

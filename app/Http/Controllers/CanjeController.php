@@ -10,6 +10,7 @@ use App\Models\VentaIntermediada;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\TecnicoController;
+use App\Http\Controllers\RecompensaController;
 use Illuminate\Validation\ValidationException;
 
 class CanjeController extends Controller
@@ -66,6 +67,7 @@ class CanjeController extends Controller
                 'puntosComprobante_Canje' => 'required|numeric|min:0',
                 'puntosCanjeados_Canje' => 'required|numeric|min:0',
                 'puntosRestantes_Canje' => 'required|numeric|min:0',
+                'recompensas_Canje' => 'required',
             ]);
 
             $idCanje = $this->generarIdCanje();
@@ -75,6 +77,8 @@ class CanjeController extends Controller
             // Calcular los días transcurridos
             $diasTranscurridos = $this->returnDiasTranscurridosHastaHoy($fechaHoraEmision);
             $idUser = Auth::id(); // Obtiene el id del usuario autenticado
+            $recompensasJson =  $validatedData['recompensas_Canje']; 
+            //dd($recompensasJson)
 
             /*  ===========================MIGRACIÓN DE LA TABLA CANJES===========================
                 $table->string('idCanje', 10); //CANJ-00001 (se genera automáticamente)
@@ -98,10 +102,9 @@ class CanjeController extends Controller
                 'puntosComprobante_Canje' => $validatedData['puntosComprobante_Canje'],
                 'puntosCanjeados_Canje' => $validatedData['puntosCanjeados_Canje'],
                 'puntosRestantes_Canje' => $validatedData['puntosRestantes_Canje'],
+                'recompensas_Canje' => $recompensasJson,
                 'idUser' => $idUser,
             ]);
-
-            //dd($canje);
 
             // Actualizar los campos en la venta intermediada
             $venta->update([
@@ -109,6 +112,13 @@ class CanjeController extends Controller
                 'estadoVentaIntermediada' => "Redimido",
             ]);
 
+            // Actualizar el stock en las recompensas canjeadas
+            $recompensasCanje = json_decode($canje->recompensas_Canje); // Decodificar JSON a un array PHP
+
+            foreach ($recompensasCanje as $recom) {
+                RecompensaController::updateStockByIdRecompensaCantidad($recom->idRecompensa, $recom->cantidad);
+            }
+            
             // Si todo sale bien, confirmar la transacción
             DB::commit();
 
