@@ -15,15 +15,12 @@
                 <x-btn-create-item onclick="openModal('modalRegistrarNuevaRecompensa')"> 
                     Registrar nueva recompensa
                 </x-btn-create-item>
-
                 @include('modals.recompensas.modalRegistrarNuevaRecompensa')
 
                 <x-btn-edit-item onclick="openModal('modalEditarRecompensa')"> Editar </x-btn-edit-item>
-
                 @include('modals.recompensas.modalEditarRecompensa')
 
                 <x-btn-delete-item onclick="openModal('modalEliminarRecompensa')"> Eliminar </x-btn-delete-item>
-
                 @include('modals.recompensas.modalEliminarRecompensa')
             </div>
             

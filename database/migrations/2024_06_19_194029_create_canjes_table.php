@@ -10,7 +10,10 @@ return new class extends Migration
     {
         Schema::create('Canjes', function (Blueprint $table) {
             $table->string('idCanje', 10); //CANJ-00001 (se genera automáticamente)
+
             $table->string('idVentaIntermediada', 13);
+            $table->foreign('idVentaIntermediada')->references('idVentaIntermediada')->on('VentasIntermediadas');
+
             $table->dateTime('fechaHoraEmision_VentaIntermediada');
             $table->dateTime('fechaHora_Canje')->useCurrent();
             $table->integer('diasTranscurridos_Canje')->unsigned(); 
@@ -23,8 +26,6 @@ return new class extends Migration
                                                         {"idRecompensa": "RECOM-003", "cantidad": 1}
                                                      */
             $table->unsignedBigInteger('idUser');
-           
-            $table->foreign('idVentaIntermediada')->references('idVentaIntermediada')->on('VentasIntermediadas');
             $table->foreign('idUser')->references('id')->on('users');
             $table->timestamps();
         });
