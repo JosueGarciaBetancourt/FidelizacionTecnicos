@@ -328,6 +328,7 @@ function validateMinMaxRealTime(input, min, max) {
 function validateValueOnRealTime(input, idOptions, idMessageError, someHiddenIdInputsArray, 
                                 otherInputsArray = null, itemsDB = null, searchField = null,
                                 dbFieldsNameArray = null) {
+    //console.log(itemsDB);
 
     const value = input.value;
     const messageError = document.getElementById(idMessageError);

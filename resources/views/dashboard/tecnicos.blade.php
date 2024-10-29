@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="{{ asset('css/modalAgregarNuevoTecnico.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/modalEditarTecnico.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/modalEliminarTecnico.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/modalRecontratarTecnico.css') }}">
 @endpush
 
 @section('main-content')
@@ -22,6 +23,9 @@
 
 			<x-btn-delete-item onclick="openModal('modalEliminarTecnico')"> Eliminar </x-btn-delete-item>
 			@include('modals.tecnicos.modalEliminarTecnico')
+
+			<x-btn-recover-item onclick="openModal('modalRecontratarTecnico')"> Recontratar </x-btn-delete-item>
+			@include('modals.tecnicos.modalRecontratarTecnico')
 		</div>
 		
 		<!--Tabla de técnicos-->
@@ -71,6 +75,7 @@
 	<script src="{{ asset('js/modalAgregarNuevoTecnico.js') }}"></script>
 	<script src="{{ asset('js/modalEditarTecnico.js') }}"></script>
 	<script src="{{ asset('js/modalEliminarTecnico.js') }}"></script>
+	<script src="{{ asset('js/modalRecontratarTecnico.js') }}"></script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			@if(session('successTecnicoStore'))

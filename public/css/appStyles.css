@@ -264,6 +264,45 @@ input[type="date"] {
     text-align: center;
 }
 
+/* RECUPERAR */
+.btnRecoverItem-container {
+    background: #0e6a28;
+    border-radius: 40px;
+    display: flex; 
+    max-width: 15rem; 
+    min-height: 3rem; 
+    align-items: center;
+    padding: 0.1rem 1rem;
+    margin: 0;
+    transition-duration: .4s;
+}
+
+.btnRecoverItem-container:hover{
+    background-color: #19963f;
+}
+
+.btnRecoverItem {
+    color: #FFF;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    width: 100%; /* Toma todo el ancho disponible del contenedor padre */
+    padding: 0.3rem; 
+    align-items: center;
+    justify-content: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    white-space: normal; /* Permite que el texto se ajuste automáticamente */
+    word-break: break-word; /* Asegura que las palabras largas se rompan correctamente */
+}
+
+.btnRecoverItem span {
+	padding-left: 0.5rem;
+    font-size: 1.2rem;
+    color: #FFF;
+}
+
 /* Estilos para el modo oscuro */
 body.dark-mode {
     --clr-background: #161d31 !important;

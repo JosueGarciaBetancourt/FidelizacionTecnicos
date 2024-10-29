@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Login_Tecnico;
 use Yajra\DataTables\DataTables;
 use App\Models\VentaIntermediada;
+use Illuminate\Support\Facades\DB;
 
 class TecnicoController extends Controller
 {   
@@ -14,7 +15,9 @@ class TecnicoController extends Controller
         // Obtener todas los técnicos activos
         $tecnicos = Tecnico::all();
        
-        return view('dashboard.tecnicos', compact('tecnicos'));
+        // Obtener todas los técnicos borrados
+        $tecnicosBorrados = Tecnico::onlyTrashed()->get();
+        return view('dashboard.tecnicos', compact('tecnicos', 'tecnicosBorrados'));
     }
 
     function store(Request $request) 
@@ -103,6 +106,50 @@ class TecnicoController extends Controller
         return redirect()->route('tecnicos.create')->with('successTecnicoDelete', $messageDelete);
     }
 
+    public function recontratar(Request $request)
+    {
+        $validatedDataTecnico = $request->validate([
+            'idTecnico' => 'required|max:8', // FALTA VALIDAR CORRECTAMENTE ESTE CAMPO PARA MAYOR SEGURIDAD
+            'celularTecnico' => 'required|max:9',
+            'oficioTecnico' => 'required|string',
+        ]);
+        
+        // Iniciar transacción
+        DB::beginTransaction();
+        
+        try {
+            // Obtener el técnico eliminado
+            $tecnicoBorrado = Tecnico::onlyTrashed()->where('idTecnico', $validatedDataTecnico['idTecnico'])->first();
+            
+            if (!$tecnicoBorrado) {
+                return redirect()->route('tecnicos.create')->withErrors('Técnico no encontrado o ya activo.');
+            }
+            
+            // Restaurar el técnico
+            $tecnicoBorrado->restore();
+            
+            // Calcular el rango
+            $rango = $this->getRango($tecnicoBorrado->historicoPuntos_Tecnico);
+            
+            // Actualizar los datos del técnico
+            $tecnicoData = array_merge($validatedDataTecnico, ['rangoTecnico' => $rango]);
+            $tecnicoBorrado->update($tecnicoData);
+
+            //dd($tecnicoBorrado);
+            // Confirmar transacción
+            DB::commit();
+
+            return redirect()->route('tecnicos.create')->with('successTecnicoRecontratadoStore', 'Técnico agregado exitosamente.');
+        } catch (\Exception $e) {
+            // Revertir transacción si hay un error
+            DB::rollBack();
+            
+            // Redirigir con mensaje de error
+            return redirect()->route('tecnicos.create')->withErrors('Ocurrió un error al intentar recontratar al técnico. Por favor, inténtelo de nuevo.');
+        }
+    }
+
+    
     public function getRango(int $puntos): string
     {
         if ($puntos < 24000) {

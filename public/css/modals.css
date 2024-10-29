@@ -171,6 +171,16 @@
     background-color: #922f52;
 }
 
+
+.btn-primary.recover {
+    background-color: #0e6a28;
+    color: #fff;
+}
+
+.btn-primary.recover:hover{
+    background-color: #19963f;
+}
+
 .close {
     font-size: 1.6rem;
     color: #AAA;

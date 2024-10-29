@@ -1,0 +1,30 @@
+#modalRecontratarTecnico-dialog {
+	max-width: 700px; 
+    transform: translateY(-10px);
+}
+
+#modalRecontratarTecnico .modal-dialog.open {
+    transform: translateY(-50px); 
+}
+
+#tecnicoRecontratarInput {
+	width: 20rem;
+}
+
+#idModalBodyRecontratarTecnico {
+	padding: 0;
+}
+
+#historicoPuntosInputRecontratar, #puntosActualesInputRecontratar {
+	max-width: 5rem;
+}
+
+#rangoInputRecontratar {
+	max-width: 9rem;
+	padding-left: 5px;
+}
+
+#idH5RecontratarTecnicoModalContainer > h5{
+	font-size: 0.9rem;
+	color: #555;
+}
