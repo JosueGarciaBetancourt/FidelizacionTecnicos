@@ -73,9 +73,14 @@ class Login_tecnicoController extends Controller
     public function getVentasIntermediadas($idTecnico)
     {
         $ventas = DB::table('ventasintermediadas')
-            ->where('idTecnico', $idTecnico)
+            ->join('estadoventas', 'ventasintermediadas.idEstadoVenta', '=', 'estadoventas.idEstadoVenta')
+            ->where('ventasintermediadas.idTecnico', $idTecnico)
+            ->select(
+                'ventasintermediadas.*',
+                'estadoventas.nombre_EstadoVenta as estado_nombre' // Agregamos el nombre del estado
+            )
             ->get();
-        
+
         return response()->json($ventas);
     }
 
