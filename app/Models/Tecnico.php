@@ -36,4 +36,8 @@ class Tecnico extends Model
     public function LoginTecnico() {
         return $this->hasOne(Login_Tecnico::class, 'idTecnico', 'idTecnico');
     }
+
+    public function tecnicosOficios() {
+        return $this->hasMany(TecnicoOficio::class, 'idTecnico', 'idTecnico');
+    }
 }
