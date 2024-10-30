@@ -820,7 +820,7 @@ $(document).ready(function() {
 		},
 
 		// Ajax
-		processing: true, // personalizar el mensaje "Procesando"
+		processing: true, // Personalizar el mensaje "Procesando"
 		serverSide: true,
 		"createdRow": function(row, data, dataIndex){
 			let tdContador = row.children[0];

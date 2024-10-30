@@ -194,8 +194,13 @@ class TecnicoController extends Controller
         return $sumaPuntosTotales;
     }
 
+    public function getOficiosByIdTecnico($idTecnico) {
+        
+    }
+
     public function tabla()
-    {
-        return DataTables::make(Tecnico::all())->toJson();
+    {   $tecnicos = Tecnico::all();
+        $oficioTecnico = $this->getOficiosByIdTecnico($tecnicos->$idTecnico);
+        return DataTables::make($data)->toJson();
     }
 }
