@@ -1,12 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Oficio;
 use App\Models\Tecnico;
 use Illuminate\Http\Request;
 use App\Models\Login_Tecnico;
+use App\Models\TecnicoOficio;
 use Yajra\DataTables\DataTables;
 use App\Models\VentaIntermediada;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class TecnicoController extends Controller
 {   
@@ -195,12 +198,53 @@ class TecnicoController extends Controller
     }
 
     public function getOficiosByIdTecnico($idTecnico) {
+        $arrayIdOficios = TecnicoOficio::where('idTecnico', $idTecnico)->pluck('idOficio');
+    
+        if ($arrayIdOficios->isNotEmpty()) {
+            $arrayNombreOficios = [];
+    
+            foreach ($arrayIdOficios as $idOficio) {
+                $oficio = Oficio::where('idOficio', $idOficio)->first();
         
+                if ($oficio) { 
+                    $arrayNombreOficios[] = $oficio->nombre_Oficio;
+                }
+            }
+        
+            return $arrayNombreOficios;
+        }
+    
+        return [];  
     }
 
     public function tabla()
-    {   $tecnicos = Tecnico::all();
-        $oficioTecnico = $this->getOficiosByIdTecnico($tecnicos->$idTecnico);
+    {   
+        $tecnicos = Tecnico::all();
+        $data = []; 
+
+        foreach ($tecnicos as $tecnico) {
+            // Obtener los oficios para este técnico
+            $arrayNombreOficios = $this->getOficiosByIdTecnico($tecnico->idTecnico);
+            
+            // Reiniciar oficios para cada técnico
+            $oficios = !empty($arrayNombreOficios) ? implode('/', $arrayNombreOficios) : '';
+          
+            if (!$oficios) {
+                $oficios = "No tiene";
+            }
+
+            $data[] = [
+                'idTecnico' => $tecnico->idTecnico,
+                'nombreTecnico' => $tecnico->nombreTecnico,
+                'oficioTecnico' => $oficios,
+                'celularTecnico' => $tecnico->celularTecnico,
+                'fechaNacimiento_Tecnico' => $tecnico->fechaNacimiento_Tecnico,
+                'totalPuntosActuales_Tecnico' => $tecnico->totalPuntosActuales_Tecnico,
+                'historicoPuntos_Tecnico' => $tecnico->historicoPuntos_Tecnico,
+                'rangoTecnico' => $tecnico->rangoTecnico,
+            ];
+        }
+
         return DataTables::make($data)->toJson();
     }
 }

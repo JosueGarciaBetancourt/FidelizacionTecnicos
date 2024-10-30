@@ -2,48 +2,35 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use App\Models\Oficio;
+use App\Models\Tecnico;
 use App\Models\TecnicoOficio;
+use Illuminate\Database\Seeder;
 
 class TecnicoOficioSeeder extends Seeder
 {
     public function run(): void
     {
-        $tecnicosoficios = [
-            // 77043114 → Albañil/Enchapador/Gasfitero
-            [
-                'idTecnico' => '77043114',
-                'idOficio' => 1, 
-            ],
-            [
-                'idTecnico' => '77043114',
-                'idOficio' => 5, 
-            ],
-            [
-                'idTecnico' => '77043114',
-                'idOficio' => 6, 
-            ],
+        // Definimos el número máximo de oficios que podemos asignar a un técnico
+        $maxOficiosPorTecnico = 3;
 
-            // 77665544 → Electricista/Enchapador/Pintor
-            [
-                'idTecnico' => '77665544',
-                'idOficio' => 4, 
-            ],
-            [
-                'idTecnico' => '77665544',
-                'idOficio' => 5, 
-            ],
-            [
-                'idTecnico' => '77665544',
-                'idOficio' => 9, 
-            ],
-        ];
+        // Obtenemos todos los técnicos y oficios disponibles
+        $tecnicos = Tecnico::all();
+        $oficios = Oficio::all();
 
-        foreach ($tecnicosoficios as $tec_ofi) {
-            TecnicoOficio::create($tec_ofi);
+        foreach ($tecnicos as $tecnico) {
+            // Seleccionamos aleatoriamente entre 1 y el máximo de oficios permitidos
+            $cantidadOficios = rand(1, $maxOficiosPorTecnico);
+            
+            // Seleccionamos oficios aleatorios asegurando que no se repitan
+            $oficiosSeleccionados = $oficios->random($cantidadOficios)->pluck('idOficio')->toArray();
+
+            foreach ($oficiosSeleccionados as $idOficio) {
+                TecnicoOficio::create([
+                    'idTecnico' => $tecnico->idTecnico,
+                    'idOficio' => $idOficio,
+                ]);
+            }
         }
-
-        TecnicoOficio::factory(48)->create();
     }
 }

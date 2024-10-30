@@ -37,27 +37,15 @@ class OficioSeeder extends Seeder
             ],
             [
                 'idOficio' => 7,
-                'nombre_Oficio' => 'Instalador de pisos',
-            ],
-            [
-                'idOficio' => 8,
                 'nombre_Oficio' => 'Instalador de ventanas y puertas',
             ],
             [
-                'idOficio' => 9,
+                'idOficio' => 8,
                 'nombre_Oficio' => 'Pintor',
             ],
             [
-                'idOficio' => 10,
+                'idOficio' => 9,
                 'nombre_Oficio' => 'Soldador',
-            ],
-            [
-                'idOficio' => 11,
-                'nombre_Oficio' => 'Techador',
-            ],
-            [
-                'idOficio' => 12,
-                'nombre_Oficio' => 'Yesero',
             ],
         ];
 

@@ -40,4 +40,8 @@ class Tecnico extends Model
     public function tecnicosOficios() {
         return $this->hasMany(TecnicoOficio::class, 'idTecnico', 'idTecnico');
     }
+
+    public function oficios() {
+        return $this->belongsToMany(Oficio::class, 'TecnicosOficios', 'idTecnico', 'idOficio');
+    }
 }
