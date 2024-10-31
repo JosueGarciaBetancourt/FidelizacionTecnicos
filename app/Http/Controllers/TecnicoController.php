@@ -13,29 +13,91 @@ use Illuminate\Support\Facades\Log;
 
 class TecnicoController extends Controller
 {   
-    public function create()
-    {
-        // Obtener todas los técnicos activos
+    public function returnModelsTecnicosWithOficios() {
         $tecnicos = Tecnico::all();
-       
-        // Obtener todas los técnicos borrados
+    
+        // Agregar el campo oficioTecnico a cada modelo en la colección
+        foreach ($tecnicos as $tecnico) {
+            // Obtener los IDs de oficios asociados con el técnico
+            $arrayIdOficios = TecnicoOficio::where('idTecnico', $tecnico->idTecnico)->pluck('idOficio');
+    
+            // Obtener todos los oficios en una sola consulta
+            $oficios = Oficio::whereIn('idOficio', $arrayIdOficios)->get();
+    
+            // Construir el string con los nombres de los oficios
+            $oficioValue = $oficios->isNotEmpty() 
+                ? $oficios->map(fn($oficio) => $oficio->idOficio . "-" . $oficio->nombre_Oficio)->implode(' | ')
+                : 'No tiene oficio';
+    
+            // Asignar el valor de oficio a cada técnico como atributo dinámico
+            $tecnico->idNameOficioTecnico = $oficioValue;
+        }
+    
+        return $tecnicos;
+    }
+
+    public function returnAllIdsNombresOficios() {
+        // Obtener todos los oficios de la BD
+        $oficios = Oficio::all();
+        // Obtener todos los nombres de los oficios 
+        $arrayIdsNombreOficios = [];
+        foreach ($oficios as $oficio) {
+            $arrayIdsNombreOficios[] = $oficio->idOficio . "-" . $oficio->nombre_Oficio;
+        }
+        return $arrayIdsNombreOficios;
+    }
+
+    public function create()
+    {   
+        $tecnicos = $this->returnModelsTecnicosWithOficios();
+        // dd($tecnicos); //"idNameOficioTecnico" => "1-Albañil | 2-Carpintero"
         $tecnicosBorrados = Tecnico::onlyTrashed()->get();
-        return view('dashboard.tecnicos', compact('tecnicos', 'tecnicosBorrados'));
+        $idsNombresOficios = $this->returnAllIdsNombresOficios(); // 1-Albañil | ...
+        return view('dashboard.tecnicos', compact('tecnicos', 'tecnicosBorrados', 'idsNombresOficios'));
     }
 
     function store(Request $request) 
     {   
-        $validatedDataTecnico = $request->validate([
-            'idTecnico' => 'required|max:8', // FALTA VALIDAR CORRECTAMENTE ESTE CAMPO PARA MAYOR SEGURIDAD
-            'nombreTecnico' => 'required|string|max:100',
-            'celularTecnico' => 'required|max:9',
-            'oficioTecnico' => 'required|string',
-            'fechaNacimiento_Tecnico' => 'required',
-        ]);
+        try {
+            // Primera validación, solo para asegurar que es un JSON válido
+            $validatedData = $request->validate([
+                'idTecnico' => 'required|max:8', // Validación de seguridad adicional sugerida
+                'nombreTecnico' => 'required|string|max:100',
+                'celularTecnico' => 'required|string|regex:/^[0-9]{9}$/', // Verifica que tenga exactamente 9 dígitos
+                'fechaNacimiento_Tecnico' => 'required|date', // Valida que sea una fecha
+                'idOficioArray' => 'required|json', // Valida que sea un JSON válido
+            ]);
         
+            // Decodifica el JSON a un array
+            $idOficioArray = json_decode($validatedData['idOficioArray'], true);
+        
+            // Verifica que sea un array y aplica la validación para cada elemento
+            if (!is_array($idOficioArray) || !collect($idOficioArray)->every(fn($id) => is_int($id) && $id > 0)) {
+                throw new \Exception("El campo idOficioArray debe ser un array de ENTEROS POSITIVOS.");
+            }
+        
+            // Datos validados para la tabla Tecnicos
+            $validatedDataTecnico = [
+                'idTecnico' => $validatedData['idTecnico'],
+                'nombreTecnico' => $validatedData['nombreTecnico'],
+                'celularTecnico' => $validatedData['celularTecnico'],
+                'fechaNacimiento_Tecnico' => $validatedData['fechaNacimiento_Tecnico'],
+            ];
+        
+            // Datos validados para la tabla TecnicosOficios
+            $validatedDataTecnicoOficio = [
+                'idTecnico' => $validatedData['idTecnico'],
+                'idOficioArray' => $idOficioArray, // Array decodificado y validado
+            ];
+        
+            //dd($validatedDataTecnico, $validatedDataTecnicoOficio);
+        } catch (\Exception $e) {
+            dd("Error en la validación del formulario Agregar Nuevo Técnico: " . $e->getMessage());
+        }
+
         // Obtener el origen de la solicitud
         $origin = $request->input('origin'); // Con JS se modifica el valor del input en modalAgregarNuevoTecnico.blade.php
-
+        
         // Comprobar si el técnico fue borrado con soft delete
         $tecnicoBorrado = Tecnico::onlyTrashed()->where('idTecnico', $validatedDataTecnico['idTecnico'])->first();
 
@@ -51,6 +113,10 @@ class TecnicoController extends Controller
             $tecnico = new Tecnico($validatedDataTecnico);
             $tecnico->save();
             
+            // Guardar oficio en la tabla TecnicosOficios
+            $tecnicoOficio = new TecnicoOficio($validatedDataTecnicoOficio);
+            $tecnicoOficio->save();
+
             // Login tecnico
             $validatedDatLoginTecnico = $request->validate([
                 'idTecnico' => 'required|unique:login_tecnicos|max:8',
@@ -78,12 +144,50 @@ class TecnicoController extends Controller
 
     function update(Request $request) 
     {
-        $tecnicoSolicitado = Tecnico::find($request->idTecnico);
-        $rango = $this->getRango($tecnicoSolicitado->historicoPuntos_Tecnico);
-        $tecnicoSolicitado->update([
-            'celularTecnico' => $request->celularTecnico,
-            'oficioTecnico' => $request->oficioTecnico,
+        try {
+            // Primera validación, solo para asegurar que es un JSON válido
+            $validatedData = $request->validate([
+                'idTecnico' => 'required|max:8', // Validación de seguridad adicional sugerida
+                'celularTecnico' => 'required|string|regex:/^[0-9]{9}$/', // Verifica que tenga exactamente 9 dígitos
+                'idOficioArray' => 'required|json', // Valida que sea un JSON válido
+            ]);
+        
+            // Decodifica el JSON a un array
+            $idOficioArray = json_decode($validatedData['idOficioArray'], true);
+        
+            // Verifica que sea un array y aplica la validación para cada elemento
+            if (!is_array($idOficioArray) || !collect($idOficioArray)->every(fn($id) => is_int($id) && $id > 0)) {
+                throw new \Exception("El campo idOficioArray debe ser un array de ENTEROS POSITIVOS.");
+            }
+        
+            // Datos validados para la tabla Tecnicos
+            $validatedDataTecnico = [
+                'idTecnico' => $validatedData['idTecnico'],
+                'celularTecnico' => $validatedData['celularTecnico'],
+            ];
+        
+            // Datos validados para la tabla TecnicosOficios
+            $validatedDataTecnicoOficio = [
+                'idTecnico' => $validatedData['idTecnico'],
+                'idOficioArray' => $idOficioArray, // Array decodificado y validado
+            ];
+        
+            dd($validatedDataTecnico, $validatedDataTecnicoOficio);
+        } catch (\Exception $e) {
+            dd("Error en la validación del formulario Editar Técnico: " . $e->getMessage());
+        }
+
+        $tecnico = Tecnico::find($validatedDataTecnico['idTecnico']);
+        $rango = $this->getRango($tecnico->historicoPuntos_Tecnico);
+        // Actualizar en Tecnicos
+        $tecnico->update([
+            'celularTecnico' => $validatedDataTecnico['celularTecnico'],
             'rangoTecnico' => $rango,
+        ]);
+        // Actualizar en TecnicosOficios
+        $tecnicoOficio = TecnicoOficio::find($validatedDataTecnicoOficio['idTecnico']);
+        $tecnicoOficio->update([
+            'idOficioArray' => $validatedDataTecnicoOficio['idOficioArray'],
         ]);
 
         $messageUpdate = 'Técnico actualizado correctamente';
@@ -217,8 +321,7 @@ class TecnicoController extends Controller
         return [];  
     }
 
-    public function tabla()
-    {   
+    public function returnArrayTecnicosWithOficios() {
         $tecnicos = Tecnico::all();
         $data = []; 
 
@@ -245,6 +348,12 @@ class TecnicoController extends Controller
             ];
         }
 
-        return DataTables::make($data)->toJson();
+        return $data; 
+    }
+
+    public function tabla()
+    {   
+        $tecnicosWithOficios = $this->returnArrayTecnicosWithOficios();
+        return DataTables::make($tecnicosWithOficios)->toJson();
     }
 }

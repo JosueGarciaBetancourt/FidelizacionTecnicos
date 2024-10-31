@@ -28,11 +28,9 @@
               onclick="{{ $isDisabled ? '' : "clearInput('{$dynamicIdInput}')" }} {{$spanClickFunction}}"> cancel </span>
     </div>  
     <ul class="select-items" id="{{ $dynamicIdOptions }}">
-        @foreach ($options as $option)
-            <li 
-                onclick="{{ $selectFunction }}('{{ $option }}', '{{ $dynamicIdInput }}', '{{ $dynamicIdOptions }}')"
-            >
-                {{ $option }}
+        @foreach ($options as $option) {{--$options es enviada desde la vista--}}
+            <li onclick="{{ $selectFunction }}('{{ $option }}', '{{ $dynamicIdInput }}', '{{ $dynamicIdOptions }}')">
+                {{ $option }} 
             </li>
         @endforeach
     </ul>

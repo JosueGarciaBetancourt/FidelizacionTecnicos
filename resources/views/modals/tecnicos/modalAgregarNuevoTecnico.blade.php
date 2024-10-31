@@ -11,6 +11,7 @@
 
                     @php 
                         $tecnicosDB = $tecnicos;
+                        $idsNombresOficiosBD = $idsNombresOficios;
                     @endphp
 
                     <div class="form-group">
@@ -32,9 +33,12 @@
                             :idInput="'oficioInput'"
                             :idOptions="'oficioOptions'"
                             :placeholder="'Seleccionar oficio'"
-                            :name="'oficioTecnico'"
-                            :options="['Albañil', 'Enchapador', 'Enchapador/Albañil']"
+                            {{--:name="'oficioTecnico'"--}}
+                            :options="$idsNombresOficiosBD"
+                            :onSelectFunction="'selectOptionOficio'"
+                            :onSpanClickFunction="'cleanHiddenOficiosInput'"
                             />
+                        <input type="text" id="idsOficioArrayInput" name="idOficioArray">
                     </div>
 
                     <div class="form-group start">

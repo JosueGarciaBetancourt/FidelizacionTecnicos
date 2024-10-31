@@ -19,7 +19,6 @@
                         $idMessageError = 'searchDeleteTecnicoMessageError';
 						$idModalDeleteMessageError = 'modalEliminarTecnicoMessageError';
                         $someHiddenIdInputsArray = ['idDeleteTecnicoInput'];
-						
 						$idCelularInput = 'celularInputDelete'; //El valor se debe modificar también en modalEliminarTecnico.js
                         $idFechaNacimientoInput = 'fechaNacimientoInputDelete';
                         $idOficioInputDelete = 'oficioInputDelete';

@@ -12,6 +12,7 @@
                     <!-- Variables globales -->
                     @php
                         $tecnicosDB = $tecnicos;
+                        $idsNombresOficiosBD = $idsNombresOficios;
                         $dbFieldsNameArray = ['celularTecnico', 'oficioTecnico', 'fechaNacimiento_Tecnico', 
 											'totalPuntosActuales_Tecnico', 'historicoPuntos_Tecnico', 'rangoTecnico'];
                         $idInput = 'tecnicoEditInput';
@@ -51,7 +52,7 @@
                                         $idTecnico = htmlspecialchars($tecnico->idTecnico, ENT_QUOTES, 'UTF-8');
                                         $nombreTecnico = htmlspecialchars($tecnico->nombreTecnico, ENT_QUOTES, 'UTF-8');
                                         $celularTecnico = htmlspecialchars($tecnico->celularTecnico, ENT_QUOTES, 'UTF-8');
-										$oficioTecnico = htmlspecialchars($tecnico->oficioTecnico, ENT_QUOTES, 'UTF-8');
+										$idNameOficioTecnico = htmlspecialchars($tecnico->idNameOficioTecnico, ENT_QUOTES, 'UTF-8');
 										$fechaNacimiento_Tecnico = htmlspecialchars($tecnico->fechaNacimiento_Tecnico, ENT_QUOTES, 'UTF-8');
 										$totalPuntosActuales_Tecnico = htmlspecialchars($tecnico->totalPuntosActuales_Tecnico, ENT_QUOTES, 'UTF-8');
 										$historicoPuntos_Tecnico = htmlspecialchars($tecnico->historicoPuntos_Tecnico, ENT_QUOTES, 'UTF-8');
@@ -60,7 +61,7 @@
                                     @endphp
                             
                                    <li onclick="selectOptionEditarTecnico('{{ $value }}', '{{ $idTecnico }}', '{{ $nombreTecnico }}', '{{ $celularTecnico }}',
-												'{{ $oficioTecnico }}', '{{ $fechaNacimiento_Tecnico }}', '{{ $totalPuntosActuales_Tecnico }}', 
+												'{{ $idNameOficioTecnico }}', '{{ $fechaNacimiento_Tecnico }}', '{{ $totalPuntosActuales_Tecnico }}', 
                                                 '{{ $historicoPuntos_Tecnico }}', '{{ $rangoTecnico }}', '{{ $idInput }}', '{{ $idOptions }}', 
                                                 {{ json_encode($someHiddenIdInputsArray) }})">
                                         {{ $value }}
@@ -80,14 +81,17 @@
                                 oninput="validateRealTimeInputLength(this, 9), validateNumberRealTime(this)" 
                                 placeholder="987654321" name="celularTecnico">
 
-                        <label class="primary-label" id='idOficioInputLabel' for='{{ $idOficioInputEdit }}'>Oficio:</label>
+                        <label class="primary-label" id='idOficioInputLabel' for='{{ $idOficioInputEdit }}'>Oficio(s):</label>
                         <x-onlySelect-input 
                             :idInput="$idOficioInputEdit"
                             :inputClassName="'onlySelectInput long'"
                             :placeholder="'Seleccionar oficio'"
-                            :name="'oficioTecnico'"
-                            :options="['Albañil', 'Enchapador', 'Enchapador/Albañil']"
+                            {{-- :name="'oficioTecnico'" --}}
+                            :options="$idsNombresOficiosBD"
+                            :onSelectFunction="'selectOptionEditOficio'"
+                            :onSpanClickFunction="'cleanHiddenOficiosEditInput'"
                         />
+                        <input type="text" id="idsOficioEditArrayInput" name="idOficioArray">
                     </div>
 
                     <div class="form-group gap">

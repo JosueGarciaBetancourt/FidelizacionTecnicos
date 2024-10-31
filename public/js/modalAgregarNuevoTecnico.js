@@ -3,7 +3,9 @@ let minDate = '1900-01-01';
 let maxDate = today.toISOString().split('T')[0];
 let objMaxDate = new Date(maxDate); // Convierte maxDate a un objeto Date
 let mayorDeEdad = false;
-
+let idsOficioArrayInput = document.getElementById('idsOficioArrayInput');
+let oficioAgregarTecnicoInput = document.getElementById('oficioInput');
+    
 document.addEventListener("DOMContentLoaded", function() {
     var dniInput = document.getElementById('dniInput');
     var phoneInput = document.getElementById('phoneInput');
@@ -65,6 +67,69 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 });
+
+let oficiosSeleccionadosIds = [];
+let oficiosSeleccionados = []; // Array para guardar los oficios completos (id-nombre)
+
+function selectOptionOficio(value, idInput, idOptions) {
+    const oficioId = parseInt(value.split('-')[0]);
+    
+    if (oficioAgregarTecnicoInput.value.trim() == "") {
+        var input = document.getElementById(idInput);
+        var options = document.getElementById(idOptions);
+
+        if (input) {
+            input.value = value;
+            options.classList.remove('show');
+            // Almacenar el primer ID y valor completo
+            oficiosSeleccionadosIds = [oficioId];
+            oficiosSeleccionados = [value];
+            console.log('IDs de oficios seleccionados:', oficiosSeleccionadosIds);
+            // Actualizar el input oculto
+            idsOficioArrayInput.value = JSON.stringify(oficiosSeleccionadosIds);
+        } else {
+            console.error('El elemento con id ' + idOptions + ' no se encontró en el DOM');
+        }
+        return;
+    }
+
+    var input = document.getElementById(idInput);
+    var options = document.getElementById(idOptions);
+
+    if (input) {
+        // Agregar el nuevo ID y valor al array
+        oficiosSeleccionadosIds.push(oficioId);
+        oficiosSeleccionados.push(value);
+        
+        // Eliminar duplicados manteniendo la correspondencia entre arrays
+        let unique = new Map();
+        for(let i = 0; i < oficiosSeleccionadosIds.length; i++) {
+            unique.set(oficiosSeleccionadosIds[i], oficiosSeleccionados[i]);
+        }
+        
+        // Convertir el Map a arrays ordenados
+        let sortedEntries = Array.from(unique.entries()).sort((a, b) => a[0] - b[0]);
+        oficiosSeleccionadosIds = sortedEntries.map(entry => entry[0]);
+        oficiosSeleccionados = sortedEntries.map(entry => entry[1]);
+        
+        // Actualizar el input con los valores ordenados
+        input.value = oficiosSeleccionados.join(" | ");
+        options.classList.remove('show');
+        
+        // Para debug
+        console.log('IDs de oficios seleccionados:', oficiosSeleccionadosIds);
+    } else {
+        console.error('El elemento con id ' + idOptions + ' no se encontró en el DOM');
+    }
+
+    // Actualizar el input oculto
+    idsOficioArrayInput.value = JSON.stringify(oficiosSeleccionadosIds);
+    return;
+}
+
+function cleanHiddenOficiosInput() {
+    idsOficioArrayInput.value = "";
+}
 
 function validateDate() {
     var selectedDate = document.getElementById('bornDateInput').value;

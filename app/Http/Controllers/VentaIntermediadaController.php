@@ -204,8 +204,11 @@ class VentaIntermediadaController extends Controller
         });
     
         // Cargar la vista con las ventas y los técnicos
-        $tecnicos = Tecnico::all();
-        return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos'));
+        $tecnicoController = new TecnicoController();
+        $tecnicos = $tecnicoController->returnModelsTecnicosWithOficios();
+        $idsNombresOficios = $tecnicoController->returnAllIdsNombresOficios(); 
+
+        return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos', 'idsNombresOficios'));
     }
     
     function store(Request $request) 
