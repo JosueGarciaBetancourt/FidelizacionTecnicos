@@ -1,0 +1,20 @@
+#modalRestaurarOficio-dialog {
+	max-width: 700px; 
+}
+
+#codigoOficioInputRestaurar {
+	width: 20rem;
+}
+
+#idModalBodyRestaurarOficio {
+	padding: 0;
+}
+
+#idH5RestaurarOficioModalContainer > h5{
+	font-size: 1rem;
+	color: #555;
+}
+
+#costoPuntosInputRestaurar {
+	background-color: #fff;
+}

@@ -1,107 +1,77 @@
-<div class="modal first"  id="modalEliminarRecompensa">
-    <div class="modal-dialog" id="modalEliminarRecompensa-dialog">
-        <div class="modal-content" id="modalEliminarRecompensa-content">
+<div class="modal first"  id="modalEliminarOficio">
+    <div class="modal-dialog" id="modalEliminarOficio-dialog">
+        <div class="modal-content" id="modalEliminarOficio-content">
             <div class="modal-header">
-                <h5 class="modal-title">Eliminar recompensa</h5>
-                <button class="close" onclick="closeModal('modalEliminarRecompensa')">&times;</button>
+                <h5 class="modal-title">Eliminar Oficio</h5>
+                <button class="close" onclick="closeModal('modalEliminarOficio')">&times;</button>
             </div>
-            <div class="modal-body" id="idModalBodyEliminarRecompensa">
-                <form id="formEliminarRecompensa" action="{{ route('recompensas.delete') }}" method="POST">
+            <div class="modal-body" id="idModalBodyEliminarOficio">
+                <form id="formEliminarOficio" action="{{ route('oficios.delete') }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <!-- Variables globales -->
                     @php
                         $oficiosDB = $oficios;
-                        $dbFieldsNameArray = ['tipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa'];
-                        $idInput = 'recompensaInputDelete';
-                        $idOptions = 'recompensaDeleteOptions';
-                        $idMessageError = 'searchDeleteRecompensaError';
-                        $someHiddenIdInputsArray = ['idDeleteRecompensaInput'];
-                        $idCostoPuntosInput = 'costoPuntosInputDelete'; //El valor se debe modificar también en modalEliminarRecompensa.js
-                        $idStockRecompensa = 'stockRecompensaInputDelete'; 
-                        $idTipoRecompensaInputDelete = 'tipoRecompensaInputDelete';
-                        $idDescripcionRecompensaInputDelete = 'descripcionRecompensaInputDelete';
-                        $otherInputsArray = [$idTipoRecompensaInputDelete , 'descripcionRecompensaInputDelete', $idCostoPuntosInput];
-                        $searchDBField = 'idRecompensa';
+                        $idCodigoOficioInput = 'codigoOficioInputDelete';
+                        $idOptions = 'oficioDeleteOptions';
+                        $idMessageError = 'searchDeleteOficioError';
+                        $idGeneralMessageError = 'generalDeleteOficioError';
+                        $idDescripcionOficioInputDelete = 'descripcionOficioInputDelete';
+                        $someHiddenIdInputsArray = ['idDeleteOficioInput'];
+                        $otherInputsArray = [$idDescripcionOficioInputDelete];
+                        $searchDBField = 'idOficio';
+                        $dbFieldsNameArray = ['nombre_Oficio', 'descripcion_Oficio'];
                     @endphp
-                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idRecompensa">
+                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idOficio">
                    
-                    <div class="form-group start paddingY" id="idH5DeleteRecompensaModalContainer">
-                        <h5>Seleccione la recompensa que desee eliminar.</h5>
+                    <div class="form-group start paddingY" id="idH5DeleteOficioModalContainer">
+                        <h5>Seleccione el oficio que desee eliminar.</h5>
                     </div>
 
                     <div class="form-group gap">
-                        <label class="primary-label" for="recompensaDeleteSelect">Recompensa:</label>
-                        <div class="input-select" id="recompensaDeleteSelect">
-                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="100" placeholder="Código | Descripción" autocomplete="off"
-                                oninput="filterOptions('{{ $idInput }}', '{{ $idOptions }}'),
+                        <label class="primary-label" for="OficioDeleteSelect">Oficio:</label>
+                        <div class="input-select" id="OficioDeleteSelect">
+                            <input class="input-select-item" type="text" id='{{ $idCodigoOficioInput }}' maxlength="100" placeholder="Código | Descripción" autocomplete="off"
+                                oninput="filterOptions('{{ $idCodigoOficioInput }}', '{{ $idOptions }}'),
                                         validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
                                         {{ json_encode($oficiosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
 
-                                onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
+                                onclick="toggleOptions('{{ $idCodigoOficioInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
                                 @foreach ($oficiosDB as $oficio)
                                     @php
-                                        $idRecompensa = htmlspecialchars($oficio->idRecompensa, ENT_QUOTES, 'UTF-8');
-                                        $descripcionRecompensa = htmlspecialchars($oficio->descripcionRecompensa, ENT_QUOTES, 'UTF-8');
-                                        $costoPuntos = htmlspecialchars($oficio->costoPuntos_Recompensa, ENT_QUOTES, 'UTF-8');
-                                        $stockRecompensa = htmlspecialchars($oficio->stock_Recompensa, ENT_QUOTES, 'UTF-8');
-                                        $tipoRecompensa = htmlspecialchars($oficio->tipoRecompensa, ENT_QUOTES, 'UTF-8');
-                                        $value = $idRecompensa . " | " . $descripcionRecompensa;
+                                        $idNumberOficio = htmlspecialchars($oficio->idOficio, ENT_QUOTES, 'UTF-8');
+                                        $codigoOficio = htmlspecialchars($oficio->codigoOficio, ENT_QUOTES, 'UTF-8');
+                                        $nombreOficio = htmlspecialchars($oficio->nombre_Oficio, ENT_QUOTES, 'UTF-8');
+                                        $descripcionOficio = htmlspecialchars($oficio->descripcion_Oficio, ENT_QUOTES, 'UTF-8');
+                                        $value = $codigoOficio . " | " . $nombreOficio;
                                     @endphp
                             
-                                   <li onclick="selectOptionEliminarRecompensa('{{ $value }}', '{{ $idRecompensa }}', '{{ $descripcionRecompensa }}', 
-                                        '{{ $costoPuntos }}', '{{ $stockRecompensa }}', '{{ $tipoRecompensa }}', '{{ $idInput }}', '{{ $idOptions }}',
-                                         {{ json_encode($someHiddenIdInputsArray) }})">
+                                    <li onclick="selectOptionEliminarOficio('{{ $value }}', '{{ $idNumberOficio }}', '{{ $descripcionOficio }}', 
+                                                '{{ $idCodigoOficioInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
                                         {{ $value }}
-                                    </li>
+                                    </li>   
                                 @endforeach
                             </ul>
                         </div>
-                        <span class="noInline-alert-message" id='{{ $idMessageError }}'>No se encontró la recompensa buscada</span>      
+                        <span class="noInline-alert-message" id='{{ $idMessageError }}'>No se encontró la Oficio buscada</span>      
                     </div>
 
                     <div class="form-group gap">
-                        <label class="primary-label noEditable" id="tipoRecompensaLabelDelete" for="tipoRecompensaInput">Tipo:</label>
-                        <x-onlySelect-input 
-                            :idInput="$idTipoRecompensaInputDelete"
-                            :inputClassName="'onlySelectInput long noHandCursor'"
-                            :placeholder="'Tipo de recompensa'"
-                            :name="'tipoRecompensa'"
-                            :options="['Accesorio', 'EPP', 'Herramienta']"
-                            :disabled="true"
-                            :spanClassName="'noHandCursor'"
-                            :focusBorder="'noFocusBorder'"
-                        />
-                    </div>
-
-                    <div class="form-group gap">
-                        <label class="primary-label noEditable" for="idRecompensaDescripcion">Descripción:</label>
-                        <textarea class="textarea normal" id="descripcionRecompensaInputDelete" placeholder="Breve descripción" disabled></textarea>
+                        <label class="primary-label noEditable" for='{{ $idDescripcionOficioInputDelete }}'>Descripción:</label>
+                        <textarea class="textarea normal" id='{{ $idDescripcionOficioInputDelete }}' placeholder="Breve descripción" disabled></textarea>
                     </div>
                 
-                    <div class="form-group gap">
-                        <label class="primary-label noEditable" for='{{ $idCostoPuntosInput }}'>Costo unitario (máx. 60000 puntos):</label>
-                        <input class="input-item" id='{{ $idCostoPuntosInput }}' maxlength="5"
-                                   oninput="validateNumberRealTime(this)" placeholder="60000" disabled>
-                    </div>
-
-                    <div class="form-group gap">
-                        <label class="primary-label noEditable" for='{{ $idStockRecompensa }}'>Stock (máx. 1000 unidades):</label>
-                        <input class="input-item" id='{{ $idStockRecompensa }}' maxlength="4"
-                                   oninput="validateNumberRealTime(this)" placeholder="1000" disabled>
-                    </div>
-                    
                     <div class="form-group start">
-                        <span class="noInline-alert-message" id="EliminarRecompensaMessageError">  </span>      
-                    </div>
+                        <span class="noInline-alert-message" id='{{ $idGeneralMessageError }}'> </span>      
+                    </div>    
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarRecompensa')">Cancelar</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarOficio')">Cancelar</button>
                 <button type="button" class="btn btn-primary delete" 
-                        onclick="guardarModalEliminarRecompensa('modalEliminarRecompensa', 'formEliminarRecompensa')">Eliminar</button>
+                        onclick="guardarModalEliminarOficio('modalEliminarOficio', 'formEliminarOficio')">Eliminar</button>
             </div>
         </div>
     </div>

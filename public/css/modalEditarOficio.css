@@ -1,0 +1,21 @@
+#modalEditarOficio-dialog {
+	max-width: 700px; 
+	max-height: 1rem;
+}
+
+#idModalBodyEditarOficio {
+	padding: 0;
+}
+
+#codigoOficioInputEdit {
+	width: 20rem;
+}
+
+#descripcionOficioInputEdit {
+	width: 17.5rem;
+}
+
+#idH5EditOficioModalContainer > h5 {
+	font-size: 0.9rem;
+	color: #555;
+}

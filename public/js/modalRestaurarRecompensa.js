@@ -4,7 +4,7 @@ let descripcionRecompensaInputRestaurar = document.getElementById('descripcionRe
 let costoPuntosInputRestaurar = document.getElementById('costoPuntosInputRestaurar');
 let stockRecompensaRestaurar = document.getElementById('stockRecompensaInputRestaurar');
 let searchRestaurarRecompensaError = document.getElementById('searchRestaurarRecompensaError');
-let restaurarRecompensaMessageError = document.getElementById('RestaurarRecompensaMessageError');
+let restaurarRecompensaMessageError = document.getElementById('restaurarRecompensaGeneralMessageError');
 
 let formRestaurarInputsArray = [
     idRecompensaRestaurarInput,
@@ -64,11 +64,11 @@ function validarCamposVaciosFormularioRestaurar() {
 
 function guardarModalRestaurarRecompensa(idModal, idForm) {
     if (validarCamposVaciosFormularioRestaurar()) {
-        console.log("Enviando formulario satisfactoriamente");
+        console.log("Enviando formulario Restaurar Recompensa satisfactoriamente");
         restaurarRecompensaMessageError.classList.remove("shown");
         guardarModal(idModal, idForm);	
     } else {
         restaurarRecompensaMessageError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
         restaurarRecompensaMessageError.classList.add("shown");
-      }
+    }
 }

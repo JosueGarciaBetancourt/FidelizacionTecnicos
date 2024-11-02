@@ -281,8 +281,13 @@ function validateInputLength(input, length) {
 }
 
 function guardarModal(idModal, idForm) {
-    document.getElementById(idForm).submit();
-    closeModal(idModal);
+    try {
+        document.getElementById(idForm).submit();
+        closeModal(idModal);
+    } catch (error) {
+        console.log(error.message);
+        registrarErrorEnLaravel(error.message) 
+    }
 }
 
 /*
@@ -385,7 +390,7 @@ function validateValueOnRealTime(input, idOptions, idMessageError, someHiddenIdI
         if (otherInputsArray && itemsDB && searchField) {
             const searchValue = id;
             const itemArraySearched = returnItemDBValueWithRequestedID(searchField, searchValue, itemsDB);
-            console.log(itemArraySearched);
+            //console.log(itemArraySearched);
 
             if (itemArraySearched) {
                 otherInputsArray.forEach((idOtherInput, index) => {
@@ -411,4 +416,23 @@ function returnItemDBValueWithRequestedID(searchField, searchValue, itemsDB) {
 
     console.log()
     return null; // Retornar null si no se encuentra el objeto
+}
+
+// Función para enviar el mensaje de error al log de Laravel
+function registrarErrorEnLaravel(mensajeError) {
+    fetch('/log-error', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ message: mensajeError })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Error registrado en Laravel:", data.status);
+    })
+    .catch(error => {
+        console.error("Error al enviar el mensaje al servidor:", error);
+    });
 }

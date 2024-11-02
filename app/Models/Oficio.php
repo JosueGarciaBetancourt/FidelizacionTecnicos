@@ -18,6 +18,7 @@ class Oficio extends Model
     protected $fillable = [
         'idOficio',
         'nombre_Oficio',
+        'descripcion_Oficio',
     ];
 
     public function tecnicosOficios() {

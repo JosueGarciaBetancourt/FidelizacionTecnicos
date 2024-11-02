@@ -1,24 +1,14 @@
-let idRecompensaInput = document.getElementById('recompensaEditInput');
-let tipoRecompensaInputEdit = document.getElementById('tipoRecompensaInputEdit');
-let descripcionRecompensaInputEdit = document.getElementById('descripcionRecompensaInputEdit');
-let costoPuntosInput = document.getElementById('costoPuntosInputEdit');
-let stockRecompensaInputEdit = document.getElementById('stockRecompensaInputEdit');
-let searchRecompensaError = document.getElementById('searchEditRecompensaError');
-let editarRecompensaMessageError = document.getElementById('editarRecompensaMessageError');
-let mensajeCombinadoEditRecompensaEditRecompensa = "";
-let formEditInputsArray = [
-  idRecompensaInput,
-  tipoRecompensaInputEdit,
-  descripcionRecompensaInputEdit,
-  costoPuntosInput, 
-  stockRecompensaInputEdit,
+let codigoOficioInputEdit = document.getElementById('codigoOficioInputEdit');
+let idNumberOficioInput = document.getElementById('idNumberOficio');
+let descripcionOficioInputEdit = document.getElementById('descripcionOficioInputEdit');
+let searchEditMessageError = document.getElementById('searchEditOficioError');
+let generalEditOficioError = document.getElementById('generalEditOficioError');
+
+let formEditOficioArray = [
+    descripcionOficioInputEdit,
 ];
 
-function selectOptionEditarRecompensa(value, idRecompensa, descripcionRecompensa, costoPuntos, stockRecompensa, tipoRecompensa, 
-    idInput, idOptions, someHiddenIdInputsArray) {
-
-    console.log(stockRecompensa);
-    
+function selectOptionEditOficio(value, idNumberOficio, descripcionOficio, idInput, idOptions, someHiddenIdInputsArray) {
     // Escapar caracteres especiales en la descripción
     function sanitizeString(str) {
         if (typeof str !== 'string') return str;
@@ -33,53 +23,42 @@ function selectOptionEditarRecompensa(value, idRecompensa, descripcionRecompensa
     }
 
     // Sanitizar solo la descripción
-    const sanitizedDescripcionRecompensa = sanitizeString(descripcionRecompensa);
+    const sanitizedDescripcionOficio = sanitizeString(descripcionOficio);
 
     // Colocar en el input la opción seleccionada 
     selectOption(value, idInput, idOptions); 
 
     // Actualizar los demás campos del formulario
-    if (idRecompensa && sanitizedDescripcionRecompensa) {
-        tipoRecompensaInputEdit.value = tipoRecompensa;
-        descripcionRecompensaInputEdit.value = sanitizedDescripcionRecompensa;
-        costoPuntosInput.value = costoPuntos;
-        stockRecompensaInputEdit.value = stockRecompensa;
+    if (sanitizedDescripcionOficio) {
+        descripcionOficioInputEdit.value = sanitizedDescripcionOficio;
         // Llenar campos ocultos
-        document.getElementById(someHiddenIdInputsArray[0]).value = idRecompensa;
-        searchRecompensaError.classList.remove("shown");
+        document.getElementById(someHiddenIdInputsArray[0]).value = idNumberOficio;
+        searchEditMessageError.classList.remove("shown");
     } else {
-        tipoRecompensaInputEdit.value = "";
-        descripcionRecompensaInputEdit.value = "";
-        descripcionRecompensaInputEdit.value = "";
-        stockRecompensaInputEdit.value = "";
+        descripcionOficioInputEdit.value = "";
     }
 }
 
-function validarCamposCorrectosEdit() {
-    mensajeCombinadoEditRecompensa = "";
+function validarCamposCorrectosOficioEdit() {
+    mensajeCombinadoEditOficio = "";
     var returnError = false;
 
-    if (costoPuntosInput.value == 0) {
-        mensajeCombinadoEditRecompensa += "El costo unitario no puede ser 0.";
+    /*if (stockRecompensaInputEdit.value == 0) {
+        mensajeCombinadoEditOficio += " El stock no puede ser 0.";
         returnError = true;
-	}
-
-    if (stockRecompensaInputEdit.value == 0) {
-        mensajeCombinadoEditRecompensa += " El stock no puede ser 0.";
-        returnError = true;
-	}
+	}*/
     
     if (returnError) {
         return false;
     }
 
-    editarRecompensaMessageError.classList.remove("shown");
+    generalEditOficioError.classList.remove("shown");
     return true;
 }
 
-function validarCamposVaciosFormularioEdit() {
+function validarCamposVaciosFormularioOficioEdit() {
   let allFilled = true;
-  formEditInputsArray.forEach(input => {
+  formEditOficioArray.forEach(input => {
       if (!input.value.trim()) {
           allFilled = false;
       }
@@ -87,17 +66,17 @@ function validarCamposVaciosFormularioEdit() {
   return allFilled;
 }
 
-function guardarModalEditarRecompensa(idModal, idForm) {
-    if (validarCamposVaciosFormularioEdit()) {
-        if (validarCamposCorrectosEdit()) {
-            editarRecompensaMessageError.classList.remove("shown");
+function guardarModalEditarOficio(idModal, idForm) {
+    if (validarCamposVaciosFormularioOficioEdit()) {
+        if (validarCamposCorrectosOficioEdit()) {
+            generalEditOficioError.classList.remove("shown");
             guardarModal(idModal, idForm);	
         } else {
-            editarRecompensaMessageError.textContent = mensajeCombinadoEditRecompensa;
-            editarRecompensaMessageError.classList.add("shown");
+            generalEditOficioError.textContent = mensajeCombinadoEditOficio;
+            generalEditOficioError.classList.add("shown");
         }
 	} else {
-        editarRecompensaMessageError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
-        editarRecompensaMessageError.classList.add("shown");
+        generalEditOficioError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
+        generalEditOficioError.classList.add("shown");
     }
 }

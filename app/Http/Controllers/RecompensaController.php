@@ -115,10 +115,12 @@ class RecompensaController extends Controller
             $validatedData = $request->validate([
                 'idRecompensa' => 'required|string|max:9',
             ]);
-    
+            
             // Iniciar transacción
             DB::beginTransaction();
             
+            //dd($validatedData['idRecompensa']);
+
             // Obtener la recompensa eliminada lógicamente
             $recompensaEliminada = Recompensa::onlyTrashed()->where('idRecompensa', $validatedData['idRecompensa'])->first();
             
@@ -132,7 +134,6 @@ class RecompensaController extends Controller
             
             // Confirmar transacción
             DB::commit();
-            
             return redirect()->route('recompensas.create')->with('successRecompensaRestaurada', 'Recompensa restaurada correctamente.');
         } catch (\Exception $e) {
             // Revertir la transacción en caso de error

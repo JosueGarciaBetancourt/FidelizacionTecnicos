@@ -18,7 +18,7 @@ class TecnicoSeeder extends Seeder
             'fechaNacimiento_Tecnico' => '2005-05-16',
             'totalPuntosActuales_Tecnico' => 900, // Suma de puntos de ventas intermediadas En espera y Redimido (parcial)
             'historicoPuntos_Tecnico' => 1025, // Suma de los puntos de todas las ventas intermediadas
-            'rangoTecnico' => 'Plata', // Menor a 24000 (más detalle en TecnicoController.php)
+            'rangoTecnico' => 'Plata', // Menor a 24000 (más detalle en TecnicoController.php getRango())
         ]);
         
         Tecnico::create([
@@ -28,7 +28,7 @@ class TecnicoSeeder extends Seeder
             'fechaNacimiento_Tecnico' => '1998-10-13',
             'totalPuntosActuales_Tecnico' => 0,
             'historicoPuntos_Tecnico' => 575,
-            'rangoTecnico' => 'Plata', // Menor a 24000 (más detalle en TecnicoController.php)
+            'rangoTecnico' => 'Plata', // Menor a 24000 (más detalle en TecnicoController.php getRango())
         ]);
 
         Tecnico::factory(50)->create();

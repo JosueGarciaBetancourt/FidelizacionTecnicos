@@ -115,7 +115,6 @@ class TecnicoController extends Controller
                 $rango = $this->getRango($tecnicoEliminado->historicoPuntos_Tecnico);
                 $tecnicoData = array_merge($validatedData, ['rangoTecnico' => $rango]);
                 $tecnicoEliminado->update($tecnicoData);
-                $origin = "recontratado";
             } else {
                 // Crear un nuevo técnico si no existe
                 $tecnico = Tecnico::create([
@@ -158,8 +157,6 @@ class TecnicoController extends Controller
         switch ($origin) { 
             case 'ventasIntermediadas.create':
                 return redirect()->route('ventasIntermediadas.create')->with('successTecnicoStore', 'Técnico agregado exitósamente desde ventas.');
-            case 'recontratado':
-                return redirect()->route('tecnicos.create')->with('successTecnicoRecontratadoStore', 'Técnico agregado exitósamente.');
             default:
                 return redirect()->route('tecnicos.create')->with('successTecnicoStore', 'Técnico agregado exitósamente.');
         }

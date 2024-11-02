@@ -1,21 +1,15 @@
-let idRecompensaRestaurarInput = document.getElementById('recompensaInputRestaurar');
-let tipoRecompensaInputRestaurar = document.getElementById('tipoRecompensaInputRestaurar');
-let descripcionRecompensaInputRestaurar = document.getElementById('descripcionRecompensaInputRestaurar');
-let costoPuntosInputRestaurar = document.getElementById('costoPuntosInputRestaurar');
-let stockRecompensaRestaurar = document.getElementById('stockRecompensaInputRestaurar');
-let searchRestaurarRecompensaError = document.getElementById('searchRestaurarRecompensaError');
-let restaurarRecompensaMessageError = document.getElementById('RestaurarRecompensaMessageError');
+let codigoOficioInputRestaurar = document.getElementById('codigoOficioInputRestaurar');
+let idNumberOficioInputRestaurar = document.getElementById('idNumberOficioInputRestaurar');
+let descripcionOficioInputRestaurar = document.getElementById('descripcionOficioInputRestaurar');
+let searchRestaurarMessageError = document.getElementById('searchRestaurarOficioError');
+let generalRestaurarOficioError = document.getElementById('generalRestaurarOficioError');
 
-let formRestaurarInputsArray = [
-    idRecompensaRestaurarInput,
-    tipoRecompensaInputRestaurar,
-    descripcionRecompensaInputRestaurar,
-    costoPuntosInputRestaurar, 
-    stockRecompensaRestaurar
+let formRestaurarInputsOficioArray = [
+    descripcionOficioInputRestaurar,
 ];
 
-function selectOptionRestaurarRecompensa(value, idRecompensa, descripcionRecompensa, costoPuntos, stockRecompensa, tipoRecompensa, 
-    idInput, idOptions, someHiddenIdInputsArray) {
+
+function selectOptionRestaurarOficio(value, idNumberOficio, descripcionOficio, idInput, idOptions, someHiddenIdInputsArray) {
 
     // Escapar caracteres especiales en la descripción
     function sanitizeString(str) {
@@ -31,30 +25,26 @@ function selectOptionRestaurarRecompensa(value, idRecompensa, descripcionRecompe
     }
 
     // Sanitizar solo la descripción
-    const sanitizedDescripcionRecompensa = sanitizeString(descripcionRecompensa);
+    const sanitizedDescripcionOficio = sanitizeString(descripcionOficio);
 
     // Colocar en el input la opción seleccionada 
     selectOption(value, idInput, idOptions); 
 
     // Actualizar los demás campos del formulario
-    if (idRecompensa && sanitizedDescripcionRecompensa) {
-        tipoRecompensaInputRestaurar.value = tipoRecompensa;
-        descripcionRecompensaInputRestaurar.value = sanitizedDescripcionRecompensa;
-        costoPuntosInputRestaurar.value = costoPuntos;
-        stockRecompensaRestaurar.value = stockRecompensa;
+    if (sanitizedDescripcionOficio) {
+        descripcionOficioInputRestaurar.value = sanitizedDescripcionOficio;
 
         // Llenar campos ocultos
-        document.getElementById(someHiddenIdInputsArray[0]).value = idRecompensa;
-        searchRestaurarRecompensaError.classList.remove("shown");
+        document.getElementById(someHiddenIdInputsArray[0]).value = idNumberOficio;
+        searchRestaurarOficioError.classList.remove("shown");
     } else {
-        tipoRecompensaInputRestaurar.value = "";
-        descripcionRecompensaInputRestaurar.value = "";
+        descripcionOficioInputRestaurar.value = "";
     }
 }
 
 function validarCamposVaciosFormularioRestaurar() {
   let allFilled = true;
-  formRestaurarInputsArray.forEach(input => {
+  formRestaurarInputsOficioArray.forEach(input => {
       if (!input.value.trim()) {
           allFilled = false;
       }
@@ -62,13 +52,13 @@ function validarCamposVaciosFormularioRestaurar() {
   return allFilled;
 }
 
-function guardarModalRestaurarRecompensa(idModal, idForm) {
+function guardarModalRestaurarOficio(idModal, idForm) {
     if (validarCamposVaciosFormularioRestaurar()) {
         console.log("Enviando formulario satisfactoriamente");
-        restaurarRecompensaMessageError.classList.remove("shown");
+        generalRestaurarOficioError.classList.remove("shown");
         guardarModal(idModal, idForm);	
     } else {
-        restaurarRecompensaMessageError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
-        restaurarRecompensaMessageError.classList.add("shown");
+        generalRestaurarOficioError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
+        generalRestaurarOficioError.classList.add("shown");
       }
 }

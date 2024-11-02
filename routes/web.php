@@ -12,6 +12,12 @@ use App\Http\Controllers\RecompensaController;
 use App\Http\Controllers\VentaIntermediadaController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\OficioController;
+use Illuminate\Support\Facades\Log;
+
+Route::post('/log-error', function (Illuminate\Http\Request $request) {
+    Log::error('Error en JavaScript: ' . $request->input('message'));
+    return response()->json(['status' => 'error logged']);
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -61,7 +67,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/dashboard-storeOficios', [OficioController::class, 'store'])->name('oficios.store');  
     Route::put('/dashboard-updateOficios', [OficioController::class, 'update'])->name('oficios.update');  
     Route::delete('/dashboard-deleteOficios', [OficioController::class, 'delete'])->name('oficios.delete');  
-    Route::post('/modal-restoreOficio', [OficioController::class, 'restaurar'])->name('recompensas.restore');
+    Route::post('/modal-restoreOficio', [OficioController::class, 'restaurar'])->name('oficios.restore');
 
     // Configuración
     Route::get('/dashboard-configuracion', [DashboardController::class, 'configuracion'])->name('configuracion');  

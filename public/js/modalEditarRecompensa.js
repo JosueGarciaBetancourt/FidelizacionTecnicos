@@ -6,7 +6,8 @@ let stockRecompensaInputEdit = document.getElementById('stockRecompensaInputEdit
 let searchRecompensaError = document.getElementById('searchEditRecompensaError');
 let editarRecompensaMessageError = document.getElementById('editarRecompensaMessageError');
 let mensajeCombinadoEditRecompensaEditRecompensa = "";
-let formEditInputsArray = [
+
+let formEditRecompensaArray = [
   idRecompensaInput,
   tipoRecompensaInputEdit,
   descripcionRecompensaInputEdit,
@@ -79,7 +80,7 @@ function validarCamposCorrectosEdit() {
 
 function validarCamposVaciosFormularioEdit() {
   let allFilled = true;
-  formEditInputsArray.forEach(input => {
+  formEditRecompensaArray.forEach(input => {
       if (!input.value.trim()) {
           allFilled = false;
       }

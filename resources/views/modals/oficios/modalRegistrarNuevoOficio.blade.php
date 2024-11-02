@@ -10,31 +10,29 @@
                     @csrf
 
                     @php
-                        $oficiosEliminadosDB = $oficiosEliminados;
                         $newCodigoOficio = $nuevoCodigoOficio;
-                        $idOficioInput = 'idOficioInputRegistrar';
                         $idCodigoOficioInput = 'codigoOficioInputRegistrar';
-                        $idGeneralMessageError = 'generalRegistrarOficioError';
+                        $idNombreOficioInput = 'nombreOficioInputRegistrar';
                         $idDescripcionOficioInputRegistrar = 'descripcionOficioInputRegistrar';
-                        $otherInputsArray = [$idDescripcionOficioInputRegistrar];
-                        $searchDBField = 'idOficio';
-                        $dbFieldsNameArray = ['nombre_Oficio', 'descripcion_Oficio'];
+                        $idGeneralMessageError = 'generalRegistrarOficioError';
+                        // $otherInputsArray = [$idDescripcionOficioInputRegistrar];
+                        // $searchDBField = 'idOficio';
+                        // $dbFieldsNameArray = ['nombre_Oficio', 'descripcion_Oficio'];
                     @endphp
 
                     <div class="form-group gap">
                         <label class="primary-label" id="codigoOficioLabel" for='{{ $idCodigoOficioInput }}'>Código de oficio:</label>
                         <input class="input-item readonly" id='{{ $idCodigoOficioInput }}' maxlength="13" value="{{ $newCodigoOficio }}" disabled>
-                        <input type="text" id='{{ $idOficioInput }}' name="idOficio">
                     </div>
                 
                     <div class="form-group gap">
-                        <label class="primary-label marginX" id="nameLabel"  for="nameInput">Nombre:</label>
-                        <input class="input-item" type="text" id="nameInput" placeholder="Ingresar nombre" name="nombre_Oficio"
-                                oninput="validateRealTimeInputLength(this, 60)">
+                        <label class="primary-label marginX" id="nameLabel"  for='{{ $idNombreOficioInput }}'>Nombre:</label>
+                        <input class="input-item" type="text" maxlength="60" id='{{ $idNombreOficioInput }}' placeholder="Ingresar nombre"
+                                 name="nombre_Oficio">
                     </div>
 
                     <div class="form-group gap">
-                        <label class="primary-label" id="descripcionLabel" for='{{ $idDescripcionOficioInputRegistrar }}'>Descripción:</label>
+                        <label class="primary-label" id="descripcionLabel" for='{{ $idDescripcionOficioInputRegistrar }}'>Descripción (opcional):</label>
                         <textarea class="textarea normal" maxlength="100" id='{{ $idDescripcionOficioInputRegistrar }}' name="descripcion_Oficio" 
                                 placeholder="Ingresar una breve descripción"></textarea>
                     </div>

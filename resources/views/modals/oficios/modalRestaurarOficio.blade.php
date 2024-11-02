@@ -6,22 +6,22 @@
                 <button class="close" onclick="closeModal('modalRestaurarOficio')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyRestaurarOficio">
-                <form id="formRestaurarOficio" action="{{ route('Oficios.restore') }}" method="POST">
+                <form id="formRestaurarOficio" action="{{ route('oficios.restore') }}" method="POST">
                     @csrf
                     <!-- Variables globales -->
                     @php
                         $oficiosEliminadosDB = $oficiosEliminados;
-                        $idInput = 'oficioInputRestaurar';
+                        $codigoInputOficioRestaurar = 'codigoOficioInputRestaurar';
                         $idOptions = 'oficioRestaurarOptions';
                         $idMessageError = 'searchRestaurarOficioError';
                         $idGeneralMessageError = 'generalRestaurarOficioError';
-                        $idDescripcionOficioInputRestaurar = 'descripcionOficioInputRestaurar'
-                        $someHiddenIdInputsArray = ['idRestaurarOficioInput'];
+                        $idDescripcionOficioInputRestaurar = 'descripcionOficioInputRestaurar';
+                        $someHiddencodigoInputOficioRestaurarsArray = ['idNumberOficioInputRestaurar'];
                         $otherInputsArray = [$idDescripcionOficioInputRestaurar];
                         $searchDBField = 'idOficio';
                         $dbFieldsNameArray = ['nombre_Oficio', 'descripcion_Oficio'];
                     @endphp
-                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="9" name="idOficio">
+                    <input type="hidden" id='{{ $someHiddencodigoInputOficioRestaurarsArray[0] }}' maxlength="9" name="idOficio">
                    
                     <div class="form-group start paddingY" id="idH5RestaurarOficioModalContainer">
                         <h5>*Solo puede restaurar oficios eliminados.</h5>
@@ -30,24 +30,25 @@
                     <div class="form-group gap">
                         <label class="primary-label" for="OficioRestaurarSelect">Oficio:</label>
                         <div class="input-select" id="OficioRestaurarSelect">
-                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="100" placeholder="Código | Nombre" autocomplete="off"
-                                oninput="filterOptions('{{ $idInput }}', '{{ $idOptions }}'),
+                            <input class="input-select-item" type="text" id='{{ $codigoInputOficioRestaurar }}' maxlength="100" placeholder="Código | Nombre" autocomplete="off"
+                                oninput="filterOptions('{{ $codigoInputOficioRestaurar }}', '{{ $idOptions }}'),
                                         validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
-                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
+                                        {{ json_encode($someHiddencodigoInputOficioRestaurarsArray) }}, {{ json_encode($otherInputsArray) }}, 
                                         {{ json_encode($oficiosEliminadosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
 
-                                onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
+                                onclick="toggleOptions('{{ $codigoInputOficioRestaurar }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
                                 @foreach ($oficiosEliminadosDB as $oficio)
                                     @php
-                                        $idOficio = htmlspecialchars($oficio->idOficio, ENT_QUOTES, 'UTF-8');
+                                        $idNumberOficio = htmlspecialchars($oficio->idOficio, ENT_QUOTES, 'UTF-8');
+                                        $codigoOficio = htmlspecialchars($oficio->codigoOficio, ENT_QUOTES, 'UTF-8');
                                         $nombreOficio = htmlspecialchars($oficio->nombre_Oficio, ENT_QUOTES, 'UTF-8');
                                         $descripcionOficio = htmlspecialchars($oficio->descripcion_Oficio, ENT_QUOTES, 'UTF-8');
-                                        $value = $idOficio . " | " . $nombreOficio;
+                                        $value = $codigoOficio . " | " . $nombreOficio;
                                     @endphp
                             
-                                    <li onclick="selectOptionRestaurarOficio('{{ $value }}', '{{ $idOficio }}', '{{ $nombreOficio }}', 
-                                                '{{ $descripcionOficio }}', {{ json_encode($someHiddenIdInputsArray) }})">
+                                    <li onclick="selectOptionRestaurarOficio('{{ $value }}', '{{ $idNumberOficio }}', '{{ $descripcionOficio }}', 
+                                                '{{ $codigoInputOficioRestaurar }}', '{{ $idOptions }}', {{ json_encode($someHiddencodigoInputOficioRestaurarsArray) }})">
                                         {{ $value }}
                                     </li>
                                 @endforeach

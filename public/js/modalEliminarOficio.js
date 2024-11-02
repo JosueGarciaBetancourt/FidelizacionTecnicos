@@ -1,23 +1,13 @@
-let idRecompensaDeleteInput = document.getElementById('recompensaInputDelete');
-let tipoRecompensaInputDelete = document.getElementById('tipoRecompensaInputDelete');
-let descripcionRecompensaInputDelete = document.getElementById('descripcionRecompensaInputDelete');
-let costoPuntosInputDelete = document.getElementById('costoPuntosInputDelete');
-let stockRecompensaDelete = document.getElementById('stockRecompensaInputDelete');
-let searchDeleteRecompensaError = document.getElementById('searchDeleteRecompensaError');
-let eliminarRecompensaMessageError = document.getElementById('EliminarRecompensaMessageError');
+let idNumberOficioInputDelete = document.getElementById('idDeleteOficioInput');
+let descripcionOficioInputDelete = document.getElementById('descripcionOficioInputDelete');
+let searchMessageErrorOficioDelete = document.getElementById('searchDeleteOficioError');
+let generalDeleteOficioError = document.getElementById('generalDeleteOficioError');
 
-let formDeleteInputsArray = [
-    idRecompensaDeleteInput,
-    tipoRecompensaInputDelete,
-    descripcionRecompensaInputDelete,
-    costoPuntosInputDelete, 
-    stockRecompensaDelete
+let formDeleteOficioArray = [
+    descripcionOficioInputDelete,
 ];
 
-function selectOptionEliminarRecompensa(value, idRecompensa, descripcionRecompensa, costoPuntos, stockRecompensa, tipoRecompensa, 
-    idInput, idOptions, someHiddenIdInputsArray) {
-
-    // Escapar caracteres especiales en la descripción
+function selectOptionEliminarOficio(value, idNumberOficio, descripcionOficio, idInput, idOptions, someHiddenIdInputsArray) {
     function sanitizeString(str) {
         if (typeof str !== 'string') return str;
         return str
@@ -31,30 +21,25 @@ function selectOptionEliminarRecompensa(value, idRecompensa, descripcionRecompen
     }
 
     // Sanitizar solo la descripción
-    const sanitizedDescripcionRecompensa = sanitizeString(descripcionRecompensa);
+    const sanitizedDescripcionOficio = sanitizeString(descripcionOficio);
 
     // Colocar en el input la opción seleccionada 
     selectOption(value, idInput, idOptions); 
 
     // Actualizar los demás campos del formulario
-    if (idRecompensa && sanitizedDescripcionRecompensa) {
-        tipoRecompensaInputDelete.value = tipoRecompensa;
-        descripcionRecompensaInputDelete.value = sanitizedDescripcionRecompensa;
-        costoPuntosInputDelete.value = costoPuntos;
-        stockRecompensaDelete.value = stockRecompensa;
-
+    if (descripcionOficio && sanitizedDescripcionOficio) {
+        descripcionOficioInputDelete.value = descripcionOficio;
         // Llenar campos ocultos
-        document.getElementById(someHiddenIdInputsArray[0]).value = idRecompensa;
-        searchDeleteRecompensaError.classList.remove("shown");
+        document.getElementById(someHiddenIdInputsArray[0]).value = idNumberOficio;
+        searchMessageErrorOficioDelete.classList.remove("shown");
     } else {
-        tipoRecompensaInputDelete.value = "";
-        descripcionRecompensaInputDelete.value = "";
+        descripcionOficioInputDelete.value = "";
     }
 }
 
 function validarCamposVaciosFormularioDelete() {
   let allFilled = true;
-  formDeleteInputsArray.forEach(input => {
+  formDeleteOficioArray.forEach(input => {
       if (!input.value.trim()) {
           allFilled = false;
       }
@@ -62,13 +47,13 @@ function validarCamposVaciosFormularioDelete() {
   return allFilled;
 }
 
-function guardarModalEliminarRecompensa(idModal, idForm) {
+function guardarModalEliminarOficio(idModal, idForm) {
     if (validarCamposVaciosFormularioDelete()) {
         console.log("Enviando formulario satisfactoriamente");
-        eliminarRecompensaMessageError.classList.remove("shown");
+        generalDeleteOficioError.classList.remove("shown");
         guardarModal(idModal, idForm);	
     } else {
-        eliminarRecompensaMessageError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
-        eliminarRecompensaMessageError.classList.add("shown");
+        generalDeleteOficioError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
+        generalDeleteOficioError.classList.add("shown");
       }
 }

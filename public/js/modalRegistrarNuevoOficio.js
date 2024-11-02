@@ -1,21 +1,17 @@
-let codigoRecompensaInput = document.getElementById('codigoRecompensaInput');
-let tipoRecompensaInput = document.getElementById('tipoRecompensaInput');
-let descripcionRecompensaTextarea = document.getElementById('descripcionRecompensaTextarea');
-let costoUnitarioInput = document.getElementById('costoUnitarioInput');
-let stockRecompensaInput = document.getElementById('stockRecompensaInput')
-let registrarRecompensaMessageError = document.getElementById('registrarRecompensaMessageError');
+let codigoOficioRegistrarInput = document.getElementById('codigoOficioInputRegistrar');
+let nombreOficioRegistrarInput = document.getElementById('nombreOficioInputRegistrar');
+let descripcionOficioRegistrarTextarea = document.getElementById('descripcionOficioInputRegistrar');
+let registrarOficioMessageError = document.getElementById('generalRegistrarOficioError');
 
 let formInputsArray = [
-    codigoRecompensaInput,
-	tipoRecompensaInput,
-	descripcionRecompensaTextarea,
-	costoUnitarioInput, 
-    stockRecompensaInput,
+    codigoOficioRegistrarInput,
+    nombreOficioRegistrarInput,
+	descripcionOficioRegistrarTextarea,
 ];
 
-let mensajeCombinado = "";
+let mensajeCombinadoRegistrarOficio = "";
 
-function validarCamposVaciosFormularioRegistrar() {
+function validarCamposVaciosFormularioOficioRegistrar() {
     let allFilled = true;
     formInputsArray.forEach(input => {
         if (!input.value.trim()) {
@@ -23,44 +19,38 @@ function validarCamposVaciosFormularioRegistrar() {
             allFilled = false;
         }
     });
-    console.log("aaaaaa");
     return allFilled;
 }
 
-function validarCamposCorrectosFormularioRegistrar() {
-    mensajeCombinado = "";
+function validarCamposCorrectosFormularioOficioRegistrar() {
+    mensajeCombinadoRegistrarOficio = "";
     var returnError = false;
 
-    if (costoUnitarioInput.value == 0) {
+    /*if (costoUnitarioInput.value == 0) {
         mensajeCombinado += "El costo unitario no puede ser 0.";
         returnError = true;
-	}
-
-    if (stockRecompensaInput.value == 0) {
-        mensajeCombinado += " El stock no puede ser 0.";
-        returnError = true;
-	}
+	}*/
 
     if (returnError) {
         return false;
     }
 
-    registrarRecompensaMessageError.classList.remove("shown");
+    registrarOficioMessageError.classList.remove("shown");
     return true;
 }
 
-function guardarModalRegistrarNuevaRecompensa(idModal, idForm) {
-	if (validarCamposVaciosFormularioRegistrar()) {
-		if (validarCamposCorrectosFormularioRegistrar()) {
+function guardarModalRegistrarNuevoOficio(idModal, idForm) {
+	if (validarCamposVaciosFormularioOficioRegistrar()) {
+		if (validarCamposCorrectosFormularioOficioRegistrar()) {
 			console.log("Enviando formulario satisfactoriamente");
-			registrarRecompensaMessageError.classList.remove("shown");
+			registrarOficioMessageError.classList.remove("shown");
 			guardarModal(idModal, idForm);	
 		} else {
-			registrarRecompensaMessageError.textContent = mensajeCombinado;
-			registrarRecompensaMessageError.classList.add("shown");
+			registrarOficioMessageError.textContent = mensajeCombinadoRegistrarOficio;
+			registrarOficioMessageError.classList.add("shown");
 		}
 	} else {
-        registrarRecompensaMessageError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
-        registrarRecompensaMessageError.classList.add("shown");
+        registrarOficioMessageError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
+        registrarOficioMessageError.classList.add("shown");
     }
 }

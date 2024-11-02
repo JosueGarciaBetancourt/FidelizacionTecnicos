@@ -4,24 +4,26 @@
 
     @push('styles')
         <link rel="stylesheet" href="{{ asset('css/oficiosStyle.css') }}">
+        <link rel="stylesheet" href="{{asset('css/modalRegistrarNuevoOficio.css')}}">
+        <link rel="stylesheet" href="{{asset('css/modalEditarOficio.css')}}">
+        <link rel="stylesheet" href="{{asset('css/modalEliminarOficio.css')}}">
+        <link rel="stylesheet" href="{{asset('css/modalRestaurarOficio.css')}}">
     @endpush
 
     @section('main-content')
-        <div class="recompensasContainer">
+        <div class="oficiosContainer">
             <div class="firstRow">
-                <x-btn-create-item onclick="openModal('modalRegistrarNuevoOficio')"> 
-                    Registrar nuevo oficio
-                </x-btn-create-item>
+                <x-btn-create-item onclick="openModal('modalRegistrarNuevoOficio')"> Registrar nuevo oficio </x-btn-create-item>
                 @include('modals.oficios.modalRegistrarNuevoOficio')
 
-                {{--<x-btn-edit-item onclick="openModal('modalEditarOficio')"> Editar </x-btn-edit-item>
+                <x-btn-edit-item onclick="openModal('modalEditarOficio')"> Editar </x-btn-edit-item>
                 @include('modals.oficios.modalEditarOficio')
 
                 <x-btn-delete-item onclick="openModal('modalEliminarOficio')"> Eliminar </x-btn-delete-item>
                 @include('modals.oficios.modalEliminarOficio')
 
                 <x-btn-recover-item onclick="openModal('modalRestaurarOficio')"> Restaurar </x-btn-delete-item>
-                @include('modals.oficios.modalRestaurarOficio')--}}
+                @include('modals.oficios.modalRestaurarOficio')
             </div>
             
             <x-modalSuccessAction 

@@ -21,6 +21,7 @@
                         $idTipoRecompensaInputRestaurar = 'tipoRecompensaInputRestaurar';
                         $idDescripcionRecompensaInputRestaurar = 'descripcionRecompensaInputRestaurar';
                         $otherInputsArray = [$idTipoRecompensaInputRestaurar , 'descripcionRecompensaInputRestaurar', $idCostoPuntosInput];
+                        $generalErrorMessage = 'restaurarRecompensaGeneralMessageError';
                         $searchDBField = 'idRecompensa';
                     @endphp
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="9" name="idRecompensa">
@@ -93,7 +94,7 @@
                     </div>
                     
                     <div class="form-group start">
-                        <span class="noInline-alert-message" id="RestaurarRecompensaMessageError">  </span>      
+                        <span class="noInline-alert-message" id='{{ $generalErrorMessage }}'>  </span>      
                     </div>
                 </form>
             </div>

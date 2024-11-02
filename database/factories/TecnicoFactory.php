@@ -12,13 +12,13 @@ protected $model = Tecnico::class;
 
     public function definition(): array
     {   
-        $puntos = $this->faker->numberBetween(0, 90000);
+        $puntos = $this->faker->numberBetween(0, 100000);
         $tecnicoController = new TecnicoController();
 
         return [
             'idTecnico' => $this->faker->unique()->regexify('[1-9]{8}'),  // Ajustado para generar números de 8 dígitos
             'nombreTecnico' => $this->faker->firstName() . ' ' . $this->faker->lastName(), // Genera solo nombre y apellido
-            'celularTecnico' => $this->faker->regexify('[1-9]{8}'), 
+            'celularTecnico' => $this->faker->regexify('[1-9]{9}'), 
             'fechaNacimiento_Tecnico' => $this->faker->dateTimeBetween('1970-01-01', 'now')->format('Y-m-d'), 
             'totalPuntosActuales_Tecnico' => $this->faker->numberBetween(0, 200), // Asumiendo un rango de puntos posibles
             'historicoPuntos_Tecnico' => $puntos, // Ajustado para generar un número de puntos históricos
