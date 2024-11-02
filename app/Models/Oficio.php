@@ -23,4 +23,8 @@ class Oficio extends Model
     public function tecnicosOficios() {
         return $this->hasMany(TecnicoOficio::class, 'idOficio', 'idOficio');
     }
+
+    public function getCodigoOficioAttribute() {
+        return 'OFI-' . str_pad($this->idOficio, 2, '0', STR_PAD_LEFT);
+    }
 }

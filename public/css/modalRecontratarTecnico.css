@@ -1,5 +1,5 @@
 #modalRecontratarTecnico-dialog {
-	max-width: 700px; 
+	max-width: 850px; 
     transform: translateY(-10px);
 }
 
@@ -27,4 +27,8 @@
 #idH5RecontratarTecnicoModalContainer > h5{
 	font-size: 0.9rem;
 	color: #555;
+}
+
+#oficioInputRecontratar {
+	width: 22rem;
 }

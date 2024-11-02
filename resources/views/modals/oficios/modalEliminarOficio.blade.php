@@ -11,7 +11,7 @@
                     @method('DELETE')
                     <!-- Variables globales -->
                     @php
-                        $recompensasDB = $recompensasWithoutFirst;
+                        $oficiosDB = $oficios;
                         $dbFieldsNameArray = ['tipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa'];
                         $idInput = 'recompensaInputDelete';
                         $idOptions = 'recompensaDeleteOptions';
@@ -37,17 +37,17 @@
                                 oninput="filterOptions('{{ $idInput }}', '{{ $idOptions }}'),
                                         validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
-                                        {{ json_encode($recompensasDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
+                                        {{ json_encode($oficiosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
 
                                 onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
-                                @foreach ($recompensasWithoutFirst as $recompensa)
+                                @foreach ($oficiosDB as $oficio)
                                     @php
-                                        $idRecompensa = htmlspecialchars($recompensa->idRecompensa, ENT_QUOTES, 'UTF-8');
-                                        $descripcionRecompensa = htmlspecialchars($recompensa->descripcionRecompensa, ENT_QUOTES, 'UTF-8');
-                                        $costoPuntos = htmlspecialchars($recompensa->costoPuntos_Recompensa, ENT_QUOTES, 'UTF-8');
-                                        $stockRecompensa = htmlspecialchars($recompensa->stock_Recompensa, ENT_QUOTES, 'UTF-8');
-                                        $tipoRecompensa = htmlspecialchars($recompensa->tipoRecompensa, ENT_QUOTES, 'UTF-8');
+                                        $idRecompensa = htmlspecialchars($oficio->idRecompensa, ENT_QUOTES, 'UTF-8');
+                                        $descripcionRecompensa = htmlspecialchars($oficio->descripcionRecompensa, ENT_QUOTES, 'UTF-8');
+                                        $costoPuntos = htmlspecialchars($oficio->costoPuntos_Recompensa, ENT_QUOTES, 'UTF-8');
+                                        $stockRecompensa = htmlspecialchars($oficio->stock_Recompensa, ENT_QUOTES, 'UTF-8');
+                                        $tipoRecompensa = htmlspecialchars($oficio->tipoRecompensa, ENT_QUOTES, 'UTF-8');
                                         $value = $idRecompensa . " | " . $descripcionRecompensa;
                                     @endphp
                             

@@ -6,11 +6,12 @@
                 <button class="close" onclick="closeModal('modalRecontratarTecnico')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyRecontratarTecnico">
-                <form id="formRecontratarTecnico" action="{{ route('tecnicos.recontratar') }}" method="POST">
+                <form id="formRecontratarTecnico" action="{{ route('tecnicos.rehire') }}" method="POST">
                     @csrf
                     <!-- Variables globales -->
                     @php
                         $tecnicosBorradosDB = $tecnicosBorrados;
+                        $idsNombresOficiosBD = $idsNombresOficios;
                         $dbFieldsNameArray = ['celularTecnico', 'oficioTecnico', 'fechaNacimiento_Tecnico', 
 											'totalPuntosActuales_Tecnico', 'historicoPuntos_Tecnico', 'rangoTecnico'];
                         $idInput = 'tecnicoRecontratarInput';
@@ -50,7 +51,7 @@
                                         $idTecnico = htmlspecialchars($tecnico->idTecnico, ENT_QUOTES, 'UTF-8');
                                         $nombreTecnico = htmlspecialchars($tecnico->nombreTecnico, ENT_QUOTES, 'UTF-8');
                                         $celularTecnico = htmlspecialchars($tecnico->celularTecnico, ENT_QUOTES, 'UTF-8');
-										$oficioTecnico = htmlspecialchars($tecnico->oficioTecnico, ENT_QUOTES, 'UTF-8');
+										$idNameOficioTecnico = htmlspecialchars($tecnico->idNameOficioTecnico, ENT_QUOTES, 'UTF-8');
 										$fechaNacimiento_Tecnico = htmlspecialchars($tecnico->fechaNacimiento_Tecnico, ENT_QUOTES, 'UTF-8');
 										$totalPuntosActuales_Tecnico = htmlspecialchars($tecnico->totalPuntosActuales_Tecnico, ENT_QUOTES, 'UTF-8');
 										$historicoPuntos_Tecnico = htmlspecialchars($tecnico->historicoPuntos_Tecnico, ENT_QUOTES, 'UTF-8');
@@ -59,7 +60,7 @@
                                     @endphp
                             
                                    <li onclick="selectOptionRecontratarTecnico('{{ $value }}', '{{ $idTecnico }}', '{{ $nombreTecnico }}', '{{ $celularTecnico }}',
-												'{{ $oficioTecnico }}', '{{ $fechaNacimiento_Tecnico }}', '{{ $totalPuntosActuales_Tecnico }}', 
+												'{{ $idNameOficioTecnico }}', '{{ $fechaNacimiento_Tecnico }}', '{{ $totalPuntosActuales_Tecnico }}', 
                                                 '{{ $historicoPuntos_Tecnico }}', '{{ $rangoTecnico }}', '{{ $idInput }}', '{{ $idOptions }}', 
                                                 {{ json_encode($someHiddenIdInputsArray) }})">
                                         {{ $value }}
@@ -85,8 +86,11 @@
                             :inputClassName="'onlySelectInput long'"
                             :placeholder="'Seleccionar oficio'"
                             :name="'oficioTecnico'"
-                            :options="['Albañil', 'Enchapador', 'Enchapador/Albañil']"
+                            :options="$idsNombresOficiosBD"
+                            :onSelectFunction="'selectOptionRecontratarOficio'"
+                            :onSpanClickFunction="'cleanHiddenOficiosRecontratarInput'"
                         />
+                        <input type="hidden" id="idsOficioRecontratarArrayInput" name="idOficioArray">
                     </div>
 
                     <div class="form-group gap">

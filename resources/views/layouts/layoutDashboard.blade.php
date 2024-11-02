@@ -46,6 +46,12 @@
                     <h5>Técnicos</h5>
                 </a>
 
+                <a href="{{ route('oficios.create') }}" 
+                    class="{{ Request::routeIs('oficios.create') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">engineering</span>
+                    <h5>Oficios</h5>
+                </a>
+
                 <a href="{{ route('configuracion') }}" 
                     class="{{ Request::routeIs('configuracion') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">settings</span>

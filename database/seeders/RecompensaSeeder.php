@@ -13,13 +13,16 @@ class RecompensaSeeder extends Seeder
     {
         $recompensaController = new RecompensaController();
         
+        Recompensa::create([
+            'idRecompensa' => 'RECOM-000', // sin espacio extra
+            'tipoRecompensa' => 'Efectivo',
+            'descripcionRecompensa' => 'Dinero en efectivo',
+            'costoPuntos_Recompensa' => 1,
+            'stock_Recompensa' => 75,
+            'deleted_at' => now(), // Marca la recompensa como eliminada lógicamente
+        ]);
+
         $recompensas = [
-            [   
-                'tipoRecompensa' => 'Efectivo',
-                'descripcionRecompensa' => 'Dinero en efectivo',
-                'costoPuntos_Recompensa' => 1,
-                'stock_Recompensa' => 75,
-            ],
             [   
                 'tipoRecompensa' => 'Accesorio',
                 'descripcionRecompensa' => 'Pulsera de silicona',

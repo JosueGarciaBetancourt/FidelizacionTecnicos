@@ -9,8 +9,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('Oficios', function (Blueprint $table) {
-            $table->id("idOficio");
-            $table->string("nombre_Oficio");
+            $table->id('idOficio'); // Autoincremental
+            $table->string('nombre_Oficio');
+            $table->string('descripcion_Oficio')->default('Sin descripción'); 
             $table->timestamps();
             $table->softDeletes(); //deleted_at
         });

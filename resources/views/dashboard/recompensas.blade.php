@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="{{ asset('css/modalRegistrarNuevaRecompensa.css') }}">
         <link rel="stylesheet" href="{{ asset('css/modalEditarRecompensa.css') }}">
         <link rel="stylesheet" href="{{ asset('css/modalEliminarRecompensa.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/modalRestaurarRecompensa.css') }}">
     @endpush
 
     @section('main-content')
@@ -22,6 +23,9 @@
 
                 <x-btn-delete-item onclick="openModal('modalEliminarRecompensa')"> Eliminar </x-btn-delete-item>
                 @include('modals.recompensas.modalEliminarRecompensa')
+
+                <x-btn-recover-item onclick="openModal('modalRestaurarRecompensa')"> Restaurar </x-btn-delete-item>
+                @include('modals.recompensas.modalRestaurarRecompensa')
             </div>
             
             <x-modalSuccessAction 
@@ -39,6 +43,10 @@
                 :message="'Recompensa eliminada correctamente'"
             />
 
+            <x-modalSuccessAction 
+                :idSuccesModal="'successModalRecompensaRestaurada'"
+                :message="'Recompensa restaurada correctamente'"
+            />
             <!--Tabla de ventas intermediadas-->
             <div class="secondRow">
                 <table id="tblRecompensas">
@@ -84,6 +92,7 @@
         <script src="{{ asset('js/modalRegistrarNuevaRecompensa.js') }}"></script>
         <script src="{{ asset('js/modalEditarRecompensa.js') }}"></script>
         <script src="{{ asset('js/modalEliminarRecompensa.js') }}"></script>
+        <script src="{{ asset('js/modalRestaurarRecompensa.js') }}"></script>
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 @if(session('successRecompensaStore'))
@@ -94,6 +103,9 @@
                 @endif
                 @if(session('successRecompensaDelete'))
                     openModal('successModalRecompensaEliminada');
+                @endif
+                @if(session('successRecompensaRestaurada'))
+                    openModal('successModalRecompensaRestaurada');
                 @endif
             });
         </script>

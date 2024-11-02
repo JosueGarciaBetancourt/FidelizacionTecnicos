@@ -1,47 +1,46 @@
-<div class="modal first"  id="modalEliminarRecompensa">
-    <div class="modal-dialog" id="modalEliminarRecompensa-dialog">
-        <div class="modal-content" id="modalEliminarRecompensa-content">
+<div class="modal first"  id="modalRestaurarRecompensa">
+    <div class="modal-dialog" id="modalRestaurarRecompensa-dialog">
+        <div class="modal-content" id="modalRestaurarRecompensa-content">
             <div class="modal-header">
-                <h5 class="modal-title">Eliminar recompensa</h5>
-                <button class="close" onclick="closeModal('modalEliminarRecompensa')">&times;</button>
+                <h5 class="modal-title">Restaurar recompensa</h5>
+                <button class="close" onclick="closeModal('modalRestaurarRecompensa')">&times;</button>
             </div>
-            <div class="modal-body" id="idModalBodyEliminarRecompensa">
-                <form id="formEliminarRecompensa" action="{{ route('recompensas.delete') }}" method="POST">
+            <div class="modal-body" id="idModalBodyRestaurarRecompensa">
+                <form id="formRestaurarRecompensa" action="{{ route('recompensas.restore') }}" method="POST">
                     @csrf
-                    @method('DELETE')
                     <!-- Variables globales -->
                     @php
-                        $recompensasDB = $recompensasWithoutFirst;
+                        $recompensasEliminadasDB = $recompensasEliminadas;
                         $dbFieldsNameArray = ['tipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa'];
-                        $idInput = 'recompensaInputDelete';
-                        $idOptions = 'recompensaDeleteOptions';
-                        $idMessageError = 'searchDeleteRecompensaError';
-                        $someHiddenIdInputsArray = ['idDeleteRecompensaInput'];
-                        $idCostoPuntosInput = 'costoPuntosInputDelete'; //El valor se debe modificar también en modalEliminarRecompensa.js
-                        $idStockRecompensa = 'stockRecompensaInputDelete'; 
-                        $idTipoRecompensaInputDelete = 'tipoRecompensaInputDelete';
-                        $idDescripcionRecompensaInputDelete = 'descripcionRecompensaInputDelete';
-                        $otherInputsArray = [$idTipoRecompensaInputDelete , 'descripcionRecompensaInputDelete', $idCostoPuntosInput];
+                        $idInput = 'recompensaInputRestaurar';
+                        $idOptions = 'recompensaRestaurarOptions';
+                        $idMessageError = 'searchRestaurarRecompensaError';
+                        $someHiddenIdInputsArray = ['idRestaurarRecompensaInput'];
+                        $idCostoPuntosInput = 'costoPuntosInputRestaurar'; //El valor se debe modificar también en modalRestaurarRecompensa.js
+                        $idStockRecompensa = 'stockRecompensaInputRestaurar'; 
+                        $idTipoRecompensaInputRestaurar = 'tipoRecompensaInputRestaurar';
+                        $idDescripcionRecompensaInputRestaurar = 'descripcionRecompensaInputRestaurar';
+                        $otherInputsArray = [$idTipoRecompensaInputRestaurar , 'descripcionRecompensaInputRestaurar', $idCostoPuntosInput];
                         $searchDBField = 'idRecompensa';
                     @endphp
-                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idRecompensa">
+                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="9" name="idRecompensa">
                    
-                    <div class="form-group start paddingY" id="idH5DeleteRecompensaModalContainer">
-                        <h5>Seleccione la recompensa que desee eliminar.</h5>
+                    <div class="form-group start paddingY" id="idH5RestaurarRecompensaModalContainer">
+                        <h5>*Solo puede restaurar recompensas eliminadas.</h5>
                     </div>
 
                     <div class="form-group gap">
-                        <label class="primary-label" for="recompensaDeleteSelect">Recompensa:</label>
-                        <div class="input-select" id="recompensaDeleteSelect">
+                        <label class="primary-label" for="recompensaRestaurarSelect">Recompensa:</label>
+                        <div class="input-select" id="recompensaRestaurarSelect">
                             <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="100" placeholder="Código | Descripción" autocomplete="off"
                                 oninput="filterOptions('{{ $idInput }}', '{{ $idOptions }}'),
                                         validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
-                                        {{ json_encode($recompensasDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
+                                        {{ json_encode($recompensasEliminadasDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
 
                                 onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
-                                @foreach ($recompensasWithoutFirst as $recompensa)
+                                @foreach ($recompensasEliminadasDB as $recompensa)
                                     @php
                                         $idRecompensa = htmlspecialchars($recompensa->idRecompensa, ENT_QUOTES, 'UTF-8');
                                         $descripcionRecompensa = htmlspecialchars($recompensa->descripcionRecompensa, ENT_QUOTES, 'UTF-8');
@@ -51,7 +50,7 @@
                                         $value = $idRecompensa . " | " . $descripcionRecompensa;
                                     @endphp
                             
-                                   <li onclick="selectOptionEliminarRecompensa('{{ $value }}', '{{ $idRecompensa }}', '{{ $descripcionRecompensa }}', 
+                                   <li onclick="selectOptionRestaurarRecompensa('{{ $value }}', '{{ $idRecompensa }}', '{{ $descripcionRecompensa }}', 
                                         '{{ $costoPuntos }}', '{{ $stockRecompensa }}', '{{ $tipoRecompensa }}', '{{ $idInput }}', '{{ $idOptions }}',
                                          {{ json_encode($someHiddenIdInputsArray) }})">
                                         {{ $value }}
@@ -63,12 +62,12 @@
                     </div>
 
                     <div class="form-group gap">
-                        <label class="primary-label noEditable" id="tipoRecompensaLabelDelete" for="tipoRecompensaInput">Tipo:</label>
+                        <label class="primary-label noEditable" id="tipoRecompensaLabelRestaurar" for="tipoRecompensaInput">Tipo:</label>
                         <x-onlySelect-input 
-                            :idInput="$idTipoRecompensaInputDelete"
+                            :idInput="$idTipoRecompensaInputRestaurar"
                             :inputClassName="'onlySelectInput long noHandCursor'"
                             :placeholder="'Tipo de recompensa'"
-                            :name="'tipoRecompensa'"
+                            {{-- :name="'tipoRecompensa'" --}}
                             :options="['Accesorio', 'EPP', 'Herramienta']"
                             :disabled="true"
                             :spanClassName="'noHandCursor'"
@@ -78,7 +77,7 @@
 
                     <div class="form-group gap">
                         <label class="primary-label noEditable" for="idRecompensaDescripcion">Descripción:</label>
-                        <textarea class="textarea normal" id="descripcionRecompensaInputDelete" placeholder="Breve descripción" disabled></textarea>
+                        <textarea class="textarea normal" id="descripcionRecompensaInputRestaurar" placeholder="Breve descripción" disabled></textarea>
                     </div>
                 
                     <div class="form-group gap">
@@ -94,14 +93,14 @@
                     </div>
                     
                     <div class="form-group start">
-                        <span class="noInline-alert-message" id="EliminarRecompensaMessageError">  </span>      
+                        <span class="noInline-alert-message" id="RestaurarRecompensaMessageError">  </span>      
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarRecompensa')">Cancelar</button>
-                <button type="button" class="btn btn-primary delete" 
-                        onclick="guardarModalEliminarRecompensa('modalEliminarRecompensa', 'formEliminarRecompensa')">Eliminar</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('modalRestaurarRecompensa')">Cancelar</button>
+                <button type="button" class="btn btn-primary recover" 
+                        onclick="guardarModalRestaurarRecompensa('modalRestaurarRecompensa', 'formRestaurarRecompensa')">Restaurar</button>
             </div>
         </div>
     </div>

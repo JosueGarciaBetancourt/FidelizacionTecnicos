@@ -91,7 +91,7 @@
                             :onSelectFunction="'selectOptionEditOficio'"
                             :onSpanClickFunction="'cleanHiddenOficiosEditInput'"
                         />
-                        <input type="text" id="idsOficioEditArrayInput" name="idOficioArray">
+                        <input type="hidden" id="idsOficioEditArrayInput" name="idOficioArray">
                     </div>
 
                     <div class="form-group gap">
