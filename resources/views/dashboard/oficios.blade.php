@@ -51,7 +51,8 @@
                         <tr>
                             <th class="celda-centered">#</th>
                             <th>Código</th>
-                            <th class="celda-centered">Nombre</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,6 +64,7 @@
                             <td class="celda-centered">{{ $contador++ }}</td> 
                             <td>{{ $oficio->codigoOficio }}</td>
                             <td>{{ $oficio->nombre_Oficio }}</td>
+                            <td>{{ $oficio->descripcion_Oficio }}</td>
                         </tr>
                         @endforeach
                     </tbody>
