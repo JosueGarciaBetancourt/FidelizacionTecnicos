@@ -33,7 +33,7 @@
                     <div class="form-group gap">
                         <label class="primary-label" for="recompensaEditSelect">Recompensa:</label>
                         <div class="input-select" id="recompensaEditSelect">
-                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="100" placeholder="Código - Descripción"
+                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="100" placeholder="Código | Descripción"
                                 oninput="filterOptions('{{ $idInput }}', '{{ $idOptions }}'),
                                         validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
@@ -48,7 +48,7 @@
                                         $costoPuntos = htmlspecialchars($recompensa->costoPuntos_Recompensa, ENT_QUOTES, 'UTF-8');
                                         $stockRecompensa = htmlspecialchars($recompensa->stock_Recompensa, ENT_QUOTES, 'UTF-8');
                                         $tipoRecompensa = htmlspecialchars($recompensa->tipoRecompensa, ENT_QUOTES, 'UTF-8');
-                                        $value = $idRecompensa . " - " . $descripcionRecompensa;
+                                        $value = $idRecompensa . " | " . $descripcionRecompensa;
                                     @endphp
                             
                                    <li onclick="selectOptionEditarRecompensa('{{ $value }}', '{{ $idRecompensa }}', '{{ $descripcionRecompensa }}', '{{ $costoPuntos }}',

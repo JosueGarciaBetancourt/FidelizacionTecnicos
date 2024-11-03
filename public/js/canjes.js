@@ -576,10 +576,9 @@ function agregarFilaRecompensa() {
 
 function verificarFilasTablaCanjes() {
     // No hay filas en la tabla
-    if (tableCanjesBody.rows.length === 0) {
+    if (tableCanjesBody.rows.length == 0) {
         tblCanjesMessageBelow.classList.remove('hidden');  
         tableCanjesFooter.classList.add("hidden");
-        //console.error("No hay filas en el tbody de la tabla de recompensas (Canjes section)");
         updateResumenBoard();
         return false;
     } 
@@ -803,7 +802,6 @@ function updateResumenBoard() {
 }
 
 function cleanAllCanjesSection() {
-    console.log("Limpiadon la tabla de recompensas en Canjes section");
     while (tableCanjesBody.firstChild) {
         tableCanjesBody.removeChild(tableCanjesBody.firstChild);
     }
@@ -832,10 +830,50 @@ function generarJsonCodigoCantidad() {
     jsonRecompensas.value = jsonData;
 }
 
+function validarCamposVaciosCanje() {
+    if (tecnicoCanjesInput.value.trim() == "" || !tecnicoFilledCorrectlySearchField || comprobantesFetch.length == 0) {
+        tecnicoCanjesTooltip.classList.remove('green');
+        tecnicoCanjesTooltip.classList.add('red');
+        showHideTooltip(tecnicoCanjesTooltip, "No se seleccionó técnico o es un técnico incorrecto");
+        // Subir hasta arriba de la página html
+        return false;
+    }
+
+    if (!numComprobanteCanjesInput.value.trim()) {
+        numComprobanteCanjesTooltip.classList.remove('green');
+        numComprobanteCanjesTooltip.classList.add('red');
+        showHideTooltip(numComprobanteCanjesTooltip, "No se seleccionó número de comprobante");
+        return false;
+    }
+
+    return true;
+}
+
+function validarTabla() {
+    if (tableCanjesBody.rows.length == 0) {
+        celdaTotalPuntosTooltip.classList.remove('green');
+        celdaTotalPuntosTooltip.classList.add('red');
+        showHideTooltip(celdaTotalPuntosTooltip, "No se agregaron filas a la tabla de recompensas a canjear");
+        return false;
+    }
+    return true;
+}
+
+function validarPuntosTotales() {
+    if (puntosTotalesExcedenPuntosGenerados) {
+        celdaTotalPuntosTooltip.classList.remove('green');
+        celdaTotalPuntosTooltip.classList.add('red');
+        const message  = `El total de puntos ( ${sumaPuntosTotalesTablaRecompensasCanjes}) excede a los puntos generados por el comprobante (${puntosGeneradosCanjesInput.value})` 
+        showHideTooltip(celdaTotalPuntosTooltip, message);
+        return true;
+    }
+
+    return false;
+}
+
 function guardarCanje(idForm) {
     // Validación de campos que se enviarán al formulario
-    if (puntosTotalesExcedenPuntosGenerados || !verificarFilasTablaCanjes()) {
-        console.error("Error al guardar canje: RELLENA BIEN TODO");
+    if (!validarCamposVaciosCanje() || !validarTabla() || validarPuntosTotales()) {
         return;
     }  
     

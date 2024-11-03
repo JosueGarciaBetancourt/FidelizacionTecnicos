@@ -333,9 +333,8 @@ function validateMinMaxRealTime(input, min, max) {
 function validateValueOnRealTime(input, idOptions, idMessageError, someHiddenIdInputsArray, 
                                 otherInputsArray = null, itemsDB = null, searchField = null,
                                 dbFieldsNameArray = null) {
-    //console.log(itemsDB);
-
     const value = input.value;
+    console.log()
     const messageError = document.getElementById(idMessageError);
    
     // Recorrer el array y asignar valor vacío a cada input
@@ -350,12 +349,12 @@ function validateValueOnRealTime(input, idOptions, idMessageError, someHiddenIdI
 
     // Obtener todos los valores del item
     const allItems = getAllLiText(idOptions);
-    
+
     // Comparar el valor ingresado con la lista de items
     const itemEncontrado = allItems.includes(value);
 
     // Dividir el valor en partes (id y nombre)
-    const [id, nombre] = value.split(' - ');
+    const [id, nombre] = value.split(' | ');
 
     const clearInputs = () => {
         clearHiddenInputs();

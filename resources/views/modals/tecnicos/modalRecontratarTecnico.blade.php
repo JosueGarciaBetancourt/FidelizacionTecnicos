@@ -38,7 +38,7 @@
                     <div class="form-group gap">
                         <label class="primary-label" for="tecnicoRecontratarSelect">Tecnico:</label>
                         <div class="input-select" id="tecnicoRecontratarSelect">
-                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI - Nombre" autocomplete="off"
+                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI | Nombre" autocomplete="off"
                                 oninput="filterOptions('{{ $idInput }}', '{{ $idOptions }}'),
                                         validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 

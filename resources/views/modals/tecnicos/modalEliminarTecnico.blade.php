@@ -39,7 +39,7 @@
                     <div class="form-group gap">
                         <label class="primary-label" for="tecnicoDeleteSelect">Tecnico:</label>
                         <div class="input-select" id="tecnicoDeleteSelect">
-                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI - Nombre" autocomplete="off"
+                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI | Nombre" autocomplete="off"
                                 oninput="filterOptions('{{ $idInput }}', '{{ $idOptions }}'),
                                         validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
@@ -57,7 +57,7 @@
 										$totalPuntosActuales_Tecnico = htmlspecialchars($tecnico->totalPuntosActuales_Tecnico, ENT_QUOTES, 'UTF-8');
 										$historicoPuntos_Tecnico = htmlspecialchars($tecnico->historicoPuntos_Tecnico, ENT_QUOTES, 'UTF-8');
 										$rangoTecnico = htmlspecialchars($tecnico->rangoTecnico, ENT_QUOTES, 'UTF-8');
-                                        $value = $idTecnico . " - " . $nombreTecnico;
+                                        $value = $idTecnico . " | " . $nombreTecnico;
                                     @endphp
                             
                                    <li onclick="selectOptionDeleteTecnico('{{ $value }}', '{{ $idTecnico }}', '{{ $nombreTecnico }}', '{{ $celularTecnico }}',
