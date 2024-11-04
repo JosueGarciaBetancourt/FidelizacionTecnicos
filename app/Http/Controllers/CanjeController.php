@@ -140,4 +140,12 @@ class CanjeController extends Controller
             return back()->withErrors(['error' => 'Error al procesar el dosaje o la predicción: ' . $e->getMessage()])->withInput();
         }
     }
+
+    public function historial() {
+        dd("Historial de canjes");
+    }
+
+    public function solicitudesApp() {
+        dd("solicitudesApp de canjes");
+    }
 }

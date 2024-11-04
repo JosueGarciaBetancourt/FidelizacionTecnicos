@@ -170,6 +170,57 @@
     background-color: #f0f0f0; /* Cambia el color de fondo al pasar el ratón */
 }
 
+.select-items-canjes {
+    list-style-type: none;
+    background-color: #aac5f3; /* Cambia el color de fondo al pasar el ratón */
+    padding: 0;
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    max-width: 100%;
+    max-height: 7rem;
+    z-index: 999;
+    border-radius: 0.5rem;
+    display: flex; 
+    flex-direction: column;
+    gap: 0;
+}
+
+aside .sidebar a.canjesActive {
+    color: #0074FF;
+	margin: 0 0.5rem 0 0.5rem;
+	padding-left: 1rem;
+	border-radius: 1rem;
+}
+
+aside .sidebar a.canjesActive h5 {
+    color: #0074FF;
+    font-weight: 600;
+}
+
+aside .sidebar a.canjesActive:hover span {
+    color: #0074FF;
+}
+
+#canjesMenu a {
+    margin: 0;
+    margin-left: 1rem;
+    display: block;
+    padding-left: 10px;
+    color: #666;
+    text-decoration: none;
+    transition: background-color 0.3s ease; /* Agrega una transición al cambiar el color de fondo */
+}
+
+#canjesMenu a:hover {
+    color: #9a42d0; /*rgb(240, 240, 240) el color de fondo al pasar el ratón */
+}
+
+#canjesMenu a.subLinkActive {
+    color: #6A1B9A; /* Color morado */
+    font-weight: bold; /* Opcional: puedes agregar un estilo de fuente más destacado */
+}
+
 .main {
     grid-column: 2;
     grid-row: 2;

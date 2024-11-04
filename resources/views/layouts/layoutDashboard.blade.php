@@ -28,11 +28,17 @@
                     <h5>Ventas <br>Intermediadas</h5>
                 </a>
                 
-                <a href="{{ route('canjes.create') }}" 
-                    class="{{ Request::routeIs('canjes.create') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined">currency_exchange</span>
-                    <h5>Canjes</h5>
-                </a>
+                <div id="canjesLinkContainer">
+                    <a href="#" class="{{ Request::routeIs('canjes.create', 'canjes.historial', 'canjes.solicitudesApp') ? 'canjesActive' : '' }}">
+                        <span class="material-symbols-outlined">currency_exchange</span>
+                        <h5>Canjes</h5>
+                    </a>
+                    <div class="select-items-canjes" id="canjesMenu">
+                        <a href="{{ route('canjes.create') }}" class="{{ Request::routeIs('canjes.create') ? 'subLinkActive' : '' }}">Nuevo Canje</a>
+                        <a href="{{ route('canjes.historial') }}" class="{{ Request::routeIs('canjes.historial') ? 'subLinkActive' : '' }}">Ver Historial</a>
+                        <a href="{{ route('canjes.solicitudesApp') }}" class="{{ Request::routeIs('canjes.solicitudesApp') ? 'subLinkActive' : '' }}">Ver Solicitudes</a>
+                    </div>
+                </div>
                 
                 <a href="{{ route('recompensas.create') }}" 
                     class="{{ Request::routeIs('recompensas.create') ? 'active' : '' }}">

@@ -39,9 +39,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard-registrarCanje', [CanjeController::class, 'create'])->name('canjes.create');  
     Route::post('/dashboard-registrarCanje-storeCanje', [CanjeController::class, 'store'])->name('canjes.store');  
     // Ver historial 
-    Route::get('/dashboard-historial-canje', [CanjeController::class, 'create'])->name('canjes.historial');  
+    Route::get('/dashboard-historial-canje', [CanjeController::class, 'historial'])->name('canjes.historial');  
     // Ver solicitudes (app móvil) 
-    Route::get('/dashboard-solicitudesApp-canje', [CanjeController::class, 'create'])->name('canjes.solicitudesApp');  
+    Route::get('/dashboard-solicitudesApp-canje', [CanjeController::class, 'solicitudesApp'])->name('canjes.solicitudesApp');  
 
     // Fetch
     route::get('/dashboard-canjes/tecnico/{idTecnico}', [VentaIntermediadaController::class, 'getComprobantesEnEsperaByIdTecnico'])
