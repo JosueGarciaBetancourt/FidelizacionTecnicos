@@ -13,8 +13,6 @@
                     @php
                         $tecnicosDB = $tecnicos;
                         $idsNombresOficiosBD = $idsNombresOficios;
-                        $dbFieldsNameArray = ['celularTecnico', 'oficioTecnico', 'fechaNacimiento_Tecnico', 
-											'totalPuntosActuales_Tecnico', 'historicoPuntos_Tecnico', 'rangoTecnico'];
                         $idInput = 'tecnicoDeleteInput';
                         $idOptions = 'tecnicoDeleteOptions';
                         $idMessageError = 'searchDeleteTecnicoMessageError';
@@ -28,9 +26,8 @@
 						$idRangoInputDelete = 'rangoInputDelete';
                         $otherInputsArray = [$idCelularInput , $idOficioInputDelete, $idFechaNacimientoInput, $idPuntosActualesInput,
 											$idHistoricoPuntosInput, $idRangoInputDelete];
-                        $searchDBField = 'idTecnico';
                     @endphp
-                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="8" name='{{ $searchDBField }}'>
+                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="8" name='idTecnico'>
                    
                     <div class="form-group start paddingY" id="idH5DeleteTecnicoModalContainer">
                         <h5> Seleccione el técnico que desee eliminar.</h5>
@@ -41,10 +38,8 @@
                         <div class="input-select" id="tecnicoDeleteSelect">
                             <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI | Nombre" autocomplete="off"
                                 oninput="filterOptions('{{ $idInput }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
-                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
-                                        {{ json_encode($tecnicosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
-
+                                        validateValueOnRealTimeTecnicoDelete(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
+                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, {{ json_encode($tecnicosDB) }})"
                                 onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
                                 @foreach ($tecnicos as $tecnico)

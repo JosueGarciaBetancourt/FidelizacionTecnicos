@@ -13,13 +13,11 @@
                     @php
                         $tecnicosDB = $tecnicos;
                         $idsNombresOficiosBD = $idsNombresOficios;
-                        $dbFieldsNameArray = ['celularTecnico', 'oficioTecnico', 'fechaNacimiento_Tecnico', 
-											'totalPuntosActuales_Tecnico', 'historicoPuntos_Tecnico', 'rangoTecnico'];
+                        $dbOficioName = 'oficio';
                         $idInput = 'tecnicoEditInput';
                         $idOptions = 'tecnicoEditOptions';
                         $idMessageError = 'searchEditTecnicoMessageError';
-                        $someHiddenIdInputsArray = ['idEditTecnicoInput'];
-						
+                        $someHiddenIdInputsArray = ['idEditTecnicoInput', 'idsOficioEditArrayInput'];
 						$idCelularInput = 'celularInputEdit'; //El valor se debe modificar también en modalEditarTecnico.js
                         $idFechaNacimientoInput = 'fechaNacimientoInputEdit';
                         $idOficioInputEdit = 'oficioInputEdit';
@@ -28,9 +26,8 @@
 						$idRangoInputEdit = 'rangoInputEdit';
                         $otherInputsArray = [$idCelularInput , $idOficioInputEdit, $idFechaNacimientoInput, $idPuntosActualesInput,
 											$idHistoricoPuntosInput, $idRangoInputEdit];
-                        $searchDBField = 'idTecnico';
                     @endphp
-                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="8" name='{{ $searchDBField }}'>
+                    <input type="text" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="8" name='idTecnico'>
                    
                     <div class="form-group start paddingY" id="idH5EditTecnicoModalContainer">
                         <h5> *Solo puede editar el celular y oficio de un técnico previamente creado.</h5>
@@ -41,10 +38,8 @@
                         <div class="input-select" id="tecnicoEditSelect">
                             <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI | Nombre" autocomplete="off"
                                 oninput="filterOptions('{{ $idInput }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
-                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
-                                        {{ json_encode($tecnicosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
-
+                                        validateValueOnRealTimeTecnicoEdit(this, '{{ $idOptions }}', '{{ $idMessageError }}', {{ json_encode($someHiddenIdInputsArray) }},
+                                        {{ json_encode($otherInputsArray) }}, {{ json_encode($tecnicosDB) }})"
                                 onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
                                 @foreach ($tecnicosDB as $tecnico)
@@ -91,7 +86,7 @@
                             :onSelectFunction="'selectOptionEditOficio'"
                             :onSpanClickFunction="'cleanHiddenOficiosEditInput'"
                         />
-                        <input type="hidden" id="idsOficioEditArrayInput" name="idOficioArray">
+                        <input type="text" id='{{ $someHiddenIdInputsArray[1] }}' name="idOficioArray">
                     </div>
 
                     <div class="form-group gap">

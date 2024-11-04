@@ -582,7 +582,7 @@ $(document).ready(function() {
 			"infoFiltered": "(filtrado de un total de _MAX_ registros)",
 			"search": "<span class='material-symbols-outlined'>search</span>",
 			"searchPlaceholder": "Buscar DNI/Nombre de recompensa", // Placeholder para el campo de búsqueda
-			"loadingRecords": "Cargando datos...",
+			"loadingRecords": "Cargando datos... (Si tarda demasiado, actualizar la página)",
 			"paginate": {
 				"first": "Primero",
 				"last": "Último",
@@ -841,10 +841,10 @@ $(document).ready(function() {
 			type: "GET",
 			dataType: "json",  // Tipo de datos esperados del servidor
 			error: function(xhr, status, error) {
-				console.log("Error en Ajax:");
-				console.log("Estado: " + status);
-				console.log("Error: " + error);
-				console.log(xhr.responseText);  // Esto imprimirá la respuesta completa del servidor
+				console.error("Error en Ajax:");
+				console.error("Estado: " + status);
+				console.error("Error: " + error);
+				console.error("Revisar si hay funciones de JS duplicadas", xhr.responseText);  // Esto imprimirá la respuesta completa del servidor
 			}
 		},
 		columns: [

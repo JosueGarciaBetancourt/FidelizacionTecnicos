@@ -50,9 +50,7 @@ let date = getFormattedDate();
 let tecnicoFilledCorrectlySearchField = false;
 let recompensaFilledCorrectlySearchField = false;
 
-function consoleLogJSONItems(items) {
-    console.log(JSON.stringify(items, null, 2));
-}
+
 
 function getDiasTranscurridos(fechaEmision, fechaCargada) {
     // Asignar las fechas de los inputs

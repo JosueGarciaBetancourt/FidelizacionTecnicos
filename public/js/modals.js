@@ -334,7 +334,6 @@ function validateValueOnRealTime(input, idOptions, idMessageError, someHiddenIdI
                                 otherInputsArray = null, itemsDB = null, searchField = null,
                                 dbFieldsNameArray = null) {
     const value = input.value;
-    console.log()
     const messageError = document.getElementById(idMessageError);
    
     // Recorrer el array y asignar valor vacío a cada input
@@ -413,7 +412,6 @@ function returnItemDBValueWithRequestedID(searchField, searchValue, itemsDB) {
         }
     }
 
-    console.log()
     return null; // Retornar null si no se encuentra el objeto
 }
 
@@ -434,4 +432,17 @@ function registrarErrorEnLaravel(mensajeError) {
     .catch(error => {
         console.error("Error al enviar el mensaje al servidor:", error);
     });
+}
+
+function consoleLogJSONItems(items) {
+    console.log(JSON.stringify(items, null, 2));
+}
+
+function returnObjTecnicoById(idTecnico, tecnicosDB) {
+    for (const key in tecnicosDB) {
+        if (tecnicosDB[key]['idTecnico'] === idTecnico) {
+            return tecnicosDB[key]; 
+        }
+    }
+    return null; // Retornar null si no se encuentra el objeto
 }

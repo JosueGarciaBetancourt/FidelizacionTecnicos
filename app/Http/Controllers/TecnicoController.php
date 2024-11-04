@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Log;
 
 class TecnicoController extends Controller
 {   
-
     public function returnModelsTecnicosWithOficios() {
         $tecnicos = Tecnico::all();
     
@@ -25,12 +24,17 @@ class TecnicoController extends Controller
             // Obtener todos los oficios en una sola consulta
             $oficios = Oficio::whereIn('idOficio', $arrayIdOficios)->get();
     
-            // Construir el string con los nombres de los oficios
+            // Construir el string con los IDs de los oficios
+            $oficioIds = $oficios->isNotEmpty() 
+                ? '[' . $oficios->pluck('idOficio')->implode(',') . ']' 
+                : 'No tiene oficios';
+                
+            // Construir el string con los IDs/Nombres de los oficios
             $oficioValue = $oficios->isNotEmpty() 
                 ? $oficios->map(fn($oficio) => $oficio->idOficio . "-" . $oficio->nombre_Oficio)->implode(' | ')
-                : 'No tiene oficio';
-    
-            // Asignar el valor de oficio a cada técnico como atributo dinámico
+                : 'No tiene oficios';
+
+            $tecnico->idsOficioTecnico = $oficioIds;
             $tecnico->idNameOficioTecnico = $oficioValue;
         }
     
@@ -47,13 +51,18 @@ class TecnicoController extends Controller
     
             // Obtener todos los oficios en una sola consulta
             $oficios = Oficio::whereIn('idOficio', $arrayIdOficios)->get();
-    
+            
+            // Construir el string con los IDs de los oficios
+            $oficioIds = $oficios->isNotEmpty() 
+                ? '[' . $oficios->pluck('idOficio')->implode(',') . ']' 
+                : 'No tiene oficios';
+            
             // Construir el string con los nombres de los oficios
             $oficioValue = $oficios->isNotEmpty() 
                 ? $oficios->map(fn($oficio) => $oficio->idOficio . "-" . $oficio->nombre_Oficio)->implode(' | ')
-                : 'No tiene oficio';
+                : 'No tiene oficios';
     
-            // Asignar el valor de oficio a cada técnico como atributo dinámico
+            $tecnico->idsOficioTecnico = $oficioIds;
             $tecnico->idNameOficioTecnico = $oficioValue;
         }
     
@@ -74,8 +83,9 @@ class TecnicoController extends Controller
     public function create()
     {   
         $tecnicos = $this->returnModelsTecnicosWithOficios();
-        // dd($tecnicos); //"idNameOficioTecnico" => "1-Albañil | 2-Carpintero"
+        //dd($tecnicos);
         $tecnicosBorrados = $this->returnModelsDeletedTecnicosWithOficios();
+        //dd($tecnicosBorrados);
         $idsNombresOficios = $this->returnAllIdsNombresOficios(); // 1-Albañil | ...
         return view('dashboard.tecnicos', compact('tecnicos', 'tecnicosBorrados', 'idsNombresOficios'));
     }

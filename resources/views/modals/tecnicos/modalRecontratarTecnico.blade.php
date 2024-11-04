@@ -12,13 +12,10 @@
                     @php
                         $tecnicosBorradosDB = $tecnicosBorrados;
                         $idsNombresOficiosBD = $idsNombresOficios;
-                        $dbFieldsNameArray = ['celularTecnico', 'oficioTecnico', 'fechaNacimiento_Tecnico', 
-											'totalPuntosActuales_Tecnico', 'historicoPuntos_Tecnico', 'rangoTecnico'];
                         $idInput = 'tecnicoRecontratarInput';
                         $idOptions = 'tecnicoRecontratarOptions';
                         $idMessageError = 'searchRecontratarTecnicoMessageError';
-                        $someHiddenIdInputsArray = ['idRecontratarTecnicoInput'];
-						
+                        $someHiddenIdInputsArray = ['idRecontratarTecnicoInput', 'idsOficioRecontratarArrayInput'];
 						$idCelularInput = 'celularInputRecontratar'; //El valor se debe modificar también en modalRecontratarTecnico.js
                         $idFechaNacimientoInput = 'fechaNacimientoInputRecontratar';
                         $idOficioInputRecontratar = 'oficioInputRecontratar';
@@ -27,9 +24,8 @@
 						$idRangoInputRecontratar = 'rangoInputRecontratar';
                         $otherInputsArray = [$idCelularInput , $idOficioInputRecontratar, $idFechaNacimientoInput, $idPuntosActualesInput,
 											$idHistoricoPuntosInput, $idRangoInputRecontratar];
-                        $searchDBField = 'idTecnico';
                     @endphp
-                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="8" name='{{ $searchDBField }}'>
+                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="8" name='idTecnico'>
                    
                     <div class="form-group start paddingY" id="idH5RecontratarTecnicoModalContainer">
                         <h5> *Solo puede recontratar técnicos eliminados.</h5>
@@ -40,10 +36,8 @@
                         <div class="input-select" id="tecnicoRecontratarSelect">
                             <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI | Nombre" autocomplete="off"
                                 oninput="filterOptions('{{ $idInput }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
-                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
-                                        {{ json_encode($tecnicosBorradosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
-
+                                        validateValueOnRealTimeTecnicoRecontratar(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
+                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, {{ json_encode($tecnicosBorradosDB) }})"
                                 onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
                                 @foreach ($tecnicosBorradosDB as $tecnico)
@@ -56,7 +50,7 @@
 										$totalPuntosActuales_Tecnico = htmlspecialchars($tecnico->totalPuntosActuales_Tecnico, ENT_QUOTES, 'UTF-8');
 										$historicoPuntos_Tecnico = htmlspecialchars($tecnico->historicoPuntos_Tecnico, ENT_QUOTES, 'UTF-8');
 										$rangoTecnico = htmlspecialchars($tecnico->rangoTecnico, ENT_QUOTES, 'UTF-8');
-                                        $value = $idTecnico . " - " . $nombreTecnico;
+                                        $value = $idTecnico . " | " . $nombreTecnico;
                                     @endphp
                             
                                    <li onclick="selectOptionRecontratarTecnico('{{ $value }}', '{{ $idTecnico }}', '{{ $nombreTecnico }}', '{{ $celularTecnico }}',
@@ -90,7 +84,7 @@
                             :onSelectFunction="'selectOptionRecontratarOficio'"
                             :onSpanClickFunction="'cleanHiddenOficiosRecontratarInput'"
                         />
-                        <input type="hidden" id="idsOficioRecontratarArrayInput" name="idOficioArray">
+                        <input type="hidden" id='{{ $someHiddenIdInputsArray[1] }}' name="idOficioArray">
                     </div>
 
                     <div class="form-group gap">
