@@ -1,5 +1,4 @@
-let canjesMenuClosed;
-let isClosed;
+let canjesMenuClosed = true;
 
 document.addEventListener('DOMContentLoaded', function() {
     const headerSection = document.querySelector('.header');
@@ -17,7 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault(); // Evita que el enlace recargue la página
         canjesMenu.classList.toggle('hidden');
         canjesArrowDownSpan.classList.toggle('up');
-        canjesMenuClosed = true;
+        canjesMenuClosed = !canjesMenuClosed;
+        localStorage.setItem('canjesMenu', canjesMenuClosed ? 'hidden' : '')
+        localStorage.setItem('canjesMenu', canjesMenuClosed ? 'hidden' : '')
+        console.log(canjesMenuClosed);
     });
 
     // Función para obtener el estado guardado del sidebar
@@ -29,6 +31,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return localStorage.getItem('menuToggleButton') === 'closed';
     }
 
+    function getCanjesMenuState() {
+        return localStorage.getItem('canjesMenu') === 'hidden';
+    }
+
     // Función para guardar el estado del sidebar
     function saveSidebarState(state) {
         localStorage.setItem('sidebarState', state ? 'closed' : 'open');
@@ -37,13 +43,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Inicializa el estado del sidebar según lo guardado en localStorage
     function initializeSidebarState() {
-        isClosed = getSidebarState();
+        const isClosed = getSidebarState();
         const isBtnClosed = getMenuButtonState();
+        const isCanjesMenuHidden = getCanjesMenuState();
         aside.classList.toggle('closed', isClosed);
         menuToggleButton.classList.toggle('closed', isBtnClosed);
         headerSection.classList.toggle('asideClosed', isClosed);
         mainSection.classList.toggle('asideClosed', isClosed);
 
+        if (!isClosed) {
+            if (isCanjesMenuHidden) {
+                canjesMenu.classList.add('hidden');
+            } else {
+                canjesMenu.classList.remove('hidden');
+            }
+        } else { //Aside cerrado
+            canjesMenu.classList.add('hidden');
+        }
+   
         // Oculta los h5, span arrow down y #canjesMenu si el sidebar está cerrado al inicio
         if (isClosed) {
             h5Elements.forEach(function(h5) {
@@ -115,15 +132,21 @@ document.addEventListener('DOMContentLoaded', function() {
         mainSection.classList.toggle('asideClosed');
         headerSection.classList.toggle('asideClosed');
         canjesArrowDownSpan.classList.toggle('hidden', isClosed);
-        canjesMenu.classList.remove('hidden');
+        const isCanjesMenuHidden = getCanjesMenuState();
 
-        if (canjesMenuClosed) {
+        if (!isClosed) {
+            if (isCanjesMenuHidden) {
+                canjesMenu.classList.add('hidden');
+            } else {
+                canjesMenu.classList.remove('hidden');
+            }
+        } else { //Aside cerrado
             canjesMenu.classList.add('hidden');
         }
 
         // Guarda el estado actual de los elementos en localStorage
         saveSidebarState(isClosed);
-        
+
         // Toggle para ocultar los h5 cuando se cierra el aside
         h5Elements.forEach(function(h5) {
             h5.classList.toggle('hidden', isClosed); // Agrega o quita la clase 'hidden'
@@ -142,11 +165,9 @@ document.addEventListener('DOMContentLoaded', function() {
         aside.classList.add('hovered');
         mainSection.classList.add('asideHovered')
         headerSection.classList.add('asideHovered')
-        canjesArrowDownSpan.classList.remove('hidden');
         h5Elements.forEach(function(h5) {
             h5.classList.remove('hidden');
         });
-
     }
 
     // Función para remover la clase 'hovered' del aside
@@ -155,9 +176,6 @@ document.addEventListener('DOMContentLoaded', function() {
         mainSection.classList.remove('asideHovered')
         headerSection.classList.remove('asideHovered')
         initializeSidebarState(); // Reestablecer el sidebar al estado correcto
-        if (isClosed) {
-            canjesArrowDownSpan.classList.add('hidden');
-        }
     }
 });
 

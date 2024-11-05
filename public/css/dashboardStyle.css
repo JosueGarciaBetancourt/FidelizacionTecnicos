@@ -209,73 +209,6 @@ aside .sidebar a.canjesActive h5 {
     font-weight: 600;
 }
 
-.select-items-canjes {
-    list-style-type: none;
-    background-color: #e8f4f4;
-    padding: 0;
-    margin-left: 2rem;
-    padding-left: 0.5rem;
-    max-width: 9.5rem;
-    max-height: 7rem;
-    font-size: 0.9rem;
-    z-index: 999;
-    border-radius: 0.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-.select-items-canjes.hidden {
-    display: none; 
-}
-
-/*#canjesLink:hover + #canjesMenu {
-    display: flex;
-}
-
-#canjesMenu:hover {
-    display: flex;
-}*/
-
-
-#canjesMenu.hidden {
-    opacity: 0;
-}
-
-#canjesArrowDownSpan {
-    opacity: 1;
-    transition: transform 0.2s ease-in-out;
-}
-
-/*#canjesLink:hover #canjesArrowDownSpan {
-    transform: rotate(180deg);
-}*/
-
-#canjesArrowDownSpan.up {
-    transform: rotate(180deg);
-}
-
-#canjesMenu a {
-    width: 90%;
-    margin: 0;
-    padding-left: 1rem;
-    color: #666;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    transition: background-color 0.3s ease; /* Agrega una transición al cambiar el color de fondo */
-}
-
-#canjesMenu a:hover {
-    color: var(--clr-primary-variant);
-}
-
-#canjesMenu a.subLinkActive {
-    background-color: var(--clr-primary-variant);
-	color: var(--clr-white);
-    border-radius: 1rem;
-}
-
 .main {
     grid-column: 2;
     grid-row: 2;
@@ -340,7 +273,7 @@ aside .top {
 	align-items: center;
 	justify-content: space-between;
 	margin-top: 1.5rem;
-    margin-bottom: 3.2rem;
+    margin-bottom: 2rem;
     height: 2rem; 
     background-color: transparent;
 }
@@ -376,7 +309,7 @@ aside .sidebar a {
     margin-right: 2rem;
 	gap: 1rem;
 	align-items: center;
-	height: 3.3rem;
+	min-height: 3.3rem;
     transition: background-color 0.3s ease; /* Transición para el color de fondo */
 }
   
@@ -439,4 +372,70 @@ aside.hovered {
 
 #logoutForm {
     user-select: none;
+}
+
+/* CANJES link*/ 
+
+.select-items-canjes {
+    list-style-type: none;
+    background-color: #d1e3fd;
+    padding: 0;
+    margin-left: 2rem;
+    margin-bottom: 1rem;
+    padding: 1rem 0 1rem 0.5rem;
+    max-width: 9.5rem;
+    height: auto;
+    font-size: 0.9rem;
+    z-index: 999;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.select-items-canjes.hidden {
+    display: none; 
+}
+
+/*#canjesLink:hover + #canjesMenu {
+    display: flex;
+}
+
+#canjesMenu:hover {
+    display: flex;
+}*/
+
+#canjesArrowDownSpan {
+    opacity: 1;
+    transition: transform 0.2s ease-in-out;
+}
+
+/*#canjesLink:hover #canjesArrowDownSpan {
+    transform: rotate(180deg);
+}*/
+
+#canjesArrowDownSpan.up {
+    transform: rotate(180deg);
+}
+
+#canjesMenu a {
+    width: 90%;
+    min-height: 2.5rem;
+    margin: 0;
+    padding-left: 1rem;
+    color: #666;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease; /* Agrega una transición al cambiar el color de fondo */
+}
+
+#canjesMenu a:hover {
+    color: var(--clr-primary-variant);
+}
+
+#canjesMenu a.subLinkActive {
+    background-color: var(--clr-primary-variant);
+	color: var(--clr-white);
+    border-radius: 1rem;
 }
