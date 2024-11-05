@@ -13,7 +13,6 @@
 
 @section('content')
     <div class="dashboard-container"  data-routes='{"perfil": "{{ route('profile.edit') }}", "logout": "{{ route('logout') }}"}'>
-        <!-- aside section-->
         <aside>
             <div class="top">
                 <div class="logo">
@@ -76,7 +75,6 @@
             </div>
         </aside>
 
-        <!-- header section-->
         <div class="header">
             <div class="left_menu_close" id="menu_toggle_button">
                 <span class="material-symbols-outlined">arrow_back_ios</span>
