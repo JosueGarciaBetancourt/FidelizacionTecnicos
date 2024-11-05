@@ -1,3 +1,6 @@
+let canjesMenuClosed;
+let isClosed;
+
 document.addEventListener('DOMContentLoaded', function() {
     const headerSection = document.querySelector('.header');
     const mainSection = document.querySelector('.main');
@@ -5,6 +8,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const aside = document.querySelector('aside');
     const h5Elements = document.querySelectorAll('.sidebar a h5'); // Selecciona todos los h5 
     const sidebar = document.querySelectorAll('.sidebar'); 
+    const canjesLink = document.getElementById('canjesLink');
+    const canjesMenu = document.getElementById('canjesMenu');
+    const canjesArrowDownSpan = document.getElementById('canjesArrowDownSpan');
+
+    // Función para alternar la visibilidad del menú Canjes
+    canjesLink.addEventListener('click', (event) => {
+        event.preventDefault(); // Evita que el enlace recargue la página
+        canjesMenu.classList.toggle('hidden');
+        canjesArrowDownSpan.classList.toggle('up');
+        canjesMenuClosed = true;
+    });
 
     // Función para obtener el estado guardado del sidebar
     function getSidebarState() {
@@ -23,14 +37,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Inicializa el estado del sidebar según lo guardado en localStorage
     function initializeSidebarState() {
-        const isClosed = getSidebarState();
+        isClosed = getSidebarState();
         const isBtnClosed = getMenuButtonState();
         aside.classList.toggle('closed', isClosed);
         menuToggleButton.classList.toggle('closed', isBtnClosed);
         headerSection.classList.toggle('asideClosed', isClosed);
         mainSection.classList.toggle('asideClosed', isClosed);
 
-        // Oculta los h5 si el sidebar está cerrado al inicio
+        // Oculta los h5, span arrow down y #canjesMenu si el sidebar está cerrado al inicio
         if (isClosed) {
             h5Elements.forEach(function(h5) {
                 h5.classList.add('hidden');
@@ -94,13 +108,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-  
     // Manejar el botón de menú para abrir/cerrar el sidebar
     menuToggleButton.addEventListener('click', () => {
         const isClosed = aside.classList.toggle('closed');
         menuToggleButton.classList.toggle('closed', isClosed);
         mainSection.classList.toggle('asideClosed');
         headerSection.classList.toggle('asideClosed');
+        canjesArrowDownSpan.classList.toggle('hidden', isClosed);
+        canjesMenu.classList.remove('hidden');
+
+        if (canjesMenuClosed) {
+            canjesMenu.classList.add('hidden');
+        }
 
         // Guarda el estado actual de los elementos en localStorage
         saveSidebarState(isClosed);
@@ -109,6 +128,7 @@ document.addEventListener('DOMContentLoaded', function() {
         h5Elements.forEach(function(h5) {
             h5.classList.toggle('hidden', isClosed); // Agrega o quita la clase 'hidden'
         });
+
     });
 
     /*Manejar el pasar el mouse por encima de un enlace del sidebar*/
@@ -122,10 +142,11 @@ document.addEventListener('DOMContentLoaded', function() {
         aside.classList.add('hovered');
         mainSection.classList.add('asideHovered')
         headerSection.classList.add('asideHovered')
-
+        canjesArrowDownSpan.classList.remove('hidden');
         h5Elements.forEach(function(h5) {
             h5.classList.remove('hidden');
         });
+
     }
 
     // Función para remover la clase 'hovered' del aside
@@ -133,8 +154,10 @@ document.addEventListener('DOMContentLoaded', function() {
         aside.classList.remove('hovered');
         mainSection.classList.remove('asideHovered')
         headerSection.classList.remove('asideHovered')
-
         initializeSidebarState(); // Reestablecer el sidebar al estado correcto
+        if (isClosed) {
+            canjesArrowDownSpan.classList.add('hidden');
+        }
     }
 });
 

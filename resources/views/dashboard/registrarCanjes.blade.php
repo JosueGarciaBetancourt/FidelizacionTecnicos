@@ -3,11 +3,11 @@
 @section('title', 'Canjes')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/canjesStyle.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/registrarCanjesStyle.css') }}">
 @endpush
 
 @section('main-content')
-	<div class="canjesContainer">
+	<div class="registrarCanjesContainer">
 		 <!-- Variables globales -->
 		 @php
 			$idInput = 'tecnicoCanjesInput';

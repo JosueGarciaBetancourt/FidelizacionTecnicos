@@ -31,7 +31,7 @@
     padding-left: 6rem;
 }
 
-.header.asideHovered {
+.header.asideClosed.asideHovered { 
     padding-left: 12rem;
 }
 
@@ -170,27 +170,38 @@
     background-color: #f0f0f0; /* Cambia el color de fondo al pasar el ratón */
 }
 
-.select-items-canjes {
-    list-style-type: none;
-    background-color: #aac5f3; /* Cambia el color de fondo al pasar el ratón */
-    padding: 0;
-    margin-top: 0.5rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
-    max-width: 100%;
-    max-height: 7rem;
-    z-index: 999;
-    border-radius: 0.5rem;
-    display: flex; 
-    flex-direction: column;
-    gap: 0;
+aside .sidebar #canjesLink {
+	display: flex;
+	color: var(--clr-info-dark);
+	margin-left: 2rem;
+    margin-right: 2rem;
+	gap: 1rem;
+	align-items: center;
+	height: 3.3rem;
+    transition: background-color 0.3s ease; /* Transición para el color de fondo */
+}
+
+aside .sidebar #canjesLink:hover span {
+    color: #0074FF;
+    margin-left: 1rem;
+    transition: color 0.7s, margin-left .4s ease;
+}
+
+aside .sidebar #canjesLink span:last-child {
+    position: absolute;
+    right: 0;
+    margin-right: 1.5rem;
+    right: 1;
 }
 
 aside .sidebar a.canjesActive {
     color: #0074FF;
-	margin: 0 0.5rem 0 0.5rem;
-	padding-left: 1rem;
 	border-radius: 1rem;
+    gap: 1rem;
+}
+
+aside .sidebar a.canjesActive span{
+    color: #0074FF;
 }
 
 aside .sidebar a.canjesActive h5 {
@@ -198,27 +209,71 @@ aside .sidebar a.canjesActive h5 {
     font-weight: 600;
 }
 
-aside .sidebar a.canjesActive:hover span {
-    color: #0074FF;
+.select-items-canjes {
+    list-style-type: none;
+    background-color: #e8f4f4;
+    padding: 0;
+    margin-left: 2rem;
+    padding-left: 0.5rem;
+    max-width: 9.5rem;
+    max-height: 7rem;
+    font-size: 0.9rem;
+    z-index: 999;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.select-items-canjes.hidden {
+    display: none; 
+}
+
+/*#canjesLink:hover + #canjesMenu {
+    display: flex;
+}
+
+#canjesMenu:hover {
+    display: flex;
+}*/
+
+
+#canjesMenu.hidden {
+    opacity: 0;
+}
+
+#canjesArrowDownSpan {
+    opacity: 1;
+    transition: transform 0.2s ease-in-out;
+}
+
+/*#canjesLink:hover #canjesArrowDownSpan {
+    transform: rotate(180deg);
+}*/
+
+#canjesArrowDownSpan.up {
+    transform: rotate(180deg);
 }
 
 #canjesMenu a {
+    width: 90%;
     margin: 0;
-    margin-left: 1rem;
-    display: block;
-    padding-left: 10px;
+    padding-left: 1rem;
     color: #666;
     text-decoration: none;
+    display: flex;
+    align-items: center;
     transition: background-color 0.3s ease; /* Agrega una transición al cambiar el color de fondo */
 }
 
 #canjesMenu a:hover {
-    color: #9a42d0; /*rgb(240, 240, 240) el color de fondo al pasar el ratón */
+    color: var(--clr-primary-variant);
 }
 
 #canjesMenu a.subLinkActive {
-    color: #6A1B9A; /* Color morado */
-    font-weight: bold; /* Opcional: puedes agregar un estilo de fuente más destacado */
+    background-color: var(--clr-primary-variant);
+	color: var(--clr-white);
+    border-radius: 1rem;
 }
 
 .main {
@@ -243,6 +298,10 @@ aside .sidebar a.canjesActive:hover span {
     margin-left: 12rem;
 }
 
+aside * {
+    user-select: none; 
+}
+
 aside {
     grid-row: 1 / span 2; 
     height: 100%;
@@ -254,11 +313,12 @@ aside {
     transition: width 0.3s ease; /* Transición para cambiar la anchura */
     z-index: 50;
     user-select: none;
+    overflow-y: scroll;
     /*display: none; Deshabilitar*/
 }
 
-aside * {
-    user-select: none; 
+aside::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
 }
 
 /* Estilo para cerrar el sidebar */
@@ -267,6 +327,10 @@ aside.closed {
 }
 
 aside .sidebar a h5.hidden {
+    opacity: 0; /* Mantiene oculto cuando tiene la clase hidden */
+}
+
+#canjesArrowDownSpan.hidden {
     opacity: 0; /* Mantiene oculto cuando tiene la clase hidden */
 }
 
@@ -330,7 +394,6 @@ aside .sidebar a:last-child {
 	margin-top: 2rem; 
 	width: 100%;
 }
-
 
 aside .sidebar a:hover h5 {
     color: var(--clr-primary-variant);

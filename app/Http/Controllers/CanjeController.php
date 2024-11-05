@@ -50,7 +50,7 @@ class CanjeController extends Controller
             $optionsNumComprobante[] = $venta->idVentaIntermediada;
         }
         
-        return view('dashboard.canjes', compact('tecnicos', 'ventas', 'optionsNumComprobante', 
+        return view('dashboard.registrarCanjes', compact('tecnicos', 'ventas', 'optionsNumComprobante', 
                                                 'RecompensasWithoutEfectivo', 'recomEfectivo'));
     }
 
@@ -142,10 +142,10 @@ class CanjeController extends Controller
     }
 
     public function historial() {
-        dd("Historial de canjes");
+        return view('dashboard.historialCanjes');
     }
 
     public function solicitudesApp() {
-        dd("solicitudesApp de canjes");
+        return view('dashboard.solicitudesAppCanjes');
     }
 }
