@@ -281,8 +281,13 @@ function validateInputLength(input, length) {
 }
 
 function guardarModal(idModal, idForm) {
-    document.getElementById(idForm).submit();
-    closeModal(idModal);
+    try {
+        document.getElementById(idForm).submit();
+        closeModal(idModal);
+    } catch (error) {
+        console.log(error.message);
+        registrarErrorEnLaravel(error.message) 
+    }
 }
 
 /*
@@ -328,8 +333,6 @@ function validateMinMaxRealTime(input, min, max) {
 function validateValueOnRealTime(input, idOptions, idMessageError, someHiddenIdInputsArray, 
                                 otherInputsArray = null, itemsDB = null, searchField = null,
                                 dbFieldsNameArray = null) {
-    //console.log(itemsDB);
-
     const value = input.value;
     const messageError = document.getElementById(idMessageError);
    
@@ -345,12 +348,12 @@ function validateValueOnRealTime(input, idOptions, idMessageError, someHiddenIdI
 
     // Obtener todos los valores del item
     const allItems = getAllLiText(idOptions);
-    
+
     // Comparar el valor ingresado con la lista de items
     const itemEncontrado = allItems.includes(value);
 
     // Dividir el valor en partes (id y nombre)
-    const [id, nombre] = value.split(' - ');
+    const [id, nombre] = value.split(' | ');
 
     const clearInputs = () => {
         clearHiddenInputs();
@@ -385,7 +388,7 @@ function validateValueOnRealTime(input, idOptions, idMessageError, someHiddenIdI
         if (otherInputsArray && itemsDB && searchField) {
             const searchValue = id;
             const itemArraySearched = returnItemDBValueWithRequestedID(searchField, searchValue, itemsDB);
-            console.log(itemArraySearched);
+            //console.log(itemArraySearched);
 
             if (itemArraySearched) {
                 otherInputsArray.forEach((idOtherInput, index) => {
@@ -409,6 +412,37 @@ function returnItemDBValueWithRequestedID(searchField, searchValue, itemsDB) {
         }
     }
 
-    console.log()
+    return null; // Retornar null si no se encuentra el objeto
+}
+
+// Función para enviar el mensaje de error al log de Laravel
+function registrarErrorEnLaravel(mensajeError) {
+    fetch('/log-error', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ message: mensajeError })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Error registrado en Laravel:", data.status);
+    })
+    .catch(error => {
+        console.error("Error al enviar el mensaje al servidor:", error);
+    });
+}
+
+function consoleLogJSONItems(items) {
+    console.log(JSON.stringify(items, null, 2));
+}
+
+function returnObjTecnicoById(idTecnico, tecnicosDB) {
+    for (const key in tecnicosDB) {
+        if (tecnicosDB[key]['idTecnico'] === idTecnico) {
+            return tecnicosDB[key]; 
+        }
+    }
     return null; // Retornar null si no se encuentra el objeto
 }

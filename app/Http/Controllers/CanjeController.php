@@ -50,7 +50,7 @@ class CanjeController extends Controller
             $optionsNumComprobante[] = $venta->idVentaIntermediada;
         }
         
-        return view('dashboard.canjes', compact('tecnicos', 'ventas', 'optionsNumComprobante', 
+        return view('dashboard.registrarCanjes', compact('tecnicos', 'ventas', 'optionsNumComprobante', 
                                                 'RecompensasWithoutEfectivo', 'recomEfectivo'));
     }
 
@@ -139,5 +139,14 @@ class CanjeController extends Controller
             dd($e);
             return back()->withErrors(['error' => 'Error al procesar el dosaje o la predicción: ' . $e->getMessage()])->withInput();
         }
+    }
+
+    public function historial() {
+        $allCanjes = Canje::all();
+        return view('dashboard.historialCanjes', compact('allCanjes'));
+    }
+
+    public function solicitudesApp() {
+        return view('dashboard.solicitudesAppCanjes');
     }
 }

@@ -1,0 +1,469 @@
+.solicitudesAppCanjesContainer {
+    border-radius: var(--border-radius-mainSectionContainer);
+    padding: var(--padding-mainSectionContainer);
+	padding-top: 0.5rem;
+    background-color: var(--background-color-mainSectionContainer);
+	display: flex;
+	flex-direction: column;
+    width: 100%;
+	height: auto;
+}
+
+h3 {
+	font-size: 1.2rem;
+	color: var(--clr-primary-variant3);
+}
+
+.firstCanjesRow{
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+    width: 100%;
+    height: 3rem;
+    gap: 1.5rem;
+    align-items: center;
+	justify-content: space-between;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+}
+
+.fechaContainer {
+	display: flex;
+	flex-direction: row;
+	gap: 1em;
+	align-items: center;
+}
+
+.secondCanjesRow{
+    display: flex;
+	flex-direction: row;
+    width: 100%;
+	height: auto;
+	margin-top: 1rem;
+	gap: 2rem;
+	padding-bottom: 1rem;
+	border-bottom: 1.5px solid #ccc;
+	align-items: center;
+}
+
+.thirdCanjesRow{
+    display: flex;
+	flex-direction: row;
+    width: 100%;
+	justify-content: space-between;
+	height: auto;
+	margin-top: 1rem;
+	gap: 1rem;
+	padding-bottom: 1rem;
+	border-bottom: 1.5px solid #ccc;
+}
+
+.fourthCanjesRow{
+    display: flex;
+	flex-direction: row;
+    max-width: 63rem;
+	height: auto;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 1rem;
+	gap: 1rem;
+	padding-bottom: 1rem;
+	border-bottom: none;
+}
+
+.fithCanjesRow{
+    display: flex;
+	flex-direction: row;
+    max-width: 65rem;
+	height: auto;
+	align-items: start;
+	margin-top: 1rem;
+	gap: 2rem;
+	padding-top: 1rem;
+}
+
+.btnCanjesSectionContainer {
+	display: flex;
+	flex-direction: row;
+	gap: 1rem;
+	margin-top: 1rem;
+}
+
+.sixthCanjesRow{
+    display: flex;
+	flex-direction: row;
+    max-width: 65rem;
+	height: auto;
+	align-items: center;
+	justify-content: end;
+	gap: 1rem;
+	margin-top: 1rem;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
+	padding-right: 2rem;
+}
+
+.verticalPairGroup {
+	display: flex;
+	flex-direction: column;
+	max-width: 100%;
+	text-align: start;
+	align-items: start;
+	gap: 0.5rem;
+}
+
+.verticalPairGroup.tooltipInside {
+	gap: 0.25rem;
+}
+
+.verticalPairGroup label {
+	text-align: left;
+	width: auto;
+}
+
+.input[type="date"] {
+	text-align: start;
+	width: 5rem;
+}
+
+#numComprobanteLabel {
+	width: 12rem;
+}
+
+#idFechaCanjeInput{
+	height: 2.3rem;
+	max-width: 60%;
+	border-radius: 3px;
+	padding-left: 15px;
+	padding-right: 0;
+}
+
+#diasTranscurridosInput {
+	width: 8rem;
+	text-align: center;
+	padding-left: 1px;
+}
+
+#tecnicoCanjesInput {
+	width: 22rem;
+}
+
+#puntosActualesCanjesInput {
+	width: 7rem;
+	text-align: center;
+	padding-left: 1px;
+}
+
+#comprobanteCanjesInput {
+	width: 9rem;
+}
+
+#montoTotalCanjesInput {
+	width: 7rem;
+	text-align: center;
+	padding-left: 1px;
+}
+
+#puntosGeneradosCanjesInput, #puntosRestantesCanjesInput {
+	width: 7.5rem;
+	text-align: center;
+	padding-left: 1px;
+}
+
+#clienteCanjesTextarea {
+	width: 10rem;
+	height: 4.5rem;
+	max-height: 5rem;
+	padding-right: 0;
+	resize: none; 
+	overflow-y: hidden;	
+}
+
+#fechaEmisionCanjesInput {
+	width: 8rem;
+	padding-left: 1rem;
+	padding-right: 0;
+}
+
+#messageErrorTecnicoCanjes {
+	margin-top: 1.6rem;
+}
+
+#recompensasCanjesInput {
+	width: 40rem;
+}
+
+#cantidadRecompensaCanjesInput {
+	width: 4rem;
+	height: auto;
+	text-align: center;
+    border-radius: 0px;
+}
+
+#idAgregarRecompensaTablaBtn {
+	max-width: 12rem;
+	max-height: 2rem;
+}
+
+#idQuitarRecompensaTablaBtn {
+	min-width: 4rem;
+	max-height: 2rem;
+}
+
+/* Estilo del cuadro resumen*/
+.resumenContainer {
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+	opacity: 0;
+}
+
+.resumenContainer.shown {
+	opacity: 1;
+ }
+
+
+.resumenContainer h3 {
+	font-size: 1rem;
+	color: black;
+	text-align: center;
+}
+
+.resumenContainer h4 {
+	line-height: 1.2rem;
+}
+
+.resumenContent {
+    display: grid;
+    grid-template-columns: 3fr 1fr; /* Dos columnas de igual tamaño */
+    grid-template-rows: auto auto auto; /* Tres filas automáticas */
+    gap: 10px; /* Espaciado entre las celdas */
+}
+
+.resumenContent h4 {
+	font-size: 0.9rem;
+}
+.resumenContent h3 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.resumenContent .labelPuntosComprobante {
+	color: #000;
+    font-size: 1rem;
+	font-family: sans-serif;
+    font-weight: bold;
+    text-align: right;
+}
+
+.resumenContainer #inputPuntosCanjeados_Canje_Hidden,
+.resumenContainer #inputPuntosRestantes_Canje_Hidden {
+	color: #000;
+	font-size: 1rem;
+	font-family: sans-serif;
+    font-weight: bold;
+    text-align: right;
+	justify-self: flex-end;
+	background: none;
+	outline: none;
+	max-width: 3rem;
+}
+
+/* ================== Estilo General de la Tabla ================== */
+#tblCanjesContainer {
+	display: flex;
+    flex-direction: column;
+}
+
+#tblCanjes {
+    border-collapse: collapse;
+    min-width: 45rem;
+	max-width: 55rem;
+    background-color: var(--background-color-mainSectionContainer);
+}
+
+/* ================== Encabezado de la Tabla (thead) ================== */
+#tblCanjes thead {
+    background-color: #4b8dab; /* Color de fondo más oscuro */
+    color: #fff; /* Color de texto blanco para mejor legibilidad */
+}
+
+#tblCanjes thead th {
+    padding: 0.2rem 1rem; /* Espaciado adecuado */
+    font-size: 0.9rem;
+    font-weight: bold; /* Texto más grueso */
+}
+
+/* ================== Cuerpo de la Tabla (tbody) ================== */
+#tblCanjes td, #tblCanjes th {
+    padding: 0.4rem 0.8rem; /* Espaciado dentro de las celdas */
+    text-align: left; /* Alineación a la izquierda */
+    border-bottom: 1px solid #ddd; /* Línea inferior para separar filas */
+}
+
+/* Color de fondo de filas alternas */
+#tblCanjes tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Color claro alterno */
+}
+
+/* Fila hover */
+#tblCanjes tbody tr:hover {
+    background-color: #d9f0fc; /* Suave tono azul */
+    cursor: pointer;
+    transition: none; /* Sin transición para hover */
+}
+
+#tblCanjes tbody tr:hover td:first-child {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+#tblCanjes tbody tr:hover td:last-child {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+/* Fila seleccionada */
+#tblCanjes tbody tr.selectedCanjes {
+    background-color: #b3d9ff; /* Tono azul más fuerte */
+    color: #333; /* Texto oscuro para mejor contraste */
+    transition: none; /* Sin transición para selectedCanjes */
+}
+
+/* Animación personalizada para que el color aparezca y desaparezca */
+@keyframes cambiarColorFila {
+    0% {
+        background-color: white; /* Color inicial */
+    }
+    30% {
+        background-color: #9bed9b; /* Color verde en la mitad */
+    }
+    100% {
+        background-color: white; /* Vuelve al color blanco */
+    }
+}
+
+/* Fila duplicada al agregar recompensa */
+#tblCanjes tbody tr.duplicated {
+    animation: cambiarColorFila 1s ease-in-out; /* Animación de 1 segundo para entrada y salida */
+    color: #333; /* Texto oscuro */
+}
+
+/* Bordes redondeados en la fila seleccionada */
+#tblCanjes tbody tr.selectedCanjes td:first-child {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+#tblCanjes tbody tr.selectedCanjes td:last-child {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+
+/* ================== Pie de la Tabla (tfoot) ================== */
+#tblCanjes tfoot.hidden {
+    padding: 0 1rem;
+    background-color: #4b8dab; /* Mismo color que el encabezado */
+    color: #fff; /* Texto en blanco */
+	display: none;
+}
+
+#tblCanjes tfoot th {
+    padding: 0rem 1rem; /* Espaciado en el pie */
+}
+
+#tblCanjes tfoot {
+	display: table-row-group;
+}
+
+#tblCanjesMessageBelow {
+	display: block;
+	text-align: center;
+	width: 100%;
+}
+
+#tblCanjesMessageBelow.hidden {
+	display: none;
+}
+
+/*Estilo individual de cada celda del head de tblCanjes*/
+#celdaNumeroOrdenRecompensa {
+	width: 3rem; /* 47px ≈ 3rem */
+}
+
+#celdaCodigoRecompensa {
+	width: 7rem; /* 82.78px ≈ 5rem */
+}
+
+#celdaTipoRecompensa {
+	width: 7rem; /* 105.59px ≈ 7rem */
+}
+
+#celdaDescripcionRecompensa {
+	width: 14rem; /* 224.56px ≈ 14rem */
+}
+
+#celdaCostoPuntosRecompensa {
+	width: 6rem; /* 94.73px ≈ 6rem */
+}
+
+#celdaCantidadnRecompensa {
+	width: 6rem; /* 89.79px ≈ 6rem */
+}
+
+#celdaPuntosTotalesRecompensa {
+	width: 6rem; /* 100.1px ≈ 6rem */
+}
+
+#btnGuardarCanje {
+	background-color: #066344;
+}
+
+#btnGuardarCanje:hover {
+	background-color: #18ad5b;
+}
+
+.btn {
+	font-weight: bold;
+}
+
+#idFechaHoyLabel {
+	font-size: 1rem;
+}
+
+.messageConditionCanje span {
+	font-weight: bold;
+}
+
+.messageConditionCanje span:first-child {
+	color: #2394da;
+}
+
+.messageConditionCanje span:nth-child(2) {
+	color: #ff9800;
+}
+
+#estadoComprobanteCanjesTextarea {
+	width: 7rem;
+	height: 3.5rem;
+	max-height: 4rem;
+	padding: 5px;
+	resize: none; 
+	overflow-y: hidden;	
+	font-size: 15px;
+	text-align: center;
+}
+
+#estadoComprobanteCanjesTextarea.estado-1 {
+	color: #2394da;
+	padding-top: 1.1rem;
+	font-weight: 600;
+}
+
+#estadoComprobanteCanjesTextarea.estado-2 {
+	color: #ff9800;
+	font-weight: 600;
+}
+

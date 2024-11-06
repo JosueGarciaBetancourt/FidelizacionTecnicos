@@ -12,14 +12,12 @@
                     <!-- Variables globales -->
                     @php
                         $tecnicosDB = $tecnicos;
-                        $dbFieldsNameArray = ['celularTecnico', 'oficioTecnico', 'fechaNacimiento_Tecnico', 
-											'totalPuntosActuales_Tecnico', 'historicoPuntos_Tecnico', 'rangoTecnico'];
+                        $idsNombresOficiosBD = $idsNombresOficios;
                         $idInput = 'tecnicoDeleteInput';
                         $idOptions = 'tecnicoDeleteOptions';
                         $idMessageError = 'searchDeleteTecnicoMessageError';
 						$idModalDeleteMessageError = 'modalEliminarTecnicoMessageError';
                         $someHiddenIdInputsArray = ['idDeleteTecnicoInput'];
-						
 						$idCelularInput = 'celularInputDelete'; //El valor se debe modificar también en modalEliminarTecnico.js
                         $idFechaNacimientoInput = 'fechaNacimientoInputDelete';
                         $idOficioInputDelete = 'oficioInputDelete';
@@ -28,9 +26,8 @@
 						$idRangoInputDelete = 'rangoInputDelete';
                         $otherInputsArray = [$idCelularInput , $idOficioInputDelete, $idFechaNacimientoInput, $idPuntosActualesInput,
 											$idHistoricoPuntosInput, $idRangoInputDelete];
-                        $searchDBField = 'idTecnico';
                     @endphp
-                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="8" name='{{ $searchDBField }}'>
+                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="8" name='idTecnico'>
                    
                     <div class="form-group start paddingY" id="idH5DeleteTecnicoModalContainer">
                         <h5> Seleccione el técnico que desee eliminar.</h5>
@@ -39,12 +36,10 @@
                     <div class="form-group gap">
                         <label class="primary-label" for="tecnicoDeleteSelect">Tecnico:</label>
                         <div class="input-select" id="tecnicoDeleteSelect">
-                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI - Nombre" autocomplete="off"
+                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI | Nombre" autocomplete="off"
                                 oninput="filterOptions('{{ $idInput }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
-                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
-                                        {{ json_encode($tecnicosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
-
+                                        validateValueOnRealTimeTecnicoDelete(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
+                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, {{ json_encode($tecnicosDB) }})"
                                 onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
                                 @foreach ($tecnicos as $tecnico)
@@ -52,16 +47,16 @@
                                         $idTecnico = htmlspecialchars($tecnico->idTecnico, ENT_QUOTES, 'UTF-8');
                                         $nombreTecnico = htmlspecialchars($tecnico->nombreTecnico, ENT_QUOTES, 'UTF-8');
                                         $celularTecnico = htmlspecialchars($tecnico->celularTecnico, ENT_QUOTES, 'UTF-8');
-										$oficioTecnico = htmlspecialchars($tecnico->oficioTecnico, ENT_QUOTES, 'UTF-8');
+										$idNameOficioTecnico = htmlspecialchars($tecnico->idNameOficioTecnico, ENT_QUOTES, 'UTF-8');
 										$fechaNacimiento_Tecnico = htmlspecialchars($tecnico->fechaNacimiento_Tecnico, ENT_QUOTES, 'UTF-8');
 										$totalPuntosActuales_Tecnico = htmlspecialchars($tecnico->totalPuntosActuales_Tecnico, ENT_QUOTES, 'UTF-8');
 										$historicoPuntos_Tecnico = htmlspecialchars($tecnico->historicoPuntos_Tecnico, ENT_QUOTES, 'UTF-8');
 										$rangoTecnico = htmlspecialchars($tecnico->rangoTecnico, ENT_QUOTES, 'UTF-8');
-                                        $value = $idTecnico . " - " . $nombreTecnico;
+                                        $value = $idTecnico . " | " . $nombreTecnico;
                                     @endphp
                             
-                                   <li onclick="selectOptionDeletearTecnico('{{ $value }}', '{{ $idTecnico }}', '{{ $nombreTecnico }}', '{{ $celularTecnico }}',
-												'{{ $oficioTecnico }}', '{{ $fechaNacimiento_Tecnico }}', '{{ $totalPuntosActuales_Tecnico }}', 
+                                   <li onclick="selectOptionDeleteTecnico('{{ $value }}', '{{ $idTecnico }}', '{{ $nombreTecnico }}', '{{ $celularTecnico }}',
+												'{{ $idNameOficioTecnico }}', '{{ $fechaNacimiento_Tecnico }}', '{{ $totalPuntosActuales_Tecnico }}', 
                                                 '{{ $historicoPuntos_Tecnico }}', '{{ $rangoTecnico }}', '{{ $idInput }}', '{{ $idOptions }}', 
                                                 {{ json_encode($someHiddenIdInputsArray) }})">
                                         {{ $value }}
@@ -84,8 +79,8 @@
                             :idInput="$idOficioInputDelete"
                             :inputClassName="'onlySelectInput long noHandCursor'"
                             :placeholder="'Seleccionar oficio'"
-                            :name="'oficioTecnico'"
-                            :options="['Albañil', 'Enchapador', 'Enchapador/Albañil']"
+                            {{-- :name="'oficioTecnico'" --}}
+                            :options="$idsNombresOficiosBD"
                             :disabled="true"
                             :spanClassName="'noHandCursor'"
                             :focusBorder="'noFocusBorder'"

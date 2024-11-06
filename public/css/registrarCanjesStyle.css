@@ -1,4 +1,4 @@
-.canjesContainer {
+.registrarCanjesContainer {
     border-radius: var(--border-radius-mainSectionContainer);
     padding: var(--padding-mainSectionContainer);
 	padding-top: 0.5rem;
@@ -276,7 +276,7 @@ h3 {
     flex-direction: column;
 }
 
-#tblCanjes {
+#tblRecompensasCanjes {
     border-collapse: collapse;
     min-width: 45rem;
 	max-width: 55rem;
@@ -284,48 +284,48 @@ h3 {
 }
 
 /* ================== Encabezado de la Tabla (thead) ================== */
-#tblCanjes thead {
+#tblRecompensasCanjes thead {
     background-color: #4b8dab; /* Color de fondo más oscuro */
     color: #fff; /* Color de texto blanco para mejor legibilidad */
 }
 
-#tblCanjes thead th {
+#tblRecompensasCanjes thead th {
     padding: 0.2rem 1rem; /* Espaciado adecuado */
     font-size: 0.9rem;
     font-weight: bold; /* Texto más grueso */
 }
 
 /* ================== Cuerpo de la Tabla (tbody) ================== */
-#tblCanjes td, #tblCanjes th {
+#tblRecompensasCanjes td, #tblRecompensasCanjes th {
     padding: 0.4rem 0.8rem; /* Espaciado dentro de las celdas */
     text-align: left; /* Alineación a la izquierda */
     border-bottom: 1px solid #ddd; /* Línea inferior para separar filas */
 }
 
 /* Color de fondo de filas alternas */
-#tblCanjes tbody tr:nth-child(even) {
+#tblRecompensasCanjes tbody tr:nth-child(even) {
     background-color: #f9f9f9; /* Color claro alterno */
 }
 
 /* Fila hover */
-#tblCanjes tbody tr:hover {
+#tblRecompensasCanjes tbody tr:hover {
     background-color: #d9f0fc; /* Suave tono azul */
     cursor: pointer;
     transition: none; /* Sin transición para hover */
 }
 
-#tblCanjes tbody tr:hover td:first-child {
+#tblRecompensasCanjes tbody tr:hover td:first-child {
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
 }
 
-#tblCanjes tbody tr:hover td:last-child {
+#tblRecompensasCanjes tbody tr:hover td:last-child {
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
 }
 
 /* Fila seleccionada */
-#tblCanjes tbody tr.selectedCanjes {
+#tblRecompensasCanjes tbody tr.selectedCanjes {
     background-color: #b3d9ff; /* Tono azul más fuerte */
     color: #333; /* Texto oscuro para mejor contraste */
     transition: none; /* Sin transición para selectedCanjes */
@@ -345,36 +345,36 @@ h3 {
 }
 
 /* Fila duplicada al agregar recompensa */
-#tblCanjes tbody tr.duplicated {
+#tblRecompensasCanjes tbody tr.duplicated {
     animation: cambiarColorFila 1s ease-in-out; /* Animación de 1 segundo para entrada y salida */
     color: #333; /* Texto oscuro */
 }
 
 /* Bordes redondeados en la fila seleccionada */
-#tblCanjes tbody tr.selectedCanjes td:first-child {
+#tblRecompensasCanjes tbody tr.selectedCanjes td:first-child {
     border-top-left-radius: 0.5rem;
     border-bottom-left-radius: 0.5rem;
 }
 
-#tblCanjes tbody tr.selectedCanjes td:last-child {
+#tblRecompensasCanjes tbody tr.selectedCanjes td:last-child {
     border-top-right-radius: 0.5rem;
     border-bottom-right-radius: 0.5rem;
 }
 
 
 /* ================== Pie de la Tabla (tfoot) ================== */
-#tblCanjes tfoot.hidden {
+#tblRecompensasCanjes tfoot.hidden {
     padding: 0 1rem;
     background-color: #4b8dab; /* Mismo color que el encabezado */
     color: #fff; /* Texto en blanco */
 	display: none;
 }
 
-#tblCanjes tfoot th {
+#tblRecompensasCanjes tfoot th {
     padding: 0rem 1rem; /* Espaciado en el pie */
 }
 
-#tblCanjes tfoot {
+#tblRecompensasCanjes tfoot {
 	display: table-row-group;
 }
 
@@ -388,7 +388,7 @@ h3 {
 	display: none;
 }
 
-/*Estilo individual de cada celda del head de tblCanjes*/
+/*Estilo individual de cada celda del head de tblRecompensasCanjes*/
 #celdaNumeroOrdenRecompensa {
 	width: 3rem; /* 47px ≈ 3rem */
 }

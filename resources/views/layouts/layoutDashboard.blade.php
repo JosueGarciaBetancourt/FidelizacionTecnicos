@@ -13,7 +13,6 @@
 
 @section('content')
     <div class="dashboard-container"  data-routes='{"perfil": "{{ route('profile.edit') }}", "logout": "{{ route('logout') }}"}'>
-        <!-- aside section-->
         <aside>
             <div class="top">
                 <div class="logo">
@@ -28,11 +27,18 @@
                     <h5>Ventas <br>Intermediadas</h5>
                 </a>
                 
-                <a href="{{ route('canjes.create') }}" 
-                    class="{{ Request::routeIs('canjes.create') ? 'active' : '' }}">
-                    <span class="material-symbols-outlined">currency_exchange</span>
-                    <h5>Canjes</h5>
-                </a>
+                <div id="canjesLinkContainer">
+                    <a id="canjesLink" href="#" class="{{ Request::routeIs('canjes.create', 'canjes.historial', 'canjes.solicitudesApp') ? 'canjesActive' : '' }}">
+                        <span class="material-symbols-outlined">currency_exchange</span>
+                        <h5>Canjes</h5>
+                        <span id="canjesArrowDownSpan" class="material-symbols-outlined">keyboard_arrow_down</span>
+                    </a>
+                    <div class="select-items-canjes hidden" id="canjesMenu">
+                        <a href="{{ route('canjes.create') }}" class="{{ Request::routeIs('canjes.create') ? 'subLinkActive' : '' }}">• Nuevo Canje</a>
+                        <a href="{{ route('canjes.historial') }}" class="{{ Request::routeIs('canjes.historial') ? 'subLinkActive' : '' }}">• Ver Historial</a>
+                        <a href="{{ route('canjes.solicitudesApp') }}" class="{{ Request::routeIs('canjes.solicitudesApp') ? 'subLinkActive' : '' }}">• Ver solicitudes</a>
+                    </div>
+                </div>
                 
                 <a href="{{ route('recompensas.create') }}" 
                     class="{{ Request::routeIs('recompensas.create') ? 'active' : '' }}">
@@ -44,6 +50,12 @@
                     class="{{ Request::routeIs('tecnicos.create') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">groups</span>
                     <h5>Técnicos</h5>
+                </a>
+
+                <a href="{{ route('oficios.create') }}" 
+                    class="{{ Request::routeIs('oficios.create') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">engineering</span>
+                    <h5>Oficios</h5>
                 </a>
 
                 <a href="{{ route('configuracion') }}" 
@@ -63,7 +75,6 @@
             </div>
         </aside>
 
-        <!-- header section-->
         <div class="header">
             <div class="left_menu_close" id="menu_toggle_button">
                 <span class="material-symbols-outlined">arrow_back_ios</span>

@@ -3,6 +3,7 @@
 }
 
 #modalAgregarNuevoTecnico .modal-dialog {
+    max-width: 720px; 
     transform: translateY(15px); /* Inicialmente desplazado hacia arriba */
 }
 
@@ -16,6 +17,10 @@
 
 #dniInput {
     width: 8rem;
+}
+
+#oficioInput {
+    width: 20rem;
 }
 
 #bornDateLabel {

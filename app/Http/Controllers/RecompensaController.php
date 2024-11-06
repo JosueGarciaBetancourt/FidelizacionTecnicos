@@ -50,10 +50,13 @@ class RecompensaController extends Controller
         // Obtener todas las recompensas activas
         $recompensas = Recompensa::all();
         
+        // Obtener todas las recompensas no activas
+        $recompensasEliminadas = Recompensa::onlyTrashed()->get();
+
         // Obtener todas las recompensas excepto la primera
         $recompensasWithoutFirst = $recompensas->skip(1);
         
-        return view('dashboard.recompensas', compact('recompensas', 'recompensasWithoutFirst', 'idNuevaRecompensa'));
+        return view('dashboard.recompensas', compact('recompensas', 'recompensasWithoutFirst', 'idNuevaRecompensa', 'recompensasEliminadas'));
     }
     
     public function store(Request $request) 
@@ -105,6 +108,39 @@ class RecompensaController extends Controller
         }
     
         return redirect()->route('recompensas.create')->with('successRecompensaDelete', $messageDelete);
+    }
+
+    public function restaurar(Request $request) {
+        try {
+            $validatedData = $request->validate([
+                'idRecompensa' => 'required|string|max:9',
+            ]);
+            
+            // Iniciar transacción
+            DB::beginTransaction();
+            
+            //dd($validatedData['idRecompensa']);
+
+            // Obtener la recompensa eliminada lógicamente
+            $recompensaEliminada = Recompensa::onlyTrashed()->where('idRecompensa', $validatedData['idRecompensa'])->first();
+            
+            if (!$recompensaEliminada) {
+                // Recompensa no encontrada o ya existe en registros activos
+                return redirect()->route('recompensas.create')->withErrors('Recompensa no encontrada o ya restaurada.');
+            }
+            
+            // Restaurar la recompensa
+            $recompensaEliminada->restore();
+            
+            // Confirmar transacción
+            DB::commit();
+            return redirect()->route('recompensas.create')->with('successRecompensaRestaurada', 'Recompensa restaurada correctamente.');
+        } catch (\Exception $e) {
+            // Revertir la transacción en caso de error
+            DB::rollBack();
+            
+            return redirect()->route('recompensas.create')->withErrors('Ocurrió un error al intentar restaurar la recompensa. Por favor, inténtelo de nuevo.');
+        }
     }
 
     public static function updateStockByIdRecompensaCantidad($idRecompensa, $cantidad) {

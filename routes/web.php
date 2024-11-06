@@ -11,8 +11,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RecompensaController;
 use App\Http\Controllers\VentaIntermediadaController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\OficioController;
+use Illuminate\Support\Facades\Log;
 
-
+Route::post('/log-error', function (Illuminate\Http\Request $request) {
+    Log::error('Error en JavaScript: ' . $request->input('message'));
+    return response()->json(['status' => 'error logged']);
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -34,9 +39,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard-registrarCanje', [CanjeController::class, 'create'])->name('canjes.create');  
     Route::post('/dashboard-registrarCanje-storeCanje', [CanjeController::class, 'store'])->name('canjes.store');  
     // Ver historial 
-    Route::get('/dashboard-historial-canje', [CanjeController::class, 'create'])->name('canjes.historial');  
+    Route::get('/dashboard-historial-canje', [CanjeController::class, 'historial'])->name('canjes.historial');  
     // Ver solicitudes (app móvil) 
-    Route::get('/dashboard-solicitudesApp-canje', [CanjeController::class, 'create'])->name('canjes.solicitudesApp');  
+    Route::get('/dashboard-solicitudesApp-canje', [CanjeController::class, 'solicitudesApp'])->name('canjes.solicitudesApp');  
 
     // Fetch
     route::get('/dashboard-canjes/tecnico/{idTecnico}', [VentaIntermediadaController::class, 'getComprobantesEnEsperaByIdTecnico'])
@@ -47,14 +52,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/modal-storeRecompensa', [RecompensaController::class, 'store'])->name('recompensas.store');  
     Route::put('/modal-updateRecompensa', [RecompensaController::class, 'update'])->name('recompensas.update'); 
     Route::delete('/modal-deleteRecompensa', [RecompensaController::class, 'delete'])->name('recompensas.delete');
+    Route::post('/modal-restoreRecompensa', [RecompensaController::class, 'restaurar'])->name('recompensas.restore');
 
     // Técnicos
     Route::get('/dashboard-tecnicos', [TecnicoController::class, 'create'])->name('tecnicos.create');  
     Route::post('/modal-storeTecnico', [TecnicoController::class, 'store'])->name('tecnicos.store');  
     Route::put('/modal-updateTecnico', [TecnicoController::class, 'update'])->name('tecnicos.update'); 
     Route::delete('/modal-deleteTecnico', [TecnicoController::class, 'delete'])->name('tecnicos.delete');
-    Route::post('/modal-recontratarTecnico', [TecnicoController::class, 'recontratar'])->name('tecnicos.recontratar'); 
+    Route::post('/modal-recontratarTecnico', [TecnicoController::class, 'recontratar'])->name('tecnicos.rehire'); 
     Route::get('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
+
+    // Oficios
+    Route::get('/dashboard-oficios', [OficioController::class, 'create'])->name('oficios.create');  
+    Route::post('/dashboard-storeOficios', [OficioController::class, 'store'])->name('oficios.store');  
+    Route::put('/dashboard-updateOficios', [OficioController::class, 'update'])->name('oficios.update');  
+    Route::delete('/dashboard-deleteOficios', [OficioController::class, 'delete'])->name('oficios.delete');  
+    Route::post('/modal-restoreOficio', [OficioController::class, 'restaurar'])->name('oficios.restore');
 
     // Configuración
     Route::get('/dashboard-configuracion', [DashboardController::class, 'configuracion'])->name('configuracion');  
