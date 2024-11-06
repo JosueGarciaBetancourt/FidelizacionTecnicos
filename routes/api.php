@@ -20,3 +20,4 @@ Route::get('/user', function (Request $request) {
     Route::get('/oficios', [Login_tecnicoController::class, 'getAvailableJobs']);
     Route::post('/cambiar-password', [Login_tecnicoController::class, 'changePassword']);
     Route::put('/tecnico/{idTecnico}/oficios', [Login_tecnicoController::class, 'changeJobs']);
+    Route::get('/oficiosTecnicos', [Login_tecnicoController::class, 'getAllFullModelsTecnicos']);
