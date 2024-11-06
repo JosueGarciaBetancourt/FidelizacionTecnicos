@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class TecnicoController extends Controller
 {   
-    public function returnModelsTecnicosWithOficios() {
+    public static function returnModelsTecnicosWithOficios() {
         $tecnicos = Tecnico::all();
     
         // Agregar el campo oficioTecnico a cada modelo en la colección

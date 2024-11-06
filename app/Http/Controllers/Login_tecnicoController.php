@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\TecnicoController;
 
 class Login_tecnicoController extends Controller
 {
@@ -206,4 +207,13 @@ class Login_tecnicoController extends Controller
         return response()->json($recompensas);
     }
 
+
+    
+
+
+    public function getAllFullModelsTecnicos() 
+    {
+        $tecnicos = TecnicoController::returnModelsTecnicosWithOficios();
+        return $tecnicos;
+    }
 }
