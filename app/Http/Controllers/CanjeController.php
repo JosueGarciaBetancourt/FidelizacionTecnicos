@@ -142,7 +142,8 @@ class CanjeController extends Controller
     }
 
     public function historial() {
-        return view('dashboard.historialCanjes');
+        $allCanjes = Canje::all();
+        return view('dashboard.historialCanjes', compact('allCanjes'));
     }
 
     public function solicitudesApp() {

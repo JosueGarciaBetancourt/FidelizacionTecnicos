@@ -22,8 +22,8 @@ let cantidadRecompensaCanjesInput = document.getElementById('cantidadRecompensaC
 let agregarRecompensaTablaBtn = document.getElementById('idAgregarRecompensaTablaBtn');
 let recompensasCanjesInput = document.getElementById('recompensasCanjesInput');
 let tblCanjesMessageBelow = document.getElementById('tblCanjesMessageBelow');
-let tableCanjesBody = document.querySelector('#tblCanjes tbody');
-let tableCanjesFooter = document.querySelector('#tblCanjes tfoot');
+let tableCanjesBody = document.querySelector('#tblRecompensasCanjes tbody');
+let tableCanjesFooter = document.querySelector('#tblRecompensasCanjes tfoot');
 let celdaTotalPuntos = document.getElementById('celdaTotalPuntos');
 let numFilaSeleccionada = null;
 let lastNumFilaSeleccionada = null;
@@ -630,7 +630,7 @@ function getSumaTotalPuntosTblRecompensasCanjes() {
 
 function isCodigoDuplicated(codigo) {
     if (verificarFilasTablaCanjes()) {
-        const tableBody = document.querySelector('#tblCanjes tbody');
+        const tableBody = document.querySelector('#tblRecompensasCanjes tbody');
 
         // Verificar que el cuerpo de la tabla existe
         if (!tableBody) {
@@ -670,7 +670,7 @@ function isCodigoDuplicated(codigo) {
 }
 
 function updateRow(codigo, stockRestante, cantidad, puntosTotales) {
-    const tableBody = document.querySelector('#tblCanjes tbody');
+    const tableBody = document.querySelector('#tblRecompensasCanjes tbody');
 
     // Recorrer todas las filas del cuerpo de la tabla
     for (let row of tableBody.rows) {
@@ -691,7 +691,7 @@ function updateRow(codigo, stockRestante, cantidad, puntosTotales) {
 }
 
 function addRowTableCanjes(codigo, categoria, descripcion, stockRestante, costo, cantidad, puntosTotales) {
-    const tableBody = document.querySelector('#tblCanjes tbody');
+    const tableBody = document.querySelector('#tblRecompensasCanjes tbody');
     const newRow = document.createElement('tr');
 
     // Datos que serán agregados en las celdas

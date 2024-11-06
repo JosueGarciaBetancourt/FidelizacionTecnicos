@@ -207,7 +207,7 @@
 			<!--Tabla de canjes-->
 			<div class="fithCanjesRow">
 				<div class="tblCanjesContainer">
-					<table class="ownTable" id="tblCanjes">
+					<table class="ownTable" id="tblRecompensasCanjes">
 						<thead>
 							<gi>
 								<th class="celda-centered" id="celdaNumeroOrdenRecompensa">#</th>
@@ -284,7 +284,7 @@
 @endsection	
 
 @push('scripts')
-	<script src="{{ asset('js/canjes.js') }}"></script>
+	<script src="{{ asset('js/registrarCanjes.js') }}"></script>
 	<script>
         document.addEventListener("DOMContentLoaded", function() {
             @if(session('successCanjeStore'))

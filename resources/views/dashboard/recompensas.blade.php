@@ -47,7 +47,7 @@
                 :idSuccesModal="'successModalRecompensaRestaurada'"
                 :message="'Recompensa restaurada correctamente'"
             />
-            <!--Tabla de ventas intermediadas-->
+
             <div class="secondRow">
                 <table id="tblRecompensas">
                     <thead>
