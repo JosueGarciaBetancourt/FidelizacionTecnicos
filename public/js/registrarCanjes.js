@@ -815,6 +815,7 @@ function generarJsonCodigoCantidad() {
     for (let row of tableBody.rows) {
         // Extraer el código y la cantidad de las celdas correspondientes
         const idRecompensa = row.querySelector('.celda-centered.codigo').textContent.trim(); 
+        const precio = row.querySelector('.celda-centered.codigo').textContent.trim(); 
         const cantidad = parseInt(row.querySelector('.celda-centered.cantidad').textContent.trim(), 10); 
 
         // Agregar el objeto, ejemplo: [{"idRecompensa":"RECOM-002","cantidad":50}]
@@ -878,14 +879,9 @@ function guardarCanje(idForm) {
     // Mostrar el modal y esperar la respuesta del usuario
     openConfirmModal('modalConfirmActionGuardarCanje').then((answer) => {
         if (answer) {
-            // Respuesta afirmativa
-            console.log("PROCESANDO CANJE");
             document.getElementById(idForm).submit();
             return;
         }
-        
-        // Respuesta negativa
-        console.log("NO QUISISTE CANJEAR");
     });
 }
 

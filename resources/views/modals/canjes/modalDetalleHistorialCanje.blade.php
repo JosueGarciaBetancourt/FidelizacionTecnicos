@@ -1,73 +1,64 @@
 <div class="modal first"  id="modalDetalleHistorialCanje">
     <div class="modal-dialog" id="modalDetalleHistorialCanje-dialog">
         <div class="modal-content" id="modalDetalleHistorialCanje-content">
+            @php
+                $canjesDB = $allCanjes;
+                $codigoCanje = 'codigoCanjeModalDetalleHistorialCanje';
+            @endphp
             <div class="modal-header">
-                <h5 class="modal-title">Editar oficio</h5>
+                <h5 class="modal-title" id='{{ $codigoCanje }}'></h5>
                 <button class="close" onclick="closeModal('modalDetalleHistorialCanje')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyDetalleHistorialCanje">
-                @php
-                    $canjesDB = $allCanjes;
-                    $idSearchMessageError = 'searchEditOficioError';
-                    $idCodigoOficioInput = 'codigoOficioInput';
-                    $idOptions = 'oficioEditOptions';
-                    $idDescripcionOficioInputEdit = 'descripcionOficioInputEdit';
-                    $someHiddenIdInputsArray = ['idNumberOficio'];
-                    $otherInputsArray = [$idDescripcionOficioInputEdit];
-                    $idGeneralMessageError = 'generalEditOficioError';
-                    $searchDBField = 'idOficio';
-                    $dbFieldsNameArray = ['nombre_Oficio', 'descripcion_Oficio'];
-                @endphp
-                <input type="text" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idOficio">
-                
-                <div class="form-group start paddingY" id="idH5EditOficioModalContainer">
-                    <h5> *Solo puede editar la descripción de un oficio previamente creado.</h5>
-                </div>
-
-                <div class="form-group gap">
-                    <label class="primary-label" for="oficioEditSelect">Oficio:</label>
-                    <div class="input-select" id="oficioEditSelect">
-                        <input class="input-select-item" type="text" id='{{ $idCodigoOficioInput }}' maxlength="100" placeholder="Código - Nombre" autocomplete="off"
-                            oninput="filterOptions('{{ $idCodigoOficioInput }}', '{{ $idOptions }}'),
-                                    validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idSearchMessageError }}', 
-                                    {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
-                                    {{ json_encode($canjesDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
-
-                            onclick="toggleOptions('{{ $idCodigoOficioInput }}', '{{ $idOptions }}')">
-                        <ul class="select-items" id='{{ $idOptions }}'>
-                            @foreach ($canjesDB as $oficio)
-                                @php
-                                    $idNumberOficio = htmlspecialchars($oficio->idOficio, ENT_QUOTES, 'UTF-8');
-                                    $codigoOficio = htmlspecialchars($oficio->codigoOficio, ENT_QUOTES, 'UTF-8');
-                                    $nombreOficio = htmlspecialchars($oficio->nombre_Oficio, ENT_QUOTES, 'UTF-8');
-                                    $descripcionOficio = htmlspecialchars($oficio->descripcion_Oficio, ENT_QUOTES, 'UTF-8');
-                                    $value = $codigoOficio . " | " . $nombreOficio;
-                                @endphp
-                        
-                                <li onclick="selectOptionEditOficio('{{ $value }}', '{{ $idNumberOficio }}', '{{ $descripcionOficio }}', 
-                                            '{{ $idCodigoOficioInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
-                                    {{ $value }}
-                                </li>   
-                            @endforeach
-                        </ul>
-                    </div>
-                    <span class="noInline-alert-message" id='{{ $idSearchMessageError }}'>No se encontró la oficio buscada</span>      
+                <div class="tblDetalleHistorialCanje-container">
+                    <table class="ownTable" id="tblDetalleHistorialCanje">
+						<thead>
+							<gi>
+								<th class="celda-centered" id="celdaNumeroOrdenRecompensa">#</th>
+								<th class="celda-centered" id="celdaCodigoRecompensa">Código</th>
+								<th class="celda-centered" id="celdaTipoRecompensa">Tipo</th>
+								<th class="celda-centered" id="celdaDescripcionRecompensa">Descripción</th>
+								<th class="celda-centered" id="celdaCantidadnRecompensa">Cantidad</th>
+								<th class="celda-centered" id="celdaCostoPuntosRecompensa">Costo puntos</th>
+								<th class="celda-centered" id="celdaPuntosTotalesRecompensa">Puntos Totales</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="celda-centered">1</td>
+								<td class="celda-centered">2</td>
+								<td class="celda-centered">3</td>
+								<td class="celda-centered">4</td>
+								<td class="celda-centered">5</td>
+								<td class="celda-centered">6</td>
+							</tr> 
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="6" class="celda-righted"><strong>Total</strong></td>
+								<div class="tooltip-container">
+									<span class="tooltip red" id="idCeldaTotalPuntosTooltip"></span>
+								</div>
+								<td class="celda-centered" id="celdaTotalPuntos">0</td>
+							</tr> 
+						</tfoot>
+					</table>
                 </div>
                 
-                <div class="form-group gap">
-                    <label class="primary-label" for='{{ $idDescripcionOficioInputEdit }}'>Descripción:</label>
-                    <textarea class="textarea normal" id='{{ $idDescripcionOficioInputEdit }}' name="descripcion_Oficio" 
-                                placeholder="Breve descripción"></textarea>
-                </div>
-                
-                <div class="form-group start">
-                    <span class="noInline-alert-message" id='{{ $idGeneralMessageError }}'>  </span>      
+                <div class="btnDetailOption-container">
+                    <button type="button" class="btn btn-DetailOption">
+                        <span class="material-symbols-outlined">description</span>A4
+                    </button>
+                    <button type="button" class="btn btn-DetailOption">
+                        <span class="material-symbols-outlined">receipt_long</span>80MM
+                    </button>
+                    <button type="button" class="btn btn-DetailOption">
+                        <span class="material-symbols-outlined">receipt_long</span>50MM
+                    </button>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal('modalDetalleHistorialCanje')">Cancelar</button>
-                <button type="button" class="btn btn-primary update" 
-                        onclick="guardarModalDetalleHistorialCanje('modalDetalleHistorialCanje', 'formDetalleHistorialCanje')">Actualizar</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('modalDetalleHistorialCanje')">Cerrar</button>
             </div>
         </div>
     </div>

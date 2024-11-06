@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\TecnicoController;
 
 class Login_tecnicoController extends Controller
 {
@@ -161,5 +162,11 @@ class Login_tecnicoController extends Controller
         } else {
             return response()->json(['status' => 'error', 'message' => 'La contraseña actual no es correcta'], 401);
         }
+    }   
+
+    public function getAllFullModelsTecnicos() 
+    {
+        $tecnicos = TecnicoController::returnModelsTecnicosWithOficios();
+        return $tecnicos;
     }
 }

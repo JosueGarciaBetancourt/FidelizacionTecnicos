@@ -4,6 +4,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/historialCanjesStyle.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/modalDetalleHistorialCanje.css') }}">
 @endpush
 
 @section('main-content')
@@ -40,7 +41,7 @@
 						<td class="celda-centered">{{ $canje->puntosCanjeados_Canje }}</td>
 						<td class="celda-centered">{{ $canje->puntosRestantes_Canje }}</td>
 						<td class="celda-btnDetalle">
-							<button class="btnDetalle" onclick="openModal('modalDetalleHistorialCanje')">
+							<button class="btnDetalle" onclick="openModalDetalleHistorialCanje(this, '{{ $allCanjes }}')">
 								Ver Detalle <span class="material-symbols-outlined">visibility</span>
 							</button>
 						</td>

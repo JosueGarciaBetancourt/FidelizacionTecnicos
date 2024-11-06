@@ -111,6 +111,7 @@ function fillHiddenOficiosEditInput (oficiosTecnico) {
 
 function selectOptionEditarTecnico(value, idTecnico, nombreTecnico, celularTecnico, oficiosTecnico, fechaNacimiento_Tecnico,
     totalPuntosActuales_Tecnico, historicoPuntos_Tecnico, rangoTecnico, idInput, idOptions, someHiddenIdInputsArray) {
+
     // Colocar en el input la opción seleccionada 
     if (idInput && idOptions) {
         selectOption(value, idInput, idOptions); 

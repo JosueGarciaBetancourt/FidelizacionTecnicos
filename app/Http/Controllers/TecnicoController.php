@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class TecnicoController extends Controller
 {   
-    public function returnModelsTecnicosWithOficios() {
+    public static function returnModelsTecnicosWithOficios() {
         $tecnicos = Tecnico::all();
     
         // Agregar el campo oficioTecnico a cada modelo en la colección
@@ -82,7 +82,13 @@ class TecnicoController extends Controller
 
     public function create()
     {   
-        $tecnicos = $this->returnModelsTecnicosWithOficios();
+        $tecnicos = $this->returnModelsTecnicosWithOficios(); 
+        /*
+            foreach ($tecnicos as $tecnico) {
+                $tecnico->idsOficioTecnico = $oficioIds; // [1, 2, 3, ...]
+                $tecnico->idNameOficioTecnico = $oficioValue; // 1-Albañil | 2-Gasfitero | ...
+            }
+        */
         //dd($tecnicos);
         $tecnicosBorrados = $this->returnModelsDeletedTecnicosWithOficios();
         //dd($tecnicosBorrados);
@@ -330,7 +336,6 @@ class TecnicoController extends Controller
         }
     }
 
-    
     public function getRango(int $puntos): string
     {
         if ($puntos < 24000) {
