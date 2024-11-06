@@ -24,7 +24,7 @@
 			<x-btn-delete-item onclick="openModal('modalEliminarTecnico')"> Eliminar </x-btn-delete-item>
 			@include('modals.tecnicos.modalEliminarTecnico')
 
-			<x-btn-recover-item onclick="openModal('modalRecontratarTecnico')"> Recontratar </x-btn-delete-item>
+			<x-btn-recover-item onclick="openModal('modalRecontratarTecnico')">Recontratar</x-btn-delete-item>
 			@include('modals.tecnicos.modalRecontratarTecnico')
 		</div>
 		
