@@ -89,20 +89,33 @@ class Login_tecnicoController extends Controller
         $datostecnico = DB::table('Tecnicos')
             ->where('idTecnico', $idTecnico)
             ->first();
-            
+
+        // Verificar si se encontraron los datos del técnico
+        if (!$datostecnico) {
+            return response()->json(['message' => 'Técnico no encontrado'], 404);
+        }
+
+        // Obtener los oficios asociados al técnico
+        $oficios = DB::table('Oficios')
+            ->join('TecnicosOficios', 'Oficios.idOficio', '=', 'TecnicosOficios.idOficio')
+            ->where('TecnicosOficios.idTecnico', $idTecnico)
+            ->select('Oficios.idOficio', 'Oficios.nombre_Oficio')
+            ->get();
+
         return response()->json([
-            'tecnico' => [ // Devolver los datos del técnico
+            'tecnico' => [
                 'idTecnico' => $datostecnico->idTecnico,
                 'nombreTecnico' => $datostecnico->nombreTecnico,
                 'celularTecnico' => $datostecnico->celularTecnico,
-                'oficioTecnico' => $datostecnico->oficioTecnico,
                 'fechaNacimiento_Tecnico' => $datostecnico->fechaNacimiento_Tecnico,
                 'totalPuntosActuales_Tecnico' => $datostecnico->totalPuntosActuales_Tecnico,
                 'historicoPuntos_Tecnico' => $datostecnico->historicoPuntos_Tecnico,
-                'rangoTecnico' => $datostecnico->rangoTecnico
+                'rangoTecnico' => $datostecnico->rangoTecnico,
+                'oficios' => $oficios, // Añadir los oficios como lista
             ]
         ]);
     }
+
 
     public function getAllLoginTecnicos() 
     {
@@ -143,28 +156,54 @@ class Login_tecnicoController extends Controller
         }
     }
 
-    public function changeJob(Request $request)
+    public function changeJobs(Request $request)
     {
         $request->validate([
             'idTecnico' => 'required|string',
-            'currentPassword' => 'required|string',
-            'newJob' => 'required|string',
+            'oficios' => 'required|array',
+            'oficios.*' => 'exists:oficios,idOficio',
+            'password' => 'required|string|min:3',  // Validar la contraseña
         ]);
 
-        $tecnico = DB::table('login_tecnicos')
+        // Buscar el técnico por idTecnico
+        $tecnico = DB::table('Tecnicos')
             ->where('idTecnico', $request->input('idTecnico'))
             ->first();
 
-        // Verificar si la contraseña actual es correcta
-        if ($tecnico && Hash::check($request->input('currentPassword'), $tecnico->password)) {
-            // Actualizar el oficio del técnico
-            DB::table('Tecnicos')
-                ->where('idTecnico', $request->input('idTecnico'))
-                ->update(['oficioTecnico' => $request->input('newJob')]);
-
-            return response()->json(['status' => 'success', 'message' => 'Oficio cambiado con éxito']);
-        } else {
-            return response()->json(['status' => 'error', 'message' => 'La contraseña actual no es correcta'], 401);
+        if (!$tecnico) {
+            return response()->json(['message' => 'Técnico no encontrado'], 404);
         }
+
+        // Verificar la contraseña
+        if (!Hash::check($request->password, $tecnico->password)) {
+            return response()->json(['message' => 'Contraseña incorrecta'], 400);
+        }
+
+        // Eliminar los oficios antiguos y agregar los nuevos
+        DB::table('TecnicosOficios')
+            ->where('idTecnico', $request->input('idTecnico'))
+            ->delete();
+
+        foreach ($request->oficios as $oficioId) {
+            DB::table('TecnicosOficios')->insert([
+                'idTecnico' => $request->input('idTecnico'),
+                'idOficio' => $oficioId,
+            ]);
+        }
+
+        return response()->json(['message' => 'Oficios actualizados correctamente']);
     }
+
+
+
+    public function getAvailableJobs()
+    {
+        // Obtener todas las recompensas desde la tabla 'Recompensas'
+        $recompensas = DB::table('oficios')
+            ->select('idOficio', 'nombre_Oficio')
+            ->get();
+
+        return response()->json($recompensas);
+    }
+
 }
