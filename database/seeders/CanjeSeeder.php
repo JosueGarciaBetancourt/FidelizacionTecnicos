@@ -24,7 +24,7 @@ class CanjeSeeder extends Seeder
                 'puntosCanjeados_Canje' => 75,
                 'puntosRestantes_Canje' => 0,
                 'comentario' => 'Ejemplo de comentario  de canje (opcional).',
-                'idUser' => 1,
+                'idUser' => 2,
             ],
             // Canje parcial
             [
@@ -36,7 +36,7 @@ class CanjeSeeder extends Seeder
                 'puntosComprobante_Canje' => 450,
                 'puntosCanjeados_Canje' => 50,
                 'puntosRestantes_Canje' => 400,
-                'idUser' => 2,
+                'idUser' => 1,
             ],
             // Canje completo en dos partes
             [
