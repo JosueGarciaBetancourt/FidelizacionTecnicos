@@ -57,4 +57,5 @@
 
 @push('scripts')
 	<script src="{{asset('js/historialCanjes.js')}}"></script>
+	<script src="{{asset('js/modalDetalleHistorialCanje.js')}}"></script>
 @endpush

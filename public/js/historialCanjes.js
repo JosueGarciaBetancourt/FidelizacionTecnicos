@@ -14,6 +14,10 @@ function openModalDetalleHistorialCanje(button, canjesDB) {
     const puntosCanjeados = celdas[7].innerText;
     const puntosRestantes = celdas[8].innerText;
 
+    const objCanje = returnObjCanjeById(codigo, canjesDB);
+    console.log(codigo); 
+    console.log(canjesDB);
+    
     document.getElementById('codigoCanjeModalDetalleHistorialCanje').innerText = codigo;
 
 	// Abrir modal (sin guardar en local storage)
@@ -24,4 +28,13 @@ function openModalDetalleHistorialCanje(button, canjesDB) {
 		modal.querySelector('.modal-dialog').classList.add('open');
 	}, 50); // Pequeño retraso para asegurar la transición CSS
 	document.body.style.overflow = 'hidden'; // Evita el scroll de fondo cuando está abierto el modal
+}
+
+function returnObjCanjeById(idCanje, canjesDB) {
+    for (const key in canjesDB) {
+        if (canjesDB[key]['idCanje'] === idCanje) {
+            return canjesDB[key]; 
+        }
+    }
+    return null; // Retornar null si no se encuentra el objeto
 }

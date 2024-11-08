@@ -31,6 +31,7 @@
 								<td class="celda-centered">4</td>
 								<td class="celda-centered">5</td>
 								<td class="celda-centered">6</td>
+								<td class="celda-centered">7</td>
 							</tr> 
 						</tbody>
 						<tfoot>

@@ -3,18 +3,14 @@
     max-height: auto;
 }
 
-#modalDetalleHistorialCanje-content {
-	padding-bottom: 0;
-}
-
 #idModalBodyDetalleHistorialCanje {
     padding: 1rem;
 }
 
 .btnDetailOption-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
     margin-top: 1rem;
 }
 
