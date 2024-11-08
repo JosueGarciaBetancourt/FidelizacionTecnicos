@@ -34,12 +34,13 @@ class Canje extends Model
         return $this->belongsTo('App\Models\User');
     }
 
-    public function recompensa() {
-        return $this->belongsTo(Recompensa::class, 'idRecompensa', 'idRecompensa');
-    }
-
     public function ventasIntermediadas()
     {
         return $this->belongsTo(VentaIntermediada::class, 'idVentaIntermediada'); 
+    }
+
+    public function canjesRecompensas()
+    {
+        return $this->hasMany(CanjeRecompensa::class, 'idCanje', 'idCanje'); 
     }
 }

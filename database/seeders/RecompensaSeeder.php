@@ -18,7 +18,7 @@ class RecompensaSeeder extends Seeder
             'tipoRecompensa' => 'Efectivo',
             'descripcionRecompensa' => 'Dinero en efectivo',
             'costoPuntos_Recompensa' => 1,
-            'stock_Recompensa' => 75,
+            'stock_Recompensa' => null,
             'deleted_at' => now(), // Marca la recompensa como eliminada lógicamente
         ]);
 

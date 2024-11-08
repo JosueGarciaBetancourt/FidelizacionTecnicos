@@ -26,7 +26,8 @@ class Recompensa extends Model
         'stock_Recompensa',
     ];
 
-    public function canjes() {
-        return $this->hasMany(Canje::class, 'idRecompensa', 'idRecompensa');
+    public function canjesRecompensas()
+    {
+        return $this->hasMany(CanjeRecompensa::class, 'idRecompensa', 'idRecompensa'); 
     }
 }

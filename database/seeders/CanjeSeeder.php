@@ -11,23 +11,11 @@ class CanjeSeeder extends Seeder
 {
     public function run(): void
     {
-        /*
-            $table->string('idCanje', 10); //CANJ-00001 (se genera automáticamente)
-            $table->string('idVentaIntermediada', 13);
-            $table->dateTime('fechaHora_Canje')->useCurrent();
-            $table->dateTime('fechaHoraCargaComprobante_Canje');
-            $table->integer('diasTranscurridos_Canje')->unsigned(); 
-            $table->integer('puntosComprobante_Canje')->unsigned();
-            $table->integer('puntosCanjeados_Canje')->unsigned();
-            $table->integer('puntosRestantes_Canje')->unsigned(); 
-            $table->string('rutaPDF_Canje')->nullable(); //public/detallesCanje/CANJ-00001.pdf
-            $table->unsignedBigInteger('idUser');
-        */
-
         $canjeController = new CanjeController();
 
         $canjes = [
-            [   // Primer canje (completo)
+            // Canje completo
+            [   // CANJ-00001
                 'idVentaIntermediada' => 'F001-00000072',
                 'fechaHoraEmision_VentaIntermediada' => '2024-10-10 10:00:00',
                 'fechaHora_Canje' => '2024-10-25 10:00:00',
@@ -35,10 +23,12 @@ class CanjeSeeder extends Seeder
                 'puntosComprobante_Canje' => 75,
                 'puntosCanjeados_Canje' => 75,
                 'puntosRestantes_Canje' => 0,
-                'idUser' => 1, // Admin
+                'comentario' => 'Ejemplo de comentario  de canje (opcional).',
+                'idUser' => 1,
             ],
+            // Canje parcial
             [
-                // Primer canje (parcial)
+                // CANJ-00002 
                 'idVentaIntermediada' => 'F001-00000076',
                 'fechaHoraEmision_VentaIntermediada' => '2024-10-20 08:25:11',
                 'fechaHora_Canje' => '2024-10-25 10:00:00',
@@ -46,10 +36,11 @@ class CanjeSeeder extends Seeder
                 'puntosComprobante_Canje' => 450,
                 'puntosCanjeados_Canje' => 50,
                 'puntosRestantes_Canje' => 400,
-                'idUser' => 1, // Admin
+                'idUser' => 2,
             ],
+            // Canje completo en dos partes
             [
-                // Primer canje (parcial)
+                // CANJ-00003 
                 'idVentaIntermediada' => 'F001-00000077',
                 'fechaHoraEmision_VentaIntermediada' => '2024-10-20 10:00:00',
                 'fechaHora_Canje' => '2024-10-25 10:00:00',
@@ -57,10 +48,10 @@ class CanjeSeeder extends Seeder
                 'puntosComprobante_Canje' => 450,
                 'puntosCanjeados_Canje' => 440,
                 'puntosRestantes_Canje' => 10,
-                'idUser' => 1, // Admin
+                'idUser' => 2,
             ],
             [
-                // Segundo canje (completo)
+                // CANJ-00004
                 'idVentaIntermediada' => 'F001-00000077',
                 'fechaHoraEmision_VentaIntermediada' => '2024-10-20 10:00:00',
                 'fechaHora_Canje' => '2024-10-30 10:00:00',
@@ -68,7 +59,8 @@ class CanjeSeeder extends Seeder
                 'puntosComprobante_Canje' => 10,
                 'puntosCanjeados_Canje' => 10,
                 'puntosRestantes_Canje' => 0,
-                'idUser' => 1, // Admin
+                'comentario' => 'El vendedor 1 no se encontraba en caja, vendedor 2 realizó el canje.',
+                'idUser' => 3,
             ],
         ];
 

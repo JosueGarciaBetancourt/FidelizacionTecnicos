@@ -19,15 +19,15 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Vendedor Raul',
-            'email' => 'vendedorRaul@dimacof.com',
+            'name' => 'Vendedor 1',
+            'email' => 'vendedor1@dimacof.com',
             'password' => Hash::make('12345678'),
             'profile' => 'Vendedor'
         ]);
 
         User::create([
-            'name' => 'Vendedor Jeison',
-            'email' => 'vendedorJeison@dimacof.com',
+            'name' => 'Vendedor 2',
+            'email' => 'vendedor2@dimacof.com',
             'password' => Hash::make('12345678'),
             'profile' => 'Vendedor'
         ]);
