@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\TecnicoController;
 use App\Http\Controllers\RecompensaController;
 use Illuminate\Validation\ValidationException;
+use App\Http\Controllers\CanjeRecompensaController;
+use App\Http\Controllers\VentaIntermediadaController;
 
 class CanjeController extends Controller
 {
@@ -78,20 +80,6 @@ class CanjeController extends Controller
             $diasTranscurridos = $this->returnDiasTranscurridosHastaHoy($fechaHoraEmision);
             $idUser = Auth::id(); // Obtiene el id del usuario autenticado
             $recompensasJson =  $validatedData['recompensas_Canje']; 
-            //dd($recompensasJson)
-
-            /*  ===========================MIGRACIÓN DE LA TABLA CANJES===========================
-                $table->string('idCanje', 10); //CANJ-00001 (se genera automáticamente)
-                $table->string('idVentaIntermediada', 13);
-                $table->dateTime('fechaHoraEmision_VentaIntermediada');
-                $table->dateTime('fechaHora_Canje')->useCurrent();
-                $table->integer('diasTranscurridos_Canje')->unsigned(); 
-                $table->integer('puntosComprobante_Canje')->unsigned();
-                $table->integer('puntosCanjeados_Canje')->unsigned();
-                $table->integer('puntosRestantes_Canje')->unsigned(); 
-                $table->string('[(idRecompensa, cantidad), ]')->nullable();
-                $table->unsignedBigInteger('idUser');
-            */
 
             // Crear el nuevo canje
             $canje = Canje::create([
@@ -106,17 +94,20 @@ class CanjeController extends Controller
                 'idUser' => $idUser,
             ]);
 
-            // Actualizar los campos en la venta intermediada
-            $venta->update([
-                'puntosActuales_VentaIntermediada' => $validatedData['puntosRestantes_Canje'],
-                'estadoVentaIntermediada' => "Redimido",
-            ]);
+            // Actualizar en tabla VentasIntermediadas
+            $nuevosPuntosActuales = $validatedData['puntosRestantes_Canje'];
+            VentaIntermediadaController::updateVentaIntermediada($venta->idVentaIntermediada, $nuevosPuntosActuales);
 
-            // Actualizar el stock en las recompensas canjeadas
+            // Actualizar en tabla Recompensas
             $recompensasCanje = json_decode($canje->recompensas_Canje); // Decodificar JSON a un array PHP
-
             foreach ($recompensasCanje as $recom) {
                 RecompensaController::updateStockByIdRecompensaCantidad($recom->idRecompensa, $recom->cantidad);
+            }
+
+            // Actualizar en tabla CanjesRecompensas
+            $recompensasCanje = json_decode($canje->recompensas_Canje); // Decodificar JSON a un array PHP
+            foreach ($recompensasCanje as $recom) {
+                CanjeRecompensaController::updateCanjeRecompensa($idCanje, $recom->idRecompensa, $recom->cantidad);
             }
             
             // Si todo sale bien, confirmar la transacción

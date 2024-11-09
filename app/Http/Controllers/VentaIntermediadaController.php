@@ -241,6 +241,36 @@ class VentaIntermediadaController extends Controller
         return redirect()->route('ventasIntermediadas.create')->with('successVentaIntermiadaStore', 'Venta Intermediada guardada correctamente');
     }
 
+    public static function updateVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales) {
+        $venta = VentaIntermediada::findOrFail($idVentaIntermediada);
+        $idEstado = VentaIntermediadaController::returnStateIdVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales);
+        $venta->update([
+            'puntosActuales_VentaIntermediada' => $nuevosPuntosActuales,
+            'idEstadoVenta' => $idEstado,
+        ]);
+    }
+
+    public static function returnStateIdVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales) {
+        $venta = VentaIntermediada::findOrFail($idVentaIntermediada);
+        $diasTranscurridos = Controller::returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
+
+        if ($diasTranscurridos < 90) {
+            return 4; // Tiempo agotado
+        }
+
+        if ($nuevosPuntosActuales == $venta->puntosGanados_VentaIntermediada) {
+            return 1; // En espera
+        }
+
+        if ($nuevosPuntosActuales == 0) {
+            return 3; // Redimido (completo)
+        }
+        
+        if ($nuevosPuntosActuales > 0) {
+            return 2; // Redimido (parcial)
+        }
+    }
+
     public function getComprobantesEnEsperaByIdTecnico($idTecnico)
     {
         $comprobantes = VentaIntermediada::with('estadoVenta') // Cargar la relación con EstadoVentas

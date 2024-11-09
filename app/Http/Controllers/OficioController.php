@@ -20,7 +20,7 @@ class OficioController extends Controller
     }
 
     public function create() {
-        // Desde el modelo se agrega un campo dinámico codigoOficio (OFI-01)
+        // Desde el modelo se agrega un campo dinámico codigoOficio (ejem: OFI-01)
         $oficios = Oficio::all(); 
         // Para depurar el códigoOficio
         /* foreach ($oficios as $oficio) {

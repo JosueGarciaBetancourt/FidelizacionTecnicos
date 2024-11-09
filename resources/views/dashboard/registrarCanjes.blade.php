@@ -254,10 +254,10 @@
 							<label class="labelPuntosComprobante" id="labelPuntosComprobante">0</label>
 
 							<h4>Puntos a canjear</h4>
-							<input type="" id="inputPuntosCanjeados_Canje_Hidden" name="puntosCanjeados_Canje" readonly>
+							<input id="inputPuntosCanjeados_Canje_Hidden" name="puntosCanjeados_Canje" readonly>
 
 							<h4>Puntos restantes</h4>
-							<input type="" id="inputPuntosRestantes_Canje_Hidden" name="puntosRestantes_Canje" readonly>
+							<input id="inputPuntosRestantes_Canje_Hidden" name="puntosRestantes_Canje" readonly>
 						</div>
 					</div>
 					
@@ -267,7 +267,7 @@
 					</div>
 				</div>
 			</div>
-			<input type="hidden" id="jsonRecompensas" name="recompensas_Canje" readonly>
+			<input type="text" id="jsonRecompensas" name="recompensas_Canje" readonly>
 		</form>
 
 
