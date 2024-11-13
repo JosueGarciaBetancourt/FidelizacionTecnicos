@@ -17,9 +17,9 @@ class CanjeSeeder extends Seeder
             // Canje completo
             [   // CANJ-00001
                 'idVentaIntermediada' => 'F001-00000072',
-                'fechaHoraEmision_VentaIntermediada' => '2024-10-10 10:00:00',
-                'fechaHora_Canje' => '2024-10-25 10:00:00',
-                'diasTranscurridos_Canje' => 15,
+                'fechaHoraEmision_VentaIntermediada' => '2024-11-08 10:00:00',
+                'fechaHora_Canje' => '2024-11-9 10:00:00',
+                'diasTranscurridos_Canje' => 1,
                 'puntosComprobante_Canje' => 75,
                 'puntosCanjeados_Canje' => 75,
                 'puntosRestantes_Canje' => 0,

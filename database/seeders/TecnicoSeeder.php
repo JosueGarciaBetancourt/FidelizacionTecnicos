@@ -23,7 +23,7 @@ class TecnicoSeeder extends Seeder
         
         Tecnico::create([
             'idTecnico' => '77665544',
-            'nombreTecnico' => 'Raul Torre Medina',
+            'nombreTecnico' => 'Manuel Carrasco',
             'celularTecnico' =>'999888777', 
             'fechaNacimiento_Tecnico' => '1998-10-13',
             'totalPuntosActuales_Tecnico' => 0,

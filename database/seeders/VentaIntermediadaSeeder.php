@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\VentaIntermediada;
+use App\Http\Controllers\VentaIntermediadaController;
 
 class VentaIntermediadaSeeder extends Seeder
 {
@@ -17,7 +18,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'tipoCodigoCliente_VentaIntermediada' => 'RUC',
                 'codigoCliente_VentaIntermediada' => '10422733669',
                 'nombreCliente_VentaIntermediada' => 'AQUINO LOPEZ EMERSON',
-                'fechaHoraEmision_VentaIntermediada' => '2024-04-30 08:25:11',
+                'fechaHoraEmision_VentaIntermediada' => '2024-11-08 10:00:00',
                 'montoTotal_VentaIntermediada' => 74.5,
                 'puntosGanados_VentaIntermediada' => 75,
                 'puntosActuales_VentaIntermediada'=> 0,
@@ -30,7 +31,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'tipoCodigoCliente_VentaIntermediada' => 'RUC',
                 'codigoCliente_VentaIntermediada' => '10703047951',
                 'nombreCliente_VentaIntermediada' => 'BERMUDEZ ROJAS MISHELL',
-                'fechaHoraEmision_VentaIntermediada' => '2024-05-30 08:25:11',
+                'fechaHoraEmision_VentaIntermediada' => '2024-10-09 08:25:11',
                 'montoTotal_VentaIntermediada' => 400,
                 'puntosGanados_VentaIntermediada' => 400,
                 'puntosActuales_VentaIntermediada'=> 400,
@@ -91,11 +92,39 @@ class VentaIntermediadaSeeder extends Seeder
                 'puntosActuales_VentaIntermediada' => 0,
                 'idEstadoVenta' => 3,  // Redimido (completo)
             ],
+            [
+                // Está venta intermediada está cerca de cumplir 90 días para pasar a tener un estado de Tiempo Agotado
+                'idVentaIntermediada' => 'F001-00000999',
+                'idTecnico' => '77665544',
+                'nombreTecnico' => 'Manuel Carrasco',
+                'tipoCodigoCliente_VentaIntermediada' => 'DNI',
+                'codigoCliente_VentaIntermediada' => '45404787',
+                'nombreCliente_VentaIntermediada' => 'BAQUERIZO QUISPE, ELIZABETH SILVIA',
+                'fechaHoraEmision_VentaIntermediada' => '2024-08-10 10:00:00', // 90 días hasta el 2024-11-09
+                'fechaHoraCargada_VentaIntermediada' => '2024-08-12 10:00:00',
+                'montoTotal_VentaIntermediada' => 100,
+                'puntosGanados_VentaIntermediada' => 100,
+                'puntosActuales_VentaIntermediada' => 100,
+                'idEstadoVenta' => 4,  // Tiempo agotado
+            ],
         ];
 
-        foreach ($ventasIntermediadas as $venta) {
-            $venta['fechaHoraCargada_VentaIntermediada'] = now();
-            VentaIntermediada::create($venta);
+        foreach ($ventasIntermediadas as $ventaData) {
+            // Verifica si ya tiene una fecha `fechaHoraCargada_VentaIntermediada`.
+            if (!isset($ventaData['fechaHoraCargada_VentaIntermediada'])) {
+                $ventaData['fechaHoraCargada_VentaIntermediada'] = now();
+            }
+
+            // Crea la venta intermediada
+            $venta = VentaIntermediada::create($ventaData);
+
+            // Actualiza el estado con la lógica del controlador
+            $nuevoEstado = VentaIntermediadaController::returnStateIdVentaIntermediada(
+                                                            $venta->idVentaIntermediada,
+                                                            $venta->puntosActuales_VentaIntermediada,
+                                                         );
+            // Aplica el nuevo estado al registro
+            $venta->update(['idEstadoVenta' => $nuevoEstado]);
         }
     }
 }

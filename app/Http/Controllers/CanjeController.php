@@ -118,7 +118,6 @@ class CanjeController extends Controller
 
             // Redirigir con éxito
             return redirect()->route('canjes.create')->with('successCanjeStore', 'Canje guardado correctamente.');
-
         } catch (ValidationException $e) {
             // Revertir la transacción si ocurre un error de validación
             DB::rollBack();
@@ -128,7 +127,7 @@ class CanjeController extends Controller
             // Revertir la transacción si ocurre cualquier otra excepción
             DB::rollBack();
             dd($e);
-            return back()->withErrors(['error' => 'Error al procesar el dosaje o la predicción: ' . $e->getMessage()])->withInput();
+            return back()->withErrors(['error' => 'Error al procesar el canje: ' . $e->getMessage()])->withInput();
         }
     }
 

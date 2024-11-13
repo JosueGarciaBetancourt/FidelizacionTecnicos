@@ -254,20 +254,24 @@ class VentaIntermediadaController extends Controller
         $venta = VentaIntermediada::findOrFail($idVentaIntermediada);
         $diasTranscurridos = Controller::returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
 
-        if ($diasTranscurridos < 90) {
-            return 4; // Tiempo agotado
+        // Validar venta con estado Tiempo agotado
+        if ($diasTranscurridos > 90 && $nuevosPuntosActuales != 0) {
+            return 4; 
         }
 
+        // Validar venta con estado Redimido (completo)
+        if ($nuevosPuntosActuales == 0 && $diasTranscurridos <= 90) {
+            return 3;
+        }
+
+        // Validar venta con estado En espera
         if ($nuevosPuntosActuales == $venta->puntosGanados_VentaIntermediada) {
-            return 1; // En espera
+            return 1;
         }
 
-        if ($nuevosPuntosActuales == 0) {
-            return 3; // Redimido (completo)
-        }
-        
+        // Validar venta con estado Redimido (parcial)
         if ($nuevosPuntosActuales > 0) {
-            return 2; // Redimido (parcial)
+            return 2;  
         }
     }
 
