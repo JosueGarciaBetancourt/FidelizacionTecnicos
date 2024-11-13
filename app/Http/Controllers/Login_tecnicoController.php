@@ -162,36 +162,38 @@ class Login_tecnicoController extends Controller
         $request->validate([
             'idTecnico' => 'required|string',
             'oficios' => 'required|array',
-            'oficios.*' => 'exists:oficios,idOficio',
-            'password' => 'required|string|min:3',  // Validar la contraseña
+            'oficios.*' => 'exists:Oficios,idOficio',
+            'password' => 'required|string|min:3',
         ]);
-
-        // Buscar el técnico por idTecnico
-        $tecnico = DB::table('Tecnicos')
+    
+        // Obtener el técnico desde la tabla login_tecnicos para verificar la contraseña
+        $loginTecnico = DB::table('login_tecnicos')
             ->where('idTecnico', $request->input('idTecnico'))
             ->first();
-
-        if (!$tecnico) {
+    
+        if (!$loginTecnico) {
             return response()->json(['message' => 'Técnico no encontrado'], 404);
         }
-
+    
         // Verificar la contraseña
-        if (!Hash::check($request->password, $tecnico->password)) {
+        if (!Hash::check($request->password, $loginTecnico->password)) {
             return response()->json(['message' => 'Contraseña incorrecta'], 400);
         }
-
-        // Eliminar los oficios antiguos y agregar los nuevos
+    
+        // Eliminar los oficios antiguos y agregar los nuevos en la tabla TecnicosOficios
         DB::table('TecnicosOficios')
             ->where('idTecnico', $request->input('idTecnico'))
             ->delete();
-
+    
         foreach ($request->oficios as $oficioId) {
             DB::table('TecnicosOficios')->insert([
                 'idTecnico' => $request->input('idTecnico'),
                 'idOficio' => $oficioId,
+                'created_at' => now(),
+                'updated_at' => now(),
             ]);
         }
-
+    
         return response()->json(['message' => 'Oficios actualizados correctamente']);
     }
 
