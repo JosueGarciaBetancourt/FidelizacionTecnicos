@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Login_tecnicoController;
+use App\Http\Controllers\SolicitudCanjeController;
 
 
 Route::get('/user', function (Request $request) {
@@ -21,3 +22,9 @@ Route::get('/user', function (Request $request) {
     Route::post('/cambiar-password', [Login_tecnicoController::class, 'changePassword']);
     Route::put('/tecnico/{idTecnico}/oficios', [Login_tecnicoController::class, 'changeJobs']);
     Route::get('/oficiosTecnicos', [Login_tecnicoController::class, 'getAllFullModelsTecnicos']);
+
+    //RUTAS SOLICITUDES
+    Route::post('/solicitudes-canje', [SolicitudCanjeController::class, 'crearSolicitud']);
+    Route::get('/solicitudes-canje/{idTecnico}', [SolicitudCanjeController::class, 'obtenerSolicitudes']);
+    Route::put('/solicitudes-canje/{idSolicitud}', [SolicitudCanjeController::class, 'actualizarEstado']);
+
