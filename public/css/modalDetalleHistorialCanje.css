@@ -7,6 +7,17 @@
     padding: 1rem;
 }
 
+#modalDetalleHistorialCanje-dialog.open {
+    transform: translateY(-110px); /* Inicialmente desplazado hacia arriba */
+}
+
+.modal-title-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+}
+
 .btnDetailOption-container {
     display: flex;
     flex-direction: row;
@@ -42,7 +53,17 @@
 
 #codigoCanjeModalDetalleHistorialCanje {
     font-size: 1.2rem;
-    font-weight: 500;
+    font-weight: bold;
+}
+
+#fechaHoraCanjeModalDetalleHistorialCanje {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #444;
+}
+
+#numeroComprobanteModalDetalleHistorialCanje {
+    max-width: 8rem;
 }
 
 /*Estilos de la tabla del detalle de canje*/

@@ -3,14 +3,39 @@
         <div class="modal-content" id="modalDetalleHistorialCanje-content">
             @php
                 $canjesDB = $allCanjes;
-                $codigoCanje = 'codigoCanjeModalDetalleHistorialCanje';
+                $idCodigoCanje = 'codigoCanjeModalDetalleHistorialCanje';
+				$idFechaHoraCanje = 'fechaHoraCanjeModalDetalleHistorialCanje';
+				$idNumeroComprobante = 'numeroComprobanteModalDetalleHistorialCanje';
             @endphp
             <div class="modal-header">
-                <h5 class="modal-title" id='{{ $codigoCanje }}'></h5>
+				<div class="modal-title-container">
+					<h5 class="modal-title" id='{{ $idCodigoCanje }}'></h5>
+					<h5 id='{{ $idFechaHoraCanje }}'></h5>
+				</div>
                 <button class="close" onclick="closeModal('modalDetalleHistorialCanje')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyDetalleHistorialCanje">
-                <div class="tblDetalleHistorialCanje-container">
+				<div class="form-group gap">
+					<label class="primary-label noEditable" for='{{ $idNumeroComprobante }}'>Número de comprobante:</label>
+					<input class="input-item center" type="text" id='{{ $idNumeroComprobante }}' disabled>
+				</div>
+
+				<div class="form-group gap">
+					<label class="primary-label noEditable" for='{{ $idNumeroComprobante }}'>Número de comprobante:</label>
+					<input class="input-item center" type="text" id='{{ $idNumeroComprobante }}' disabled>
+				</div>
+
+				<div class="form-group gap">
+					<label class="primary-label noEditable" for='{{ $idNumeroComprobante }}'>Número de comprobante:</label>
+					<input class="input-item center" type="text" id='{{ $idNumeroComprobante }}' disabled>
+				</div>
+
+				<div class="form-group gap">
+					<label class="primary-label noEditable" for='{{ $idNumeroComprobante }}'>Número de comprobante:</label>
+					<input class="input-item center" type="text" id='{{ $idNumeroComprobante }}' disabled>
+				</div>
+
+				<div class="tblDetalleHistorialCanje-container">
                     <table class="ownTable" id="tblDetalleHistorialCanje">
 						<thead>
 							<gi>
@@ -45,7 +70,6 @@
 						</tfoot>
 					</table>
                 </div>
-                
                 <div class="btnDetailOption-container">
                     <button type="button" class="btn btn-DetailOption">
                         <span class="material-symbols-outlined">description</span>A4

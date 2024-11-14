@@ -1,24 +1,13 @@
-let botonesVerDetalle = document.querySelectorAll('.btnDetalle');
-
 function openModalDetalleHistorialCanje(button, canjesDB) {
     const fila = button.closest('tr');
-    const celdas = fila.getElementsByTagName('td');
-
-    const numero = celdas[0].innerText;
-    const codigo = celdas[1].innerText;
-    const fechaHora = celdas[2].innerText;
-    const comprobante = celdas[3].innerText;
-    const fechaHoraEmision = celdas[4].innerText;
-    const diasTranscurridos = celdas[5].innerText;
-    const puntosComprobante = celdas[6].innerText;
-    const puntosCanjeados = celdas[7].innerText;
-    const puntosRestantes = celdas[8].innerText;
-
+    const celdaCodigoCanje = fila.getElementsByClassName('idCanje')[0]; 
+    const codigo = celdaCodigoCanje.innerText;
     const objCanje = returnObjCanjeById(codigo, canjesDB);
-    console.log(codigo); 
-    console.log(canjesDB);
+    console.log(objCanje);
     
-    document.getElementById('codigoCanjeModalDetalleHistorialCanje').innerText = codigo;
+    document.getElementById('codigoCanjeModalDetalleHistorialCanje').innerText = objCanje['idCanje'];
+    document.getElementById('fechaHoraCanjeModalDetalleHistorialCanje').innerText = objCanje['fechaHora_Canje'];
+    document.getElementById('numeroComprobanteModalDetalleHistorialCanje').value = objCanje['idVentaIntermediada'];
 
 	// Abrir modal (sin guardar en local storage)
 	var modal = document.getElementById('modalDetalleHistorialCanje');
