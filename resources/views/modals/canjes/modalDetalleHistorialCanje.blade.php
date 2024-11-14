@@ -6,11 +6,17 @@
                 $idCodigoCanje = 'codigoCanjeModalDetalleHistorialCanje';
 				$idFechaHoraCanje = 'fechaHoraCanjeModalDetalleHistorialCanje';
 				$idNumeroComprobante = 'numeroComprobanteModalDetalleHistorialCanje';
+				$idFechaHoraEmisionComprobante = 'fechaHoraEmisionComprobanteModalDetalleHistorialCanje';
+				$idDiasTranscurridos = 'diasTranscurridosCanjeModalDetalleHistorialCanje';
+				$idPuntosComprobante = 'puntosComprobanteModalDetalleHistorialCanje';
+				$idPuntosCanjeados = 'puntosCanjeadosModalDetalleHistorialCanje';
+				$idPuntosRestantes = 'puntosRestantesComprobanteModalDetalleHistorialCanje';
             @endphp
             <div class="modal-header">
 				<div class="modal-title-container">
 					<h5 class="modal-title" id='{{ $idCodigoCanje }}'></h5>
 					<h5 id='{{ $idFechaHoraCanje }}'></h5>
+					<h5 id='{{ $idDiasTranscurridos }}'></h5>
 				</div>
                 <button class="close" onclick="closeModal('modalDetalleHistorialCanje')">&times;</button>
             </div>
@@ -18,24 +24,23 @@
 				<div class="form-group gap">
 					<label class="primary-label noEditable" for='{{ $idNumeroComprobante }}'>Número de comprobante:</label>
 					<input class="input-item center" type="text" id='{{ $idNumeroComprobante }}' disabled>
+					<label class="primary-label noEditable" for='{{ $idFechaHoraEmisionComprobante }}'>Fecha y hora de emisión:</label>
+					<input class="input-item center" type="text" id='{{ $idFechaHoraEmisionComprobante }}' disabled>
 				</div>
 
 				<div class="form-group gap">
-					<label class="primary-label noEditable" for='{{ $idNumeroComprobante }}'>Número de comprobante:</label>
-					<input class="input-item center" type="text" id='{{ $idNumeroComprobante }}' disabled>
-				</div>
-
-				<div class="form-group gap">
-					<label class="primary-label noEditable" for='{{ $idNumeroComprobante }}'>Número de comprobante:</label>
-					<input class="input-item center" type="text" id='{{ $idNumeroComprobante }}' disabled>
-				</div>
-
-				<div class="form-group gap">
-					<label class="primary-label noEditable" for='{{ $idNumeroComprobante }}'>Número de comprobante:</label>
-					<input class="input-item center" type="text" id='{{ $idNumeroComprobante }}' disabled>
+					<label class="primary-label noEditable" for='{{ $idPuntosComprobante }}'>Puntos comprobante:</label>
+					<input class="input-item center" type="text" id='{{ $idPuntosComprobante }}' disabled>
+					<label class="primary-label noEditable" for='{{ $idPuntosCanjeados }}'>Puntos canjeados:</label>
+					<input class="input-item center" type="text" id='{{ $idPuntosCanjeados }}' disabled>
+					<label class="primary-label noEditable" for='{{ $idPuntosRestantes }}'>Puntos restantes:</label>
+					<input class="input-item center" type="text" id='{{ $idPuntosRestantes }}' disabled>
 				</div>
 
 				<div class="tblDetalleHistorialCanje-container">
+					<div class="form-group gap">
+						<label class="primary-label noEditable">Recompensas:</label>
+					</div>
                     <table class="ownTable" id="tblDetalleHistorialCanje">
 						<thead>
 							<gi>
@@ -70,7 +75,8 @@
 						</tfoot>
 					</table>
                 </div>
-                <div class="btnDetailOption-container">
+
+				<div class="btnDetailOption-container">
                     <button type="button" class="btn btn-DetailOption">
                         <span class="material-symbols-outlined">description</span>A4
                     </button>

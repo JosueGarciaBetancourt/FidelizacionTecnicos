@@ -6,8 +6,10 @@ use App\Models\Canje;
 use App\Models\Tecnico;
 use App\Models\Recompensa;
 use Illuminate\Http\Request;
+use App\Models\CanjeRecompensa;
 use App\Models\VentaIntermediada;
 use Illuminate\Support\Facades\DB;
+use App\Models\CanjeRecompensaView;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\TecnicoController;
 use App\Http\Controllers\RecompensaController;
@@ -132,9 +134,154 @@ class CanjeController extends Controller
     }
 
     public function historial() {
-        $allCanjes = Canje::all();
+        $allCanjes = Canje::query()
+                ->join('VentasIntermediadas', 'Canjes.idVentaIntermediada', '=', 'VentasIntermediadas.idVentaIntermediada')
+                ->join('Tecnicos', 'VentasIntermediadas.idTecnico', '=', 'Tecnicos.idTecnico')
+                ->select(['Canjes.*', 'Tecnicos.*'])
+                ->get();
         return view('dashboard.historialCanjes', compact('allCanjes'));
     }
+
+    /*public function getDetalleCanjesRecompensasByIdCanje($idCanje) {
+        // Hacer la consulta a la BD
+        $resultados = CanjeRecompensa::query()
+                        ->join('Canjes', 'CanjesRecompensas.idCanje', '=', 'Canjes.idCanje')
+                        ->join('Recompensas', 'CanjesRecompensas.idRecompensa', '=', 'Recompensas.idRecompensa')
+                        ->where('CanjesRecompensas.idCanje', $idCanje)
+                        ->select([
+                            'CanjesRecompensas.idCanje',
+                            'CanjesRecompensas.idRecompensa',
+                            'CanjesRecompensas.cantidad',
+                            'CanjesRecompensas.costoRecompensa',
+                            'CanjesRecompensas.created_at as canjeRecompensa_created_at', // Alias para evitar conflictos
+                            'Recompensas.tipoRecompensa',
+                            'Recompensas.descripcionRecompensa'
+                        ])
+                        ->get();
+    
+        // Transformar los datos
+        $contador = 0; // Definir fuera del closure
+    
+        $canjesRecompensasAll = $resultados->map(function ($resultado) use (&$contador) { // Pasar $contador como referencia
+            return [
+                'idCanje' => $resultado->idCanje,
+                'index' => $contador++, // Incrementar después de usar el valor actual
+                'idRecompensa' => $resultado->idRecompensa,
+                'tipoRecompensa' => $resultado->tipoRecompensa,
+                'descripcionRecompensa' => $resultado->descripcionRecompensa,
+                'cantidad' => $resultado->cantidad,
+                'costoRecompensa' => $resultado->costoRecompensa,
+                'puntosTotales' => $resultado->cantidad * $resultado->costoRecompensa,
+                //'created_at' => $resultado->canjeRecompensa_created_at, // Comentar si no es necesario
+            ];
+        })->toArray();
+    
+        return response()->json($canjesRecompensasAll);
+    }*/
+
+    public function getDetalleCanjesRecompensasByIdCanje($idCanje) {
+        try {
+            // Consulta a la vista
+            $resultados = DB::table('canje_recompensas_view')
+                            ->where('idCanje', $idCanje)
+                            ->get();
+    
+            // Verificar si se encontraron resultados
+            if ($resultados->isEmpty()) {
+                return response()->json(['message' => 'No se encontraron canjes para el ID proporcionado'], 404);
+            }
+    
+            // Mapear los resultados para agregar el índice incremental
+            $canjesRecompensasAll = $resultados->map(function ($item, $key) {
+                $item->index = $key + 1; // Asignar índice a cada elemento
+                return $item;
+            });
+    
+            return response()->json($canjesRecompensasAll);
+    
+        } catch (\Exception $e) {
+            // Manejo de errores en caso de fallo de consulta
+            return response()->json(['error' => 'Error al obtener los detalles del canje', 'details' => $e->getMessage()], 500);
+        }
+    }
+    
+
+    /*
+    public function prediction()
+    {
+        $apoderadoId = Auth::id();
+
+        // Iniciar el temporizador
+        $startTime = microtime(true);
+        
+        $resultados = Dosaje::query()
+            ->join('Hijos', 'Dosajes.idHijo', '=', 'Hijos.idHijo')
+            ->join('Doctores', 'Dosajes.idDoctor', '=', 'Doctores.idDoctor')
+            ->join('Establecimientos', 'Dosajes.idEstablecimiento', '=', 'Establecimientos.idEstablecimiento')
+            ->join('Distritos', 'Establecimientos.idDistrito', '=', 'Distritos.idDistrito')
+            ->join('MicroRedes', 'Distritos.idMicroRed', '=', 'MicroRedes.idMicroRed')
+            ->where('Hijos.idApoderado', $apoderadoId)
+            ->select([
+                'Dosajes.*',
+                 //'Dosajes.created_at as dosajeCreatedAt',
+                'Hijos.*',
+                'Doctores.*',
+                'Establecimientos.*',
+                'Distritos.*',
+                'MicroRedes.*'
+            ])
+            ->get();
+
+        // Transformar los resultados en un array simple
+        $datosSimplificados = $resultados->map(function ($resultado) {
+            return [
+                // Dosajes
+                'idDosaje' => $resultado->idDosaje,
+                //'created_at' => $resultado->dosajeCreatedAt,
+                'fecha_Dosaje' => $resultado->fecha_Dosaje,
+                'valorHemoglobina_Dosaje' => $resultado->valorHemoglobina_Dosaje,
+                'nivelAnemia_Dosaje' => $resultado->nivelAnemia_Dosaje,
+                'peso_Dosaje' => $resultado->peso_Dosaje,
+                'talla_Dosaje' => $resultado->talla_Dosaje,
+                'edadMeses_Dosaje' => $resultado->edadMeses_Dosaje,
+                'nivelHierro_Dosaje' => $resultado->nivelHierro_Dosaje,
+                'estadoRecuperacion_Dosaje' => $resultado->estadoRecuperacion_Dosaje,
+                'fechaRecuperacionReal' => $resultado->fechaRecuperacionReal,
+                // Hijos
+                'idHijo' => $resultado->idHijo,
+                'nombre_Hijo' => $resultado->nombre_Hijo,
+                'apellido_Hijo' => $resultado->apellido_Hijo,
+                'fechaNacimiento_Hijo' => $resultado->fechaNacimiento_Hijo,
+                'sexo_Hijo' => $resultado->sexo_Hijo,
+                'nombreSeguro_Hijo' => $resultado->nombreSeguro_Hijo,
+                // Doctores
+                'idDoctor' => $resultado->idDoctor,
+                'nombre_Doctor' => $resultado->nombre_Doctor,
+                'apellido_Doctor' => $resultado->apellido_Doctor,
+                'celular_Doctor' => $resultado->celular_Doctor,
+                // Establecimientos
+                'idEstablecimiento' => $resultado->idEstablecimiento,
+                'nombreEstablecimiento' => $resultado->nombreEstablecimiento,
+                'nombreDistrito' => $resultado->nombreDistrito,
+                // Distritos
+                'idDistrito' => $resultado->idDistrito,
+                'nombreDistrito' => $resultado->nombreDistrito,
+                // MicroRedes
+                'idMicroRed' => $resultado->idMicroRed,
+                'nombreMicroRed' => $resultado->nombreMicroRed,
+            ];
+        })->toArray();
+
+        // Calcular el tiempo de ejecución
+        $executionTime = microtime(true) - $startTime;
+        
+        Log::info("Tiempo de ejecución de la consulta usando ELOCUENT ORM: {$executionTime} segundos");
+        
+        dd($datosSimplificados);
+
+        return view('apoderados.apoderadosPrediction', ['resultados' => $datosSimplificados]);
+    }
+    */
 
     public function solicitudesApp() {
         return view('dashboard.solicitudesAppCanjes');

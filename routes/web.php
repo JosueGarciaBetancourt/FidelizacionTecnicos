@@ -43,9 +43,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Ver solicitudes (app móvil) 
     Route::get('/dashboard-solicitudesApp-canje', [CanjeController::class, 'solicitudesApp'])->name('canjes.solicitudesApp');  
 
-    // Fetch
+    // Fetchs
     route::get('/dashboard-canjes/tecnico/{idTecnico}', [VentaIntermediadaController::class, 'getComprobantesEnEsperaByIdTecnico'])
         ->name('getVentasIntermediadasWithTecnico');
+    route::get('/dashboard-canjes/historialCanje/{idCanje}', [CanjeController::class, 'getDetalleCanjesRecompensasByIdCanje'])
+        ->name('getDetalleCanjesRecompensasByIdCanje');
 
     // Recompensas
     Route::get('/dashboard-recompensas', [RecompensaController::class, 'create'])->name('recompensas.create');  

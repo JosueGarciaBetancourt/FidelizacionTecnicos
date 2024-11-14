@@ -267,7 +267,7 @@
 					</div>
 				</div>
 			</div>
-			<input type="text" id="jsonRecompensas" name="recompensas_Canje" readonly>
+			<input type="hidden" id="jsonRecompensas" name="recompensas_Canje" readonly>
 		</form>
 
 

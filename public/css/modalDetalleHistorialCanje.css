@@ -1,6 +1,10 @@
 #modalDetalleHistorialCanje-dialog {
-    max-width: 800px; /* Aumenta el ancho del modal */
+    max-width: 900px; /* Aumenta el ancho del modal */
     max-height: auto;
+}
+
+#modalDetalleHistorialCanje-content {
+    max-height: 530px;
 }
 
 #idModalBodyDetalleHistorialCanje {
@@ -66,11 +70,32 @@
     max-width: 8rem;
 }
 
+#fechaHoraEmisionComprobanteModalDetalleHistorialCanje {
+    max-width: 10rem;
+}
+
+#diasTranscurridosCanjeModalDetalleHistorialCanje {
+    color: rgb(72, 95, 126);
+    font-weight: 600;
+}
+
+#puntosComprobanteModalDetalleHistorialCanje {
+    max-width: 5rem;
+}
+
+#puntosCanjeadosModalDetalleHistorialCanje {
+    max-width: 5rem;
+}
+
+#puntosRestantesComprobanteModalDetalleHistorialCanje {
+    max-width: 5rem;
+}
+
 /*Estilos de la tabla del detalle de canje*/
 .tblDetalleHistorialCanje-container {
     display: flex;
     flex-direction: column;
-    margin: 0.2rem 0;
+    margin: 0.8rem 0;
 }
 
 #tblDetalleHistorialCanje {
@@ -105,11 +130,11 @@
 }
 
 /* Fila hover */
-#tblDetalleHistorialCanje tbody tr:hover {
-    background-color: #d9f0fc; /* Suave tono azul */
+/*#tblDetalleHistorialCanje tbody tr:hover {
+    background-color: #d9f0fc; 
     cursor: pointer;
-    transition: none; /* Sin transición para hover */
-}
+    transition: none; 
+}*/
 
 #tblDetalleHistorialCanje tbody tr:hover td:first-child {
     border-top-left-radius: 0.5rem;
