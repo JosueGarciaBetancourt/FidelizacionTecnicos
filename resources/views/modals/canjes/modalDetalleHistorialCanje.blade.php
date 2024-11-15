@@ -43,7 +43,7 @@
 					</div>
                     <table class="ownTable" id="tblDetalleHistorialCanje">
 						<thead>
-							<gi>
+							<tr>
 								<th class="celda-centered" id="celdaNumeroOrdenRecompensa">#</th>
 								<th class="celda-centered" id="celdaCodigoRecompensa">Código</th>
 								<th class="celda-centered" id="celdaTipoRecompensa">Tipo</th>
@@ -67,9 +67,6 @@
 						<tfoot>
 							<tr>
 								<td colspan="6" class="celda-righted"><strong>Total</strong></td>
-								<div class="tooltip-container">
-									<span class="tooltip red" id="idCeldaTotalPuntosTooltip"></span>
-								</div>
 								<td class="celda-centered" id="celdaTotalPuntos">0</td>
 							</tr> 
 						</tfoot>

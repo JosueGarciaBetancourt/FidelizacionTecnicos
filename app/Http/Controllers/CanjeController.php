@@ -304,27 +304,13 @@ class CanjeController extends Controller
             . Vendedor: Administrador, vendedor1, etc.
         */
         try {
-            // Consulta a la vista
-            $resultados = DB::table('canje_recompensas_view')
-                            ->where('idCanje', $idCanje)
-                            ->get();
+            $canje = Canje::where('idCanje', $idCanje)->first();
     
-            // Verificar si se encontraron resultados
-            if ($resultados->isEmpty()) {
-                return response()->json(['message' => 'No se encontraron canjes para el ID proporcionado'], 404);
-            }
-    
-            // Mapear los resultados para agregar el índice incremental
-            $canjesRecompensasAll = $resultados->map(function ($item, $key) {
-                $item->index = $key + 1; // Asignar índice a cada elemento
-                return $item;
-            });
-    
-            return response()->json($canjesRecompensasAll);
+            return $canje;
     
         } catch (\Exception $e) {
             // Manejo de errores en caso de fallo de consulta
-            return response()->json(['error' => 'Error al obtener los detalles del canje', 'details' => $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener los detalles del canje para generar el PDF', 'details' => $e->getMessage()], 500);
         }
     }
 

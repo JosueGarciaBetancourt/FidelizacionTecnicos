@@ -1,0 +1,137 @@
+* {
+	font-family: "Source Sans 3", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+	--fontSize-pdf-A4: 0.75rem;
+}
+
+body {
+	padding: 1rem 4rem;
+}
+
+img {
+    width: 100px;
+    height: auto;
+}
+
+h2 {
+	font-weight: 400;
+	font-family: "Source Sans 3", sans-serif;
+}
+
+h3 {
+	font-weight: 400;
+	font-family: "Source Sans 3", sans-serif;
+}
+
+h4 {
+	font-weight: 400;
+	font-family: "Source Sans 3", sans-serif;
+}
+
+.infoDimacof-container h2 {
+	font-size: 1rem;
+	color: #000;
+}
+
+.infoDimacof-container h3 {
+	font-size: 0.8rem;
+}
+
+.infoDimacof-container h4 {
+	font-size: 0.65rem;
+}
+
+.comprobante-container {
+	width: 15rem;
+	height: 5rem;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid #000;
+	font-weight: 400;
+	text-align: center;
+}
+
+.comprobante-container h2, .comprobante-container h3 {
+	margin-top: 0.7rem;
+	font-size: 1rem;
+}
+
+.tblFirstRowCanjePDF {
+	width: 100%;	
+	padding: 2rem 0;
+}
+
+.tblSecondRowCanjePDF {
+	max-width: 100%;	
+	padding: 1rem 0;
+}
+
+.tblSecondRowCanjePDF tbody tr td:first-child {
+	max-width: 8rem;
+}
+
+.tblSecondRowCanjePDF tbody tr td:nth-child(2) {
+    text-transform: uppercase;
+}
+
+.tblSecondRowCanjePDF tbody tr td h2 {
+	font-size: var(--fontSize-pdf-A4);
+}
+
+/*Estilos de la tabla del detalle de canje*/
+.tblDetalleHistorialCanjePDF-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0.8rem 0;
+	width: auto;
+}
+
+#tblDetalleHistorialCanjePDF {
+    border-collapse: collapse;
+	max-width: 15rem;
+    background-color: var(--background-color-mainSectionContainer);
+}
+
+/* Encabezado de la Tabla (thead) */
+#tblDetalleHistorialCanjePDF thead th {
+    padding: 0.4rem 1rem;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    color: #000;
+    border-top: 1px solid #000; /* Borde superior */
+    border-bottom: 1px solid #000; /* Borde inferior */
+    border-left: none; /* Sin borde izquierdo */
+    border-right: none; /* Sin borde derecho */
+    text-align: center;
+	font-size: var(--fontSize-pdf-A4);
+}
+
+/* Cuerpo de la Tabla (tbody) */
+#tblDetalleHistorialCanjePDF tbody td {
+    padding: 0.4rem 0.8rem;
+	font-size: var(--fontSize-pdf-A4);
+    border-top: 1px solid #000; /* Borde superior */
+    border-bottom: 1px solid #000; /* Borde inferior */
+    border-left: none; /* Sin borde izquierdo */
+    border-right: none; /* Sin borde derecho */
+}
+
+/* Pie de la Tabla (tfoot) */
+#tblDetalleHistorialCanjePDF tfoot td {
+	font-size: var(--fontSize-pdf-A4);
+    padding: 0.4rem 0.8rem;
+    border-top: 1px solid #000; /* Borde superior */
+    border-bottom: 1px solid #000; /* Borde inferior */
+    border-left: none; /* Sin borde izquierdo */
+    border-right: none; /* Sin borde derecho */
+}
+
+#tblDetalleHistorialCanjePDF tfoot td:first-child {
+	font-size: var(--fontSize-pdf-A4);
+	color: green;
+    text-align: right;
+}
