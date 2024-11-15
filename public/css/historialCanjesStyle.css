@@ -9,6 +9,14 @@
 	height: auto;
 }
 
+.firstRowHistorialCanje {
+    padding-top: 1rem;
+}
+
+.secondRowHistorialCanje {
+    padding-top: 1rem;
+}
+
 h3 {
 	font-size: 1.2rem;
 	color: var(--clr-primary-variant3);

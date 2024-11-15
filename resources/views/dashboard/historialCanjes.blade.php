@@ -9,7 +9,11 @@
 
 @section('main-content')
 	<div class="historialCanjeContainer">
-		<div class="secondRow">
+		<div class="firstRowHistorialCanje">
+			<h3>Historial de canjes</h3>
+		</div>
+
+		<div class="secondRowHistorialCanje">
 			<table id="tblHistorialCanjes">
 				<thead>
 					<tr>
