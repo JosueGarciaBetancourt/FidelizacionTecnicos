@@ -16,6 +16,7 @@ use App\Http\Controllers\RecompensaController;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\CanjeRecompensaController;
 use App\Http\Controllers\VentaIntermediadaController;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class CanjeController extends Controller
 {
@@ -285,5 +286,51 @@ class CanjeController extends Controller
 
     public function solicitudesApp() {
         return view('dashboard.solicitudesAppCanjes');
+    }
+
+    public function getCanjeDataPDFByIdCanje($idCanje) {
+        /*
+        Data para generar el pdf de un canje: 
+            . Logo Dimacof
+            . Información breve de Dimacof
+            . "Comprobante de canje", idCanje
+            . Fecha de emisión canje
+            . Comprobante de venta intermediada (idVentaIntermediada)
+            . Fecha hora emisión venta intermediada
+            . Nombre técnico, dni técnico
+            . Detalle recompensas canjes (tabla)
+            . Resumen canje (Puntos venta intermediada, 
+                    puntos canjeados, puntos restantes)
+            . Vendedor: Administrador, vendedor1, etc.
+        */
+        try {
+            // Consulta a la vista
+            $resultados = DB::table('canje_recompensas_view')
+                            ->where('idCanje', $idCanje)
+                            ->get();
+    
+            // Verificar si se encontraron resultados
+            if ($resultados->isEmpty()) {
+                return response()->json(['message' => 'No se encontraron canjes para el ID proporcionado'], 404);
+            }
+    
+            // Mapear los resultados para agregar el índice incremental
+            $canjesRecompensasAll = $resultados->map(function ($item, $key) {
+                $item->index = $key + 1; // Asignar índice a cada elemento
+                return $item;
+            });
+    
+            return response()->json($canjesRecompensasAll);
+    
+        } catch (\Exception $e) {
+            // Manejo de errores en caso de fallo de consulta
+            return response()->json(['error' => 'Error al obtener los detalles del canje', 'details' => $e->getMessage()], 500);
+        }
+    }
+
+    public function canjePDF($size, $idCanje) {
+        $canjeData = $this->getCanjeDataPDFByIdCanje($idCanje);
+        $pdf = Pdf::loadView('dashboard.canjePDF', compact('canjeData', 'size'));
+        return  $pdf->stream();
     }
 }

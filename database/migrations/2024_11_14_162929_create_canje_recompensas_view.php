@@ -7,6 +7,9 @@ class CreateCanjeRecompensasView extends Migration
 {
     public function up()
     {
+        // Eliminar la vista si ya existe para evitar el error de duplicado
+        DB::statement('DROP VIEW IF EXISTS canje_recompensas_view');
+
         DB::statement('
             CREATE VIEW canje_recompensas_view AS
             SELECT 

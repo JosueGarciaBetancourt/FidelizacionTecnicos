@@ -126,7 +126,7 @@
 
 /* Color de fondo de filas alternas */
 #tblDetalleHistorialCanje tbody tr:nth-child(even) {
-    background-color: #f9f9f9; /* Color claro alterno */
+    background-color: #f4f7f8; /* Color claro alterno */
 }
 
 /* Fila hover */

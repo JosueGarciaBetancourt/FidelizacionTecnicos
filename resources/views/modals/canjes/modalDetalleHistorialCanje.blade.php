@@ -75,18 +75,17 @@
 						</tfoot>
 					</table>
                 </div>
-
-				<div class="btnDetailOption-container">
-                    <button type="button" class="btn btn-DetailOption">
-                        <span class="material-symbols-outlined">description</span>A4
-                    </button>
-                    <button type="button" class="btn btn-DetailOption">
-                        <span class="material-symbols-outlined">receipt_long</span>80MM
-                    </button>
-                    <button type="button" class="btn btn-DetailOption">
-                        <span class="material-symbols-outlined">receipt_long</span>50MM
-                    </button>
-                </div>
+				<div class="btnDetailOption-container" data-routes='{"pdf": "{{ route('canjes.pdf', ['size' => ':size', 'idCanje' => ':idCanje']) }}"}'>
+					<button type="button" class="btn btn-DetailOption" id="btn_pdf_A4" data-size="A4" title="Canje en formato A4">
+						<span class="material-symbols-outlined">description</span> A4
+					</button>
+					<button type="button" class="btn btn-DetailOption" id="btn_pdf_80mm" data-size="80mm" title="Canje en formato 80MM">
+						<span class="material-symbols-outlined">receipt_long</span> 80MM
+					</button>
+					<button type="button" class="btn btn-DetailOption" id="btn_pdf_50mm" data-size="50mm" title="Canje en formato 50MM">
+						<span class="material-symbols-outlined">receipt_long</span> 50MM
+					</button>
+				</div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalDetalleHistorialCanje')">Cerrar</button>
