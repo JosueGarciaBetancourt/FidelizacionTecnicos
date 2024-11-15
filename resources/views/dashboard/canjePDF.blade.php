@@ -26,7 +26,7 @@
 				<td>
 					<div class="comprobante-container">
 						<h2> COMPROBANTE DE CANJE</h2>
-						<h2> {{ $canjeData->idCanje }} </h2>
+						<h2> {{ $canjeWithTecnico->idCanje }} </h2>
 					</div>
 				</td>
 			</tr>
@@ -40,7 +40,7 @@
 					<h2>FECHA Y HORA DE EMISIÓN</h2>
 				</td>
 				<td>
-					<h2>: 2024-10-31</h2>
+					<h2>: {{ $canjeWithTecnico->fechaHoraEmision }}</h2>
 				</td>
 			</tr>
 			<tr>
@@ -48,7 +48,7 @@
 					<h2>FECHA Y HORA CANJEADA</h2>
 				</td>
 				<td>
-					<h2>: 2024-10-31</h2>
+					<h2>: {{ $canjeWithTecnico->fechaHora_Canje }}</h2>
 				</td>
 			</tr>
 			<tr>
@@ -56,7 +56,7 @@
 					<h2>NÚMERO DE VENTA INTERMEDIADA</h2>
 				</td>
 				<td>
-					<h2>: B001-000034</h2>
+					<h2>: {{ $canjeWithTecnico->idVentaIntermediada }}</h2>
 				</td>
 			</tr>
 			<tr>
@@ -64,7 +64,7 @@
 					<h2>FECHA Y HORA DE EMISIÓN VENTA INTERMEDIADA</h2>
 				</td>
 				<td>
-					<h2>: 2024-10-31</h2>
+					<h2>: {{ $canjeWithTecnico->fechaHoraEmision_VentaIntermediada }}</h2>
 				</td>
 			</tr>
 			<tr>
@@ -72,7 +72,7 @@
 					<h2>TÉCNICO</h2>
 				</td>
 				<td>
-					<h2>: Carrasco, Manuel</h2>
+					<h2>: {{ $canjeWithTecnico->nombreTecnico }}</h2>
 				</td>
 			</tr>
 			<tr>
@@ -80,7 +80,7 @@
 					<h2>DNI</h2>
 				</td>
 				<td>
-					<h2>: 77889922</h2>
+					<h2>: {{ $canjeWithTecnico->idTecnico }}</h2>
 				</td>
 			</tr>
 		</tbody>
@@ -88,7 +88,7 @@
 
 	<div class="tblDetalleHistorialCanjePDF-container">
 		<div class="form-group gap">
-			<label class="primary-label noEditable">Recompensas canjeadas</label>
+			<label class="primary-label noEditable" id="recompesasCanjeadasLabel">Recompensas canjeadas</label>
 		</div>
 		<table class="ownTable" id="tblDetalleHistorialCanjePDF">
 			<thead>
@@ -97,25 +97,29 @@
 					<th class="celda-centered" id="celdaTipoRecompensa">TIPO</th>
 					<th class="celda-centered" id="celdaCantidadnRecompensa">CANTIDAD</th>
 					<th class="celda-centered" id="celdaCostoPuntosRecompensa">COSTO PUNTOS</th>
-					<th class="celda-centered" id="celdaPuntosTotalesRecompensa">TOTAL</th>
+					<th class="celda-centered" id="celdaPuntosTotalesRecompensa">SUBTOTAL</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td class="celda-centered">3</td>
-					<td class="celda-centered">4</td>
-					<td class="celda-centered">5</td>
-					<td class="celda-centered">6</td>
-					<td class="celda-centered">7</td>
-				</tr> 
+				@foreach ($canjesRecompensas as $canjRecom)
+					<tr>
+						<td class="celda-centered">{{ $canjRecom->descripcionRecompensa }}</td>
+						<td class="celda-centered">{{ $canjRecom->tipoRecompensa }}</td>
+						<td class="celda-centered">{{ $canjRecom->cantidad }}</td>
+						<td class="celda-centered">{{ $canjRecom->costoRecompensa }}</td>
+						<td class="celda-centered">{{ $canjRecom->puntosTotales }}</td>
+					</tr>
+				@endforeach
 			</tbody>
 			<tfoot>
 				<tr>
-					<td colspan="4" class="celda-righted" id="celdaLabelTotalPuntos"><strong>TOTAL PUNTOS</strong></td>
-					<td class="celda-centered" id="celdaTotalPuntos">0</td>
+					<td colspan="4" class="celda-righted" id="celdaLabelTotalPuntos"><strong>TOTAL</strong></td>
+					<td class="celda-centered" id="celdaTotalPuntos">FALTA IMPLEMENTAR</td>
 				</tr> 
 			</tfoot>
 		</table>
+
+		<h3 id="vendedorH3"><strong>Vendedor</strong>: <span>{{ Auth::check() ? Auth::user()->name : 'Invitado' }}</span></h3>
 	</div>
 	
 	<table class="tableResumenCanjePDF">

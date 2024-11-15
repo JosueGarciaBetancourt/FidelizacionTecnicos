@@ -7,6 +7,7 @@ use App\Models\Tecnico;
 use App\Models\Recompensa;
 use Illuminate\Http\Request;
 use App\Models\CanjeRecompensa;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\VentaIntermediada;
 use Illuminate\Support\Facades\DB;
 use App\Models\CanjeRecompensaView;
@@ -16,7 +17,6 @@ use App\Http\Controllers\RecompensaController;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\CanjeRecompensaController;
 use App\Http\Controllers\VentaIntermediadaController;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class CanjeController extends Controller
 {
@@ -205,7 +205,6 @@ class CanjeController extends Controller
             return response()->json(['error' => 'Error al obtener los detalles del canje', 'details' => $e->getMessage()], 500);
         }
     }
-    
 
     /*
     public function prediction()
@@ -289,34 +288,65 @@ class CanjeController extends Controller
     }
 
     public function getCanjeDataPDFByIdCanje($idCanje) {
-        /*
-        Data para generar el pdf de un canje: 
-            . Logo Dimacof
-            . Información breve de Dimacof
-            . "Comprobante de canje", idCanje
-            . Fecha de emisión canje
-            . Comprobante de venta intermediada (idVentaIntermediada)
-            . Fecha hora emisión venta intermediada
-            . Nombre técnico, dni técnico
-            . Detalle recompensas canjes (tabla)
-            . Resumen canje (Puntos venta intermediada, 
-                    puntos canjeados, puntos restantes)
-            . Vendedor: Administrador, vendedor1, etc.
-        */
         try {
-            $canje = Canje::where('idCanje', $idCanje)->first();
+            $canjeWithTecnico = Canje::query()
+                ->join('VentasIntermediadas', 'Canjes.idVentaIntermediada', '=', 'VentasIntermediadas.idVentaIntermediada')
+                ->join('Tecnicos', 'VentasIntermediadas.idTecnico', '=', 'Tecnicos.idTecnico')
+                ->select(['Canjes.*', 'Tecnicos.*'])
+                ->where('idCanje', $idCanje)
+                ->first();
+                
+            $canjeWithTecnico->fechaHoraEmision = now()->toDateTimeString();
     
-            return $canje;
-    
+            $canjesRecompensas = DB::table('canje_recompensas_view')
+                ->where('idCanje', $idCanje)
+                ->get();
+            
+            // Retornar un array asociativo con ambos valores
+            return [
+                'canjeWithTecnico' => $canjeWithTecnico,
+                'canjesRecompensas' => $canjesRecompensas
+            ];
         } catch (\Exception $e) {
-            // Manejo de errores en caso de fallo de consulta
-            return response()->json(['error' => 'Error al obtener los detalles del canje para generar el PDF', 'details' => $e->getMessage()], 500);
+            return response()->json([
+                'error' => 'Error al obtener los detalles del canje para generar el PDF', 
+                'details' => $e->getMessage()
+            ], 500);
         }
     }
-
+    
     public function canjePDF($size, $idCanje) {
-        $canjeData = $this->getCanjeDataPDFByIdCanje($idCanje);
-        $pdf = Pdf::loadView('dashboard.canjePDF', compact('canjeData', 'size'));
-        return  $pdf->stream();
+        // Obtener los datos
+        $data = $this->getCanjeDataPDFByIdCanje($idCanje);
+        
+        $canjeWithTecnico = $data['canjeWithTecnico'];
+        $canjesRecompensas = $data['canjesRecompensas'];
+
+        /*
+            0 => {#1104 ▼
+            +"idCanje": "CANJ-00001"
+            +"idRecompensa": "RECOM-002"
+            +"tipoRecompensa": "EPP"
+            +"descripcionRecompensa": "Par de rodilleras para cerámica"
+            +"cantidad": 1
+            +"costoRecompensa": 35.0
+            +"puntosTotales": 35.0
+            +"canjeRecompensa_created_at": "2024-11-15 00:36:23"
+            }
+            1 => {#1321 ▼
+            +"idCanje": "CANJ-00001"
+            +"idRecompensa": "RECOM-004"
+            +"tipoRecompensa": "Herramienta"
+            +"descripcionRecompensa": "Juego de destornilladores"
+            +"cantidad": 1
+            +"costoRecompensa": 40.0
+            +"puntosTotales": 40.0
+            +"canjeRecompensa_created_at": "2024-11-15 00:36:23"
+            }
+        */
+        
+        // Generar el PDF
+        $pdf = Pdf::loadView('dashboard.canjePDF', compact('canjeWithTecnico', 'canjesRecompensas', 'size'));
+        return $pdf->stream();
     }
 }

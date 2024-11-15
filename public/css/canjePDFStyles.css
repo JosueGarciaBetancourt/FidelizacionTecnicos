@@ -68,10 +68,11 @@ h4 {
 .tblSecondRowCanjePDF {
 	max-width: 100%;	
 	padding: 1rem 0;
+	border-spacing: 0 10px;
 }
 
 .tblSecondRowCanjePDF tbody tr td:first-child {
-	max-width: 8rem;
+	max-width: 11rem;
 }
 
 .tblSecondRowCanjePDF tbody tr td:nth-child(2) {
@@ -92,7 +93,7 @@ h4 {
 
 #tblDetalleHistorialCanjePDF {
     border-collapse: collapse;
-	max-width: 15rem;
+	min-width: 40rem;
     background-color: var(--background-color-mainSectionContainer);
 }
 
@@ -132,6 +133,13 @@ h4 {
 
 #tblDetalleHistorialCanjePDF tfoot td:first-child {
 	font-size: var(--fontSize-pdf-A4);
-	color: green;
     text-align: right;
+}
+
+#recompesasCanjeadasLabel {
+	font-size: 0.9rem;
+}
+
+#vendedorH3 {
+	font-size: var(--fontSize-pdf-A4);
 }
