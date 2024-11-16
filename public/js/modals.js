@@ -446,3 +446,52 @@ function returnObjTecnicoById(idTecnico, tecnicosDB) {
     }
     return null; // Retornar null si no se encuentra el objeto
 }
+
+/*function getDiasTranscurridos(fechaEmision, fechaCargada) {
+    // Asignar las fechas de los inputs
+    var emision = new Date(fechaEmision); // Convierte la fecha de emisión a un objeto Date
+    var carga = new Date(fechaCargada); // Convierte la fecha cargada a un objeto Date
+
+    // Calcula la diferencia en milisegundos
+    var diferenciaMilisegundos = Math.abs(carga - emision);
+
+    // Convertir milisegundos a días
+    var diasTranscurridos = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
+
+    return Math.floor(diasTranscurridos); // Redondea hacia abajo al número entero más cercano
+}*/
+
+function getDiasTranscurridos(fechaEmision, fechaCargada) {
+    // Asegurar que las fechas sean objetos Date
+    const emision = fechaEmision instanceof Date ? fechaEmision : new Date(fechaEmision);
+    const carga = fechaCargada instanceof Date ? fechaCargada : new Date(fechaCargada);
+    
+    // Validar que las fechas sean válidas
+    if (isNaN(emision.getTime()) || isNaN(carga.getTime())) {
+        throw new Error('Fechas inválidas');
+    }
+    
+    // Normalizar las fechas a UTC para evitar problemas con zonas horarias
+    const emiUTC = Date.UTC(emision.getFullYear(), emision.getMonth(), emision.getDate());
+    const cargUTC = Date.UTC(carga.getFullYear(), carga.getMonth(), carga.getDate());
+    
+    // Calcula la diferencia en días
+    return Math.floor(Math.abs(cargUTC - emiUTC) / (1000 * 60 * 60 * 24));
+}
+
+function getDiasTranscurridosFechaHora(fechaEmision, fechaCargada) {
+    // Asegurar que las fechas sean objetos Date
+    const emision = fechaEmision instanceof Date ? fechaEmision : new Date(fechaEmision);
+    const carga = fechaCargada instanceof Date ? fechaCargada : new Date(fechaCargada);
+
+    // Validar que las fechas sean válidas
+    if (isNaN(emision.getTime()) || isNaN(carga.getTime())) {
+        throw new Error('Fechas inválidas');
+    }
+
+    // Obtiene la diferencia en milisegundos
+    const diferenciaMilisegundos = Math.abs(carga.getTime() - emision.getTime());
+
+    // Convierte la diferencia a días, considerando horas y fracciones
+    return diferenciaMilisegundos / (1000 * 60 * 60 * 24);
+}

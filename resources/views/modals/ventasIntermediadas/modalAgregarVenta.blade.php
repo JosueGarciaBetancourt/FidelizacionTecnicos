@@ -93,7 +93,7 @@
                                 <span class="tooltip" id="idNumComprobanteTooltip">Este es el mensaje del tooltip</span>
                             </div>
                             <input class="input-item" id="idVentaIntermediadaInput" name="idVentaIntermediada"
-                                   oninput="validateNumComprobanteInput(this)" maxlength="13" placeholder="B001-72">
+                                   oninput="validateNumComprobanteInput(this)" maxlength="13" placeholder="B001-00000096">
                         </div>
                         <div class = "group-items dateTime">
                             <label class="secondary-label centered"> Fecha y hora de emisión </label>

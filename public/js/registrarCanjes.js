@@ -50,8 +50,7 @@ let date = getFormattedDate();
 let tecnicoFilledCorrectlySearchField = false;
 let recompensaFilledCorrectlySearchField = false;
 
-
-
+/*
 function getDiasTranscurridos(fechaEmision, fechaCargada) {
     // Asignar las fechas de los inputs
     var emi = new Date(fechaEmision); // Convierte la fecha de emisión a un objeto Date
@@ -65,6 +64,7 @@ function getDiasTranscurridos(fechaEmision, fechaCargada) {
 
     return Math.floor(diasTranscurridos); // Redondea hacia abajo al número entero más cercano
 }
+*/
 
 function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
     if (tecnicoCanjesInput.value && tecnicoFilledCorrectlySearchField) {

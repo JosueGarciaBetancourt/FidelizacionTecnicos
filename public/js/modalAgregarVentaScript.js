@@ -535,12 +535,12 @@ let mensajeCombinado = "";
 function validateDNIRUCLength() {
     if (tipoCodigoClienteInput.value === "DNI") {
         if (codigoClienteInput.value.length !== 8) {
-            mensajeCombinado += "El número de DNI debe de tener 8 dígitos.";
+            mensajeCombinado += "El número de DNI debe de tener 8 dígitos. ";
             return false;
         }
     } else {
         if (codigoClienteInput.value.length !== 11) {
-            mensajeCombinado += "El número de RUC debe de tener 11 dígitos.";
+            mensajeCombinado += "El número de RUC debe de tener 11 dígitos. ";
             return false;
         }
     }
@@ -580,6 +580,12 @@ function validarCamposCorrectosFormulario() {
         mensajeCombinado += "Monto total no puede ser 0.";
         returnError = true;
     }
+
+    // Validando máximo de 90 días transcurridos
+    if (!validarMaximoDiasTranscurridosHastaHoyFechaHora(fechaHoraEmisionInput.value)) {
+        mensajeCombinado += "La fecha supera el máximo de 90 días para el registro de la venta intermediada. ";
+        returnError = true;
+    }
     
     if (returnError) {
         return false;
@@ -587,6 +593,21 @@ function validarCamposCorrectosFormulario() {
 
     multiMessageError2.classList.remove("shown");
     return true;
+}
+
+function getStringFormatCurrentDate() {
+    const dateNow = new Date();
+    const fechaHoraActual = `${dateNow.getFullYear()}-${(dateNow.getMonth() + 1).toString().padStart(2, '0')}-${dateNow.getDate().toString().padStart(2, '0')} ${dateNow.getHours().toString().padStart(2, '0')}:${dateNow.getMinutes().toString().padStart(2, '0')}:${dateNow.getSeconds().toString().padStart(2, '0')}`;
+    return fechaHoraActual
+}
+
+// Función mejorada para validar días transcurridos
+function validarMaximoDiasTranscurridosHastaHoyFechaHora(fechaHora, maxDias=90) {
+    const fechaHoraActual = getStringFormatCurrentDate();
+    const dias = getDiasTranscurridosFechaHora(fechaHora, fechaHoraActual);
+    console.log(dias);
+    
+    return dias <= maxDias;
 }
 
 function removeZerosIDVentaIntermediada(idVentaIntermediada) {

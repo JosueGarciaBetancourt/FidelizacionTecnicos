@@ -5,11 +5,12 @@
 }
 
 :root {
-	--fontSize-pdf-A4: 0.75rem;
+	--fontSize-pdf-50mm: 0.55rem;
+	--fontSize-tbl-pdf-50mm: 0.40rem;
 }
 
 body {
-	padding: 1rem 4rem;
+	padding: 1rem 0.2rem;
 }
 
 img {
@@ -20,6 +21,7 @@ img {
 h2 {
 	font-weight: 400;
 	font-family: "Source Sans 3", sans-serif;
+	font-size: 0.8rem;
 }
 
 h3 {
@@ -33,64 +35,81 @@ h4 {
 }
 
 #logoDimacof {
-	margin-right: 2rem;
-	width: auto;
+	width: 4.5rem;
 	height: auto;
+	margin: 1rem 0.5rem;
+	border: 1px solid #000;
 }
 
 .infoDimacof-container h2 {
 	font-size: 1rem;
 	color: #000;
+	text-align: center;
 }
 
 .infoDimacof-container h3 {
 	font-size: 0.8rem;
+	text-align: center;
 }
 
 .infoDimacof-container h4 {
 	font-size: 0.65rem;
-}
-
-.comprobante-container {
-	width: 13rem;
-	height: 4.5rem;
-	display: flex;
-	flex-direction: column;
-	border: 1px solid #000;
-	font-weight: 400;
 	text-align: center;
 }
 
-.comprobante-container h2, .comprobante-container h3 {
-	margin-top: 0.7rem;
-	font-size: 0.9rem;
+.comprobante-container {
+	width: auto;
+	height: auto;
+	display: flex;
+	flex-direction: column;
+	font-weight: 400;
+	text-align: center;
+	margin-top: 0.5rem;
 }
 
-.tblFirstRowCanjePDF {
-	width: 100%;	
-	padding: 2rem 0;
+.comprobante-container h2 {
+	margin-top: 0.7rem;
+	font-size: 0.8rem;
 }
 
 .tblSecondRowCanjePDF {
-	max-width: 100%;	
-	padding: 1rem 0;
-	border-spacing: 0 10px;
+	border-spacing: 0 2px;
 }
 
 .tblSecondRowCanjePDF tbody tr td:first-child {
-	max-width: 11rem;
+	width: 4rem;
 }
 
 .tblSecondRowCanjePDF tbody tr td:nth-child(2) {
-    text-transform: uppercase;
+	width: 6rem;
 }
 
 .tblSecondRowCanjePDF tbody tr td:nth-child(2) span {
-    padding-left: 0.5rem;
+    padding-left: 0.1rem;
 }
 
 .tblSecondRowCanjePDF tbody tr td h2 {
-	font-size: var(--fontSize-pdf-A4);
+	font-size: var(--fontSize-pdf-50mm);
+}
+
+.tblTecnicoInfo {
+	border-spacing: 0 2px;
+}
+
+.tblTecnicoInfo tbody tr td:first-child {
+	width: 2.5rem;
+}
+
+.tblTecnicoInfo tbody tr td:nth-child(2) {
+	width: 7rem;
+}
+
+.tblTecnicoInfo tbody tr td:nth-child(2) span {
+    padding-left: 0.1rem;
+}
+
+.tblTecnicoInfo tbody tr td h2 {
+	font-size: var(--fontSize-pdf-50mm);
 }
 
 /*Estilos de la tabla del detalle de canje*/
@@ -104,8 +123,7 @@ h4 {
 #tblDetalleHistorialCanjePDF {
     border-collapse: collapse;
 	margin: 0.5rem 0;
-	min-width: 40rem;
-    background-color: var(--background-color-mainSectionContainer);
+	width: auto;
 }
 
 /* Encabezado de la Tabla (thead) */
@@ -119,13 +137,33 @@ h4 {
     border-left: none; /* Sin borde izquierdo */
     border-right: none; /* Sin borde derecho */
     text-align: center;
-	font-size: var(--fontSize-pdf-A4);
+	font-size: var(--fontSize-tbl-pdf-50mm);
+}
+
+#tblDetalleHistorialCanjePDF thead tr th:nth-child(1) {
+	width: 1rem;
+}
+
+#tblDetalleHistorialCanjePDF thead tr th:nth-child(2) {
+	max-width: 0.2rem;
+}
+
+#tblDetalleHistorialCanjePDF thead tr th:nth-child(3) {
+	max-width: 0.1rem;
+}
+
+#tblDetalleHistorialCanjePDF thead tr th:nth-child(4) {
+	max-width: 0.6rem;
+}
+
+#tblDetalleHistorialCanjePDF thead tr th:nth-child(5) {
+	max-width: 1.5rem;
 }
 
 /* Cuerpo de la Tabla (tbody) */
 #tblDetalleHistorialCanjePDF tbody td {
-    padding: 0.4rem 0.8rem;
-	font-size: var(--fontSize-pdf-A4);
+    padding: 0.2rem 0.2rem;
+	font-size: var(--fontSize-tbl-pdf-50mm);
     border-top: 1px solid #000; /* Borde superior */
     border-bottom: 1px solid #000; /* Borde inferior */
     border-left: none; /* Sin borde izquierdo */
@@ -136,10 +174,11 @@ h4 {
 #tblDetalleHistorialCanjePDF tbody td:first-child {
 	text-align: left;
 }
+
 /* Pie de la Tabla (tfoot) */
 #tblDetalleHistorialCanjePDF tfoot td {
-	font-size: var(--fontSize-pdf-A4);
-    padding: 0.4rem 0.8rem;
+	font-size: var(--fontSize-tbl-pdf-50mm);
+    padding: 0.2rem 0.2rem;
     border-top: 1px solid #000; /* Borde superior */
     border-bottom: 1px solid #000; /* Borde inferior */
     border-left: none; /* Sin borde izquierdo */
@@ -147,27 +186,27 @@ h4 {
 }
 
 #tblDetalleHistorialCanjePDF tfoot td:first-child {
-	font-size: var(--fontSize-pdf-A4);
     text-align: right;
 }
 
 #recompesasCanjeadasLabel {
 	font-weight: bold;
-	font-size: 0.9rem;
+	font-size: var(--fontSize-pdf-50mm);
 }
 
 #celdaTotalPuntos {
 	text-align: center;
 }
 
+/*Tabla resumen*/
 #tableResumenCanjePDF {
 	max-width: 100%;	
 	border-spacing: 0 10px;
+	width: auto;
 }
 
 #tableResumenCanjePDF tbody tr td:first-child {
-	text-transform: uppercase;
-	max-width: 8rem;
+	max-width: 4rem;
 }
 
 #tableResumenCanjePDF tbody tr td:nth-child(2) {
@@ -179,18 +218,17 @@ h4 {
 }
 
 #tableResumenCanjePDF tbody tr td h2 {
-	font-size: var(--fontSize-pdf-A4);
+	font-size: var(--fontSize-tbl-pdf-50mm);
 }
 
 #resumenCanjeLabel {
 	font-weight: bold;
-	font-size: 0.9rem;
+	font-size: var(--fontSize-pdf-50mm);
 	margin-top: 1rem;
 }
 
-
 #vendedorH3 {
 	margin-top: 1rem;
-	font-size: 0.9rem;
+	font-size: var(--fontSize-tbl-pdf-50mm);
 }
 

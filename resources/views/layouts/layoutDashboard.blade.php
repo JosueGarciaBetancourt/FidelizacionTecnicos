@@ -36,7 +36,7 @@
                     <div class="select-items-canjes hidden" id="canjesMenu">
                         <a href="{{ route('canjes.create') }}" class="{{ Request::routeIs('canjes.create') ? 'subLinkActive' : '' }}">• Nuevo Canje</a>
                         <a href="{{ route('canjes.historial') }}" class="{{ Request::routeIs('canjes.historial') ? 'subLinkActive' : '' }}">• Ver Historial</a>
-                        <a href="{{ route('canjes.solicitudesApp') }}" class="{{ Request::routeIs('canjes.solicitudesApp') ? 'subLinkActive' : '' }}">• Ver solicitudes</a>
+                        <a href="{{ route('canjes.solicitudesApp') }}" class="{{ Request::routeIs('canjes.solicitudesApp') ? 'subLinkActive' : '' }}">• Ver solicitudes desde APP</a>
                     </div>
                 </div>
                 
