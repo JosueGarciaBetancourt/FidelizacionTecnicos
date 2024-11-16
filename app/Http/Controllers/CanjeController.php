@@ -321,7 +321,10 @@ class CanjeController extends Controller
         
         $canjeWithTecnico = $data['canjeWithTecnico'];
         $canjesRecompensas = $data['canjesRecompensas'];
-
+        $totalPuntos = 0;
+        foreach ($canjesRecompensas as $canjeRecompensa) {
+            $totalPuntos += $canjeRecompensa->puntosTotales;
+        }
         /*
             0 => {#1104 ▼
             +"idCanje": "CANJ-00001"
@@ -346,7 +349,7 @@ class CanjeController extends Controller
         */
         
         // Generar el PDF
-        $pdf = Pdf::loadView('dashboard.canjePDF', compact('canjeWithTecnico', 'canjesRecompensas', 'size'));
+        $pdf = Pdf::loadView('dashboard.canjePDF', compact('canjeWithTecnico', 'canjesRecompensas', 'totalPuntos', 'size'));
         return $pdf->stream();
     }
 }

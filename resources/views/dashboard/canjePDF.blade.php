@@ -14,13 +14,13 @@
 		<tbody>
 			<tr>
 				<td>
-					<img src="{{ asset('images/logo_DIMACOF.png') }}" alt="logo_Dimacof.png">
+					<img id="logoDimacof" src="{{ asset('images/logo_DIMACOF.png') }}" alt="logo_Dimacof.png">
 				</td>
 				<td>
 					<div class="infoDimacof-container">
 						<h2>DIMACOF</h2>
 						<h3>RUC 20140231275</h3>
-						<h4>Av. Mariscal Ramón Castilla 2070, El Tambo, Huancayo - Junín</h4>
+						<h4>Av. Mariscal Castilla 2070, El Tambo, Huancayo - Junín</h4>
 					</div>
 				</td>
 				<td>
@@ -37,18 +37,10 @@
 		<tbody>
 			<tr>
 				<td>
-					<h2>FECHA Y HORA DE EMISIÓN</h2>
+					<h2>FECHA Y HORA CANJE</h2>
 				</td>
 				<td>
-					<h2>: {{ $canjeWithTecnico->fechaHoraEmision }}</h2>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<h2>FECHA Y HORA CANJEADA</h2>
-				</td>
-				<td>
-					<h2>: {{ $canjeWithTecnico->fechaHora_Canje }}</h2>
+					<h2>: <span>{{ $canjeWithTecnico->fechaHora_Canje }}</span></h2>
 				</td>
 			</tr>
 			<tr>
@@ -56,7 +48,15 @@
 					<h2>NÚMERO DE VENTA INTERMEDIADA</h2>
 				</td>
 				<td>
-					<h2>: {{ $canjeWithTecnico->idVentaIntermediada }}</h2>
+					<h2>: <span>{{ $canjeWithTecnico->idVentaIntermediada }}</span></h2>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<h2>PUNTOS VENTA INTERMEDIADA</h2>
+				</td>
+				<td>
+					<h2>: <span>{{ $canjeWithTecnico->puntosComprobante_Canje }}</span></h2>
 				</td>
 			</tr>
 			<tr>
@@ -64,7 +64,7 @@
 					<h2>FECHA Y HORA DE EMISIÓN VENTA INTERMEDIADA</h2>
 				</td>
 				<td>
-					<h2>: {{ $canjeWithTecnico->fechaHoraEmision_VentaIntermediada }}</h2>
+					<h2>: <span>{{ $canjeWithTecnico->fechaHoraEmision_VentaIntermediada }}</span></h2>
 				</td>
 			</tr>
 			<tr>
@@ -72,7 +72,7 @@
 					<h2>TÉCNICO</h2>
 				</td>
 				<td>
-					<h2>: {{ $canjeWithTecnico->nombreTecnico }}</h2>
+					<h2>: <span>{{ $canjeWithTecnico->nombreTecnico }}</span></h2>
 				</td>
 			</tr>
 			<tr>
@@ -80,17 +80,15 @@
 					<h2>DNI</h2>
 				</td>
 				<td>
-					<h2>: {{ $canjeWithTecnico->idTecnico }}</h2>
+					<h2>: <span>{{ $canjeWithTecnico->idTecnico }}</span></h2>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 
 	<div class="tblDetalleHistorialCanjePDF-container">
-		<div class="form-group gap">
-			<label class="primary-label noEditable" id="recompesasCanjeadasLabel">Recompensas canjeadas</label>
-		</div>
-		<table class="ownTable" id="tblDetalleHistorialCanjePDF">
+		<h3 id="recompesasCanjeadasLabel">Recompensas canjeadas</h3>
+		<table id="tblDetalleHistorialCanjePDF">
 			<thead>
 				<tr>
 					<th class="celda-centered" id="celdaDescripcionRecompensa">DESCRIPCIÓN</th>
@@ -114,15 +112,44 @@
 			<tfoot>
 				<tr>
 					<td colspan="4" class="celda-righted" id="celdaLabelTotalPuntos"><strong>TOTAL</strong></td>
-					<td class="celda-centered" id="celdaTotalPuntos">FALTA IMPLEMENTAR</td>
+					<td class="celda-centered" id="celdaTotalPuntos">{{ $totalPuntos }}</td>
 				</tr> 
 			</tfoot>
 		</table>
-
-		<h3 id="vendedorH3"><strong>Vendedor</strong>: <span>{{ Auth::check() ? Auth::user()->name : 'Invitado' }}</span></h3>
 	</div>
-	
-	<table class="tableResumenCanjePDF">
+
+	<table class="tableResumenCanjePDF-container">
+		<h3 id="resumenCanjeLabel">Resumen</h3>
+		<table id="tableResumenCanjePDF">
+			<tbody>
+				<tr>
+					<td>
+						<h2>PUNTOS VENTA INTERMEDIADA</h2>
+					</td>
+					<td>
+						<h2>: <span>{{ $canjeWithTecnico->puntosComprobante_Canje }}</span></h2>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2>PUNTOS CANJEADOS</h2>
+					</td>
+					<td>
+						<h2>: <span>{{ $canjeWithTecnico->puntosCanjeados_Canje }}</span></h2>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<h2>PUNTOS RESTANTES</h2>
+					</td>
+					<td>
+						<h2>: <span>{{ $canjeWithTecnico->puntosRestantes_Canje }}</span></h2>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</table>
+
+	<h3 id="vendedorH3"><strong>Vendedor:</strong> <span>{{ Auth::check() ? Auth::user()->name : 'Invitado' }}</span></h3>
 </body>
 </html>

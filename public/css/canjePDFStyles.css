@@ -32,6 +32,12 @@ h4 {
 	font-family: "Source Sans 3", sans-serif;
 }
 
+#logoDimacof {
+	margin-right: 2rem;
+	width: auto;
+	height: auto;
+}
+
 .infoDimacof-container h2 {
 	font-size: 1rem;
 	color: #000;
@@ -46,8 +52,8 @@ h4 {
 }
 
 .comprobante-container {
-	width: 15rem;
-	height: 5rem;
+	width: 13rem;
+	height: 4.5rem;
 	display: flex;
 	flex-direction: column;
 	border: 1px solid #000;
@@ -57,7 +63,7 @@ h4 {
 
 .comprobante-container h2, .comprobante-container h3 {
 	margin-top: 0.7rem;
-	font-size: 1rem;
+	font-size: 0.9rem;
 }
 
 .tblFirstRowCanjePDF {
@@ -79,6 +85,10 @@ h4 {
     text-transform: uppercase;
 }
 
+.tblSecondRowCanjePDF tbody tr td:nth-child(2) span {
+    padding-left: 0.5rem;
+}
+
 .tblSecondRowCanjePDF tbody tr td h2 {
 	font-size: var(--fontSize-pdf-A4);
 }
@@ -87,12 +97,13 @@ h4 {
 .tblDetalleHistorialCanjePDF-container {
     display: flex;
     flex-direction: column;
-    margin: 0.8rem 0;
+    margin: 1rem 0 0 0;
 	width: auto;
 }
 
 #tblDetalleHistorialCanjePDF {
     border-collapse: collapse;
+	margin: 0.5rem 0;
 	min-width: 40rem;
     background-color: var(--background-color-mainSectionContainer);
 }
@@ -119,8 +130,12 @@ h4 {
     border-bottom: 1px solid #000; /* Borde inferior */
     border-left: none; /* Sin borde izquierdo */
     border-right: none; /* Sin borde derecho */
+	text-align: center;
 }
 
+#tblDetalleHistorialCanjePDF tbody td:first-child {
+	text-align: left;
+}
 /* Pie de la Tabla (tfoot) */
 #tblDetalleHistorialCanjePDF tfoot td {
 	font-size: var(--fontSize-pdf-A4);
@@ -137,9 +152,45 @@ h4 {
 }
 
 #recompesasCanjeadasLabel {
+	font-weight: bold;
 	font-size: 0.9rem;
 }
 
-#vendedorH3 {
+#celdaTotalPuntos {
+	text-align: center;
+}
+
+#tableResumenCanjePDF {
+	max-width: 100%;	
+	border-spacing: 0 10px;
+}
+
+#tableResumenCanjePDF tbody tr td:first-child {
+	text-transform: uppercase;
+	max-width: 8rem;
+}
+
+#tableResumenCanjePDF tbody tr td:nth-child(2) {
+    padding-left: 0.5rem;
+}
+
+#tableResumenCanjePDF tbody tr td:nth-child(2) span {
+    padding-left: 0.5rem;
+}
+
+#tableResumenCanjePDF tbody tr td h2 {
 	font-size: var(--fontSize-pdf-A4);
 }
+
+#resumenCanjeLabel {
+	font-weight: bold;
+	font-size: 0.9rem;
+	margin-top: 1rem;
+}
+
+
+#vendedorH3 {
+	margin-top: 1rem;
+	font-size: 0.9rem;
+}
+
