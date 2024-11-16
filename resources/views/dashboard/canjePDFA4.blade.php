@@ -6,7 +6,7 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Club de técnicos | CANJE0001 | {{ $size }}</title>
 	<link rel="ico" href="{{ public_path('images/mainIcon.ico') }}" type="image/ico">
-	<link rel="stylesheet" href="{{ public_path('css/canjePDFStyles.css') }}" type="text/css">
+	<link rel="stylesheet" href="{{ public_path('css/canjePDFA4.css') }}" type="text/css">
 </head>
 
 <body>

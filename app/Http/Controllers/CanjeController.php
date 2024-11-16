@@ -316,40 +316,38 @@ class CanjeController extends Controller
     }
     
     public function canjePDF($size, $idCanje) {
-        // Obtener los datos
-        $data = $this->getCanjeDataPDFByIdCanje($idCanje);
-        
-        $canjeWithTecnico = $data['canjeWithTecnico'];
-        $canjesRecompensas = $data['canjesRecompensas'];
-        $totalPuntos = 0;
-        foreach ($canjesRecompensas as $canjeRecompensa) {
-            $totalPuntos += $canjeRecompensa->puntosTotales;
+        try {
+            $data = $this->getCanjeDataPDFByIdCanje($idCanje);
+          
+            if (empty($data)) {
+                throw new \Exception("Datos no encontrados para canje con código: {$idCanje}");
+            }
+            
+            $canjeWithTecnico = $data['canjeWithTecnico'];
+            $canjesRecompensas = $data['canjesRecompensas'];
+            $totalPuntos = $canjesRecompensas->sum('puntosTotales');
+    
+            // Definir tamaño de papel según $size
+            $paperSize = match ($size) {
+                'A4' => 'A4',
+                '80mm' => [0, 0, 221, 776], 
+                '50mm' => [0, 0, 128, 776], 
+                default => 'A4',
+            };
+
+            $view = match ($size) {
+                'A4' => 'dashboard.canjePDFA4',
+                '80mm' => 'dashboard.canjePDF80mm',
+                '50mm' => 'dashboard.canjePDF50mm',
+                default => 'A4',    
+            };
+    
+            // Generar el PDF
+            $pdf = Pdf::setPaper($paperSize)
+                        ->loadView($view, compact('canjeWithTecnico', 'canjesRecompensas', 'totalPuntos', 'size'));
+            return $pdf->stream();
+        } catch (\Exception $e) {
+            dd($e->getMessage());
         }
-        /*
-            0 => {#1104 ▼
-            +"idCanje": "CANJ-00001"
-            +"idRecompensa": "RECOM-002"
-            +"tipoRecompensa": "EPP"
-            +"descripcionRecompensa": "Par de rodilleras para cerámica"
-            +"cantidad": 1
-            +"costoRecompensa": 35.0
-            +"puntosTotales": 35.0
-            +"canjeRecompensa_created_at": "2024-11-15 00:36:23"
-            }
-            1 => {#1321 ▼
-            +"idCanje": "CANJ-00001"
-            +"idRecompensa": "RECOM-004"
-            +"tipoRecompensa": "Herramienta"
-            +"descripcionRecompensa": "Juego de destornilladores"
-            +"cantidad": 1
-            +"costoRecompensa": 40.0
-            +"puntosTotales": 40.0
-            +"canjeRecompensa_created_at": "2024-11-15 00:36:23"
-            }
-        */
-        
-        // Generar el PDF
-        $pdf = Pdf::loadView('dashboard.canjePDF', compact('canjeWithTecnico', 'canjesRecompensas', 'totalPuntos', 'size'));
-        return $pdf->stream();
     }
 }
