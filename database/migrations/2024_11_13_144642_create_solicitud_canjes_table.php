@@ -20,7 +20,7 @@ return new class extends Migration
 
         // Crear tabla de Solicitudes de Canje
         Schema::create('SolicitudesCanje', function (Blueprint $table) {
-            $table->string('idSolicitudCanje', 13)->primary(); // Formato SOLICANJ-00001
+            $table->string('idSolicitudCanje', 14)->primary(); // Formato SOLICANJ-00001
             $table->string('idVentaIntermediada', 13); // ID del comprobante de venta
             $table->string('idTecnico', 8); // ID del técnico que hace la solicitud
             $table->unsignedBigInteger('idEstadoCanje')->default(1); // Estado de la solicitud con referencia a EstadosCanje
@@ -36,13 +36,13 @@ return new class extends Migration
 
         // Crear tabla intermedia entre Solicitudes de Canje y Recompensas
         Schema::create('SolicitudCanjeRecompensas', function (Blueprint $table) {
-            $table->string('idCanje', 13); // ID de solicitud de canje (SOLICANJ-00001)
+            $table->string('idSolicitudCanje', 14); // ID de solicitud de canje (SOLICANJ-00001)
             $table->string('idRecompensa', 9); // ID de recompensa (RECOM-001)
             $table->integer('cantidad')->unsigned(); 
             $table->double('costoRecompensa')->unsigned(); // Costo de la recompensa en puntos
 
             // Relaciones
-            $table->foreign('idCanje')->references('idSolicitudCanje')->on('SolicitudesCanje')->onDelete('cascade');
+            $table->foreign('idSolicitudCanje')->references('idSolicitudCanje')->on('SolicitudesCanje')->onDelete('cascade');
             $table->foreign('idRecompensa')->references('idRecompensa')->on('Recompensas')->onDelete('cascade');
 
             $table->timestamps();
