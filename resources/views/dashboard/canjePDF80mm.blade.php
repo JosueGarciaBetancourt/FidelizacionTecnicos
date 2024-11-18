@@ -10,9 +10,9 @@
 </head>
 
 <body>
-	<img id="logoDimacof" src="{{ asset('images/logo_DIMACOF.png') }}" alt="logo_Dimacof.png">
+	<img id="logoDimacof" src="{{ public_path('images/logo_DIMACOF_recortado.png') }}" alt="logo_Dimacof.png">
 	<div class="infoDimacof-container">
-		<h2><strong>DIMACOF</strong></h2>
+		<h2><strong>DISTRIBUIDORA MAT. CONST. Y FERRETERIA</strong></h2>
 		<h3>RUC 20140231275</h3>
 		<h4>Av. Mariscal Castilla 2070, El Tambo, Huancayo - Junín</h4>
 	</div>

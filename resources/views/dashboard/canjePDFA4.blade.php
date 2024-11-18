@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Club de técnicos | {{ $canjeWithTecnico->idCanje }} | {{ $size }}</title>
+	<title>Club de Técnicos | {{ $canjeWithTecnico->idCanje }} | {{ $size }}</title>
 	<link rel="ico" href="{{ public_path('images/mainIcon.ico') }}" type="image/ico">
 	<link rel="stylesheet" href="{{ public_path('css/canjePDFA4.css') }}" type="text/css">
 </head>
@@ -14,11 +14,11 @@
 		<tbody>
 			<tr>
 				<td>
-					<img id="logoDimacof" src="{{ asset('images/logo_DIMACOF.png') }}" alt="logo_Dimacof.png">
+					<img id="logoDimacof" src="{{ public_path('images/logo_DIMACOF_recortado.png') }}" alt="logo_Dimacof.png">
 				</td>
 				<td>
 					<div class="infoDimacof-container">
-						<h2>DIMACOF</h2>
+						<h2>DISTRIBUIDORA MAT. CONST. Y FERRETERIA</h2>
 						<h3>RUC 20140231275</h3>
 						<h4>Av. Mariscal Castilla 2070, El Tambo, Huancayo - Junín</h4>
 					</div>

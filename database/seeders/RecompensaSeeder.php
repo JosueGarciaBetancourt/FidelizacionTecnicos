@@ -67,7 +67,7 @@ class RecompensaSeeder extends Seeder
             ],
             [
                 'tipoRecompensa' => 'Herramienta',
-                'descripcionRecompensa' => 'Palustre de 9225mmREF.: BK1040 Marca: BRICKELL',
+                'descripcionRecompensa' => 'Palustre de 9225mm REF.: BK1040 Marca: BRICKELL',
                 'costoPuntos_Recompensa' => 50,
                 'stock_Recompensa' => 15,
             ],

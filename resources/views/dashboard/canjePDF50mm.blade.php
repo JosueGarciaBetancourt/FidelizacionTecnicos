@@ -10,9 +10,9 @@
 </head>
 
 <body>
-	<img id="logoDimacof" src="{{ asset('images/logo_DIMACOF.png') }}" alt="logo_Dimacof.png">
+	<img id="logoDimacof" src="{{ public_path('images/logo_DIMACOF_recortado.png') }}" alt="logo_Dimacof.png">
 	<div class="infoDimacof-container">
-		<h2><strong>DIMACOF</strong></h2>
+		<h2><strong>DISTRIBUIDORA MAT. CONST. Y FERRETERIA</strong></h2>
 		<h3>RUC 20140231275</h3>
 		<h4>Av. Mariscal Castilla 2070, El Tambo, Huancayo - Junín</h4>
 	</div>
@@ -84,7 +84,7 @@
 		<table id="tblDetalleHistorialCanjePDF">
 			<thead>
 				<tr>
-					<th class="celda-centered" id="celdaDescripcionRecompensa">Descr.</th>
+					<th class="celda-centered" id="celdaDescripcionRecompensa">Tipo/Descr.</th>
 					<th class="celda-centered" id="celdaCantidadnRecompensa">Cant.</th>
 					<th class="celda-centered" id="celdaCostoPuntosRecompensa">Costo puntos</th>
 					<th class="celda-centered" id="celdaPuntosTotalesRecompensa">Subtotal</th>
@@ -93,7 +93,7 @@
 			<tbody>
 				@foreach ($canjesRecompensas as $canjRecom)
 					<tr>
-						<td class="celda-centered tdDescrRecompensa">{{ $canjRecom->descripcionRecompensa }}</td>
+						<td class="celda-centered tdDescrRecompensa">{{ $canjRecom->tipoRecompensa }}<br>{{ $canjRecom->descripcionRecompensa }}</td>
 						<td class="celda-centered">{{ $canjRecom->cantidad }}</td>
 						<td class="celda-centered">{{ $canjRecom->costoRecompensa }}</td>
 						<td class="celda-centered">{{ $canjRecom->puntosTotales }}</td>

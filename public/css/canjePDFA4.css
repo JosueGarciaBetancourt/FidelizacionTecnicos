@@ -33,9 +33,13 @@ h4 {
 }
 
 #logoDimacof {
-	margin-right: 2rem;
-	width: auto;
+	margin: 0 1.5rem 0 0;
+	width: 9rem;
 	height: auto;
+}
+
+.infoDimacof-container {
+	margin-right: 0.5rem;
 }
 
 .infoDimacof-container h2 {
