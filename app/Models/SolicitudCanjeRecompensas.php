@@ -12,19 +12,15 @@ class SolicitudCanjeRecompensas extends Model
     protected $table = 'SolicitudCanjeRecompensas';
 
     protected $fillable = [
-        'idCanje',
+        'idSolicitudCanje',
         'idRecompensa',
         'cantidad',
         'costoRecompensa',
     ];
 
-    public function canje()
+    // Relación con SolicitudesCanje
+    public function solicitud()
     {
-        return $this->belongsTo(SolicitudCanje::class, 'idCanje', 'idSolicitudCanje');
-    }
-
-    public function recompensa()
-    {
-        return $this->belongsTo(Recompensa::class, 'idRecompensa', 'idRecompensa');
+        return $this->belongsTo(SolicitudesCanje::class, 'idSolicitudCanje', 'idSolicitudCanje');
     }
 }
