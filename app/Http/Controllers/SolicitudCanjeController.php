@@ -2,85 +2,64 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SolicitudesCanje;
+use App\Models\SolicitudCanjeRecompensa;
 use Illuminate\Http\Request;
-use App\Models\SolicitudCanje;
-use App\Models\SolicitudCanjeRecompensas;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class SolicitudCanjeController extends Controller
 {
-    // Crear solicitud de canje
+    /**
+     * Crear una nueva solicitud de canje.
+     */
     public function crearSolicitud(Request $request)
     {
-        $request->validate([
-            'idTecnico' => 'required|string|exists:Tecnicos,idTecnico',
+        $validatedData = $request->validate([
             'idVentaIntermediada' => 'required|string|exists:VentasIntermediadas,idVentaIntermediada',
+            'idTecnico' => 'required|string|exists:Tecnicos,idTecnico',
             'recompensas' => 'required|array',
             'recompensas.*.idRecompensa' => 'required|string|exists:Recompensas,idRecompensa',
-            'recompensas.*.cantidad' => 'required|integer|min:1'
+            'recompensas.*.cantidad' => 'required|integer|min:1',
+            'recompensas.*.costoRecompensa' => 'required|numeric|min:0',
         ]);
 
         DB::beginTransaction();
 
         try {
+            // Generar un ID único para la solicitud
+            $idSolicitudCanje = 'SOLICANJ-' . str_pad(SolicitudesCanje::count() + 1, 5, '0', STR_PAD_LEFT);
+
             // Crear la solicitud de canje
-            $solicitud = SolicitudCanje::create([
-                'idTecnico' => $request->idTecnico,
-                'idVentaIntermediada' => $request->idVentaIntermediada,
-                'estado' => 'pendiente',
+            $solicitud = SolicitudesCanje::create([
+                'idSolicitudCanje' => $idSolicitudCanje,
+                'idVentaIntermediada' => $validatedData['idVentaIntermediada'],
+                'idTecnico' => $validatedData['idTecnico'],
+                'idEstadoSolicitudCanje' => 1, // Estado por defecto: Pendiente
             ]);
 
-            // Guardar cada recompensa en la tabla SolicitudCanjeRecompensas
-            foreach ($request->recompensas as $recompensa) {
-                SolicitudCanjeRecompensas::create([
-                    'idCanje' => $solicitud->idSolicitudCanje,
+            // Crear los registros en la tabla de recompensas asociadas
+            foreach ($validatedData['recompensas'] as $recompensa) {
+                SolicitudCanjeRecompensa::create([
+                    'idSolicitudCanje' => $idSolicitudCanje,
                     'idRecompensa' => $recompensa['idRecompensa'],
                     'cantidad' => $recompensa['cantidad'],
-                    'costoRecompensa' => $this->calcularCosto($recompensa['idRecompensa'], $recompensa['cantidad']),
+                    'costoRecompensa' => $recompensa['costoRecompensa'],
                 ]);
             }
 
             DB::commit();
 
-            return response()->json(['message' => 'Solicitud de canje creada con éxito', 'solicitud' => $solicitud], 201);
+            return response()->json([
+                'message' => 'Solicitud de canje creada exitosamente.',
+                'data' => $solicitud,
+            ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['message' => 'Error al crear la solicitud de canje', 'error' => $e->getMessage()], 500);
+            return response()->json([
+                'message' => 'Error al crear la solicitud de canje.',
+                'error' => $e->getMessage(),
+            ], 500);
         }
-    }
-
-
-    // Obtener solicitudes de canje para un técnico específico
-    public function obtenerSolicitudes($idTecnico)
-    {
-        $solicitudes = SolicitudCanje::with('recompensas')
-            ->where('idTecnico', $idTecnico)
-            ->get();
-
-        return response()->json($solicitudes);
-    }
-
-    // Actualizar estado de la solicitud de canje
-    public function actualizarEstado(Request $request, $idSolicitud)
-    {
-        $request->validate(['estado' => 'required|string|in:pendiente,aprobado,rechazado']);
-
-        $solicitud = SolicitudCanje::find($idSolicitud);
-        if (!$solicitud) {
-            return response()->json(['message' => 'Solicitud no encontrada'], 404);
-        }
-
-        $solicitud->estado = $request->estado;
-        $solicitud->save();
-
-        return response()->json(['message' => 'Estado de la solicitud actualizado', 'solicitud' => $solicitud]);
-    }
-
-    // Calcular el costo total de una recompensa (ejemplo simplificado)
-    private function calcularCosto($idRecompensa, $cantidad)
-    {
-        // Suponiendo que cada recompensa tiene un costo fijo en una tabla
-        $recompensa = DB::table('Recompensas')->where('idRecompensa', $idRecompensa)->first();
-        return $recompensa ? $recompensa->costo * $cantidad : 0;
     }
 }

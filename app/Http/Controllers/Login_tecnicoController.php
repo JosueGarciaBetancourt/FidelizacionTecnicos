@@ -126,13 +126,21 @@ class Login_tecnicoController extends Controller
 
     public function obtenerRecompensas()
     {
-        // Obtener todas las recompensas desde la tabla 'Recompensas'
+        // Obtener todas las recompensas con su tipo de recompensa desde la tabla 'Recompensas'
         $recompensas = DB::table('Recompensas')
-            ->select('idRecompensa', 'tipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa')
+            ->join('TiposRecompensas', 'Recompensas.idTipoRecompensa', '=', 'TiposRecompensas.idTipoRecompensa')
+            ->select(
+                'Recompensas.idRecompensa',
+                'TiposRecompensas.nombre_TipoRecompensa as tipoRecompensa', // Traemos el nombre del tipo de recompensa
+                'Recompensas.descripcionRecompensa',
+                'Recompensas.costoPuntos_Recompensa',
+                'Recompensas.stock_Recompensa' // Agregar el stock si es necesario
+            )
             ->get();
 
         return response()->json($recompensas);
     }
+
 
     public function changePassword(Request $request)
     {
