@@ -30,4 +30,9 @@ class Recompensa extends Model
     {
         return $this->hasMany(CanjeRecompensa::class, 'idRecompensa', 'idRecompensa'); 
     }
+
+    public function solicitudesCanjesRecompensas()
+    {
+        return $this->hasMany(SolicitudCanjeRecompensa::class, 'idRecompensa', 'idRecompensa'); 
+    }
 }

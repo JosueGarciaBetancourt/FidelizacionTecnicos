@@ -9,7 +9,7 @@ class SolicitudesCanje extends Model
 {
     use HasFactory;
 
-    protected $table = 'SolicitudesCanje';
+    protected $table = 'SolicitudesCanjes';
     protected $primaryKey = 'idSolicitudCanje';
     public $incrementing = false; // El ID no es autoincremental
 
@@ -17,19 +17,34 @@ class SolicitudesCanje extends Model
         'idSolicitudCanje',
         'idVentaIntermediada',
         'idTecnico',
-        'idEstadoCanje',
-        'fechaSolicitud',
+        'idEstadoSolicitudCanje',
+        'idUser',
+        'fecha_SolicitudCanje',
+        'comentario_SolicitudCanje'
     ];
 
-    // Relación con EstadosCanje
-    public function estado()
+    public function user() {
+        return $this->belongsTo('App\Models\User');
+    }
+    
+    public function estadosSolicitudCanje()
     {
-        return $this->belongsTo(EstadosCanje::class, 'idEstadoCanje', 'idEstadoCanje');
+        return $this->belongsTo(EstadosSolicitudCanje::class, 'idEstadoSolicitudCanje', 'idEstadoSolicitudCanje');
+    }
+
+    public function tecnicos()
+    {
+        return $this->belongsTo(Tecnico::class, 'idTecnico', 'idTecnico');
+    }
+
+    public function ventaIntermediada()
+    {
+        return $this->belongsTo(VentaIntermediada::class, 'idVentaIntermediada', 'idVentaIntermediada');
     }
 
     // Relación con SolicitudCanjeRecompensas
-    public function recompensas()
+    public function solicitudCanjeRecompensa()
     {
-        return $this->hasMany(SolicitudCanjeRecompensas::class, 'idSolicitudCanje', 'idSolicitudCanje');
+        return $this->hasMany(SolicitudCanjeRecompensa::class, 'idSolicitudCanje', 'idSolicitudCanje');
     }
 }

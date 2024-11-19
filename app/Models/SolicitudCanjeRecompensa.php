@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SolicitudCanjeRecompensas extends Model
+class SolicitudCanjeRecompensa extends Model
 {
     use HasFactory;
 
-    protected $table = 'SolicitudCanjeRecompensas';
+    protected $table = 'SolicitudesCanjesRecompensas';
 
     protected $fillable = [
         'idSolicitudCanje',
@@ -18,9 +18,13 @@ class SolicitudCanjeRecompensas extends Model
         'costoRecompensa',
     ];
 
-    // Relación con SolicitudesCanje
-    public function solicitud()
+    public function solicitudCanje()
     {
         return $this->belongsTo(SolicitudesCanje::class, 'idSolicitudCanje', 'idSolicitudCanje');
+    }
+
+    public function recompensas()
+    {
+        return $this->belongsTo(Recompensa::class, 'idRecompensa', 'idRecompensa');
     }
 }

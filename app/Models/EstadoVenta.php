@@ -20,7 +20,7 @@ class EstadoVenta extends Model
         'nombre_EstadoVenta',
     ];
 
-    public function ventasIntermediadas() {
-        return $this->hasMany(VentaIntermediada::class, 'idEstadoVenta', 'idEstadoVentas');
+    public function solicitudesCanjes() {
+        return $this->hasMany(SolicitudesCanje::class, 'idEstadoVenta', 'idEstadoVentas');
     }
 }

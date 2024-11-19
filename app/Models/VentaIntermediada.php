@@ -48,4 +48,9 @@ class VentaIntermediada extends Model
     {
         return $this->hasMany(Canje::class, 'idVentaIntermediada', 'idVentaIntermediada'); 
     }
+
+    public function solicitudesCanje()
+    {
+        return $this->hasMany(SolicitudesCanje::class, 'idVentaIntermediada', 'idVentaIntermediada'); 
+    }
 }
