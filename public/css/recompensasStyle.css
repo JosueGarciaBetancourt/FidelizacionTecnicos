@@ -6,6 +6,12 @@
 	height: auto;
 }
 
+h3 {
+    color: var(--clr-primary-variant);
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
 .firstRow{
     display: flex;
 	flex-direction: row;
@@ -17,6 +23,16 @@
 }
 
 .secondRow{
+    display: flex;
+	flex-direction: row;
+    width: 100%;
+    height: 5rem;
+    gap: 1.5rem;
+    grid-template-columns: 30rem 10rem;
+    align-items: center;
+}
+
+.thirdRow {
     margin-top: 1rem;
     width: auto;
     height: 5%;

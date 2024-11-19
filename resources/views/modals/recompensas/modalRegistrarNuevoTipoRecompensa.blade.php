@@ -1,9 +1,9 @@
-<div class="modal first"  id="modalRegistrarNuevaRecompensa">
-    <div class="modal-dialog" id="modalRegistrarNuevaRecompensa-dialog">
-        <div class="modal-content" id="modalRegistrarNuevaRecompensa-content">
+<div class="modal first"  id="modalRegistrarNuevoTipoRecompensa">
+    <div class="modal-dialog" id="modalRegistrarNuevoTipoRecompensa-dialog">
+        <div class="modal-content" id="modalRegistrarNuevoTipoRecompensa-content">
             <div class="modal-header">
-                <h5 class="modal-title">Crear nueva recompensa</h5>
-                <button class="close" onclick="closeModal('modalRegistrarNuevaRecompensa')">&times;</button>
+                <h5 class="modal-title">Crear nuevo tipo de recompensa</h5>
+                <button class="close" onclick="closeModal('modalRegistrarNuevoTipoRecompensa')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyRegistrarNuevaRecompensa">
                 <form id="formRegistrarNuevaRecompensa" action="{{ route('recompensas.store') }}" method="POST">
@@ -49,9 +49,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal('modalRegistrarNuevaRecompensa')">Cancelar</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('modalRegistrarNuevoTipoRecompensa')">Cancelar</button>
                 <button type="button" class="btn btn-primary" 
-                        onclick="guardarModalRegistrarNuevaRecompensa('modalRegistrarNuevaRecompensa', 'formRegistrarNuevaRecompensa')">Guardar</button>
+                        onclick="guardarmodalRegistrarNuevoTipoRecompensa('modalRegistrarNuevoTipoRecompensa', 'formRegistrarNuevaRecompensa')">Guardar</button>
             </div>
         </div>
     </div>

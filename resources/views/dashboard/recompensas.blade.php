@@ -12,9 +12,10 @@
 
     @section('main-content')
         <div class="recompensasContainer">
+            <h3>Recompensa</h3>
             <div class="firstRow">
                 <x-btn-create-item onclick="openModal('modalRegistrarNuevaRecompensa')"> 
-                    Registrar nueva recompensa
+                    Nueva recompensa
                 </x-btn-create-item>
                 @include('modals.recompensas.modalRegistrarNuevaRecompensa')
 
@@ -26,6 +27,20 @@
 
                 <x-btn-recover-item onclick="openModal('modalRestaurarRecompensa')"> Restaurar </x-btn-delete-item>
                 @include('modals.recompensas.modalRestaurarRecompensa')
+            </div>
+
+            <h3>Tipo recompensa</h3>
+            <div class="secondRow">
+                <x-btn-create-item onclick="openModal('modalRegistrarNuevoTipoRecompensa')"> 
+                    Nuevo tipo de recompensa
+                </x-btn-create-item>
+                @include('modals.recompensas.modalRegistrarNuevoTipoRecompensa')
+
+                <x-btn-edit-item onclick="openModal('modalEditarTipoRecompensa')"> Editar </x-btn-edit-item>
+                @include('modals.recompensas.modalEditarTipoRecompensa')
+
+                <x-btn-delete-item onclick="openModal('modalEliminarTipoRecompensa')"> Eliminar </x-btn-delete-item>
+                @include('modals.recompensas.modalEliminarTipoRecompensa')
             </div>
             
             <x-modalSuccessAction 
@@ -48,7 +63,7 @@
                 :message="'Recompensa restaurada correctamente'"
             />
 
-            <div class="secondRow">
+            <div class="thirdRow">
                 <table id="tblRecompensas">
                     <thead>
                         <tr>
