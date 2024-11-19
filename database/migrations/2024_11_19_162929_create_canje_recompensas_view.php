@@ -15,7 +15,7 @@ class CreateCanjeRecompensasView extends Migration
             SELECT 
                 CanjesRecompensas.idCanje,
                 CanjesRecompensas.idRecompensa,
-                Recompensas.tipoRecompensa,
+                Recompensas.idTipoRecompensa,
                 Recompensas.descripcionRecompensa,
                 CanjesRecompensas.cantidad,
                 CanjesRecompensas.costoRecompensa,

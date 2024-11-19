@@ -5,6 +5,7 @@ let searchEditMessageError = document.getElementById('searchEditOficioError');
 let generalEditOficioError = document.getElementById('generalEditOficioError');
 
 let formEditOficioArray = [
+    codigoOficioInputEdit,
     descripcionOficioInputEdit,
 ];
 

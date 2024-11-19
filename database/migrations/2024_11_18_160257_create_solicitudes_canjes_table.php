@@ -15,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('idEstadoSolicitudCanje')->default(1); // Estado de la solicitud con referencia a EstadosCanje
             $table->unsignedBigInteger('idUser')->nullable(); // Solo se rellena cuando el estado es 'Aprobado' o 'Rechazado'
             $table->timestamp('fecha_SolicitudCanje')->useCurrent(); // Fecha de creación de la solicitud
-            $table->text('comentario_SolicitudCanje')->nullable(); // Inicialmente vacío, cuando un usuario apruebe o desapruebe se realiza un comentario (opcional).
+            $table->text('comentario_SolicitudCanje')->nullable(); // Inicialmente vacío, cuando un usuario aprueba o rechaza se realiza un comentario (opcional).
            
             $table->foreign('idVentaIntermediada')->references('idVentaIntermediada')->on('VentasIntermediadas');
             $table->foreign('idTecnico')->references('idTecnico')->on('Tecnicos');

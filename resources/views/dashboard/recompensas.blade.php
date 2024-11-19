@@ -71,8 +71,8 @@
                             <td class="celda-centered">{{ $contador++ }}</td> 
                             <td>{{ $recompensa->idRecompensa }}</td>
                             <td class="celda__tipoRecompensa">
-                                <span class="tipoRecompensa__span-{{strtolower(str_replace(' ', '-', $recompensa->tipoRecompensa))}}">
-                                    {{ $recompensa->tipoRecompensa }}
+                                <span class="tipoRecompensa__span-{{strtolower(str_replace(' ', '-', $recompensa->idTipoRecompensa))}}">
+                                    {{ $recompensa->nombre_TipoRecompensa }}
                                 </span>
                             </td>
                             <td>{{ $recompensa->descripcionRecompensa }}</td>

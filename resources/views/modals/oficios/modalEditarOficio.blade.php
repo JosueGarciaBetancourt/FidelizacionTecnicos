@@ -13,7 +13,7 @@
                     @php
                         $oficiosDB = $oficios;
                         $idSearchMessageError = 'searchEditOficioError';
-                        $idCodigoOficioInput = 'codigoOficioInput';
+                        $idCodigoOficioInput = 'codigoOficioInputEdit';
                         $idOptions = 'oficioEditOptions';
                         $idDescripcionOficioInputEdit = 'descripcionOficioInputEdit';
                         $someHiddenIdInputsArray = ['idNumberOficio'];
@@ -22,7 +22,7 @@
                         $searchDBField = 'idOficio';
                         $dbFieldsNameArray = ['nombre_Oficio', 'descripcion_Oficio'];
                     @endphp
-                    <input type="text" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idOficio">
+                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idOficio">
                    
                     <div class="form-group start paddingY" id="idH5EditOficioModalContainer">
                         <h5> *Solo puede editar la descripción de un oficio previamente creado.</h5>

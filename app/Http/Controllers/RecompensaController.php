@@ -48,11 +48,16 @@ class RecompensaController extends Controller
         $idNuevaRecompensa = $this->generarIdRecompensa();
         
         // Obtener todas las recompensas activas
-        $recompensas = Recompensa::all();
-        
-        // Obtener todas las recompensas no activas
-        $recompensasEliminadas = Recompensa::onlyTrashed()->get();
+        $recompensas = Recompensa::query()
+                                ->join('TiposRecompensas', 'Recompensas.idTipoRecompensa', '=', 'TiposRecompensas.idTipoRecompensa')
+                                ->select(['Recompensas.*', 'TiposRecompensas.nombre_TipoRecompensa']) // Selecciona campos relevantes
+                                ->get();
 
+        // Obtener todas las recompensas no activas (soft deleted) con sus tipos
+        $recompensasEliminadas = Recompensa::onlyTrashed()
+                                            ->join('TiposRecompensas', 'Recompensas.idTipoRecompensa', '=', 'TiposRecompensas.idTipoRecompensa')
+                                            ->select(['Recompensas.*', 'TiposRecompensas.nombre_TipoRecompensa']) // Selecciona campos relevantes
+                                            ->get();
         // Obtener todas las recompensas excepto la primera
         $recompensasWithoutFirst = $recompensas->skip(1);
         

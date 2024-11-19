@@ -53,7 +53,7 @@
                         <tr>
                             <th class="celda-centered">#</th>
                             <th>Código</th>
-                            <th>Nombre</th>
+                            <th>Nombre de oficio</th>
                             <th>Descripción</th>
                         </tr>
                     </thead>

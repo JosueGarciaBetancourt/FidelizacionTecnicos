@@ -20,7 +20,7 @@ class Recompensa extends Model
 
     protected $fillable = [
         'idRecompensa',
-        'tipoRecompensa',
+        'idTipoRecompensa',
         'descripcionRecompensa',
         'costoPuntos_Recompensa',
         'stock_Recompensa',
@@ -34,5 +34,10 @@ class Recompensa extends Model
     public function solicitudesCanjesRecompensas()
     {
         return $this->hasMany(SolicitudCanjeRecompensa::class, 'idRecompensa', 'idRecompensa'); 
+    }
+
+    public function tipoRecompensa()
+    {
+        return $this->belongsTo(TipoRecompensa::class, 'idTipoRecompensa', 'idTipoRecompensa');
     }
 }
