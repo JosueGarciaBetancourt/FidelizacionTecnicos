@@ -20,9 +20,9 @@
                         $otherInputsArray = [$idDescripcionOficioInputEdit];
                         $idGeneralMessageError = 'generalEditOficioError';
                         $searchDBField = 'idOficio';
-                        $dbFieldsNameArray = ['nombre_Oficio', 'descripcion_Oficio'];
+                        $dbFieldsNameArray = ['descripcion_Oficio'];
                     @endphp
-                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idOficio">
+                    <input type="text" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idOficio">
                    
                     <div class="form-group start paddingY" id="idH5EditOficioModalContainer">
                         <h5> *Solo puede editar la descripción de un oficio previamente creado.</h5>
@@ -33,7 +33,7 @@
                         <div class="input-select" id="oficioEditSelect">
                             <input class="input-select-item" type="text" id='{{ $idCodigoOficioInput }}' maxlength="100" placeholder="Código - Nombre" autocomplete="off"
                                 oninput="filterOptions('{{ $idCodigoOficioInput }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idSearchMessageError }}', 
+                                        validateValueOnRealTimeIDInteger(this, '{{ $idOptions }}', '{{ $idSearchMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
                                         {{ json_encode($oficiosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
 
@@ -55,7 +55,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                        <span class="noInline-alert-message" id='{{ $idSearchMessageError }}'>No se encontró la oficio buscada</span>      
+                        <span class="noInline-alert-message" id='{{ $idSearchMessageError }}'>No se encontró el oficio buscado</span>      
                     </div>
                    
                     <div class="form-group gap">

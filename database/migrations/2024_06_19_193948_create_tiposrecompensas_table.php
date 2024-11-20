@@ -10,9 +10,8 @@ return new class extends Migration
     {
         Schema::create('TiposRecompensas', function (Blueprint $table) {
             $table->id('idTipoRecompensa');
-            $table->string('nombre_TipoRecompensa', 20);
+            $table->string('nombre_TipoRecompensa', 50);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

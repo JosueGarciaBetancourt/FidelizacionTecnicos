@@ -58,6 +58,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/modal-deleteRecompensa', [RecompensaController::class, 'delete'])->name('recompensas.delete');
     Route::post('/modal-restoreRecompensa', [RecompensaController::class, 'restaurar'])->name('recompensas.restore');
 
+    // Tipos recompensas
+    Route::post('/modal-storeTipoRecompensa', [RecompensaController::class, 'storeTipoRecompensa'])->name('tiposRecompensas.store');  
+    Route::put('/modal-updateTipoRecompensa', [RecompensaController::class, 'updateTipoRecompensa'])->name('tiposRecompensas.update'); 
+    Route::delete('/modal-deleteTipoRecompensa', [RecompensaController::class, 'deleteTipoRecompensa'])->name('tiposRecompensas.delete');
+
     // Técnicos
     Route::get('/dashboard-tecnicos', [TecnicoController::class, 'create'])->name('tecnicos.create');  
     Route::post('/modal-storeTecnico', [TecnicoController::class, 'store'])->name('tecnicos.store');  

@@ -3,13 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class TipoRecompensa extends Model
 {
-    use HasFactory, SoftDeletes;
-    
     protected $table = "TiposRecompensas";
 
     protected $primaryKey = 'idTipoRecompensa';
@@ -24,5 +20,9 @@ class TipoRecompensa extends Model
     public function recompensas()
     {
         return $this->hasMany(Recompensa::class, 'idTipoRecompensa', 'idTipoRecompensa'); 
+    }
+
+    public function getCodigoTipoRecompensaAttribute() { //get{NombreDelCampo}Attribute
+        return 'TIPO-' . str_pad($this->idTipoRecompensa, 2, '0', STR_PAD_LEFT);
     }
 }

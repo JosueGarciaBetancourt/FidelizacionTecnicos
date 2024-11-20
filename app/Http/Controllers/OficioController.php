@@ -26,6 +26,11 @@ class OficioController extends Controller
         /* foreach ($oficios as $oficio) {
             dd($oficio->codigoOficio); 
         }*/
+        
+        foreach ($oficios as $oficio) {
+            $oficio->codigoOficioNombre = $oficio->codigoOficio . " | ". $oficio->nombre_Oficio; //Ejemplo: OFI-02 | Carpintero
+        }
+
         $nuevoCodigoOficio = $this->returnNuevoCodigoOficio();
         $oficiosEliminados = Oficio::onlyTrashed()->get();
  
@@ -39,8 +44,8 @@ class OficioController extends Controller
                 'descripcion_Oficio' => 'required|string',
             ]);
             DB::beginTransaction();
-            $oficio = Oficio::create($validatedData);
-            //dd($oficio);
+            $oficio = new Oficio($validatedData);
+            $oficio->save(); // Guarda solo cuando estés seguro
             $messageStore = 'Recompensa guardada correctamente';
             DB::commit();
             return redirect()->route('oficios.create')->with('successOficioStore', $messageStore);

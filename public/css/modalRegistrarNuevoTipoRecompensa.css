@@ -1,0 +1,29 @@
+#modalRegistrarNuevoTipoRecompensa-dialog {
+	max-width: 500px; 
+}
+
+#idModalBodyRegistrarNuevoTipoRecompensa {
+    padding: 10px 0 0 0;
+}
+
+#formRegistrarNuevoTipoRecompensa {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+}
+
+#modalRegistrarNuevoTipoRecompensa .modal-dialog {
+    transform: translateY(0); /* Inicialmente desplazado hacia arriba */
+}
+
+#modalRegistrarNuevoTipoRecompensa .modal-dialog.open {
+    transform: translateY(-3.5rem);
+}
+
+#codigoTipoRecompensaInputRegistrar {
+	width: 5rem;
+}
+
+#nombreTipoRecompensaInputRegistrar {
+	width: 15rem;
+}

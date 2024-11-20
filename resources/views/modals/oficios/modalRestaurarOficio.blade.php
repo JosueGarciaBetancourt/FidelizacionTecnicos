@@ -32,7 +32,7 @@
                         <div class="input-select" id="OficioRestaurarSelect">
                             <input class="input-select-item" type="text" id='{{ $codigoInputOficioRestaurar }}' maxlength="100" placeholder="Código | Nombre" autocomplete="off"
                                 oninput="filterOptions('{{ $codigoInputOficioRestaurar }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
+                                        validateValueOnRealTimeIDInteger(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
                                         {{ json_encode($someHiddencodigoInputOficioRestaurarsArray) }}, {{ json_encode($otherInputsArray) }}, 
                                         {{ json_encode($oficiosEliminadosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
 

@@ -7,26 +7,28 @@
 }
 
 h3 {
-    color: var(--clr-primary-variant);
+    color: var(--clr-dark);
     font-size: 1.2rem;
     font-weight: bold;
 }
 
-.firstRow{
+.firstRowRecompensas {
     display: flex;
 	flex-direction: row;
     width: 100%;
-    height: 5rem;
+    height: auto;
+    margin: 0.1rem 0 1rem 0;
     gap: 1.5rem;
     grid-template-columns: 30rem 10rem;
     align-items: center;
 }
 
-.secondRow{
+.secondRowRecompensas {
     display: flex;
 	flex-direction: row;
     width: 100%;
-    height: 5rem;
+    height: auto;
+    margin-top: 0.1rem;
     gap: 1.5rem;
     grid-template-columns: 30rem 10rem;
     align-items: center;

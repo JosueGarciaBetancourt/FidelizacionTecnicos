@@ -334,6 +334,11 @@ function validateValueOnRealTime(input, idOptions, idMessageError, someHiddenIdI
                                 otherInputsArray = null, itemsDB = null, searchField = null,
                                 dbFieldsNameArray = null) {
     const value = input.value;
+
+    if (!value) {
+        return; 
+    }
+
     const messageError = document.getElementById(idMessageError);
    
     // Recorrer el array y asignar valor vacío a cada input
@@ -358,10 +363,10 @@ function validateValueOnRealTime(input, idOptions, idMessageError, someHiddenIdI
     const clearInputs = () => {
         clearHiddenInputs();
         if (otherInputsArray) {
-            otherInputsArray.forEach(idOtherInput => {
-                const otherInputElement = document.getElementById(idOtherInput);
-                if (otherInputElement) {
-                    otherInputElement.value = ""; 
+            otherInputsArray.forEach(idVisibleInput => {
+                const visibleInputElement = document.getElementById(idVisibleInput);
+                if (visibleInputElement) {
+                    visibleInputElement.value = ""; 
                 }
             });
         }
@@ -391,12 +396,12 @@ function validateValueOnRealTime(input, idOptions, idMessageError, someHiddenIdI
             //console.log(itemArraySearched);
 
             if (itemArraySearched) {
-                otherInputsArray.forEach((idOtherInput, index) => {
-                    const otherInputElement = document.getElementById(idOtherInput);
-                    if (otherInputElement) {
+                otherInputsArray.forEach((idVisibleInput, index) => {
+                    const visibleInputElement = document.getElementById(idVisibleInput);
+                    if (visibleInputElement) {
                         // Usar el índice para acceder al nombre del campo en dbFieldsNameArray
                         const dbField = dbFieldsNameArray[index];
-                        otherInputElement.value = itemArraySearched[dbField] || ""; 
+                        visibleInputElement.value = itemArraySearched[dbField] || ""; 
                     }
                 });
             }
@@ -413,6 +418,103 @@ function returnItemDBValueWithRequestedID(searchField, searchValue, itemsDB) {
     }
 
     return null; // Retornar null si no se encuentra el objeto
+}
+
+// string id debe tener el formato: CODIGO-001
+function returnIDIntegerByStringID(idString) {
+    console.log(idString);
+    // Validar el formato y extraer el número después del guion
+    const match = idString.match(/-\d+$/);
+    if (!match) {
+        throw new Error("El formato del ID no es válido. Debe contener un código seguido de un número (ejemplo: OFI-01).");
+    }
+
+    // Convertir la parte numérica en un entero
+    const numberID = parseInt(match[0].replace('-', ''), 10);
+    return numberID;
+}
+
+function validateValueOnRealTimeIDInteger(input, idOptions, idMessageError, someHiddenIdInputsArray, otherInputsArray = null, itemsDB = null, 
+                                            searchField = null, dbFieldsNameArray = null) {
+    const value = input.value;
+    const messageError = document.getElementById(idMessageError);
+    const clearHiddenInputs = () => {
+        someHiddenIdInputsArray.forEach(idInput => {
+            const inputElement = document.getElementById(idInput);
+            if (inputElement) {
+                inputElement.value = ""; // Asignar valor vacío
+            }
+        });
+    };
+    const clearInputs = () => {
+        clearHiddenInputs();
+        if (otherInputsArray) {
+            otherInputsArray.forEach(idVisibleInput => {
+                const visibleInputElement = document.getElementById(idVisibleInput);
+                if (visibleInputElement) {
+                    visibleInputElement.value = ""; 
+                }
+            });
+        }
+    };
+
+    // VALIDACIONES
+
+    if (!value || value === "") {
+        clearInputs();
+        messageError.classList.remove('shown');
+        return; 
+    }
+
+    // Obtener todos los valores del item
+    const allItems = getAllLiText(idOptions);
+
+    // Comparar el valor ingresado con la lista de items
+    const itemEncontrado = allItems.includes(value);
+    
+    if (!itemEncontrado) {
+        clearInputs();
+        messageError.classList.add('shown'); 
+        return; 
+    }
+
+    messageError.classList.remove('shown');
+
+    // Dividir el valor en partes (id y nombre)
+    var [idString, nombre] = ["",""];
+
+    if (value.includes("|")) {
+        [idString, nombre] = value.split(' | ');
+    } else {
+        [idString, nombre] = [value,""];
+    }
+
+    const idInteger = returnIDIntegerByStringID(idString);   
+
+    // Actualizar inputs ocultos
+    if (idInteger && someHiddenIdInputsArray) {
+        document.getElementById(someHiddenIdInputsArray[0]).value = idInteger;
+        if (nombre && someHiddenIdInputsArray.length === 2) {
+            document.getElementById(someHiddenIdInputsArray[1]).value = nombre;
+        }
+    }
+
+    // Rellenar inputs visibles si se requiere
+    if (otherInputsArray && itemsDB && searchField) {
+        const searchValue = idInteger;
+        const itemArraySearched = returnItemDBValueWithRequestedID(searchField, searchValue, itemsDB);
+
+        if (itemArraySearched) {
+            otherInputsArray.forEach((idVisibleInput, index) => {
+                const visibleInputElement = document.getElementById(idVisibleInput);
+                if (visibleInputElement) {
+                    // Usar el índice para acceder al nombre del campo en dbFieldsNameArray
+                    const dbField = dbFieldsNameArray[index];
+                    visibleInputElement.value = itemArraySearched[dbField] || ""; 
+                }
+            });
+        }
+    }
 }
 
 // Función para enviar el mensaje de error al log de Laravel

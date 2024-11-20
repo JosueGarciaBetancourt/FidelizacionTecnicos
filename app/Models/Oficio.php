@@ -25,7 +25,7 @@ class Oficio extends Model
         return $this->hasMany(TecnicoOficio::class, 'idOficio', 'idOficio');
     }
 
-    public function getCodigoOficioAttribute() {
+    public function getCodigoOficioAttribute() { //get{NombreDelCampo}Attribute
         return 'OFI-' . str_pad($this->idOficio, 2, '0', STR_PAD_LEFT);
     }
 }

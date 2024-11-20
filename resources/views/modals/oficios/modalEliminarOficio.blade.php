@@ -20,7 +20,7 @@
                         $someHiddenIdInputsArray = ['idDeleteOficioInput'];
                         $otherInputsArray = [$idDescripcionOficioInputDelete];
                         $searchDBField = 'idOficio';
-                        $dbFieldsNameArray = ['nombre_Oficio', 'descripcion_Oficio'];
+                        $dbFieldsNameArray = ['descripcion_Oficio'];
                     @endphp
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idOficio">
                    
@@ -33,7 +33,7 @@
                         <div class="input-select" id="OficioDeleteSelect">
                             <input class="input-select-item" type="text" id='{{ $idCodigoOficioInput }}' maxlength="100" placeholder="Código | Descripción" autocomplete="off"
                                 oninput="filterOptions('{{ $idCodigoOficioInput }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
+                                        validateValueOnRealTimeIDInteger(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
                                         {{ json_encode($oficiosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
 

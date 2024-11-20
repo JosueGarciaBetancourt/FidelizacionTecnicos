@@ -1,0 +1,20 @@
+#modalEliminarRecompensa-dialog {
+	max-width: 700px; 
+}
+
+#recompensaInputDelete {
+	width: 30rem;
+}
+
+#idModalBodyEliminarRecompensa {
+	padding: 0;
+}
+
+#idH5DeleteRecompensaModalContainer > h5{
+	font-size: 1rem;
+	color: #555;
+}
+
+#costoPuntosInputDelete {
+	background-color: #fff;
+}
