@@ -24,7 +24,5 @@ Route::get('/user', function (Request $request) {
     Route::get('/oficiosTecnicos', [Login_tecnicoController::class, 'getAllFullModelsTecnicos']);
 
     //RUTAS SOLICITUDES
-    Route::post('/solicitudes-canje', [SolicitudCanjeController::class, 'crearSolicitud']);
-    Route::get('/solicitudes-canje/{idTecnico}', [SolicitudCanjeController::class, 'obtenerSolicitudes']);
-    Route::put('/solicitudes-canje/{idSolicitud}', [SolicitudCanjeController::class, 'actualizarEstado']);
+    Route::post('/solicitudes/canje', [SolicitudCanjeController::class, 'crearSolicitud']);
 
