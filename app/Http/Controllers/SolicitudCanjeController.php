@@ -62,4 +62,6 @@ class SolicitudCanjeController extends Controller
             ], 500);
         }
     }
+
+    
 }

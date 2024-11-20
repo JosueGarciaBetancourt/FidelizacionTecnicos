@@ -17,6 +17,7 @@ use App\Http\Controllers\RecompensaController;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\CanjeRecompensaController;
 use App\Http\Controllers\VentaIntermediadaController;
+use App\Models\SolicitudesCanje;
 
 class CanjeController extends Controller
 {
@@ -283,8 +284,18 @@ class CanjeController extends Controller
     }
     */
 
-    public function solicitudesApp() {
-        return view('dashboard.solicitudesAppCanjes');
+    public function solicitudesApp()
+    {
+        // Obtiene las solicitudes de canje con las relaciones necesarias
+        $solicitudesCanje = SolicitudesCanje::with([
+            'tecnicos',                       // Relación con Técnico
+            'estadosSolicitudCanje',          // Relación con el estado de la solicitud
+            'ventaIntermediada',              // Relación con la venta intermediada
+            'solicitudCanjeRecompensa.recompensas', // Relación con las recompensas
+        ])->get();
+
+        // Renderiza la vista con los datos
+        return view('dashboard.solicitudesAppCanjes', compact('solicitudesCanje'));
     }
 
     public function getCanjeDataPDFByIdCanje($idCanje) {
@@ -350,4 +361,6 @@ class CanjeController extends Controller
             dd($e->getMessage());
         }
     }
+
+    
 }
