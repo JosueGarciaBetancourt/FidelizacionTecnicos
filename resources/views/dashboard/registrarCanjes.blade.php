@@ -139,7 +139,7 @@
 						$idRecompensaInput = 'recompensasCanjesInput';
 						$idRecompensaOptions = 'recompensaOptions';
 						$idRecompensaMessageError = 'messageErrorRecompensaCanjes';
-						$recompensasDB = $RecompensasWithoutEfectivo;
+						$recompensasDB = $recompensas;
 					@endphp
 					<div class="input-select" id="recompensaCanjesSelect">
 						<div class="tooltip-container"> 
@@ -155,7 +155,7 @@
 									$pointSufix = ($recompensa->costoPuntos_Recompensa == 1) ? " punto" : " puntos";
 									$value = implode(" | ", [
 										$recompensa->idRecompensa,
-										$recompensa->tipoRecompensa,
+										$recompensa->nombre_TipoRecompensa,
 										$recompensa->descripcionRecompensa,
 										$recompensa->costoPuntos_Recompensa . $pointSufix,
 										$recompensa->stock_Recompensa . " unid. stock",

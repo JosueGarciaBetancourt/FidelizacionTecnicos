@@ -23,11 +23,6 @@ return new class extends Migration
             $table->foreign('idVentaIntermediada')->references('idVentaIntermediada')->on('VentasIntermediadas');
             $table->foreign('idUser')->references('id')->on('users');
 
-            $table->json('recompensas_Canje')->nullable(); /*
-                                                        {"idRecompensa": "RECOM-001", "cantidad": 2},
-                                                        {"idRecompensa": "RECOM-002", "cantidad": 5},
-                                                        {"idRecompensa": "RECOM-003", "cantidad": 1}
-                                                     */
             $table->timestamps();
         });
     }

@@ -41,8 +41,13 @@ class CanjeController extends Controller
     {
         $tecnicos = Tecnico::all();
         $ventas = VentaIntermediada::all();
-        // Obtener todas las recompensas en una sola consulta
-        $recompensas = Recompensa::all();
+        // Obtener todas las recompensas activas (Inicialmente "RECOM-000, Efectivo" está inactivo)
+        $recompensas = Recompensa::query()
+                                ->join('TiposRecompensas', 'Recompensas.idTipoRecompensa', '=', 'TiposRecompensas.idTipoRecompensa')
+                                ->select(['Recompensas.*', 'TiposRecompensas.nombre_TipoRecompensa']) // Selecciona campos relevantes
+                                ->whereNull('Recompensas.deleted_at')
+                                ->orderBy('Recompensas.idRecompensa', 'ASC') 
+                                ->get();
 
         // Obtener la primera recompensa
         $recomEfectivo = $recompensas->first();
@@ -55,8 +60,7 @@ class CanjeController extends Controller
             $optionsNumComprobante[] = $venta->idVentaIntermediada;
         }
         
-        return view('dashboard.registrarCanjes', compact('tecnicos', 'ventas', 'optionsNumComprobante', 
-                                                'RecompensasWithoutEfectivo', 'recomEfectivo'));
+        return view('dashboard.registrarCanjes', compact('tecnicos', 'ventas', 'optionsNumComprobante', 'recompensas', 'recomEfectivo'));
     }
 
     public function store(Request $request) {
@@ -72,7 +76,7 @@ class CanjeController extends Controller
                 'puntosComprobante_Canje' => 'required|numeric|min:0',
                 'puntosCanjeados_Canje' => 'required|numeric|min:0',
                 'puntosRestantes_Canje' => 'required|numeric|min:0',
-                'recompensas_Canje' => 'required',
+                'recompensas_Canje' =>  'required',
             ]);
 
             $idCanje = $this->generarIdCanje();
@@ -93,7 +97,6 @@ class CanjeController extends Controller
                 'puntosComprobante_Canje' => $validatedData['puntosComprobante_Canje'],
                 'puntosCanjeados_Canje' => $validatedData['puntosCanjeados_Canje'],
                 'puntosRestantes_Canje' => $validatedData['puntosRestantes_Canje'],
-                'recompensas_Canje' => $recompensasJson,
                 'idUser' => $idUser,
             ]);
 
@@ -101,14 +104,14 @@ class CanjeController extends Controller
             $nuevosPuntosActuales = $validatedData['puntosRestantes_Canje'];
             VentaIntermediadaController::updateVentaIntermediada($venta->idVentaIntermediada, $nuevosPuntosActuales);
 
-            // Actualizar en tabla Recompensas
-            $recompensasCanje = json_decode($canje->recompensas_Canje); // Decodificar JSON a un array PHP
+            // Actualizar la cantidad en la tabla Recompensas
+            $recompensasCanje = json_decode($recompensasJson); // Decodificar JSON a un array PHP
             foreach ($recompensasCanje as $recom) {
                 RecompensaController::updateStockByIdRecompensaCantidad($recom->idRecompensa, $recom->cantidad);
             }
 
             // Actualizar en tabla CanjesRecompensas
-            $recompensasCanje = json_decode($canje->recompensas_Canje); // Decodificar JSON a un array PHP
+            $recompensasCanje = json_decode($recompensasJson); // Decodificar JSON a un array PHP
             foreach ($recompensasCanje as $recom) {
                 CanjeRecompensaController::updateCanjeRecompensa($idCanje, $recom->idRecompensa, $recom->cantidad);
             }

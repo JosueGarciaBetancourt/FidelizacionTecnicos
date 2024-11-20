@@ -12,7 +12,7 @@
                     <!-- Variables globales -->
                     @php
                         $recompensasDB = $recompensas; // Solo recompensas activas
-                        $dbFieldsNameArray = ['tipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa'];
+                        $dbFieldsNameArray = ['nombre_TipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa'];
                         $idInput = 'recompensaInputDelete';
                         $idOptions = 'recompensaDeleteOptions';
                         $idMessageError = 'searchDeleteRecompensaError';
@@ -47,7 +47,7 @@
                                         $descripcionRecompensa = htmlspecialchars($recompensa->descripcionRecompensa, ENT_QUOTES, 'UTF-8');
                                         $costoPuntos = htmlspecialchars($recompensa->costoPuntos_Recompensa, ENT_QUOTES, 'UTF-8');
                                         $stockRecompensa = htmlspecialchars($recompensa->stock_Recompensa, ENT_QUOTES, 'UTF-8');
-                                        $tipoRecompensa = htmlspecialchars($recompensa->tipoRecompensa, ENT_QUOTES, 'UTF-8');
+                                        $tipoRecompensa = htmlspecialchars($recompensa->nombre_TipoRecompensa, ENT_QUOTES, 'UTF-8');
                                         $value = $idRecompensa . " | " . $descripcionRecompensa;
                                     @endphp
                             

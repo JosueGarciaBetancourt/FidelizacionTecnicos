@@ -160,14 +160,14 @@ class VentaIntermediadaController extends Controller
                 'EstadoVentas.nombre_EstadoVenta as nombre_EstadoVenta'
             ])
             ->get();
-    
+
         // Agrupar por idVentaIntermediada y seleccionar el más reciente
         $ventasAgrupadas = $ventasIntermediadas->groupBy('idVentaIntermediada')->map(function ($grupo) {
             return $grupo->sortByDesc('fechaHora_Canje')->first(); // Tomar la venta con la fechaHora_Canje más reciente
         });
     
         // Mapear los resultados para añadir campos adicionales
-        $ventas = $ventasAgrupadas->map(function ($venta) {
+        $ventasMapeadas = $ventasAgrupadas->map(function ($venta) {
             // Limpiar id
             $idLimpio = $this->limpiarIDs($venta->idVentaIntermediada);
     
@@ -184,6 +184,7 @@ class VentaIntermediadaController extends Controller
             // Crear un objeto para retorno
             $ventaObj = new \stdClass();
             $ventaObj->idVentaIntermediada = $idLimpio;
+            $ventaObj->idVentaIntermediadaFull = $venta->idVentaIntermediada;
             $ventaObj->tipoComprobante = $tipoComprobante;
             $ventaObj->idTecnico = $venta->idTecnico;
             $ventaObj->nombreTecnico = $venta->nombreTecnico;
@@ -196,13 +197,17 @@ class VentaIntermediadaController extends Controller
             $ventaObj->puntosGanados_VentaIntermediada = $venta->puntosGanados_VentaIntermediada;
             $ventaObj->idEstadoVenta = $venta->idEstadoVenta;
             $ventaObj->nombre_EstadoVenta = $venta->nombre_EstadoVenta;
+            $ventaObj->puntosActuales_VentaIntermediada = $venta->puntosActuales_VentaIntermediada;
             $ventaObj->puntosRestantes = $puntosRestantes;
             $ventaObj->diasTranscurridos = $diasTranscurridos;
             $ventaObj->fechaHoraCanje = $ultimoCanje;
     
             return $ventaObj;
         });
-    
+        
+        // Actualizar el estado de las ventas intermediadas
+        $ventas = $this->updateEstadosVentasIntermediadas($ventasMapeadas);       
+        
         // Cargar la vista con las ventas y los técnicos
         $tecnicoController = new TecnicoController();
         $tecnicos = $tecnicoController->returnModelsTecnicosWithOficios();
@@ -250,17 +255,33 @@ class VentaIntermediadaController extends Controller
         ]);
     }
 
+    public static function updateEstadosVentasIntermediadas($ventas) {
+        try {
+            foreach($ventas as $venta) {
+                $ventaModel = VentaIntermediada::findOrFail($venta->idVentaIntermediadaFull);
+                $idEstado = VentaIntermediadaController::returnStateIdVentaIntermediada($venta->idVentaIntermediadaFull, $venta->puntosActuales_VentaIntermediada);
+                $ventaModel->update([
+                    'idEstadoVenta' => $idEstado,
+                ]);
+            }
+        } catch (\Exception $e) { // Corrección del error y tipo específico de excepción
+            dd($e->getMessage()); // Muestra el mensaje de error en caso de falla
+        }
+
+        return $ventas;
+    }
+
     public static function returnStateIdVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales) {
         $venta = VentaIntermediada::findOrFail($idVentaIntermediada);
         $diasTranscurridos = Controller::returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
 
         // Validar venta con estado Tiempo agotado
-        if ($diasTranscurridos > 90 && $nuevosPuntosActuales != 0) {
+        if ($diasTranscurridos > env('MAXDAYS_CANJE') && $nuevosPuntosActuales != 0) {
             return 4; 
         }
 
         // Validar venta con estado Redimido (completo)
-        if ($nuevosPuntosActuales == 0 && $diasTranscurridos <= 90) {
+        if ($nuevosPuntosActuales == 0 && $diasTranscurridos <= env('MAXDAYS_CANJE')) {
             return 3;
         }
 

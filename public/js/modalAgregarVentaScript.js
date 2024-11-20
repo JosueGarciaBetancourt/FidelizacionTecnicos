@@ -353,7 +353,7 @@ function validateManualDateInput(dateInput) {
     fechaEmisionIsValid = true;
     fechaEmisionTooltip.classList.remove('red');
     fechaEmisionTooltip.classList.add('green');
-    showHideTooltip(fechaEmisionTooltip, "Fecha válida.");
+    showHideTooltip(fechaEmisionTooltip, "Formato de fecha válido");
 }
 
 let horaEmisionIsValid = true;
@@ -413,7 +413,7 @@ function validateManualTimeInput(timeInput) {
 
     horaEmisionTooltip.classList.remove('red');
     horaEmisionTooltip.classList.add('green');
-    showHideTooltip(horaEmisionTooltip,"Hora válida");
+    showHideTooltip(horaEmisionTooltip,"Formato de hora válido");
 }
 
 function validatePositiveFloat(input) {

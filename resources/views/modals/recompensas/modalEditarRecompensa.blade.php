@@ -13,7 +13,7 @@
                     @php
                         $recompensasDB = $recompensas; // Solo recompensas activas
                         $nombresTiposRecompensasDB = $nombresTiposRecompensas;
-                        $dbFieldsNameArray = ['tipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa', 'stock_Recompensa'];
+                        $dbFieldsNameArray = ['nombre_TipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa', 'stock_Recompensa'];
                         $idInput = 'recompensaEditInput';
                         $idOptions = 'recompensaEditOptions';
                         $idMessageError = 'searchEditRecompensaError';
@@ -48,7 +48,7 @@
                                         $descripcionRecompensa = htmlspecialchars($recompensa->descripcionRecompensa, ENT_QUOTES, 'UTF-8');
                                         $costoPuntos = htmlspecialchars($recompensa->costoPuntos_Recompensa, ENT_QUOTES, 'UTF-8');
                                         $stockRecompensa = htmlspecialchars($recompensa->stock_Recompensa, ENT_QUOTES, 'UTF-8');
-                                        $tipoRecompensa = htmlspecialchars($recompensa->tipoRecompensa, ENT_QUOTES, 'UTF-8');
+                                        $tipoRecompensa = htmlspecialchars($recompensa->nombre_TipoRecompensa, ENT_QUOTES, 'UTF-8');
                                         $value = $idRecompensa . " | " . $descripcionRecompensa;
                                     @endphp
                             
