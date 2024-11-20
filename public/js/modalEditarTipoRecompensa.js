@@ -1,11 +1,11 @@
-let codigoOficioInputEdit = document.getElementById('codigoOficioInputEdit');
-let idNumberTipoRecompensaInput = document.getElementById('idNumberTipoRecompensa');
+let codigoTipoRecompensaInputEdit = document.getElementById('codigoTipoRecompensaInputEdit');
+let idNumberTipoRecompensaInputEdit = document.getElementById('idNumberTipoRecompensaEdit');
 let nombreTipoRecompensaInputEdit = document.getElementById('nombreTipoRecompensaInputEdit');
 let searchEditTipoRecompensaMessageError = document.getElementById('searchEditTipoRecompensaError');
 let generalEditTipoRecompensaError = document.getElementById('generalEditTipoRecompensaError');
 
 let formEditTipoRecompensaArray = [
-    codigoOficioInputEdit,
+    codigoTipoRecompensaInputEdit,
     nombreTipoRecompensaInputEdit,
 ];
 

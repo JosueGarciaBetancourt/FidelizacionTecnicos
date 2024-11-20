@@ -1,20 +1,16 @@
-#modalEliminarRecompensa-dialog {
-	max-width: 700px; 
+#modalEliminarTipoRecompensa-dialog {
+	max-width: 450px; 
 }
 
-#recompensaInputDelete {
-	width: 30rem;
+#codigoTipoRecompensaInputDelete {
+	width: 6rem;
 }
 
-#idModalBodyEliminarRecompensa {
+#idModalBodyEliminarTipoRecompensa {
 	padding: 0;
 }
 
-#idH5DeleteRecompensaModalContainer > h5{
+#idH5DeleteTipoRecompensaModalContainer > h5{
 	font-size: 1rem;
 	color: #555;
-}
-
-#costoPuntosInputDelete {
-	background-color: #fff;
 }

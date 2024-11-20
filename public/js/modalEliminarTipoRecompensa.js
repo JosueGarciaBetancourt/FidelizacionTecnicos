@@ -1,13 +1,16 @@
-let idNumberOficioInputDelete = document.getElementById('idDeleteOficioInput');
-let descripcionOficioInputDelete = document.getElementById('descripcionOficioInputDelete');
-let searchMessageErrorOficioDelete = document.getElementById('searchDeleteOficioError');
-let generalDeleteOficioError = document.getElementById('generalDeleteOficioError');
+let codigoTipoRecompensaInputDelete = document.getElementById('codigoTipoRecompensaInputDelete');
+let idNumberTipoRecompensaInputDelete = document.getElementById('idNumberTipoRecompensaDelete');
+let nombreTipoRecompensaInputDelete = document.getElementById('nombreTipoRecompensaInputDelete');
+let searchDeleteTipoRecompensaMessageError = document.getElementById('searchDeleteTipoRecompensaError');
+let generalDeleteTipoRecompensaError = document.getElementById('generalDeleteTipoRecompensaError');
 
-let formDeleteOficioArray = [
-    descripcionOficioInputDelete,
+let formDeleteTipoRecompensaArray = [
+    codigoTipoRecompensaInputDelete,
+    nombreTipoRecompensaInputDelete,
 ];
 
-function selectOptionEliminarOficio(value, idNumberOficio, descripcionOficio, idInput, idOptions, someHiddenIdInputsArray) {
+function selectOptionEliminarTipoRecompensa(value, idNumberTipoRecompensa, nombreTipoRecompensa, idInput, idOptions, someHiddenIdInputsArray) {
+    // Escapar caracteres especiales en la descripción
     function sanitizeString(str) {
         if (typeof str !== 'string') return str;
         return str
@@ -21,39 +24,37 @@ function selectOptionEliminarOficio(value, idNumberOficio, descripcionOficio, id
     }
 
     // Sanitizar solo la descripción
-    const sanitizedDescripcionOficio = sanitizeString(descripcionOficio);
+    const sanitizednombreTipoRecompensa = sanitizeString(nombreTipoRecompensa);
 
     // Colocar en el input la opción seleccionada 
     selectOption(value, idInput, idOptions); 
 
     // Actualizar los demás campos del formulario
-    if (descripcionOficio && sanitizedDescripcionOficio) {
-        descripcionOficioInputDelete.value = descripcionOficio;
+    if (sanitizednombreTipoRecompensa) {
+        nombreTipoRecompensaInputDelete.value = sanitizednombreTipoRecompensa;
         // Llenar campos ocultos
-        document.getElementById(someHiddenIdInputsArray[0]).value = idNumberOficio;
-        searchMessageErrorOficioDelete.classList.remove("shown");
+        document.getElementById(someHiddenIdInputsArray[0]).value = idNumberTipoRecompensa;
+        searchDeleteTipoRecompensaMessageError.classList.remove("shown");
     } else {
-        descripcionOficioInputDelete.value = "";
+        nombreTipoRecompensaInputDelete.value = "";
     }
 }
-
-function validarCamposVaciosFormularioDelete() {
-  let allFilled = true;
-  formDeleteOficioArray.forEach(input => {
-      if (!input.value.trim()) {
-          allFilled = false;
-      }
-  });
-  return allFilled;
+function validarCamposVaciosFormularioTipoRecompensaDelete() {
+    let allFilled = true;
+    formDeleteTipoRecompensaArray.forEach(input => {
+        if (!input.value.trim()) {
+            allFilled = false;
+        }
+    });
+    return allFilled;
 }
 
-function guardarModalEliminarOficio(idModal, idForm) {
-    if (validarCamposVaciosFormularioDelete()) {
-        console.log("Enviando formulario satisfactoriamente");
-        generalDeleteOficioError.classList.remove("shown");
+function guardarModalEliminarTipoRecompensa(idModal, idForm) {
+    if (validarCamposVaciosFormularioTipoRecompensaDelete()) {
+        generalDeleteTipoRecompensaError.classList.remove("shown");
         guardarModal(idModal, idForm);	
     } else {
-        generalDeleteOficioError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
-        generalDeleteOficioError.classList.add("shown");
-      }
+        generalDeleteTipoRecompensaError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
+        generalDeleteTipoRecompensaError.classList.add("shown");
+    }
 }

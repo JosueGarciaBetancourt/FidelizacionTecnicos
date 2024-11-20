@@ -16,7 +16,7 @@
                         $idCodigoTipoRecompensaInput = 'codigoTipoRecompensaInputEdit';
                         $idOptions = 'tipoRecompensaEditOptions';
                         $idNombreTipoRecompensaInput = 'nombreTipoRecompensaInputEdit';
-                        $someHiddenIdInputsArray = ['idNumberTipoRecompensa'];
+                        $someHiddenIdInputsArray = ['idNumberTipoRecompensaEdit'];
                         $otherInputsArray = [$idNombreTipoRecompensaInput];
                         $idGeneralMessageError = 'generalEditTipoRecompensaError';
                         $searchDBField = 'idTipoRecompensa';
@@ -29,11 +29,11 @@
                     </div>
 
                     <div class="form-group gap">
-                        <label class="primary-label" for="TipoRecompensaEditSelect">Código:</label>
-                        <div class="input-select" id="TipoRecompensaEditSelect">
+                        <label class="primary-label" for="tipoRecompensaEditSelect">Código:</label>
+                        <div class="input-select" id="tipoRecompensaEditSelect">
                             <input class="input-select-item" type="text" id='{{ $idCodigoTipoRecompensaInput }}' maxlength="100" placeholder="Código" autocomplete="off"
                                 oninput="filterOptions('{{ $idCodigoTipoRecompensaInput }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idSearchMessageError }}', 
+                                        validateValueOnRealTimeIDInteger(this, '{{ $idOptions }}', '{{ $idSearchMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
                                         {{ json_encode($tiposRecompensasDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
                                 onclick="toggleOptions('{{ $idCodigoTipoRecompensaInput }}', '{{ $idOptions }}')">
