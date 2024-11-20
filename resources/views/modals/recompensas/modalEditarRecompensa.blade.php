@@ -11,7 +11,8 @@
                     @csrf
                     <!-- Variables globales -->
                     @php
-                        $recompensasDB = $recompensasWithoutFirst;
+                        $recompensasDB = $recompensas; // Solo recompensas activas
+                        $nombresTiposRecompensasDB = $nombresTiposRecompensas;
                         $dbFieldsNameArray = ['tipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa', 'stock_Recompensa'];
                         $idInput = 'recompensaEditInput';
                         $idOptions = 'recompensaEditOptions';
@@ -41,7 +42,7 @@
 
                                 onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
-                                @foreach ($recompensasWithoutFirst as $recompensa)
+                                @foreach ($recompensasDB as $recompensa)
                                     @php
                                         $idRecompensa = htmlspecialchars($recompensa->idRecompensa, ENT_QUOTES, 'UTF-8');
                                         $descripcionRecompensa = htmlspecialchars($recompensa->descripcionRecompensa, ENT_QUOTES, 'UTF-8');
@@ -68,7 +69,7 @@
                             :inputClassName="'onlySelectInput long noHandCursor'"
                             :placeholder="'Tipo de recompensa'"
                             :name="'tipoRecompensa'"
-                            :options="['Accesorio', 'EPP', 'Herramienta']"
+                            :options="$nombresTiposRecompensasDB"
                             :disabled="true"
                             :spanClassName="'noHandCursor'"
                             :focusBorder="'noFocusBorder'"

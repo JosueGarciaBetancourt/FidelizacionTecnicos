@@ -9,6 +9,8 @@ let formDeleteTipoRecompensaArray = [
     nombreTipoRecompensaInputDelete,
 ];
 
+let mensajeCombinadoDeleteOficio = "";
+
 function selectOptionEliminarTipoRecompensa(value, idNumberTipoRecompensa, nombreTipoRecompensa, idInput, idOptions, someHiddenIdInputsArray) {
     // Escapar caracteres especiales en la descripción
     function sanitizeString(str) {
@@ -49,10 +51,39 @@ function validarCamposVaciosFormularioTipoRecompensaDelete() {
     return allFilled;
 }
 
-function guardarModalEliminarTipoRecompensa(idModal, idForm) {
+function isTipoAsociadoRecompensaEdit(recompensasDB) {
+    const idNumberTipoRecompensa= idNumberTipoRecompensaInputDelete.value.trim(); 
+    const recompensaAsociadaExistente = recompensasDB.find(recompensa => recompensa.idTipoRecompensa == idNumberTipoRecompensa);
+    // Retornar true si se encuentra una coincidencia, false en caso contrario
+    return !!recompensaAsociadaExistente; 
+}
+
+function validarCamposCorrectosTipoRecompensaDelete(recompensasDB) {
+    mensajeCombinadoDeleteOficio = "";
+    var returnError = false;
+
+    if (isTipoAsociadoRecompensaEdit(recompensasDB)) {
+        mensajeCombinadoDeleteOficio += `El tipo de recompensa con código ${codigoTipoRecompensaInputDelete.value} ya tiene recompensas asociadas, no puede eliminarlo.`;
+        returnError = true;
+    }
+
+    if (returnError) {
+        return false;
+    }
+
+    generalEditTipoRecompensaError.classList.remove("shown");
+    return true;
+}
+
+function guardarModalEliminarTipoRecompensa(idModal, idForm, recompensasDB) {
     if (validarCamposVaciosFormularioTipoRecompensaDelete()) {
-        generalDeleteTipoRecompensaError.classList.remove("shown");
-        guardarModal(idModal, idForm);	
+        if (validarCamposCorrectosTipoRecompensaDelete(recompensasDB)) {
+            generalDeleteTipoRecompensaError.classList.remove("shown");
+            guardarModal(idModal, idForm);	
+        } else {
+            generalDeleteTipoRecompensaError.textContent = mensajeCombinadoDeleteOficio;
+            generalDeleteTipoRecompensaError.classList.add("shown");
+        }
     } else {
         generalDeleteTipoRecompensaError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
         generalDeleteTipoRecompensaError.classList.add("shown");

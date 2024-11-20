@@ -23,23 +23,42 @@ function validarCamposVaciosFormularioRegistrar() {
             allFilled = false;
         }
     });
-    console.log("aaaaaa");
     return allFilled;
 }
 
-function validarCamposCorrectosFormularioRegistrar() {
+function isRecompensaDuplicada(recompensasDB) {
+    // Obtener los valores de tipo y descripción
+    const tipo = tipoRecompensaInput.value.trim(); // Eliminamos espacios en blanco
+    const descripcion = descripcionRecompensaTextarea.value.trim();
+
+    // Buscar si existe una recompensa con el mismo tipo y descripción
+    const recompensaExistente = recompensasDB.find(recompensa => 
+        recompensa.nombre_TipoRecompensa === tipo && 
+        recompensa.descripcionRecompensa === descripcion
+    );
+
+    // Retornar true si se encuentra una coincidencia, false en caso contrario
+    return !!recompensaExistente; 
+}
+
+function validarCamposCorrectosFormularioRegistrar(recompensasDB) {
     mensajeCombinado = "";
     var returnError = false;
 
     if (costoUnitarioInput.value == 0) {
-        mensajeCombinado += "El costo unitario no puede ser 0.";
+        mensajeCombinado += "El costo unitario no puede ser 0. ";
         returnError = true;
 	}
 
     if (stockRecompensaInput.value == 0) {
-        mensajeCombinado += " El stock no puede ser 0.";
+        mensajeCombinado += "El stock no puede ser 0.";
         returnError = true;
 	}
+
+    if (isRecompensaDuplicada(recompensasDB)) {
+        mensajeCombinado += "Esta recompensa ya ha sido registrada con los valores de tipo y descripción actuales.";
+        returnError = true;
+    }
 
     if (returnError) {
         return false;
@@ -49,9 +68,9 @@ function validarCamposCorrectosFormularioRegistrar() {
     return true;
 }
 
-function guardarModalRegistrarNuevaRecompensa(idModal, idForm) {
+function guardarModalRegistrarNuevaRecompensa(idModal, idForm, recompensasDB) {
 	if (validarCamposVaciosFormularioRegistrar()) {
-		if (validarCamposCorrectosFormularioRegistrar()) {
+		if (validarCamposCorrectosFormularioRegistrar(recompensasDB)) {
 			console.log("Enviando formulario satisfactoriamente");
 			registrarRecompensaMessageError.classList.remove("shown");
 			guardarModal(idModal, idForm);	

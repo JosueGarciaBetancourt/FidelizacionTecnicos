@@ -10,11 +10,13 @@ class TipoRecompensaSeeder extends Seeder
 {
     public function run(): void
     {
+        TipoRecompensa::create([
+            'idTipoRecompensa' => 1,
+            'nombre_TipoRecompensa' => 'Efectivo',
+            'deleted_at' => now(), // Marca el tipo de recompensa como eliminado lógicamente
+        ]);
+
         $tiposrecompensas = [
-            [   
-                'idTipoRecompensa' => 1,
-                'nombre_TipoRecompensa' => 'Efectivo',
-            ],
             [   
                 'idTipoRecompensa' => 2,
                 'nombre_TipoRecompensa' => 'Accesorio',

@@ -9,6 +9,8 @@ let formEditTipoRecompensaArray = [
     nombreTipoRecompensaInputEdit,
 ];
 
+let mensajeCombinadoEditOficio = "";
+
 function selectOptionEditTipoRecompensa(value, idNumberTipoRecompensa, nombreTipoRecompensa, idInput, idOptions, someHiddenIdInputsArray) {
     // Escapar caracteres especiales en la descripción
     function sanitizeString(str) {
@@ -40,15 +42,45 @@ function selectOptionEditTipoRecompensa(value, idNumberTipoRecompensa, nombreTip
     }
 }
 
-function validarCamposCorrectosTipoRecompensaEdit() {
+function validarCamposVaciosFormularioTipoRecompensaEdit() {
+    let allFilled = true;
+    formEditTipoRecompensaArray.forEach(input => {
+        if (!input.value.trim()) {
+            allFilled = false;
+        }
+    });
+    return allFilled;
+}
+
+function isTipoRecompensaEditDuplicado(tiposRecompensasDB) {
+    const nombre = nombreTipoRecompensaInputEdit.value.trim(); 
+    const tipoRecompensaExistente = tiposRecompensasDB.find(tipoRecompensa => tipoRecompensa.nombre_TipoRecompensa === nombre);
+    
+    // Retornar true si se encuentra una coincidencia, false en caso contrario
+    return !!tipoRecompensaExistente; 
+}
+
+function isTipoAsociadoRecompensaEdit(recompensasDB) {
+    const idNumberTipoRecompensa= idNumberTipoRecompensaInputEdit.value.trim(); 
+    const recompensaAsociadaExistente = recompensasDB.find(recompensa => recompensa.idTipoRecompensa == idNumberTipoRecompensa);
+    // Retornar true si se encuentra una coincidencia, false en caso contrario
+    return !!recompensaAsociadaExistente; 
+}
+
+function validarCamposCorrectosTipoRecompensaEdit(tiposRecompensasDB, recompensasDB) {
     mensajeCombinadoEditOficio = "";
     var returnError = false;
 
-    /*if (stockRecompensaInputEdit.value == 0) {
-        mensajeCombinadoEditOficio += " El stock no puede ser 0.";
+    if (isTipoRecompensaEditDuplicado(tiposRecompensasDB)) {
+        mensajeCombinadoEditOficio += "El nombre de este tipo de recompensa ya ha sido registrado anteriormente. ";
         returnError = true;
-	}*/
+    }
     
+    if (isTipoAsociadoRecompensaEdit(recompensasDB)) {
+        mensajeCombinadoEditOficio += `El tipo de recompensa con código ${codigoTipoRecompensaInputEdit.value} ya tiene recompensas asociadas, no puede editarlo.`;
+        returnError = true;
+    }
+
     if (returnError) {
         return false;
     }
@@ -57,19 +89,9 @@ function validarCamposCorrectosTipoRecompensaEdit() {
     return true;
 }
 
-function validarCamposVaciosFormularioTipoRecompensaEdit() {
-  let allFilled = true;
-  formEditTipoRecompensaArray.forEach(input => {
-      if (!input.value.trim()) {
-          allFilled = false;
-      }
-  });
-  return allFilled;
-}
-
-function guardarModalEditarTipoRecompensa(idModal, idForm) {
+function guardarModalEditarTipoRecompensa(idModal, idForm, tiposRecompensasDB, recompensasDB) {
     if (validarCamposVaciosFormularioTipoRecompensaEdit()) {
-        if (validarCamposCorrectosTipoRecompensaEdit()) {
+        if (validarCamposCorrectosTipoRecompensaEdit(tiposRecompensasDB, recompensasDB)) {
             generalEditTipoRecompensaError.classList.remove("shown");
             guardarModal(idModal, idForm);	
         } else {

@@ -8,6 +8,11 @@
             <div class="modal-body" id="idModalBodyRegistrarNuevaRecompensa">
                 <form id="formRegistrarNuevaRecompensa" action="{{ route('recompensas.store') }}" method="POST">
                     @csrf
+                   
+                    @php
+                        $recompensasDB = $recompensas;
+                        $nombresTiposRecompensasDB = $nombresTiposRecompensas;
+                    @endphp
 
                     <div class="form-group gap">
                         <label class="primary-label" id="codigoRecompensaLabel" for="codigoRecompensaInput">Código de recompensa:</label>
@@ -22,10 +27,9 @@
                             :inputClassName="'onlySelectInput long'"
                             :placeholder="'Seleccionar tipo de recompensa'"
                             :name="'tipoRecompensa'"
-                            :options="['Accesorio', 'EPP', 'Herramienta']"
+                            :options="$nombresTiposRecompensasDB"
                         />
                     </div>
-
                     <div class="form-group gap">
                         <label class="primary-label" id="descripcionLabel" for="descripcionRecompensaTextarea">Descripción:</label>
                         <textarea class="textarea normal" maxlength="100" id="descripcionRecompensaTextarea" name="descripcionRecompensa" placeholder="Ingresar una breve descripción"></textarea>
@@ -51,7 +55,8 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalRegistrarNuevaRecompensa')">Cancelar</button>
                 <button type="button" class="btn btn-primary" 
-                        onclick="guardarModalRegistrarNuevaRecompensa('modalRegistrarNuevaRecompensa', 'formRegistrarNuevaRecompensa')">Guardar</button>
+                        onclick="guardarModalRegistrarNuevaRecompensa('modalRegistrarNuevaRecompensa', 'formRegistrarNuevaRecompensa',
+                                                                        {{ json_encode($recompensasDB) }})">Guardar</button>
             </div>
         </div>
     </div>

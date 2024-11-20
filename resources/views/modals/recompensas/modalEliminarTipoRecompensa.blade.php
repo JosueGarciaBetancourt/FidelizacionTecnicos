@@ -12,6 +12,7 @@
                     <!-- Variables globales -->
                     @php
                         $tiposRecompensasDB = $tiposRecompensas;
+                        $recompensasDB = $recompensas;
                         $idSearchMessageError = 'searchDeleteTipoRecompensaError';
                         $idCodigoTipoRecompensaInput = 'codigoTipoRecompensaInputDelete';
                         $idOptions = 'tipoRecompensaDeleteOptions';
@@ -25,7 +26,7 @@
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idTipoRecompensa">
                    
                     <div class="form-group start paddingY" id="idH5DeleteTipoRecompensaModalContainer">
-                        <h5>Seleccione el tipo de recompensa que desee eliminar.</h5>
+                        <h5> *Solo puede eliminar un Tipo de Recompensa previamente creado que no tenga alguna recompensa asociada.</h5>
                     </div>
 
                     <div class="form-group gap">
@@ -70,7 +71,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarTipoRecompensa')">Cancelar</button>
                 <button type="button" class="btn btn-primary delete" 
-                        onclick="guardarModalEliminarTipoRecompensa('modalEliminarTipoRecompensa', 'formEliminarTipoRecompensa')">Eliminar</button>
+                        onclick="guardarModalEliminarTipoRecompensa('modalEliminarTipoRecompensa', 'formEliminarTipoRecompensa', {{ json_encode($recompensasDB) }})">Eliminar</button>
             </div>
         </div>
     </div>

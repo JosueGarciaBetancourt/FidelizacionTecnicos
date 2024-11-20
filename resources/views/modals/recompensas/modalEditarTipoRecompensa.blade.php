@@ -12,6 +12,7 @@
                     <!-- Variables globales -->
                     @php
                         $tiposRecompensasDB = $tiposRecompensas;
+                        $recompensasDB = $recompensas;
                         $idSearchMessageError = 'searchEditTipoRecompensaError';
                         $idCodigoTipoRecompensaInput = 'codigoTipoRecompensaInputEdit';
                         $idOptions = 'tipoRecompensaEditOptions';
@@ -22,10 +23,10 @@
                         $searchDBField = 'idTipoRecompensa';
                         $dbFieldsNameArray = ['nombre_TipoRecompensa'];
                     @endphp
-                    <input type="text" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idTipoRecompensa">
+                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idTipoRecompensa">
                    
                     <div class="form-group start paddingY" id="idH5EditTipoRecompensaModalContainer">
-                        <h5> *Solo puede editar el nombre de un Tipo de Recompensa previamente creado.</h5>
+                        <h5> *Solo puede editar el nombre de un Tipo de Recompensa previamente creado que no tenga alguna recompensa asociada.</h5>
                     </div>
 
                     <div class="form-group gap">
@@ -70,7 +71,8 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalEditarTipoRecompensa')">Cancelar</button>
                 <button type="button" class="btn btn-primary update" 
-                        onclick="guardarModalEditarTipoRecompensa('modalEditarTipoRecompensa', 'formEditarTipoRecompensa')">Actualizar</button>
+                        onclick="guardarModalEditarTipoRecompensa('modalEditarTipoRecompensa', 'formEditarTipoRecompensa',
+                                                    {{ json_encode($tiposRecompensasDB) }}, {{ json_encode($recompensasDB) }})">Actualizar</button>
             </div>
         </div>
     </div>

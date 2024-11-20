@@ -9,6 +9,7 @@
                 <form id="formRegistrarNuevoTipoRecompensa" action="{{ route('tiposRecompensas.store') }}" method="POST">
                     @csrf
                     @php
+                        $tiposRecompensasDB = $tiposRecompensas;
                         $newCodigoTipoRecompensa = $idNuevoTipoRecompensa;
                         $idCodigoTipoRecompensaInput = 'codigoTipoRecompensaInputRegistrar';
                         $idNombreTipoRecompensaInput = 'nombreTipoRecompensaInputRegistrar';
@@ -37,7 +38,8 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalRegistrarNuevoTipoRecompensa')">Cancelar</button>
                 <button type="button" class="btn btn-primary" 
-                        onclick="guardarmodalRegistrarNuevoTipoRecompensa('modalRegistrarNuevoTipoRecompensa', 'formRegistrarNuevoTipoRecompensa')">Guardar</button>
+                        onclick="guardarmodalRegistrarNuevoTipoRecompensa('modalRegistrarNuevoTipoRecompensa', 'formRegistrarNuevoTipoRecompensa',
+                                                                            {{ json_encode($tiposRecompensasDB) }})">Guardar</button>
             </div>
         </div>
     </div>

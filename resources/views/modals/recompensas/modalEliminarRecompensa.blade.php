@@ -11,13 +11,13 @@
                     @method('DELETE')
                     <!-- Variables globales -->
                     @php
-                        $recompensasDB = $recompensasWithoutFirst;
+                        $recompensasDB = $recompensas; // Solo recompensas activas
                         $dbFieldsNameArray = ['tipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa'];
                         $idInput = 'recompensaInputDelete';
                         $idOptions = 'recompensaDeleteOptions';
                         $idMessageError = 'searchDeleteRecompensaError';
                         $someHiddenIdInputsArray = ['idDeleteRecompensaInput'];
-                        $idCostoPuntosInput = 'costoPuntosInputDelete'; //El valor se debe modificar también en modalEliminarRecompensa.js
+                        $idCostoPuntosInput = 'costoPuntosInputDelete'; // El valor se debe modificar también en modalEliminarRecompensa.js
                         $idStockRecompensa = 'stockRecompensaInputDelete'; 
                         $idTipoRecompensaInputDelete = 'tipoRecompensaInputDelete';
                         $idDescripcionRecompensaInputDelete = 'descripcionRecompensaInputDelete';
@@ -41,7 +41,7 @@
 
                                 onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
-                                @foreach ($recompensasWithoutFirst as $recompensa)
+                                @foreach ($recompensasDB as $recompensa)
                                     @php
                                         $idRecompensa = htmlspecialchars($recompensa->idRecompensa, ENT_QUOTES, 'UTF-8');
                                         $descripcionRecompensa = htmlspecialchars($recompensa->descripcionRecompensa, ENT_QUOTES, 'UTF-8');

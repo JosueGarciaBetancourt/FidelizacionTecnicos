@@ -53,16 +53,28 @@ class RecompensaController extends Controller
         return $nuevoCodigoTipoRecompensa;
     }
 
+    public function returnArrayNombresTiposRecompensas() {
+        $tiposrecompensas = TipoRecompensa::all();
+        // Obtener todos los nombres de los oficios 
+        $arrayNombresTiposRecompensas = [];
+        foreach ($tiposrecompensas as $tiporecompensa) {
+            $arrayNombresTiposRecompensas[] = $tiporecompensa->nombre_TipoRecompensa;
+        }
+        return $arrayNombresTiposRecompensas;
+    }
+
     public function create()
     {
         // Obtener la última recompensa para generar el nuevo ID
         $idNuevaRecompensa = $this->generarIdRecompensa();
         $idNuevoTipoRecompensa = $this->returnNuevoCodigoTipoRecompensa();
 
-        // Obtener todas las recompensas activas
+        // Obtener todas las recompensas activas (Inicialmente "RECOM-000, Efectivo" está inactivo)
         $recompensas = Recompensa::query()
                                 ->join('TiposRecompensas', 'Recompensas.idTipoRecompensa', '=', 'TiposRecompensas.idTipoRecompensa')
                                 ->select(['Recompensas.*', 'TiposRecompensas.nombre_TipoRecompensa']) // Selecciona campos relevantes
+                                ->whereNull('Recompensas.deleted_at')
+                                ->orderBy('Recompensas.idRecompensa', 'ASC') 
                                 ->get();
 
         // Obtener todas las recompensas no activas (soft deleted) con sus tipos
@@ -70,35 +82,72 @@ class RecompensaController extends Controller
                                             ->join('TiposRecompensas', 'Recompensas.idTipoRecompensa', '=', 'TiposRecompensas.idTipoRecompensa')
                                             ->select(['Recompensas.*', 'TiposRecompensas.nombre_TipoRecompensa']) // Selecciona campos relevantes
                                             ->get();
-        // Obtener todas las recompensas excepto la primera
-        $recompensasWithoutFirst = $recompensas->skip(1);
-        
+
         $tiposRecompensas = TipoRecompensa::all();
-        // Para depurar el codigoTipoRecompensa
+        // Para depurar el campo dinámico codigoTipoRecompensa creado desde el modelo
         /*foreach ($tiposRecompensas as $tipoRecompensa) {
             dd($tipoRecompensa->codigoTipoRecompensa); 
         }*/
-        return view('dashboard.recompensas', compact('recompensas', 'tiposRecompensas', 'recompensasWithoutFirst', 'idNuevaRecompensa', 
-                                                    'idNuevoTipoRecompensa', 'recompensasEliminadas'));
+
+        $nombresTiposRecompensas = $this->returnArrayNombresTiposRecompensas();
+
+        return view('dashboard.recompensas', compact('recompensas', 'tiposRecompensas', 'idNuevaRecompensa', 
+                                                    'idNuevoTipoRecompensa', 'recompensasEliminadas', 'nombresTiposRecompensas'));
     }
     
     public function store(Request $request) 
     {
-        // Validar los datos de entrada
-        $validatedData = $request->validate([
-            'tipoRecompensa' => 'required|string',
-            'descripcionRecompensa' => 'required|string',
-            'costoPuntos_Recompensa' => 'required|numeric|min:0',
-            'stock_Recompensa' => 'required|numeric|min:1',
-        ]);
+        try {
+            // Validar los datos de entrada
+            $validatedData = $request->validate([
+                'tipoRecompensa' => 'required|string',
+                'descripcionRecompensa' => 'required|string|max:255',
+                'costoPuntos_Recompensa' => 'required|numeric|min:0',
+                'stock_Recompensa' => 'required|numeric|min:1',
+            ]);
 
-        $idNuevaRecompensa = $this->generarIdRecompensa();
-        $recompensaData = array_merge(['idRecompensa' => $idNuevaRecompensa], $validatedData);
-        //dd($recompensaData);
-        Recompensa::create($recompensaData);
-    
-        $messageStore = 'Recompensa guardada correctamente';
-        return redirect()->route('recompensas.create')->with('successRecompensaStore', $messageStore);
+            DB::beginTransaction();
+
+            // Verificar si el tipo de recompensa existe
+            $idTipoRecompensa = TipoRecompensa::where('nombre_TipoRecompensa', $validatedData['tipoRecompensa'])->pluck('idTipoRecompensa')->first();
+            if (!$idTipoRecompensa) {
+                return redirect()->route('recompensas.create')
+                    ->withErrors(['tipoRecompensa' => 'El tipo de recompensa seleccionado no existe.']);
+            }
+
+            // Generar ID de la nueva recompensa
+            $idNuevaRecompensa = $this->generarIdRecompensa();
+
+            // Verificar si ya existe una recompensa con la misma descripción
+            $existeRecompensa = Recompensa::where('descripcionRecompensa', $validatedData['descripcionRecompensa'])->exists();
+            if ($existeRecompensa) {
+                return redirect()->route('recompensas.create')
+                    ->withErrors(['descripcionRecompensa' => 'Ya existe una recompensa con esta descripción.']);
+            }
+
+            // Crear los datos de recompensa
+            $recompensaData = [
+                'idRecompensa' => $idNuevaRecompensa,
+                'idTipoRecompensa' => $idTipoRecompensa,
+                'descripcionRecompensa' => $validatedData['descripcionRecompensa'],
+                'costoPuntos_Recompensa' => $validatedData['costoPuntos_Recompensa'],
+                'stock_Recompensa' => $validatedData['stock_Recompensa'],
+            ];
+
+            // Crear recompensa en la base de datos
+            Recompensa::create($recompensaData);
+
+            DB::commit();
+
+            // Redirigir con éxito
+            $messageStore = 'Recompensa guardada correctamente.';
+            return redirect()->route('recompensas.create')->with('successRecompensaStore', $messageStore);
+        } catch (\Exception $e) {
+            // Revertir la transacción en caso de error
+            DB::rollBack();
+            return redirect()->route('recompensas.create')
+                ->withErrors('Ocurrió un error al guardar la recompensa: ' . $e->getMessage());
+        }
     }
 
     public function update(Request $request) 
@@ -228,7 +277,7 @@ class RecompensaController extends Controller
             $tipoRecompensaSolicitado->update([
                 'nombre_TipoRecompensa' => $validatedData['nombre_TipoRecompensa'],
             ]);
-            dd($tipoRecompensaSolicitado);
+            // dd($tipoRecompensaSolicitado);
             $messageUpdate = 'Tipo de recompensa actualizado correctamente';
             DB::commit();
             return redirect()->route('recompensas.create')->with('successTipoRecompensaUpdate', $messageUpdate);
