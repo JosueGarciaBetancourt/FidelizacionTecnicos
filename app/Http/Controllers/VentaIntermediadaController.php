@@ -165,9 +165,9 @@ class VentaIntermediadaController extends Controller
         $ventasAgrupadas = $ventasIntermediadas->groupBy('idVentaIntermediada')->map(function ($grupo) {
             return $grupo->sortByDesc('fechaHora_Canje')->first(); // Tomar la venta con la fechaHora_Canje más reciente
         });
-    
+        
         // Mapear los resultados para añadir campos adicionales
-        $ventasMapeadas = $ventasAgrupadas->map(function ($venta) {
+        $ventas = $ventasAgrupadas->map(function ($venta) {
             // Limpiar id
             $idLimpio = $this->limpiarIDs($venta->idVentaIntermediada);
     
@@ -180,7 +180,10 @@ class VentaIntermediadaController extends Controller
     
             // Calcular días transcurridos desde la fecha de emisión del comprobante hasta hoy
             $diasTranscurridos = $this->returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
-    
+            
+            $idEstadoVenta = $this->getIDEstadoVentaIntermediadaActualById($venta->idVentaIntermediada); 
+            $nombreEstadoVenta = $this->getNombreEstadoVentaIntermediadaActualById($venta->idVentaIntermediada);
+
             // Crear un objeto para retorno
             $ventaObj = new \stdClass();
             $ventaObj->idVentaIntermediada = $idLimpio;
@@ -195,8 +198,8 @@ class VentaIntermediadaController extends Controller
             $ventaObj->fechaHoraCargada_VentaIntermediada = $venta->fechaHoraCargada_VentaIntermediada;
             $ventaObj->montoTotal_VentaIntermediada = $venta->montoTotal_VentaIntermediada;
             $ventaObj->puntosGanados_VentaIntermediada = $venta->puntosGanados_VentaIntermediada;
-            $ventaObj->idEstadoVenta = $venta->idEstadoVenta;
-            $ventaObj->nombre_EstadoVenta = $venta->nombre_EstadoVenta;
+            $ventaObj->idEstadoVenta = $idEstadoVenta;
+            $ventaObj->nombre_EstadoVenta = $nombreEstadoVenta;
             $ventaObj->puntosActuales_VentaIntermediada = $venta->puntosActuales_VentaIntermediada;
             $ventaObj->puntosRestantes = $puntosRestantes;
             $ventaObj->diasTranscurridos = $diasTranscurridos;
@@ -204,15 +207,11 @@ class VentaIntermediadaController extends Controller
     
             return $ventaObj;
         });
-        
-        // Actualizar el estado de las ventas intermediadas
-        $ventas = $this->updateEstadosVentasIntermediadas($ventasMapeadas);       
-        
+
         // Cargar la vista con las ventas y los técnicos
         $tecnicoController = new TecnicoController();
         $tecnicos = $tecnicoController->returnModelsTecnicosWithOficios();
         $idsNombresOficios = $tecnicoController->returnAllIdsNombresOficios(); 
-
         return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos', 'idsNombresOficios'));
     }
     
@@ -255,20 +254,25 @@ class VentaIntermediadaController extends Controller
         ]);
     }
 
-    public static function updateEstadosVentasIntermediadas($ventas) {
+    public static function getIDEstadoVentaIntermediadaActualById($idVentaIntermediada) {
         try {
-            foreach($ventas as $venta) {
-                $ventaModel = VentaIntermediada::findOrFail($venta->idVentaIntermediadaFull);
-                $idEstado = VentaIntermediadaController::returnStateIdVentaIntermediada($venta->idVentaIntermediadaFull, $venta->puntosActuales_VentaIntermediada);
-                $ventaModel->update([
-                    'idEstadoVenta' => $idEstado,
-                ]);
-            }
+            $venta= VentaIntermediada::findOrFail($idVentaIntermediada);
+            $idEstadoVenta = VentaIntermediadaController::returnStateIdVentaIntermediada($idVentaIntermediada, $venta->puntosActuales_VentaIntermediada);
+            return $idEstadoVenta;
         } catch (\Exception $e) { // Corrección del error y tipo específico de excepción
-            dd($e->getMessage()); // Muestra el mensaje de error en caso de falla
+            dd("Error en getEstadoVentaIntermediadaActualById: " . $e->getMessage()); // Muestra el mensaje de error en caso de falla
         }
+    }
 
-        return $ventas;
+    public static function getNombreEstadoVentaIntermediadaActualById($idVentaIntermediada) {
+        try {
+            $venta= VentaIntermediada::findOrFail($idVentaIntermediada);
+            $idEstadoVenta = VentaIntermediadaController::returnStateIdVentaIntermediada($idVentaIntermediada, $venta->puntosActuales_VentaIntermediada);
+            $nombreEstadoVenta = EstadoVenta::where('idEstadoVenta', $idEstadoVenta)->first()->nombre_EstadoVenta;
+            return $nombreEstadoVenta;
+        } catch (\Exception $e) { // Corrección del error y tipo específico de excepción
+            dd("Error en getEstadoVentaIntermediadaActualById: " . $e->getMessage()); // Muestra el mensaje de error en caso de falla
+        }
     }
 
     public static function returnStateIdVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales) {
