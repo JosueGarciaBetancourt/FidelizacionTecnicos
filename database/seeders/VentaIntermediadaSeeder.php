@@ -18,7 +18,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'tipoCodigoCliente_VentaIntermediada' => 'RUC',
                 'codigoCliente_VentaIntermediada' => '10422733669',
                 'nombreCliente_VentaIntermediada' => 'AQUINO LOPEZ EMERSON',
-                'fechaHoraEmision_VentaIntermediada' => '2024-11-08 10:00:00',
+                'fechaHoraEmision_VentaIntermediada' => '2024-11-08 00:30:00',
                 'montoTotal_VentaIntermediada' => 74.5,
                 'puntosGanados_VentaIntermediada' => 75,
                 'puntosActuales_VentaIntermediada'=> 0,
@@ -100,12 +100,12 @@ class VentaIntermediadaSeeder extends Seeder
                 'tipoCodigoCliente_VentaIntermediada' => 'DNI',
                 'codigoCliente_VentaIntermediada' => '45404787',
                 'nombreCliente_VentaIntermediada' => 'BAQUERIZO QUISPE, ELIZABETH SILVIA',
-                'fechaHoraEmision_VentaIntermediada' => '2024-08-21 10:00:00', // 90 días hasta el 2024-11-20
+                'fechaHoraEmision_VentaIntermediada' => '2024-08-30 10:00:00', // 90 días hasta el 2024-11-20
                 'fechaHoraCargada_VentaIntermediada' => '2024-08-20 10:00:00',
                 'montoTotal_VentaIntermediada' => 100,
                 'puntosGanados_VentaIntermediada' => 100,
                 'puntosActuales_VentaIntermediada' => 100,
-                'idEstadoVenta' => 4,  // Tiempo agotado
+                'idEstadoVenta' => 1,  // En Espera
             ],
         ];
 

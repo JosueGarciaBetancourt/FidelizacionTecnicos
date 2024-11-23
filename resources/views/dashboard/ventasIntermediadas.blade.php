@@ -28,7 +28,7 @@
                 <thead>
                     <tr>
                         <th class="celda-centered">#</th>
-                        <th>Número de comprobante</th>
+                        <th>Número de venta</th>
                         <th class="celda-centered">Fecha y Hora de Emisión</th>
                         <th class="celda-centered">Fecha y Hora Cargada</th>
                         <th>Cliente</th>

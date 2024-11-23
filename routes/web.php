@@ -38,7 +38,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     
     // Canjes
     // Registrar 
-    Route::get('/dashboard-registrarCanje', [CanjeController::class, 'create'])->name('canjes.create');  
+    Route::get('/dashboard-registrarCanje', [CanjeController::class, 'registrar'])->name('canjes.registrar');  
     Route::post('/dashboard-registrarCanje-storeCanje', [CanjeController::class, 'store'])->name('canjes.store');  
     // Ver historial 
     Route::get('/dashboard-historial-canje', [CanjeController::class, 'historial'])->name('canjes.historial');  
@@ -50,6 +50,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('getVentasIntermediadasWithTecnico');
     route::get('/dashboard-canjes/historialCanje/{idCanje}', [CanjeController::class, 'getDetalleCanjesRecompensasByIdCanje'])
         ->name('getDetalleCanjesRecompensasByIdCanje');
+    route::get('/dashboard-canjes/solicitudCanje/{idSolicitudCanje}', [CanjeController::class, 'getDetalleSolicitudesCanjesRecompensasByIdSolicitudCanje'])
+        ->name('getDetalleSolicitudesCanjesRecompensasByIdSolicitudCanje');
 
     // Recompensas
     Route::get('/dashboard-recompensas', [RecompensaController::class, 'create'])->name('recompensas.create');  

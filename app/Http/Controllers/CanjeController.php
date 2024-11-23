@@ -38,7 +38,7 @@ class CanjeController extends Controller
         return $nuevoIdCanje;
     }
 
-    public function create()
+    public function registrar()
     {
         $tecnicos = Tecnico::all();
         $ventas = VentaIntermediada::all();
@@ -49,19 +49,15 @@ class CanjeController extends Controller
                                 ->whereNull('Recompensas.deleted_at')
                                 ->orderBy('Recompensas.idRecompensa', 'ASC') 
                                 ->get();
-
-        // Obtener la primera recompensa
-        $recomEfectivo = $recompensas->first();
-        // Obtener el resto de las recompensas excluyendo la primera
-        $RecompensasWithoutEfectivo = $recompensas->slice(1);
-        
         // Obtener las opciones de número de comprobante
         $optionsNumComprobante = [];
         foreach ($ventas as $venta) {
             $optionsNumComprobante[] = $venta->idVentaIntermediada;
         }
         
-        return view('dashboard.registrarCanjes', compact('tecnicos', 'ventas', 'optionsNumComprobante', 'recompensas', 'recomEfectivo'));
+        // Nuevo Id Canje 
+        $nuevoIdCanje = $this->generarIdCanje();
+        return view('dashboard.registrarCanjes', compact('nuevoIdCanje', 'tecnicos', 'ventas', 'optionsNumComprobante', 'recompensas'));
     }
 
     public function store(Request $request) {
@@ -103,7 +99,7 @@ class CanjeController extends Controller
 
             // Actualizar en tabla VentasIntermediadas
             $nuevosPuntosActuales = $validatedData['puntosRestantes_Canje'];
-            VentaIntermediadaController::updateVentaIntermediada($venta->idVentaIntermediada, $nuevosPuntosActuales);
+            VentaIntermediadaController::updateStateVentaIntermediada($venta->idVentaIntermediada, $nuevosPuntosActuales);
 
             // Actualizar la cantidad en la tabla Recompensas
             $recompensasCanje = json_decode($recompensasJson); // Decodificar JSON a un array PHP
@@ -124,7 +120,7 @@ class CanjeController extends Controller
             TecnicoController::updatePuntosActualesTecnicoById($venta['idTecnico']); // Llamado estático
 
             // Redirigir con éxito
-            return redirect()->route('canjes.create')->with('successCanjeStore', 'Canje guardado correctamente.');
+            return redirect()->route('canjes.registrar')->with('successCanjeStore', 'Canje guardado correctamente.');
         } catch (ValidationException $e) {
             // Revertir la transacción si ocurre un error de validación
             DB::rollBack();
@@ -206,7 +202,32 @@ class CanjeController extends Controller
     
         } catch (\Exception $e) {
             // Manejo de errores en caso de fallo de consulta
-            return response()->json(['error' => 'Error al obtener los detalles del canje', 'details' => $e->getMessage()], 500);
+            return response()->json(['error' => 'Error al obtener los detalles del canje ' . $idCanje, 'details' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getDetalleSolicitudesCanjesRecompensasByIdSolicitudCanje($idSolicitudCanje) {
+        try {
+            // Consulta a la vista
+            $resultados = DB::table('solicitudCanje_recompensas_view')
+                            ->where('idSolicitudCanje', $idSolicitudCanje)
+                            ->get();
+            // Verificar si se encontraron resultados
+            if ($resultados->isEmpty()) {
+                return response()->json(['message' => 'No se encontraron solicitudes canje para el ID proporcionado: ' . $idSolicitudCanje], 404);
+            }
+    
+            // Mapear los resultados para agregar el índice incremental
+            $solicitudesCanjesRecompensasAll = $resultados->map(function ($item, $key) {
+                $item->index = $key + 1; // Asignar índice a cada elemento
+                return $item;
+            });
+    
+            return response()->json($solicitudesCanjesRecompensasAll);
+    
+        } catch (\Exception $e) {
+            // Manejo de errores en caso de fallo de consulta
+            return response()->json(['error' => 'Error al obtener los detalles de la solicitud canje ' . $idSolicitudCanje, 'details' => $e->getMessage()], 500);
         }
     }
 
@@ -310,8 +331,6 @@ class CanjeController extends Controller
                 ->where('idCanje', $idCanje)
                 ->first();
                 
-            $canjeWithTecnico->fechaHoraEmision = now()->toDateTimeString();
-    
             $canjesRecompensas = DB::table('canje_recompensas_view')
                 ->where('idCanje', $idCanje)
                 ->get();

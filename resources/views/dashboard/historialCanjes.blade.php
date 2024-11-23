@@ -20,7 +20,7 @@
 						<th class="celda-centered">#</th>
 						<th class="celda-centered">Código</th>
 						<th class="celda-centered date">Fecha y hora</th>
-						<th class="celda-centered" id="celda-numComprobante">Número de comprobante</th>
+						<th class="celda-centered" id="celda-numComprobante">Venta Asociada</th>
 						<th class="celda-centered date">Fecha y hora de emisión</th>
 						<th class="celda-centered">Días transcurridos</th>
 						<th class="celda-centered" id="celda-tecnico">Técnico</th>
@@ -67,3 +67,7 @@
 	<script src="{{asset('js/historialCanjes.js')}}"></script>
 	<script src="{{asset('js/modalDetalleHistorialCanje.js')}}"></script>
 @endpush
+
+
+
+

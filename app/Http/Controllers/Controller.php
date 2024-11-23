@@ -3,13 +3,31 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 abstract class Controller
 {
-    // Función general para calcular los días transcurridos hasta el día de hoy
-    public static function returnDiasTranscurridosHastaHoy($fecha) {
-        $fechaObj = Carbon::parse($fecha);
-        $dias = (int) $fechaObj->diffInDays(Carbon::now());
-        return $dias;
+    // Función general para calcular los días transcurridos hasta el día de hoy considerando horas
+    public static function returnDiasTranscurridosHastaHoy($fechaHora) {
+        try {
+            // Obtener la zona horaria desde el archivo .env
+            $zonaHoraria = env('APP_TIMEZONE', 'UTC');
+    
+            // Convertir la fecha ingresada y la actual en objetos Carbon
+            $fechaObj = Carbon::parse($fechaHora, $zonaHoraria);
+            $ahora = Carbon::now($zonaHoraria);
+    
+            // Calcular la diferencia en horas totales
+            $horasTotales = $fechaObj->diffInHours($ahora, false);
+            
+            // Convertir a días enteros (división entera)
+            $diasTranscurridos = (int)($horasTotales / 24);
+            
+            return $diasTranscurridos;
+            
+        } catch (\Exception $e) {
+            Log::error("Error al calcular días transcurridos: " . $e->getMessage());
+            return 0;
+        }
     }
 }

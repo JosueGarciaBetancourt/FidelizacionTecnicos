@@ -102,7 +102,7 @@
 				@foreach ($canjesRecompensas as $canjRecom)
 					<tr>
 						<td class="celda-centered">{{ $canjRecom->descripcionRecompensa }}</td>
-						<td class="celda-centered">{{ $canjRecom->tipoRecompensa }}</td>
+						<td class="celda-centered">{{ $canjRecom->nombre_TipoRecompensa }}</td>
 						<td class="celda-centered">{{ $canjRecom->cantidad }}</td>
 						<td class="celda-centered">{{ $canjRecom->costoRecompensa }}</td>
 						<td class="celda-centered">{{ $canjRecom->puntosTotales }}</td>

@@ -20,7 +20,7 @@
 		<form id='{{ $idForm }}' action="{{ route('canjes.store') }}" method="POST">
 			@csrf
 			<div class="firstCanjesRow">
-				<h3>Registrar nuevo canje</h3>
+				<h3>Registrar nuevo canje | {{ $nuevoIdCanje }}</h3>
 				<div class="fechaContainer">
 					<label class="secondary-label" id="idFechaHoyLabel"> Fecha de hoy: </label>
 					<input class="input-item" id ="idFechaCanjeInput" type="date" disabled>
@@ -64,7 +64,7 @@
 
 			<div class="thirdCanjesRow">
 				<div class="verticalPairGroup tooltipInside">
-					<label class="primary-label" id="numComprobanteLabel"> Número de comprobante </label>
+					<label class="primary-label" id="numComprobanteLabel"> Número de venta </label>
 					<div class="tooltip-container">
 						<span class="tooltip red" id="idNumComprobanteCanjesTooltip">Este es el mensaje del tooltip</span>
 					</div>

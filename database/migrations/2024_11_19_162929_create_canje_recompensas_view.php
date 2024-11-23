@@ -16,6 +16,7 @@ class CreateCanjeRecompensasView extends Migration
                 CanjesRecompensas.idCanje,
                 CanjesRecompensas.idRecompensa,
                 Recompensas.idTipoRecompensa,
+                TiposRecompensas.nombre_TipoRecompensa,
                 Recompensas.descripcionRecompensa,
                 CanjesRecompensas.cantidad,
                 CanjesRecompensas.costoRecompensa,
@@ -27,6 +28,8 @@ class CreateCanjeRecompensasView extends Migration
                 Canjes ON CanjesRecompensas.idCanje = Canjes.idCanje
             JOIN 
                 Recompensas ON CanjesRecompensas.idRecompensa = Recompensas.idRecompensa
+            JOIN 
+                TiposRecompensas ON Recompensas.idTipoRecompensa = TiposRecompensas.idTipoRecompensa
             ORDER BY 
                 CanjesRecompensas.idRecompensa ASC
         ');

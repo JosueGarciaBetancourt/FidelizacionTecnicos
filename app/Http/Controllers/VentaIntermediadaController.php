@@ -7,6 +7,7 @@ use App\Models\EstadoVenta;
 use Illuminate\Http\Request;
 use App\Models\VentaIntermediada;
 use App\Http\Controllers\TecnicoController;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class VentaIntermediadaController extends Controller
@@ -148,71 +149,57 @@ class VentaIntermediadaController extends Controller
         return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos'));
     }*/
 
+    public function agregarCamposExtraVentas($ventas) {
+        foreach ($ventas as $venta) {
+            $venta->tipoComprobante = $this->detectarTipoComprobante($venta->idVentaIntermediada);
+            $venta->diasTranscurridos = $this->returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
+          
+            $idEstado = $this->updateStateVentaIntermediada($venta->idVentaIntermediada, $venta->puntosActuales_VentaIntermediada);
+            $nombreEstado = $this->getNombreEstadoVentaIntermediadaActualById($venta->idVentaIntermediada);
+
+            $venta->idEstadoVenta = $idEstado; 
+            $venta->nombre_EstadoVenta = $nombreEstado; 
+        }
+        return $ventas;
+    }
+
+    public static function updateStateVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales) {
+        $venta = VentaIntermediada::findOrFail($idVentaIntermediada);
+        $idEstado = VentaIntermediadaController::returnStateIdVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales);
+        $venta->update([
+            'puntosActuales_VentaIntermediada' => $nuevosPuntosActuales,
+            'idEstadoVenta' => $idEstado,
+        ]);
+
+        return $idEstado;
+    }
+
     public function create() {
-        // Obtener todas las ventas intermediadas con sus canjes y estado de venta
-        $ventasIntermediadas = VentaIntermediada::query()
-            ->leftJoin('Canjes', 'VentasIntermediadas.idVentaIntermediada', '=', 'Canjes.idVentaIntermediada')
-            ->join('EstadoVentas', 'VentasIntermediadas.idEstadoVenta', '=', 'EstadoVentas.idEstadoVenta')
-            ->select([
-                'VentasIntermediadas.*',
-                'Canjes.fechaHora_Canje as fechaHora_Canje',
-                'Canjes.puntosRestantes_Canje as puntosRestantes_Canje',
-                'EstadoVentas.nombre_EstadoVenta as nombre_EstadoVenta'
-            ])
-            ->get();
-
-        // Agrupar por idVentaIntermediada y seleccionar el más reciente
-        $ventasAgrupadas = $ventasIntermediadas->groupBy('idVentaIntermediada')->map(function ($grupo) {
-            return $grupo->sortByDesc('fechaHora_Canje')->first(); // Tomar la venta con la fechaHora_Canje más reciente
-        });
-        
-        // Mapear los resultados para añadir campos adicionales
-        $ventas = $ventasAgrupadas->map(function ($venta) {
-            // Limpiar id
-            $idLimpio = $this->limpiarIDs($venta->idVentaIntermediada);
-    
-            // Obtener tipo de comprobante
-            $tipoComprobante = $this->detectarTipoComprobante($venta->idVentaIntermediada);
-    
-            // Obtener el último canje basado en la fecha más reciente
-            $ultimoCanje = $venta->fechaHora_Canje ? $venta->fechaHora_Canje : 'Sin fecha';
-            $puntosRestantes = $venta->puntosRestantes_Canje ?? $venta->puntosGanados_VentaIntermediada;
-    
-            // Calcular días transcurridos desde la fecha de emisión del comprobante hasta hoy
-            $diasTranscurridos = $this->returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
-            
-            $idEstadoVenta = $this->getIDEstadoVentaIntermediadaActualById($venta->idVentaIntermediada); 
-            $nombreEstadoVenta = $this->getNombreEstadoVentaIntermediadaActualById($venta->idVentaIntermediada);
-
-            // Crear un objeto para retorno
-            $ventaObj = new \stdClass();
-            $ventaObj->idVentaIntermediada = $idLimpio;
-            $ventaObj->idVentaIntermediadaFull = $venta->idVentaIntermediada;
-            $ventaObj->tipoComprobante = $tipoComprobante;
-            $ventaObj->idTecnico = $venta->idTecnico;
-            $ventaObj->nombreTecnico = $venta->nombreTecnico;
-            $ventaObj->tipoCodigoCliente_VentaIntermediada = $venta->tipoCodigoCliente_VentaIntermediada;
-            $ventaObj->codigoCliente_VentaIntermediada = $venta->codigoCliente_VentaIntermediada;
-            $ventaObj->nombreCliente_VentaIntermediada = $venta->nombreCliente_VentaIntermediada;
-            $ventaObj->fechaHoraEmision_VentaIntermediada = $venta->fechaHoraEmision_VentaIntermediada;
-            $ventaObj->fechaHoraCargada_VentaIntermediada = $venta->fechaHoraCargada_VentaIntermediada;
-            $ventaObj->montoTotal_VentaIntermediada = $venta->montoTotal_VentaIntermediada;
-            $ventaObj->puntosGanados_VentaIntermediada = $venta->puntosGanados_VentaIntermediada;
-            $ventaObj->idEstadoVenta = $idEstadoVenta;
-            $ventaObj->nombre_EstadoVenta = $nombreEstadoVenta;
-            $ventaObj->puntosActuales_VentaIntermediada = $venta->puntosActuales_VentaIntermediada;
-            $ventaObj->puntosRestantes = $puntosRestantes;
-            $ventaObj->diasTranscurridos = $diasTranscurridos;
-            $ventaObj->fechaHoraCanje = $ultimoCanje;
-    
-            return $ventaObj;
-        });
-
-        // Cargar la vista con las ventas y los técnicos
-        $tecnicoController = new TecnicoController();
-        $tecnicos = $tecnicoController->returnModelsTecnicosWithOficios();
-        $idsNombresOficios = $tecnicoController->returnAllIdsNombresOficios(); 
-        return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos', 'idsNombresOficios'));
+        try {
+            $ventasIntermediadas = VentaIntermediada::query()
+                                ->leftJoin('Canjes', 'VentasIntermediadas.idVentaIntermediada', '=', 'Canjes.idVentaIntermediada')
+                                ->join('EstadoVentas', 'VentasIntermediadas.idEstadoVenta', '=', 'EstadoVentas.idEstadoVenta')
+                                ->select([
+                                    'VentasIntermediadas.*',
+                                    'Canjes.fechaHora_Canje as fechaHora_Canje',
+                                    'Canjes.puntosRestantes_Canje as puntosRestantes_Canje',
+                                    'EstadoVentas.nombre_EstadoVenta as nombre_EstadoVenta'
+                                ])
+                                ->get()
+                                ->groupBy('idVentaIntermediada')
+                                ->map(fn($grupo) => $grupo->sortByDesc('fechaHora_Canje')->first());
+                                
+            $ventas = $this->agregarCamposExtraVentas($ventasIntermediadas);
+           
+            //dd($ventas);
+            // Cargar la vista con las ventas y los técnicos
+            $tecnicoController = new TecnicoController();
+            $tecnicos = $tecnicoController->returnModelsTecnicosWithOficios();
+            $idsNombresOficios = $tecnicoController->returnAllIdsNombresOficios(); 
+            return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos', 'idsNombresOficios'));
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
     }
     
     function store(Request $request) 
@@ -245,15 +232,6 @@ class VentaIntermediadaController extends Controller
         return redirect()->route('ventasIntermediadas.create')->with('successVentaIntermiadaStore', 'Venta Intermediada guardada correctamente');
     }
 
-    public static function updateVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales) {
-        $venta = VentaIntermediada::findOrFail($idVentaIntermediada);
-        $idEstado = VentaIntermediadaController::returnStateIdVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales);
-        $venta->update([
-            'puntosActuales_VentaIntermediada' => $nuevosPuntosActuales,
-            'idEstadoVenta' => $idEstado,
-        ]);
-    }
-
     public static function getIDEstadoVentaIntermediadaActualById($idVentaIntermediada) {
         try {
             $venta= VentaIntermediada::findOrFail($idVentaIntermediada);
@@ -278,26 +256,46 @@ class VentaIntermediadaController extends Controller
     public static function returnStateIdVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales) {
         $venta = VentaIntermediada::findOrFail($idVentaIntermediada);
         $diasTranscurridos = Controller::returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
+        $maxdaysCanje = env('MAXDAYS_CANJE', 90);
 
         // Validar venta con estado Tiempo agotado
-        if ($diasTranscurridos > env('MAXDAYS_CANJE') && $nuevosPuntosActuales != 0) {
+        if ($diasTranscurridos > $maxdaysCanje && $nuevosPuntosActuales != 0) {
             return 4; 
         }
 
         // Validar venta con estado Redimido (completo)
-        if ($nuevosPuntosActuales == 0 && $diasTranscurridos <= env('MAXDAYS_CANJE')) {
+        if ($nuevosPuntosActuales == 0 && $diasTranscurridos <= $maxdaysCanje) {
             return 3;
         }
 
         // Validar venta con estado En espera
-        if ($nuevosPuntosActuales == $venta->puntosGanados_VentaIntermediada) {
+        if ($nuevosPuntosActuales == $venta->puntosGanados_VentaIntermediada && $diasTranscurridos <= $maxdaysCanje) {
             return 1;
         }
 
         // Validar venta con estado Redimido (parcial)
-        if ($nuevosPuntosActuales > 0) {
+        if ($nuevosPuntosActuales > 0 && $diasTranscurridos <= $maxdaysCanje) {
             return 2;  
         }
+
+        /*
+            [   
+                //'idEstadoVenta' => 1,
+                'nombre_EstadoVenta' => 'En espera', //1 a 90 días transcurridos y puntos ganados sean iguales a los puntos actuales
+            ],
+            [
+                //'idEstadoVenta' => 2,
+                'nombre_EstadoVenta' => 'Redimido (parcial)', // Mínimo un canje asociado a la venta
+            ],
+            [
+                //'idEstadoVenta' => 3,
+                'nombre_EstadoVenta' => 'Redimido (completo)', // Canjear todos los puntos dentro de los 90 días
+            ],
+            [
+                 //'idEstadoVenta' => 4,
+                 'nombre_EstadoVenta' => 'Tiempo Agotado', // Tiene que ser una venta En espera ó Redimido (parcial) y supera los 90 días
+            ],
+        */
     }
 
     public function getComprobantesEnEsperaByIdTecnico($idTecnico)
