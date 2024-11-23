@@ -141,14 +141,11 @@ async function aprobarSolicitud(idSolicitudCanje) {
         }
 
         const mensaje = await response.json();
-        
         console.log(mensaje);
-        /*
-        // Llenar la tabla con los detalles de las recompensas
-        if (mensaje) {
-            fillTableDetalleSolicitudCanje(detallesSolicitudesCanjes);
-        }
-        */
+
+        // Recargar la página después de que la solicitud se haya procesado correctamente
+        location.reload(); // Recarga la página actual
+        
         /*
         // Abrir el modal
         /var modal = document.getElementById('modalDetalleSolicitudCanje');

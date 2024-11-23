@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SolicitudesCanje;
-use App\Models\SolicitudCanjeRecompensa;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\Canje;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\SolicitudesCanje;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\SolicitudCanjeRecompensa;
+use App\Http\Controllers\CanjeController;
+use Illuminate\Support\Facades\Log;
 
 class SolicitudCanjeController extends Controller
 {
@@ -62,13 +66,54 @@ class SolicitudCanjeController extends Controller
 
     public function aprobarSolicitudCanje($idSolicitudCanje) {
         try {
-            $solicitudCanje = SolicitudesCanje::findOrFail($idSolicitudCanje);
+            // Comenzar una transacción
+            DB::beginTransaction();
 
-            $message = "Aprobando solicitud de canje: " . $solicitudCanje->idSolicitudCanje;
+            $idUser = Auth::id(); // Obtiene el id del usuario autenticado
+            $solicitudCanje = SolicitudesCanje::findOrFail($idSolicitudCanje);
+            $solicitudesCanjesRecompensas = SolicitudCanjeRecompensa::where('idSolicitudCanje', $idSolicitudCanje)->get();
+
+            $recompensas_Canje = []; // Para construir el array de recompensas
+            foreach ($solicitudesCanjesRecompensas as $item) {
+                $recompensas_Canje[] = [
+                    'idRecompensa' => $item->idRecompensa,
+                    'cantidad' => $item->cantidad,
+                ];
+            }
+
+            $recompensasCanjeString = json_encode($recompensas_Canje);
+
+            // Crear el nuevo canje
+            $data = ([
+                'idVentaIntermediada' => $solicitudCanje->idVentaIntermediada,
+                'puntosComprobante_Canje' => $solicitudCanje->puntosComprobante_SolicitudCanje,
+                'puntosCanjeados_Canje' => $solicitudCanje->puntosCanjeados_SolicitudCanje,
+                'puntosRestantes_Canje' => $solicitudCanje->puntosRestantes_SolicitudCanje,
+                'recompensas_Canje' =>  $recompensasCanjeString,
+            ]);
+            
+            Log::info($data);
+
+            // Crear el canje usando la función separada
+            CanjeController::crearCanje($data);
+
+            // Actualizar estado de solicitud canje
+            $solicitudCanje->update([
+                'idEstadoSolicitudCanje' => 2, // Aprobado
+                'idUser' => $idUser,
+            ]); 
+
+            // Si todo sale bien, confirmar la transacción
+            DB::commit();
+            $message = "Aprobando solicitud de canje: " . $solicitudCanje->idVentaIntermediada;
             return response()->json($message);
         } catch (\Exception $e) {
+            DB::rollBack(); // Revierte los cambios realizados antes del error
             // Manejo de errores en caso de fallo de consulta
-            return response()->json(['error' => 'Error al aprobar la la solicitud canje ' . $idSolicitudCanje, 'details' => $e->getMessage()], 500);
+            return response()->json([
+                'error' => 'Error al aprobar la solicitud de canje.',
+                'details' => $e->getMessage()
+            ], 500);
         }
     }
 

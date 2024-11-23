@@ -12,7 +12,6 @@
     <div class="headerSolicitudes">
         <h3>Solicitudes de Canje</h3>
     </div>
-
     <div class="tableSolicitudes">
         <table id="tblSolicitudesAppCanje">
             <thead>
@@ -32,15 +31,17 @@
 					$contador = 1;
 				@endphp
 				@foreach ($solicitudesCanje as $solicitud)
-				<tr>p
+				<tr>
 					<td class="celda-centered">{{ $contador++ }}</td>
 					<td class="celda-centered idSolicitudCanje">{{ $solicitud->idSolicitudCanje }}</td>
 					<td>{{ $solicitud->tecnicos->nombreTecnico }} <br>
 						<small>DNI: {{ $solicitud->idTecnico }}</small>
 					</td>
-					<td class="celda-centered">{{ $solicitud->ventaIntermediada->idVentaIntermediada ?? 'N/A' }}</td>
-					<td class="celda-centered">
-						<span class="estado {{ strtolower($solicitud->estadosSolicitudCanje->nombre_EstadoSolicitudCanje) }}">
+					<td class="celda-centered">{{ $solicitud->ventaIntermediada->idVentaIntermediada }} <br>
+						<small>Puntos generados: {{ $solicitud->puntosComprobante_SolicitudCanje }}</small>
+					</td>
+					<td class="estado__celda">
+						<span class="estado__span-{{strtolower(str_replace(' ', '-', $solicitud->idEstadoSolicitudCanje))}}">
 							{{ $solicitud->estadosSolicitudCanje->nombre_EstadoSolicitudCanje }}
 						</span>
 					</td>

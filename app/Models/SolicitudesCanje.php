@@ -16,11 +16,16 @@ class SolicitudesCanje extends Model
     protected $fillable = [
         'idSolicitudCanje',
         'idVentaIntermediada',
+        'fechaHoraEmision_VentaIntermediada',
         'idTecnico',
         'idEstadoSolicitudCanje',
         'idUser',
-        'fecha_SolicitudCanje',
-        'comentario_SolicitudCanje'
+        'fechaHora_SolicitudCanje',
+        'diasTranscurridos_SolicitudCanje',
+        'puntosComprobante_SolicitudCanje',
+        'puntosCanjeados_SolicitudCanje',
+        'puntosRestantes_SolicitudCanje',
+        'comentario_SolicitudCanje',
     ];
 
     public function user() {

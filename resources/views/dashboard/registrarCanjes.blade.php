@@ -270,10 +270,10 @@
 			<input type="hidden" id="jsonRecompensas" name="recompensas_Canje" readonly>
 		</form>
 
-
 		<x-modalConfirmACtion 
 			:idConfirmModal="'modalConfirmActionGuardarCanje'"
 			:message="'¿Está seguro de guardar el canje?'"
+			:auxVar="$nuevoIdCanje"
 		/>
 
 		<x-modalSuccessAction 

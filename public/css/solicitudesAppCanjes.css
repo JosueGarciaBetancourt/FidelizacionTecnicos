@@ -171,3 +171,38 @@ h3 {
 .celda-btnAcciones .btnRechazar:hover .material-symbols-outlined {
     transform: translateX(4px); /* Mueve el ícono ligeramente */
 }
+
+/*ESTILOS DE LOS ESTADOS DE LAS VENTAS INTERMEDIADAS*/
+.estado__celda {
+    padding: 0 !important;
+    margin: 0 !important;
+    text-align: center !important; 
+}
+
+.estado__celda span {
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0;
+    font-weight: bold;
+    font-size: 0.85rem;
+    display: inline-block;
+    width: 90%;
+}
+
+/*Pendiente */
+.estado__span-1 { 
+    color: #2394da;
+    background-color: rgba(35, 78, 218, 0.2) !important;
+}
+
+/* Aprobado */
+.estado__span-2 {
+    color: #4caf50;
+    background-color: rgba(76, 175, 80, 0.2) !important;
+}
+
+/* Rechazado */
+.estado__span-3 {
+    color: #f44336;
+    background-color: rgba(244, 67, 54, 0.2) !important;
+}   

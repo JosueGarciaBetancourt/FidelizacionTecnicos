@@ -1,6 +1,7 @@
 @php
     $confirmModal = $idConfirmModal ?? '';
     $messageToConfirm = $message ?? '';
+    $auxiliarVar = $auxVar ?? '';
     //dd($confirmModal);
 @endphp
 
@@ -12,7 +13,7 @@
             </div>
             <div class="modal-body confirm">
 				<i class="fa-solid fa-triangle-exclamation"></i>
-                <p>{{ $messageToConfirm }}</p>
+                <p>{{ $messageToConfirm }} {{ $auxiliarVar }}</p>
             </div>
             <div class="modal-footer confirm">
                 <button type="button" class="btn btn-secondary confirm" onclick="noConfirmAction()">No</button>
