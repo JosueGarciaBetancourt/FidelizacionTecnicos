@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('EstadosSolicitudesCanjes', function (Blueprint $table) {
             $table->id('idEstadoSolicitudCanje'); // ID único para cada estado
-            $table->string('nombre_EstadoSolicitudCanje', 20); // Descripción del estado, e.g., 'pendiente', 'aprobado', 'rechazado'
+            $table->string('nombre_EstadoSolicitudCanje', 20); // Nombre del estado, e.g., 'pendiente', 'aprobado', 'rechazado'
             $table->timestamps(); //created_at updated_at
             $table->softDeletes(); //deleted_at
         });

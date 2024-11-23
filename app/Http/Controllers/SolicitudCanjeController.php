@@ -10,9 +10,6 @@ use Illuminate\Support\Str;
 
 class SolicitudCanjeController extends Controller
 {
-    /**
-     * Crear una nueva solicitud de canje.
-     */
     public function crearSolicitud(Request $request)
     {
         $validatedData = $request->validate([
@@ -63,5 +60,25 @@ class SolicitudCanjeController extends Controller
         }
     }
 
-    
+    public function aprobarSolicitudCanje($idSolicitudCanje) {
+        try {
+            $solicitudCanje = SolicitudesCanje::findOrFail($idSolicitudCanje);
+
+            $message = "Aprobando solicitud de canje: " . $solicitudCanje->idSolicitudCanje;
+            return response()->json($message);
+        } catch (\Exception $e) {
+            // Manejo de errores en caso de fallo de consulta
+            return response()->json(['error' => 'Error al aprobar la la solicitud canje ' . $idSolicitudCanje, 'details' => $e->getMessage()], 500);
+        }
+    }
+
+    public function rechazarSolicitudCanje($idSolicitudCanje) {
+        try {
+            $message = "Rechazando solicitud de canje";
+            return response()->json($message);
+        } catch (\Exception $e) {
+            // Manejo de errores en caso de fallo de consulta
+            return response()->json(['error' => 'Error al rechazar la la solicitud canje ' . $idSolicitudCanje, 'details' => $e->getMessage()], 500);
+        }
+    }
 }

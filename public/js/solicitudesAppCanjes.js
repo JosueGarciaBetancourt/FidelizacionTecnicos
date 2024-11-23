@@ -123,3 +123,83 @@ async function getDetalleSolicitudCanjeByIdCanjeFetch(idSolicitudCanje) {
         console.error('Error al realizar la consulta al backend para obtener las recompensas de la solicitud canje:', error.message);
     }
 }
+
+async function aprobarSolicitud(idSolicitudCanje) {
+    //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/solicitudCanje/${idSolicitudCanje}`;
+    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`; // Esto adaptará la URL al dominio actual
+    const url = `${baseUrl}/dashboard-canjes/solicitudCanje/aprobar/${idSolicitudCanje}`; 
+    console.warn("fetch", url);
+
+    try {
+        const response = await fetch(url);
+        /*console.log("Fetching URL:", url);
+        console.log('Response Status:', response.status);
+        console.log('Response Headers:', response.headers.get('Content-Type'));*/
+
+        if (!response.ok) {
+            throw new Error(await response.text());
+        }
+
+        const mensaje = await response.json();
+        
+        console.log(mensaje);
+        /*
+        // Llenar la tabla con los detalles de las recompensas
+        if (mensaje) {
+            fillTableDetalleSolicitudCanje(detallesSolicitudesCanjes);
+        }
+        */
+        /*
+        // Abrir el modal
+        /var modal = document.getElementById('modalDetalleSolicitudCanje');
+        modal.style.display = 'block';
+        setTimeout(function() {
+            modal.style.opacity = 1; // Hacer el modal visible de forma gradual
+            modal.querySelector('.modal-dialog').classList.add('open');
+        }, 50); // Pequeño retraso para asegurar la transición CSS
+        document.body.style.overflow = 'hidden'; // Evita el scroll de fondo cuando está abierto el modal
+        */
+    } catch (error) {
+        console.error('Error al realizar la consulta al backend para obtener las recompensas de la solicitud canje:', error.message);
+    }
+}
+
+async function rechazarSolicitud(idSolicitudCanje) {
+    //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/solicitudCanje/${idSolicitudCanje}`;
+    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`; // Esto adaptará la URL al dominio actual
+    const url = `${baseUrl}/dashboard-canjes/solicitudCanje/rechazar/${idSolicitudCanje}`; 
+    console.warn("fetch", url);
+
+    try {
+        const response = await fetch(url);
+        /*console.log("Fetching URL:", url);
+        console.log('Response Status:', response.status);
+        console.log('Response Headers:', response.headers.get('Content-Type'));*/
+
+        if (!response.ok) {
+            throw new Error(await response.text());
+        }
+
+        const mensaje = await response.json();
+        
+        console.log(mensaje);
+        /*
+        // Llenar la tabla con los detalles de las recompensas
+        if (mensaje) {
+            fillTableDetalleSolicitudCanje(detallesSolicitudesCanjes);
+        }
+        */
+        /*
+        // Abrir el modal
+        /var modal = document.getElementById('modalDetalleSolicitudCanje');
+        modal.style.display = 'block';
+        setTimeout(function() {
+            modal.style.opacity = 1; // Hacer el modal visible de forma gradual
+            modal.querySelector('.modal-dialog').classList.add('open');
+        }, 50); // Pequeño retraso para asegurar la transición CSS
+        document.body.style.overflow = 'hidden'; // Evita el scroll de fondo cuando está abierto el modal
+        */
+    } catch (error) {
+        console.error('Error al realizar la consulta al backend para obtener las recompensas de la solicitud canje:', error.message);
+    }
+}

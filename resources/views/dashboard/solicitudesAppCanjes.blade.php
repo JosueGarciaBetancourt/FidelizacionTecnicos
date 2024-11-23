@@ -32,7 +32,7 @@
 					$contador = 1;
 				@endphp
 				@foreach ($solicitudesCanje as $solicitud)
-				<tr>
+				<tr>p
 					<td class="celda-centered">{{ $contador++ }}</td>
 					<td class="celda-centered idSolicitudCanje">{{ $solicitud->idSolicitudCanje }}</td>
 					<td>{{ $solicitud->tecnicos->nombreTecnico }} <br>
