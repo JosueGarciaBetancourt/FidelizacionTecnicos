@@ -1,6 +1,5 @@
 
 function fillOtherFieldsDetalleHistorialCanje(objCanje) {
-    console.log(objCanje);
     const diasTranscurridosSufix = objCanje['diasTranscurridos_Canje'] > 2 ? " días transcurridos" : " día transcurrido";
     document.getElementById('codigoCanjeModalDetalleHistorialCanje').textContent = objCanje['idCanje'];
     document.getElementById('fechaHoraCanjeModalDetalleHistorialCanje').textContent = objCanje['fechaHora_Canje'];

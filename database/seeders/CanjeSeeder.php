@@ -23,7 +23,7 @@ class CanjeSeeder extends Seeder
                 'puntosComprobante_Canje' => 75,
                 'puntosCanjeados_Canje' => 75,
                 'puntosRestantes_Canje' => 0,
-                'comentario' => 'Ejemplo de comentario  de canje (opcional).',
+                'comentario_Canje' => 'Ejemplo de comentario_Canje  de canje (opcional).',
                 'idUser' => 2,
             ],
             // Canje parcial
@@ -59,7 +59,7 @@ class CanjeSeeder extends Seeder
                 'puntosComprobante_Canje' => 10,
                 'puntosCanjeados_Canje' => 10,
                 'puntosRestantes_Canje' => 0,
-                'comentario' => 'El vendedor 1 no se encontraba en caja, vendedor 2 realizó el canje.',
+                'comentario_Canje' => 'El vendedor 1 no se encontraba en caja, vendedor 2 realizó el canje.',
                 'idUser' => 3,
             ],
         ];

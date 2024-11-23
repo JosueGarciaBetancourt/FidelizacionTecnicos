@@ -13,15 +13,15 @@ class SolicitudCanjeRecompensaSeeder extends Seeder
         $solicitudesCanjeRecompensas = [
             [
                 'idSolicitudCanje' => 'SOLICANJ-00001',
-                'idRecompensa' => 'RECOM-001', // Pulsera de silicona
-                'cantidad' => 1,
-                'costoRecompensa' => 1,
+                'idRecompensa' => 'RECOM-007', // Caja de herramientas
+                'cantidad' => 8,
+                'costoRecompensa' => 50,
             ],
             [
                 'idSolicitudCanje' => 'SOLICANJ-00002',
-                'idRecompensa' => 'RECOM-002', // Par de rodilleras para cerámica
-                'cantidad' => 1,
-                'costoRecompensa' => 35,
+                'idRecompensa' => 'RECOM-001', // Pulsera de silicona
+                'cantidad' => 5,
+                'costoRecompensa' => 1,
             ],
         ];
 

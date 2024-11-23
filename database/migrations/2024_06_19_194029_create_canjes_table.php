@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('puntosComprobante_Canje')->unsigned();
             $table->integer('puntosCanjeados_Canje')->unsigned();
             $table->integer('puntosRestantes_Canje')->unsigned(); 
-            $table->text('comentario')->nullable();
+            $table->text('comentario_Canje')->nullable();
             $table->unsignedBigInteger('idUser');
 
             $table->foreign('idVentaIntermediada')->references('idVentaIntermediada')->on('VentasIntermediadas');

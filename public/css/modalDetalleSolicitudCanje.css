@@ -55,12 +55,12 @@
     border-color: #36c0d5;
 }
 
-#codigoCanjemodalDetalleSolicitudCanje {
+#codigoModalDetalleSolicitudCanje {
     font-size: 1.2rem;
     font-weight: bold;
 }
 
-#fechaHoraCanjemodalDetalleSolicitudCanje {
+#fechaHoraModalDetalleSolicitudCanje {
     font-size: 1rem;
     font-weight: 400;
     color: #444;
@@ -74,7 +74,7 @@
     max-width: 10rem;
 }
 
-#diasTranscurridosCanjemodalDetalleSolicitudCanje {
+#diasTranscurridosModalDetalleSolicitudCanje {
     color: rgb(72, 95, 126);
     font-weight: 600;
 }

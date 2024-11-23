@@ -107,6 +107,37 @@ class VentaIntermediadaSeeder extends Seeder
                 'puntosActuales_VentaIntermediada' => 100,
                 'idEstadoVenta' => 1,  // En Espera
             ],
+
+            /*Ventas para las solicitudes canje*/
+            /*PENDIENTES*/
+            [
+                'idVentaIntermediada' => 'F001-00000444',
+                'idTecnico' => '77043114',
+                'nombreTecnico' => 'Josué García',
+                'tipoCodigoCliente_VentaIntermediada' => 'DNI',
+                'codigoCliente_VentaIntermediada' => '45404787',
+                'nombreCliente_VentaIntermediada' => 'BAQUERIZO QUISPE, ELIZABETH SILVIA',
+                'fechaHoraEmision_VentaIntermediada' => '2024-10-30 10:00:00', 
+                'fechaHoraCargada_VentaIntermediada' => '2024-11-20 10:00:00',
+                'montoTotal_VentaIntermediada' => 500,
+                'puntosGanados_VentaIntermediada' => 500,
+                'puntosActuales_VentaIntermediada' => 500,
+                'idEstadoVenta' => 1,  // En Espera
+            ],
+            [
+                'idVentaIntermediada' => 'F001-00000555',
+                'idTecnico' => '77665544',
+                'nombreTecnico' => 'Manuel Carrasco',
+                'tipoCodigoCliente_VentaIntermediada' => 'DNI',
+                'codigoCliente_VentaIntermediada' => '45404787',
+                'nombreCliente_VentaIntermediada' => 'BAQUERIZO QUISPE, ELIZABETH SILVIA',
+                'fechaHoraEmision_VentaIntermediada' => '2024-10-30 10:00:00', 
+                'fechaHoraCargada_VentaIntermediada' => '2024-11-20 10:00:00',
+                'montoTotal_VentaIntermediada' => 500,
+                'puntosGanados_VentaIntermediada' => 500,
+                'puntosActuales_VentaIntermediada' => 500,
+                'idEstadoVenta' => 1,  // En Espera
+            ],
         ];
 
         foreach ($ventasIntermediadas as $ventaData) {
