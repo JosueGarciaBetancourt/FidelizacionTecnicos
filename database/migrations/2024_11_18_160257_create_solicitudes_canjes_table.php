@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('puntosComprobante_SolicitudCanje')->unsigned();
             $table->integer('puntosCanjeados_SolicitudCanje')->unsigned();
             $table->integer('puntosRestantes_SolicitudCanje')->unsigned(); 
-            $table->text('c')->nullable(); // Inicialmente vacío, cuando un usuario aprueba o rechaza se realiza un comentario (opcional).
+            $table->text('comentario_SolicitudCanje')->nullable(); // Inicialmente vacío, cuando un usuario aprueba o rechaza se realiza un comentario (opcional).
            
             $table->foreign('idVentaIntermediada')->references('idVentaIntermediada')->on('VentasIntermediadas');
             $table->foreign('idTecnico')->references('idTecnico')->on('Tecnicos');

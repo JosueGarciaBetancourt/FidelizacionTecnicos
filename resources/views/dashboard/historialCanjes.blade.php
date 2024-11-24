@@ -19,7 +19,7 @@
 					<tr>
 						<th class="celda-centered">#</th>
 						<th class="celda-centered">Código</th>
-						<th class="celda-centered date">Fecha y hora</th>
+						<th class="celda-centered date">Fecha y Hora</th>
 						<th class="celda-centered" id="celda-numComprobante">Venta Asociada</th>
 						<th class="celda-centered date">Fecha y hora de emisión</th>
 						<th class="celda-centered">Días transcurridos</th>

@@ -119,11 +119,28 @@ class SolicitudCanjeController extends Controller
 
     public function rechazarSolicitudCanje($idSolicitudCanje) {
         try {
-            $message = "Rechazando solicitud de canje";
+             // Comenzar una transacción
+             DB::beginTransaction();
+
+             $idUser = Auth::id(); // Obtiene el id del usuario autenticado
+             $solicitudCanje = SolicitudesCanje::findOrFail($idSolicitudCanje);
+ 
+             // Actualizar estado de solicitud canje
+             $solicitudCanje->update([
+                 'idEstadoSolicitudCanje' => 3, // Rechazado
+                 'idUser' => $idUser,
+             ]); 
+ 
+             // Si todo sale bien, confirmar la transacción
+             DB::commit();
+            $message = "Rechazando solicitud de canje: " . $solicitudCanje->idSolicitudCanje;
             return response()->json($message);
         } catch (\Exception $e) {
-            // Manejo de errores en caso de fallo de consulta
-            return response()->json(['error' => 'Error al rechazar la la solicitud canje ' . $idSolicitudCanje, 'details' => $e->getMessage()], 500);
+            DB::rollBack(); // Revierte los cambios realizados antes del error
+            return response()->json([
+                'error' => 'Error al rechazar la solicitud de canje.',
+                'details' => $e->getMessage()
+            ], 500);
         }
     }
 }

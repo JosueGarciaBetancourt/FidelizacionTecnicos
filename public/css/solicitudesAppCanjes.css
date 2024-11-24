@@ -9,11 +9,11 @@
 	height: auto;
 }
 
-.firstRowHistorialCanje {
+.firstRowSolicitudCanje {
     padding-top: 1rem;
 }
 
-.secondRowHistorialCanje {
+.secondRowSolicitudCanje {
     padding-top: 1rem;
 }
 
@@ -42,6 +42,10 @@ h3 {
 
 #celda-tecnico {
     width: 15rem;
+}
+
+.tblSolicitudesAppCanje-container {
+    margin-top: 1rem;
 }
 
 #tblSolicitudesAppCanje tbody tr:nth-child(even) {
@@ -191,8 +195,8 @@ h3 {
 
 /*Pendiente */
 .estado__span-1 { 
-    color: #2394da;
-    background-color: rgba(35, 78, 218, 0.2) !important;
+    color: #6c757d;
+    background-color: rgba(96, 98, 107, 0.2) !important;
 }
 
 /* Aprobado */

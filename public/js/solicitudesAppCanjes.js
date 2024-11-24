@@ -1,4 +1,3 @@
-
 function fillOtherFieldsDetalleSolicitudCanje(objSolicitudCanje) {
     const diasTranscurridosSufix = objSolicitudCanje['diasTranscurridos_SolicitudCanje'] > 2 ? " días transcurridos" : " día transcurrido";
     document.getElementById('codigoModalDetalleSolicitudCanje').textContent = objSolicitudCanje['idSolicitudCanje'];
@@ -124,6 +123,26 @@ async function getDetalleSolicitudCanjeByIdCanjeFetch(idSolicitudCanje) {
     }
 }
 
+function aprobarSolicitudCanje(idSolicitudCanje){
+    // Mostrar el modal y esperar la respuesta del usuario
+    openConfirmModal('modalConfirmActionAprobarSolicitudCanje').then((answer) => {
+        if (answer) {
+            aprobarSolicitud(idSolicitudCanje);
+            return;
+        }
+    });
+}
+
+function rechazarSolicitudCanje(idSolicitudCanje){
+    // Mostrar el modal y esperar la respuesta del usuario
+    openConfirmModal('modalConfirmActionRechazarSolicitudCanje').then((answer) => {
+        if (answer) {
+            rechazarSolicitud(idSolicitudCanje);
+            return;
+        }
+    });
+}
+
 async function aprobarSolicitud(idSolicitudCanje) {
     //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/solicitudCanje/${idSolicitudCanje}`;
     const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`; // Esto adaptará la URL al dominio actual
@@ -178,14 +197,11 @@ async function rechazarSolicitud(idSolicitudCanje) {
         }
 
         const mensaje = await response.json();
-        
         console.log(mensaje);
-        /*
-        // Llenar la tabla con los detalles de las recompensas
-        if (mensaje) {
-            fillTableDetalleSolicitudCanje(detallesSolicitudesCanjes);
-        }
-        */
+        
+        // Recargar la página después de que la solicitud se haya procesado correctamente
+        location.reload(); // Recarga la página actual
+
         /*
         // Abrir el modal
         /var modal = document.getElementById('modalDetalleSolicitudCanje');

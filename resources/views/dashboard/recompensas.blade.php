@@ -91,8 +91,8 @@
                         <th id="idCeldaDescripcionRecompensa">Descripción</th>
                         <th class="celda-centered short">Costo (puntos)</th>
                         <th class="celda-centered short">Stock (unidades)</th>
-                        <th class="celda-centered date">Fecha y hora de creación</th>
-                        <th class="celda-centered date">Fecha y hora de actualización</th> 
+                        <th class="celda-centered date">Fecha y Hora de creación</th>
+                        <th class="celda-centered date">Fecha y Hora de actualización</th> 
                     </tr>
                 </thead>
                 <tbody>
