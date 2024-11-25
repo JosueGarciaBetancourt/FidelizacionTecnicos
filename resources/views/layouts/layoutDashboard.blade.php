@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('css/modalSuccess.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalConfirm.css') }}">
     <link rel="stylesheet" href="{{ asset('css/configuracionStyle.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/modalConfirmSolicitudCanje.css') }}">
     @stack('styles')
 @endpush
 

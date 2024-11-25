@@ -298,12 +298,21 @@ class VentaIntermediadaController extends Controller
         */
     }
 
+    // FETCH
     public function getComprobantesEnEsperaByIdTecnico($idTecnico)
     {
-        $comprobantes = VentaIntermediada::with('estadoVenta') // Cargar la relación con EstadoVentas
-                                            ->where('idTecnico', $idTecnico)
-                                            ->whereIn('idEstadoVenta', [1, 2])
-                                            ->get();
+        // Validar que el técnico existe (opcional)
+        if (!Tecnico::find($idTecnico)) {
+            return response()->json(['error' => 'Técnico no encontrado'], 404);
+        }
+
+        // Obtener las ventas intermediadas no asociadas con alguna solicitud de canje
+        $comprobantes = VentaIntermediada::with('estadoVenta') // Cargar relación de estado
+                                        ->doesntHave('solicitudesCanje') // Filtrar comprobantes sin solicitudes de canje
+                                        ->where('idTecnico', $idTecnico)
+                                        ->whereIn('idEstadoVenta', [1, 2]) // Estados: En espera o Redimido (parcial)
+                                        ->get();
+
         return response()->json($comprobantes);
     }
 }

@@ -15,6 +15,7 @@
 			$idTecnicoMessageError = "messageErrorTecnicoCanjes";
 			$tecnicosDB = $tecnicos;
 			$idForm = "formRegistrarCanje";
+			$idComentario = "comentarioInputRegistrarCanje";
 		@endphp
 
 		<form id='{{ $idForm }}' action="{{ route('canjes.store') }}" method="POST">
@@ -263,19 +264,21 @@
 					
 					<div class="btnCanjesSectionContainer"> 
 						<button type="button" class="btn btn-secondary" onclick="cleanAllCanjesSection()">Limpiar tabla</button>
-						<button type="button" class="btn btn-primary" id="btnGuardarCanje" onclick="guardarCanje('{{ $idForm }}')">Guardar canje</button>
+						<button type="button" class="btn btn-primary" id="btnGuardarCanje" onclick="guardarCanje('{{ $idForm }}', '{{ $idComentario }}')">Guardar canje</button>
 					</div>
 				</div>
 			</div>
 			<input type="hidden" id="jsonRecompensas" name="recompensas_Canje" readonly>
+			<input type="text" id='{{ $idComentario }}' name="comentario_Canje" readonly>
 		</form>
 
-		<x-modalConfirmACtion 
-			:idConfirmModal="'modalConfirmActionGuardarCanje'"
+		<x-modalConfirmSolicitudCanje 
+			:idConfirmModal="'modalConfirmActionRegistrarCanje'"
+			:commentLabel="'Comentario (opcional)'"
 			:message="'¿Está seguro de guardar el canje?'"
-			:auxVar="$nuevoIdCanje"
+			:placeholder="'Agregar información adicional ...'"
 		/>
-
+		
 		<x-modalSuccessAction 
 			:idSuccesModal="'successModalCanjeStore'"
 			:message="'Canje registrado correctamente'"

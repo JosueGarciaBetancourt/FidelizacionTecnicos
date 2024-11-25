@@ -41,7 +41,12 @@ class CanjeController extends Controller
     public function registrar()
     {
         $tecnicos = Tecnico::all();
-        $ventas = VentaIntermediada::all();
+        // Obtener las ventas intermediadas no asociadas con alguna solicitud de canje
+        $ventas = VentaIntermediada::with('estadoVenta') // Cargar relación de estado
+                                    ->doesntHave('solicitudesCanje') // Filtrar comprobantes sin solicitudes de canje
+                                    ->whereIn('idEstadoVenta', [1, 2]) // Estados: En espera o Redimido (parcial)
+                                    ->get();
+
         // Obtener todas las recompensas activas (Inicialmente "RECOM-000, Efectivo" está inactivo)
         $recompensas = Recompensa::query()
                                 ->join('TiposRecompensas', 'Recompensas.idTipoRecompensa', '=', 'TiposRecompensas.idTipoRecompensa')
@@ -57,7 +62,7 @@ class CanjeController extends Controller
         
         // Nuevo Id Canje 
         $nuevoIdCanje = CanjeController::generarIdCanje();
-        return view('dashboard.registrarCanjes', compact('nuevoIdCanje', 'tecnicos', 'ventas', 'optionsNumComprobante', 'recompensas'));
+        return view('dashboard.registrarCanjes', compact('nuevoIdCanje', 'tecnicos', 'optionsNumComprobante', 'recompensas'));
     }
 
     public function store(Request $request) {
@@ -72,6 +77,7 @@ class CanjeController extends Controller
                 'puntosCanjeados_Canje' => 'required|numeric|min:0',
                 'puntosRestantes_Canje' => 'required|numeric|min:0',
                 'recompensas_Canje' => 'required',
+                'comentario_Canje' => 'required|string',
             ]);
 
             // Crear el canje usando la función separada
@@ -105,7 +111,7 @@ class CanjeController extends Controller
         // Obtener ID del usuario autenticado
         $idUser = Auth::id();
         $recompensasJson = $validatedData['recompensas_Canje'];
-    
+        
         // Crear el nuevo canje
         $canje = Canje::create([
             'idCanje' => $idCanje,
@@ -115,6 +121,7 @@ class CanjeController extends Controller
             'puntosComprobante_Canje' => $validatedData['puntosComprobante_Canje'],
             'puntosCanjeados_Canje' => $validatedData['puntosCanjeados_Canje'],
             'puntosRestantes_Canje' => $validatedData['puntosRestantes_Canje'],
+            'comentario_Canje'=> $validatedData['comentario_Canje'],
             'idUser' => $idUser,
         ]);
     
@@ -137,7 +144,6 @@ class CanjeController extends Controller
         TecnicoController::updatePuntosActualesTecnicoById($venta['idTecnico']);
     }
     
-
     public function historial() {
         $allCanjes = Canje::query()
                 ->join('VentasIntermediadas', 'Canjes.idVentaIntermediada', '=', 'VentasIntermediadas.idVentaIntermediada')

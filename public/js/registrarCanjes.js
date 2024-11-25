@@ -870,18 +870,23 @@ function validarPuntosTotales() {
     return false;
 }
 
-function guardarCanje(idForm) {
+function guardarCanje(idForm, idComentarioInput = null) {
     // Validación de campos que se enviarán al formulario
     if (!validarCamposVaciosCanje() || !validarTabla() || validarPuntosTotales()) {
         return;
-    }  
-    
+    }
+
     // Mostrar el modal y esperar la respuesta del usuario
-    openConfirmModal('modalConfirmActionGuardarCanje').then((answer) => {
-        if (answer) {
+    openConfirmSolicitudCanjeModal('modalConfirmActionRegistrarCanje').then((response) => {
+        if (response.answer) {
+            if (idComentarioInput && response.comment) {
+                // Asignar el comentario al input si existe
+                document.getElementById(idComentarioInput).value = response.comment;
+            }
+            // Enviar el formulario
             document.getElementById(idForm).submit();
-            return;
         }
     });
 }
+
 

@@ -35,7 +35,7 @@
                         <th class="celda-centered">Monto Total</th>
                         <th class="celda-centered">Puntos Generados</th>
                         <th>Técnico</th>
-                        <th class="celda-centered">Fecha y Hora Redimida</th>
+                        <th class="celda-centered">Fecha y Hora Canjeada</th>
                         <th class="celda-centered">Días hasta hoy</th>
                         <th class="celda-centered">Estado</th> 
                     </tr>
@@ -62,7 +62,7 @@
                         <td>{{ $venta->nombreTecnico }} <br>
                             <small>DNI: {{ $venta->idTecnico }}</small>
                         </td>
-                        <td class="celda-centered">{{ $venta->fechaHoraCanje }}</td>
+                        <td class="celda-centered">{{ $venta->fechaHora_Canje ?? 'Sin fecha de canje'}}</td>
                         <td class="celda-centered">{{ $venta->diasTranscurridos}}</td>
                         <td class="estado__celda">
                             <span class="estado__span-{{strtolower(str_replace(' ', '-', $venta->idEstadoVenta))}}">

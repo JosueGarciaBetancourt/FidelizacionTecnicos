@@ -27,6 +27,7 @@ class Canje extends Model
         'puntosCanjeados_Canje',
         'puntosRestantes_Canje',
         'recompensas_Canje',
+        'comentario_Canje',
         'idUser',
     ];
 

@@ -5,7 +5,6 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/solicitudesAppCanjes.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/modalDetalleSolicitudCanje.css') }}">
-	<link rel="stylesheet" href="{{ asset('css/modalConfirmSolicitudCanje.css') }}">
 @endpush
 
 @section('main-content')
@@ -48,7 +47,7 @@
 						</span>
 					</td>
 					<td class="celda-btnDetalle">
-						<button class="btnDetalle" onclick="openModalSolicitudCanje(this, {{ json_encode($solicitudesCanje) }})">
+						<button class="btnDetalle" onclick="openModalDetalleSolicitudCanje(this, {{ json_encode($solicitudesCanje) }})">
 							Ver Detalle <span class="material-symbols-outlined">visibility</span>
 						</button>
 					</td>

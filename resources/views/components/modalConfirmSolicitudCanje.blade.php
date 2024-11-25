@@ -2,8 +2,8 @@
     $confirmModal = $idConfirmModal ?? '';
     $messageToConfirm = $message ?? '';
     $modalTitle = $title ?? 'Confirmar acción';
-    $commentLabel = $commentLabel ?? 'Confirmar acción';
-    $placeholder = $placeholder ?? 'Confirmar acción';
+    $commentLabel = $commentLabel ?? 'Comentario';
+    $placeholder = $placeholder ?? '...';
 @endphp
 
 <div class="modal first" id="{{ $confirmModal }}">

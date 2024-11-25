@@ -64,71 +64,67 @@ class SolicitudCanjeController extends Controller
         }
     }
 
-    public function aprobarSolicitudCanje($idSolicitudCanje) {
+    public function aprobarSolicitudCanje(Request $request, $idSolicitudCanje) {
         try {
-            // Comenzar una transacción
             DB::beginTransaction();
-
-            $idUser = Auth::id(); // Obtiene el id del usuario autenticado
+    
+            $idUser = Auth::id(); 
+            $comentarioSolicitudCanje = $request->input('comentario'); // Recibiendo el comentario desde el modal de confirmación de solicitud de canje
+    
             $solicitudCanje = SolicitudesCanje::findOrFail($idSolicitudCanje);
             $solicitudesCanjesRecompensas = SolicitudCanjeRecompensa::where('idSolicitudCanje', $idSolicitudCanje)->get();
-
-            $recompensas_Canje = []; // Para construir el array de recompensas
+    
+            $recompensas_Canje = [];
             foreach ($solicitudesCanjesRecompensas as $item) {
                 $recompensas_Canje[] = [
                     'idRecompensa' => $item->idRecompensa,
                     'cantidad' => $item->cantidad,
                 ];
             }
-
+    
             $recompensasCanjeString = json_encode($recompensas_Canje);
-
-            // Crear el nuevo canje
-            $data = ([
+            $comentarioDefault = "Canje creado a partir de la aprobación de una solicitud de canje desde aplicación";
+    
+            $data = [
                 'idVentaIntermediada' => $solicitudCanje->idVentaIntermediada,
                 'puntosComprobante_Canje' => $solicitudCanje->puntosComprobante_SolicitudCanje,
                 'puntosCanjeados_Canje' => $solicitudCanje->puntosCanjeados_SolicitudCanje,
                 'puntosRestantes_Canje' => $solicitudCanje->puntosRestantes_SolicitudCanje,
-                'recompensas_Canje' =>  $recompensasCanjeString,
-            ]);
-            
-            Log::info($data);
-
-            // Crear el canje usando la función separada
+                'recompensas_Canje' => $recompensasCanjeString,
+                'comentario_Canje' => $comentarioDefault, 
+            ];
+    
             CanjeController::crearCanje($data);
-
-            // Actualizar estado de solicitud canje
+    
             $solicitudCanje->update([
                 'idEstadoSolicitudCanje' => 2, // Aprobado
                 'idUser' => $idUser,
-            ]); 
-
-            // Si todo sale bien, confirmar la transacción
+                'comentario_SolicitudCanje' => $comentarioSolicitudCanje ?? 'Sin comentario',
+            ]);
+    
             DB::commit();
-            $message = "Aprobando solicitud de canje: " . $solicitudCanje->idVentaIntermediada;
-            return response()->json($message);
+    
+            return response()->json(['message' => 'Aprobación completada', 'venta' => $solicitudCanje->idVentaIntermediada]);
         } catch (\Exception $e) {
-            DB::rollBack(); // Revierte los cambios realizados antes del error
-            // Manejo de errores en caso de fallo de consulta
-            return response()->json([
-                'error' => 'Error al aprobar la solicitud de canje.',
-                'details' => $e->getMessage()
-            ], 500);
+            DB::rollBack();
+            return response()->json(['error' => 'Error al aprobar la solicitud', 'details' => $e->getMessage()], 500);
         }
     }
 
-    public function rechazarSolicitudCanje($idSolicitudCanje) {
+    public function rechazarSolicitudCanje(Request $request, $idSolicitudCanje) {
         try {
              // Comenzar una transacción
              DB::beginTransaction();
 
              $idUser = Auth::id(); // Obtiene el id del usuario autenticado
+             $comentarioSolicitudCanje = $request->input('comentario'); // Recibiendo el comentario desde el modal de confirmación de solicitud de canje
              $solicitudCanje = SolicitudesCanje::findOrFail($idSolicitudCanje);
  
              // Actualizar estado de solicitud canje
              $solicitudCanje->update([
                  'idEstadoSolicitudCanje' => 3, // Rechazado
                  'idUser' => $idUser,
+                 'comentario_SolicitudCanje' => $comentarioSolicitudCanje ?? 'Sin comentario',
              ]); 
  
              // Si todo sale bien, confirmar la transacción

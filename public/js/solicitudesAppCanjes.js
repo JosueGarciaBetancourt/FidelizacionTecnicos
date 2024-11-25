@@ -69,7 +69,7 @@ function fillTableDetalleSolicitudCanje(detallesSolicitudesCanjes) {
     celdaTotalPuntosRecompensas.textContent = total_puntos_recompensas;
 }
 
-function openModalSolicitudCanje(button, solicitudesCanjeDB) {
+function openModalDetalleSolicitudCanje(button, solicitudesCanjeDB) {
     const fila = button.closest('tr');
     const celdaCodigoSolicitudCanje = fila.getElementsByClassName('idSolicitudCanje')[0]; 
     const codigo = celdaCodigoSolicitudCanje.innerText;
@@ -125,9 +125,11 @@ async function getDetalleSolicitudCanjeByIdCanjeFetch(idSolicitudCanje) {
 
 function aprobarSolicitudCanje(idSolicitudCanje){
     // Mostrar el modal y esperar la respuesta del usuario
-    openConfirmModal('modalConfirmActionAprobarSolicitudCanje').then((answer) => {
-        if (answer) {
-            aprobarSolicitud(idSolicitudCanje);
+    openConfirmSolicitudCanjeModal('modalConfirmActionAprobarSolicitudCanje').then((response) => {
+        if (response.answer) {
+            if (response.comment) {
+                aprobarSolicitud(idSolicitudCanje, response.comment); 
+            }
             return;
         }
     });
@@ -135,25 +137,32 @@ function aprobarSolicitudCanje(idSolicitudCanje){
 
 function rechazarSolicitudCanje(idSolicitudCanje){
     // Mostrar el modal y esperar la respuesta del usuario
-    openConfirmModal('modalConfirmActionRechazarSolicitudCanje').then((answer) => {
-        if (answer) {
-            rechazarSolicitud(idSolicitudCanje);
+    openConfirmSolicitudCanjeModal('modalConfirmActionRechazarSolicitudCanje').then((response) => {
+        if (response.answer) {
+            if (response.comment) {
+                rechazarSolicitud(idSolicitudCanje, response.comment); 
+            }
             return;
         }
     });
 }
 
-async function aprobarSolicitud(idSolicitudCanje) {
-    //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/solicitudCanje/${idSolicitudCanje}`;
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`; // Esto adaptará la URL al dominio actual
-    const url = `${baseUrl}/dashboard-canjes/solicitudCanje/aprobar/${idSolicitudCanje}`; 
-    console.warn("fetch", url);
+async function aprobarSolicitud(idSolicitudCanje, comentario) {
+    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
+    const url = `${baseUrl}/dashboard-canjes/solicitudCanje/aprobar/${idSolicitudCanje}`;
 
     try {
-        const response = await fetch(url);
-        /*console.log("Fetching URL:", url);
-        console.log('Response Status:', response.status);
-        console.log('Response Headers:', response.headers.get('Content-Type'));*/
+        // Obtener el token CSRF desde el contenido de la página
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        const response = await fetch(url, {
+            method: 'POST', // Cambiado a POST para enviar datos
+            headers: {
+                'Content-Type': 'application/json', // Importante para enviar JSON
+                'X-CSRF-TOKEN': csrfToken, // Agregar el token CSRF aquí
+            },
+            body: JSON.stringify({ comentario: comentario }), // Enviando el comentario
+        });
 
         if (!response.ok) {
             throw new Error(await response.text());
@@ -163,34 +172,28 @@ async function aprobarSolicitud(idSolicitudCanje) {
         console.log(mensaje);
 
         // Recargar la página después de que la solicitud se haya procesado correctamente
-        location.reload(); // Recarga la página actual
-        
-        /*
-        // Abrir el modal
-        /var modal = document.getElementById('modalDetalleSolicitudCanje');
-        modal.style.display = 'block';
-        setTimeout(function() {
-            modal.style.opacity = 1; // Hacer el modal visible de forma gradual
-            modal.querySelector('.modal-dialog').classList.add('open');
-        }, 50); // Pequeño retraso para asegurar la transición CSS
-        document.body.style.overflow = 'hidden'; // Evita el scroll de fondo cuando está abierto el modal
-        */
+        location.reload();
     } catch (error) {
-        console.error('Error al realizar la consulta al backend para obtener las recompensas de la solicitud canje:', error.message);
+        console.error('Error al realizar la consulta al backend para aprobar la solicitud:', error.message);
     }
 }
 
-async function rechazarSolicitud(idSolicitudCanje) {
-    //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/solicitudCanje/${idSolicitudCanje}`;
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`; // Esto adaptará la URL al dominio actual
-    const url = `${baseUrl}/dashboard-canjes/solicitudCanje/rechazar/${idSolicitudCanje}`; 
-    console.warn("fetch", url);
+async function rechazarSolicitud(idSolicitudCanje, comentario) {
+    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
+    const url = `${baseUrl}/dashboard-canjes/solicitudCanje/rechazar/${idSolicitudCanje}`;
 
     try {
-        const response = await fetch(url);
-        /*console.log("Fetching URL:", url);
-        console.log('Response Status:', response.status);
-        console.log('Response Headers:', response.headers.get('Content-Type'));*/
+        // Obtener el token CSRF desde el contenido de la página
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        const response = await fetch(url, {
+            method: 'POST', // Cambiado a POST para enviar datos
+            headers: {
+                'Content-Type': 'application/json', // Importante para enviar JSON
+                'X-CSRF-TOKEN': csrfToken, // Agregar el token CSRF aquí
+            },
+            body: JSON.stringify({ comentario: comentario }), // Enviando el comentario
+        });
 
         if (!response.ok) {
             throw new Error(await response.text());
@@ -198,21 +201,10 @@ async function rechazarSolicitud(idSolicitudCanje) {
 
         const mensaje = await response.json();
         console.log(mensaje);
-        
-        // Recargar la página después de que la solicitud se haya procesado correctamente
-        location.reload(); // Recarga la página actual
 
-        /*
-        // Abrir el modal
-        /var modal = document.getElementById('modalDetalleSolicitudCanje');
-        modal.style.display = 'block';
-        setTimeout(function() {
-            modal.style.opacity = 1; // Hacer el modal visible de forma gradual
-            modal.querySelector('.modal-dialog').classList.add('open');
-        }, 50); // Pequeño retraso para asegurar la transición CSS
-        document.body.style.overflow = 'hidden'; // Evita el scroll de fondo cuando está abierto el modal
-        */
+        // Recargar la página después de que la solicitud se haya procesado correctamente
+        location.reload();
     } catch (error) {
-        console.error('Error al realizar la consulta al backend para obtener las recompensas de la solicitud canje:', error.message);
+        console.error('Error al realizar la consulta al backend para rechazar la solicitud:', error.message);
     }
 }

@@ -53,9 +53,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('getDetalleCanjesRecompensasByIdCanje');
     route::get('/dashboard-canjes/solicitudCanje/{idSolicitudCanje}', [CanjeController::class, 'getDetalleSolicitudesCanjesRecompensasByIdSolicitudCanje'])
         ->name('getDetalleSolicitudesCanjesRecompensasByIdSolicitudCanje');
-    route::get('/dashboard-canjes/solicitudCanje/aprobar/{idSolicitudCanje}', [SolicitudCanjeController::class, 'aprobarSolicitudCanje'])
+    Route::post('/dashboard-canjes/solicitudCanje/aprobar/{idSolicitudCanje}', [SolicitudCanjeController::class, 'aprobarSolicitudCanje'])
         ->name('aprobarSolicitudCanje');
-    route::get('/dashboard-canjes/solicitudCanje/rechazar/{idSolicitudCanje}', [SolicitudCanjeController::class, 'rechazarSolicitudCanje'])
+    route::post('/dashboard-canjes/solicitudCanje/rechazar/{idSolicitudCanje}', [SolicitudCanjeController::class, 'rechazarSolicitudCanje'])
         ->name('rechazarSolicitudCanje');
 
     // Recompensas
