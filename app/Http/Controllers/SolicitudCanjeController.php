@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\SolicitudCanjeRecompensa;
 use App\Http\Controllers\CanjeController;
+use App\Models\VentaIntermediada;
+
 use Illuminate\Support\Facades\Log;
 
 class SolicitudCanjeController extends Controller
@@ -23,11 +25,31 @@ class SolicitudCanjeController extends Controller
             'recompensas.*.idRecompensa' => 'required|string|exists:Recompensas,idRecompensa',
             'recompensas.*.cantidad' => 'required|integer|min:1',
             'recompensas.*.costoRecompensa' => 'required|numeric|min:0',
+            'puntosCanjeados_SolicitudCanje' => 'required|integer|min:0',
         ]);
 
         DB::beginTransaction();
 
         try {
+            // Obtener la venta seleccionada
+            $venta = VentaIntermediada::where('idVentaIntermediada', $validatedData['idVentaIntermediada'])->firstOrFail();
+
+            // Convertir fechaHoraEmision_VentaIntermediada a Carbon
+            $fechaEmision = \Carbon\Carbon::parse($venta->fechaHoraEmision_VentaIntermediada);
+
+            // Calcular los valores de los nuevos campos
+            $fechaHoraSolicitud = now(); // Fecha actual
+            $diasTranscurridos = $fechaEmision->diffInDays($fechaHoraSolicitud);
+            $puntosComprobante = $venta->puntosGanados_VentaIntermediada;
+            $puntosCanjeados = $validatedData['puntosCanjeados_SolicitudCanje'];
+            $puntosRestantes = $puntosComprobante - $puntosCanjeados;
+
+            if ($puntosRestantes < 0) {
+                return response()->json([
+                    'message' => 'Los puntos canjeados no pueden exceder los puntos del comprobante.',
+                ], 422);
+            }
+
             // Generar un ID único para la solicitud
             $idSolicitudCanje = 'SOLICANJ-' . str_pad(SolicitudesCanje::count() + 1, 5, '0', STR_PAD_LEFT);
 
@@ -37,6 +59,11 @@ class SolicitudCanjeController extends Controller
                 'idVentaIntermediada' => $validatedData['idVentaIntermediada'],
                 'idTecnico' => $validatedData['idTecnico'],
                 'idEstadoSolicitudCanje' => 1, // Estado por defecto: Pendiente
+                'fechaHoraEmision_VentaIntermediada' => $venta->fechaHoraEmision_VentaIntermediada,
+                'diasTranscurridos_SolicitudCanje' => $diasTranscurridos,
+                'puntosComprobante_SolicitudCanje' => $puntosComprobante,
+                'puntosCanjeados_SolicitudCanje' => $puntosCanjeados,
+                'puntosRestantes_SolicitudCanje' => $puntosRestantes,
             ]);
 
             // Crear los registros en la tabla de recompensas asociadas
@@ -63,6 +90,8 @@ class SolicitudCanjeController extends Controller
             ], 500);
         }
     }
+
+
 
     public function aprobarSolicitudCanje(Request $request, $idSolicitudCanje) {
         try {
