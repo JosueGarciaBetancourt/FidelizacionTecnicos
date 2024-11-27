@@ -40,7 +40,7 @@ class SolicitudCanjeController extends Controller
             // Calcular los valores de los nuevos campos
             $fechaHoraSolicitud = now(); // Fecha actual
             $diasTranscurridos = $fechaEmision->diffInDays($fechaHoraSolicitud);
-            $puntosComprobante = $venta->puntosGanados_VentaIntermediada;
+            $puntosComprobante = $venta->puntosActuales_VentaIntermediada;
             $puntosCanjeados = $validatedData['puntosCanjeados_SolicitudCanje'];
             $puntosRestantes = $puntosComprobante - $puntosCanjeados;
 
@@ -90,6 +90,69 @@ class SolicitudCanjeController extends Controller
             ], 500);
         }
     }
+
+    // Mostrar todas las solicitudes de canje del usuario
+    public function getSolicitudesPorTecnico($idTecnico)
+    {
+        // Selecciona los campos necesarios de la tabla solicitudes y el nombre del estado desde la tabla relacionada
+        $solicitudes = SolicitudesCanje::select(
+                'SolicitudesCanjes.idSolicitudCanje',
+                'SolicitudesCanjes.idVentaIntermediada',
+                'SolicitudesCanjes.idEstadoSolicitudCanje',
+                'EstadosSolicitudesCanjes.nombre_EstadoSolicitudCanje', // Campo relacionado
+                'SolicitudesCanjes.idTecnico',
+                'SolicitudesCanjes.fechaHora_SolicitudCanje',
+                'SolicitudesCanjes.puntosCanjeados_SolicitudCanje'
+            )
+            ->join('EstadosSolicitudesCanjes', 'SolicitudesCanjes.idEstadoSolicitudCanje', '=', 'EstadosSolicitudesCanjes.idEstadoSolicitudCanje')
+            ->where('SolicitudesCanjes.idTecnico', $idTecnico)
+            ->orderBy('SolicitudesCanjes.fechaHora_SolicitudCanje', 'desc')
+            ->get();
+
+        return response()->json($solicitudes);
+    }
+
+
+
+    // Mostrar los detalles de una solicitud de canje
+    public function getDetallesSolicitud($idSolicitudCanje)
+    {
+        // Cargar la solicitud con las recompensas relacionadas
+        $solicitud = SolicitudesCanje::with(['solicitudCanjeRecompensa.recompensas'])
+            ->where('idSolicitudCanje', $idSolicitudCanje)
+            ->first();
+
+        if ($solicitud) {
+            // Seleccionamos solo los campos necesarios para los detalles
+            $detalles = [
+                'idSolicitudCanje' => $solicitud->idSolicitudCanje,
+                'idVentaIntermediada' => $solicitud->idVentaIntermediada,
+                'fechaHoraEmision_VentaIntermediada' => $solicitud->fechaHoraEmision_VentaIntermediada,
+                'idTecnico' => $solicitud->idTecnico,
+                'idUser' => $solicitud->idUser,
+                'fechaHora_SolicitudCanje' => $solicitud->fechaHora_SolicitudCanje,
+                'diasTranscurridos_SolicitudCanje' => $solicitud->diasTranscurridos_SolicitudCanje,
+                'puntosComprobante_SolicitudCanje' => $solicitud->puntosComprobante_SolicitudCanje,
+                'puntosCanjeados_SolicitudCanje' => $solicitud->puntosCanjeados_SolicitudCanje,
+                'puntosRestantes_SolicitudCanje' => $solicitud->puntosRestantes_SolicitudCanje,
+                'comentario_SolicitudCanje' => $solicitud->comentario_SolicitudCanje,
+                'recompensas' => $solicitud->solicitudCanjeRecompensa->map(function ($recompensa) {
+                    return [
+                        'idRecompensa' => $recompensa->idRecompensa,
+                        'cantidad' => $recompensa->cantidad,
+                        'costoRecompensa' => $recompensa->costoRecompensa,
+                        'nombreRecompensa' => $recompensa->recompensas->descripcionRecompensa, // Aquí suponiendo que tienes un modelo "Recompensa" con un campo "nombre"
+                    ];
+                }),
+            ];
+
+            return response()->json($detalles);
+        }
+
+        return response()->json(['message' => 'Solicitud no encontrada'], 404);
+    }
+
+
 
 
 

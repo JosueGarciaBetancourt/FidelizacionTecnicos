@@ -25,4 +25,6 @@ Route::get('/user', function (Request $request) {
 
     //RUTAS SOLICITUDES
     Route::post('/solicitudes/canje', [SolicitudCanjeController::class, 'crearSolicitud']);
+    Route::get('/solicitudes-canje/{idTecnico}', [SolicitudCanjeController::class, 'getSolicitudesPorTecnico']); // Listar todas las solicitudes de canje del técnico
+    Route::get('/solicitudes-canje/{idSolicitudCanje}/detalles', [SolicitudCanjeController::class, 'getDetallesSolicitud']); // Ver detalles de una solicitud de canje
 
