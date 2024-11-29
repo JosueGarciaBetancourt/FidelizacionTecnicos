@@ -14,10 +14,16 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\OficioController;
 use App\Http\Controllers\SolicitudCanjeController;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Artisan;
 
 Route::post('/log-error', function (Illuminate\Http\Request $request) {
     Log::error('Error en JavaScript: ' . $request->input('message'));
     return response()->json(['status' => 'error logged']);
+});
+
+Route::get('/migrate-refresh-seed', function () {
+    Artisan::call('migrate:fresh --seed');
+    return 'Migraciones ejecutadas con éxito.';
 });
 
 Route::get('/dashboard', function () {
