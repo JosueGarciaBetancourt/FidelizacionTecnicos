@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $startTime = microtime(true); // Marca el inicio del tiempo
+        
         $this->call(UserSeeder::class);
         $this->call(OficioSeeder::class);
         $this->call(TecnicoSeeder::class);
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SolicitudesCanjeSeeder::class);
         $this->call(SolicitudCanjeRecompensaSeeder::class);
         $this->call(Login_tecnicoSeeder::class);
+       
         $endTime = microtime(true); // Marca el fin del tiempo
         $totalTime = $endTime - $startTime; // Calcula el tiempo total
         echo "Tiempo total seeders: " . round($totalTime, 2) . " seg\n"; // Muestra el tiempo total en ms
