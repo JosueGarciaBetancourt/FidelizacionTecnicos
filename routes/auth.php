@@ -25,7 +25,7 @@ Route::middleware('guest')->group(function () {
                 ->name('login');
 
     // Iniciar sesión
-    Route::post('login', [AuthenticatedSessionController::class, 'store'])
+    Route::post('loginPost', [AuthenticatedSessionController::class, 'store'])
                 //->middleware('throttle:1,1') 
                 ->name('loginPost');
 
