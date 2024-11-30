@@ -75,11 +75,11 @@ class Login_tecnicoController extends Controller
     {
         try {
             $ventas = DB::table('VentasIntermediadas')
-                ->join('estadoventas', 'ventasintermediadas.idEstadoVenta', '=', 'estadoventas.idEstadoVenta')
-                ->where('ventasintermediadas.idTecnico', $idTecnico)
+                ->join('EstadoVentas', 'VentasIntermediadas.idEstadoVenta', '=', 'EstadoVentas.idEstadoVenta')
+                ->where('VentasIntermediadas.idTecnico', $idTecnico)
                 ->select(
-                    'ventasintermediadas.*',
-                    'estadoventas.nombre_EstadoVenta as estado_nombre'
+                    'VentasIntermediadas.*',
+                    'EstadoVentas.nombre_EstadoVenta as estado_nombre'
                 )
                 ->get();
             
