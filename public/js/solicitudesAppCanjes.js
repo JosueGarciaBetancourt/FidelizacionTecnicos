@@ -207,4 +207,4 @@ async function rechazarSolicitud(idSolicitudCanje, comentario) {
     } catch (error) {
         console.error('Error al realizar la consulta al backend para rechazar la solicitud:', error.message);
     }
-}
+} 

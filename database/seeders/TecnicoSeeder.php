@@ -36,7 +36,7 @@ class TecnicoSeeder extends Seeder
             'nombreTecnico' => 'Técnico Guillermo Peña',
             'celularTecnico' =>'964733868',
             'fechaNacimiento_Tecnico' => '1985-04-03',
-            'totalPuntosActuales_Tecnico' => 0, // Suma de puntos de ventas intermediadas En espera y Redimido (parcial)
+            'totalPuntosActuales_Tecnico' => 1000, // Suma de puntos de ventas intermediadas En espera y Redimido (parcial)
             'historicoPuntos_Tecnico' => 25000, // Suma de los puntos de todas las ventas intermediadas
             'rangoTecnico' => 'Oro', // Menor a 24000 (más detalle en TecnicoController.php getRango())
         ]);
