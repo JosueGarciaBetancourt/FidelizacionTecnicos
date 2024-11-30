@@ -138,6 +138,20 @@ class VentaIntermediadaSeeder extends Seeder
                 'puntosActuales_VentaIntermediada' => 500,
                 'idEstadoVenta' => 1,  // En Espera
             ],
+            [
+                'idVentaIntermediada' => 'F001-00001234',
+                'idTecnico' => '43111949',
+                'nombreTecnico' => 'Técnico Guillermo Peña',
+                'tipoCodigoCliente_VentaIntermediada' => 'DNI',
+                'codigoCliente_VentaIntermediada' => '11223344',
+                'nombreCliente_VentaIntermediada' => 'Cliente de prueba',
+                'fechaHoraEmision_VentaIntermediada' => '2024-11-30 10:00:00', 
+                'fechaHoraCargada_VentaIntermediada' => '2024-11-30 10:30:00',
+                'montoTotal_VentaIntermediada' => 999.99,
+                'puntosGanados_VentaIntermediada' => 1000,
+                'puntosActuales_VentaIntermediada' => 1000,
+                'idEstadoVenta' => 1,  // En Espera
+            ],
         ];
 
         foreach ($ventasIntermediadas as $ventaData) {
