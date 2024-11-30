@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
         ]);
         
         User::create([
-            'name' => 'Guillermo Peña',
+            'name' => 'Vendedor Guillermo Peña',
             'email' => 'guillermo@dimacof.com',
             'password' => Hash::make('continental'),
             'profile' => 'Vendedor'
