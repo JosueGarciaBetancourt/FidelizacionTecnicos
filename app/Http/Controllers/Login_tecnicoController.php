@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Recompensa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\TecnicoController;
 
@@ -126,7 +127,6 @@ class Login_tecnicoController extends Controller
             ]
         ]);
     }
-
 
     public function getAllLoginTecnicos() 
     {
