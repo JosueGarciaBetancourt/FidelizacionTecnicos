@@ -21,6 +21,9 @@
                     <label for="idComentarioInput">{{ $commentLabel }}:</label>
                     <input class="comentarioInput" id="idComentarioInput" type="text" placeholder="{{ $placeholder }}">
                 </div>
+                <div class="form-group start">
+                    <span class="inline-alert-message" id="comentarioAprobRechaCanjeErrorMessage">El campo comentario es obligatorio</span>      
+                </div>
             </div>
             <div class="modal-footer confirmSolicitudCanje">
                 <button type="button" class="btn btn-secondary confirmSolicitudCanje" onclick="noConfirmAction()">No</button>

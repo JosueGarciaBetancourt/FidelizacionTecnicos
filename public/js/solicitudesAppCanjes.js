@@ -129,9 +129,9 @@ function aprobarSolicitudCanje(idSolicitudCanje){
         if (response.answer) {
             if (response.comment) {
                 aprobarSolicitud(idSolicitudCanje, response.comment); 
+                return;
             }
-            return;
-        }
+        } 
     });
 }
 

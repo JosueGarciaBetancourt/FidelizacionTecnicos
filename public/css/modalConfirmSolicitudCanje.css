@@ -113,3 +113,7 @@
     background-color: #f5b5b8; /* Tonalidad más viva en hover */
     color: #721c24;
 }
+
+#comentarioAprobRechaCanjeErrorMessage  {
+    padding-left: 1rem;
+}

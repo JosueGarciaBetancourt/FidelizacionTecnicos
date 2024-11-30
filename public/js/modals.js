@@ -68,9 +68,14 @@ function openConfirmSolicitudCanjeModal(modalId) {
             // Capturar el valor del comentario (si existe)
             const commentInput = modal.querySelector('#idComentarioInput');
             const comment = commentInput ? commentInput.value.trim() : null;
-
-            closeModal(modalId);
-            resolve({ answer: true, comment }); // Resuelve con un objeto
+            if (comment) {
+                closeModal(modalId);
+                resolve({ answer: true, comment }); // Resuelve con un objeto
+            } else {
+                // No ingresa comentario
+                document.getElementById('comentarioAprobRechaCanjeErrorMessage').classList.add('shown');
+                console.log("NO PUSISTE UN COMENTARIO");
+            }
         };
 
         window.noConfirmAction = function () {
