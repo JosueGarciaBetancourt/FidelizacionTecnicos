@@ -93,7 +93,7 @@ function returnObjCanjeById(idCanje, canjesDB) {
 // Usage
 async function getDetalleCanjeByIdCanjeFetch(idCanje) {
     //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/historialCanje/${idCanje}`;
-    const baseUrl = `${window.location.origin}`; // Esto adaptará la URL al dominio actual
+    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`; // Esto adaptará la URL al dominio actual
     const url = `${baseUrl}/dashboard-canjes/historialCanje/${idCanje}`;
 
     console.warn("fetch", url);
@@ -105,7 +105,8 @@ async function getDetalleCanjeByIdCanjeFetch(idCanje) {
         console.log('Response Headers:', response.headers.get('Content-Type'));*/
 
         if (!response.ok) {
-            throw new Error(await response.text());
+            throw new Error(await response.text());eb
+            
         }
 
         const detallesCanjes = await response.json();

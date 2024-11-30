@@ -141,29 +141,33 @@
 	margin-bottom: 10px;
 }
 
-.login_button{
-	width: 100%;
-	height: 100%;
-	background: #A76307;
-	color: #FFFFFF;
-	border-color: #00000000;
-	border-width: 1px;
-	border-style: solid;
-	border-radius: 4px 4px 4px 4px;
-	font-family: "Source Sans 3";
-	font-weight: 600;
-	font-size: 20px;
-	text-align: center;
-    cursor: pointer; /* Cambia el cursor al pasar el mouse sobre el botón */
-	user-select: none;
+.login_button {
+    display: flex; /* Asegura que el enlace tenga un comportamiento similar a un botón */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: #A76307;
+    color: #FFFFFF;
+    border-color: #00000000;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    font-family: "Source Sans 3";
+    font-weight: 600;
+    font-size: 20px;
+    text-align: center;
+    text-decoration: none; /* Elimina el subrayado del enlace */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse sobre el enlace */
+    user-select: none; /* Evita que el texto del enlace se seleccione */
 }
 
-.login_button:hover{
-	background: #ca872b;
+.login_button:hover {
+    background: #ca872b;
 }
 
-.login_button:active{
-	font-weight: bold;
+.login_button:active {
+    font-weight: bold;
 }
 
 #formLogin {

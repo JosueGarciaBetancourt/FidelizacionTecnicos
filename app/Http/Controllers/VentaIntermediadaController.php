@@ -12,6 +12,10 @@ use Illuminate\Support\Facades\DB;
 
 class VentaIntermediadaController extends Controller
 {
+    public function algo() {
+        return "algo";
+    }
+
     public function limpiarIDs($id)
     {
         // Dividir la cadena usando el guion '-' como delimitador
@@ -196,6 +200,7 @@ class VentaIntermediadaController extends Controller
             $tecnicoController = new TecnicoController();
             $tecnicos = $tecnicoController->returnModelsTecnicosWithOficios();
             $idsNombresOficios = $tecnicoController->returnAllIdsNombresOficios(); 
+
             return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos', 'idsNombresOficios'));
         } catch (\Exception $e) {
             dd($e->getMessage());

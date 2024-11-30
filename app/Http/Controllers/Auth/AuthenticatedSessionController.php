@@ -11,10 +11,9 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-    public function create(): View
-    {
-
-        return view('auth.login'); // Redirige a la vista de login
+    public function create()
+    {   
+        return view('auth.login');
     }
 
     public function store(LoginRequest $request): RedirectResponse
@@ -28,8 +27,6 @@ class AuthenticatedSessionController extends Controller
 
     public function destroy(Request $request): RedirectResponse
     {
-        //dd("AuthenticatedSessionController original cerrar sesión");
-
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

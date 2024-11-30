@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Artisan;
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');*/
 
+Route::get('', [AuthenticatedSessionController::class, 'create']);
+
 Route::middleware(['auth', 'verified'])->group(function () {
     //PDF 
     Route::get('/dashboard-canjes/historialCanje/pdf/{size}/{idCanje}', [CanjeController::class, 'canjePDF'])->name('canjes.pdf');
