@@ -73,16 +73,26 @@ class Login_tecnicoController extends Controller
 
     public function getVentasIntermediadas($idTecnico)
     {
-        $ventas = DB::table('ventasintermediadas')
-            ->join('estadoventas', 'ventasintermediadas.idEstadoVenta', '=', 'estadoventas.idEstadoVenta')
-            ->where('ventasintermediadas.idTecnico', $idTecnico)
-            ->select(
-                'ventasintermediadas.*',
-                'estadoventas.nombre_EstadoVenta as estado_nombre' // Agregamos el nombre del estado
-            )
-            ->get();
+        try {
+            $ventas = DB::table('VentasIntermediadas')
+                ->join('EstadoVentas', 'VentasIntermediadas.idEstadoVenta', '=', 'EstadoVentas.idEstadoVenta')
+                ->where('VentasIntermediadas.idTecnico', $idTecnico)
+                ->select(
+                    'VentasIntermediadas.*',
+                    'EstadoVentas.nombre_EstadoVenta as estado_nombre'
+                )
+                ->get();
+            
+            // Si no se encuentran resultados
+            if ($ventas->isEmpty()) {
+                return response()->json(['message' => 'No se encontraron ventas para el técnico.'], 404);
+            }
 
-        return response()->json($ventas);
+            return response()->json($ventas);
+        } catch (\Exception $e) {
+            // Capturar el error y devolver el mensaje de error
+            return response()->json(['error' => 'Hubo un problema al procesar la solicitud.', 'message' => $e->getMessage()], 500);
+            }
     }
 
     public function obtenerTecnicoPorId($idTecnico)
