@@ -218,7 +218,7 @@ class Login_tecnicoController extends Controller
     public function getAvailableJobs()
     {
         // Obtener todas las recompensas desde la tabla 'Recompensas'
-        $recompensas = DB::table('oficios')
+        $recompensas = DB::table('Oficios')
             ->select('idOficio', 'nombre_Oficio')
             ->get();
 
