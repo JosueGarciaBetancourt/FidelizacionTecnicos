@@ -273,7 +273,7 @@ function returnPuntosActualesDBWithRequestedTecnicoID(idTecnico, tecnicosDB) {
 
 async function filterNumComprobantesInputWithTecnicoFetch(idTecnico) {
     //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/tecnico/${idTecnico}`;
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`; // Esto adaptará la URL al dominio actual
+    const baseUrl = `${window.location.origin}`; // Esto adaptará la URL al dominio actual
     const url = `${baseUrl}/dashboard-canjes/tecnico/${idTecnico}`; 
     console.warn("fetch", url);
 
