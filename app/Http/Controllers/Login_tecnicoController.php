@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\TecnicoController;
+use App\Models\Recompensa;
 
 class Login_tecnicoController extends Controller
 {
@@ -137,7 +138,7 @@ class Login_tecnicoController extends Controller
     public function obtenerRecompensas()
     {
         // Obtener todas las recompensas con su tipo de recompensa desde la tabla 'Recompensas'
-        $recompensas = DB::table('Recompensas')
+        $recompensas = Recompensa::query()
             ->join('TiposRecompensas', 'Recompensas.idTipoRecompensa', '=', 'TiposRecompensas.idTipoRecompensa')
             ->select(
                 'Recompensas.idRecompensa',
