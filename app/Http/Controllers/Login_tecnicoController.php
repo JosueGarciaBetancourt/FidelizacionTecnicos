@@ -81,6 +81,7 @@ class Login_tecnicoController extends Controller
                 'estadoventas.nombre_EstadoVenta as estado_nombre' // Agregamos el nombre del estado
             )
             ->get();
+        dd($ventas); 
 
         return response()->json($ventas);
     }
