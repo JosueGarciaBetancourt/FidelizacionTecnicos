@@ -31,5 +31,12 @@ class UserSeeder extends Seeder
             'password' => Hash::make('12345678'),
             'profile' => 'Vendedor'
         ]);
+        
+        User::create([
+            'name' => 'Guillermo Peña',
+            'email' => 'guillermo@dimacof.com',
+            'password' => Hash::make('continental'),
+            'profile' => 'Vendedor'
+        ]);
     }
 }
