@@ -37,7 +37,7 @@
 						<span class="tooltip red" id="idTecnicoCanjesTooltip">Este es el mensaje del tooltip</span>
 					</div>
 					<div class="input-select" id="tecnicoSelect">
-						<input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI - Nombre" autocomplete="off" value="77043114 - Josué Daniel García Betancour"
+						<input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI - Nombre" autocomplete="off" value="DNI - Nombre"
 							oninput="filterOptions('{{ $idInput }}', '{{ $idTecnicoOptions }}'),
 									validateOptionTecnicoCanjes(this, '{{ $idTecnicoOptions }}', '{{ $idTecnicoMessageError }}', {{ json_encode($tecnicosDB) }})"
 							onclick="toggleOptions('{{ $idInput }}', '{{ $idTecnicoOptions }}')">
