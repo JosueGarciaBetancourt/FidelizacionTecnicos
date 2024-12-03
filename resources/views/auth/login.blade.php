@@ -35,9 +35,15 @@
                         <h3>Correo electrónico</h3>
                     </div>   
                     <input id="email" class="credential-box-input" type="email" name="email" 
-                            value="" required placeholder="Ingrese email" 
+                            value="{{ old('email') }}" required placeholder="Ingrese email" 
                             required autofocus autocomplete="username">
                 </div>
+                
+                @error('email')
+                    <div class="error">
+                        {{ $message }}
+                    </div>
+                @enderror
 
                 <!-- Password -->
                 <div class="form-group">
@@ -58,12 +64,6 @@
                         </div>
                     </div>
                 </div>
-
-                @error('email')
-                    <div class="error">
-                        {{ $message }}
-                    </div>
-                @enderror
 
                 @error('password')
                     <div class="error">

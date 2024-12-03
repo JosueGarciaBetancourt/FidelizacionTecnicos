@@ -32,6 +32,17 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    // Método messages heredado de FormRequest para persnalizar el mensaje de error solo en este formulario
+
+    /*public function messages(): array
+    {
+        return [
+            'email.required' => 'Te falta rellenar el campo de correo electrónico.',
+            'email.email' => 'El correo electrónico debe ser válido.',
+            'password.required' => 'Te falta ingresar la contraseña.',
+        ];
+    }*/
+
     /**
      * Attempt to authenticate the request's credentials.
      *
