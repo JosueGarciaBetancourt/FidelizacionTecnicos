@@ -14,6 +14,7 @@ return new class extends Migration
             $table->foreign('idTecnico')->references('idTecnico')->on('Tecnicos')->onDelete('cascade');
 
             $table->boolean('isFirstLogin')->default(0); // columna para verificar si el usuario logeo alguna vez
+            $table->string('api_key')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

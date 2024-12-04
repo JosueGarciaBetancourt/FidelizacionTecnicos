@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\TecnicoController;
+use Illuminate\Support\Str;
 
 class Login_tecnicoController extends Controller
 {
@@ -42,10 +43,19 @@ class Login_tecnicoController extends Controller
                         ->update(['isFirstLogin' => 1]);
                 }
 
+                // Generar una API Key única
+                $apiKey = Str::random(60);  // Genera una clave de 60 caracteres
+
+                // Almacenar la API Key en la base de datos (puedes agregar una nueva columna en la tabla 'login_tecnicos' para esto)
+                DB::table('login_tecnicos')
+                    ->where('idTecnico', $tecnico->idTecnico)
+                    ->update(['api_key' => $apiKey]);
+
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Login exitoso',
                     'idTecnico' => $tecnico->idTecnico,
+                    'apiKey' => $apiKey,
                     'isFirstLogin' => $isFirstLogin == 0, 
                 ]);
             }
