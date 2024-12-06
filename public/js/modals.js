@@ -43,7 +43,7 @@ function openConfirmModal(modalId) {
         };
 
         window.noConfirmAction = function () {
-            closeModal(modalId);
+            closeModal(modalId);    
             resolve(false); // Resuelve la promesa como false
         };
     });

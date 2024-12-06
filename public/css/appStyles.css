@@ -458,6 +458,10 @@ body.dark-mode .header {
     text-align: center !important;
 }
 
+.celda-lefted {
+    text-align: left !important;
+}
+
 .celda-righted {
     text-align: right !important;
 }

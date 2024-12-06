@@ -1,11 +1,11 @@
 @php
-    $confirmModal = $idConfirmModal ?? '';
+    $confirmModalID = $idConfirmModal ?? '';
     $messageToConfirm = $message ?? '';
     $auxiliarVar = $auxVar ?? '';
     //dd($confirmModal);
 @endphp
 
-<div class="modal first" id="{{ $confirmModal }}">
+<div class="modal first" id="{{ $confirmModalID }}">
     <div class="modal-dialog confirm">
         <div class="modal-content confirm">
             <div class="modal-header confirm">

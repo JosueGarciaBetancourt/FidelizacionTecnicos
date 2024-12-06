@@ -26,11 +26,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //PDF 
     Route::get('/dashboard-canjes/historialCanje/pdf/{size}/{idCanje}', [CanjeController::class, 'canjePDF'])->name('canjes.pdf');
 
-    // Perfil
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Perfil (laravel)
+    /* Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/dashboard-profileOwn', [ProfileController::class, 'viewProfileOwn'])->name('profileOwn.edit');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');*/
+
+    // Perfil
+    Route::get('/dashboard-usuarios', [ProfileController::class, 'create'])->name('usuarios.create');
+    Route::patch('/dashboard-updateUsuario', [ProfileController::class, 'update'])->name('usuarios.update');
 
     // Ventas Intermediadas
     Route::get('/dashboard-ventasIntermediadas', [VentaIntermediadaController::class, 'create'])->name('ventasIntermediadas.create');

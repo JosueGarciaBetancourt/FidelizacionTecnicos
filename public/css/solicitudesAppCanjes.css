@@ -52,7 +52,7 @@ h3 {
     background-color: #f8f8f8; /* Color claro alterno */
 }
 
-/* Estilos mejorados para el botón de detalle */
+/* Botón de detalle */
 .btnDetalle {
     cursor: pointer;
 	max-width: 6rem;
@@ -161,19 +161,6 @@ h3 {
 .celda-btnAcciones .btnRechazar:focus {
     outline: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Resalta el botón */
-}
-
-/* Iconos dentro de los botones */
-.celda-btnAcciones .btnAprobar .material-symbols-outlined,
-.celda-btnAcciones .btnRechazar .material-symbols-outlined {
-    font-size: 18px;
-    transition: transform 0.2s ease-in-out;
-}
-
-/* Efecto hover sobre el ícono */
-.celda-btnAcciones .btnAprobar:hover .material-symbols-outlined,
-.celda-btnAcciones .btnRechazar:hover .material-symbols-outlined {
-    transform: translateX(4px); /* Mueve el ícono ligeramente */
 }
 
 /*ESTILOS DE LOS ESTADOS DE LAS VENTAS INTERMEDIADAS*/

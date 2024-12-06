@@ -3,13 +3,14 @@
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #cccccc; /* Color de borde más claro */
-    width: 35%;
+    width: 25rem;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Menos opacidad para suavizar */
 }
 
 .modal-content.confirm {
     background-color: #ffffff;
+    width: 100%;
     padding: 0;
 }
 
