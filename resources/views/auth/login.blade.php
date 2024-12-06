@@ -35,10 +35,10 @@
                         <h3>Correo electrónico</h3>
                     </div>   
                     <input id="email" class="credential-box-input" type="email" name="email" 
-                            value="{{ old('email') }}" required placeholder="Ingrese email" 
+                            value="admin@dimacof.com" required placeholder="Ingrese email" 
                             required autofocus autocomplete="username">
                 </div>
-                
+                {{--{{ old('email') }}--}}
                 @error('email')
                     <div class="error">
                         {{ $message }}
@@ -54,7 +54,7 @@
                     <!-- Contenedor para alinear el input y el checkbox -->
                     <div class="input-password-container">
                         <input id="password" class="credential-box-input" type="password" 
-                               name="password" value="" required placeholder="Ingrese contraseña" 
+                               name="password" value="12345678" required placeholder="Ingrese contraseña" 
                                required autocomplete="current-password">
                 
                         <!-- Checkbox para mostrar/ocultar contraseña -->

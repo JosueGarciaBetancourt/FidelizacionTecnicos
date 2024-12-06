@@ -13,7 +13,7 @@
 @endpush
 
 @section('content')
-    <div class="dashboard-container" data-routes='{"perfil": "{{ route('profile.edit') }}", "logout": "{{ route('logout') }}"}'>
+    <div class="dashboard-container" data-routes='{"perfil": "{{ route('profileOwn.edit') }}", "logout": "{{ route('logout') }}"}'>
         <aside>
             <div class="top">
                 <div class="logo">
