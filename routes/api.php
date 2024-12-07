@@ -17,7 +17,7 @@ Route::get('/user', function (Request $request) {
 
     Route::middleware('auth.api')->group(function () {
         Route::get('/getTecnico/{idTecnico}', [Login_tecnicoController::class, 'obtenerTecnicoPorId']);  
-        Route::get('/ventasIntermediadasSolicitud/{idTecnico}', [TuControlador::class, 'getVentasIntermediadasFiltradas']);
+        Route::get('/ventasIntermediadasSolicitud/{idTecnico}', [Login_tecnicoController::class, 'getVentasIntermediadasFiltradas']);
         Route::get('/ventas-intermediadas/{idTecnico}', [Login_tecnicoController::class, 'getVentasIntermediadas']);
         Route::get('/recompensas', [Login_tecnicoController::class, 'obtenerRecompensas']);
         Route::get('/oficios', [Login_tecnicoController::class, 'getAvailableJobs']);
