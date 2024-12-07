@@ -18,18 +18,18 @@ function openModalEliminarUsuario(button, usersDB) {
     const fila = button.closest('tr');
     const celdaEmail = fila.getElementsByClassName('email')[0]; 
     const email = celdaEmail.innerText;
-
-    const objCanje = returnObjUserByEmail(email, usersDB);
-    console.log("ELIMINAR: ", objCanje);
+    const objUser = returnObjUserByEmail(email, usersDB);
+    const userName = objUser.name;
+    
+    document.getElementById("idMessageConfirmModal").innerText = `¿Está seguro de eliminar el usuario ${userName}?`
 
     openConfirmModal('modalConfirmActionEliminarUsuario').then((response) => {
-        if (response.answer) {
-            console.log('Eliminando usuario...');
+        if (response) {
+            console.log(`Eliminando usuario...${userName}`);
             // Recargar la página después de que la solicitud se haya procesado correctamente
             location.reload();
             return;
-        } 
-        console.log(response.answer);
+        }
     });
 }
 

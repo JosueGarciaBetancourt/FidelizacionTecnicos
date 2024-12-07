@@ -877,10 +877,10 @@ function guardarCanje(idForm, idComentarioInput = null) {
     }
 
     // Mostrar el modal y esperar la respuesta del usuario
-    openConfirmSolicitudCanjeModal('modalConfirmActionRegistrarCanje').then((response) => {
+    openConfirmActionOptionalComment('modalConfirmActionRegistrarCanje').then((response) => {
         if (response.answer) {
+            // Asignar el comentario al input si existe
             if (idComentarioInput && response.comment) {
-                // Asignar el comentario al input si existe
                 document.getElementById(idComentarioInput).value = response.comment;
             }
             // Enviar el formulario

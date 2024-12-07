@@ -4,6 +4,7 @@
     $modalTitle = $title ?? 'Confirmar acción';
     $commentLabel = $commentLabel ?? 'Comentario';
     $placeholder = $placeholder ?? '...';
+    $auxiliarVar = $auxVar ?? '';
 @endphp
 
 <div class="modal first" id="{{ $confirmModal }}">
@@ -15,7 +16,7 @@
             <div class="modal-body confirmSolicitudCanje">
                 <div class="question-container">
                     <i class="fa-solid fa-triangle-exclamation"></i>
-                    <p>{{ $messageToConfirm }}</p>
+                    <p>{{ $messageToConfirm }} {{ $auxiliarVar }}</p>
                 </div>
                 <div class="comentario-container">
                     <label for="idComentarioInput">{{ $commentLabel }}:</label>

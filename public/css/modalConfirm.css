@@ -3,7 +3,7 @@
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #cccccc; /* Color de borde más claro */
-    width: 25rem;
+    width: 30rem;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Menos opacidad para suavizar */
 }
@@ -57,14 +57,14 @@
 }
 
 .btn.btn-primary.confirm {
-    background-color: #007b55; /* Verde más oscuro */
+    background-color: var(--clr-primary-variant); 
     color: #fff;
     border: none;
     transition: background-color 0.3s ease;
 }
 
 .btn.btn-primary.confirm:hover {
-    background-color: #0ac48c; /* Verde más vivo en hover */
+    background-color: var(--clr-primary-variant-hover); 
 }
 
 .btn.btn-secondary.confirm {

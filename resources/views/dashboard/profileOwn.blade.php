@@ -4,6 +4,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/profileOwn.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalEditarUsuario.css') }}">
 @endpush
 
 @section('main-content')
@@ -34,7 +35,9 @@
                                 <td class="celda-centered" >{{ $user->profile }}</td>
                                 <td class="celda-centered celda-btnAcciones">
                                     <button class="edit-btn" onclick="openModalEditarUsuario(this, {{ json_encode($users) }})">Editar</button>
-                                    <button class="delete-btn" onclick="openModalEliminarUsuario(this, {{ json_encode($users) }})">Eliminar</button>
+                                    @if ($user->email !== "admin@dimacof.com")
+                                        <button class="delete-btn" onclick="openModalEliminarUsuario(this, {{ json_encode($users) }}, )">Eliminar</button>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
