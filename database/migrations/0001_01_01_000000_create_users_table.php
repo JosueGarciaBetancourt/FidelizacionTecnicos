@@ -10,12 +10,23 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('idPerfilUsuario');
             $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('email')->unique(); // Correo corporativo
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('profile')->nullable();
             $table->rememberToken();
+
+            $table->string('DNI')->unique()->nullable();
+            $table->string('surname')->nullable();
+            $table->dateTime('fechaNacimiento')->nullable();
+            $table->string('correoPersonal')->nullable();
+            $table->string('celularPersonal')->nullable();
+            $table->string('celularCorporativo')->nullable();
+
+            $table->foreign('idPerfilUsuario')->references('id')->on('PerfilesUsuarios');
+
             $table->timestamps();
         });
 
