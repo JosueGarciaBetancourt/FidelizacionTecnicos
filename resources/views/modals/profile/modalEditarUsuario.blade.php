@@ -19,27 +19,40 @@
                         $usersDB = $users;
                     @endphp
 
-                    <div class="form-group">
-                        <label class="primary-label " id="dniLabel" for="dniInput">DNI:</label>
-                        <input class="input-item" type="number" id="dniInput" placeholder="12345678" 
-                               oninput="validateRealTimeInputLength(this, 8), validateNumberRealTime(this)" name="idTecnico">
-                        <label class="primary-label " id="nameLabel"  for="nameInput">Nombre:</label>
-                        <input class="input-item" type="text" id="nameInput" placeholder="Ingresar nombre" name="nombreTecnico"
-                               oninput="validateRealTimeInputLength(this, 60)">
-                    </div>
-                    <div class="form-group">
-                        <label class="primary-label " id="phoneLabel" for="phoneInput">Celular:</label>
-                        <input class="input-item" type="number" id="phoneInput" placeholder="999888777"
-                               oninput="validateRealTimeInputLength(this, 9), validateNumberRealTime(this)" name="celularTecnico">
-                        <label class="primary-label " id="oficioLabel" for="oficioInput">Oficio:</label>
+                    <div class="form-group gap">
+                        <div class="group-items">
+                            <label class="secondary-label" id="dniLabel" for="nameInput">Nombre</label>
+                            <input class="input-item" type="text" id="nameInput" placeholder="Ingresar nombre" name="name"
+                                    maxlength="30" oninput="validateRealTimeInputLength(this, 30)">
+                        </div>
+                    
+                        <div class="group-items">
+                            <label class="secondary-label" id="nameLabel"  for="emailInput">Correo electrónico</label>
+                            <input class="input-item" type="text" id="emailInput" value="{{ Auth::user()->email}}" name="email" readOnly
+                                oninput="validateRealTimeInputLength(this, 60)">
+                        </div>
                     </div>
 
-                    <div class="form-group start">
-                        <label class="primary-label " id="bornDateLabel" for="bornDateInput">Fecha de nacimiento:</label>
-                        <input class="input-item" type="date" id="bornDateInput" name="fechaNacimiento_Tecnico">
-                        <span class="inline-alert-message" id="dateMessageError"> dateMessageError </span>      
+                    <div class="form-group gap">
+                        <div class="group-items">
+                            <label class="secondary-label" id="nameLabel"  for="passwordInput">Contraseña</label>
+                            <input class="input-item" type="text" id="passwordInput" placeholder="Ingresar nombre" name="nombreTecnico"
+                                oninput="validateRealTimeInputLength(this, 60)">
+                        </div>
+    
+                        <div class="group-items">
+                            <label class="secondary-label" id="nameLabel"  for="confirmPasswordInput">Confirmar Contraseña</label>
+                            <input class="input-item" type="text" id="confirmPasswordInput" placeholder="Ingresar nombre" name="nombreTecnico"
+                                oninput="validateRealTimeInputLength(this, 60)">
+                        </div>
                     </div>
-                    
+ 
+                    <div class="group-items">
+                        <label class="secondary-label noEditable" id="phoneLabel" for="phoneInput">Perfil</label>
+                        <input class="input-item" type="number" id="phoneInput" placeholder="999888777"
+                               oninput="validateRealTimeInputLength(this, 9), validateNumberRealTime(this)" name="celularTecnico">
+                    </div>
+
                     <div class="form-group start">
                         <span class="inline-alert-message" id="multiMessageError"> multiMessageError </span>      
                     </div>
