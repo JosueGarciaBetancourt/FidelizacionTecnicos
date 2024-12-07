@@ -1,0 +1,111 @@
+.profileOwnContainer {
+    border-radius: var(--border-radius-mainSectionContainer);
+    padding: var(--padding-mainSectionContainer);
+    background-color: var(--background-color-mainSectionContainer);
+    width: 100%;
+	height: auto;
+}
+
+/*Listado de usuarios*/
+.cardContainer {
+	height: auto;
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.cardTitle {
+	padding: 1rem;
+	width: 100%;
+	background-color: #0088cc;
+	color: #fff;
+	font-size: 1.5rem;
+	border-top-left-radius: 10px; /* Radio para la esquina superior izquierda */
+	border-top-right-radius: 10px; /* Radio para la esquina superior derecha */
+}
+
+.cardBody {
+	padding: 1rem;
+	width: 100%;
+	background-color: #fff;
+	border-collapse: collapse;
+	border-bottom-left-radius: 10px; /* Radio para la esquina superior izquierda */
+	border-bottom-right-radius: 10px; /* Radio para la esquina superior derecha */
+	overflow-x: auto;
+}
+
+.cardTable {
+    color: #60769a;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cardTable thead {
+    border-bottom: 2px solid #F1F2F4; /* Aplica un borde gris */
+}
+
+.cardTable th, .cardTable td {
+    font-size: 0.95rem;
+    padding: 0.4rem 0.7rem;
+}
+
+/*Botones de editar y eliminar*/
+/* Botón Aprobar */
+.celda-btnAcciones .edit-btn {
+    cursor: pointer;
+    max-width: 6rem;
+    background-color: #4c6faf; /* Verde de aprobación */
+    border: 2px solid #4c6faf; /* Borde verde */
+    color: #fff; /* Texto blanco */
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem 0.5rem;
+    gap: 8px; /* Espacio entre ícono y texto */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Efecto hover para el botón Aprobar */
+.celda-btnAcciones .edit-btn:hover {
+    background-color: #7d98ca; /* Verde más claro */
+    border-color: #7d98ca;
+    transform: translateY(-2px); /* Eleva ligeramente el botón */
+}
+
+/* Botón Rechazar */
+.celda-btnAcciones .delete-btn {
+    cursor: pointer;
+    max-width: 6rem;
+    background-color: #f44336; /* Rojo de rechazo */
+    border: 2px solid #f44336; /* Borde rojo */
+    color: #fff; /* Texto blanco */
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espacio entre ícono y texto */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Efecto hover para el botón Rechazar */
+.celda-btnAcciones .delete-btn:hover {
+    background-color: #f17a72; /* Rojo más claro */
+    border-color: #f17a72;
+    transform: translateY(-2px); /* Eleva ligeramente el botón */
+}
+
+/* Efecto focus para ambos botones */
+.celda-btnAcciones .edit-btn:focus,
+.celda-btnAcciones .delete-btn:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Resalta el botón */
+}

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Recompensa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\TecnicoController;
 use Illuminate\Support\Str;
@@ -146,8 +147,13 @@ class Login_tecnicoController extends Controller
 
     public function obtenerRecompensas()
     {
+<<<<<<< HEAD
         // Obtener todas las recompensas activas (donde deleted_at es null) con su tipo de recompensa
         $recompensas = DB::table('Recompensas')
+=======
+        // Obtener todas las recompensas con su tipo de recompensa desde la tabla 'Recompensas'
+        $recompensas = Recompensa::query()
+>>>>>>> development
             ->join('TiposRecompensas', 'Recompensas.idTipoRecompensa', '=', 'TiposRecompensas.idTipoRecompensa')
             ->select(
                 'Recompensas.idRecompensa',

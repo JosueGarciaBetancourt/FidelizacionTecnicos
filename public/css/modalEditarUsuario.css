@@ -1,0 +1,36 @@
+.modal-content {
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
+}
+
+.modal-body {
+	padding: 0;
+}	
+
+/*NAVBAR*/
+.section-navbar {
+	display: flex;
+	justify-content: start;
+	gap: 1rem;
+}
+
+.section-tab {
+	color: #333;
+	text-decoration: none;
+	padding: 3px 0;
+	border-bottom: 2px solid transparent;
+}
+
+.section-tab.active {
+	color: #409eff;
+	border-bottom: 2px solid #409eff;
+}
+
+.section-tab:hover:not(.active) {
+	color: #409eff;
+}
+
+/*CONTENT*/
+#formEditarUsuario {
+	padding-top: 1.5rem;
+}

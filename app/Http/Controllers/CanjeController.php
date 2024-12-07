@@ -77,7 +77,7 @@ class CanjeController extends Controller
                 'puntosCanjeados_Canje' => 'required|numeric|min:0',
                 'puntosRestantes_Canje' => 'required|numeric|min:0',
                 'recompensas_Canje' => 'required',
-                'comentario_Canje' => 'required|string',
+                'comentario_Canje' => 'nullable|string',
             ]);
 
             // Crear el canje usando la función separada

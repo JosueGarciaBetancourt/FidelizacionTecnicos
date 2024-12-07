@@ -43,11 +43,42 @@ function openConfirmModal(modalId) {
         };
 
         window.noConfirmAction = function () {
-            closeModal(modalId);
+            closeModal(modalId);    
             resolve(false); // Resuelve la promesa como false
         };
     });
 }
+
+function openConfirmActionOptionalComment(modalId) {
+    if (!modalId) return;
+
+    //console.log("Abriendo modal de confirmación con id: ", modalId);
+    return new Promise((resolve) => {
+        // Abrir modal
+        const modal = document.getElementById(modalId);
+        modal.style.display = 'block';
+        setTimeout(() => {
+            modal.style.opacity = 1; // Hacer el modal visible de forma gradual
+            modal.querySelector('.modal-dialog').classList.add('open');
+        }, 50); // Pequeño retraso para asegurar la transición CSS
+        document.body.style.overflow = 'hidden'; // Evita el scroll de fondo cuando está abierto el modal
+
+        // Registrar eventos de confirmación
+        window.yesConfirmAction = function () {
+            // Capturar el valor del comentario (si existe)
+            const commentInput = modal.querySelector('#idComentarioInput');
+            const comment = commentInput ? commentInput.value.trim() : null;
+            closeModal(modalId);
+            resolve({ answer: true, comment }); // Resuelve con un objeto
+        };
+
+        window.noConfirmAction = function () {
+            closeModal(modalId);
+            resolve({ answer: false, comment: null }); // Resuelve con un objeto
+        };
+    });
+}
+
 
 function openConfirmSolicitudCanjeModal(modalId) {
     if (!modalId) return;

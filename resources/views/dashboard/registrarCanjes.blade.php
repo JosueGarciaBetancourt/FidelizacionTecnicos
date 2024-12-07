@@ -277,6 +277,7 @@
 			:commentLabel="'Comentario (opcional)'"
 			:message="'¿Está seguro de guardar el canje?'"
 			:placeholder="'Agregar información adicional ...'"
+			:auxVar="$nuevoIdCanje"
 		/>
 		
 		<x-modalSuccessAction 

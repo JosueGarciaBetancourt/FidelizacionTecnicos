@@ -1,5 +1,5 @@
 <div class="modal second modalAgregarNuevoTecnico" id="modalAgregarNuevoTecnico">
-    <div class="modal-dialog modalAgregarNuevoTecnico" id="sirve">
+    <div class="modal-dialog modalAgregarNuevoTecnico">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Registrar nuevo técnico</h5>
