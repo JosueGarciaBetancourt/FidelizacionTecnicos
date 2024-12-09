@@ -1,6 +1,6 @@
 <div class="modal first modalEditarUsuario" id="modalEditarUsuario">
     <div class="modal-dialog modalEditarUsuario">
-        <div class="modal-content">
+        <div class="modal-content modalEditarUsuario">
             <div class="modal-header">
                 <h5 class="modal-title">Editar Usuario</h5>
                 <button class="close" onclick="closeModal('modalEditarUsuario')">&times;</button>
@@ -22,35 +22,45 @@
                     <div class="form-group gap">
                         <div class="group-items">
                             <label class="secondary-label" id="dniLabel" for="nameInput">Nombre</label>
-                            <input class="input-item" type="text" id="nameInput" placeholder="Ingresar nombre" name="name"
-                                    maxlength="30" oninput="validateRealTimeInputLength(this, 30)">
+                            <input class="input-item" type="text" id="nameInput" placeholder="Ingresar nombre" maxlength="30" 
+                                value="{{ Auth::user()->name}}" oninput="validateRealTimeInputLength(this, 30)" name="name">
                         </div>
                     
                         <div class="group-items">
                             <label class="secondary-label" id="nameLabel"  for="emailInput">Correo electrónico</label>
-                            <input class="input-item" type="text" id="emailInput" value="{{ Auth::user()->email}}" name="email" readOnly
+                            <input class="input-item blocked" type="text" id="emailInput" value="{{ Auth::user()->email}}" name="email" readOnly
                                 oninput="validateRealTimeInputLength(this, 60)">
                         </div>
                     </div>
 
                     <div class="form-group gap">
                         <div class="group-items">
-                            <label class="secondary-label" id="nameLabel"  for="passwordInput">Contraseña</label>
-                            <input class="input-item" type="text" id="passwordInput" placeholder="Ingresar nombre" name="nombreTecnico"
-                                oninput="validateRealTimeInputLength(this, 60)">
+                            <label class="secondary-label" id="nameLabel" for="passwordInput" >Contraseña</label>
+                            <div class="passwordInputContainer">
+                                <input class="passwordInput" type="password" id="passwordInput" placeholder="" autocomplete="off"
+                                    maxlength="20">
+                                <span class="viewPasswordIcon material-symbols-outlined">visibility</span>
+                            </div>
                         </div>
     
                         <div class="group-items">
                             <label class="secondary-label" id="nameLabel"  for="confirmPasswordInput">Confirmar Contraseña</label>
-                            <input class="input-item" type="text" id="confirmPasswordInput" placeholder="Ingresar nombre" name="nombreTecnico"
-                                oninput="validateRealTimeInputLength(this, 60)">
+                            <div class="passwordInputContainer">
+                                <input class="passwordInput" type="password" id="confirmPasswordInput" placeholder="" autocomplete="off"
+                                    maxlength="20" name="password">
+                                <span class="viewPasswordIcon material-symbols-outlined">visibility</span>
+                            </div>
                         </div>
                     </div>
  
                     <div class="group-items">
                         <label class="secondary-label noEditable" id="phoneLabel" for="phoneInput">Perfil</label>
-                        <input class="input-item" type="number" id="phoneInput" placeholder="999888777"
-                               oninput="validateRealTimeInputLength(this, 9), validateNumberRealTime(this)" name="celularTecnico">
+                        <x-onlySelect-input 
+                            :idInput="'perfilUsuarioInput'"
+                            :inputClassName="'onlySelectInput long'"
+                            :placeholder="'Seleccionar perfil'"
+                            :options="$nombresPerfilesUsuarios"
+                        />
                     </div>
 
                     <div class="form-group start">

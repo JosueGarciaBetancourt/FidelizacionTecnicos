@@ -1,5 +1,9 @@
 .modal-dialog.modalEditarUsuario {
-	max-width: 29rem;
+	max-width: 30rem;
+}
+
+.modal-content.modalEditarUsuario {
+    height: 400px;
 }
 
 .modal-content {
@@ -36,9 +40,9 @@
 
 /*CONTENT*/
 #formEditarUsuario {
-	padding-top: 1rem;
+	padding: 1rem 0;
 }
 
-#emailInput {
-	background-color: #EEE;
+#perfilUsuarioInput {
+	font-size: 14px;
 }

@@ -5,13 +5,24 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Models\PerfilUsuario;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
-{
+{    
+    public function returnArrayNombresPerfilesUsuarios() {
+        $perfiles = PerfilUsuario::all();
+        // Obtener todos los nombres de los oficios 
+        $arrayNombresPerfilesUsuarios = [];
+        foreach ($perfiles as $perfil) {
+            $arrayNombresPerfilesUsuarios[] = $perfil->nombre_PerfilUsuario;
+        }
+        return $arrayNombresPerfilesUsuarios;
+    }
+
     public function create() {
         $user = Auth::user(); // Obtiene el usuario autenticado
         
@@ -24,8 +35,11 @@ class ProfileController extends Controller
         } else {
             $users = [$user]; // Crea una colección con el usuario actual
         }
-    
-        return view('dashboard.profileOwn', compact('users'));
+        
+        // Obtener perfiles de usuarios 
+        $nombresPerfilesUsuarios = $this->returnArrayNombresPerfilesUsuarios();
+        
+        return view('dashboard.profileOwn', compact('users', 'nombresPerfilesUsuarios'));
     }
 
     /*public function edit(Request $request): View

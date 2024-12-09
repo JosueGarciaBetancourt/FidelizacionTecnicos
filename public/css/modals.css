@@ -251,6 +251,34 @@
     padding: 0;
 }
 
+.passwordInputContainer {
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s;
+    background-color: #fff;
+}
+
+.passwordInput {
+    outline: none;
+    font-size: 14px;
+    width: 100%;
+    color: #666;
+}
+
+.passwordInput::placeholder {
+    color: #BBB;
+}
+
+.passwordInputContainer:focus-within {
+    border-color: #007bff; 
+}
+
 .input-select-item, .input-item {
     max-width: 100%;
     padding: 10px;
@@ -273,6 +301,15 @@
 
 .input-item.noEditable {
 	border-radius: 3px;
+}
+
+.input-item.blocked {
+	background-color: #EEE;
+	cursor: not-allowed;
+}
+
+.input-item.blocked:focus {
+	border: 1px solid #ccc;
 }
 
 .input-select-item::placeholder, .input-item::placeholder {
@@ -535,11 +572,6 @@
     max-width: 7rem;
 }
 
-.input-item.date {
-    margin: 0;
-    max-width: 7rem;
-}
-
 .input-counter {
     display: flex;
     flex-direction: row;
@@ -597,4 +629,15 @@ input[type="date"].empty{
 
 .form-group.start.paddingY {
 	padding: 0.5rem 0;
+}
+
+.viewPasswordIcon {
+    color: #ccc;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.viewPasswordIcon:hover {
+    color:  #409eff;
 }
