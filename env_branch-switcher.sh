@@ -15,15 +15,8 @@ handle_error() {
 
 # Verificar si hay cambios locales sin confirmar
 check_uncommitted_changes() {
-    # Verificar cambios en el staging area
-    if ! git diff-index --quiet HEAD --; then
-        echo "❌ Hay cambios confirmados pero no pusheados"
-        git status
-        return 1
-    fi
-
-    # Verificar cambios no staging
-    if [ -n "$(git ls-files --modified)" ]; then
+    # Verificar cambios en staging y no confirmados
+    if [[ -n "$(git status -s)" ]]; then
         echo "❌ Hay cambios locales sin confirmar"
         git status
         return 1
@@ -32,18 +25,21 @@ check_uncommitted_changes() {
     return 0
 }
 
-# Cambiar de rama según el entorno
+# Cambiar de rama y archivo .env según el entorno
 change_environment() {
     local env=$1
     local branch
+    local env_file
 
-    # Determinar la rama según el entorno
+    # Determinar la rama y archivo .env según el entorno
     case $env in
         development)
             branch="development"
+            env_file=".env.development"
             ;;
         production)
             branch="main"
+            env_file=".env.production"
             ;;
         *)
             usage
@@ -68,8 +64,13 @@ change_environment() {
     git checkout "$branch" || handle_error "No se pudo cambiar a la rama $branch"
     echo "✅ Cambiado exitosamente a la rama $branch"
 
-    # Cambiar el archivo .env
-    ./switch-env.sh "$env" || handle_error "No se pudo cambiar el archivo .env"
+    # Verificar existencia del archivo .env
+    if [[ ! -f "$env_file" ]]; then
+        handle_error "No se encuentra el archivo $env_file"
+    fi
+
+    # Copiar archivo .env
+    cp "$env_file" .env || handle_error "No se pudo copiar $env_file a .env"
     echo "✅ Archivo .env actualizado para entorno $env"
 }
 
