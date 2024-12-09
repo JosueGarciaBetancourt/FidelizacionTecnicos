@@ -106,7 +106,6 @@ async function getDetalleCanjeByIdCanjeFetch(idCanje) {
 
         if (!response.ok) {
             throw new Error(await response.text());eb
-            
         }
 
         const detallesCanjes = await response.json();
