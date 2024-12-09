@@ -17,11 +17,27 @@ handle_error() {
 check_uncommitted_changes() {
     # Verificar cambios en staging y no confirmados
     if [[ -n "$(git status -s)" ]]; then
-        echo "❌ Hay cambios locales sin confirmar"
-        git status
         return 1
     fi
 
+    return 0
+}
+
+# Solicitar mensaje de commit
+prompt_commit_message() {
+    local changes
+    changes=$(git status -s)
+    
+    echo "Cambios detectados:"
+    echo "$changes"
+    
+    read -p "Introduce un mensaje de commit: " commit_message
+    
+    if [[ -z "$commit_message" ]]; then
+        echo "❌ El mensaje de commit no puede estar vacío"
+        return 1
+    fi
+    
     return 0
 }
 
@@ -48,15 +64,26 @@ change_environment() {
 
     # Verificar si hay cambios locales
     if ! check_uncommitted_changes; then
-        read -p "¿Deseas hacer stash de tus cambios antes de cambiar de rama? (s/n): " stash_choice
-        
-        if [[ $stash_choice == "s" || $stash_choice == "S" ]]; then
-            # Crear un stash con un mensaje descriptivo
-            git stash push -m "Cambios antes de switch de rama - $(date)"
-            echo "✅ Cambios guardados en stash"
+        # Mostrar cambios y preguntar por commit
+        if prompt_commit_message; then
+            # Agregar todos los cambios
+            git add .
+            
+            # Hacer commit con el mensaje proporcionado
+            git commit -m "$commit_message"
+            
+            echo "✅ Cambios confirmados exitosamente"
         else
-            echo "❌ Operación cancelada. Por favor, confirma o descarta tus cambios manualmente."
-            exit 1
+            read -p "¿Deseas hacer stash de tus cambios antes de cambiar de rama? (s/n): " stash_choice
+            
+            if [[ $stash_choice == "s" || $stash_choice == "S" ]]; then
+                # Crear un stash con un mensaje descriptivo
+                git stash push -m "Cambios antes de switch de rama - $(date)"
+                echo "✅ Cambios guardados en stash"
+            else
+                echo "❌ Operación cancelada. Permaneciendo en la rama actual."
+                return 1
+            fi
         fi
     fi
 
