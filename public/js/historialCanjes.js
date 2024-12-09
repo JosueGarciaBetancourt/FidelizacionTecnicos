@@ -95,7 +95,7 @@ async function getDetalleCanjeByIdCanjeFetch(idCanje) {
     //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/historialCanje/${idCanje}`;
     const baseUrl = `${window.location.origin}`; // Esto adaptará la URL al dominio actual
     const url = `${baseUrl}/dashboard-canjes/historialCanje/${idCanje}`;
-
+    console.log("probando bash en main");
     console.warn("fetch", url);
 
     try {
