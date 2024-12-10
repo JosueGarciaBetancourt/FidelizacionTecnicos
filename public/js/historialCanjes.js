@@ -73,25 +73,8 @@ function fillTableDetalleHistorialCanje(detallesCanjes) {
 }
 
 function saveCanjeDataToStorage(objCanje, detallesCanjes) {
-    // Save the current canje object and its details to localStorage
     localStorage.setItem('currentCanje', JSON.stringify(objCanje));
     localStorage.setItem('currentCanjeDetails', JSON.stringify(detallesCanjes));
-}
-
-function openPersistedModal() {
-    var modal = document.getElementById('modalDetalleHistorialCanje');
-    modal.style.display = 'block';
-    setTimeout(function() {
-        modal.style.opacity = 1;
-        modal.querySelector('.modal-dialog').classList.add('open');
-    }, 50);
-    document.body.style.overflow = 'hidden';
-}
-
-function clearPersistedData() {
-    // Clear data when modal is closed
-    localStorage.removeItem('currentCanje');
-    localStorage.removeItem('currentCanjeDetails');
 }
 
 function returnObjCanjeById(idCanje, canjesDB) {
@@ -130,7 +113,6 @@ async function getDetalleCanjeByIdCanjeFetch(idCanje) {
         if (detallesCanjes && detallesCanjes.length > 0) {
             fillTableDetalleHistorialCanje(detallesCanjes);
             
-            // Get the previously saved canje object to pass to saveCanjeDataToStorage
             const objCanje = {
                 idCanje: idCanje,
                 fechaHora_Canje: document.getElementById('fechaHoraCanjeModalDetalleHistorialCanje').textContent,
@@ -139,10 +121,10 @@ async function getDetalleCanjeByIdCanjeFetch(idCanje) {
                 fechaHoraEmision_VentaIntermediada: document.getElementById('fechaHoraEmisionComprobanteModalDetalleHistorialCanje').value,
                 puntosComprobante_Canje: document.getElementById('puntosComprobanteModalDetalleHistorialCanje').value,
                 puntosCanjeados_Canje: document.getElementById('puntosCanjeadosModalDetalleHistorialCanje').value,
-                puntosRestantes_Canje: document.getElementById('puntosRestantesComprobanteModalDetalleHistorialCanje').value
+                puntosRestantes_Canje: document.getElementById('puntosRestantesComprobanteModalDetalleHistorialCanje').value,
+                comentario_Canje: document.getElementById('comentarioComprobanteModalDetalleHistorialCanje').value,
             };
 
-            // Save current canje data to storage
             saveCanjeDataToStorage(objCanje, detallesCanjes);
         }
         
@@ -161,11 +143,26 @@ async function getDetalleCanjeByIdCanjeFetch(idCanje) {
 
 // Add event listeners on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // Try to load persisted data on page load
     loadPersistedCanjeData();
 });
 
-/*Persistencia de datos del modal detalle canjes*/
+function openPersistedModal() {
+    var modal = document.getElementById('modalDetalleHistorialCanje');
+    modal.style.display = 'block';
+    setTimeout(function() {
+        modal.style.opacity = 1;
+        modal.querySelector('.modal-dialog').classList.add('open');
+    }, 50);
+    document.body.style.overflow = 'hidden';
+}
+
+function clearPersistedData() {
+    // Clear data when modal is closed
+    localStorage.removeItem('currentCanje');
+    localStorage.removeItem('currentCanjeDetails');
+    console.log('Cleaning persisted fetch modal data');
+}
+
 function loadPersistedCanjeData() {
     const persistedCanje = localStorage.getItem('currentCanje');
     const persistedCanjeDetails = localStorage.getItem('currentCanjeDetails');
@@ -193,17 +190,6 @@ function closeFetchModal(modalId) {
         }, 300); // Espera 0.3 segundos (igual a la duración de la transición CSS)
         
         // Remove specific modal data from localStorage
-        localStorage.removeItem(`${modalId}_currentCanje`);
-        localStorage.removeItem(`${modalId}_currentCanjeDetails`);
-        
-        // Elimina el modal de la lista de modales abiertos
-        let openModals = JSON.parse(localStorage.getItem('openModals')) || [];
-        openModals = openModals.filter(id => id !== modalId);
-        if (openModals.length > 0) {
-            localStorage.setItem('openModals', JSON.stringify(openModals));
-        } else {
-            document.body.style.overflow = ''; //Permitir el scroll de fondo luego de cerrar todos los modales
-            localStorage.removeItem('openModals');
-        }
+        clearPersistedData();
     }
 }

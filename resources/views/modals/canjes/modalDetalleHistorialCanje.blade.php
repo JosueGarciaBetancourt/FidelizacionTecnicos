@@ -76,7 +76,7 @@
 
 				<div class="form-group gap">
 					<label class="primary-label noEditable" for='{{ $idComentario }}'>Comentario:</label>
-					<input class="input-item" type="text" id='{{ $idComentario }}' maxlength="80" placeholder="No se registró" disabled>
+					<input class="input-item" type="text" id='{{ $idComentario }}' maxlength="80" placeholder="No registrado" disabled>
 				</div>
 
 				<div class="btnDetailOption-container" data-routes='{"pdf": "{{ route('canjes.pdf', ['size' => ':size', 'idCanje' => ':idCanje']) }}"}'>
