@@ -79,7 +79,6 @@ function openConfirmActionOptionalComment(modalId) {
     });
 }
 
-
 function openConfirmSolicitudCanjeModal(modalId) {
     if (!modalId) return;
 
@@ -136,6 +135,7 @@ function closeModal(modalId) {
     }
 }
 
+/*MANEJAR INPUT FILE */
 // Función para simular clic en el input file al hacer clic en el botón
 function handleFileSelect() {
     const fileInput = document.getElementById('fileInput');
@@ -192,8 +192,6 @@ function handleDrop(event) {
     document.getElementById('fileArea').classList.remove('drag-over');
 }
 
-
-
 // Función para verificar el acceso al archivo usando promesas
 function checkFileAccess(file) {
     return new Promise((resolve, reject) => {
@@ -215,6 +213,7 @@ function checkFileAccess(file) {
         };
     });
 }
+/*ENDING MANEJAR INPUT FILE */
 
 document.addEventListener("DOMContentLoaded", function() {
     closeOptionsOnClickOutside();
@@ -584,24 +583,6 @@ function validateValueOnRealTimeIDInteger(input, idOptions, idMessageError, some
     }
 }
 
-// Función para enviar el mensaje de error al log de Laravel
-function registrarErrorEnLaravel(mensajeError) {
-    fetch('/log-error', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-        },
-        body: JSON.stringify({ message: mensajeError })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Error registrado en Laravel:", data.status);
-    })
-    .catch(error => {
-        console.error("Error al enviar el mensaje al servidor:", error);
-    });
-}
 
 function consoleLogJSONItems(items) {
     console.log(JSON.stringify(items, null, 2));
@@ -664,3 +645,4 @@ function getDiasTranscurridosFechaHora(fechaEmision, fechaCargada) {
     // Convierte la diferencia a días, considerando horas y fracciones
     return diferenciaMilisegundos / (1000 * 60 * 60 * 24);
 }
+

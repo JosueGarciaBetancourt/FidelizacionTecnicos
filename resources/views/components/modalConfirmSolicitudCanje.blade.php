@@ -20,7 +20,7 @@
                 </div>
                 <div class="comentario-container">
                     <label for="idComentarioInput">{{ $commentLabel }}:</label>
-                    <input class="comentarioInput" id="idComentarioInput" type="text" placeholder="{{ $placeholder }}">
+                    <input class="comentarioInput" id="idComentarioInput" type="text" maxlength="80" placeholder="{{ $placeholder }}">
                 </div>
                 <div class="form-group start">
                     <span class="inline-alert-message" id="comentarioAprobRechaCanjeErrorMessage">El campo comentario es obligatorio</span>      

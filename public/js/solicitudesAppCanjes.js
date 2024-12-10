@@ -8,6 +8,8 @@ function fillOtherFieldsDetalleSolicitudCanje(objSolicitudCanje) {
     document.getElementById('puntosComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosComprobante_SolicitudCanje'];
     document.getElementById('puntosCanjeadosModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosCanjeados_SolicitudCanje'];
     document.getElementById('puntosRestantesComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosRestantes_SolicitudCanje'];
+    document.getElementById('comentarioComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['comentario_SolicitudCanje'] || "";
+
 }
 
 function fillTableDetalleSolicitudCanje(detallesSolicitudesCanjes) {

@@ -91,6 +91,10 @@
     max-width: 5rem;
 }
 
+#comentarioComprobanteModalDetalleHistorialCanje {
+    width: 40rem;
+}
+
 /*Estilos de la tabla del detalle de canje*/
 .tblDetalleHistorialCanje-container {
     display: flex;

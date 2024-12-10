@@ -56,3 +56,22 @@ function handleFormSubmission(elementId, formId, timeout = 2000) {
         }
     }, timeout);
 }
+
+// Función para enviar el mensaje de error al log de Laravel
+function registrarErrorEnLaravel(mensajeError) {
+    fetch('/log-error', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ message: mensajeError })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Error registrado en Laravel:", data.status);
+    })
+    .catch(error => {
+        console.error("Error al enviar el mensaje al servidor:", error);
+    });
+}
