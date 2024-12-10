@@ -385,10 +385,13 @@ class CanjeController extends Controller
                 default => 'A4',    
             };
     
+            // Generar el nombre del archivo
+            $fileName = "Club de técnicos_{$idCanje}_{$size}.pdf";
+
             // Generar el PDF
             $pdf = Pdf::setPaper($paperSize)
                         ->loadView($view, compact('canjeWithTecnico', 'canjesRecompensas', 'totalPuntos', 'size'));
-            return $pdf->stream();
+            return $pdf->stream($fileName);
         } catch (\Exception $e) {
             dd($e->getMessage());
         }

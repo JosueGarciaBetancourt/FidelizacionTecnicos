@@ -1,3 +1,11 @@
+.modal-dialog.modalEditarUsuario {
+	max-width: 30rem;
+}
+
+.modal-content.modalEditarUsuario {
+    height: 400px;
+}
+
 .modal-content {
 	padding-left: 1.5rem;
 	padding-right: 1.5rem;
@@ -32,5 +40,9 @@
 
 /*CONTENT*/
 #formEditarUsuario {
-	padding-top: 1.5rem;
+	padding: 1rem 0;
+}
+
+#perfilUsuarioInput {
+	font-size: 14px;
 }

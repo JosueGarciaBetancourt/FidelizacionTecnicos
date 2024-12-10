@@ -11,6 +11,7 @@
 				$idPuntosComprobante = 'puntosComprobanteModalDetalleHistorialCanje';
 				$idPuntosCanjeados = 'puntosCanjeadosModalDetalleHistorialCanje';
 				$idPuntosRestantes = 'puntosRestantesComprobanteModalDetalleHistorialCanje';
+				$idComentario = 'comentarioComprobanteModalDetalleHistorialCanje';
             @endphp
             <div class="modal-header">
 				<div class="modal-title-container">
@@ -72,6 +73,12 @@
 						</tfoot>
 					</table>
                 </div>
+
+				<div class="form-group gap">
+					<label class="primary-label noEditable" for='{{ $idComentario }}'>Comentario:</label>
+					<input class="input-item" type="text" id='{{ $idComentario }}' maxlength="80" placeholder="No registrado" disabled>
+				</div>
+
 				<div class="btnDetailOption-container" data-routes='{"pdf": "{{ route('canjes.pdf', ['size' => ':size', 'idCanje' => ':idCanje']) }}"}'>
 					<button type="button" class="btn btn-DetailOption" id="btn_pdf_A4" data-size="A4" title="Canje en formato A4">
 						<span class="material-symbols-outlined">description</span> A4
@@ -85,7 +92,7 @@
 				</div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal('modalDetalleHistorialCanje')">Cerrar</button>
+                <button type="button" class="btn btn-secondary" onclick="closeFetchModal('modalDetalleHistorialCanje')">Cerrar</button>
             </div>
         </div>
     </div>

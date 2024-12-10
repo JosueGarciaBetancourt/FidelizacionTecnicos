@@ -11,6 +11,7 @@
 				$idPuntosComprobante = 'puntosComprobanteModalDetalleSolicitudCanje';
 				$idPuntosCanjeados = 'puntosCanjeadosModalDetalleSolicitudCanje';
 				$idPuntosRestantes = 'puntosRestantesComprobanteModalDetalleSolicitudCanje';
+				$idComentario = 'comentarioComprobanteModalDetalleSolicitudCanje';
             @endphp
             <div class="modal-header">
 				<div class="modal-title-container">
@@ -72,6 +73,11 @@
 						</tfoot>
 					</table>
                 </div>
+
+				<div class="form-group gap">
+					<label class="primary-label noEditable" for='{{ $idComentario }}'>Comentario:</label>
+					<input class="input-item" type="text" id='{{ $idComentario }}' maxlength="80" placeholder="No registrado" disabled>
+				</div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalDetalleSolicitudCanje')">Cerrar</button>

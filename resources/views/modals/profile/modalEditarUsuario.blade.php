@@ -1,6 +1,6 @@
 <div class="modal first modalEditarUsuario" id="modalEditarUsuario">
     <div class="modal-dialog modalEditarUsuario">
-        <div class="modal-content">
+        <div class="modal-content modalEditarUsuario">
             <div class="modal-header">
                 <h5 class="modal-title">Editar Usuario</h5>
                 <button class="close" onclick="closeModal('modalEditarUsuario')">&times;</button>
@@ -19,32 +19,50 @@
                         $usersDB = $users;
                     @endphp
 
-                    <div class="form-group">
-                        <label class="primary-label " id="dniLabel" for="dniInput">Nombre:</label>
-                        <input class="input-item" type="number" id="dniInput" placeholder="12345678" 
-                               oninput="validateRealTimeInputLength(this, 8), validateNumberRealTime(this)" name="idTecnico">
-                        <label class="primary-label " id="nameLabel"  for="nameInput">Correo electrónico:</label>
-                        <input class="input-item" type="text" id="nameInput" placeholder="Ingresar nombre" name="nombreTecnico"
-                               oninput="validateRealTimeInputLength(this, 60)">
-                    </div>
-                    <div class="form-group">
-                        <label class="primary-label " id="phoneLabel" for="phoneInput">Contraseña:</label>
-                        <input class="input-item" type="number" id="phoneInput" placeholder="999888777"
-                               oninput="validateRealTimeInputLength(this, 9), validateNumberRealTime(this)" name="celularTecnico">
-                    </div>
-
-                    <div class="form-group start">
-                        <label class="primary-label " id="bornDateLabel" for="bornDateInput">Confirmar Contraseña:</label>
-                        <input class="input-item" type="date" id="bornDateInput" name="fechaNacimiento_Tecnico">
-                        <span class="inline-alert-message" id="dateMessageError"> dateMessageError </span>      
-                    </div>
-
-                    <div class="form-group start">
-                        <label class="primary-label " id="bornDateLabel" for="bornDateInput">Perfil:</label>
-                        <input class="input-item" type="date" id="bornDateInput" name="fechaNacimiento_Tecnico">
-                        <span class="inline-alert-message" id="dateMessageError"> dateMessageError </span>      
-                    </div>
+                    <div class="form-group gap">
+                        <div class="group-items">
+                            <label class="secondary-label" id="dniLabel" for="nameInput">Nombre</label>
+                            <input class="input-item" type="text" id="nameInput" placeholder="Ingresar nombre" maxlength="30" 
+                                value="{{ Auth::user()->name}}" oninput="validateRealTimeInputLength(this, 30)" name="name">
+                        </div>
                     
+                        <div class="group-items">
+                            <label class="secondary-label" id="nameLabel"  for="emailInput">Correo electrónico</label>
+                            <input class="input-item blocked" type="text" id="emailInput" value="{{ Auth::user()->email}}" name="email" readOnly
+                                oninput="validateRealTimeInputLength(this, 60)">
+                        </div>
+                    </div>
+
+                    <div class="form-group gap">
+                        <div class="group-items">
+                            <label class="secondary-label" id="nameLabel" for="passwordInput" >Contraseña</label>
+                            <div class="passwordInputContainer">
+                                <input class="passwordInput" type="password" id="passwordInput" placeholder="" autocomplete="off"
+                                    maxlength="20">
+                                <span class="viewPasswordIcon material-symbols-outlined">visibility</span>
+                            </div>
+                        </div>
+    
+                        <div class="group-items">
+                            <label class="secondary-label" id="nameLabel"  for="confirmPasswordInput">Confirmar Contraseña</label>
+                            <div class="passwordInputContainer">
+                                <input class="passwordInput" type="password" id="confirmPasswordInput" placeholder="" autocomplete="off"
+                                    maxlength="20" name="password">
+                                <span class="viewPasswordIcon material-symbols-outlined">visibility</span>
+                            </div>
+                        </div>
+                    </div>
+ 
+                    <div class="group-items">
+                        <label class="secondary-label noEditable" id="phoneLabel" for="phoneInput">Perfil</label>
+                        <x-onlySelect-input 
+                            :idInput="'perfilUsuarioInput'"
+                            :inputClassName="'onlySelectInput long'"
+                            :placeholder="'Seleccionar perfil'"
+                            :options="$nombresPerfilesUsuarios"
+                        />
+                    </div>
+
                     <div class="form-group start">
                         <span class="inline-alert-message" id="multiMessageError"> multiMessageError </span>      
                     </div>

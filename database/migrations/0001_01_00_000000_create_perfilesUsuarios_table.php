@@ -9,9 +9,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('PerfilesUsuarios', function (Blueprint $table) {
-            $table->id();
+            $table->id("idPerfilUsuario");
             $table->string('nombre_PerfilUsuario', 50);
             $table->timestamps();
+            $table->softDeletes(); //deleted_at
         });
     }
 

@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('celularPersonal')->nullable();
             $table->string('celularCorporativo')->nullable();
 
-            $table->foreign('idPerfilUsuario')->references('id')->on('PerfilesUsuarios');
+            $table->foreign('idPerfilUsuario')->references('idPerfilUsuario')->on('PerfilesUsuarios');
 
             $table->timestamps();
         });
