@@ -106,6 +106,38 @@ class Login_tecnicoController extends Controller
             }
     }
 
+    public function getVentasIntermediadasFiltradas($idTecnico)
+    {
+        try {
+            // Obtener ventas intermediadas excluyendo aquellas que tienen solicitudes pendientes
+            $ventas = DB::table('VentasIntermediadas')
+                ->leftJoin('SolicitudesCanjes', function ($join) {
+                    $join->on('VentasIntermediadas.idVentaIntermediada', '=', 'SolicitudesCanjes.idVentaIntermediada')
+                        ->where('SolicitudesCanjes.idEstadoSolicitudCanje', 1); // Estado pendiente
+                })
+                ->join('EstadoVentas', 'VentasIntermediadas.idEstadoVenta', '=', 'EstadoVentas.idEstadoVenta')
+                ->where('VentasIntermediadas.idTecnico', $idTecnico)
+                ->whereNull('SolicitudesCanjes.idVentaIntermediada') // Filtrar las ventas sin solicitudes pendientes
+                ->select(
+                    'VentasIntermediadas.*',
+                    'EstadoVentas.nombre_EstadoVenta as estado_nombre'
+                )
+                ->get();
+
+            // Si no se encuentran resultados
+            if ($ventas->isEmpty()) {
+                return response()->json(['message' => 'No se encontraron ventas disponibles para el técnico.'], 404);
+            }
+
+            return response()->json($ventas);
+        } catch (\Exception $e) {
+            // Capturar el error y devolver el mensaje de error
+            return response()->json(['error' => 'Hubo un problema al procesar la solicitud.', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+
+
     public function obtenerTecnicoPorId($idTecnico)
     {
         $datostecnico = DB::table('Tecnicos')
