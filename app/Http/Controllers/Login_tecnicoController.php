@@ -158,7 +158,7 @@ class Login_tecnicoController extends Controller
         $request->validate([
             'idTecnico' => 'required|string',
             'currentPassword' => 'required|string',
-            'newPassword' => 'required|string|min:2',
+            'newPassword' => 'required|string|min:2', 
         ]);
 
         $tecnico = DB::table('login_tecnicos')
