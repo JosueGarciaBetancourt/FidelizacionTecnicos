@@ -154,7 +154,7 @@ class Login_tecnicoController extends Controller
             ->join('TecnicosOficios', 'Oficios.idOficio', '=', 'TecnicosOficios.idOficio')
             ->where('TecnicosOficios.idTecnico', $idTecnico)
             ->select('Oficios.idOficio', 'Oficios.nombre_Oficio')
-            ->get();
+            ->get(); 
 
         return response()->json([
             'tecnico' => [

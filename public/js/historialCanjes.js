@@ -17,8 +17,6 @@ function fillTableDetalleHistorialCanje(detallesCanjes) {
         return;
     }
 
-    console.log(detallesCanjes);
-
     const tblBodyDetalleHistorialCanje = document.querySelector('#tblDetalleHistorialCanje tbody');
     const celdaTotalPuntosRecompensas = document.getElementById('celdaTotalPuntos');
     var total_puntos_recompensas = 0;
