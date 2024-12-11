@@ -26,7 +26,10 @@
             name="{{ $name }}"
             {{ $DISABLED }}
         >
-        <span class="material-symbols-outlined noCleanable {{ $spanOwnClassName }}" id="{{ $dynamicIdSpan }}">keyboard_arrow_down</span>
+        <span class="material-symbols-outlined noCleanable {{ $spanOwnClassName }}" id="{{ $dynamicIdSpan }}"
+                onclick="toggleOptionsSelectNoCleanable('{{ $dynamicIdOptions }}', '{{ $dynamicIdSpan }}')">
+            keyboard_arrow_down
+        </span>
     </div>  
     <ul class="select-items" id="{{ $dynamicIdOptions }}">
         @foreach ($options as $option) {{--$options es enviada desde la vista--}}
