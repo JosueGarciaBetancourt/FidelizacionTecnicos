@@ -254,6 +254,20 @@ function toggleOptions(idInput, idOptions) {
     }
 }
 
+function toggleOptionsSelectNoCleanable(idOptions, idSpan) {
+    var options = document.getElementById(idOptions);
+    var span = document.getElementById(idSpan);
+
+    if (options) {
+        // Alternar la visibilidad de las opciones
+        options.classList.toggle('show');
+    }
+
+    if (span) {
+        span.textContent = span.textContent === "keyboard_arrow_down" ? "keyboard_arrow_up" : "keyboard_arrow_down";
+    }
+}
+
 function filterOptions(idInput, idOptions) {
     var input, filter, ul, li, i, txtValue, hasVisibleOptions = false;
     input = document.getElementById(idInput);
@@ -305,16 +319,18 @@ function closeOptionsOnClickOutside() {
     
     // Función para manejar el clic fuera del select
     function handleClickOutside(event) {
-        var isClickInside = false;
 
         // Recorre todos los selects y verifica si el clic fue dentro de uno
         selects.forEach(function(select) {
             var options = select.querySelector('ul');
+            var span = select.querySelector('.onlySelectInput-container .noCleanable');
+
             if (options) {
-                if (select.contains(event.target) || options.contains(event.target)) {
-                    isClickInside = true;
-                } else {
+                if (!select.contains(event.target) && !options.contains(event.target)) {
                     options.classList.remove('show');
+                    if (span) {
+                        span.textContent = "keyboard_arrow_down";
+                    }
                 }
             }
         });

@@ -15,31 +15,56 @@ class ProfileController extends Controller
 {    
     public function returnArrayNombresPerfilesUsuarios() {
         $perfiles = PerfilUsuario::all();
-        // Obtener todos los nombres de los oficios 
         $arrayNombresPerfilesUsuarios = [];
+
+        // Obtener todos los nombres de los perfiles 
         foreach ($perfiles as $perfil) {
             $arrayNombresPerfilesUsuarios[] = $perfil->nombre_PerfilUsuario;
         }
+
         return $arrayNombresPerfilesUsuarios;
     }
 
-    public function create() {
-        $user = Auth::user(); // Obtiene el usuario autenticado
+    public function returnCurrentPerfilUsuario($idPerfilUsuario) {
+        return PerfilUsuario::where('idPerfilUsuario', $idPerfilUsuario)
+                            ->value('nombre_PerfilUsuario');
+    }
+
+    public function create() 
+    {
+        // Verifica que haya un usuario autenticado, de lo contrario, lanza un error 403
+        abort_if(!Auth::check(), 403, 'Acceso denegado');
+    
+        // Obtiene el usuario autenticado
+        $user = Auth::user();
+        $currentPerfil = $this->returnCurrentPerfilUsuario($user->idPerfilUsuario);
         
-        if (!$user) {
-            abort(403, 'Acceso denegado'); // Detiene la ejecución si no hay usuario autenticado
+        // Consulta para obtener usuarios con sus perfiles
+        $usersQuery = User::with([
+            'PerfilUsuario' => function($query) {
+                $query->select('idPerfilUsuario', 'nombre_PerfilUsuario'); // Relación con PerfilUsuario
+            }
+        ]);
+    
+        // Si no es administrador, se filtra por su propio ID 
+        if ($user->email !== "admin@dimacof.com") {
+            $usersQuery->where('id', $user->id);
         }
     
-        if ($user->email == "admin@dimacof.com") {
-            $users = User::all(); // Obtiene todos los usuarios si es admin
-        } else {
-            $users = [$user]; // Crea una colección con el usuario actual
+        // Se obtienen los usuarios (solo seleccionando las columnas de la tabla users)
+        $users = $usersQuery->select('id', 'name', 'email', 'DNI', 'surname', 'fechaNacimiento', 
+                                     'correoPersonal', 'celularPersonal', 'celularCorporativo')->get();
+        
+        // Aquí ya puedes acceder a la relación como $user->PerfilUsuario->nombre_PerfilUsuario
+        foreach ($users as $user) {
+            $user->nombre_PerfilUsuario = $user->PerfilUsuario->nombre_PerfilUsuario ?? 'Sin perfil';
         }
-        
-        // Obtener perfiles de usuarios 
+    
+        // Obtiene los nombres de los perfiles de usuarios
         $nombresPerfilesUsuarios = $this->returnArrayNombresPerfilesUsuarios();
-        
-        return view('dashboard.profileOwn', compact('users', 'nombresPerfilesUsuarios'));
+    
+        // Retorna la vista con los usuarios y los nombres de los perfiles de usuarios
+        return view('dashboard.profileOwn', compact('users', 'currentPerfil', 'nombresPerfilesUsuarios'));
     }
 
     /*public function edit(Request $request): View

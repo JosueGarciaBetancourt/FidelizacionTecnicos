@@ -20,6 +20,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'DNI',
+        'surname',
+        'fechaNacimiento',
+        'correoPersonal',
+        'celularPersonal',
+        'celularCorporativo',
+        'idPerfilUsuario',
     ];
 
     /**
@@ -43,5 +50,9 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function PerfilUsuario() {
+        return $this->belongsTo(PerfilUsuario::class, 'id', 'idPerfilUsuario');
     }
 }

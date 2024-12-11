@@ -37,29 +37,34 @@
                         <div class="group-items">
                             <label class="secondary-label" id="nameLabel" for="passwordInput" >Contraseña</label>
                             <div class="passwordInputContainer">
-                                <input class="passwordInput" type="password" id="passwordInput" placeholder="" autocomplete="off"
+                                <input class="passwordInput" type="password" id="passwordInput" autocomplete="off"
                                     maxlength="20">
-                                <span class="viewPasswordIcon material-symbols-outlined">visibility</span>
+                                <span class="viewPasswordIcon material-symbols-outlined" onclick="togglePasswordVisibility(this, 'passwordInput')">
+                                    visibility_off
+                                </span>                           
                             </div>
                         </div>
     
                         <div class="group-items">
                             <label class="secondary-label" id="nameLabel"  for="confirmPasswordInput">Confirmar Contraseña</label>
                             <div class="passwordInputContainer">
-                                <input class="passwordInput" type="password" id="confirmPasswordInput" placeholder="" autocomplete="off"
+                                <input class="passwordInput" type="password" id="confirmPasswordInput" autocomplete="off"
                                     maxlength="20" name="password">
-                                <span class="viewPasswordIcon material-symbols-outlined">visibility</span>
+                                <span class="viewPasswordIcon material-symbols-outlined" onclick="togglePasswordVisibility(this, 'confirmPasswordInput')">
+                                    visibility_off
+                                </span>
                             </div>
                         </div>
                     </div>
  
                     <div class="group-items">
                         <label class="secondary-label noEditable" id="phoneLabel" for="phoneInput">Perfil</label>
-                        <x-onlySelect-input 
+                        <x-onlySelectNoCleanable-input
                             :idInput="'perfilUsuarioInput'"
+                            :defaultValue="$currentPerfil"
                             :inputClassName="'onlySelectInput long'"
-                            :placeholder="'Seleccionar perfil'"
                             :options="$nombresPerfilesUsuarios"
+                            :inputName="'nombre_PerfilUsuario'"
                         />
                     </div>
 

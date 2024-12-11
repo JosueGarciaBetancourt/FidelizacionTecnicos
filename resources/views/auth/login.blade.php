@@ -59,7 +59,7 @@
                 
                         <!-- Checkbox para mostrar/ocultar contraseña -->
                         <div class="show-password-container">
-                            <input type="checkbox" id="show_password_checkbox" onclick="togglePasswordVisibility()"> 
+                            <input type="checkbox" id="show_password_checkbox" onclick="togglePassword()"> 
                             <span class="material-symbols-outlined" id="loginEyeIcon">visibility_off</span>
                         </div>
                     </div>
@@ -117,7 +117,7 @@
     </script>
 
     <script>
-        function togglePasswordVisibility() {
+        function togglePassword() {
             const passwordInput = document.getElementById('password');
             const checkbox = document.getElementById('show_password_checkbox');
 

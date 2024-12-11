@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('DNI')->unique()->nullable();
             $table->string('surname')->nullable();
             $table->dateTime('fechaNacimiento')->nullable();
-            $table->string('correoPersonal')->nullable();
-            $table->string('celularPersonal')->nullable();
+            $table->string('correoPersonal')->unique()->nullable();
+            $table->string('celularPersonal')->unique()->nullable();
             $table->string('celularCorporativo')->nullable();
 
             $table->foreign('idPerfilUsuario')->references('idPerfilUsuario')->on('PerfilesUsuarios');

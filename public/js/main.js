@@ -75,3 +75,15 @@ function registrarErrorEnLaravel(mensajeError) {
         console.error("Error al enviar el mensaje al servidor:", error);
     });
 }
+
+function togglePasswordVisibility(viewPasswordIcon, idPasswordInput) {
+    const passwordInput = document.getElementById(idPasswordInput);
+
+    if (viewPasswordIcon.textContent != 'visibility') {
+        viewPasswordIcon.textContent = 'visibility';
+        passwordInput.type = 'text';
+    } else {
+        viewPasswordIcon.textContent = 'visibility_off';
+        passwordInput.type = 'password';
+    }
+}
