@@ -275,7 +275,7 @@ class Login_tecnicoController extends Controller
             }
 
             DB::commit();
-            return response()->json(['message' => 'Oficios actualizados correctamente']);
+            return response()->json(['message' => 'Oficios actualizados correctamente', 'status' => 'success']);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'Error al actualizar oficios'], 500);
