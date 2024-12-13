@@ -228,37 +228,60 @@ class Login_tecnicoController extends Controller
             'oficios.*' => 'exists:Oficios,idOficio',
             'password' => 'required|string|min:3',
         ]);
-    
-        // Obtener el técnico desde la tabla login_tecnicos para verificar la contraseña
+
         $loginTecnico = DB::table('login_tecnicos')
             ->where('idTecnico', $request->input('idTecnico'))
             ->first();
-    
+
         if (!$loginTecnico) {
             return response()->json(['message' => 'Técnico no encontrado'], 404);
         }
-    
-        // Verificar la contraseña
+
         if (!Hash::check($request->password, $loginTecnico->password)) {
             return response()->json(['message' => 'Contraseña incorrecta'], 400);
         }
-    
-        // Eliminar los oficios antiguos y agregar los nuevos en la tabla TecnicosOficios
-        DB::table('TecnicosOficios')
-            ->where('idTecnico', $request->input('idTecnico'))
-            ->delete();
-    
-        foreach ($request->oficios as $oficioId) {
-            DB::table('TecnicosOficios')->insert([
-                'idTecnico' => $request->input('idTecnico'),
-                'idOficio' => $oficioId,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+
+        // Validar duplicados en la lista de oficios
+        if (count($request->oficios) !== count(array_unique($request->oficios))) {
+            return response()->json(['message' => 'No se permiten oficios duplicados'], 400);
         }
-    
-        return response()->json(['message' => 'Oficios actualizados correctamente']);
+
+        DB::beginTransaction();
+        try {
+            $existingJobs = DB::table('TecnicosOficios')
+                ->where('idTecnico', $request->input('idTecnico'))
+                ->pluck('idOficio')
+                ->toArray();
+
+            $newJobs = array_diff($request->oficios, $existingJobs);
+            $removedJobs = array_diff($existingJobs, $request->oficios);
+
+            // Agregar nuevos oficios
+            foreach ($newJobs as $oficioId) {
+                DB::table('TecnicosOficios')->insert([
+                    'idTecnico' => $request->input('idTecnico'),
+                    'idOficio' => $oficioId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            // Eliminar oficios eliminados
+            foreach ($removedJobs as $oficioId) {
+                DB::table('TecnicosOficios')
+                    ->where('idTecnico', $request->input('idTecnico'))
+                    ->where('idOficio', $oficioId)
+                    ->delete();
+            }
+
+            DB::commit();
+            return response()->json(['message' => 'Oficios actualizados correctamente']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Error al actualizar oficios'], 500);
+        }
     }
+
 
     public function getAvailableJobs()
     {
