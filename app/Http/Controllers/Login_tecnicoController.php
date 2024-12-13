@@ -153,7 +153,7 @@ class Login_tecnicoController extends Controller
         $oficios = DB::table('Oficios')
             ->join('TecnicosOficios', 'Oficios.idOficio', '=', 'TecnicosOficios.idOficio')
             ->where('TecnicosOficios.idTecnico', $idTecnico)
-            ->select('Oficios.idOficio', 'Oficios.nombre_Oficio')
+            ->select('Oficios.idOficio', 'Oficios.nombre_Oficio', 'Oficios.descripcion_Oficio')
             ->get(); 
 
         return response()->json([
@@ -285,7 +285,7 @@ class Login_tecnicoController extends Controller
 
     public function getAvailableJobs()
     {
-        // Obtener todas las recompensas desde la tabla 'Recompensas'
+
         $recompensas = DB::table('Oficios')
             ->select('idOficio', 'nombre_Oficio','descripcion_Oficio')
             ->get();
