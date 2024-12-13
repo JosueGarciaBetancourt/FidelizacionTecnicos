@@ -287,7 +287,7 @@ class Login_tecnicoController extends Controller
     {
         // Obtener todas las recompensas desde la tabla 'Recompensas'
         $recompensas = DB::table('Oficios')
-            ->select('idOficio', 'nombre_Oficio')
+            ->select('idOficio', 'nombre_Oficio','descripcion_Oficio')
             ->get();
 
         return response()->json($recompensas);
