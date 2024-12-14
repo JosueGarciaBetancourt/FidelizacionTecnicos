@@ -48,7 +48,6 @@ aside .sidebar a.canjesActive h5 {
     font-weight: 600;
 }
 
-
 aside * {
     user-select: none; 
 }
@@ -321,14 +320,6 @@ aside.hovered {
     width: auto;
 }
 
-.select-items-userList {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    width: max-content;
-    min-width: 150px;
-}
-
 /*Inicio de los estilos del botón parar cerrar y abrir el ASIDE*/
 .left_menu_close:hover {
     color: var(--clr-primary-variant);
@@ -379,7 +370,7 @@ aside.hovered {
 .userDropdownContainer {
     display: flex;
     flex-direction: row;
-    min-width: 15rem;
+    width: auto;
 }
 
 #idUserDropdown {
@@ -391,8 +382,8 @@ aside.hovered {
     font-weight: bold;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    padding: 0;
+    align-items: end;
+    padding: 0 10px 0 0;
 }
 
 #idUserDropdown span {
@@ -415,6 +406,11 @@ aside.hovered {
 .div-input-select {
     cursor: pointer;
 }
+
+#arrowDownUserList {
+    display: flex;
+    align-items: center;
+}
 /*Cierre de los estilos del perfil en el header*/
 
 /*Inicio de los estilos para la lista desplegable del usuario */
@@ -422,12 +418,11 @@ aside.hovered {
     position: absolute;
     color: #666;
     font-size: 1rem;
+    width: 100%;
     background-color: #fff;
     list-style-type: none;
     margin: 0.5rem 0 0 0;
     padding: 0;
-    max-width: 100%;
-    max-height: 10rem;
     z-index: 999;
     display: none; /* Oculta la lista de opciones por defecto */
     box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.1); /* Agrega una sombra */

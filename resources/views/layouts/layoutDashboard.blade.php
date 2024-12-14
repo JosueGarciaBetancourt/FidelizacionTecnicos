@@ -96,7 +96,7 @@
                                 {{ Auth::check() ? Auth::user()->name : 'Invitado' }}
                                 <span>{{ Auth::check() ? Auth::user()->email : '' }}</span>
                             </div>
-                            <span class="material-symbols-outlined">keyboard_arrow_down</span>
+                            <span id="arrowDownUserList" class="material-symbols-outlined">keyboard_arrow_down</span>
                         </div>
 
                         <ul class="select-items-userList" id="userList">
