@@ -4,26 +4,31 @@ function actualizarComponentesSegunTipoUsuario(isAdmin) {
     const perfilUsuarioContainer = document.getElementById('perfilUsuarioSelectEditarUsuario'); 
     const perfilUsuarioSpan = perfilUsuarioContainer.querySelector('span');
 
-    console.log(perfilUsuarioInput.className); 
+    /*console.log(perfilUsuarioInput.className); 
     console.log(perfilUsuarioContainer.className);
-    console.log(perfilUsuarioSpan.className);
+    console.log(perfilUsuarioSpan.className);*/
 
     if (isAdmin) {
         // Si es un admin, se añaden las clases y atributos correspondientes
         perfilUsuarioInput.classList.add('onlySelectInput', 'long', 'blocked');
         perfilUsuarioSpan.classList.add('blocked');
-        perfilUsuarioInput.setAttribute('disabled', true); // Desactivar el campo
         perfilUsuarioContainer.classList.add('noFocusBorder', 'blocked');
+        perfilUsuarioInput.setAttribute('disabled', true); // Desactivar el campo
     } else {
         console.log("EL USUARIO CLICKEADO NO ES ADMIN");
         // Si no es admin, se usan las clases básicas
         perfilUsuarioInput.classList.remove('blocked');
         perfilUsuarioSpan.classList.remove('blocked');
+        perfilUsuarioContainer.classList.remove('blocked', 'noFocusBorder');
         perfilUsuarioInput.removeAttribute('disabled');
-        perfilUsuarioContainer.classList.remove('noFocusBorder', 'blocked');
+        perfilUsuarioSpan.removeAttribute('disabled');
         perfilUsuarioInput.classList.add('onlySelectInput', 'long');
         perfilUsuarioInput.classList.add('onlySelectInput', 'long');
     }
+
+    console.log(perfilUsuarioInput); 
+    console.log(perfilUsuarioContainer);
+    console.log(perfilUsuarioSpan);
 }
 
 function fillFieldsEditarUsuario(objUser) {
