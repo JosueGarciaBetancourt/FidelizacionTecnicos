@@ -15,14 +15,13 @@ return new class extends Migration
             $table->string('password');
             $table->string('email')->unique(); // Correo corporativo
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('profile')->nullable();
             $table->rememberToken();
 
             $table->string('DNI')->unique()->nullable();
             $table->string('surname')->nullable();
             $table->dateTime('fechaNacimiento')->nullable();
-            $table->string('correoPersonal')->nullable();
-            $table->string('celularPersonal')->nullable();
+            $table->string('correoPersonal')->unique()->nullable();
+            $table->string('celularPersonal')->unique()->nullable();
             $table->string('celularCorporativo')->nullable();
 
             $table->foreign('idPerfilUsuario')->references('idPerfilUsuario')->on('PerfilesUsuarios');

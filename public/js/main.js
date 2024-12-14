@@ -1,3 +1,7 @@
+function consoleLogJSONItems(items) {
+    console.log(JSON.stringify(items, null, 2));
+}
+
 function handleFormSubmission(elementId, formId, timeout = 2000) {
     const element = document.getElementById(elementId);
     const form = document.getElementById(formId);
@@ -74,4 +78,16 @@ function registrarErrorEnLaravel(mensajeError) {
     .catch(error => {
         console.error("Error al enviar el mensaje al servidor:", error);
     });
+}
+
+function togglePasswordVisibility(viewPasswordIcon, idPasswordInput) {
+    const passwordInput = document.getElementById(idPasswordInput);
+
+    if (viewPasswordIcon.textContent != 'visibility') {
+        viewPasswordIcon.textContent = 'visibility';
+        passwordInput.type = 'text';
+    } else {
+        viewPasswordIcon.textContent = 'visibility_off';
+        passwordInput.type = 'password';
+    }
 }

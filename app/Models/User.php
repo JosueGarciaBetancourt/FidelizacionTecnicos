@@ -20,6 +20,13 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'DNI',
+        'surname',
+        'fechaNacimiento',
+        'correoPersonal',
+        'celularPersonal',
+        'celularCorporativo',
+        'idPerfilUsuario',
     ];
 
     /**
@@ -43,5 +50,17 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    protected $appends = ['nombre_PerfilUsuario'];
+
+    public function PerfilUsuario() 
+    {
+        return $this->belongsTo(PerfilUsuario::class, 'idPerfilUsuario', 'idPerfilUsuario');
+    }
+
+    public function getNombrePerfilUsuarioAttribute()
+    {
+        return $this->PerfilUsuario->nombre_PerfilUsuario ?? 'Sin perfil';
     }
 }

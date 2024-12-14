@@ -23,9 +23,7 @@ class OficioController extends Controller
         // Desde el modelo se agrega un campo dinámico codigoOficio (ejem: OFI-01)
         $oficios = Oficio::all(); 
         // Para depurar el códigoOficio
-        /* foreach ($oficios as $oficio) {
-            dd($oficio->codigoOficio); 
-        }*/
+        //dd($oficios->pluck('codigoOficio'));
         
         foreach ($oficios as $oficio) {
             $oficio->codigoOficioNombre = $oficio->codigoOficio . " | ". $oficio->nombre_Oficio; //Ejemplo: OFI-02 | Carpintero
