@@ -303,11 +303,6 @@
 	border-radius: 3px;
 }
 
-.input-item.blocked {
-	background-color: #EEE;
-	cursor: not-allowed;
-}
-
 .input-item.blocked:focus {
 	border: 1px solid #ccc;
 }
@@ -358,12 +353,13 @@
     width: 13.5rem;
 }
 
-.onlySelectInput.long.noHandCursor{
-    cursor: default;
-}
-
 .onlySelectInput::placeholder {
     color: #BBB;
+}
+
+.blocked{
+    background-color: #EEE;
+    cursor: not-allowed;
 }
 
 .onlySelectInput-container span {
@@ -376,6 +372,11 @@
 
 .onlySelectInput-container span.noHandCursor{
     cursor: default;
+}
+
+.onlySelectInput-container span.blocked{
+    background-color: #EEE;
+    cursor: not-allowed;
 }
 
 .onlySelectInput-container span:hover {
@@ -433,6 +434,10 @@
     margin-top: 3px;
     overflow-y: auto;
     transition: max-height 0.18s ease, opacity 0.18s linear; /* Transiciones para max-height y opacity */
+}
+
+.select-items.noCleanable {
+    font-size: 15px;
 }
 
 .select-items.show {

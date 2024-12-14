@@ -14,9 +14,15 @@ class UserSeeder extends Seeder
         User::create([
             'idPerfilUsuario' => 1,
             'name' => 'Admin',
-            'email' => 'admin@dimacof.com',
+            'email' => env('ADMIN_EMAIL', 'admin@dimacof.com'),
             'password' => Hash::make('12345678'),
-            'profile' => 'Administrador'
+        ]);
+
+        User::create([
+            'idPerfilUsuario' => 2,
+            'name' => 'Vendedor Guillermo Peña',
+            'email' => 'guillermo@dimacof.com',
+            'password' => Hash::make('continental'),
         ]);
 
         User::create([
@@ -24,15 +30,6 @@ class UserSeeder extends Seeder
             'name' => 'Raúl Torre',
             'email' => 'raul@dimacof.com',
             'password' => Hash::make('12345678'),
-            'profile' => 'Vendedor'
-        ]);
-        
-        User::create([
-            'idPerfilUsuario' => 2,
-            'name' => 'Vendedor Guillermo Peña',
-            'email' => 'guillermo@dimacof.com',
-            'password' => Hash::make('continental'),
-            'profile' => 'Vendedor'
         ]);
     }
 }

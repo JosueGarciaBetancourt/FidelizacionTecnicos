@@ -34,6 +34,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Perfil
     Route::get('/dashboard-usuarios', [ProfileController::class, 'create'])->name('usuarios.create');
     Route::patch('/dashboard-updateUsuario', [ProfileController::class, 'update'])->name('usuarios.update');
+    Route::delete('/dashboard-deleteUsuario', [ProfileController::class, 'destroy'])->name('usuarios.destroy');
 
     // Ventas Intermediadas
     Route::get('/dashboard-ventasIntermediadas', [VentaIntermediadaController::class, 'create'])->name('ventasIntermediadas.create');

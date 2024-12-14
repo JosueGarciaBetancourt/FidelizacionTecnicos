@@ -15,7 +15,6 @@ return new class extends Migration
             $table->string('password');
             $table->string('email')->unique(); // Correo corporativo
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('profile')->nullable();
             $table->rememberToken();
 
             $table->string('DNI')->unique()->nullable();

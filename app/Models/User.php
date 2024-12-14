@@ -52,7 +52,15 @@ class User extends Authenticatable
         ];
     }
 
-    public function PerfilUsuario() {
-        return $this->belongsTo(PerfilUsuario::class, 'id', 'idPerfilUsuario');
+    protected $appends = ['nombre_PerfilUsuario'];
+
+    public function PerfilUsuario() 
+    {
+        return $this->belongsTo(PerfilUsuario::class, 'idPerfilUsuario', 'idPerfilUsuario');
+    }
+
+    public function getNombrePerfilUsuarioAttribute()
+    {
+        return $this->PerfilUsuario->nombre_PerfilUsuario ?? 'Sin perfil';
     }
 }

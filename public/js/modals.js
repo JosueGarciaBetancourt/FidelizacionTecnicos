@@ -599,11 +599,6 @@ function validateValueOnRealTimeIDInteger(input, idOptions, idMessageError, some
     }
 }
 
-
-function consoleLogJSONItems(items) {
-    console.log(JSON.stringify(items, null, 2));
-}
-
 function returnObjTecnicoById(idTecnico, tecnicosDB) {
     for (const key in tecnicosDB) {
         if (tecnicosDB[key]['idTecnico'] === idTecnico) {

@@ -11,7 +11,8 @@
 .header {
     position: sticky;
     top: 0; /* Fija el header en la parte superior de la ventana */
-    width: calc(100% - var(--margin-right-headerDashboardContainer)); /* Ajusta el ancho */
+    width: 100%;
+    /*width: calc(100% - var(--margin-right-headerDashboardContainer));*/ /* Ajusta el ancho */
     z-index: 10; /* Asegura que esté en la capa superior */
     grid-column: 2;
     height: 4rem;

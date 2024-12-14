@@ -1,3 +1,7 @@
+function consoleLogJSONItems(items) {
+    console.log(JSON.stringify(items, null, 2));
+}
+
 function handleFormSubmission(elementId, formId, timeout = 2000) {
     const element = document.getElementById(elementId);
     const form = document.getElementById(formId);
