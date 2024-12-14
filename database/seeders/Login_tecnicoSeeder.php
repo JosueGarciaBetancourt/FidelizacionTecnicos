@@ -24,7 +24,7 @@ class Login_tecnicoSeeder extends Seeder
             if (!$existingLogin) {
                 DB::table('login_tecnicos')->insert([
                     'idTecnico' => $tecnico->idTecnico,
-                    'password' => Hash::make('123'), // Contraseña de prueba
+                    'password' => Hash::make($tecnico->idTecnico), // Contraseña de prueba
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
