@@ -22,8 +22,8 @@
     $name = $inputName ?? '';
 @endphp
 
-<div class="input-select" id='{{ $dynamicIdSelect }}'>
-    <div class="onlySelectInput-container {{ $containerOwnClass }}">
+<div class="input-select">
+    <div class="onlySelectInput-container {{ $containerOwnClass }}" id='{{ $dynamicIdSelect }}'>
         <input 
             class="{{ $inputClassName }}"
             type="text" 

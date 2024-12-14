@@ -8,169 +8,7 @@
     overflow-x: auto !important;
 }
 
-.header {
-    position: sticky;
-    top: 0; /* Fija el header en la parte superior de la ventana */
-    width: 100%;
-    /*width: calc(100% - var(--margin-right-headerDashboardContainer));*/ /* Ajusta el ancho */
-    z-index: 10; /* Asegura que esté en la capa superior */
-    grid-column: 2;
-    height: 4rem;
-    display: grid;
-    grid-template-columns: 4% 93%;
-    align-items: center;
-    border-bottom: 0.1rem solid #CCC;
-    background-color: white;
-    padding-bottom: 0rem;
-    padding-left: 0.5rem;
-    margin: 0; /* Elimina el margen superior */
-    padding-left: 13rem;
-    transition: padding 0.3s ease; /* Transición para cambiar el padding */
-}
-
-.header.asideClosed {
-    padding-left: 6rem;
-}
-
-.header.asideClosed.asideHovered { 
-    padding-left: 12rem;
-}
-
-.header .left_menu_close {
-    cursor: pointer;
-}
-
-.left_menu_close:hover {
-    color: var(--clr-primary-variant);
-    background-color: #EEE;
-}
-
-.left_menu_close span {
-    max-width: 100%;
-    max-height: 100%;
-    color: var(--clr-info-dark);
-    margin: 0.7rem;
-    margin-left: 0.8rem;
-}
-
-.left_menu_close:hover span{
-    font-weight: bold;
-}
-
-.left_menu_close.closed span{
-    transform: rotate(180deg);
-    margin-left: 0.3rem;
-}
-
-.notification_container {
-    display: flex; 
-    justify-content: right;
-}
-
-.profile {
-    display: flex; 
-    justify-content: right;
-    align-items: center;
-}
-
-.notification_container {
-    margin-right: 1rem;
-}
-
-.profile-photo {
-    width: 2.5rem;
-    height: 2.5rem;
-    overflow: hidden;
-    border-radius: 50%;
-}
-
-.profile-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.user_options_List {
-    width: 5rem;
-    color: #666;
-    font-weight: 500;
-    font-size: 1rem;
-    line-height: 1.3;
-    text-align: left;
-    margin-right: 1rem;
-    margin-left: 0.5rem;
-    cursor: pointer;
-    appearance: none;
-}
-
-.userList option {
-    cursor: pointer;
-}
-
-#labelDesplegable[type="text"] {
-    color: #666;
-}
-
-#labelDesplegable[type="text-autocomplete"] {
-    color: #666;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-#labelDesplegable::placeholder {
-    color: var(--clr-primary-variant3);
-}
-
-#labelDesplegable {
-    display: flex;
-    max-width: 100%; /* Ocupa todo el ancho del contenedor padre */
-    height: 2rem;
-    padding: 0.5rem 0 0.5rem 0;
-    transition: color 0.5s, border-color 0.5s; /* Animación de cambio de color y borde */
-}
-
-#labelDesplegable:focus {
-    color: var(--clr-primary-variant3); /* Color de texto al enfocar */
-    border-color: var(--clr-primary-variant3); /* Color del borde al enfocar */
-}
-
-#labelDesplegable:hover {
-    border-color: var(--clr-primary-variant3); /* Color del borde al enfocar */
-}
-
-.div-input-select {
-    cursor: pointer;
-}
-
-/* Estilos para las listas desplegables */
-.select-items-userList {
-    position: absolute;
-    color: #666;
-    font-size: 1rem;
-    background-color: #fff;
-    list-style-type: none;
-    margin: 0.5rem 0 0 0;
-    padding: 0;
-    max-width: 100%;
-    max-height: 10rem;
-    z-index: 999;
-    display: none; /* Oculta la lista de opciones por defecto */
-    box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.1); /* Agrega una sombra */
-    border: 0.5px solid #6662;
-    transition: opacity 0.15s ease;
-}
-
-.select-items-userList li {
-    padding: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Agrega una transición al cambiar el color de fondo */
-    user-select: none;
-}
-
-.select-items-userList li:hover {
-    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el ratón */
-}
-
+/*Inicio de los estilos del ASIDE*/
 aside .sidebar #canjesLink {
 	display: flex;
 	color: var(--clr-info-dark);
@@ -208,28 +46,6 @@ aside .sidebar a.canjesActive span{
 aside .sidebar a.canjesActive h5 {
     color: #0074FF;
     font-weight: 600;
-}
-
-.main {
-    grid-column: 2;
-    grid-row: 2;
-    background-color: #e7ebf2;
-    padding-top: var(--padding-top-mainDashboardContainer); 
-    padding-right: var(--padding-right-mainDashboardContainer);
-    padding-bottom: var(--padding-bottom-mainDashboardContainer);
-    padding-left: var(--padding-left-mainDashboardContainer);
-    margin-left: 12rem;
-    width: auto;
-    height: auto;
-    transition: margin 0.3s ease; /* Transición para cambiar el margin */
-}
-
-.main.asideClosed {
-    margin-left: 5rem;
-}
-
-.main.asideHovered {
-    margin-left: 12rem;
 }
 
 aside * {
@@ -371,12 +187,6 @@ aside.hovered {
     width: 12rem; /* Anchura cuando el aside está expandido */
 }
 
-#logoutForm {
-    user-select: none;
-}
-
-/* CANJES link*/ 
-
 .select-items-canjes {
     list-style-type: none;
     background-color: #d1e3fd;
@@ -440,3 +250,224 @@ aside.hovered {
 	color: var(--clr-white);
     border-radius: 1rem;
 }
+/*Cierre de los estilos del ASIDE*/
+
+/*Inicio de los estilos del HEADER*/
+.header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    height: auto;
+    padding: 0.5rem 1rem;
+    position: sticky;
+    top: 0; /* Fija el header en la parte superior de la ventana */
+    width: 100%;
+    /*width: calc(100% - var(--margin-right-headerDashboardContainer));*/ /* Ajusta el ancho */
+    z-index: 10; /* Asegura que esté en la capa superior */
+    grid-column: 2;
+    border-bottom: 0.1rem solid #CCC;
+    background-color: white;
+    margin: 0; /* Elimina el margen superior */
+    padding-left: 13rem;
+    transition: all 0.3s ease;
+}
+
+.header.asideClosed {
+    padding-left: 6rem;
+}
+
+.header.asideClosed.asideHovered { 
+    padding-left: 12rem;
+}
+
+.header .left_menu_close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.header .profile {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+    width: 100%;
+}
+/*Cierre de los estilos del HEADER*/
+
+
+.notification_container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-right: 0.5rem;
+}
+
+.notification_count {
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    background-color: rgb(33, 169, 144);
+    color: white;
+    border-radius: 50%;
+    padding: 0.2rem 0.5rem;
+    font-size: 0.7rem;
+}
+
+.user_options_List {
+    position: relative;
+    width: auto;
+}
+
+/*Inicio de los estilos del botón parar cerrar y abrir el ASIDE*/
+.left_menu_close:hover {
+    color: var(--clr-primary-variant);
+    background-color: #EEE;
+}
+
+.left_menu_close span {
+    max-width: 100%;
+    max-height: 100%;
+    color: var(--clr-info-dark);
+    margin: 0.7rem;
+    margin-left: 0.8rem;
+}
+
+.left_menu_close:hover span{
+    font-weight: bold;
+}
+
+.left_menu_close.closed span{
+    transform: rotate(180deg);
+    margin-left: 0.3rem;
+}
+/*Cierre de los estilos del botón parar cerrar y abrir el ASIDE*/
+
+/*Inicio de los estilos del perfil en el header*/
+.profile-photo {
+    width: 2.5rem;
+    height: 2.5rem;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.profile-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.userList option {
+    cursor: pointer;
+}
+
+#idUserDivList {
+    width: auto;
+    height: 100%;
+}
+
+.userDropdownContainer {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+}
+
+#idUserDropdown {
+    width: 100%;
+    height: auto;
+    color: #666;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    padding: 0 10px 0 0;
+}
+
+#idUserDropdown span {
+    font-weight: 500;
+}
+
+#idUserDropdown::placeholder {
+    color: var(--clr-primary-variant3);
+}
+
+#idUserDropdown:focus {
+    color: var(--clr-primary-variant3); /* Color de texto al enfocar */
+    border-color: var(--clr-primary-variant3); /* Color del borde al enfocar */
+}
+
+#idUserDropdown:hover {
+    border-color: var(--clr-primary-variant3); /* Color del borde al enfocar */
+}
+
+.div-input-select {
+    cursor: pointer;
+}
+
+#arrowDownUserList {
+    display: flex;
+    align-items: center;
+}
+/*Cierre de los estilos del perfil en el header*/
+
+/*Inicio de los estilos para la lista desplegable del usuario */
+.select-items-userList {
+    position: absolute;
+    color: #666;
+    font-size: 1rem;
+    width: 100%;
+    background-color: #fff;
+    list-style-type: none;
+    margin: 0.5rem 0 0 0;
+    padding: 0;
+    z-index: 999;
+    display: none; /* Oculta la lista de opciones por defecto */
+    box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.1); /* Agrega una sombra */
+    border: 0.5px solid #6662;
+    transition: opacity 0.15s ease;
+}
+
+.select-items-userList li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Agrega una transición al cambiar el color de fondo */
+    user-select: none;
+}
+
+.select-items-userList li:hover {
+    background-color: #f0f0f0; /* Cambia el color de fondo al pasar el ratón */
+}
+/*Cierre de los estilos para la lista desplegable del usuario */
+
+/*Inicio de los estilos de la seccion MAIN*/
+.main {
+    grid-column: 2;
+    grid-row: 2;
+    background-color: #e7ebf2;
+    padding-top: var(--padding-top-mainDashboardContainer); 
+    padding-right: var(--padding-right-mainDashboardContainer);
+    padding-bottom: var(--padding-bottom-mainDashboardContainer);
+    padding-left: var(--padding-left-mainDashboardContainer);
+    margin-left: 12rem;
+    width: auto;
+    height: auto;
+    transition: margin 0.3s ease; /* Transición para cambiar el margin */
+}
+
+.main.asideClosed {
+    margin-left: 5rem;
+}
+
+.main.asideHovered {
+    margin-left: 12rem;
+}
+/*Cierre de los estilos de la seccion MAIN*/
+
+#logoutForm {
+    user-select: none;
+}
+
+

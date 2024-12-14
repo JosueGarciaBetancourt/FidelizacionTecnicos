@@ -39,7 +39,7 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         $users = User::with('PerfilUsuario')
-            ->when($user->email !== env('ADMIN_EMAIL', 'admin@dimacof.com'), function($query) use ($user) {
+            ->when($user->idPerfilUsuario !== 1, function($query) use ($user) {
                 $query->where('id', $user->id);
             })
             ->select('id', 'idPerfilUsuario', 'name', 'email', 'DNI', 'surname', 'fechaNacimiento', 

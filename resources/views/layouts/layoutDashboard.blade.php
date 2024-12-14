@@ -91,10 +91,14 @@
                 </div>
                 <div class="user_options_List" id="user_options_List">
                     <div class="div-input-select" id="idUserDivList">
-                        <label id="labelDesplegable" type="text-autocomplete" placeholder="Admin" onclick="toggleOptionsUser('userList')">
-                            {{ Auth::check() ? Auth::user()->name : 'Invitado' }}
-                            <span class="material-symbols-outlined">keyboard_arrow_down</span>
-                        </label>
+                        <div class="userDropdownContainer" onclick="toggleOptionsUser('userList')">
+                            <div id="idUserDropdown">
+                                {{ Auth::check() ? Auth::user()->name : 'Invitado' }}
+                                <span>{{ Auth::check() ? Auth::user()->email : '' }}</span>
+                            </div>
+                            <span id="arrowDownUserList" class="material-symbols-outlined">keyboard_arrow_down</span>
+                        </div>
+
                         <ul class="select-items-userList" id="userList">
                             <li onclick="linkOption('perfil'), closeUserList()">Perfil</li>
                             <li id="li-logout" onclick="linkOption('logout'), handleFormSubmission('li-logout', 'logoutForm'), closeUserList()">
