@@ -83,7 +83,7 @@
 
                                 :inputClassName="'onlySelectInput long blocked'"
                                 :spanClassName="'blocked'"
-                                :disabled="true"
+                                :disabled="false"
                                 :containerClassName="'noFocusBorder blocked'"
                             />
                         <input type="hidden" id="idPerfilUsuarioInput" name="idPerfilUsuario" readonly> 

@@ -13,7 +13,9 @@ function actualizarComponentesSegunTipoUsuario(isAdmin) {
         perfilUsuarioInput.classList.add('onlySelectInput', 'long', 'blocked');
         perfilUsuarioSpan.classList.add('blocked');
         perfilUsuarioContainer.classList.add('noFocusBorder', 'blocked');
-        perfilUsuarioInput.setAttribute('disabled', true); // Desactivar el campo
+        perfilUsuarioInput.setAttribute('disabled', true); 
+        perfilUsuarioSpan.setAttribute('disabled', true); 
+
     } else {
         console.log("EL USUARIO CLICKEADO NO ES ADMIN");
         // Si no es admin, se usan las clases básicas
@@ -25,10 +27,6 @@ function actualizarComponentesSegunTipoUsuario(isAdmin) {
         perfilUsuarioInput.classList.add('onlySelectInput', 'long');
         perfilUsuarioInput.classList.add('onlySelectInput', 'long');
     }
-
-    console.log(perfilUsuarioInput); 
-    console.log(perfilUsuarioContainer);
-    console.log(perfilUsuarioSpan);
 }
 
 function fillFieldsEditarUsuario(objUser) {

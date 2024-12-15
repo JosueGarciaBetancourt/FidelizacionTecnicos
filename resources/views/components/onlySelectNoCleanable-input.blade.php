@@ -36,8 +36,12 @@
             name="{{ $name }}"
             {{ $DISABLED }}
         >
-        <span class="material-symbols-outlined noCleanable {{ $spanOwnClassName }}" id="{{ $dynamicIdSpan }}"
+        {{--<span class="material-symbols-outlined noCleanable {{ $spanOwnClassName }}" id="{{ $dynamicIdSpan }}"
                 onclick="{{ $isDisabled ? '' : "toggleOptionsSelectNoCleanable('{$dynamicIdOptions}', '{$dynamicIdSpan}')" }}">
+                keyboard_arrow_down
+        </span>--}}
+        <span class="material-symbols-outlined noCleanable {{ $spanOwnClassName }}" id="{{ $dynamicIdSpan }}"
+            onclick="if (!this.hasAttribute('disabled')) toggleOptionsSelectNoCleanable('{{ $dynamicIdOptions }}', '{{ $dynamicIdSpan }}')">
                 keyboard_arrow_down
         </span>
     </div>  

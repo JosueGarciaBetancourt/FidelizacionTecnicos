@@ -255,6 +255,7 @@ function toggleOptions(idInput, idOptions) {
 }
 
 function toggleOptionsSelectNoCleanable(idOptions, idSpan) {
+    console.log("toggleOptionsSelectNoCleanable");
     var options = document.getElementById(idOptions);
     var span = document.getElementById(idSpan);
 
