@@ -3,7 +3,7 @@
         <div class="modal-content" id="modalEliminarTecnico-content">
             <div class="modal-header">
                 <h5 class="modal-title">Eliminar técnico</h5>
-                <button class="close" onclick="closeModal('modalEliminarTecnico')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalEliminarTecnico')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyDeleteTecnico">
                 <form id="formEliminarTecnico" action="{{ route('tecnicos.delete') }}" method="POST">
@@ -82,7 +82,7 @@
                             {{-- :name="'oficioTecnico'" --}}
                             :options="$idsNombresOficiosBD"
                             :disabled="true"
-                            :spanClassName="'noHandCursor'"
+                            :spanClassName="'noUserSelect noHandCursor'"
                             :focusBorder="'noFocusBorder'"
                         />
                     </div>

@@ -3,7 +3,7 @@
         <div class="modal-content" id="modalRegistrarNuevoTipoRecompensa-content">
             <div class="modal-header">
                 <h5 class="modal-title">Crear nuevo tipo de recompensa</h5>
-                <button class="close" onclick="closeModal('modalRegistrarNuevoTipoRecompensa')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalRegistrarNuevoTipoRecompensa')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyRegistrarNuevoTipoRecompensa">
                 <form id="formRegistrarNuevoTipoRecompensa" action="{{ route('tiposRecompensas.store') }}" method="POST">

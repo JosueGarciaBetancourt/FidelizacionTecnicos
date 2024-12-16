@@ -3,7 +3,7 @@
         <div class="modal-content" id="modalRecontratarTecnico-content">
             <div class="modal-header">
                 <h5 class="modal-title">Recontratar técnico</h5>
-                <button class="close" onclick="closeModal('modalRecontratarTecnico')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalRecontratarTecnico')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyRecontratarTecnico">
                 <form id="formRecontratarTecnico" action="{{ route('tecnicos.rehire') }}" method="POST">
@@ -83,6 +83,7 @@
                             :options="$idsNombresOficiosBD"
                             :onSelectFunction="'selectOptionRecontratarOficio'"
                             :onSpanClickFunction="'cleanHiddenOficiosRecontratarInput'"
+                            :spanClassName="'noUserSelect'"
                         />
                         <input type="hidden" id='{{ $someHiddenIdInputsArray[1] }}' name="idOficioArray">
                     </div>

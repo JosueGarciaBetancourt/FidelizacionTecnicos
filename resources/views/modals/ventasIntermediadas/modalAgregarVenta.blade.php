@@ -65,6 +65,7 @@
                                 :placeholder="'DNI/RUC'"
                                 :name="'tipoCodigoCliente_VentaIntermediada'"
                                 :options="['DNI', 'RUC']"
+                                :spanClassName="'noUserSelect'"
                             />
                         </div>
                         <div class = "group-items">

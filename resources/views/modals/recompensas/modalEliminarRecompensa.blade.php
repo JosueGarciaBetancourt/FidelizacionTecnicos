@@ -3,7 +3,7 @@
         <div class="modal-content" id="modalEliminarRecompensa-content">
             <div class="modal-header">
                 <h5 class="modal-title">Eliminar recompensa</h5>
-                <button class="close" onclick="closeModal('modalEliminarRecompensa')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalEliminarRecompensa')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyEliminarRecompensa">
                 <form id="formEliminarRecompensa" action="{{ route('recompensas.delete') }}" method="POST">
@@ -71,7 +71,7 @@
                             :name="'tipoRecompensa'"
                             :options="['Accesorio', 'EPP', 'Herramienta']"
                             :disabled="true"
-                            :spanClassName="'noHandCursor'"
+                            :spanClassName="'noUserSelect noHandCursor'"
                             :focusBorder="'noFocusBorder'"
                         />
                     </div>

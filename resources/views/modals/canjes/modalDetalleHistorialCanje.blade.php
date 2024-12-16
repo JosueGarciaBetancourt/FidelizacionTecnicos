@@ -19,7 +19,7 @@
 					<h5 id='{{ $idFechaHoraCanje }}'></h5>
 					<h5 id='{{ $idDiasTranscurridos }}'></h5>
 				</div>
-                <button class="close" onclick="closeModal('modalDetalleHistorialCanje')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalDetalleHistorialCanje')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyDetalleHistorialCanje">
 				<div class="form-group gap">
@@ -81,13 +81,13 @@
 
 				<div class="btnDetailOption-container" data-routes='{"pdf": "{{ route('canjes.pdf', ['size' => ':size', 'idCanje' => ':idCanje']) }}"}'>
 					<button type="button" class="btn btn-DetailOption" id="btn_pdf_A4" data-size="A4" title="Canje en formato A4">
-						<span class="material-symbols-outlined">description</span> A4
+						<span class="material-symbols-outlined noUserSelect">description</span> A4
 					</button>
 					<button type="button" class="btn btn-DetailOption" id="btn_pdf_80mm" data-size="80mm" title="Canje en formato 80MM">
-						<span class="material-symbols-outlined">receipt_long</span> 80MM
+						<span class="material-symbols-outlined noUserSelect">receipt_long</span> 80MM
 					</button>
 					<button type="button" class="btn btn-DetailOption" id="btn_pdf_50mm" data-size="50mm" title="Canje en formato 50MM">
-						<span class="material-symbols-outlined">receipt_long</span> 50MM
+						<span class="material-symbols-outlined noUserSelect">receipt_long</span> 50MM
 					</button>
 				</div>
             </div>

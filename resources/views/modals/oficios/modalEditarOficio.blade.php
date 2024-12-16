@@ -3,7 +3,7 @@
         <div class="modal-content" id="modalEditarOficio-content">
             <div class="modal-header">
                 <h5 class="modal-title">Editar oficio</h5>
-                <button class="close" onclick="closeModal('modalEditarOficio')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalEditarOficio')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyEditarOficio">
                 <form id="formEditarOficio" action="{{ route('oficios.update') }}" method="POST">

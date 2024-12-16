@@ -3,7 +3,7 @@
         <div class="modal-content modalEditarUsuario">
             <div class="modal-header">
                 <h5 class="modal-title">Editar Usuario</h5>
-                <button class="close" onclick="closeModal('modalEditarUsuario')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalEditarUsuario')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyAgregarNuevoTecnico">
                 <div class="section-navbar">
@@ -49,7 +49,7 @@
                             <div class="passwordInputContainer">
                                 <input class="passwordInput" type="password" id="{{ $passwordInput }}" autocomplete="off"
                                     maxlength="20">
-                                <span class="viewPasswordIcon material-symbols-outlined" onclick="togglePasswordVisibility(this, '{{ $passwordInput }}')">
+                                <span class="viewPasswordIcon material-symbols-outlined noUserSelect" onclick="togglePasswordVisibility(this, '{{ $passwordInput }}')">
                                     visibility_off
                                 </span>                           
                             </div>
@@ -63,7 +63,7 @@
                             <div class="passwordInputContainer">
                                 <input class="passwordInput" type="password" id="{{ $confirmPasswordInput }}" autocomplete="off"
                                     maxlength="20" name="password">
-                                <span class="viewPasswordIcon material-symbols-outlined" onclick="togglePasswordVisibility(this, '{{ $confirmPasswordInput }}')">
+                                <span class="viewPasswordIcon material-symbols-outlined noUserSelect" onclick="togglePasswordVisibility(this, '{{ $confirmPasswordInput }}')">
                                     visibility_off
                                 </span>
                             </div>

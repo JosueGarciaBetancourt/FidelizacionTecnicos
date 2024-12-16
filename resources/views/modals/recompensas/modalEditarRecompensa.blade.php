@@ -3,7 +3,7 @@
         <div class="modal-content" id="modalEditarRecompensa-content">
             <div class="modal-header">
                 <h5 class="modal-title">Editar recompensa</h5>
-                <button class="close" onclick="closeModal('modalEditarRecompensa')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalEditarRecompensa')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyEditarRecompensa">
                 <form id="formEditarRecompensa" action="{{ route('recompensas.update') }}" method="POST">
@@ -71,7 +71,7 @@
                             :name="'tipoRecompensa'"
                             :options="$nombresTiposRecompensasDB"
                             :disabled="true"
-                            :spanClassName="'noHandCursor'"
+                            :spanClassName="'noUserSelect noHandCursor'"
                             :focusBorder="'noFocusBorder'"
                         />
                     </div>

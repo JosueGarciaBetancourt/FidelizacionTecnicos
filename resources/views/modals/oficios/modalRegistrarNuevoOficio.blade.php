@@ -2,8 +2,8 @@
     <div class="modal-dialog" id="modalRegistrarNuevoOficio-dialog">
         <div class="modal-content" id="modalRegistrarNuevoOficio-content">
             <div class="modal-header">
-                <h5 class="modal-title">Registar nueva recompensa</h5>
-                <button class="close" onclick="closeModal('modalRegistrarNuevoOficio')">&times;</button>
+                <h5 class="modal-title">Registar nuevo oficio</h5>
+                <button class="close noUserSelect" onclick="closeModal('modalRegistrarNuevoOficio')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyRegistrarNuevoOficio">
                 <form id="formRegistrarNuevoOficio" action="{{ route('oficios.store') }}" method="POST">

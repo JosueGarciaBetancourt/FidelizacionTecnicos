@@ -3,7 +3,7 @@
         <div class="modal-content" id="modalRestaurarRecompensa-content">
             <div class="modal-header">
                 <h5 class="modal-title">Restaurar recompensa</h5>
-                <button class="close" onclick="closeModal('modalRestaurarRecompensa')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalRestaurarRecompensa')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyRestaurarRecompensa">
                 <form id="formRestaurarRecompensa" action="{{ route('recompensas.restore') }}" method="POST">
@@ -71,7 +71,7 @@
                             {{-- :name="'tipoRecompensa'" --}}
                             :options="['Accesorio', 'EPP', 'Herramienta']"
                             :disabled="true"
-                            :spanClassName="'noHandCursor'"
+                            :spanClassName="'noUserSelect noHandCursor'"
                             :focusBorder="'noFocusBorder'"
                         />
                     </div>

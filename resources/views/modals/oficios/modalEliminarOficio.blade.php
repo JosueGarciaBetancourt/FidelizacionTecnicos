@@ -3,7 +3,7 @@
         <div class="modal-content" id="modalEliminarOficio-content">
             <div class="modal-header">
                 <h5 class="modal-title">Eliminar Oficio</h5>
-                <button class="close" onclick="closeModal('modalEliminarOficio')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalEliminarOficio')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyEliminarOficio">
                 <form id="formEliminarOficio" action="{{ route('oficios.delete') }}" method="POST">

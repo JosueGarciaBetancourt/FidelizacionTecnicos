@@ -3,7 +3,7 @@
         <div class="modal-content" id="modalRestaurarOficio-content">
             <div class="modal-header">
                 <h5 class="modal-title">Restaurar Oficio</h5>
-                <button class="close" onclick="closeModal('modalRestaurarOficio')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalRestaurarOficio')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyRestaurarOficio">
                 <form id="formRestaurarOficio" action="{{ route('oficios.restore') }}" method="POST">
