@@ -18,6 +18,9 @@ class PerfilUsuarioSeeder extends Seeder
             [
                 'nombre_PerfilUsuario' => 'Vendedor',
             ],
+            [
+                'nombre_PerfilUsuario' => 'Asistente',
+            ],
         ];
 
         foreach ($perfilesUsuarios as $perfil) {

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreign('idPerfilUsuario')->references('idPerfilUsuario')->on('PerfilesUsuarios');
 
             $table->timestamps();
+            $table->softDeletes(); // deleted_at
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

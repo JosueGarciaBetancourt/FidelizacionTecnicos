@@ -337,7 +337,7 @@
     border-color: #ccc; 
 }
 
-.onlySelectInput{
+.onlySelectInput {
     padding: 20px 10px;
     max-width: 100%;
     height: 30px;
@@ -357,13 +357,17 @@
     color: #BBB;
 }
 
-.blocked{
+.onlySelectInput-container.blocked{
     background-color: #EEE;
     cursor: not-allowed;
 }
 
+.onlySelectInput.blocked{
+    cursor: not-allowed;
+}
+
 .onlySelectInput-container span {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     cursor: pointer;
     background-color: transparent;
     color: #666;
@@ -377,6 +381,10 @@
 .onlySelectInput-container span.blocked{
     background-color: #EEE;
     cursor: not-allowed;
+}
+
+.onlySelectInput-container span.blocked:hover{
+    color: #666;
 }
 
 .onlySelectInput-container span:hover {

@@ -3,7 +3,7 @@
         <div class="modal-content" id="modalAgregarVenta-content">
             <div class="modal-header">
                 <h5 class="modal-title">Nueva Venta Intermediada</h5>
-                <button class="close" onclick="closeModal('modalAgregarVenta')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalAgregarVenta')">&times;</button>
             </div>
             <div class="modal-body" id="modalAgregarVenta-body">
                 <!-- Formulario para agregar nueva venta -->

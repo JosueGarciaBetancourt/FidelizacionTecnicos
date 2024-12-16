@@ -302,6 +302,7 @@ aside.hovered {
     display: flex;
     align-items: center;
     margin-right: 0.5rem;
+    user-select: none;
 }
 
 .notification_count {
@@ -342,6 +343,7 @@ aside.hovered {
     transform: rotate(180deg);
     margin-left: 0.3rem;
 }
+
 /*Cierre de los estilos del botón parar cerrar y abrir el ASIDE*/
 
 /*Inicio de los estilos del perfil en el header*/
@@ -350,6 +352,7 @@ aside.hovered {
     height: 2.5rem;
     overflow: hidden;
     border-radius: 50%;
+    user-select: none;
 }
 
 .profile-photo img {
@@ -469,5 +472,3 @@ aside.hovered {
 #logoutForm {
     user-select: none;
 }
-
-

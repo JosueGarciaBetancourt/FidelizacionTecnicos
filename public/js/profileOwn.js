@@ -85,10 +85,41 @@ function openModalEliminarUsuario(button, usersDB) {
         if (response) {
             console.log(`Eliminando usuario...${userName}`);
             // Recargar la página después de que la solicitud se haya procesado correctamente
-            location.reload();
+            eliminarUsuario(objUser.id)
             return;
         }
     });
+}
+
+async function eliminarUsuario(idUsuario) {
+    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
+    const url = `${baseUrl}/dashboard-deleteUsuario/${idUsuario}`;
+
+    try {
+        // Obtener el token CSRF desde el contenido de la página
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        const response = await fetch(url, {
+            method: 'DELETE', 
+            headers: {
+                'Content-Type': 'application/json', 
+                'X-CSRF-TOKEN': csrfToken, 
+            }
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText);
+        }
+
+        const mensaje = await response.json();
+        console.log(mensaje);
+
+        // Recargar la página después de que la solicitud se haya procesado correctamente
+        location.reload();
+    } catch (error) {
+        console.error('Error al eliminar el usuario con id: ' + idUsuario, error.message);
+    }
 }
 
 function returnObjUserByEmail(email, usersDB) {

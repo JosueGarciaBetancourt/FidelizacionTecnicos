@@ -34,11 +34,13 @@
                                 <td class="celda-lefted">{{ $user->name }}</td>
                                 <td class="celda-centered" >{{ $user->nombre_PerfilUsuario }}</td>
                                 <td class="celda-centered celda-btnAcciones">
-                                    <button class="edit-btn" onclick="openModalEditarUsuario(this, {{ json_encode($users) }})">Editar</button>
-                                    @if ($user->email !== "admin@dimacof.com")
+                                    @if ($user->email !== "admin@dimacof.com" || Auth::user()->email === "admin@dimacof.com")
+                                        <button class="edit-btn" onclick="openModalEditarUsuario(this, {{ json_encode($users) }})">Editar</button>
+                                    @endif
+                                    @if ($user->email !== "admin@dimacof.com" && Auth::user()->email === "admin@dimacof.com")
                                         <button class="delete-btn" onclick="openModalEliminarUsuario(this, {{ json_encode($users) }}, )">Eliminar</button>
                                     @endif
-                                </td>
+                                </td>   
                             </tr>
                         @endforeach
                     </tbody>

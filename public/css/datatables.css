@@ -566,10 +566,11 @@ div.dt-container .dt-search {
   align-items: center;
 }
 
-.dt-search  span{
+.dt-search span{
   color: #AAA;
   font-size: 1.25rem;
   align-items: center;
+  user-select: none;
 }
 
 .dt-search input::placeholder {

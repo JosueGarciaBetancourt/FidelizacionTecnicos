@@ -16,10 +16,19 @@ use App\Http\Requests\ProfileUpdateRequest;
 class ProfileController extends Controller
 {    
     public function returnArrayNombresPerfilesUsuarios() {
+        // Obtiene todos los perfiles de usuario
         $perfiles = PerfilUsuario::all();
+
+        // Verifica si hay un usuario autenticado y si es el administrador
+        if (Auth::check() && Auth::user()->email !== env('ADMIN_EMAIL', "admin@dimacof.com")) {
+            // Rechazar (eliminar) los perfiles donde idPerfilUsuario sea 1
+            $perfiles = $perfiles->reject(function($perfil) {
+                return $perfil->idPerfilUsuario === 1;
+            });
+        }
+
         $arrayNombresPerfilesUsuarios = [];
 
-        // Obtener todos los nombres de los perfiles 
         foreach ($perfiles as $perfil) {
             $arrayNombresPerfilesUsuarios[] = $perfil->nombre_PerfilUsuario;
         }
@@ -50,6 +59,7 @@ class ProfileController extends Controller
         //dd($users->pluck('nombre_PerfilUsuario'));
 
         $nombresPerfilesUsuarios = $this->returnArrayNombresPerfilesUsuarios();
+
         $perfilesUsuarios = PerfilUsuario::all()->pluck('nombre_PerfilUsuario', 'idPerfilUsuario');
 
         return view('dashboard.profileOwn', compact('users', 'nombresPerfilesUsuarios', 'perfilesUsuarios'));
@@ -113,21 +123,22 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy($idUsuario)
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+        // Verificar si el usuario existe antes de eliminarlo
+        $user = User::find($idUsuario);
 
-        $user = $request->user();
+        if (!$user) {
+            return response()->json([
+                'message' => 'Usuario no encontrado.'
+            ], 404);
+        }
 
-        Auth::logout();
-
+        // Soft delete
         $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return response()->json([
+            'message' => 'Usuario ' . $user->name . ' eliminado exitosamente.',
+        ], 200);
     }
 }

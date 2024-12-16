@@ -48,7 +48,7 @@
 					</td>
 					<td class="celda-btnDetalle">
 						<button class="btnDetalle" onclick="openModalDetalleSolicitudCanje(this, {{ json_encode($solicitudesCanje) }})">
-							Ver Detalle <span class="material-symbols-outlined">visibility</span>
+							Ver Detalle <span class="material-symbols-outlined noUserSelect">visibility</span>
 						</button>
 					</td>
 					<td class="celda-centered celda-btnAcciones" id="idCeldaAcciones">

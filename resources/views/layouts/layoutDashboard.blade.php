@@ -78,13 +78,13 @@
 
         <div class="header">
             <div class="left_menu_close" id="menu_toggle_button">
-                <span class="material-symbols-outlined">arrow_back_ios</span>
+                <span class="material-symbols-outlined noUserSelect">arrow_back_ios</span>
             </div>
             
             <div class="profile">
                 <a href="#" class="notification_container">
-                    <span class="material-symbols-outlined">notifications</span>
-                    <span class="notification_count">14</span>
+                    <span class="material-symbols-outlined noUserSelect">notifications</span>
+                    <span class="notification_count noUserSelect">14</span>
                 </a>
                 <div class="profile-photo">
                 <img src="{{ asset('images/profile_picture.png') }} " alt="1_admin_picture">
@@ -96,7 +96,7 @@
                                 {{ Auth::check() ? Auth::user()->name : 'Invitado' }}
                                 <span>{{ Auth::check() ? Auth::user()->email : '' }}</span>
                             </div>
-                            <span id="arrowDownUserList" class="material-symbols-outlined">keyboard_arrow_down</span>
+                            <span id="arrowDownUserList" class="material-symbols-outlined noUserSelect">keyboard_arrow_down</span>
                         </div>
 
                         <ul class="select-items-userList" id="userList">
