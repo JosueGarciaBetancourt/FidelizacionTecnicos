@@ -1,9 +1,9 @@
-<div class="modal first modalEditarUsuario" id="modalEditarUsuario">
-    <div class="modal-dialog modalEditarUsuario">
-        <div class="modal-content modalEditarUsuario">
+<div class="modal first modalCrearUsuario" id="modalCrearUsuario">
+    <div class="modal-dialog modalCrearUsuario">
+        <div class="modal-content modalCrearUsuario">
             <div class="modal-header">
-                <h5 class="modal-title">Editar Usuario</h5>
-                <button class="close noUserSelect" onclick="closeModal('modalEditarUsuario')">&times;</button>
+                <h5 class="modal-title">Crear Usuario</h5>
+                <button class="close noUserSelect" onclick="closeModal('modalCrearUsuario')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyAgregarNuevoTecnico">
                 <div class="section-navbar">
@@ -11,21 +11,20 @@
                     <a href="#" class="section-tab">Datos personales</a>
                 </div>
 
-                <form id="formEditarUsuario" action="{{ route('usuarios.update') }}" method="POST">
+                <form id="formCrearUsuario" action="{{ route('usuarios.store') }}" method="POST">
                     @csrf
-                    @method('patch')
 
                     @php 
                         $usersDB = $users;
                         $perfilesUsuariosDB = $perfilesUsuarios;
-                        $idUserInput = "idUser";
-                        $nameInput = "nameInputEditarUsuario";
-                        $emailInput = "emailInputEditarUsuario";
-                        $passwordInput = "passwordInputEditarUsuario";
-                        $confirmPasswordInput = "confirmPasswordInputEditarUsuario";
-                        $perfilUsuarioSelect = "perfilUsuarioSelectEditarUsuario";
-                        $perfilUsuarioInput = "perfilUsuarioInputEditarUsuario";
-                        $confirmPasswordTooltip = "idConfirmPasswordTooltip";
+                        $idUserInput = "idUserCrear";
+                        $nameInput = "nameInputCrearUsuario";
+                        $emailInput = "emailInputCrearUsuario";
+                        $passwordInput = "passwordInputCrearUsuario";
+                        $confirmPasswordInput = "confirmPasswordInputCrearUsuario";
+                        $perfilUsuarioSelect = "perfilUsuarioSelectCrearUsuario";
+                        $perfilUsuarioInput = "perfilUsuarioInputCrearUsuario";
+                        $confirmPasswordTooltip = "idConfirmPasswordTooltipCrear";
                     @endphp
 
                     <div class="form-group gap">
@@ -38,8 +37,7 @@
                     
                         <div class="group-items">
                             <label class="secondary-label" id="nameLabel"  for="{{ $emailInput }}">Correo electrónico</label>
-                            <input class="input-item blocked" type="email" id="{{ $emailInput }}" readOnly
-                                maxlength="30">
+                            <input class="input-item" type="email" id="{{ $emailInput }}" name="email" maxlength="30">
                         </div>
                     </div>
 
@@ -81,23 +79,21 @@
                                 :extraArgOnClickFunction="$perfilesUsuariosDB"
                                 :isExtraArgJson="true"
 
-                                :inputClassName="'onlySelectInput long blocked'"
-                                :spanClassName="'blocked'"
+                                :inputClassName="'onlySelectInput long'"
                                 :disabled="false"
-                                :containerClassName="'noFocusBorder blocked'"
                             />
-                        <input type="hidden" id="idPerfilUsuarioInput" name="idPerfilUsuario" readonly> 
+                        <input type="text" id="idPerfilUsuarioInputCrear" name="idPerfilUsuario" readonly> 
                     </div>
 
                     <div class="form-group start">
-                        <span class="inline-alert-message" id="editarUsuarioMessageError"> multiMessageError </span>      
+                        <span class="inline-alert-message" id="crearUsuarioMessageError"> multiMessageError </span>      
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal('modalEditarUsuario')">Cancelar</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('modalCrearUsuario')">Cancelar</button>
                 <button type="button" class="btn btn-primary" 
-                        onclick="guardarModalEditarUsuario('modalEditarUsuario', 'formEditarUsuario')">Guardar</button>
+                        onclick="guardarmodalCrearUsuario('modalCrearUsuario', 'formCrearUsuario')">Guardar</button>
             </div>
         </div>
     </div>

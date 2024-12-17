@@ -5,11 +5,19 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/profileOwn.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalEditarUsuario.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalCrearUsuario.css') }}">
 @endpush
 
 @section('main-content')
     <div class="profileOwnContainer">
-
+        @if (Auth::user()->email === "admin@dimacof.com")
+            <div class="firstRow">
+                <x-btn-create-item onclick="openModal('modalCrearUsuario')"> 
+                    Nuevo usuario 
+                </x-btn-create-item>
+                @include('modals.profile.modalCrearUsuario')
+            </div>
+        @endif
         <section class="cardContainer">
             <div class="cardTitle">Listado de usuarios</div>
             <div class="cardBody">
@@ -60,5 +68,6 @@
 @push('scripts')
     <script type="module" src="{{asset('js/envUtil.js')}}"></script>
     <script src="{{asset('js/profileOwn.js')}}"></script>
+    <script src="{{asset('js/modalCrearUsuario.js')}}"></script>
     <script src="{{asset('js/modalEditarUsuario.js')}}"></script>
 @endpush

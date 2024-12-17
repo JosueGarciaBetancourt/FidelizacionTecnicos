@@ -2,19 +2,20 @@
 
 use App\Mail\ResetPasswordMail;
 use App\Models\VentaIntermediada;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\CanjeController;
+use App\Http\Controllers\OficioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TecnicoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RecompensaController;
-use App\Http\Controllers\VentaIntermediadaController;
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\OficioController;
 use App\Http\Controllers\SolicitudCanjeController;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\VentaIntermediadaController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 /*Route::get('/dashboard', function () {
     return view('dashboard');
@@ -33,6 +34,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Perfil
     Route::get('/dashboard-usuarios', [ProfileController::class, 'create'])->name('usuarios.create');
+    Route::post('/dashboard-storeUsuario', [RegisteredUserController::class, 'store'])->name('usuarios.store');
+
     Route::patch('/dashboard-updateUsuario', [ProfileController::class, 'update'])->name('usuarios.update');
     Route::delete('/dashboard-deleteUsuario/{idUsuario}', [ProfileController::class, 'destroy'])->name('usuarios.destroy');
 

@@ -6,6 +6,14 @@
 	height: auto;
 }
 
+.firstRow{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    gap: 1.5rem;
+}
+
 /*Listado de usuarios*/
 .cardContainer {
 	height: auto;
