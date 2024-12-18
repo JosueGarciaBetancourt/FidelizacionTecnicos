@@ -132,7 +132,9 @@ class CanjeController extends Controller
         // Actualizar el stock de las recompensas
         $recompensasCanje = json_decode($recompensasJson);
         foreach ($recompensasCanje as $recom) {
-            RecompensaController::updateStockByIdRecompensaCantidad($recom->idRecompensa, $recom->cantidad);
+            if ($recom->idRecompensa != "RECOM-000") {
+                RecompensaController::updateStockByIdRecompensaCantidad($recom->idRecompensa, $recom->cantidad);
+            }
         }
     
         // Registrar en la tabla CanjesRecompensas

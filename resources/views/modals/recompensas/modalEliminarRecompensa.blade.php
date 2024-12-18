@@ -90,7 +90,7 @@
                     <div class="form-group gap">
                         <label class="primary-label noEditable" for='{{ $idStockRecompensa }}'>Stock (máx. 1000 unidades):</label>
                         <input class="input-item" id='{{ $idStockRecompensa }}' maxlength="4"
-                                   oninput="validateNumberRealTime(this)" placeholder="1000" disabled>
+                                   oninput="validateNumberRealTime(this)" disabled>
                     </div>
                     
                     <div class="form-group start">

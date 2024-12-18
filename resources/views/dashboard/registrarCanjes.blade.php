@@ -147,7 +147,7 @@
 						<div class="tooltip-container"> 
 							<span class="tooltip" id="idRecompensaCanjesTooltip"></span>
 						</div>
-						<input class="input-select-item" type="text" id='{{ $idRecompensaInput }}' maxlength="200" autocomplete="off" placeholder="Código | Tipo | Descripción | Puntos"
+						<input class="input-select-item" type="text" id='{{ $idRecompensaInput }}' maxlength="200" autocomplete="off" placeholder="Código | Tipo | Descripción | Puntos | Stock"
 							oninput="filterOptions('{{ $idRecompensaInput }}', '{{ $idRecompensaOptions }}'), validateNumComprobanteInputNoEmpty(this)
 									validateOptionRecompensaCanjes(this, '{{ $idRecompensaOptions }}', '{{ $idRecompensaMessageError }}', {{ json_encode($recompensasDB) }})"
 							onclick="toggleOptions('{{ $idRecompensaInput }}', '{{ $idRecompensaOptions }}')">
@@ -155,13 +155,18 @@
 							@foreach ($recompensasDB as $recompensa)
 								@php
 									$pointSufix = ($recompensa->costoPuntos_Recompensa == 1) ? " punto" : " puntos";
+								
 									$value = implode(" | ", [
 										$recompensa->idRecompensa,
 										$recompensa->nombre_TipoRecompensa,
 										$recompensa->descripcionRecompensa,
 										$recompensa->costoPuntos_Recompensa . $pointSufix,
-										$recompensa->stock_Recompensa . " unid. stock",
 									]);
+
+									if ($recompensa->idRecompensa != "RECOM-000") {
+										$value .= " | " . $recompensa->stock_Recompensa . " unid. stock";
+									}
+
 									$idRecompensa = $recompensa->idRecompensa;
 									$costoPuntosRecompensa = $recompensa->costoPuntos_Recompensa;
 								@endphp
@@ -270,7 +275,7 @@
 				</div>
 			</div>
 			<input type="hidden" id="jsonRecompensas" name="recompensas_Canje" readonly>
-			<input type="text" id='{{ $idComentario }}' name="comentario_Canje" readonly>
+			<input type="hidden" id='{{ $idComentario }}' name="comentario_Canje" readonly>
 		</form>
 
 		<x-modalConfirmSolicitudCanje 

@@ -135,6 +135,26 @@ function closeModal(modalId) {
     }
 }
 
+function justOpenModal(modalId) {
+    var modal = document.getElementById(modalId);
+        modal.style.display = 'block';
+        setTimeout(function() {
+            modal.style.opacity = 1;
+            modal.querySelector('.modal-dialog').classList.add('open');
+        }, 50);
+        document.body.style.overflow = 'hidden';
+}
+
+function justCloseModal(modalId) {
+    var modal = document.getElementById(modalId);
+    if (modal) {
+        modal.querySelector('.modal-dialog').classList.remove('open');
+        setTimeout(function() {
+            modal.style.display = 'none';
+        }, 300); // Espera 0.3 segundos (igual a la duración de la transición CSS)
+    }
+}
+
 /*MANEJAR INPUT FILE */
 // Función para simular clic en el input file al hacer clic en el botón
 function handleFileSelect() {
@@ -155,7 +175,7 @@ if (fileInput) {
         }
     });
 } else {
-    console.warn('El elemento fileInput no existe en el DOM actual.');
+    //console.warn('El elemento fileInput no existe en el DOM actual.');
 }
 
 if (fileArea) {
@@ -174,7 +194,7 @@ if (fileArea) {
         }
     });
 } else {
-    console.warn('El elemento fileArea no existe en el DOM actual.');
+    //console.warn('El elemento fileArea no existe en el DOM actual.');
 }
 
 function allowDrop(event) {
@@ -255,7 +275,6 @@ function toggleOptions(idInput, idOptions) {
 }
 
 function toggleOptionsSelectNoCleanable(idOptions, idSpan) {
-    console.log("toggleOptionsSelectNoCleanable");
     var options = document.getElementById(idOptions);
     var span = document.getElementById(idSpan);
 

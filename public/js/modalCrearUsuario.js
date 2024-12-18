@@ -4,12 +4,15 @@ let passwordInputCrearUsuario = document.getElementById('passwordInputCrearUsuar
 let confirmPasswordInputCrearUsuario = document.getElementById('confirmPasswordInputCrearUsuario');
 let perfilUsuarioInputCrearUsuario = document.getElementById('perfilUsuarioInputCrearUsuario');
 let crearUsuarioMessageError = document.getElementById('crearUsuarioMessageError');
-let confirmPasswordTooltip = document.getElementById('idConfirmPasswordTooltipCrear');
+let confirmPasswordTooltipCrearUsuario = document.getElementById('idConfirmPasswordTooltipCrear');
+let emailTooltipCrear = document.getElementById('idEmailTooltipCrear');
 let idPerfilUsuarioInputCrear = document.getElementById('idPerfilUsuarioInputCrear');
 
-let formEditUsuarioInputsArray = [
+let formCrearUsuarioInputsArray = [
 	nameInputCrearUsuario,
     emailInputCrearUsuario,
+    passwordInputCrearUsuario,
+    confirmPasswordInputCrearUsuario,
     perfilUsuarioInputCrearUsuario,
     idPerfilUsuarioInputCrear,
 ];
@@ -44,19 +47,19 @@ function selectOptionPerfilUsuario(value, idInput, idOptions, perfilesDB) {
     idPerfilUsuarioInputCrear.value = idPerfilUsuario;
 }
 
-function validarCamposVaciosFormularioEditUsuario() {
-  var allFilled = true;
-  formEditUsuarioInputsArray.forEach(input => {
-      if (!input.value.trim()) {
-          allFilled = false;
-      }
-  });
-  return allFilled;
+function validarCamposVaciosFormularioCrearUsuario() {
+    var allFilled = true;
+    formCrearUsuarioInputsArray.forEach(input => {
+        if (!input.value.trim()) {
+            allFilled = false;
+        }
+    });
+    return allFilled;
 }
 
-function validarCamposCorrectosFormularioTecnicoEdit() {
+function validarCamposCorrectosFormularioTecnicoCrear() {
     if (confirmPasswordInputCrearUsuario.value.trim() !== passwordInputCrearUsuario.value.trim()) {
-        showHideTooltip(confirmPasswordTooltip, "La confirmación de contraseña no coincide");
+        showHideTooltip(confirmPasswordTooltipCrearUsuario, "La confirmación de contraseña no coincide");
         return false
     }
 
@@ -65,13 +68,27 @@ function validarCamposCorrectosFormularioTecnicoEdit() {
         crearUsuarioMessageError.classList.add("shown");
         return false
     }
+
+    // Validar email
+    const emailInput = emailInputCrearUsuario.value;
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if (!emailPattern.test(emailInput)) {
+        showHideTooltip(emailTooltipCrear, "Por favor, introduce un correo electrónico válido con un dominio.");
+        return false
+    }
+
+    if (emailInput !== emailInput.toLowerCase()) {
+        showHideTooltip(emailTooltipCrear, "Por favor, introduce un correo electrónico válido en minúsculas.");
+        return false
+    }
     
     return true;
 }
 
 function guardarModalCrearUsuario(idModal, idForm) {
-    if (validarCamposVaciosFormularioEditUsuario()) {
-        if (!validarCamposCorrectosFormularioTecnicoEdit()) {
+    if (validarCamposVaciosFormularioCrearUsuario()) {
+        if (!validarCamposCorrectosFormularioTecnicoCrear()) {
             return;
         }
         crearUsuarioMessageError.classList.remove("shown");

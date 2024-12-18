@@ -19,7 +19,7 @@
 					<h5 id='{{ $idFechaHoraSolicitudCanje }}'></h5>
 					<h5 id='{{ $idDiasTranscurridos }}'></h5>
 				</div>
-                <button class="close noUserSelect" onclick="closeModal('modalDetalleSolicitudCanje')">&times;</button>
+                <button class="close noUserSelect" onclick="closeDetalleSolicitudCanje('modalDetalleSolicitudCanje')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyDetalleHistorialCanje">
 				<div class="form-group gap">
@@ -80,7 +80,7 @@
 				</div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal('modalDetalleSolicitudCanje')">Cerrar</button>
+                <button type="button" class="btn btn-secondary" onclick="closeDetalleSolicitudCanje('modalDetalleSolicitudCanje')">Cerrar</button>
             </div>
         </div>
     </div>

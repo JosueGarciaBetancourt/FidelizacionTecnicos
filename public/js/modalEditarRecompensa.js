@@ -18,8 +18,6 @@ let formEditRecompensaArray = [
 function selectOptionEditarRecompensa(value, idRecompensa, descripcionRecompensa, costoPuntos, stockRecompensa, tipoRecompensa, 
     idInput, idOptions, someHiddenIdInputsArray) {
 
-    console.log(stockRecompensa);
-    
     // Escapar caracteres especiales en la descripción
     function sanitizeString(str) {
         if (typeof str !== 'string') return str;
