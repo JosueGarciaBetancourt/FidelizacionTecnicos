@@ -19,10 +19,10 @@
                 <x-btn-edit-item onclick="openModal('modalEditarOficio')"> Editar </x-btn-edit-item>
                 @include('modals.oficios.modalEditarOficio')
 
-                <x-btn-delete-item onclick="openModal('modalEliminarOficio')"> Eliminar </x-btn-delete-item>
+                <x-btn-delete-item onclick="openModal('modalEliminarOficio')"> Inhabilitar </x-btn-delete-item>
                 @include('modals.oficios.modalEliminarOficio')
 
-                <x-btn-recover-item onclick="openModal('modalRestaurarOficio')"> Restaurar </x-btn-delete-item>
+                <x-btn-recover-item onclick="openModal('modalRestaurarOficio')"> Habilitar </x-btn-delete-item>
                 @include('modals.oficios.modalRestaurarOficio')
             </div>
             
@@ -38,12 +38,12 @@
 
             <x-modalSuccessAction 
                 :idSuccesModal="'successModalOficioEliminado'"
-                :message="'Oficio eliminado correctamente'"
+                :message="'Oficio inhabilitado correctamente'"
             />
 
             <x-modalSuccessAction 
                 :idSuccesModal="'successModalOficioRestaurado'"
-                :message="'Oficio restaurado correctamente'"
+                :message="'Oficio habilitado correctamente'"
             />
 
             <!--Tabla de ventas intermediadas-->

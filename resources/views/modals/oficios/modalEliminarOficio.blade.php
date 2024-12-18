@@ -2,7 +2,7 @@
     <div class="modal-dialog" id="modalEliminarOficio-dialog">
         <div class="modal-content" id="modalEliminarOficio-content">
             <div class="modal-header">
-                <h5 class="modal-title">Eliminar Oficio</h5>
+                <h5 class="modal-title">Inhabilitar Oficio</h5>
                 <button class="close noUserSelect" onclick="closeModal('modalEliminarOficio')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyEliminarOficio">
@@ -25,7 +25,7 @@
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idOficio">
                    
                     <div class="form-group start paddingY" id="idH5DeleteOficioModalContainer">
-                        <h5>Seleccione el oficio que desee eliminar.</h5>
+                        <h5>Seleccione el oficio que desee inhabilitar.</h5>
                     </div>
 
                     <div class="form-group gap">
@@ -71,7 +71,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarOficio')">Cancelar</button>
                 <button type="button" class="btn btn-primary delete" 
-                        onclick="guardarModalEliminarOficio('modalEliminarOficio', 'formEliminarOficio')">Eliminar</button>
+                        onclick="guardarModalEliminarOficio('modalEliminarOficio', 'formEliminarOficio')">Inhabilitar</button>
             </div>
         </div>
     </div>

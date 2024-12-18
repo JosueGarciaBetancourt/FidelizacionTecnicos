@@ -21,10 +21,10 @@
 			<x-btn-edit-item onclick="openModal('modalEditarTecnico')"> Editar </x-btn-edit-item>
 			@include('modals.tecnicos.modalEditarTecnico')
 
-			<x-btn-delete-item onclick="openModal('modalEliminarTecnico')"> Eliminar </x-btn-delete-item>
+			<x-btn-delete-item onclick="openModal('modalEliminarTecnico')"> Inhabilitar </x-btn-delete-item>
 			@include('modals.tecnicos.modalEliminarTecnico')
 
-			<x-btn-recover-item onclick="openModal('modalRecontratarTecnico')">Recontratar</x-btn-delete-item>
+			<x-btn-recover-item onclick="openModal('modalRecontratarTecnico')">Habilitar</x-btn-delete-item>
 			@include('modals.tecnicos.modalRecontratarTecnico')
 		</div>
 		
@@ -61,12 +61,12 @@
 
 		<x-modalSuccessAction 
 			:idSuccesModal="'successModalTecnicoEliminado'"
-			:message="'Técnico eliminado correctamente'"
+			:message="'Técnico inhabilitado correctamente'"
 		/>
 
 		<x-modalSuccessAction 
 			:idSuccesModal="'successModalTecnicoRecontratado'"
-			:message="'Técnico recontratado correctamente'"
+			:message="'Técnico habilitado correctamente'"
 		/>
 	</div>
 @endsection

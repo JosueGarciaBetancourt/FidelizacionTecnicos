@@ -51,6 +51,13 @@ class RegisteredUserController extends Controller
     
     public function store(Request $request): RedirectResponse
     {
+        $userDeleted = User::onlyTrashed()->where('email', $request['email'])->first();
+
+        if ($userDeleted) {
+            $userDeleted->restore();
+            return redirect(route('usuarios.create', absolute: false))->with('successUsuarioStore', 'Usuario guardado correctamente.');
+        }
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
@@ -58,6 +65,7 @@ class RegisteredUserController extends Controller
             'idPerfilUsuario' => ['required', 'integer', 'exists:PerfilesUsuarios,idPerfilUsuario'], 
         ]);
 
+        // Crear nuevo usuario si no ha sido registrado anteriormente
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -66,7 +74,7 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
-
-        return redirect(route('usuarios.create', absolute: false));
+        
+        return redirect(route('usuarios.create', absolute: false))->with('successUsuarioStore', 'Usuario guardado correctamente.');
     }
 }

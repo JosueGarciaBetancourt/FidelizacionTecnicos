@@ -2,7 +2,7 @@
     <div class="modal-dialog" id="modalEliminarTecnico-dialog">
         <div class="modal-content" id="modalEliminarTecnico-content">
             <div class="modal-header">
-                <h5 class="modal-title">Eliminar técnico</h5>
+                <h5 class="modal-title">Inhabilitar técnico</h5>
                 <button class="close noUserSelect" onclick="closeModal('modalEliminarTecnico')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyDeleteTecnico">
@@ -30,7 +30,7 @@
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="8" name='idTecnico'>
                    
                     <div class="form-group start paddingY" id="idH5DeleteTecnicoModalContainer">
-                        <h5> Seleccione el técnico que desee eliminar.</h5>
+                        <h5> Seleccione el técnico que desee inhabilitar.</h5>
                     </div>
 
                     <div class="form-group gap">
@@ -116,7 +116,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarTecnico')">Cancelar</button>
                 <button type="button" class="btn btn-primary delete" 
-                        onclick="guardarModalEliminarTecnico('modalEliminarTecnico', 'formEliminarTecnico')">Eliminar</button>
+                        onclick="guardarModalEliminarTecnico('modalEliminarTecnico', 'formEliminarTecnico')">Inhabilitar</button>
             </div>
         </div>
     </div>

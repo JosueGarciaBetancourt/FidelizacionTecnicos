@@ -2,7 +2,7 @@
     <div class="modal-dialog" id="modalRestaurarRecompensa-dialog">
         <div class="modal-content" id="modalRestaurarRecompensa-content">
             <div class="modal-header">
-                <h5 class="modal-title">Restaurar recompensa</h5>
+                <h5 class="modal-title">Habilitar recompensa</h5>
                 <button class="close noUserSelect" onclick="closeModal('modalRestaurarRecompensa')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyRestaurarRecompensa">
@@ -27,7 +27,7 @@
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="9" name="idRecompensa">
                    
                     <div class="form-group start paddingY" id="idH5RestaurarRecompensaModalContainer">
-                        <h5>*Solo puede restaurar recompensas eliminadas.</h5>
+                        <h5>*Solo puede habilitar recompensas previamente inhabilitadas.</h5>
                     </div>
 
                     <div class="form-group gap">
@@ -101,7 +101,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalRestaurarRecompensa')">Cancelar</button>
                 <button type="button" class="btn btn-primary recover" 
-                        onclick="guardarModalRestaurarRecompensa('modalRestaurarRecompensa', 'formRestaurarRecompensa')">Restaurar</button>
+                        onclick="guardarModalRestaurarRecompensa('modalRestaurarRecompensa', 'formRestaurarRecompensa')">Habilitar</button>
             </div>
         </div>
     </div>

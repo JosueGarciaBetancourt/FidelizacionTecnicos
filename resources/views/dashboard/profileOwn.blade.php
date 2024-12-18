@@ -62,6 +62,21 @@
 			:idConfirmModal="'modalConfirmActionEliminarUsuario'"
 			:message="'¿Está seguro de eliminar el usuario?'"
 		/>
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalUsuarioGuardado'"
+            :message="'Usuario guardado correctamente'"
+        />
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalUsuarioActualizado'"
+            :message="'Usuario actualizado correctamente'"
+        />
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalUsuarioEliminado'"
+            :message="'Usuario eliminado correctamente'"
+        />
     </div>
 @endsection
 
@@ -70,4 +85,21 @@
     <script src="{{asset('js/profileOwn.js')}}"></script>
     <script src="{{asset('js/modalCrearUsuario.js')}}"></script>
     <script src="{{asset('js/modalEditarUsuario.js')}}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            @if(session('successUsuarioStore'))
+                openModal('successModalUsuarioGuardado');
+            @endif
+            @if(session('successUsuarioUpdate'))
+                openModal('successModalUsuarioActualizado');
+            @endif
+            // Verificar si la bandera existe en sessionStorage
+            if (sessionStorage.getItem('usuarioEliminado') === 'true') {
+                // Abrir el modal de éxito
+                openModal('successModalUsuarioEliminado');
+                // Eliminar la bandera para que no se repita
+                sessionStorage.removeItem('usuarioEliminado');
+            }
+        });
+    </script>
 @endpush

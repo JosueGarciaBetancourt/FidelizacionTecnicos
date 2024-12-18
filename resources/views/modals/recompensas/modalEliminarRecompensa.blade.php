@@ -2,7 +2,7 @@
     <div class="modal-dialog" id="modalEliminarRecompensa-dialog">
         <div class="modal-content" id="modalEliminarRecompensa-content">
             <div class="modal-header">
-                <h5 class="modal-title">Eliminar recompensa</h5>
+                <h5 class="modal-title">Inhabilitar recompensa</h5>
                 <button class="close noUserSelect" onclick="closeModal('modalEliminarRecompensa')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyEliminarRecompensa">
@@ -27,7 +27,7 @@
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idRecompensa">
                    
                     <div class="form-group start paddingY" id="idH5DeleteRecompensaModalContainer">
-                        <h5>Seleccione la recompensa que desee eliminar.</h5>
+                        <h5>Seleccione la recompensa que desee inhabilitar.</h5>
                     </div>
 
                     <div class="form-group gap">
@@ -101,7 +101,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarRecompensa')">Cancelar</button>
                 <button type="button" class="btn btn-primary delete" 
-                        onclick="guardarModalEliminarRecompensa('modalEliminarRecompensa', 'formEliminarRecompensa')">Eliminar</button>
+                        onclick="guardarModalEliminarRecompensa('modalEliminarRecompensa', 'formEliminarRecompensa')">Inhabilitar</button>
             </div>
         </div>
     </div>

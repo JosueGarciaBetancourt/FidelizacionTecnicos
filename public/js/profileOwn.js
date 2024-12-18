@@ -17,7 +17,6 @@ function actualizarComponentesSegunTipoUsuario(isAdmin) {
         perfilUsuarioSpan.setAttribute('disabled', true); 
 
     } else {
-        console.log("EL USUARIO CLICKEADO NO ES ADMIN");
         // Si no es admin, se usan las clases básicas
         perfilUsuarioInput.classList.remove('blocked');
         perfilUsuarioSpan.classList.remove('blocked');
@@ -83,8 +82,6 @@ function openModalEliminarUsuario(button, usersDB) {
 
     openConfirmModal('modalConfirmActionEliminarUsuario').then((response) => {
         if (response) {
-            console.log(`Eliminando usuario...${userName}`);
-            // Recargar la página después de que la solicitud se haya procesado correctamente
             eliminarUsuario(objUser.id)
             return;
         }
@@ -113,7 +110,8 @@ async function eliminarUsuario(idUsuario) {
         }
 
         const mensaje = await response.json();
-        console.log(mensaje);
+
+        sessionStorage.setItem('usuarioEliminado', 'true');
 
         // Recargar la página después de que la solicitud se haya procesado correctamente
         location.reload();

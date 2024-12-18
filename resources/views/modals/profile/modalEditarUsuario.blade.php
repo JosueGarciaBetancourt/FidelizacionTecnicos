@@ -77,7 +77,7 @@
                                 :idInput="$perfilUsuarioInput"
                                 :defaultValue="'Administrador'"
                                 :options="$nombresPerfilesUsuarios"
-                                :onSelectFunction="'selectOptionPerfilUsuario'"
+                                :onSelectFunction="'selectOptionPerfilUsuarioEdit'"
                                 :extraArgOnClickFunction="$perfilesUsuariosDB"
                                 :isExtraArgJson="true"
 

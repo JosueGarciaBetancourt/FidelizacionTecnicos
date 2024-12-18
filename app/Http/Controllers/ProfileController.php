@@ -111,7 +111,7 @@ class ProfileController extends Controller
             //dd($user); 
     
             // Redirigir con un mensaje de éxito
-            return Redirect::route('usuarios.create')->with('status', '¡Perfil actualizado con éxito!');
+            return Redirect::route('usuarios.create')->with('successUsuarioUpdate', 'Usuario actualizado correctamente');
         } catch (\Throwable $error) {
             // Registrar el error en los logs de la aplicación
             Log::error('Error actualizando el perfil: ', ['error' => $error]);
@@ -138,7 +138,7 @@ class ProfileController extends Controller
         $user->delete();
 
         return response()->json([
-            'message' => 'Usuario ' . $user->name . ' eliminado exitosamente.',
+            'message' => 'Usuario ' . $user->name . ' eliminado correctamente.',
         ], 200);
     }
 }

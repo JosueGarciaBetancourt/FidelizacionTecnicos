@@ -39,7 +39,7 @@
                             <div class="tooltip-container">
                                 <span class="tooltip red" id="{{ $emailTooltip }}"></span>
                             </div>
-                            <input class="input-item" type="email" id="{{ $emailInput }}"  maxlength="30" name="email"required value="JOSUE@dimacof.com">
+                            <input class="input-item" type="email" id="{{ $emailInput }}"  maxlength="30" name="email"required value="josue@dimacof.com">
                         </div>
                     </div>
 
@@ -77,7 +77,7 @@
                                 :idInput="$perfilUsuarioInput"
                                 :defaultValue="'Administrador'"
                                 :options="$nombresPerfilesUsuarios"
-                                :onSelectFunction="'selectOptionPerfilUsuario'"
+                                :onSelectFunction="'selectOptionPerfilUsuarioCrear'"
                                 :extraArgOnClickFunction="$perfilesUsuariosDB"
                                 :isExtraArgJson="true"
 

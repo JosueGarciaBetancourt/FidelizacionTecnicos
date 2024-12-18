@@ -2,7 +2,7 @@
     <div class="modal-dialog" id="modalRecontratarTecnico-dialog">
         <div class="modal-content" id="modalRecontratarTecnico-content">
             <div class="modal-header">
-                <h5 class="modal-title">Recontratar técnico</h5>
+                <h5 class="modal-title">Habilitar técnico</h5>
                 <button class="close noUserSelect" onclick="closeModal('modalRecontratarTecnico')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyRecontratarTecnico">
@@ -28,7 +28,7 @@
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="8" name='idTecnico'>
                    
                     <div class="form-group start paddingY" id="idH5RecontratarTecnicoModalContainer">
-                        <h5> *Solo puede recontratar técnicos eliminados.</h5>
+                        <h5> *Solo puede habilitar técnicos previamente inhabilitados.</h5>
                     </div>
 
                     <div class="form-group gap">
@@ -116,7 +116,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalRecontratarTecnico')">Cancelar</button>
                 <button type="button" class="btn btn-primary recover" 
-                        onclick="guardarModalRecontratarTecnico('modalRecontratarTecnico', 'formRecontratarTecnico')">Recontratar</button>
+                        onclick="guardarModalRecontratarTecnico('modalRecontratarTecnico', 'formRecontratarTecnico')">Habilitar</button>
             </div>
         </div>
     </div>
