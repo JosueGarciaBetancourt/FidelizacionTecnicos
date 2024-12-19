@@ -71,26 +71,74 @@ function openModalEditarUsuario(button, usersDB) {
     openModal("modalEditarUsuario");
 }
 
-function openModalEliminarUsuario(button, usersDB) {
+function openModalHabilitarUsuario(button, usersDB) {
     const fila = button.closest('tr');
     const celdaEmail = fila.getElementsByClassName('email')[0]; 
     const email = celdaEmail.innerText;
     const objUser = returnObjUserByEmail(email, usersDB);
     const userName = objUser.name;
     
-    document.getElementById("idMessageConfirmModal").innerText = `¿Está seguro de eliminar el usuario ${userName}?`
+    document.getElementById("idMessageConfirmModal").innerText = `¿Está seguro de habilitar al usuario ${userName}?`
 
-    openConfirmModal('modalConfirmActionEliminarUsuario').then((response) => {
+    openConfirmModal('modalConfirmActionPerfilUsuario').then((response) => {
         if (response) {
-            eliminarUsuario(objUser.id)
+            habilitarUsuario(objUser.id)
             return;
         }
     });
 }
 
-async function eliminarUsuario(idUsuario) {
+async function habilitarUsuario(idUsuario) {
     const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
-    const url = `${baseUrl}/dashboard-deleteUsuario/${idUsuario}`;
+    const url = `${baseUrl}/dashboard-enableUsuario/${idUsuario}`;
+
+    try {
+        // Obtener el token CSRF desde el contenido de la página
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json', 
+                'X-CSRF-TOKEN': csrfToken, 
+            }
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText);
+        }
+
+        const mensaje = await response.json();
+
+        sessionStorage.setItem('usuarioHabilitado', 'true'); // Manejado en la vista profileOwn.blade.php
+
+        location.reload();
+    } catch (error) {
+        console.error('Error al habilitar el usuario con id: ' + idUsuario, error.message);
+    }
+}
+
+function openModalInhabilitarUsuario(button, usersDB) {
+    const fila = button.closest('tr');
+    const celdaEmail = fila.getElementsByClassName('email')[0]; 
+    const email = celdaEmail.innerText;
+    const objUser = returnObjUserByEmail(email, usersDB);
+    const userName = objUser.name;
+    
+    document.getElementById("idMessageConfirmModal").innerText = `¿Está seguro de inhabilitar al usuario ${userName}?`
+
+    openConfirmModal('modalConfirmActionPerfilUsuario').then((response) => {
+        if (response) {
+            inhabilitarUsuario(objUser.id)
+            return;
+        }
+    });
+}
+
+async function inhabilitarUsuario(idUsuario) {
+    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
+    const url = `${baseUrl}/dashboard-disableUsuario/${idUsuario}`;
 
     try {
         // Obtener el token CSRF desde el contenido de la página
@@ -111,12 +159,60 @@ async function eliminarUsuario(idUsuario) {
 
         const mensaje = await response.json();
 
-        sessionStorage.setItem('usuarioEliminado', 'true');
+        sessionStorage.setItem('usuarioInhabilitado', 'true'); // Manejado en la vista profileOwn.blade.php
 
-        // Recargar la página después de que la solicitud se haya procesado correctamente
         location.reload();
     } catch (error) {
-        console.error('Error al eliminar el usuario con id: ' + idUsuario, error.message);
+        console.error('Error al inhabilitar el usuario con id: ' + idUsuario, error.message);
+    }
+}
+
+function openModalEliminarUsuario(button, usersDB) {
+    const fila = button.closest('tr');
+    const celdaEmail = fila.getElementsByClassName('email')[0]; 
+    const email = celdaEmail.innerText;
+    const objUser = returnObjUserByEmail(email, usersDB);
+    const userName = objUser.name;
+    
+    document.getElementById("idMessageConfirmModal").innerText = `¿Está seguro de eliminar al usuario ${userName}?`
+
+    openConfirmModal('modalConfirmActionPerfilUsuario').then((response) => {
+        if (response) {
+            eliminarUsuario(objUser.id)
+            return;
+        }
+    });
+}
+
+async function eliminarUsuario(idUsuario) {
+    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
+    const url = `${baseUrl}/dashboard-deleteUsuario/${idUsuario}`;
+    //const url = `{{ route('usuarios.delete', ':idUsuario') }}`.replace(':idUsuario', idUsuario);
+
+    try {
+        // Obtener el token CSRF desde el contenido de la página
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        const response = await fetch(url, {
+            method: 'DELETE', 
+            headers: {
+                'Content-Type': 'application/json', 
+                'X-CSRF-TOKEN': csrfToken, 
+            }
+        });
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText);
+        }
+
+        const mensaje = await response.json();
+
+        sessionStorage.setItem('usuarioEliminado', 'true'); // Manejado en la vista profileOwn.blade.php
+
+        location.reload();
+    } catch (error) {
+        console.error(`Error al eliminar el usuario con id: ${idUsuario}\n`, error.message);
     }
 }
 

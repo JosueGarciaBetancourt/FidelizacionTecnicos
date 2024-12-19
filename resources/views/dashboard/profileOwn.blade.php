@@ -34,6 +34,7 @@
                     <tbody>
                         @php
                             $contador = 1;
+                            $isAdminProfile = Auth::user()->email === "admin@dimacof.com";
                         @endphp
                         @foreach ($users as $user)
                             <tr>
@@ -42,13 +43,23 @@
                                 <td class="celda-lefted">{{ $user->name }}</td>
                                 <td class="celda-centered" >{{ $user->nombre_PerfilUsuario }}</td>
                                 <td class="celda-centered celda-btnAcciones">
-                                    @if ($user->email !== "admin@dimacof.com" || Auth::user()->email === "admin@dimacof.com")
+                                    @php
+                                        $isNotAdminUser = $user->email !== "admin@dimacof.com";
+                                        $isUserEnabled = is_null($user->deleted_at);
+                                    @endphp
+                                
+                                    @if ($isUserEnabled)
                                         <button class="edit-btn" onclick="openModalEditarUsuario(this, {{ json_encode($users) }})">Editar</button>
+                                        @if ($isNotAdminUser && $isAdminProfile)
+                                            <button class="disable-btn" onclick="openModalInhabilitarUsuario(this, {{ json_encode($users) }})">Inhabilitar</button>
+                                            <button class="delete-btn" onclick="openModalEliminarUsuario(this, {{ json_encode($users) }})">Eliminar</button>
+                                        @endif
+                                    @else
+                                        @if ($isNotAdminUser && $isAdminProfile)
+                                            <button class="enable-btn" onclick="openModalHabilitarUsuario(this, {{ json_encode($users) }})">Habilitar</button>
+                                        @endif
                                     @endif
-                                    @if ($user->email !== "admin@dimacof.com" && Auth::user()->email === "admin@dimacof.com")
-                                        <button class="delete-btn" onclick="openModalEliminarUsuario(this, {{ json_encode($users) }}, )">Eliminar</button>
-                                    @endif
-                                </td>   
+                                </td> 
                             </tr>
                         @endforeach
                     </tbody>
@@ -59,8 +70,8 @@
 		@include('modals.profile.modalEditarUsuario')
        
         <x-modalConfirmAction
-			:idConfirmModal="'modalConfirmActionEliminarUsuario'"
-			:message="'¿Está seguro de eliminar el usuario?'"
+			:idConfirmModal="'modalConfirmActionPerfilUsuario'"
+			:message="'¿Está seguro de esta acción?'"
 		/>
 
         <x-modalSuccessAction 
@@ -74,9 +85,20 @@
         />
 
         <x-modalSuccessAction 
+            :idSuccesModal="'successModalUsuarioHabilitado'"
+            :message="'Usuario habilitado correctamente'"
+        />
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalUsuarioInhabilitado'"
+            :message="'Usuario inhabilitado correctamente'"
+        />
+
+        <x-modalSuccessAction 
             :idSuccesModal="'successModalUsuarioEliminado'"
             :message="'Usuario eliminado correctamente'"
         />
+        
     </div>
 @endsection
 
@@ -93,11 +115,19 @@
             @if(session('successUsuarioUpdate'))
                 openModal('successModalUsuarioActualizado');
             @endif
-            // Verificar si la bandera existe en sessionStorage
+
+            if (sessionStorage.getItem('usuarioInhabilitado') === 'true') {
+                openModal('successModalUsuarioInhabilitado');
+                sessionStorage.removeItem('usuarioInhabilitado');
+            }
+
+            if (sessionStorage.getItem('usuarioHabilitado') === 'true') {
+                openModal('successModalUsuarioHabilitado');
+                sessionStorage.removeItem('usuarioHabilitado');
+            }
+
             if (sessionStorage.getItem('usuarioEliminado') === 'true') {
-                // Abrir el modal de éxito
                 openModal('successModalUsuarioEliminado');
-                // Eliminar la bandera para que no se repita
                 sessionStorage.removeItem('usuarioEliminado');
             }
         });

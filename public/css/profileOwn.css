@@ -57,14 +57,14 @@
     padding: 0.4rem 0.7rem;
 }
 
-/*Botones de editar y eliminar*/
-/* Botón Aprobar */
+/*BOTONES*/
+/* Botón Editar */
 .celda-btnAcciones .edit-btn {
     cursor: pointer;
     max-width: 6rem;
-    background-color: #4c6faf; /* Verde de aprobación */
-    border: 2px solid #4c6faf; /* Borde verde */
-    color: #fff; /* Texto blanco */
+    background-color: #4c6faf; 
+    border: 2px solid #4c6faf; 
+    color: #fff; 
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 0.85rem;
@@ -73,25 +73,25 @@
     align-items: center;
     justify-content: center;
     margin: 0.5rem 0.5rem;
-    gap: 8px; /* Espacio entre ícono y texto */
+    gap: 8px; 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Efecto hover para el botón Aprobar */
+/* Efecto hover para el botón Editar */
 .celda-btnAcciones .edit-btn:hover {
-    background-color: #7d98ca; /* Verde más claro */
+    background-color: #7d98ca;
     border-color: #7d98ca;
-    transform: translateY(-2px); /* Eleva ligeramente el botón */
+    transform: translateY(-2px); 
 }
 
-/* Botón Rechazar */
-.celda-btnAcciones .delete-btn {
+/* Botón Habilitar */
+.celda-btnAcciones .enable-btn {
     cursor: pointer;
     max-width: 6rem;
-    background-color: #f44336; /* Rojo de rechazo */
-    border: 2px solid #f44336; /* Borde rojo */
-    color: #fff; /* Texto blanco */
+    background-color: #19834e;
+    border: 2px solid #19834e; 
+    color: #fff; 
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 0.85rem;
@@ -99,21 +99,73 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* Espacio entre ícono y texto */
+    gap: 8px; 
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Efecto hover para el botón Rechazar */
-.celda-btnAcciones .delete-btn:hover {
-    background-color: #f17a72; /* Rojo más claro */
-    border-color: #f17a72;
-    transform: translateY(-2px); /* Eleva ligeramente el botón */
+/* Efecto hover para el botón habilitar */
+.celda-btnAcciones .enable-btn:hover {
+    background-color: #33a96e; 
+    border-color: #33a96e;
+    transform: translateY(-2px); 
 }
 
-/* Efecto focus para ambos botones */
-.celda-btnAcciones .edit-btn:focus,
-.celda-btnAcciones .delete-btn:focus {
+/* Botón Inhabilitar */
+.celda-btnAcciones .disable-btn {
+    cursor: pointer;
+    max-width: 6rem;
+    background-color: #6e279d;
+    border: 2px solid #6e279d; 
+    color: #fff; 
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Efecto hover para el botón Inhabilitar */
+.celda-btnAcciones .disable-btn:hover {
+    background-color: #9a51ca; 
+    border-color: #9a51ca;
+    transform: translateY(-2px); 
+}
+
+/* Botón Eliminar */
+.celda-btnAcciones .delete-btn {
+    cursor: pointer;
+    max-width: 6rem;
+    background-color: #f44336;
+    border: 2px solid #f44336; 
+    color: #fff; 
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Efecto hover para el botón Eliminar */
+.celda-btnAcciones .delete-btn:hover {
+    background-color: #f17a72; 
+    border-color: #f17a72;
+    transform: translateY(-2px); 
+}
+
+/* Efecto focus para los botones */
+.celda-btnAcciones .edit-btn:focus, .celda-btnAcciones .enable-btn:focus,
+.celda-btnAcciones .disable-btn:focus, .celda-btnAcciones .delete-btn:focus {
     outline: none;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Resalta el botón */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
 }

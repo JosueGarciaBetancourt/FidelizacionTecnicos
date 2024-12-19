@@ -29,7 +29,7 @@
                 </a>
                 
                 <div id="canjesLinkContainer">
-                    <a id="canjesLink" href="#" class="{{ Request::routeIs('canjes.create', 'canjes.historial', 'canjes.solicitudesApp') ? 'canjesActive' : '' }}">
+                    <a id="canjesLink" href="#" class="{{ Request::routeIs('canjes.create', 'canjes.historial', 'solicitudescanjes.create') ? 'canjesActive' : '' }}">
                         <span class="material-symbols-outlined">currency_exchange</span>
                         <h5>Canjes</h5>
                         <span id="canjesArrowDownSpan" class="material-symbols-outlined">keyboard_arrow_down</span>
@@ -37,7 +37,7 @@
                     <div class="select-items-canjes hidden" id="canjesMenu">
                         <a href="{{ route('canjes.registrar') }}" class="{{ Request::routeIs('canjes.registrar') ? 'subLinkActive' : '' }}">• Nuevo Canje</a>
                         <a href="{{ route('canjes.historial') }}" class="{{ Request::routeIs('canjes.historial') ? 'subLinkActive' : '' }}">• Ver Historial</a>
-                        <a href="{{ route('canjes.solicitudesApp') }}" class="{{ Request::routeIs('canjes.solicitudesApp') ? 'subLinkActive' : '' }}">• Ver solicitudes desde APP</a>
+                        <a href="{{ route('solicitudescanjes.create') }}" class="{{ Request::routeIs('solicitudescanjes.create') ? 'subLinkActive' : '' }}">• Ver solicitudes desde APP</a>
                     </div>
                 </div>
                 

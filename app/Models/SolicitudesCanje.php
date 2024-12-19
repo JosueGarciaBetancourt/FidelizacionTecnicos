@@ -28,6 +28,8 @@ class SolicitudesCanje extends Model
         'comentario_SolicitudCanje',
     ];
 
+    protected $appends = ['userName', 'nombreEstado'];
+
     public function user() {
         return $this->belongsTo('App\Models\User');
     }
@@ -51,5 +53,19 @@ class SolicitudesCanje extends Model
     public function solicitudCanjeRecompensa()
     {
         return $this->hasMany(SolicitudCanjeRecompensa::class, 'idSolicitudCanje', 'idSolicitudCanje');
+    }
+
+    public function getUserNameAttribute()
+    {
+        $user = User::find($this->idUser);
+
+        return $user ? $user->name : null;
+    }
+
+    public function getNombreEstadoAttribute()
+    {
+        $estadoSolicitudCanje = EstadosSolicitudCanje::find($this->idEstadoSolicitudCanje);
+        
+        return $estadoSolicitudCanje ? $estadoSolicitudCanje->nombre_EstadoSolicitudCanje : null;
     }
 }

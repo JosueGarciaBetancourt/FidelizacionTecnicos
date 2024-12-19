@@ -27,7 +27,7 @@
 			<x-btn-recover-item onclick="openModal('modalRecontratarTecnico')">Habilitar</x-btn-delete-item>
 			@include('modals.tecnicos.modalRecontratarTecnico')
 		</div>
-		
+
 		<!--Tabla de técnicos-->
 		<div class="secondRow">
 			<table id="tblTecnicos">

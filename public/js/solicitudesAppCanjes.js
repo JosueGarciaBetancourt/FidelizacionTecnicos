@@ -1,15 +1,24 @@
 function fillOtherFieldsDetalleSolicitudCanje(objSolicitudCanje) {
+    const userInfoContainer = document.getElementById('userInfoContainer');
+    userInfoContainer.style.display = 'none';
+
     const diasTranscurridosSufix = objSolicitudCanje['diasTranscurridos_SolicitudCanje'] > 2 ? " días transcurridos" : " día transcurrido";
+
     document.getElementById('codigoModalDetalleSolicitudCanje').textContent = objSolicitudCanje['idSolicitudCanje'];
     document.getElementById('fechaHoraModalDetalleSolicitudCanje').textContent = objSolicitudCanje['fechaHora_SolicitudCanje'];
     document.getElementById('diasTranscurridosModalDetalleSolicitudCanje').textContent = objSolicitudCanje['diasTranscurridos_SolicitudCanje'] + diasTranscurridosSufix;
+    document.getElementById('estadoSolicitudCanjeModalDetalleSolicitudCanje').textContent = objSolicitudCanje['nombreEstado'] || "";
     document.getElementById('numeroComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['idVentaIntermediada'];
     document.getElementById('fechaHoraEmisionComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['fechaHoraEmision_VentaIntermediada'];
     document.getElementById('puntosComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosComprobante_SolicitudCanje'];
     document.getElementById('puntosCanjeadosModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosCanjeados_SolicitudCanje'];
     document.getElementById('puntosRestantesComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosRestantes_SolicitudCanje'];
-    document.getElementById('comentarioComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['comentario_SolicitudCanje'] || "";
 
+    if (objSolicitudCanje['userName'] && objSolicitudCanje['comentario_SolicitudCanje']) {
+        userInfoContainer.style.display = 'block';
+        document.getElementById('userModalDetalleSolicitudCanje').value = objSolicitudCanje['userName'] || "";
+        document.getElementById('comentarioComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['comentario_SolicitudCanje'] || "";
+    }
 }
 
 function fillTableDetalleSolicitudCanje(detallesSolicitudesCanjes) {

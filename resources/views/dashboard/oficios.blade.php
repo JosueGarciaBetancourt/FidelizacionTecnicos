@@ -48,6 +48,7 @@
 
             <!--Tabla de ventas intermediadas-->
             <div class="secondRow">
+                {{--
                 <table id="tblOficios">
                     <thead>
                         <tr>
@@ -74,6 +75,20 @@
                         </tr>
                         @endforeach
                     </tbody>
+                </table>
+                --}}
+                <table id="tblOficios">
+                    <thead>
+                        <tr>
+                            <th class="celda-centered">#</th>
+                            <th>Código</th>
+                            <th>Nombre de oficio</th>
+                            <th>Descripción</th>
+                            <th>Fecha y Hora de creación</th>
+                            <th>Fecha y Hora de actualización</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody> <!-- Aquí se llenarán los datos de forma dinámica -->
                 </table>
             </div>
         </div>

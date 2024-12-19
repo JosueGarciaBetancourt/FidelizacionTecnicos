@@ -48,12 +48,13 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         $users = User::with('PerfilUsuario')
-            ->when($user->idPerfilUsuario !== 1, function($query) use ($user) {
-                $query->where('id', $user->id);
-            })
-            ->select('id', 'idPerfilUsuario', 'name', 'email', 'DNI', 'surname', 'fechaNacimiento', 
-                    'correoPersonal', 'celularPersonal', 'celularCorporativo')
-            ->get();
+                ->when($user->idPerfilUsuario !== 1, function($query) use ($user) {
+                    $query->where('id', $user->id);
+                })
+                ->withTrashed() // Incluye registros con soft delete
+                ->select('id', 'idPerfilUsuario', 'name', 'email', 'DNI', 'surname', 'fechaNacimiento', 
+                        'correoPersonal', 'celularPersonal', 'celularCorporativo', 'deleted_at')
+                ->get();
 
         // Para depurar nombre_PerfilUsuario
         //dd($users->pluck('nombre_PerfilUsuario'));
@@ -120,12 +121,27 @@ class ProfileController extends Controller
         }
     }
 
-    /**
-     * Delete the user's account.
-     */
-    public function destroy($idUsuario)
+    public function enable($idUsuario)
     {
-        // Verificar si el usuario existe antes de eliminarlo
+        // Verificar si el usuario existe 
+        $user = User::onlyTrashed()->find($idUsuario);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Usuario no encontrado.'
+            ], 404);
+        }
+
+        $user->restore();
+
+        return response()->json([
+            'message' => 'Usuario ' . $user->name . ' habilitado correctamente.',
+        ], 200);
+    }
+
+    public function disable($idUsuario)
+    {
+        // Verificar si el usuario existe
         $user = User::find($idUsuario);
 
         if (!$user) {
@@ -138,7 +154,41 @@ class ProfileController extends Controller
         $user->delete();
 
         return response()->json([
+            'message' => 'Usuario ' . $user->name . ' inhabilitado correctamente.',
+        ], 200);
+    }
+
+    public function delete($idUsuario)
+    {
+        // Verificar si el usuario existe
+        $user = User::find($idUsuario);
+
+        // Validar que user no esté presente en otros registros de otras tablas
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Usuario no encontrado.'
+            ], 404);
+        }
+
+        try {
+        // Aquí puedes verificar si el usuario está relacionado con otras tablas
+        // por ejemplo, verificar si tiene registros relacionados con perfiles, etc.
+        // Si es necesario, primero elimina esas relaciones
+
+        // Eliminar el usuario de forma permanente
+        $user->forceDelete();
+
+        return response()->json([
             'message' => 'Usuario ' . $user->name . ' eliminado correctamente.',
         ], 200);
+        
+        } catch (\Illuminate\Database\QueryException $e) {
+            // Si hay una excepción por restricciones de clave foránea, captúrala
+            return response()->json([
+                'message' => 'No se pudo eliminar el usuario debido a restricciones de la base de datos.',
+                'error' => $e->getMessage()
+            ], 400);
+        }
     }
 }

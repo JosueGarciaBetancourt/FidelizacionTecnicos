@@ -35,34 +35,34 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Perfil
     Route::get('/dashboard-usuarios', [ProfileController::class, 'create'])->name('usuarios.create');
     Route::post('/dashboard-storeUsuario', [RegisteredUserController::class, 'store'])->name('usuarios.store');
-
     Route::patch('/dashboard-updateUsuario', [ProfileController::class, 'update'])->name('usuarios.update');
-    Route::delete('/dashboard-deleteUsuario/{idUsuario}', [ProfileController::class, 'destroy'])->name('usuarios.destroy');
+    Route::post('/dashboard-enableUsuario/{idUsuario}', [ProfileController::class, 'enable'])->name('usuarios.enable');
+    Route::delete('/dashboard-disableUsuario/{idUsuario}', [ProfileController::class, 'disable'])->name('usuarios.disable');
+    Route::delete('/dashboard-deleteUsuario/{idUsuario}', [ProfileController::class, 'delete'])->name('usuarios.delete');
 
     // Ventas Intermediadas
     Route::get('/dashboard-ventasIntermediadas', [VentaIntermediadaController::class, 'create'])->name('ventasIntermediadas.create');
     Route::post('/modal-storeVenta', [VentaIntermediadaController::class, 'store'])->name('ventasIntermediadas.store');
-    
+    route::get('/dashboard-canjes/tecnico/{idTecnico}', [VentaIntermediadaController::class, 'getComprobantesEnEsperaByIdTecnico'])
+            ->name('getVentasIntermediadasWithTecnico');
+
     // Canjes
     // Registrar 
     Route::get('/dashboard-registrarCanje', [CanjeController::class, 'registrar'])->name('canjes.registrar');  
     Route::post('/dashboard-registrarCanje-storeCanje', [CanjeController::class, 'store'])->name('canjes.store');  
     // Ver historial 
     Route::get('/dashboard-historial-canje', [CanjeController::class, 'historial'])->name('canjes.historial');  
-    // Ver solicitudes (app móvil) 
-    Route::get('/dashboard-solicitudesApp-canje', [CanjeController::class, 'solicitudesApp'])->name('canjes.solicitudesApp');  
-
-    // Fetchs
-    route::get('/dashboard-canjes/tecnico/{idTecnico}', [VentaIntermediadaController::class, 'getComprobantesEnEsperaByIdTecnico'])
-        ->name('getVentasIntermediadasWithTecnico');
     route::get('/dashboard-canjes/historialCanje/{idCanje}', [CanjeController::class, 'getDetalleCanjesRecompensasByIdCanje'])
-        ->name('getDetalleCanjesRecompensasByIdCanje');
-    route::get('/dashboard-canjes/solicitudCanje/{idSolicitudCanje}', [CanjeController::class, 'getDetalleSolicitudesCanjesRecompensasByIdSolicitudCanje'])
-        ->name('getDetalleSolicitudesCanjesRecompensasByIdSolicitudCanje');
+            ->name('getDetalleCanjesRecompensasByIdCanje');
+    
+    // Solicitudes Canjes
+    Route::get('/dashboard-solicitudesApp-canje', [SolicitudCanjeController::class, 'create'])->name('solicitudescanjes.create');  
+    route::get('/dashboard-canjes/solicitudCanje/{idSolicitudCanje}', [SolicitudCanjeController::class, 'getDetalleSolicitudesCanjesRecompensasByIdSolicitudCanje'])
+            ->name('getDetalleSolicitudesCanjesRecompensasByIdSolicitudCanje');
     Route::post('/dashboard-canjes/solicitudCanje/aprobar/{idSolicitudCanje}', [SolicitudCanjeController::class, 'aprobarSolicitudCanje'])
-        ->name('aprobarSolicitudCanje');
+            ->name('aprobarSolicitudCanje');
     route::post('/dashboard-canjes/solicitudCanje/rechazar/{idSolicitudCanje}', [SolicitudCanjeController::class, 'rechazarSolicitudCanje'])
-        ->name('rechazarSolicitudCanje');
+            ->name('rechazarSolicitudCanje');
 
     // Recompensas
     Route::get('/dashboard-recompensas', [RecompensaController::class, 'create'])->name('recompensas.create');  
@@ -82,6 +82,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/modal-updateTecnico', [TecnicoController::class, 'update'])->name('tecnicos.update'); 
     Route::delete('/modal-deleteTecnico', [TecnicoController::class, 'delete'])->name('tecnicos.delete');
     Route::post('/modal-recontratarTecnico', [TecnicoController::class, 'recontratar'])->name('tecnicos.rehire'); 
+    //Route::get('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
     Route::get('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
 
     // Oficios
@@ -90,6 +91,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/dashboard-updateOficios', [OficioController::class, 'update'])->name('oficios.update');  
     Route::delete('/dashboard-deleteOficios', [OficioController::class, 'delete'])->name('oficios.delete');  
     Route::post('/modal-restoreOficio', [OficioController::class, 'restaurar'])->name('oficios.restore');
+    Route::get('/tblOficiosData', [OficioController::class, 'tabla'])->name('oficios.tabla');
 
     // Configuración
     Route::get('/dashboard-configuracion', [DashboardController::class, 'configuracion'])->name('configuracion');  

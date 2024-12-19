@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Oficio;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Throw_;
+use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 
 class OficioController extends Controller
 {
@@ -118,4 +119,47 @@ class OficioController extends Controller
             return redirect()->route('oficios.create')->withErrors('Ocurrió un error al intentar restaurar el oficio. Por favor, inténtelo de nuevo.');
         }
     }
+
+    public function tabla()
+    {
+        $oficios = Oficio::all();
+
+        // Agregar el índice de cada fila
+        $oficios->each(function($oficio, $index) {
+            $oficio->orderNum = $index + 1;  // Asegúrate de empezar en 1, no en 0
+        });
+        
+        return DataTables::make($oficios)->toJson();
+    }
+
+    /*public function tabla(Request $request)
+    {
+        $query = Oficio::query();
+        
+        // Obtener los parámetros de DataTables para la paginación
+        $start = $request->input('start');   // Offset de la página
+        $length = $request->input('length'); // Número de registros por página
+        
+        // Obtener los datos paginados
+        $oficios = $query->skip($start)->take($length)->get();
+
+        $oficios->each(function($oficio, $index) {
+            $oficio->orderNum = $index + 1;  // Asegúrate de empezar en 1, no en 0
+        });
+
+        // Obtener el número total de registros sin filtros
+        $totalRecords = Oficio::count();
+
+        // Obtener el número total de registros filtrados (si aplica)
+        $filteredRecords = $query->count();
+
+        // Responder a DataTables en el formato correcto
+        return response()->json([
+            'draw' => intval($request->input('draw')),
+            'recordsTotal' => $totalRecords,
+            'recordsFiltered' => $filteredRecords,
+            'data' => $oficios
+        ]);
+    }*/
+
 }
