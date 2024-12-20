@@ -41,6 +41,17 @@ class TecnicoSeeder extends Seeder
             'rangoTecnico' => 'Oro', // Menor a 24000 (más detalle en TecnicoController.php getRango())
         ]);
 
+        Tecnico::forceCreate([
+            'idTecnico' => '11111111',
+            'nombreTecnico' => 'Eliminado',
+            'celularTecnico' =>'123456789',
+            'fechaNacimiento_Tecnico' => '2000-12-12',
+            'totalPuntosActuales_Tecnico' => 0, 
+            'historicoPuntos_Tecnico' => 0,
+            'rangoTecnico' => 'Plata', 
+            'deleted_at' => now(),
+        ]);
+
         Tecnico::factory(47)->create();
     }
 }
