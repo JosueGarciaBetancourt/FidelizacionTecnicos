@@ -21,6 +21,8 @@ class Oficio extends Model
         'descripcion_Oficio',
     ];
 
+    protected $appends = ['codigoOficio']; // Agregar aquí el atributo dinámico
+
     public function tecnicosOficios() {
         return $this->hasMany(TecnicoOficio::class, 'idOficio', 'idOficio');
     }

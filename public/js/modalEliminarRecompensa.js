@@ -11,7 +11,7 @@ let formDeleteInputsArray = [
     tipoRecompensaInputDelete,
     descripcionRecompensaInputDelete,
     costoPuntosInputDelete, 
-    stockRecompensaDelete
+    //stockRecompensaDelete
 ];
 
 function selectOptionEliminarRecompensa(value, idRecompensa, descripcionRecompensa, costoPuntos, stockRecompensa, tipoRecompensa, 

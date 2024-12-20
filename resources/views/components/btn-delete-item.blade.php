@@ -4,6 +4,6 @@
 <div class="btnDeleteItem-container" id="{{ $id }}">
     <button type="{{ $type }}" class="btnDeleteItem" onclick="{{ $onclick }}">
         {{ $slot }}
-        <span class="material-symbols-outlined">delete</span>
+        <span class="material-symbols-outlined noUserSelect">delete</span>
     </button>
 </div>

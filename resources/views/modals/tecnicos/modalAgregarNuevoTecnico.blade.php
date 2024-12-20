@@ -3,7 +3,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Registrar nuevo técnico</h5>
-                <button class="close" onclick="closeModal('modalAgregarNuevoTecnico')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalAgregarNuevoTecnico')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyAgregarNuevoTecnico">
                 <form id="formAgregarNuevoTecnico" action="{{ route('tecnicos.store') }}" method="POST">
@@ -37,6 +37,7 @@
                             :options="$idsNombresOficiosBD"
                             :onSelectFunction="'selectOptionOficio'"
                             :onSpanClickFunction="'cleanHiddenOficiosInput'"
+                            :spanClassName="'noUserSelect'"
                             />
                         <input type="hidden" id="idsOficioArrayInput" name="idOficioArray">
                     </div>

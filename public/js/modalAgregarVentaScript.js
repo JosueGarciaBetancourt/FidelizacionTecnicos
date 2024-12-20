@@ -36,7 +36,7 @@ function selectOptionAgregarVenta(value, idInput, idOptions) {
     selectOption(value, idInput, idOptions); 
 
     // Extraer id y nombre del valor
-    const [id, nombre] = value.split(' - ');
+    const [id, nombre] = value.split(' | ');
     
     // Actualizar los campos ocultos
     if (id && nombre) {
@@ -48,7 +48,6 @@ function selectOptionAgregarVenta(value, idInput, idOptions) {
     }
     nuevaVentaMessageError.classList.remove('shown'); 
 }
-
 
 function analizarXML(file) {
     /*
@@ -622,12 +621,10 @@ function removeZerosIDVentaIntermediada(idVentaIntermediada) {
 }
 
 function guardarModalAgregarVenta(idModal, idForm, ventasDB) {
-    let idSinCeros;
     let itemArraySearched;
     
     if (idVentaIntermediadaInput.value) {
-        idSinCeros = removeZerosIDVentaIntermediada(idVentaIntermediadaInput.value);
-        itemArraySearched = returnItemDBValueWithRequestedID("idVentaIntermediada", idSinCeros, ventasDB);
+        itemArraySearched = returnItemDBValueWithRequestedID("idVentaIntermediada", idVentaIntermediadaInput.value, ventasDB);
     }
      
     if (itemArraySearched) {

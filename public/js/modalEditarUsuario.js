@@ -28,7 +28,7 @@ function returnIdByNombrePerfilUser(nombrePerfil, perfilesDB) {
     return null; 
 }
 
-function selectOptionPerfilUsuario(value, idInput, idOptions, perfilesDB) {
+function selectOptionPerfilUsuarioEdit(value, idInput, idOptions, perfilesDB) {
     var input = document.getElementById(idInput);
     var options = document.getElementById(idOptions);
     

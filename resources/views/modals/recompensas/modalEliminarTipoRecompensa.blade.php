@@ -3,7 +3,7 @@
         <div class="modal-content" id="modalEliminarTipoRecompensa-content">
             <div class="modal-header">
                 <h5 class="modal-title">Eliminar tipo de recompensa</h5>
-                <button class="close" onclick="closeModal('modalEliminarTipoRecompensa')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalEliminarTipoRecompensa')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyEliminarTipoRecompensa">
                 <form id="formEliminarTipoRecompensa" action="{{ route('tiposRecompensas.delete') }}" method="POST">

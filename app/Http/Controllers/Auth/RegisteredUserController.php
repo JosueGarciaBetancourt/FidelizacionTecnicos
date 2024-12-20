@@ -27,7 +27,8 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request): RedirectResponse
+    
+    /*public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -46,5 +47,34 @@ class RegisteredUserController extends Controller
         Auth::login($user);
 
         return redirect(route('dashboard', absolute: false));
+    }*/
+    
+    public function store(Request $request): RedirectResponse
+    {
+        $userDeleted = User::onlyTrashed()->where('email', $request['email'])->first();
+
+        if ($userDeleted) {
+            $userDeleted->restore();
+            return redirect(route('usuarios.create', absolute: false))->with('successUsuarioStore', 'Usuario guardado correctamente.');
+        }
+
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'string', 'min:7'],
+            'idPerfilUsuario' => ['required', 'integer', 'exists:PerfilesUsuarios,idPerfilUsuario'], 
+        ]);
+
+        // Crear nuevo usuario si no ha sido registrado anteriormente
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'idPerfilUsuario' => $request->idPerfilUsuario,
+        ]);
+
+        event(new Registered($user));
+        
+        return redirect(route('usuarios.create', absolute: false))->with('successUsuarioStore', 'Usuario guardado correctamente.');
     }
 }

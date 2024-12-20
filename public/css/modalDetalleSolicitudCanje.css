@@ -79,6 +79,33 @@
     font-weight: 600;
 }
 
+.h3DetalleSolicitudCanje {
+    display: flex;             
+    align-items: center;        
+    justify-content: center;    
+    font-size: 1rem;
+    padding: 0 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 0;
+    height: 1.4rem;
+}
+
+.h3DetalleSolicitudCanje.estadoAprobado {
+    color: #4caf50;
+    background-color: rgba(76, 175, 80, 0.2);
+}
+
+.h3DetalleSolicitudCanje.estadoRechazado {
+    color: #f44336;
+    background-color: rgba(244, 67, 54, 0.2);
+}
+
+.h3DetalleSolicitudCanje.estadoPendiente {
+    color: #6c757d;
+    background-color: rgba(96, 98, 107, 0.2);
+}
+
 #puntosComprobantemodalDetalleSolicitudCanje {
     max-width: 5rem;
 }

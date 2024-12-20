@@ -470,3 +470,7 @@ body.dark-mode .header {
 .celda-centered.word-wrap {
     word-wrap: break-word;
 }
+
+.noUserSelect {
+    user-select: none;
+}

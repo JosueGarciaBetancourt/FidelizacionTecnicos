@@ -457,11 +457,94 @@ function agregarFilaRecompensa() {
             throw new Error('Ingrese una cantidad válida');
         }
 
+        // Función para validar que la suma de puntos no exceda el límite
+        function validatePuntosExceeds(sumaPuntosTotalesFilas, puntosGenerados) {
+            if (sumaPuntosTotalesFilas > puntosGenerados) {
+                recompensaCanjesTooltip.classList.remove("green");
+                recompensaCanjesTooltip.classList.add("red");
+                const message = `El nuevo total de puntos (${sumaPuntosTotalesFilas}) excede a los puntos generados por el comprobante (${puntosGenerados})`;
+                showHideTooltip(recompensaCanjesTooltip, message);
+                throw new Error(message);
+            }
+        }
+
         const cantidad = parseInt(cantidadRecompensaCanjesInput.value, 10);
 
         const partesRecompensaValue = recompensasCanjesInput.value.split(" | ");
 
-        // Verifica que el formato de la recompensa sea correcto (se esperan 4 partes)
+        // Verificar si la recompensa es Efectivo
+        if (partesRecompensaValue[0] === "RECOM-000") {
+            // Verifica que el formato de la recompensa RECOM-000 sea correcto (se esperan 4 partes)
+            if (partesRecompensaValue.length !== 4) {
+                recompensaCanjesTooltip.classList.remove("green");
+                recompensaCanjesTooltip.classList.add("red");
+                showHideTooltip(recompensaCanjesTooltip, 'El formato de la recompensa es incorrecto.  Se requieren 4 partes separadas por " | "');
+                throw new Error('El formato de la recompensa es incorrecto. Se requieren 4 partes separadas por " | "');
+            }
+
+            const [codigo, categoria, descripcion, costoRaw] = partesRecompensaValue;
+            
+            const costo = parseInt(costoRaw.replace(/\D+$/, ""), 10);
+
+            // Validar que el costo sea un número válido
+            if (isNaN(costo) || costo <= 0) {
+                recompensaCanjesTooltip.classList.remove("green");
+                recompensaCanjesTooltip.classList.add("red");
+                showHideTooltip(recompensaCanjesTooltip, 'El costo de la recompensa es menor igual a 0, no es válido');
+                throw new Error('El costo de la recompensa es menor igual a 0, no es válido');
+            }
+
+            // Calcular puntos totales
+            const puntosTotalesRecompensaNueva = cantidad * costo;
+
+            // Calcular la suma de puntos totales 
+            var sumaPuntosTotalesFilas = 0;
+            const puntosGenerados = puntosGeneradosCanjesInput.value;
+
+            // Validar recompensa duplicada en tabla
+            const puntosRecompensaAntigua = isCodigoDuplicated(codigo);
+            
+            if (puntosRecompensaAntigua) {
+                // Si la recompensa ya fue agregada entonces calcular la suma de puntos totales con la nueva recompensa
+                sumaPuntosTotalesFilas = getSumaTotalPuntosTblRecompensasCanjes() - puntosRecompensaAntigua + puntosTotalesRecompensaNueva;
+
+                // Validar que la suma no exceda a la cantidad de puntos generados del comprobante
+                validatePuntosExceeds(sumaPuntosTotalesFilas, puntosGenerados);
+
+                // Actualizar recompensa duplicada
+                updateRow(codigo, cantidad, puntosTotalesRecompensaNueva);
+                
+                // Actualizar variable global
+                sumaPuntosTotalesTablaRecompensasCanjes = sumaPuntosTotalesFilas;
+                puntosTotalesExcedenPuntosGenerados = false;
+
+                // Actualizar celda de puntos totales en el footer de la tabla
+                verificarFilasTablaCanjes();
+                return;
+            } 
+
+            // Si la recompensa aún no fue agregada entonces calcular la suma de todo incluyendo la recompensa nueva
+            sumaPuntosTotalesFilas = getSumaTotalPuntosTblRecompensasCanjes() + puntosTotalesRecompensaNueva;
+
+            // Validar que la suma no exceda a la cantidad de puntos generados del comprobante
+            validatePuntosExceeds(sumaPuntosTotalesFilas, puntosGenerados);
+
+            // Después de validar todo, agregar la nueva recompensa a la tabla 
+            addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotalesRecompensaNueva);
+
+            // Actualizar variables globales
+            sumaPuntosTotalesTablaRecompensasCanjes = sumaPuntosTotalesFilas;
+            puntosTotalesExcedenPuntosGenerados = false;
+            
+            // Actualizar input de tipo Json
+            generarJsonCodigoCantidad();
+
+            // Actualizar celda de puntos totales en el footer de la tabla
+            verificarFilasTablaCanjes();
+            return;
+        }
+
+        // Verifica que el formato de la recompensa sea correcto (se esperan 5 partes)
         if (partesRecompensaValue.length !== 5) {
             recompensaCanjesTooltip.classList.remove("green");
             recompensaCanjesTooltip.classList.add("red");
@@ -470,11 +553,10 @@ function agregarFilaRecompensa() {
         }
 
         const [codigo, categoria, descripcion, costoRaw, stockRaw] = partesRecompensaValue;
+
         // Usamos una expresión regular para extraer solo el número antes de cualquier palabra
         const costo = parseInt(costoRaw.replace(/\D+$/, ""), 10);
         const stock = parseInt(stockRaw.replace(/\D+$/, ""), 10);
-
-        //console.log("costo: " + costo, "stock: " + stock);
 
         // Validar que el costo sea un número válido
         if (isNaN(costo) || costo <= 0) {
@@ -503,17 +585,6 @@ function agregarFilaRecompensa() {
 
         // Calcular puntos totales de la recompensa nueva
         const puntosTotalesRecompensaNueva = cantidad * costo;
-
-        // Validar que la suma de puntos no exceda el límite
-        function validatePuntosExceeds(sumaPuntosTotalesFilas, puntosGenerados) {
-            if (sumaPuntosTotalesFilas > puntosGenerados) {
-                recompensaCanjesTooltip.classList.remove("green");
-                recompensaCanjesTooltip.classList.add("red");
-                const message = `El nuevo total de puntos (${sumaPuntosTotalesFilas}) excede a los puntos generados por el comprobante (${puntosGenerados})`;
-                showHideTooltip(recompensaCanjesTooltip, message);
-                throw new Error(message);
-            }
-        }
         
         // Calcular la suma de puntos totales 
         var sumaPuntosTotalesFilas = 0;
@@ -535,7 +606,7 @@ function agregarFilaRecompensa() {
             validatePuntosExceeds(sumaPuntosTotalesFilas, puntosGenerados);
 
             // Actualizar recompensa duplicada
-            updateRow(codigo, stockRestante, cantidad, puntosTotalesRecompensaNueva);
+            updateRow(codigo, cantidad, puntosTotalesRecompensaNueva, stockRestante);
             
             // Actualizar variable global
             sumaPuntosTotalesTablaRecompensasCanjes = sumaPuntosTotalesFilas;
@@ -554,21 +625,19 @@ function agregarFilaRecompensa() {
         validatePuntosExceeds(sumaPuntosTotalesFilas, puntosGenerados);
 
         // Después de validar todo, agregar la nueva recompensa a la tabla 
-        addRowTableCanjes(codigo, categoria, descripcion, stockRestante, costo, cantidad, puntosTotalesRecompensaNueva);
+        addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotalesRecompensaNueva, stockRestante);
 
         // Actualizar variables globales
         sumaPuntosTotalesTablaRecompensasCanjes = sumaPuntosTotalesFilas;
         puntosTotalesExcedenPuntosGenerados = false;
         
-        // Actulizar campo Json
+        // Actualizar input de tipo Json
         generarJsonCodigoCantidad();
 
         // Actualizar celda de puntos totales en el footer de la tabla
         verificarFilasTablaCanjes();
-        //console.log(puntosTotalesExcedenPuntosGenerados);
     } catch (error) {
         console.error('Error al agregar la recompensa:', error.message);
-        console.log(puntosTotalesExcedenPuntosGenerados);
     }
 }
 
@@ -669,8 +738,9 @@ function isCodigoDuplicated(codigo) {
     return false; // No se encontró el código duplicado
 }
 
-function updateRow(codigo, stockRestante, cantidad, puntosTotales) {
+function updateRow(codigo, cantidad, puntosTotales, stockRestante=null) {
     const tableBody = document.querySelector('#tblRecompensasCanjes tbody');
+    const stock = stockRestante ? stockRestante: "-";
 
     // Recorrer todas las filas del cuerpo de la tabla
     for (let row of tableBody.rows) {
@@ -680,7 +750,7 @@ function updateRow(codigo, stockRestante, cantidad, puntosTotales) {
             const stockRestanteCelda = row.querySelector('.celda-centered.stockRestante');
             const cantidadCelda = row.querySelector('.celda-centered.cantidad');
             const subtotalPuntos = row.querySelector('.celda-centered.subtotalPuntos');
-            stockRestanteCelda.textContent = stockRestante; 
+            stockRestanteCelda.textContent = stock; 
             cantidadCelda.textContent = cantidad; 
             subtotalPuntos.textContent = puntosTotales; 
             return true; // Se actualizó la fila
@@ -690,9 +760,10 @@ function updateRow(codigo, stockRestante, cantidad, puntosTotales) {
     return false; // No se encontró el código para actualizar
 }
 
-function addRowTableCanjes(codigo, categoria, descripcion, stockRestante, costo, cantidad, puntosTotales) {
+function addRowTableCanjes(codigo, categoria, descripcion, costo, cantidad, puntosTotales, stockRestante=null) {
     const tableBody = document.querySelector('#tblRecompensasCanjes tbody');
     const newRow = document.createElement('tr');
+    const stock = stockRestante ? stockRestante: "-";
 
     // Datos que serán agregados en las celdas
     const datosFila = [
@@ -700,7 +771,7 @@ function addRowTableCanjes(codigo, categoria, descripcion, stockRestante, costo,
         codigo,
         categoria,
         descripcion,
-        stockRestante,
+        stock,
         cantidad,
         costo,
         puntosTotales

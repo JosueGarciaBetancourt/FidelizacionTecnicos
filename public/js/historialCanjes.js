@@ -70,11 +70,6 @@ function fillTableDetalleHistorialCanje(detallesCanjes) {
     celdaTotalPuntosRecompensas.textContent = total_puntos_recompensas;
 }
 
-function saveCanjeDataToStorage(objCanje, detallesCanjes) {
-    localStorage.setItem('currentCanje', JSON.stringify(objCanje));
-    localStorage.setItem('currentCanjeDetails', JSON.stringify(detallesCanjes));
-}
-
 function returnObjCanjeById(idCanje, canjesDB) {
     objCanje = canjesDB.find(canje => canje.idCanje === idCanje) || null;
     return objCanje;
@@ -92,12 +87,11 @@ function openModalDetalleHistorialCanje(button, canjesDB) {
     getDetalleCanjeByIdCanjeFetch(objCanje['idCanje']);
 }
 
-// Usage
 async function getDetalleCanjeByIdCanjeFetch(idCanje) {
     //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/historialCanje/${idCanje}`;
     const baseUrl = `${window.location.origin}`; // Esto adaptará la URL al dominio actual
     const url = `${baseUrl}/dashboard-canjes/historialCanje/${idCanje}`;
-    console.warn("fetch", url);
+    //console.warn("fetch", url);
 
     try {
         const response = await fetch(url);
@@ -124,71 +118,33 @@ async function getDetalleCanjeByIdCanjeFetch(idCanje) {
                 comentario_Canje: document.getElementById('comentarioComprobanteModalDetalleHistorialCanje').value,
             };
 
-            saveCanjeDataToStorage(objCanje, detallesCanjes);
+            StorageHelper.saveModalDataToStorage('currentCanje', objCanje);
+            StorageHelper.saveModalDataToStorage('currentCanjeDetails', detallesCanjes);
         }
         
         // Abrir el modal
-        var modal = document.getElementById('modalDetalleHistorialCanje');
-        modal.style.display = 'block';
-        setTimeout(function() {
-            modal.style.opacity = 1; // Hacer el modal visible de forma gradual
-            modal.querySelector('.modal-dialog').classList.add('open');
-        }, 50); // Pequeño retraso para asegurar la transición CSS
-        document.body.style.overflow = 'hidden'; // Evita el scroll de fondo cuando está abierto el modal
+        justOpenModal('modalDetalleHistorialCanje');
     } catch (error) {
         console.error('Error al realizar la consulta al backend para obtener las recompensas del canje:', error.message);
     }
 }
 
-// Add event listeners on page load
 document.addEventListener('DOMContentLoaded', function() {
-    loadPersistedCanjeData();
-});
-
-function openPersistedModal() {
-    var modal = document.getElementById('modalDetalleHistorialCanje');
-    modal.style.display = 'block';
-    setTimeout(function() {
-        modal.style.opacity = 1;
-        modal.querySelector('.modal-dialog').classList.add('open');
-    }, 50);
-    document.body.style.overflow = 'hidden';
-}
-
-function clearPersistedData() {
-    // Clear data when modal is closed
-    localStorage.removeItem('currentCanje');
-    localStorage.removeItem('currentCanjeDetails');
-    console.log('Cleaning persisted fetch modal data');
-}
-
-function loadPersistedCanjeData() {
-    const persistedCanje = localStorage.getItem('currentCanje');
-    const persistedCanjeDetails = localStorage.getItem('currentCanjeDetails');
-
-    if (persistedCanje && persistedCanjeDetails) {
-        const objCanje = JSON.parse(persistedCanje);
-        const detallesCanjes = JSON.parse(persistedCanjeDetails);
-
-        // Restore modal fields
-        fillOtherFieldsDetalleHistorialCanje(objCanje);
-        fillTableDetalleHistorialCanje(detallesCanjes);
-
-        // Reopen the modal
-        openPersistedModal();
-    }
-}
-
-function closeFetchModal(modalId) {
-    console.log("Cerrando fetch modal");
-    var modal = document.getElementById(modalId);
-    if (modal) {
-        modal.querySelector('.modal-dialog').classList.remove('open');
-        setTimeout(function() {
-            modal.style.display = 'none';
-        }, 300); // Espera 0.3 segundos (igual a la duración de la transición CSS)
+    // Cargar el modal si es que estaba abierto
+    try {
+        const persistedCanje = StorageHelper.loadModalDataFromStorage('currentCanje');
+        const persistedCanjeDetails = StorageHelper.loadModalDataFromStorage('currentCanjeDetails');
         
-        // Remove specific modal data from localStorage
-        clearPersistedData();
+        if (persistedCanje && persistedCanjeDetails) {
+            const objCanje = persistedCanje;
+            const detallesCanjes = persistedCanjeDetails;
+    
+            fillOtherFieldsDetalleHistorialCanje(objCanje);
+            fillTableDetalleHistorialCanje(detallesCanjes);
+    
+            justOpenModal('modalDetalleHistorialCanje');
+        } 
+    } catch (error) {
+        console.log("Error al cargar la data del Canje: ", error);
     }
-}
+});

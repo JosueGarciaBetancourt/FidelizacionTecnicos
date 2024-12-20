@@ -3,13 +3,11 @@
         <div class="modal-content" id="modalAgregarVenta-content">
             <div class="modal-header">
                 <h5 class="modal-title">Nueva Venta Intermediada</h5>
-                <button class="close" onclick="closeModal('modalAgregarVenta')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalAgregarVenta')">&times;</button>
             </div>
             <div class="modal-body" id="modalAgregarVenta-body">
-                <!-- Formulario para agregar nueva venta -->
                 <form id="formAgregarVenta" action="{{ route('ventasIntermediadas.store') }}" method="POST">
                     @csrf
-                    <!-- Variables globales -->
                     @php
                         $idInput = 'tecnicoInput';
                         $idOptions = 'tecnicoOptions';
@@ -17,9 +15,8 @@
                         $someHiddenIdInputsArray = ['idTecnicoInput', 'nombreTecnicoInput'];
                         $ventasDB = $ventas;
                     @endphp
-                    <!-- Campos ocultos para el formulario -->
-                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' name="idTecnico">
-                    <input type="hidden" id='{{ $someHiddenIdInputsArray[1] }}' name="nombreTecnico">
+                    <input type="text" id='{{ $someHiddenIdInputsArray[0] }}' name="idTecnico">
+                    <input type="text" id='{{ $someHiddenIdInputsArray[1] }}' name="nombreTecnico">
                     <div class="form-group marginTop">
                         <label class="primary-label" id="idLabelTecnico">
                             Técnico 
@@ -31,7 +28,7 @@
                             <div class="tooltip-container">
                                 <span class="tooltip red" id="idTecnicoTooltip">Este es el mensaje del tooltip</span>
                             </div>
-                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI - Nombre"
+                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI | Nombre"
                                 oninput="filterOptions('{{ $idInput }}', '{{ $idOptions }}'),
                                         validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}',
                                         {{ json_encode($someHiddenIdInputsArray) }})" 
@@ -39,7 +36,7 @@
                             <ul class="select-items" id='{{ $idOptions }}'>
                                 @foreach ($tecnicos as $tecnico)
                                     @php
-                                        $value = $tecnico->idTecnico . " - " . $tecnico->nombreTecnico;
+                                        $value = $tecnico->idTecnico . " | " . $tecnico->nombreTecnico;
                                     @endphp
                                     <li onclick="selectOptionAgregarVenta('{{ $value }}', '{{ $idInput }}', '{{ $idOptions }}')">
                                         {{ $value }}
@@ -65,6 +62,7 @@
                                 :placeholder="'DNI/RUC'"
                                 :name="'tipoCodigoCliente_VentaIntermediada'"
                                 :options="['DNI', 'RUC']"
+                                :spanClassName="'noUserSelect'"
                             />
                         </div>
                         <div class = "group-items">

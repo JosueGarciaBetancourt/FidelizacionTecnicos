@@ -16,10 +16,19 @@ use App\Http\Requests\ProfileUpdateRequest;
 class ProfileController extends Controller
 {    
     public function returnArrayNombresPerfilesUsuarios() {
+        // Obtiene todos los perfiles de usuario
         $perfiles = PerfilUsuario::all();
+
+        // Verifica si hay un usuario autenticado y si es el administrador
+        if (Auth::check() && Auth::user()->email !== env('ADMIN_EMAIL', "admin@dimacof.com")) {
+            // Rechazar (eliminar) los perfiles donde idPerfilUsuario sea 1
+            $perfiles = $perfiles->reject(function($perfil) {
+                return $perfil->idPerfilUsuario === 1;
+            });
+        }
+
         $arrayNombresPerfilesUsuarios = [];
 
-        // Obtener todos los nombres de los perfiles 
         foreach ($perfiles as $perfil) {
             $arrayNombresPerfilesUsuarios[] = $perfil->nombre_PerfilUsuario;
         }
@@ -39,17 +48,19 @@ class ProfileController extends Controller
         $user = Auth::user();
 
         $users = User::with('PerfilUsuario')
-            ->when($user->idPerfilUsuario !== 1, function($query) use ($user) {
-                $query->where('id', $user->id);
-            })
-            ->select('id', 'idPerfilUsuario', 'name', 'email', 'DNI', 'surname', 'fechaNacimiento', 
-                    'correoPersonal', 'celularPersonal', 'celularCorporativo')
-            ->get();
+                ->when($user->idPerfilUsuario !== 1, function($query) use ($user) {
+                    $query->where('id', $user->id);
+                })
+                ->withTrashed() // Incluye registros con soft delete
+                ->select('id', 'idPerfilUsuario', 'name', 'email', 'DNI', 'surname', 'fechaNacimiento', 
+                        'correoPersonal', 'celularPersonal', 'celularCorporativo', 'deleted_at')
+                ->get();
 
         // Para depurar nombre_PerfilUsuario
         //dd($users->pluck('nombre_PerfilUsuario'));
 
         $nombresPerfilesUsuarios = $this->returnArrayNombresPerfilesUsuarios();
+
         $perfilesUsuarios = PerfilUsuario::all()->pluck('nombre_PerfilUsuario', 'idPerfilUsuario');
 
         return view('dashboard.profileOwn', compact('users', 'nombresPerfilesUsuarios', 'perfilesUsuarios'));
@@ -101,7 +112,7 @@ class ProfileController extends Controller
             //dd($user); 
     
             // Redirigir con un mensaje de éxito
-            return Redirect::route('usuarios.create')->with('status', '¡Perfil actualizado con éxito!');
+            return Redirect::route('usuarios.create')->with('successUsuarioUpdate', 'Usuario actualizado correctamente');
         } catch (\Throwable $error) {
             // Registrar el error en los logs de la aplicación
             Log::error('Error actualizando el perfil: ', ['error' => $error]);
@@ -110,24 +121,88 @@ class ProfileController extends Controller
         }
     }
 
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
+    public function enable($idUsuario)
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+        // Verificar si el usuario existe 
+        $user = User::onlyTrashed()->find($idUsuario);
 
-        $user = $request->user();
+        if (!$user) {
+            return response()->json([
+                'message' => 'Usuario no encontrado.'
+            ], 404);
+        }
 
-        Auth::logout();
+        $user->restore();
 
+        return response()->json([
+            'message' => 'Usuario ' . $user->name . ' habilitado correctamente.',
+        ], 200);
+    }
+
+    public function disable($idUsuario)
+    {
+        // Verificar si el usuario existe
+        $user = User::find($idUsuario);
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'Usuario no encontrado.'
+            ], 404);
+        }
+
+        // Soft delete
         $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+        return response()->json([
+            'message' => 'Usuario ' . $user->name . ' inhabilitado correctamente.',
+        ], 200);
     }
+
+    public function delete($idUsuario)
+    {
+        // Verificar si el usuario existe
+        $user = User::find($idUsuario);
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'El usuario no fue encontrado.',
+                'details' => 'El ID proporcionado no corresponde a ningún usuario en la base de datos.',
+                'error_code' => 404, // Código de error consistente
+            ], 404);
+        }
+
+        try {
+            // Eliminar el usuario de forma permanente
+            $user->forceDelete();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => "El usuario {$user->name} fue eliminado correctamente.",
+                'data' => [
+                    'user_id' => $idUsuario
+                ]
+            ], 200);
+        } catch (\Illuminate\Database\QueryException $e) {
+            $errorCode = $e->errorInfo[1]; // El código de error SQL específico
+
+            if ($errorCode == 1451) { // Error 1451: Restricción de clave foránea
+                return response()->json([
+                    'status' => 'error', 
+                    'message' => "No se pudo eliminar el usuario {$user->name}",
+                    'details' => 'El usuario tiene registros asociados en otras tablas, como canjes o solicitudes de canje',
+                    'error_code' => 1451
+                ], 400);
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Ocurrió un error inesperado al intentar eliminar el usuario.',
+                'details' => 'Excepción de base de datos no controlada.',
+                'error_code' => 500,
+                'technical_message' => config('app.debug') ? $e->getMessage() : 'Error interno, contacte al administrador.'
+            ], 500);
+        }
+    }
+
 }

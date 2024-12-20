@@ -4,6 +4,6 @@
 <div class="btnCreateItem-container addRowTable" id="{{ $id }}">
     <button type="{{ $type }}" class="btnCreateItem addRowTable" onclick="{{ $onclick }}">
         {{ $slot }}
-        <span class="material-symbols-outlined">playlist_add</span>
+        <span class="material-symbols-outlined noUserSelect">playlist_add</span>
     </button>
 </div>

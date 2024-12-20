@@ -11,7 +11,7 @@ let formRestaurarInputsArray = [
     tipoRecompensaInputRestaurar,
     descripcionRecompensaInputRestaurar,
     costoPuntosInputRestaurar, 
-    stockRecompensaRestaurar
+    //stockRecompensaRestaurar
 ];
 
 function selectOptionRestaurarRecompensa(value, idRecompensa, descripcionRecompensa, costoPuntos, stockRecompensa, tipoRecompensa, 

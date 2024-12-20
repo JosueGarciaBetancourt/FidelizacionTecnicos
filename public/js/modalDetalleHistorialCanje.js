@@ -27,3 +27,9 @@ window.linkOptionPDF = function(size, idCanje) {
         console.error("Error: ", error);
     }
 };
+
+function closeDetalleHistorialCanje(modalId) {
+    StorageHelper.clearModalDataFromStorage('currentCanje');
+    StorageHelper.clearModalDataFromStorage('currentCanjeDetails');
+    justCloseModal(modalId);
+}

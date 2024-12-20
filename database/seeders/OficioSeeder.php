@@ -14,7 +14,7 @@ class OficioSeeder extends Seeder
             [
                 'idOficio' => 1,
                 'nombre_Oficio' => 'Albañil',
-                'descripcion_Oficio' => 'Esto es un ejemplo de descripción',
+                'descripcion_Oficio' => 'Esto es un ejemplo de descripción del oficio Albañil',
             ],
             [
                 'idOficio' => 2,

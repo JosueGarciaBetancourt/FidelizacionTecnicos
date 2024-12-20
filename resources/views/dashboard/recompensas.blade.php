@@ -25,10 +25,10 @@
             <x-btn-edit-item onclick="openModal('modalEditarRecompensa')"> Editar </x-btn-edit-item>
             @include('modals.recompensas.modalEditarRecompensa')
 
-            <x-btn-delete-item onclick="openModal('modalEliminarRecompensa')"> Eliminar </x-btn-delete-item>
+            <x-btn-delete-item onclick="openModal('modalEliminarRecompensa')"> Inhabilitar </x-btn-delete-item>
             @include('modals.recompensas.modalEliminarRecompensa')
 
-            <x-btn-recover-item onclick="openModal('modalRestaurarRecompensa')"> Restaurar </x-btn-delete-item>
+            <x-btn-recover-item onclick="openModal('modalRestaurarRecompensa')"> Habilitar </x-btn-delete-item>
             @include('modals.recompensas.modalRestaurarRecompensa')
         </div>
 
@@ -58,12 +58,12 @@
 
         <x-modalSuccessAction 
             :idSuccesModal="'successModalRecompensaEliminada'"
-            :message="'Recompensa eliminada correctamente'"
+            :message="'Recompensa inhabilitada correctamente'"
         />
 
         <x-modalSuccessAction 
             :idSuccesModal="'successModalRecompensaRestaurada'"
-            :message="'Recompensa restaurada correctamente'"
+            :message="'Recompensa habilitada correctamente'"
         />
 
         <x-modalSuccessAction 

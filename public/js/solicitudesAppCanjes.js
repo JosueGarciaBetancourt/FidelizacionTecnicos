@@ -1,15 +1,38 @@
 function fillOtherFieldsDetalleSolicitudCanje(objSolicitudCanje) {
+    const userInfoContainer = document.getElementById('userInfoContainer');
+    userInfoContainer.style.display = 'none';
+
+    const estadoH5 = document.getElementById('estadoSolicitudCanjeModalDetalleSolicitudCanje');
     const diasTranscurridosSufix = objSolicitudCanje['diasTranscurridos_SolicitudCanje'] > 2 ? " días transcurridos" : " día transcurrido";
+
     document.getElementById('codigoModalDetalleSolicitudCanje').textContent = objSolicitudCanje['idSolicitudCanje'];
     document.getElementById('fechaHoraModalDetalleSolicitudCanje').textContent = objSolicitudCanje['fechaHora_SolicitudCanje'];
     document.getElementById('diasTranscurridosModalDetalleSolicitudCanje').textContent = objSolicitudCanje['diasTranscurridos_SolicitudCanje'] + diasTranscurridosSufix;
+    
     document.getElementById('numeroComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['idVentaIntermediada'];
     document.getElementById('fechaHoraEmisionComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['fechaHoraEmision_VentaIntermediada'];
     document.getElementById('puntosComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosComprobante_SolicitudCanje'];
     document.getElementById('puntosCanjeadosModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosCanjeados_SolicitudCanje'];
     document.getElementById('puntosRestantesComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosRestantes_SolicitudCanje'];
-    document.getElementById('comentarioComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['comentario_SolicitudCanje'] || "";
+    estadoH5.textContent = objSolicitudCanje['nombreEstado'] || "";
 
+    estadoH5.classList.remove('estadoAprobado', 'estadoRechazado', 'estadoPendiente');
+    
+    const estado = (estadoH5.textContent).toLowerCase();
+    
+    if (estado === "aprobado") {
+        estadoH5.classList.add('estadoAprobado');
+    } else if (estado === "rechazado") {
+        estadoH5.classList.add('estadoRechazado');
+    } else {
+        estadoH5.classList.add('estadoPendiente');
+    }
+    
+    if (objSolicitudCanje['userName'] && objSolicitudCanje['comentario_SolicitudCanje']) {
+        userInfoContainer.style.display = 'block';
+        document.getElementById('userModalDetalleSolicitudCanje').value = objSolicitudCanje['userName'] || "";
+        document.getElementById('comentarioComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['comentario_SolicitudCanje'] || "";
+    }
 }
 
 function fillTableDetalleSolicitudCanje(detallesSolicitudesCanjes) {
@@ -80,6 +103,8 @@ function openModalDetalleSolicitudCanje(button, solicitudesCanjeDB) {
     // LLenar campos del formulario de detalle canje
     fillOtherFieldsDetalleSolicitudCanje(objSolicitudCanje);
 
+    StorageHelper.saveModalDataToStorage('currentSolicitudCanje', objSolicitudCanje);
+
     // Realizar la consulta al backend, llenar tabla de recompensas y abrir el modal
     getDetalleSolicitudCanjeByIdCanjeFetch(objSolicitudCanje['idSolicitudCanje']);
 }
@@ -93,7 +118,7 @@ async function getDetalleSolicitudCanjeByIdCanjeFetch(idSolicitudCanje) {
     //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/solicitudCanje/${idSolicitudCanje}`;
     const baseUrl = `${window.location.origin}`; // Esto adaptará la URL al dominio actual
     const url = `${baseUrl}/dashboard-canjes/solicitudCanje/${idSolicitudCanje}`; 
-    console.warn("fetch", url);
+    //console.warn("fetch", url);
 
     try {
         const response = await fetch(url);
@@ -110,16 +135,11 @@ async function getDetalleSolicitudCanjeByIdCanjeFetch(idSolicitudCanje) {
         // Llenar la tabla con los detalles de las recompensas
         if (detallesSolicitudesCanjes && detallesSolicitudesCanjes.length > 0) {
             fillTableDetalleSolicitudCanje(detallesSolicitudesCanjes);
+            StorageHelper.saveModalDataToStorage('currentSolicitudCanjeDetails', detallesSolicitudesCanjes);
         }
         
         // Abrir el modal
-        var modal = document.getElementById('modalDetalleSolicitudCanje');
-        modal.style.display = 'block';
-        setTimeout(function() {
-            modal.style.opacity = 1; // Hacer el modal visible de forma gradual
-            modal.querySelector('.modal-dialog').classList.add('open');
-        }, 50); // Pequeño retraso para asegurar la transición CSS
-        document.body.style.overflow = 'hidden'; // Evita el scroll de fondo cuando está abierto el modal
+        justOpenModal('modalDetalleSolicitudCanje');
     } catch (error) {
         console.error('Error al realizar la consulta al backend para obtener las recompensas de la solicitud canje:', error.message);
     }
@@ -209,4 +229,28 @@ async function rechazarSolicitud(idSolicitudCanje, comentario) {
     } catch (error) {
         console.error('Error al realizar la consulta al backend para rechazar la solicitud:', error.message);
     }
+<<<<<<< HEAD
 } 
+=======
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Cargar el modal si es que estaba abierto
+    try {
+        const objSolicitudCanje = StorageHelper.loadModalDataFromStorage('currentSolicitudCanje');
+        const persistedSolicitudCanjeDetails = StorageHelper.loadModalDataFromStorage('currentSolicitudCanjeDetails');
+        
+        if (objSolicitudCanje && persistedSolicitudCanjeDetails) {
+            const objetoSolicitudCanje = objSolicitudCanje;
+            const detallesSolicitudCanje = persistedSolicitudCanjeDetails;
+    
+            fillOtherFieldsDetalleSolicitudCanje(objetoSolicitudCanje)
+            fillTableDetalleSolicitudCanje(detallesSolicitudCanje);
+    
+            justOpenModal('modalDetalleSolicitudCanje');
+        } 
+    } catch (error) {
+        console.log("Error al cargar la data de la Solicitud Canje: ", error);
+    }
+});
+>>>>>>> development

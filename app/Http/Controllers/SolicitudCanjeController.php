@@ -17,6 +17,46 @@ use Illuminate\Support\Facades\Log;
 
 class SolicitudCanjeController extends Controller
 {
+    public function create()
+    {
+        // Obtiene las solicitudes de canje con las relaciones necesarias
+        $solicitudesCanje = SolicitudesCanje::with([
+            'tecnicos',                       // Relación con Técnico
+            'estadosSolicitudCanje',          // Relación con el estado de la solicitud
+            'ventaIntermediada',              // Relación con la venta intermediada
+            'solicitudCanjeRecompensa.recompensas', // Relación con las solicitudCanjeRecompensa
+        ])->get();
+
+        //dd($solicitudesCanje->pluck('nombreEstado', 'idSolicitudCanje'));
+        
+        return view('dashboard.solicitudesAppCanjes', compact('solicitudesCanje'));
+    }
+
+    public function getDetalleSolicitudesCanjesRecompensasByIdSolicitudCanje($idSolicitudCanje) {
+        try {
+            // Consulta a la vista
+            $resultados = DB::table('solicitudCanje_recompensas_view')
+                            ->where('idSolicitudCanje', $idSolicitudCanje)
+                            ->get();
+            // Verificar si se encontraron resultados
+            if ($resultados->isEmpty()) {
+                return response()->json(['message' => 'No se encontraron solicitudes canje para el ID proporcionado: ' . $idSolicitudCanje], 404);
+            }
+    
+            // Mapear los resultados para agregar el índice incremental
+            $solicitudesCanjesRecompensasAll = $resultados->map(function ($item, $key) {
+                $item->index = $key + 1; // Asignar índice a cada elemento
+                return $item;
+            });
+    
+            return response()->json($solicitudesCanjesRecompensasAll);
+    
+        } catch (\Exception $e) {
+            // Manejo de errores en caso de fallo de consulta
+            return response()->json(['error' => 'Error al obtener los detalles de la solicitud canje ' . $idSolicitudCanje, 'details' => $e->getMessage()], 500);
+        }
+    }
+    
     public function crearSolicitud(Request $request)
     {
         $validatedData = $request->validate([
@@ -125,8 +165,6 @@ class SolicitudCanjeController extends Controller
         return response()->json($solicitudes);
     }
 
-
-
     // Mostrar los detalles de una solicitud de canje
     public function getDetallesSolicitud($idSolicitudCanje)
     {
@@ -165,10 +203,6 @@ class SolicitudCanjeController extends Controller
 
         return response()->json(['message' => 'Solicitud no encontrada'], 404);
     }
-
-
-
-
 
     public function aprobarSolicitudCanje(Request $request, $idSolicitudCanje) {
         try {

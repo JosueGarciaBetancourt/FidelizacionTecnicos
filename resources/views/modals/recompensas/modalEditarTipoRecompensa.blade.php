@@ -3,7 +3,7 @@
         <div class="modal-content" id="modalEditarTipoRecompensa-content">
             <div class="modal-header">
                 <h5 class="modal-title">Editar tipo de recompensa</h5>
-                <button class="close" onclick="closeModal('modalEditarTipoRecompensa')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalEditarTipoRecompensa')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyEditarTipoRecompensa">
                 <form id="formEditarTipoRecompensa" action="{{ route('tiposRecompensas.update') }}" method="POST">

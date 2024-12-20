@@ -29,6 +29,7 @@ class SolicitudesCanjeSeeder extends Seeder
                 'idVentaIntermediada' => 'F001-00000555', //En espera
                 'idTecnico' => '77665544', // Manuel Carrasco
                 'idEstadoSolicitudCanje' => 1, // Pendiente
+                'idUser' => 2, // Administrador
                 'fechaHoraEmision_VentaIntermediada' => '2024-11-10 10:00:00',
                 'diasTranscurridos_SolicitudCanje' => 13, 
                 'puntosComprobante_SolicitudCanje' => 5,  

@@ -3,7 +3,7 @@
         <div class="modal-content" id="modalRegistrarNuevaRecompensa-content">
             <div class="modal-header">
                 <h5 class="modal-title">Crear nueva recompensa</h5>
-                <button class="close" onclick="closeModal('modalRegistrarNuevaRecompensa')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalRegistrarNuevaRecompensa')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyRegistrarNuevaRecompensa">
                 <form id="formRegistrarNuevaRecompensa" action="{{ route('recompensas.store') }}" method="POST">

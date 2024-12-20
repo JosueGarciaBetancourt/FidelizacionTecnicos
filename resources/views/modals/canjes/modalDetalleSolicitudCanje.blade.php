@@ -2,24 +2,26 @@
     <div class="modal-dialog" id="modalDetalleSolicitudCanje-dialog">
         <div class="modal-content" id="modalDetalleSolicitudCanje-content">
             @php
-                $solicitudesCanjeDB = $solicitudesCanje;
                 $idCodigoSolicitudCanje = 'codigoModalDetalleSolicitudCanje';
 				$idFechaHoraSolicitudCanje = 'fechaHoraModalDetalleSolicitudCanje';
 				$idNumeroComprobante = 'numeroComprobanteModalDetalleSolicitudCanje';
 				$idFechaHoraEmisionComprobante = 'fechaHoraEmisionComprobanteModalDetalleSolicitudCanje';
 				$idDiasTranscurridos = 'diasTranscurridosModalDetalleSolicitudCanje';
+				$idEstadoSolicitudCanje = 'estadoSolicitudCanjeModalDetalleSolicitudCanje';
 				$idPuntosComprobante = 'puntosComprobanteModalDetalleSolicitudCanje';
 				$idPuntosCanjeados = 'puntosCanjeadosModalDetalleSolicitudCanje';
 				$idPuntosRestantes = 'puntosRestantesComprobanteModalDetalleSolicitudCanje';
+				$idUserInput = 'userModalDetalleSolicitudCanje';
 				$idComentario = 'comentarioComprobanteModalDetalleSolicitudCanje';
             @endphp
             <div class="modal-header">
 				<div class="modal-title-container">
 					<h5 class="modal-title" id='{{ $idCodigoSolicitudCanje }}'></h5>
+					<h3 class="h3DetalleSolicitudCanje" id='{{ $idEstadoSolicitudCanje }}'></h3>
 					<h5 id='{{ $idFechaHoraSolicitudCanje }}'></h5>
 					<h5 id='{{ $idDiasTranscurridos }}'></h5>
 				</div>
-                <button class="close" onclick="closeModal('modalDetalleSolicitudCanje')">&times;</button>
+                <button class="close noUserSelect" onclick="closeDetalleSolicitudCanje('modalDetalleSolicitudCanje')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyDetalleHistorialCanje">
 				<div class="form-group gap">
@@ -74,13 +76,20 @@
 					</table>
                 </div>
 
-				<div class="form-group gap">
-					<label class="primary-label noEditable" for='{{ $idComentario }}'>Comentario:</label>
-					<input class="input-item" type="text" id='{{ $idComentario }}' maxlength="80" placeholder="No registrado" disabled>
+				<div id="userInfoContainer">
+					<div class="form-group gap">
+						<label class="primary-label noEditable" for='{{ $idUserInput }}'>Usuario:</label>
+						<input class="input-item" type="text" id='{{ $idUserInput }}' maxlength="80" placeholder="No registrado" disabled>
+					</div>
+	
+					<div class="form-group gap">
+						<label class="primary-label noEditable" for='{{ $idComentario }}'>Comentario:</label>
+						<input class="input-item" type="text" id='{{ $idComentario }}' maxlength="80" placeholder="No registrado" disabled>
+					</div>
 				</div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal('modalDetalleSolicitudCanje')">Cerrar</button>
+                <button type="button" class="btn btn-secondary" onclick="closeDetalleSolicitudCanje('modalDetalleSolicitudCanje')">Cerrar</button>
             </div>
         </div>
     </div>

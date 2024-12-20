@@ -48,9 +48,9 @@
                         </td>
 						<td class="celda-centered">{{ $canje->puntosCanjeados_Canje }}</td>
 						<td class="celda-centered">{{ $canje->puntosRestantes_Canje }}</td>
-						<td class="celda-btnDetalle">
+						<td class="celda-btnDetalle no-export">
 							<button class="btnDetalle" onclick="openModalDetalleHistorialCanje(this, {{ json_encode($allCanjes) }})">
-								Ver Detalle <span class="material-symbols-outlined">visibility</span>
+								Ver Detalle <span class="material-symbols-outlined noUserSelect">visibility</span>
 							</button>
 						</td>
 					</tr>

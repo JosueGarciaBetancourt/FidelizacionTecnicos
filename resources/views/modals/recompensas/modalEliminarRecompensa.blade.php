@@ -2,8 +2,8 @@
     <div class="modal-dialog" id="modalEliminarRecompensa-dialog">
         <div class="modal-content" id="modalEliminarRecompensa-content">
             <div class="modal-header">
-                <h5 class="modal-title">Eliminar recompensa</h5>
-                <button class="close" onclick="closeModal('modalEliminarRecompensa')">&times;</button>
+                <h5 class="modal-title">Inhabilitar recompensa</h5>
+                <button class="close noUserSelect" onclick="closeModal('modalEliminarRecompensa')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyEliminarRecompensa">
                 <form id="formEliminarRecompensa" action="{{ route('recompensas.delete') }}" method="POST">
@@ -27,7 +27,7 @@
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idRecompensa">
                    
                     <div class="form-group start paddingY" id="idH5DeleteRecompensaModalContainer">
-                        <h5>Seleccione la recompensa que desee eliminar.</h5>
+                        <h5>Seleccione la recompensa que desee inhabilitar.</h5>
                     </div>
 
                     <div class="form-group gap">
@@ -71,7 +71,7 @@
                             :name="'tipoRecompensa'"
                             :options="['Accesorio', 'EPP', 'Herramienta']"
                             :disabled="true"
-                            :spanClassName="'noHandCursor'"
+                            :spanClassName="'noUserSelect noHandCursor'"
                             :focusBorder="'noFocusBorder'"
                         />
                     </div>
@@ -90,7 +90,7 @@
                     <div class="form-group gap">
                         <label class="primary-label noEditable" for='{{ $idStockRecompensa }}'>Stock (máx. 1000 unidades):</label>
                         <input class="input-item" id='{{ $idStockRecompensa }}' maxlength="4"
-                                   oninput="validateNumberRealTime(this)" placeholder="1000" disabled>
+                                   oninput="validateNumberRealTime(this)" disabled>
                     </div>
                     
                     <div class="form-group start">
@@ -101,7 +101,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarRecompensa')">Cancelar</button>
                 <button type="button" class="btn btn-primary delete" 
-                        onclick="guardarModalEliminarRecompensa('modalEliminarRecompensa', 'formEliminarRecompensa')">Eliminar</button>
+                        onclick="guardarModalEliminarRecompensa('modalEliminarRecompensa', 'formEliminarRecompensa')">Inhabilitar</button>
             </div>
         </div>
     </div>

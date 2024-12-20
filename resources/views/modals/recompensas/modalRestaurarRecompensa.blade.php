@@ -2,8 +2,8 @@
     <div class="modal-dialog" id="modalRestaurarRecompensa-dialog">
         <div class="modal-content" id="modalRestaurarRecompensa-content">
             <div class="modal-header">
-                <h5 class="modal-title">Restaurar recompensa</h5>
-                <button class="close" onclick="closeModal('modalRestaurarRecompensa')">&times;</button>
+                <h5 class="modal-title">Habilitar recompensa</h5>
+                <button class="close noUserSelect" onclick="closeModal('modalRestaurarRecompensa')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyRestaurarRecompensa">
                 <form id="formRestaurarRecompensa" action="{{ route('recompensas.restore') }}" method="POST">
@@ -27,7 +27,7 @@
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="9" name="idRecompensa">
                    
                     <div class="form-group start paddingY" id="idH5RestaurarRecompensaModalContainer">
-                        <h5>*Solo puede restaurar recompensas eliminadas.</h5>
+                        <h5>*Solo puede habilitar recompensas previamente inhabilitadas.</h5>
                     </div>
 
                     <div class="form-group gap">
@@ -71,7 +71,7 @@
                             {{-- :name="'tipoRecompensa'" --}}
                             :options="['Accesorio', 'EPP', 'Herramienta']"
                             :disabled="true"
-                            :spanClassName="'noHandCursor'"
+                            :spanClassName="'noUserSelect noHandCursor'"
                             :focusBorder="'noFocusBorder'"
                         />
                     </div>
@@ -90,7 +90,7 @@
                     <div class="form-group gap">
                         <label class="primary-label noEditable" for='{{ $idStockRecompensa }}'>Stock (máx. 1000 unidades):</label>
                         <input class="input-item" id='{{ $idStockRecompensa }}' maxlength="4"
-                                   oninput="validateNumberRealTime(this)" placeholder="1000" disabled>
+                                   oninput="validateNumberRealTime(this)" disabled>
                     </div>
                     
                     <div class="form-group start">
@@ -101,7 +101,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalRestaurarRecompensa')">Cancelar</button>
                 <button type="button" class="btn btn-primary recover" 
-                        onclick="guardarModalRestaurarRecompensa('modalRestaurarRecompensa', 'formRestaurarRecompensa')">Restaurar</button>
+                        onclick="guardarModalRestaurarRecompensa('modalRestaurarRecompensa', 'formRestaurarRecompensa')">Habilitar</button>
             </div>
         </div>
     </div>

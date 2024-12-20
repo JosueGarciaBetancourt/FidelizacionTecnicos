@@ -2,8 +2,8 @@
     <div class="modal-dialog" id="modalRestaurarOficio-dialog">
         <div class="modal-content" id="modalRestaurarOficio-content">
             <div class="modal-header">
-                <h5 class="modal-title">Restaurar Oficio</h5>
-                <button class="close" onclick="closeModal('modalRestaurarOficio')">&times;</button>
+                <h5 class="modal-title">Habilitar Oficio</h5>
+                <button class="close noUserSelect" onclick="closeModal('modalRestaurarOficio')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyRestaurarOficio">
                 <form id="formRestaurarOficio" action="{{ route('oficios.restore') }}" method="POST">
@@ -24,7 +24,7 @@
                     <input type="hidden" id='{{ $someHiddencodigoInputOficioRestaurarsArray[0] }}' maxlength="9" name="idOficio">
                    
                     <div class="form-group start paddingY" id="idH5RestaurarOficioModalContainer">
-                        <h5>*Solo puede restaurar oficios eliminados.</h5>
+                        <h5>*Solo puede hablitar oficios previamente inhabilitados.</h5>
                     </div>
 
                     <div class="form-group gap">
@@ -70,7 +70,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalRestaurarOficio')">Cancelar</button>
                 <button type="button" class="btn btn-primary recover" 
-                        onclick="guardarModalRestaurarOficio('modalRestaurarOficio', 'formRestaurarOficio')">Restaurar</button>
+                        onclick="guardarModalRestaurarOficio('modalRestaurarOficio', 'formRestaurarOficio')">Habilitar</button>
             </div>
         </div>
     </div>

@@ -19,10 +19,10 @@
                 <x-btn-edit-item onclick="openModal('modalEditarOficio')"> Editar </x-btn-edit-item>
                 @include('modals.oficios.modalEditarOficio')
 
-                <x-btn-delete-item onclick="openModal('modalEliminarOficio')"> Eliminar </x-btn-delete-item>
+                <x-btn-delete-item onclick="openModal('modalEliminarOficio')"> Inhabilitar </x-btn-delete-item>
                 @include('modals.oficios.modalEliminarOficio')
 
-                <x-btn-recover-item onclick="openModal('modalRestaurarOficio')"> Restaurar </x-btn-delete-item>
+                <x-btn-recover-item onclick="openModal('modalRestaurarOficio')"> Habilitar </x-btn-delete-item>
                 @include('modals.oficios.modalRestaurarOficio')
             </div>
             
@@ -38,16 +38,17 @@
 
             <x-modalSuccessAction 
                 :idSuccesModal="'successModalOficioEliminado'"
-                :message="'Oficio eliminado correctamente'"
+                :message="'Oficio inhabilitado correctamente'"
             />
 
             <x-modalSuccessAction 
                 :idSuccesModal="'successModalOficioRestaurado'"
-                :message="'Oficio restaurado correctamente'"
+                :message="'Oficio habilitado correctamente'"
             />
 
             <!--Tabla de ventas intermediadas-->
             <div class="secondRow">
+                {{--
                 <table id="tblOficios">
                     <thead>
                         <tr>
@@ -55,6 +56,8 @@
                             <th>Código</th>
                             <th>Nombre de oficio</th>
                             <th>Descripción</th>
+                            <th>Fecha y Hora de creación</th>
+                            <th>Fecha y Hora de actualización</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,9 +70,25 @@
                             <td>{{ $oficio->codigoOficio }}</td>
                             <td>{{ $oficio->nombre_Oficio }}</td>
                             <td>{{ $oficio->descripcion_Oficio }}</td>
+                            <td>{{ $oficio->created_at }}</td>
+                            <td>{{ $oficio->updated_at }}</td>
                         </tr>
                         @endforeach
                     </tbody>
+                </table>
+                --}}
+                <table id="tblOficios">
+                    <thead>
+                        <tr>
+                            <th class="celda-centered">#</th>
+                            <th>Código</th>
+                            <th>Nombre de oficio</th>
+                            <th>Descripción</th>
+                            <th>Fecha y Hora de creación</th>
+                            <th>Fecha y Hora de actualización</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody> <!-- Aquí se llenarán los datos de forma dinámica -->
                 </table>
             </div>
         </div>

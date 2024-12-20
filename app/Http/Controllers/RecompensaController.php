@@ -76,7 +76,11 @@ class RecompensaController extends Controller
                                 ->whereNull('Recompensas.deleted_at')
                                 ->orderBy('Recompensas.idRecompensa', 'ASC') 
                                 ->get();
-
+        
+        $recompensasSinEfectivo = $recompensas->reject(function ($recompensa) {
+            return $recompensa->idRecompensa === 'RECOM-000';
+        });      
+         
         // Obtener todas las recompensas no activas (soft deleted) con sus tipos
         $recompensasEliminadas = Recompensa::onlyTrashed()
                                             ->join('TiposRecompensas', 'Recompensas.idTipoRecompensa', '=', 'TiposRecompensas.idTipoRecompensa')
@@ -91,7 +95,7 @@ class RecompensaController extends Controller
 
         $nombresTiposRecompensas = $this->returnArrayNombresTiposRecompensas();
 
-        return view('dashboard.recompensas', compact('recompensas', 'tiposRecompensas', 'idNuevaRecompensa', 
+        return view('dashboard.recompensas', compact('recompensas', 'recompensasSinEfectivo', 'tiposRecompensas', 'idNuevaRecompensa', 
                                                     'idNuevoTipoRecompensa', 'recompensasEliminadas', 'nombresTiposRecompensas'));
     }
     

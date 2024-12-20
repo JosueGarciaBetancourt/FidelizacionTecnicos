@@ -24,9 +24,10 @@ return new class extends Migration
             $table->string('celularPersonal')->unique()->nullable();
             $table->string('celularCorporativo')->nullable();
 
-            $table->foreign('idPerfilUsuario')->references('idPerfilUsuario')->on('PerfilesUsuarios');
-
+            $table->foreign('idPerfilUsuario')->references('idPerfilUsuario')->on('PerfilesUsuarios')->onDelete('no action');
+            
             $table->timestamps();
+            $table->softDeletes(); // deleted_at
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

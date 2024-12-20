@@ -3,7 +3,7 @@
         <div class="modal-content" id="modalEditarTecnico-content">
             <div class="modal-header">
                 <h5 class="modal-title">Editar técnico</h5>
-                <button class="close" onclick="closeModal('modalEditarTecnico')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModal('modalEditarTecnico')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyEditarTecnico">
                 <form id="formEditarTecnico" action="{{ route('tecnicos.update') }}" method="POST">
@@ -85,6 +85,7 @@
                             :options="$idsNombresOficiosBD"
                             :onSelectFunction="'selectOptionEditOficio'"
                             :onSpanClickFunction="'cleanHiddenOficiosEditInput'"
+                            :spanClassName="'noUserSelect'"
                         />
                         <input type="hidden" id='{{ $someHiddenIdInputsArray[1] }}' name="idOficioArray">
                     </div>

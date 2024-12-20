@@ -1,4 +1,10 @@
 $(document).ready(function() {
+	$.ajaxSetup({
+		headers: {
+			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+		}
+	});
+
 	$('#tblVentasIntermediadas').DataTable({
 
 		// Configuración inicial
@@ -274,7 +280,6 @@ $(document).ready(function() {
 	});
 
 	$('#tblRecompensas').DataTable({
-
 		// Configuración inicial
 		lengthMenu: [5, 15, 30], 
 		pageLength: 15, 
@@ -822,6 +827,7 @@ $(document).ready(function() {
 		// Ajax
 		processing: true, // Personalizar el mensaje "Procesando"
 		serverSide: true,
+
 		"createdRow": function(row, data, dataIndex){
 			let tdContador = row.children[0];
 			tdContador.innerHTML = dataIndex + 1;
@@ -835,8 +841,21 @@ $(document).ready(function() {
 			tdRango.innerHTML = '';
 			tdRango.appendChild(span);
 		},
-
+		
 		ajax: {
+			url: "tblTecnicosData",
+			type: "GET",
+			dataType: "json",  // Tipo de datos esperados del servidor
+			error: function(xhr, status, error) {
+				console.warn("Revisar si hay funciones de JS duplicadas");
+				console.error("Error en Ajax:");
+				console.error("Estado: " + status);
+				console.error("Error: " + error);
+				console.error(xhr.responseText);
+			}
+		},
+
+		/*ajax: {
 			url: "tblTecnicosData",  // Asegúrate de que la ruta esté correcta
 			type: "GET",
 			dataType: "json",  // Tipo de datos esperados del servidor
@@ -846,7 +865,8 @@ $(document).ready(function() {
 				console.error("Error: " + error);
 				console.error("Revisar si hay funciones de JS duplicadas", xhr.responseText);  // Esto imprimirá la respuesta completa del servidor
 			}
-		},
+		},*/
+		
 		columns: [
 			{data: null, name: '#', class: 'celda-centered tdContador'},
 			{data: 'idTecnico', name: 'idTecnico', class: 'celda-centered'},
@@ -861,9 +881,33 @@ $(document).ready(function() {
 	});
 
 	$('#tblOficios').DataTable({
-		// Configuración inicial
-		lengthMenu: [5, 10, 20], 
-		pageLength: 10, 
+		processing: true, // Muestra el indicador de "Cargando..."
+		serverSide: true, // Indica que los datos se obtendrán del servidor
+		
+		ajax: {
+			url: "tblOficiosData",  // Asegúrate de que la ruta esté correcta
+			type: "GET",
+			dataType: "json",  // Tipo de datos esperados del servidor
+			error: function(xhr, status, error) {
+				console.error("Error en Ajax:");
+				console.error("Estado: " + status);
+				console.error("Error: " + error);
+			}
+		},
+		
+		columns: [
+			{ data: 'orderNum', name: 'orderNum', orderable: false, searchable: false }, // Columna de índice
+			{ data: 'codigoOficio', name: 'codigoOficio' }, // Código de oficio
+			{ data: 'nombre_Oficio', name: 'nombre_Oficio' }, // Nombre del oficio
+			{ data: 'descripcion_Oficio', name: 'descripcion_Oficio' }, // Descripción
+			{ data: 'created_at', name: 'created_at' }, // Fecha de creación
+			{ data: 'updated_at', name: 'updated_at' } // Fecha de actualización
+		],
+	
+		lengthMenu: [5, 10, 20, 50], // Opciones de registros por página
+		
+		pageLength: 10, // Cantidad de registros por página
+		
 		dom: "Blifrtp", //B:buttons f:filter r:processing t:table
 						//i:info l:length ("Mostrar n registros") p:paging
 		buttons: [
@@ -1143,11 +1187,13 @@ $(document).ready(function() {
 			{   extend: "excelHtml5",
 				text: "<i class='fa-solid fa-file-excel'></i>",
 				titleAttr: "Exportar a excel", //tooltip,
+				exportOptions: { columns: ':visible:not(.no-export)' } 
 			},  
 			{   extend: "pdfHtml5",
 				text: "<i class='fa-solid fa-file-pdf'></i>",
 				titleAttr: "Exportar a PDF", //tooltip,
 				orientation: 'landscape',
+				exportOptions: { columns: ':visible:not(.no-export)' }
 			},  
 		],
 
