@@ -41,6 +41,8 @@ class TecnicoSeeder extends Seeder
             'rangoTecnico' => 'Oro', // Menor a 24000 (más detalle en TecnicoController.php getRango())
         ]);
 
+     
+
         Tecnico::factory(47)->create();
     }
 }
