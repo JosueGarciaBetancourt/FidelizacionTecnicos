@@ -133,9 +133,9 @@ class VentaIntermediadaSeeder extends Seeder
                 'nombreCliente_VentaIntermediada' => 'BAQUERIZO QUISPE, ELIZABETH SILVIA',
                 'fechaHoraEmision_VentaIntermediada' => '2024-10-30 10:00:00', 
                 'fechaHoraCargada_VentaIntermediada' => '2024-11-20 10:00:00',
-                'montoTotal_VentaIntermediada' => 500,
-                'puntosGanados_VentaIntermediada' => 500,
-                'puntosActuales_VentaIntermediada' => 500,
+                'montoTotal_VentaIntermediada' => 1000,
+                'puntosGanados_VentaIntermediada' => 1000,
+                'puntosActuales_VentaIntermediada' => 1000,
                 'idEstadoVenta' => 1,  // En Espera
             ],
             [

@@ -116,7 +116,7 @@ function returnObjSolicitudCanjeById(idSolicitudCanje, solicitudesCanjeDB) {
 
 async function getDetalleSolicitudCanjeByIdCanjeFetch(idSolicitudCanje) {
     //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/solicitudCanje/${idSolicitudCanje}`;
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`; // Esto adaptará la URL al dominio actual
+    const baseUrl = `${window.location.origin}`; // Esto adaptará la URL al dominio actual
     const url = `${baseUrl}/dashboard-canjes/solicitudCanje/${idSolicitudCanje}`; 
     //console.warn("fetch", url);
 
@@ -170,7 +170,7 @@ function rechazarSolicitudCanje(idSolicitudCanje){
 }
 
 async function aprobarSolicitud(idSolicitudCanje, comentario) {
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
+    const baseUrl = `${window.location.origin}`;
     const url = `${baseUrl}/dashboard-canjes/solicitudCanje/aprobar/${idSolicitudCanje}`;
 
     try {
@@ -201,7 +201,7 @@ async function aprobarSolicitud(idSolicitudCanje, comentario) {
 }
 
 async function rechazarSolicitud(idSolicitudCanje, comentario) {
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
+    const baseUrl = `${window.location.origin}`;
     const url = `${baseUrl}/dashboard-canjes/solicitudCanje/rechazar/${idSolicitudCanje}`;
 
     try {
@@ -229,6 +229,9 @@ async function rechazarSolicitud(idSolicitudCanje, comentario) {
     } catch (error) {
         console.error('Error al realizar la consulta al backend para rechazar la solicitud:', error.message);
     }
+<<<<<<< HEAD
+} 
+=======
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -250,3 +253,4 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Error al cargar la data de la Solicitud Canje: ", error);
     }
 });
+>>>>>>> development

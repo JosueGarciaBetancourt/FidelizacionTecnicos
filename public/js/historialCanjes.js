@@ -17,8 +17,6 @@ function fillTableDetalleHistorialCanje(detallesCanjes) {
         return;
     }
 
-    console.log(detallesCanjes);
-
     const tblBodyDetalleHistorialCanje = document.querySelector('#tblDetalleHistorialCanje tbody');
     const celdaTotalPuntosRecompensas = document.getElementById('celdaTotalPuntos');
     var total_puntos_recompensas = 0;
@@ -90,7 +88,8 @@ function openModalDetalleHistorialCanje(button, canjesDB) {
 }
 
 async function getDetalleCanjeByIdCanjeFetch(idCanje) {
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`; 
+    //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/historialCanje/${idCanje}`;
+    const baseUrl = `${window.location.origin}`; // Esto adaptará la URL al dominio actual
     const url = `${baseUrl}/dashboard-canjes/historialCanje/${idCanje}`;
     //console.warn("fetch", url);
 

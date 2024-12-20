@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\TecnicoController;
+use Illuminate\Support\Str;
 
 class Login_tecnicoController extends Controller
 {
@@ -43,10 +44,19 @@ class Login_tecnicoController extends Controller
                         ->update(['isFirstLogin' => 1]);
                 }
 
+                // Generar una API Key única
+                $apiKey = Str::random(60);  // Genera una clave de 60 caracteres
+
+                // Almacenar la API Key en la base de datos (puedes agregar una nueva columna en la tabla 'login_tecnicos' para esto)
+                DB::table('login_tecnicos')
+                    ->where('idTecnico', $tecnico->idTecnico)
+                    ->update(['api_key' => $apiKey]);
+
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Login exitoso',
                     'idTecnico' => $tecnico->idTecnico,
+                    'apiKey' => $apiKey,
                     'isFirstLogin' => $isFirstLogin == 0, 
                 ]);
             }
@@ -96,6 +106,38 @@ class Login_tecnicoController extends Controller
             }
     }
 
+    public function getVentasIntermediadasFiltradas($idTecnico)
+    {
+        try {
+            // Obtener ventas intermediadas excluyendo aquellas que tienen solicitudes pendientes
+            $ventas = DB::table('VentasIntermediadas')
+                ->leftJoin('SolicitudesCanjes', function ($join) {
+                    $join->on('VentasIntermediadas.idVentaIntermediada', '=', 'SolicitudesCanjes.idVentaIntermediada')
+                        ->where('SolicitudesCanjes.idEstadoSolicitudCanje', 1); // Estado pendiente
+                })
+                ->join('EstadoVentas', 'VentasIntermediadas.idEstadoVenta', '=', 'EstadoVentas.idEstadoVenta')
+                ->where('VentasIntermediadas.idTecnico', $idTecnico)
+                ->whereNull('SolicitudesCanjes.idVentaIntermediada') // Filtrar las ventas sin solicitudes pendientes
+                ->select(
+                    'VentasIntermediadas.*',
+                    'EstadoVentas.nombre_EstadoVenta as estado_nombre'
+                )
+                ->get();
+
+            // Si no se encuentran resultados
+            if ($ventas->isEmpty()) {
+                return response()->json(['message' => 'No se encontraron ventas disponibles para el técnico.'], 404);
+            }
+
+            return response()->json($ventas);
+        } catch (\Exception $e) {
+            // Capturar el error y devolver el mensaje de error
+            return response()->json(['error' => 'Hubo un problema al procesar la solicitud.', 'message' => $e->getMessage()], 500);
+        }
+    }
+
+
+
     public function obtenerTecnicoPorId($idTecnico)
     {
         $datostecnico = DB::table('Tecnicos')
@@ -111,8 +153,8 @@ class Login_tecnicoController extends Controller
         $oficios = DB::table('Oficios')
             ->join('TecnicosOficios', 'Oficios.idOficio', '=', 'TecnicosOficios.idOficio')
             ->where('TecnicosOficios.idTecnico', $idTecnico)
-            ->select('Oficios.idOficio', 'Oficios.nombre_Oficio')
-            ->get();
+            ->select('Oficios.idOficio', 'Oficios.nombre_Oficio', 'Oficios.descripcion_Oficio')
+            ->get(); 
 
         return response()->json([
             'tecnico' => [
@@ -137,8 +179,8 @@ class Login_tecnicoController extends Controller
 
     public function obtenerRecompensas()
     {
-        // Obtener todas las recompensas con su tipo de recompensa desde la tabla 'Recompensas'
-        $recompensas = Recompensa::query()
+        // Obtener todas las recompensas activas (donde deleted_at es null) con su tipo de recompensa
+        $recompensas = DB::table('Recompensas')
             ->join('TiposRecompensas', 'Recompensas.idTipoRecompensa', '=', 'TiposRecompensas.idTipoRecompensa')
             ->select(
                 'Recompensas.idRecompensa',
@@ -147,10 +189,12 @@ class Login_tecnicoController extends Controller
                 'Recompensas.costoPuntos_Recompensa',
                 'Recompensas.stock_Recompensa' // Agregar el stock si es necesario
             )
+            ->whereNull('Recompensas.deleted_at') // Excluir recompensas eliminadas
             ->get();
-
+    
         return response()->json($recompensas);
     }
+    
 
 
     public function changePassword(Request $request)
@@ -184,43 +228,66 @@ class Login_tecnicoController extends Controller
             'oficios.*' => 'exists:Oficios,idOficio',
             'password' => 'required|string|min:3',
         ]);
-    
-        // Obtener el técnico desde la tabla login_tecnicos para verificar la contraseña
+
         $loginTecnico = DB::table('login_tecnicos')
             ->where('idTecnico', $request->input('idTecnico'))
             ->first();
-    
+
         if (!$loginTecnico) {
             return response()->json(['message' => 'Técnico no encontrado'], 404);
         }
-    
-        // Verificar la contraseña
+
         if (!Hash::check($request->password, $loginTecnico->password)) {
             return response()->json(['message' => 'Contraseña incorrecta'], 400);
         }
-    
-        // Eliminar los oficios antiguos y agregar los nuevos en la tabla TecnicosOficios
-        DB::table('TecnicosOficios')
-            ->where('idTecnico', $request->input('idTecnico'))
-            ->delete();
-    
-        foreach ($request->oficios as $oficioId) {
-            DB::table('TecnicosOficios')->insert([
-                'idTecnico' => $request->input('idTecnico'),
-                'idOficio' => $oficioId,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+
+        // Validar duplicados en la lista de oficios
+        if (count($request->oficios) !== count(array_unique($request->oficios))) {
+            return response()->json(['message' => 'No se permiten oficios duplicados'], 400);
         }
-    
-        return response()->json(['message' => 'Oficios actualizados correctamente']);
+
+        DB::beginTransaction();
+        try {
+            $existingJobs = DB::table('TecnicosOficios')
+                ->where('idTecnico', $request->input('idTecnico'))
+                ->pluck('idOficio')
+                ->toArray();
+
+            $newJobs = array_diff($request->oficios, $existingJobs);
+            $removedJobs = array_diff($existingJobs, $request->oficios);
+
+            // Agregar nuevos oficios
+            foreach ($newJobs as $oficioId) {
+                DB::table('TecnicosOficios')->insert([
+                    'idTecnico' => $request->input('idTecnico'),
+                    'idOficio' => $oficioId,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            // Eliminar oficios eliminados
+            foreach ($removedJobs as $oficioId) {
+                DB::table('TecnicosOficios')
+                    ->where('idTecnico', $request->input('idTecnico'))
+                    ->where('idOficio', $oficioId)
+                    ->delete();
+            }
+
+            DB::commit();
+            return response()->json(['message' => 'Oficios actualizados correctamente', 'status' => 'success']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Error al actualizar oficios'], 500);
+        }
     }
+
 
     public function getAvailableJobs()
     {
-        // Obtener todas las recompensas desde la tabla 'Recompensas'
+
         $recompensas = DB::table('Oficios')
-            ->select('idOficio', 'nombre_Oficio')
+            ->select('idOficio', 'nombre_Oficio','descripcion_Oficio')
             ->get();
 
         return response()->json($recompensas);

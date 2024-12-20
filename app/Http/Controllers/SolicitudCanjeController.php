@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\SolicitudCanjeRecompensa;
 use App\Http\Controllers\CanjeController;
 use App\Models\VentaIntermediada;
+use App\Models\Recompensa;
 
 use Illuminate\Support\Facades\Log;
 
@@ -90,6 +91,18 @@ class SolicitudCanjeController extends Controller
                 ], 422);
             }
 
+            // Validación de stock de recompensas
+            foreach ($validatedData['recompensas'] as $recompensa) {
+                $recompensaData = Recompensa::find($recompensa['idRecompensa']);
+                
+                // Comprobar si el stock es suficiente
+                if ($recompensaData->stock_Recompensa < $recompensa['cantidad']) {
+                    return response()->json([
+                        'message' => 'No hay suficiente stock para la recompensa: ' . $recompensaData->descripcionRecompensa,
+                    ], 422);
+                }
+            }
+
             // Generar un ID único para la solicitud
             $idSolicitudCanje = 'SOLICANJ-' . str_pad(SolicitudesCanje::count() + 1, 5, '0', STR_PAD_LEFT);
 
@@ -156,7 +169,7 @@ class SolicitudCanjeController extends Controller
     public function getDetallesSolicitud($idSolicitudCanje)
     {
         // Cargar la solicitud con las recompensas relacionadas
-        $solicitud = SolicitudesCanje::with(['solicitudCanjeRecompensa.recompensas'])
+        $solicitud = SolicitudesCanje::with(['solicitudCanjeRecompensa.recompensas', 'estadosSolicitudCanje'])
             ->where('idSolicitudCanje', $idSolicitudCanje)
             ->first();
 
@@ -174,6 +187,7 @@ class SolicitudCanjeController extends Controller
                 'puntosCanjeados_SolicitudCanje' => $solicitud->puntosCanjeados_SolicitudCanje,
                 'puntosRestantes_SolicitudCanje' => $solicitud->puntosRestantes_SolicitudCanje,
                 'comentario_SolicitudCanje' => $solicitud->comentario_SolicitudCanje,
+                'nombre_EstadoSolicitudCanje' => $solicitud->estadosSolicitudCanje->nombre_EstadoSolicitudCanje, // Nuevo campo con validación
                 'recompensas' => $solicitud->solicitudCanjeRecompensa->map(function ($recompensa) {
                     return [
                         'idRecompensa' => $recompensa->idRecompensa,
