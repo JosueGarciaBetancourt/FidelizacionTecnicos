@@ -210,7 +210,7 @@ class VentaIntermediadaController extends Controller
     function store(Request $request) 
     {
         $validatedData = $request->validate([
-            'idVentaIntermediada' => 'required|string',
+            'idVentaIntermediada' => 'required|string|unique:VentasIntermediadas,idVentaIntermediada',
             'idTecnico' => 'required|exists:Tecnicos,idTecnico',
             'nombreTecnico' => 'required|string',
             'tipoCodigoCliente_VentaIntermediada' => 'required|string',

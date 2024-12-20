@@ -11,15 +11,14 @@
                     @csrf
                     <!-- Variables globales -->
                     @php
-                        $idInput = 'tecnicoInput';
-                        $idOptions = 'tecnicoOptions';
-                        $idMessageError = 'nuevaVentaMessageError';
-                        $someHiddenIdInputsArray = ['idTecnicoInput', 'nombreTecnicoInput'];
+                        $idInput = 'ventaInput';
+                        $idOptions = 'ventaOptions';
+                        $idMessageError = 'eliminarVentaMessageError';
+                        $someHiddenIdInputsArray = ['idVentaIntermediada'];
                         $ventasDB = $ventas;
                     @endphp
                     <!-- Campos ocultos para el formulario -->
-                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' name="idTecnico">
-                    <input type="hidden" id='{{ $someHiddenIdInputsArray[1] }}' name="nombreTecnico">
+                    <input type="text" id='{{ $someHiddenIdInputsArray[0] }}' disabled>
 
                     <div class="form-group start paddingY" id="idH5DeleteVentaModalContainer">
                         <h5>Seleccione la venta que desee eliminar.</h5>
@@ -39,17 +38,17 @@
                                         {{ json_encode($someHiddenIdInputsArray) }})" 
                                 onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
-                                @foreach ($tecnicos as $tecnico)
+                                @foreach ($ventas as $venta)
                                     @php
-                                        $value = $tecnico->idTecnico . " - " . $tecnico->nombreTecnico;
+                                        $value = $venta->idVentaIntermediada . " | " . $venta->idTecnico . "-" . $venta->nombreTecnico;
                                     @endphp
-                                    <li onclick="selectOptionAgregarVenta('{{ $value }}', '{{ $idInput }}', '{{ $idOptions }}')">
+                                    <li onclick="selectOptionEliminarVenta('{{ $value }}', '{{ $idInput }}', '{{ $idOptions }}')">
                                         {{ $value }}
                                     </li>
                                 @endforeach
                             </ul>
                         </div>
-                        <span class="inline-alert-message shown" id='{{ $idMessageError }}'> No se encontró la venta buscada </span>      
+                        <span class="inline-alert-message" id='{{ $idMessageError }}'> No se encontró la venta buscada </span>      
                     </div>
 
                     <div class="form-group gap">
@@ -125,7 +124,7 @@
             </div>
 
             <div class="form-group start">
-                <span class="inline-alert-message" id="multiMessageError2"> multiMessageError2 </span> 
+                <span class="inline-alert-message" id="eliminarVentaMultiMessageError"> multiMessageError2 </span> 
             </div>
             
             <div class="modal-footer">
