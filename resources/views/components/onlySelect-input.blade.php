@@ -3,7 +3,7 @@
     $dynamicIdInput = $idInput ?? 'input-' . $uniqueId;
     $dynamicIdOptions = $idOptions ?? 'options-' . $uniqueId;
     $isDisabled = $disabled ?? false;
-    $spanOwnClassName = $spanClassName ?? ''; // Asignar un valor por defecto si $spanClassName no está definido
+    $spanOwnClassName = $spanClassName ?? ''; 
     $focusBorder = $focusBorder ?? '';
     $selectFunction = $onSelectFunction ?? 'selectOption'; // Asignar la función predeterminada
     $onClick = $onClickFunction ?? 'toggleOptions'; // Asignar la función predeterminada

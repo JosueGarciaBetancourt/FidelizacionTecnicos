@@ -201,20 +201,40 @@ async function eliminarUsuario(idUsuario) {
             }
         });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(errorText);
-        }
-
         const mensaje = await response.json();
 
-        sessionStorage.setItem('usuarioEliminado', 'true'); // Manejado en la vista profileOwn.blade.php
+        if (!response.ok) {
+            // Verificar los posibles errores según el código de error
+            const messageErrorModal = document.getElementById('messageErrorModalFailedAction')
+            switch (mensaje.error_code) {
+                case 404:
+                    messageErrorModal.textContent = 'El usuario no fue encontrado. Por favor, verifique el ID proporcionado';
+                    justOpenModal('errorModalPerfilUsuario');
+                    break;
+                case 1451:
+                    messageErrorModal.textContent = `${mensaje.message}. ${mensaje.details}.`;
+                    justOpenModal('errorModalPerfilUsuario');
+                    break;
+                case 500:
+                    messageErrorModal.textContent = 'Ocurrió un error inesperado. Por favor, intente nuevamente más tarde';
+                    justOpenModal('errorModalPerfilUsuario');
+                    break;
+                default:
+                    messageErrorModal.textContent = 'Ocurrió un error no identificado.';
+                    justOpenModal('errorModalPerfilUsuario');
+            }
+            return;
+        }
 
+        // Eliminar exitosamente
+        sessionStorage.setItem('usuarioEliminado', 'true');
         location.reload();
     } catch (error) {
-        console.error(`Error al eliminar el usuario con id: ${idUsuario}\n`, error.message);
+        console.error(`Error de red al eliminar el usuario con id: ${idUsuario}\n`, error);
+        alert('No se pudo conectar con el servidor. Por favor, revise su conexión de red.');
     }
 }
+
 
 function returnObjUserByEmail(email, usersDB) {
     objUser = usersDB.find(user => user.email === email) || null;

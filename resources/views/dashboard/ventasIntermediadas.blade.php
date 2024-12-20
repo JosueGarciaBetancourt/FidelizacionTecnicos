@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/ventasIntermediadasStyling.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalAgregarVenta.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalAgregarNuevoTecnico.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalEliminarVentaIntermediada.css') }}">
 @endpush
 
 @section('main-content')
@@ -14,11 +15,12 @@
             <x-btn-create-item onclick="openModal('modalAgregarVenta')"> 
                 Agregar nueva venta 
             </x-btn-create-item>
-
-            <!--Modal para agregar nueva venta-->
+            
             @include('modals.ventasIntermediadas.modalAgregarVenta')
 
-            <!--Modal para agregar nuevo técnico-->
+            <x-btn-delete-item onclick="openModal('modalEliminarVentaIntermediada')"> Eliminar </x-btn-delete-item>
+            @include('modals.ventasIntermediadas.modalEliminarVentaIntermediada')
+
             @include('modals.tecnicos.modalAgregarNuevoTecnico')
         </div>
 
@@ -95,6 +97,7 @@
 
 @push('scripts')
     <script src="{{ asset('js/modalAgregarVentaScript.js') }}"></script>
+    <script src="{{ asset('js/modalEliminarVentaIntermediada.js') }}"></script>
     <script src="{{ asset('js/modalAgregarNuevoTecnico.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

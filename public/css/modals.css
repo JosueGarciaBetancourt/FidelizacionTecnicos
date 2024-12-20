@@ -235,7 +235,7 @@
 .important-label {
 	color: #139161;
 	font-weight: 600;
-    font-size: 1rem;
+    font-size: 0.9rem;
 }
 
 /*Estilos de los inputs*/
@@ -312,6 +312,10 @@
 	border: 1px solid #ccc;
 }
 
+.input-item.noFocusBorder:focus {
+	border: 1px solid #ccc;
+}
+
 .input-select-item::placeholder, .input-item::placeholder {
     color: #BBB;
 }
@@ -358,6 +362,10 @@
     width: 13.5rem;
 }
 
+.onlySelectInput.noHandCursor {
+    cursor: default;
+}
+
 .onlySelectInput::placeholder {
     color: #BBB;
 }
@@ -379,16 +387,16 @@
     margin-right: 0.5rem;
 }
 
-.onlySelectInput-container span.noHandCursor{
+.onlySelectInput-container span.noHandCursor {
     cursor: default;
 }
 
-.onlySelectInput-container span.blocked{
+.onlySelectInput-container span.blocked {
     background-color: #EEE;
     cursor: not-allowed;
 }
 
-.onlySelectInput-container span.blocked:hover{
+.onlySelectInput-container span.blocked:hover {
     color: #666;
 }
 

@@ -98,7 +98,11 @@
             :idSuccesModal="'successModalUsuarioEliminado'"
             :message="'Usuario eliminado correctamente'"
         />
-        
+
+        <x-modalFailedAction 
+            :idErrorModal="'errorModalPerfilUsuario'"
+            :message="'El usuario seleccionado no pudo ser eliminado'"
+        />
     </div>
 @endsection
 
@@ -130,6 +134,11 @@
                 openModal('successModalUsuarioEliminado');
                 sessionStorage.removeItem('usuarioEliminado');
             }
+
+            /*if (sessionStorage.getItem('errorClaveForanea') === 'true') {
+                openModal('errorModalClaveForanea');
+                sessionStorage.removeItem('errorClaveForanea');
+            }*/
         });
     </script>
 @endpush

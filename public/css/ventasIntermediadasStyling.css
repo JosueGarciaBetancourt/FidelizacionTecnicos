@@ -7,7 +7,8 @@
 }
 
 .firstRow{
-    display: grid;
+    display: flex;
+    flex-direction: row;
     width: 100%;
     height: 5%;
     gap: 1.5rem;

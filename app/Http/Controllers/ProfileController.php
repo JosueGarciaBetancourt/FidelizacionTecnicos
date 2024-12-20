@@ -163,32 +163,46 @@ class ProfileController extends Controller
         // Verificar si el usuario existe
         $user = User::find($idUsuario);
 
-        // Validar que user no esté presente en otros registros de otras tablas
-
         if (!$user) {
             return response()->json([
-                'message' => 'Usuario no encontrado.'
+                'status' => 'error',
+                'message' => 'El usuario no fue encontrado.',
+                'details' => 'El ID proporcionado no corresponde a ningún usuario en la base de datos.',
+                'error_code' => 404, // Código de error consistente
             ], 404);
         }
 
         try {
-        // Aquí puedes verificar si el usuario está relacionado con otras tablas
-        // por ejemplo, verificar si tiene registros relacionados con perfiles, etc.
-        // Si es necesario, primero elimina esas relaciones
+            // Eliminar el usuario de forma permanente
+            $user->forceDelete();
 
-        // Eliminar el usuario de forma permanente
-        $user->forceDelete();
-
-        return response()->json([
-            'message' => 'Usuario ' . $user->name . ' eliminado correctamente.',
-        ], 200);
-        
-        } catch (\Illuminate\Database\QueryException $e) {
-            // Si hay una excepción por restricciones de clave foránea, captúrala
             return response()->json([
-                'message' => 'No se pudo eliminar el usuario debido a restricciones de la base de datos.',
-                'error' => $e->getMessage()
-            ], 400);
+                'status' => 'success',
+                'message' => "El usuario {$user->name} fue eliminado correctamente.",
+                'data' => [
+                    'user_id' => $idUsuario
+                ]
+            ], 200);
+        } catch (\Illuminate\Database\QueryException $e) {
+            $errorCode = $e->errorInfo[1]; // El código de error SQL específico
+
+            if ($errorCode == 1451) { // Error 1451: Restricción de clave foránea
+                return response()->json([
+                    'status' => 'error', 
+                    'message' => "No se pudo eliminar el usuario {$user->name}",
+                    'details' => 'El usuario tiene registros asociados en otras tablas, como canjes o solicitudes de canje',
+                    'error_code' => 1451
+                ], 400);
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Ocurrió un error inesperado al intentar eliminar el usuario.',
+                'details' => 'Excepción de base de datos no controlada.',
+                'error_code' => 500,
+                'technical_message' => config('app.debug') ? $e->getMessage() : 'Error interno, contacte al administrador.'
+            ], 500);
         }
     }
+
 }

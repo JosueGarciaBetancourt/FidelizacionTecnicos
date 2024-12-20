@@ -17,9 +17,9 @@
             <div class="modal-header">
 				<div class="modal-title-container">
 					<h5 class="modal-title" id='{{ $idCodigoSolicitudCanje }}'></h5>
+					<h3 class="h3DetalleSolicitudCanje" id='{{ $idEstadoSolicitudCanje }}'></h3>
 					<h5 id='{{ $idFechaHoraSolicitudCanje }}'></h5>
 					<h5 id='{{ $idDiasTranscurridos }}'></h5>
-					<h3 id='{{ $idEstadoSolicitudCanje }}'></h3>
 				</div>
                 <button class="close noUserSelect" onclick="closeDetalleSolicitudCanje('modalDetalleSolicitudCanje')">&times;</button>
             </div>

@@ -2,18 +2,32 @@ function fillOtherFieldsDetalleSolicitudCanje(objSolicitudCanje) {
     const userInfoContainer = document.getElementById('userInfoContainer');
     userInfoContainer.style.display = 'none';
 
+    const estadoH5 = document.getElementById('estadoSolicitudCanjeModalDetalleSolicitudCanje');
     const diasTranscurridosSufix = objSolicitudCanje['diasTranscurridos_SolicitudCanje'] > 2 ? " días transcurridos" : " día transcurrido";
 
     document.getElementById('codigoModalDetalleSolicitudCanje').textContent = objSolicitudCanje['idSolicitudCanje'];
     document.getElementById('fechaHoraModalDetalleSolicitudCanje').textContent = objSolicitudCanje['fechaHora_SolicitudCanje'];
     document.getElementById('diasTranscurridosModalDetalleSolicitudCanje').textContent = objSolicitudCanje['diasTranscurridos_SolicitudCanje'] + diasTranscurridosSufix;
-    document.getElementById('estadoSolicitudCanjeModalDetalleSolicitudCanje').textContent = objSolicitudCanje['nombreEstado'] || "";
+    
     document.getElementById('numeroComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['idVentaIntermediada'];
     document.getElementById('fechaHoraEmisionComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['fechaHoraEmision_VentaIntermediada'];
     document.getElementById('puntosComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosComprobante_SolicitudCanje'];
     document.getElementById('puntosCanjeadosModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosCanjeados_SolicitudCanje'];
     document.getElementById('puntosRestantesComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosRestantes_SolicitudCanje'];
+    estadoH5.textContent = objSolicitudCanje['nombreEstado'] || "";
 
+    estadoH5.classList.remove('estadoAprobado', 'estadoRechazado', 'estadoPendiente');
+    
+    const estado = (estadoH5.textContent).toLowerCase();
+    
+    if (estado === "aprobado") {
+        estadoH5.classList.add('estadoAprobado');
+    } else if (estado === "rechazado") {
+        estadoH5.classList.add('estadoRechazado');
+    } else {
+        estadoH5.classList.add('estadoPendiente');
+    }
+    
     if (objSolicitudCanje['userName'] && objSolicitudCanje['comentario_SolicitudCanje']) {
         userInfoContainer.style.display = 'block';
         document.getElementById('userModalDetalleSolicitudCanje').value = objSolicitudCanje['userName'] || "";

@@ -84,7 +84,7 @@
                                 :inputClassName="'onlySelectInput long'"
                                 :disabled="false"
                             />
-                        <input type="text" id="idPerfilUsuarioInputCrear" name="idPerfilUsuario" value="1" readonly> 
+                        <input type="hidden" id="idPerfilUsuarioInputCrear" name="idPerfilUsuario" value="1" readonly> 
                     </div>
 
                     <div class="form-group start">
