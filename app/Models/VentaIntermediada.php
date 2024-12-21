@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class VentaIntermediada extends Model
 {
@@ -32,6 +33,28 @@ class VentaIntermediada extends Model
         'puntosActuales_VentaIntermediada',
         'idEstadoVenta',
     ];
+
+    protected $appends = ['fechaVenta', 'horaVenta'];
+  
+    public function getFechaVentaAttribute() { 
+        $fechaCompleta = $this->fechaHoraEmision_VentaIntermediada;
+    
+        // Convertir a instancia de Carbon
+        $carbonDate = Carbon::parse($fechaCompleta);
+    
+        // Obtener solo la fecha en formato deseado
+        return $carbonDate->format('Y-m-d');
+    }
+
+    public function getHoraVentaAttribute() {
+        $fechaCompleta = $this->fechaHoraEmision_VentaIntermediada;
+    
+        // Convertir a instancia de Carbon
+        $carbonDate = Carbon::parse($fechaCompleta);
+    
+        // Obtener solo la hora en formato deseado
+        return $carbonDate->format('H:i:s'); // Devuelve solo la hora
+    }
 
     // Relación uno a muchos (inversa)
     public function tecnico() {

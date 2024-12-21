@@ -43,6 +43,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Ventas Intermediadas
     Route::get('/dashboard-ventasIntermediadas', [VentaIntermediadaController::class, 'create'])->name('ventasIntermediadas.create');
     Route::post('/modal-storeVenta', [VentaIntermediadaController::class, 'store'])->name('ventasIntermediadas.store');
+    Route::delete('/modal-deleteVenta', [VentaIntermediadaController::class, 'delete'])->name('ventasIntermediadas.delete');
     route::get('/dashboard-canjes/tecnico/{idTecnico}', [VentaIntermediadaController::class, 'getComprobantesEnEsperaByIdTecnico'])
             ->name('getVentasIntermediadasWithTecnico');
 
@@ -82,7 +83,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/modal-updateTecnico', [TecnicoController::class, 'update'])->name('tecnicos.update'); 
     Route::delete('/modal-deleteTecnico', [TecnicoController::class, 'delete'])->name('tecnicos.delete');
     Route::post('/modal-recontratarTecnico', [TecnicoController::class, 'recontratar'])->name('tecnicos.rehire'); 
-    //Route::get('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
+    //Route::post('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
     Route::get('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
 
     // Oficios

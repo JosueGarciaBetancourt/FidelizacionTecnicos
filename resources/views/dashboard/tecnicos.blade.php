@@ -28,7 +28,6 @@
 			@include('modals.tecnicos.modalRecontratarTecnico')
 		</div>
 
-		<!--Tabla de técnicos-->
 		<div class="secondRow">
 			<table id="tblTecnicos">
 				<thead>
@@ -48,6 +47,44 @@
 				</tbody>
 			</table>
 		</div>
+		
+		{{--
+		<div class="secondRow">
+			<table id="tblTecnicoss">
+				<thead>
+					<tr>
+						<th class="celda-centered">#</th>
+						<th class="celda-centered">DNI</th>
+						<th class="celda-centered">Nombre</th>
+						<th class="celda-centered">Oficio</th>
+						<th class="celda-centered">Celular</th>
+						<th class="celda-centered">Fecha de nacimiento</th>
+						<th class="celda-centered">Puntos actuales</th>
+						<th class="celda-centered">Histórico de puntos</th>
+						<th class="celda-centered">Rango</th>
+					</tr>
+				</thead>
+				<tbody>
+					@php
+						$contador = 1;
+					@endphp
+					@foreach ($tecnicos as $tecnico)
+						<tr>
+							<td class="celda-centered">{{ $contador++ }}</td> 
+							<td class="celda-centered">{{ $tecnico->idTecnico }}</td>
+							<td class="celda-centered">{{ $tecnico->nombreTecnico }}</td>
+							<td class="celda-centered">{{ $tecnico->idNameOficioTecnico }}</td>
+							<td class="celda-centered">{{ $tecnico->celularTecnico }}</td>
+							<td class="celda-centered">{{ $tecnico->fechaNacimiento_Tecnico }}</td>
+							<td class="celda-centered">{{ $tecnico->totalPuntosActuales_Tecnico }}</td>
+							<td class="celda-centered">{{ $tecnico->historicoPuntos_Tecnico }}</td>
+							<td class="celda-centered">{{ $tecnico->rangoTecnico }}</td>
+						</tr>
+                    @endforeach
+                </tbody>
+			</table>
+		</div>
+		--}}
 
 		<x-modalSuccessAction 
 			:idSuccesModal="'successModalTecnicoGuardado'"

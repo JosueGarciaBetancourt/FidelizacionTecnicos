@@ -195,8 +195,9 @@ class VentaIntermediadaController extends Controller
                                 
             $ventas = $this->agregarCamposExtraVentas($ventasIntermediadas);
            
-            //dd($ventas);
-            // Cargar la vista con las ventas y los técnicos
+            //dd($ventas->pluck('fechaVenta', 'idVentaIntermediada'));
+            //dd($ventas->pluck('horaVenta', 'idVentaIntermediada'));
+
             $tecnicoController = new TecnicoController();
             $tecnicos = $tecnicoController->returnModelsTecnicosWithOficios();
             $idsNombresOficios = $tecnicoController->returnAllIdsNombresOficios(); 
@@ -237,13 +238,29 @@ class VentaIntermediadaController extends Controller
         return redirect()->route('ventasIntermediadas.create')->with('successVentaIntermiadaStore', 'Venta Intermediada guardada correctamente');
     }
 
+    function delete(Request $request) {
+        try {
+            $validatedData = $request->validate([
+                'idVentaIntermediada' => 'required|string|exists:VentasIntermediadas,idVentaIntermediada',
+            ]);
+    
+            $venta = VentaIntermediada::find($validatedData['idVentaIntermediada']);
+    
+            $venta->forceDelete();
+    
+            return redirect()->route('ventasIntermediadas.create')->with('successVentaIntermiadaDelete', 'Venta Intermediada eliminada correctamente');
+        } catch (\Exception $e) {
+            dd('Error inesperado al eliminar la venta intermediada: ' . $e->getMessage());
+        }
+    }
+
     public static function getIDEstadoVentaIntermediadaActualById($idVentaIntermediada) {
         try {
             $venta= VentaIntermediada::findOrFail($idVentaIntermediada);
             $idEstadoVenta = VentaIntermediadaController::returnStateIdVentaIntermediada($idVentaIntermediada, $venta->puntosActuales_VentaIntermediada);
             return $idEstadoVenta;
-        } catch (\Exception $e) { // Corrección del error y tipo específico de excepción
-            dd("Error en getEstadoVentaIntermediadaActualById: " . $e->getMessage()); // Muestra el mensaje de error en caso de falla
+        } catch (\Exception $e) {
+            dd("Error en getEstadoVentaIntermediadaActualById: " . $e->getMessage());
         }
     }
 

@@ -83,17 +83,11 @@ class TecnicoController extends Controller
     public function create()
     {   
         $tecnicos = $this->returnModelsTecnicosWithOficios(); 
-        /*
-            foreach ($tecnicos as $tecnico) {
-                $tecnico->idsOficioTecnico = $oficioIds; // [1, 2, 3, ...]
-                $tecnico->idNameOficioTecnico = $oficioValue; // 1-Albañil | 2-Gasfitero | ...
-            }
-        */
-        //dd($tecnicos);
         $tecnicosBorrados = $this->returnModelsDeletedTecnicosWithOficios();
         //dd($tecnicosBorrados);
         $idsNombresOficios = $this->returnAllIdsNombresOficios(); // 1-Albañil | ...
         return view('dashboard.tecnicos', compact('tecnicos', 'tecnicosBorrados', 'idsNombresOficios'));
+        //return view('dashboard.tecnicos');
     }
 
     function store(Request $request) 
@@ -435,4 +429,23 @@ class TecnicoController extends Controller
         $tecnicosWithOficios = $this->returnArrayTecnicosWithOficios();
         return DataTables::of($tecnicosWithOficios)->make(true);
     }
+
+    /*public function tabla (Request $request) {
+        $tecnicosWithOficios = $this->returnArrayTecnicosWithOficios();
+        // Validar que el array esté bien estructurado
+        if ($request->ajax()) {
+            if (!$tecnicosWithOficios) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'No se encontraron técnicos.'
+                ], 404);
+            }
+            return DataTables::of($tecnicosWithOficios)->make(true);
+        }
+
+        return response()->json([
+            'status' => 'error',
+            'message' => 'No se recibio una solicitud ajax.'
+        ], 404);
+    }*/
 }

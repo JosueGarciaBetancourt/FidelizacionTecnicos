@@ -19,7 +19,7 @@
     @stack('styles')
 </head>
 <body>
-    <header>
+    <header>git ad
         @yield('header')
     </header>
 

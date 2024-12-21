@@ -76,11 +76,15 @@
                 </tbody>
             </table>
         </div>
-
         
         <x-modalSuccessAction 
             :idSuccesModal="'successModalVentaIntermediadaGuardada'"
             :message="'Venta Intermediada registrada correctamente'"
+        />
+        
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalVentaIntermediadaEliminada'"
+            :message="'Venta Intermediada eliminada correctamente'"
         />
 
         <x-modalSuccessAction 
@@ -104,12 +108,16 @@
             @if(session('successVentaIntermiadaStore'))
                     openModal('successModalVentaIntermediadaGuardada');
             @endif
+            @if(session('successVentaIntermiadaDelete'))
+                    openModal('successModalVentaIntermediadaEliminada');
+            @endif
             @if(session('successTecnicoStore'))
                     openModal('successModalTecnicoGuardado');
             @endif
             @if(session('successTecnicoRecontratadoStore'))
                     openModal('successModalTecnicoRecontratado');
             @endif
+          
         });
     </script>
 @endpush
