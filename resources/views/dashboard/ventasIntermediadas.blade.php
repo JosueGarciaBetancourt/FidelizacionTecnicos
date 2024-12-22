@@ -96,6 +96,11 @@
             :idSuccesModal="'successModalTecnicoRecontratado'"
             :message="'Técnico recontratado correctamente'"
         />
+
+        <x-modalFailedAction 
+            :idErrorModal="'errorModalVentaIntermediada'"
+            :message="$errors->first('errorClaveForanea') ?? 'La venta intermediada no pudo ser eliminada.'"
+        />
     </div>
 @endsection
 
@@ -117,7 +122,9 @@
             @if(session('successTecnicoRecontratadoStore'))
                     openModal('successModalTecnicoRecontratado');
             @endif
-          
+            @if ($errors->has('errorClaveForanea'))
+                justOpenModal('errorModalVentaIntermediada');
+            @endif
         });
     </script>
 @endpush

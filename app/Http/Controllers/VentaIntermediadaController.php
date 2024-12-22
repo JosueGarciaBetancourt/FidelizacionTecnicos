@@ -197,6 +197,8 @@ class VentaIntermediadaController extends Controller
            
             //dd($ventas->pluck('fechaVenta', 'idVentaIntermediada'));
             //dd($ventas->pluck('horaVenta', 'idVentaIntermediada'));
+            //dd($ventas->pluck('fechaCargada', 'idVentaIntermediada'));
+            //dd($ventas->pluck('horaCargada', 'idVentaIntermediada'));
 
             $tecnicoController = new TecnicoController();
             $tecnicos = $tecnicoController->returnModelsTecnicosWithOficios();
@@ -238,21 +240,38 @@ class VentaIntermediadaController extends Controller
         return redirect()->route('ventasIntermediadas.create')->with('successVentaIntermiadaStore', 'Venta Intermediada guardada correctamente');
     }
 
-    function delete(Request $request) {
+    public function delete(Request $request)
+    {
         try {
+            // Validación de la solicitud
             $validatedData = $request->validate([
                 'idVentaIntermediada' => 'required|string|exists:VentasIntermediadas,idVentaIntermediada',
             ]);
-    
+
+            // Obtén la venta a eliminar
             $venta = VentaIntermediada::find($validatedData['idVentaIntermediada']);
-    
+
+            // Elimina la venta forzosamente
             $venta->forceDelete();
-    
-            return redirect()->route('ventasIntermediadas.create')->with('successVentaIntermiadaDelete', 'Venta Intermediada eliminada correctamente');
-        } catch (\Exception $e) {
-            dd('Error inesperado al eliminar la venta intermediada: ' . $e->getMessage());
+
+            // Redirige con mensaje de éxito
+            return redirect()->route('ventasIntermediadas.create')
+                            ->with('successVentaIntermiadaDelete', 'Venta Intermediada eliminada correctamente.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            $errorCode = $e->errorInfo[1]; // Código de error SQL
+
+            if ($errorCode == 1451) { // Error 1451: Restricción de clave foránea
+                return redirect()->route('ventasIntermediadas.create')
+                                ->withErrors(['errorClaveForanea' => 'No se pudo eliminar esta venta intermediada porque está vinculada a 
+                                                                        canjes o solicitudes canjes.']);
+            }
+
+            // Manejo de otros errores de base de datos
+            return redirect()->route('ventasIntermediadas.create')
+                            ->withErrors(['error' => 'Ocurrió un error inesperado al intentar eliminar la venta intermediada.']);
         }
     }
+
 
     public static function getIDEstadoVentaIntermediadaActualById($idVentaIntermediada) {
         try {

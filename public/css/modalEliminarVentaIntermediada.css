@@ -1,5 +1,5 @@
 #modalEliminarVentaIntermediada-dialog {
-    max-width: 730px; 
+    max-width: 790px; 
 }
 
 #modalEliminarVentaIntermediada-dialog.open {
@@ -42,8 +42,6 @@
 
 #puntosGeneradosInputDelete {
     max-width: 7rem;
-    color: rgb(12, 179, 12);
-    font-weight: bold;
     padding-left: 5px;
 }
 

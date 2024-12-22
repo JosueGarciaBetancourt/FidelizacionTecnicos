@@ -34,23 +34,35 @@ class VentaIntermediada extends Model
         'idEstadoVenta',
     ];
 
-    protected $appends = ['fechaVenta', 'horaVenta'];
+    protected $appends = ['fechaVenta', 'horaVenta', 'fechaCargada', 'horaCargada'];
   
     public function getFechaVentaAttribute() { 
-        $fechaCompleta = $this->fechaHoraEmision_VentaIntermediada;
-    
-        // Convertir a instancia de Carbon
-        $carbonDate = Carbon::parse($fechaCompleta);
-    
-        // Obtener solo la fecha en formato deseado
+        $fechaHoraCompleta = $this->fechaHoraEmision_VentaIntermediada;
+        $carbonDate = Carbon::parse($fechaHoraCompleta);
         return $carbonDate->format('Y-m-d');
     }
 
     public function getHoraVentaAttribute() {
-        $fechaCompleta = $this->fechaHoraEmision_VentaIntermediada;
+        $fechaHoraCompleta = $this->fechaHoraEmision_VentaIntermediada;
+        $carbonDate = Carbon::parse($fechaHoraCompleta);
+        return $carbonDate->format('H:i:s'); // Devuelve solo la hora
+    }
+    
+    public function getFechaCargadaAttribute() {
+        $fechaHoraCompleta = $this->fechaHoraCargada_VentaIntermediada;
     
         // Convertir a instancia de Carbon
-        $carbonDate = Carbon::parse($fechaCompleta);
+        $carbonDate = Carbon::parse($fechaHoraCompleta);
+    
+        // Obtener solo la hora en formato deseado
+        return $carbonDate->format('Y-m-d'); // Devuelve solo la hora
+    }
+
+    public function getHoraCargadaAttribute() {
+        $fechaHoraCompleta = $this->fechaHoraCargada_VentaIntermediada;
+    
+        // Convertir a instancia de Carbon
+        $carbonDate = Carbon::parse($fechaHoraCompleta);
     
         // Obtener solo la hora en formato deseado
         return $carbonDate->format('H:i:s'); // Devuelve solo la hora
