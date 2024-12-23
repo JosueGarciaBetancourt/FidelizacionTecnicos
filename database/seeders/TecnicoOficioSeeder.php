@@ -15,7 +15,7 @@ class TecnicoOficioSeeder extends Seeder
         $maxOficiosPorTecnico = 3;
 
         // Obtenemos todos los técnicos y oficios disponibles
-        $tecnicos = Tecnico::all();
+        $tecnicos = Tecnico::withTrashed()->get();
         $oficios = Oficio::all();
 
         foreach ($tecnicos as $tecnico) {

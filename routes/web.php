@@ -83,8 +83,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/modal-updateTecnico', [TecnicoController::class, 'update'])->name('tecnicos.update'); 
     Route::delete('/modal-deleteTecnico', [TecnicoController::class, 'delete'])->name('tecnicos.delete');
     Route::post('/modal-recontratarTecnico', [TecnicoController::class, 'recontratar'])->name('tecnicos.rehire'); 
-    //Route::post('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
-    Route::get('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
+    Route::post('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
+    Route::post('/verificar-tecnico', [TecnicoController::class, 'verificarTecnico'])->name('tecnicos.verificar');
+    //Route::get('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
 
     // Oficios
     Route::get('/dashboard-oficios', [OficioController::class, 'create'])->name('oficios.create');  

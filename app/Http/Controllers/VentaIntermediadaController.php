@@ -263,7 +263,7 @@ class VentaIntermediadaController extends Controller
             if ($errorCode == 1451) { // Error 1451: Restricción de clave foránea
                 return redirect()->route('ventasIntermediadas.create')
                                 ->withErrors(['errorClaveForanea' => 'No se pudo eliminar esta venta intermediada porque está vinculada a 
-                                                                        canjes o solicitudes canjes.']);
+                                                                    canjes o solicitudes canjes.']);
             }
 
             // Manejo de otros errores de base de datos

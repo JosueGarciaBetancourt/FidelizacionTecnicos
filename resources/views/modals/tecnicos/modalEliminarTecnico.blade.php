@@ -33,6 +33,8 @@
                         <h5> Seleccione el técnico que desee inhabilitar.</h5>
                     </div>
 
+                    {{--Optimizar este elemento, aplicar lazy load--}}
+                    {{--
                     <div class="form-group gap">
                         <label class="primary-label" for="tecnicoDeleteSelect">Tecnico:</label>
                         <div class="input-select" id="tecnicoDeleteSelect">
@@ -66,6 +68,7 @@
                         </div>
                         <span class="noInline-alert-message" id='{{ $idMessageError }}'>No se encontró el técnico buscado</span>      
                     </div>
+                    --}}
 
                     <div class="form-group gap">
                         <label class="primary-label noEditable" for="costoUnitarioInput">Celular:</label>

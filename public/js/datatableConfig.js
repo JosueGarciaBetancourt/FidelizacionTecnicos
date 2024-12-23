@@ -825,8 +825,9 @@ $(document).ready(function() {
 		},
 
 		// Ajax
-		processing: true, // Personalizar el mensaje "Procesando"
+		processing: true,
 		serverSide: true,
+		responsive: true,
 
 		"createdRow": function(row, data, dataIndex){
 			let tdContador = row.children[0];
@@ -842,7 +843,7 @@ $(document).ready(function() {
 			tdRango.appendChild(span);
 		},
 		
-		ajax: {
+		/*ajax: {
 			url: "tblTecnicosData",
 			type: "GET",
 			dataType: "json",  // Tipo de datos esperados del servidor
@@ -853,10 +854,22 @@ $(document).ready(function() {
 				console.error("Error: " + error);
 				console.error(xhr.responseText);
 			}
+		},*/
+
+		ajax: {
+			url: "tblTecnicosData",
+			type: "POST",
+			dataType: "json",
+			error: function(xhr, status, error) {
+				console.error("Error en Ajax:");
+				console.error("Estado: " + status);
+				console.error("Error: " + error);
+				console.error("Revisar si hay funciones de JS duplicadas", xhr.responseText);  // Esto imprimirá la respuesta completa del servidor
+			}
 		},
 
 		/*ajax: {
-			url: "tblTecnicosData",  // Asegúrate de que la ruta esté correcta
+			url: "{{ route('tecnicos.tabla') }},
 			type: "POST",
 			dataType: "json",  // Tipo de datos esperados del servidor
 			error: function(xhr, status, error) {

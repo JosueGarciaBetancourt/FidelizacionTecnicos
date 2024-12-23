@@ -13,63 +13,55 @@ use Illuminate\Support\Facades\Log;
 
 class TecnicoController extends Controller
 {   
-    public static function returnModelsTecnicosWithOficios() {
-        $tecnicos = Tecnico::all();
-    
-        // Agregar el campo oficioTecnico a cada modelo en la colección
-        foreach ($tecnicos as $tecnico) {
-            // Obtener los IDs de oficios asociados con el técnico
-            $arrayIdOficios = TecnicoOficio::where('idTecnico', $tecnico->idTecnico)->pluck('idOficio');
-    
-            // Obtener todos los oficios en una sola consulta
-            $oficios = Oficio::whereIn('idOficio', $arrayIdOficios)->get();
-    
-            // Construir el string con los IDs de los oficios
-            $oficioIds = $oficios->isNotEmpty() 
-                ? '[' . $oficios->pluck('idOficio')->implode(',') . ']' 
-                : 'No tiene oficios';
-                
-            // Construir el string con los IDs/Nombres de los oficios
-            $oficioValue = $oficios->isNotEmpty() 
-                ? $oficios->map(fn($oficio) => $oficio->idOficio . "-" . $oficio->nombre_Oficio)->implode(' | ')
-                : 'No tiene oficios';
+    public static function returnModelsTecnicosWithOficios()
+    {
+        // Obtener todos los técnicos con sus oficios en una sola consulta
+        $tecnicos = Tecnico::with(['oficios' => function ($query) {
+            $query->select('Oficios.idOficio', 'nombre_Oficio');
+        }])->get();
 
-            $tecnico->idsOficioTecnico = $oficioIds;
-            $tecnico->idNameOficioTecnico = $oficioValue;
+        foreach ($tecnicos as $tecnico) {
+            $oficios = $tecnico->oficios;
+
+            // Usar collections de Laravel para manipular los datos de manera más eficiente
+            if ($oficios->isNotEmpty()) {
+                $tecnico->idsOficioTecnico = '[' . $oficios->pluck('idOficio')->implode(',') . ']';
+                $tecnico->idNameOficioTecnico = $oficios->map(function($oficio) {
+                    return "{$oficio->idOficio}-{$oficio->nombre_Oficio}";
+                })->implode(' | ');
+            } else {
+                $tecnico->idsOficioTecnico = 'No tiene oficios';
+                $tecnico->idNameOficioTecnico = 'No tiene oficios';
+            }
         }
-    
+
         return $tecnicos;
     }
 
     public function returnModelsDeletedTecnicosWithOficios() {
-        $tecnicos = Tecnico::onlyTrashed()->get();
-    
-        // Agregar el campo oficioTecnico a cada modelo en la colección
+        $tecnicos = Tecnico::onlyTrashed()->with(['oficios' => function ($query) {
+            $query->select('Oficios.idOficio', 'nombre_Oficio');
+        }])->get();
+
         foreach ($tecnicos as $tecnico) {
-            // Obtener los IDs de oficios asociados con el técnico
-            $arrayIdOficios = TecnicoOficio::where('idTecnico', $tecnico->idTecnico)->pluck('idOficio');
-    
-            // Obtener todos los oficios en una sola consulta
-            $oficios = Oficio::whereIn('idOficio', $arrayIdOficios)->get();
-            
-            // Construir el string con los IDs de los oficios
-            $oficioIds = $oficios->isNotEmpty() 
-                ? '[' . $oficios->pluck('idOficio')->implode(',') . ']' 
-                : 'No tiene oficios';
-            
-            // Construir el string con los nombres de los oficios
-            $oficioValue = $oficios->isNotEmpty() 
-                ? $oficios->map(fn($oficio) => $oficio->idOficio . "-" . $oficio->nombre_Oficio)->implode(' | ')
-                : 'No tiene oficios';
-    
-            $tecnico->idsOficioTecnico = $oficioIds;
-            $tecnico->idNameOficioTecnico = $oficioValue;
+            $oficios = $tecnico->oficios;
+
+            // Usar collections de Laravel para manipular los datos de manera más eficiente
+            if ($oficios->isNotEmpty()) {
+                $tecnico->idsOficioTecnico = '[' . $oficios->pluck('idOficio')->implode(',') . ']';
+                $tecnico->idNameOficioTecnico = $oficios->map(function($oficio) {
+                    return "{$oficio->idOficio}-{$oficio->nombre_Oficio}";
+                })->implode(' | ');
+            } else {
+                $tecnico->idsOficioTecnico = 'No tiene oficios';
+                $tecnico->idNameOficioTecnico = 'No tiene oficios';
+            }
         }
-    
+
         return $tecnicos;
     }
 
-    public function returnAllIdsNombresOficios() {
+    public function returnArrayIdsNombresOficios() {
         // Obtener todos los oficios de la BD
         $oficios = Oficio::all();
         // Obtener todos los nombres de los oficios 
@@ -84,8 +76,12 @@ class TecnicoController extends Controller
     {   
         $tecnicos = $this->returnModelsTecnicosWithOficios(); 
         $tecnicosBorrados = $this->returnModelsDeletedTecnicosWithOficios();
-        //dd($tecnicosBorrados);
-        $idsNombresOficios = $this->returnAllIdsNombresOficios(); // 1-Albañil | ...
+        /*
+        $tecnicos = Tecnico::all();
+        $tecnicosBorrados = Tecnico::onlyTrashed()->get();*/
+        //dd($tecnicosBorrados->pluck('idsOficioTecnico'));
+        //dd($tecnicosBorrados->pluck('idNameOficioTecnico'));
+        $idsNombresOficios = $this->returnArrayIdsNombresOficios(); // 1-Albañil | ...
         return view('dashboard.tecnicos', compact('tecnicos', 'tecnicosBorrados', 'idsNombresOficios'));
         //return view('dashboard.tecnicos');
     }
@@ -395,21 +391,15 @@ class TecnicoController extends Controller
     }
 
     public function returnArrayTecnicosWithOficios() {
-        $tecnicos = Tecnico::all();
-        $data = []; 
-
-        foreach ($tecnicos as $tecnico) {
-            // Obtener los oficios para este técnico
-            $arrayNombreOficios = $this->getOficiosByIdTecnico($tecnico->idTecnico);
-            
-            // Reiniciar oficios para cada técnico
-            $oficios = !empty($arrayNombreOficios) ? implode('/', $arrayNombreOficios) : '';
-          
-            if (!$oficios) {
-                $oficios = "No tiene";
-            }
-
-            $data[] = [
+        // Cargar técnicos con sus oficios en una sola consulta
+        $tecnicos = Tecnico::with('oficios')->get();
+    
+        // Mapear los datos para transformarlos
+        $data = $tecnicos->map(function ($tecnico) {
+            // Obtener nombres de los oficios y concatenarlos
+            $oficios = $tecnico->oficios->pluck('nombre_Oficio')->implode('/') ?: 'No tiene';
+    
+            return [
                 'idTecnico' => $tecnico->idTecnico,
                 'nombreTecnico' => $tecnico->nombreTecnico,
                 'oficioTecnico' => $oficios,
@@ -419,33 +409,48 @@ class TecnicoController extends Controller
                 'historicoPuntos_Tecnico' => $tecnico->historicoPuntos_Tecnico,
                 'rangoTecnico' => $tecnico->rangoTecnico,
             ];
-        }
-
-        return $data; 
+        });
+    
+        return $data->toArray();
     }
 
-    public function tabla()
+    /*public function tabla()
     {   
         $tecnicosWithOficios = $this->returnArrayTecnicosWithOficios();
         return DataTables::of($tecnicosWithOficios)->make(true);
-    }
+    }*/
 
-    /*public function tabla (Request $request) {
-        $tecnicosWithOficios = $this->returnArrayTecnicosWithOficios();
-        // Validar que el array esté bien estructurado
+    public function tabla(Request $request) {
         if ($request->ajax()) {
-            if (!$tecnicosWithOficios) {
+            $tecnicosWithOficios = $this->returnArrayTecnicosWithOficios();
+            if (empty($tecnicosWithOficios)) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'No se encontraron técnicos.'
                 ], 404);
             }
+    
             return DataTables::of($tecnicosWithOficios)->make(true);
         }
+    
+        return abort(403);
+    }
 
-        return response()->json([
-            'status' => 'error',
-            'message' => 'No se recibio una solicitud ajax.'
-        ], 404);
-    }*/
+    public function verificarTecnico(Request $request) {
+        try {
+            // Validar entrada
+            $validated = $request->validate([
+                'idTecnico' => 'required|digits:8'
+            ]);
+    
+            // Verificar existencia del técnico
+            $exists = Tecnico::where('idTecnico', $validated['idTecnico'])->exists();
+    
+            return response()->json(['exists' => $exists]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['error' => 'Validación fallida', 'details' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Error al verificar el técnico', 'details' => $e->getMessage()], 500);
+        }
+    }
 }

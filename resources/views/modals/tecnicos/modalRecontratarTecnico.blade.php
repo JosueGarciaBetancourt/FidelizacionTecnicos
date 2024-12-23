@@ -31,6 +31,8 @@
                         <h5> *Solo puede habilitar técnicos previamente inhabilitados.</h5>
                     </div>
 
+                    {{--Optimizar este elemento, aplicar lazy load--}}
+                    {{--
                     <div class="form-group gap">
                         <label class="primary-label" for="tecnicoRecontratarSelect">Tecnico:</label>
                         <div class="input-select" id="tecnicoRecontratarSelect">
@@ -64,6 +66,7 @@
                         </div>
                         <span class="noInline-alert-message" id='{{ $idMessageError }}'>No se encontró el técnico buscado</span>      
                     </div>
+                    --}}
 
                     <div class="form-group gap">
                         <label class="primary-label" for="costoUnitarioInput">Celular:</label>
@@ -85,7 +88,7 @@
                             :onSpanClickFunction="'cleanHiddenOficiosRecontratarInput'"
                             :spanClassName="'noUserSelect'"
                         />
-                        <input type="hidden" id='{{ $someHiddenIdInputsArray[1] }}' name="idOficioArray">
+                        <input type="text" id='{{ $someHiddenIdInputsArray[1] }}' name="idOficioArray">
                     </div>
 
                     <div class="form-group gap">

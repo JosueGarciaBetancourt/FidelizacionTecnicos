@@ -180,14 +180,80 @@ function validateFormAgregarNuevoTecnico() {
     return isValid;
 }
 
-function guardarModalAgregarNuevoTecnico(idModal, idForm, tecnicosDB) {
+async function guardarModalAgregarNuevoTecnico(idModal, idForm) { 
+    try {
+        const idTecnico = dniInput.value.trim();
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
+        const url = `${baseUrl}/verificar-tecnico`;
+        
+
+        // Validar el formulario en el cliente
+        if (!validateFormAgregarNuevoTecnico()) {
+            multiMessageError.textContent = 'Debe completar todos los campos del formulario correctamente.';
+            multiMessageError.classList.add('shown');
+            return;
+        }
+
+        // Validar longitud de DNI y celular
+        const isDniValid = validateInputLength(dniInput, 8);
+        const isPhoneValid = validateInputLength(phoneInput, 9);
+
+        if (!isDniValid || !isPhoneValid) {
+            const errorMessages = [];
+            if (!isDniValid) errorMessages.push('El campo DNI debe contener 8 caracteres.');
+            if (!isPhoneValid) errorMessages.push('El campo Celular debe contener 9 dígitos.');
+            multiMessageError.innerHTML = errorMessages.join('<br>'); // Combinar mensajes de error
+            multiMessageError.classList.add('shown');
+            return;
+        }
+
+        // Validar redundancia de técnico con fetch
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfToken
+            },
+            body: JSON.stringify({ idTecnico })
+        });
+
+        console.log(response);
+
+        if (!response.ok) {
+            throw new Error('Error en la comunicación con el servidor.');
+        }
+
+        const data = await response.json();
+
+        if (data.exists) {
+            multiMessageError.textContent = `El técnico con DNI: ${idTecnico} ya ha sido registrado anteriormente.`;
+            multiMessageError.classList.add('shown');
+            return; // Detener la ejecución si el técnico ya existe
+        }
+
+        // Si todas las validaciones son correctas, enviar el formulario
+        if (validateDate()) {
+            multiMessageError.classList.remove('shown');
+            guardarModal(idModal, idForm);
+        }
+    } catch (error) {
+        // Manejo de errores
+        console.error('Error al verificar el técnico:', error);
+        multiMessageError.textContent = 'Ocurrió un error al verificar el técnico. Por favor, inténtelo de nuevo.';
+        multiMessageError.classList.add('shown');
+    }
+}
+
+
+    /*
     itemArraySearched = returnItemDBValueWithRequestedID("idTecnico", dniInput.value, tecnicosDB);
 
     if (itemArraySearched) {
         multiMessageError.textContent = "El técnico con DNI: " + dniInput.value + " ya ha sido registrado anteriormente.";
         multiMessageError.classList.add("shown");
         return
-    } 
+    }
 
     if (!validateFormAgregarNuevoTecnico()) {
         multiMessageError.textContent = 'Debe completar todos los campos del formulario correctamente.';
@@ -219,7 +285,7 @@ function guardarModalAgregarNuevoTecnico(idModal, idForm, tecnicosDB) {
     if (isDniValid && isPhoneValid && validateDate()) {
         multiMessageError.classList.remove('shown');
         guardarModal(idModal, idForm);
-        /*document.getElementById(idForm).submit();
-        closeModal(idModal);*/
+        //document.getElementById(idForm).submit();
+        //closeModal(idModal);
     }
-}
+}*/
