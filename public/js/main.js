@@ -133,3 +133,6 @@ function togglePasswordVisibility(viewPasswordIcon, idPasswordInput) {
         passwordInput.type = 'password';
     }
 }
+
+let csrfTokenMAIN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+

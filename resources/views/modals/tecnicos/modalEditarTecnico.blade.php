@@ -33,7 +33,6 @@
                         <h5> *Solo puede editar el celular y oficio de un técnico previamente creado.</h5>
                     </div>
 
-                    {{--Optimizar este elemento, aplicar lazy load--}}
                     <div class="form-group gap">
                         <label class="primary-label" for="tecnicoEditSelect">Tecnico:</label>
                         <div class="input-select" id="tecnicoEditSelect">
@@ -42,7 +41,7 @@
                                                                             {{ json_encode($otherInputsArray) }}),
                                         filterOptionsTecnicoEdit('{{ $idInput }}', '{{ $idOptions }}')"
                                 onclick="toggleOptionsTecnicoEdit('{{ $idInput }}', '{{ $idOptions }}')">
-                            <ul class="select-items shortSteps" id="{{ $idOptions }}" onscroll="loadMoreOptions(event)"></ul>
+                            <ul class="select-items shortSteps" id="{{ $idOptions }}" onscroll="loadMoreOptionsTecnicoEdit(event)"></ul>
                         </div>
                         <span class="noInline-alert-message" id='{{ $idMessageError }}'>No se encontró el técnico buscado</span>      
                     </div>

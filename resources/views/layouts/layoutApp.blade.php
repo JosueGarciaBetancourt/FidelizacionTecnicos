@@ -36,6 +36,7 @@
     <script src="{{ asset('js/scrollConfig.js') }}"> </script>
     <script src="{{ asset('js/tooltip.js') }}"> </script>
 	<script src="{{asset('js/storageHelper.js')}}"> </script>
+    <script src="{{asset('js/dynamicInput.js')}}"> </script>
     <script>
         // Aplicar configuración al cargar la página
         document.addEventListener('DOMContentLoaded', function() {

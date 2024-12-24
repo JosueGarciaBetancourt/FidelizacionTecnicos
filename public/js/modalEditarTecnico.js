@@ -23,7 +23,6 @@ let formTecnicoEditInputsArray = [
 ];
 
 let celularTecnicoEditTooltip = document.getElementById('idCelularTecnicoEditTooltip');
-const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
 function selectOptionEditOficio(value, idInput, idOptions) {
     // Extrae el ID del oficio actual seleccionado
@@ -81,74 +80,40 @@ function cleanHiddenOficiosEditInput() {
     idsOficioEditArrayInput.value = "";
 }
 
-/*
-function validateValueOnRealTimeTecnicoEdit(input, idOptions, idMessageError, someHiddenIdInputsArray, otherInputsArray = null, tecnicosDB = null) {
-    const value = input.value;
-    const messageError = document.getElementById(idMessageError);
-
-    const clearHiddenInputs = () => {
-        someHiddenIdInputsArray.forEach(idInput => {
-            const inputElement = document.getElementById(idInput);
-            if (inputElement) {
-                inputElement.value = ""; // Asignar valor vacío
-            }
-        });
-    };
-
-    // Obtener todos los valores del item
-    const allItems = getAllLiText(idOptions);
-
-    // Comparar el valor ingresado con la lista de items
-    const isItemFound = allItems.includes(value);
-
-    // Dividir el valor en partes (id y nombre)
-    const [id, nombre] = value.split(' | ');
-
-    const clearInputs = () => {
-    clearHiddenInputs();
-        if (otherInputsArray) {
-            otherInputsArray.forEach(idOtherInput => {
-            const otherInputElement = document.getElementById(idOtherInput);
-                if (otherInputElement) {
-                    otherInputElement.value = ""; 
-                }
-            });
-        }
-    };
-
-    if (value === "") {
-        messageError.classList.remove('shown');
-        clearInputs();
-    } else if (!isItemFound) {
-        clearInputs();
-        messageError.classList.add('shown'); 
-    } else {
-        // Se encontró el item buscado
-        messageError.classList.remove('shown');
-
-        if (tecnicosDB) {
-            const objTecnico = returnObjTecnicoById(id, tecnicosDB);
-
-            // Actualizar los inputs ocultos
-            if (id) {
-                document.getElementById(someHiddenIdInputsArray[0]).value = objTecnico['idTecnico'];
-                document.getElementById(someHiddenIdInputsArray[1]).value = objTecnico['idsOficioTecnico'];
-            }
-
-            // Rellenar otros inputs visibles si se requiere
-            if (otherInputsArray) {
-                document.getElementById(otherInputsArray[0]).value = objTecnico['celularTecnico'];
-                document.getElementById(otherInputsArray[1]).value = objTecnico['idNameOficioTecnico'];
-                document.getElementById(otherInputsArray[2]).value = objTecnico['fechaNacimiento_Tecnico'];
-                document.getElementById(otherInputsArray[3]).value = objTecnico['totalPuntosActuales_Tecnico'];
-                document.getElementById(otherInputsArray[4]).value = objTecnico['historicoPuntos_Tecnico'];
-                document.getElementById(otherInputsArray[5]).value = objTecnico['rangoTecnico'];
-            }
-        }
-    }
+function validarCamposVaciosFormularioEdit() {
+  let allFilled = true;
+  formTecnicoEditInputsArray.forEach(input => {
+      if (!input.value.trim()) {
+          allFilled = false;
+      }
+  });
+  return allFilled;
 }
-*/
 
+function validarCamposCorrectosFormularioTecnicoEdit() {
+    if (celularEditInput.value.length != 9) {
+        showHideTooltip(celularTecnicoEditTooltip, "El número de celular debe contener 9 dígitos");
+        editarTecnicoMessageError.textContent = "El número de celular debe contener 9 dígitos";
+        editarTecnicoMessageError.classList.add("shown");
+        return false
+    }
+    
+    return true;
+}
+
+function guardarModalEditarTecnico(idModal, idForm) {
+    if (validarCamposVaciosFormularioEdit()) {
+        if (validarCamposCorrectosFormularioTecnicoEdit()) {
+            editarTecnicoMessageError.classList.remove("shown");
+            guardarModal(idModal, idForm);	
+        } 
+    } else {
+        editarTecnicoMessageError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
+        editarTecnicoMessageError.classList.add("shown");
+      }
+}
+
+/* INICIO Funciones para manejar el input dinámico */
 function selectOptionEditarTecnico(value, tecnico) {
     const hiddenIdTecnicoInput = document.getElementById(someHiddenIdInputsTecnicoEditArray[0]);
     const hiddenIdsOficioTecnicoInput = document.getElementById(someHiddenIdInputsTecnicoEditArray[1]);
@@ -204,7 +169,7 @@ async function filterOptionsTecnicoEdit(idInput, idOptions) {
             method: 'POST', // Cambiado a POST para enviar datos
             headers: {
                 'Content-Type': 'application/json', // Importante para enviar JSON
-                'X-CSRF-TOKEN': csrfToken, // Agregar el token CSRF aquí
+                'X-CSRF-TOKEN': csrfTokenMAIN, // Agregar el token CSRF aquí
             },
             body: JSON.stringify({ filter: filter }), // Enviando el comentario
         });
@@ -295,7 +260,7 @@ async function validateValueOnRealTimeTecnicoEdit(input, idMessageError, someHid
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfToken, 
+            'X-CSRF-TOKEN': csrfTokenMAIN, 
         },
         body: JSON.stringify({ idNombreTecnico: idNombreTecnico }), 
     });
@@ -337,19 +302,19 @@ async function validateValueOnRealTimeTecnicoEdit(input, idMessageError, someHid
     }
 }
 
-let currentPage = 1;  // Página inicial
-let isLoading = false; // Evita hacer múltiples solicitudes al mismo tiempo
+let currentPageTecnicoEdit = 1; 
+let isLoadingTecnicoEdit = false;
 
 // Manejador del evento de scroll
-async function loadMoreOptions(event) {
+async function loadMoreOptionsTecnicoEdit(event) {
     const optionsListUL = event.target;
     const threshold = 0.6; // 60% del contenido visible
 
     // Si el usuario ha llegado al final de la lista (se detecta el scroll)
     if (optionsListUL.scrollTop + optionsListUL.clientHeight >= optionsListUL.scrollHeight * threshold) {
         // Solo cargar más si no se están haciendo otras solicitudes
-        if (!isLoading) {
-            await loadOptions(optionsListUL.id);  // Cargar más opciones
+        if (!isLoadingTecnicoEdit) {
+            await loadOptionsTecnicoEdit(optionsListUL.id);  // Cargar más opciones
         }
     }
 }
@@ -369,22 +334,22 @@ async function toggleOptionsTecnicoEdit(idInput, idOptions) {
 
     if (input.value === "") {
         // Realiza la solicitud solo si la lista está vacía
-        await loadOptions(idOptions);
+        await loadOptionsTecnicoEdit(idOptions);
         optionsListUL.classList.add('show');
 
         // Conectar el evento de scroll al `ul` para carga infinita
-        optionsListUL.addEventListener('scroll', loadMoreOptions);
+        optionsListUL.addEventListener('scroll', loadMoreOptionsTecnicoEdit);
     } else {
         filterOptionsTecnicoEdit(idInput, idOptions);
     }
 }
 
-async function loadOptions(idOptions) {
-    if (isLoading) return;  // Evita múltiples solicitudes simultáneas
-    isLoading = true;
+async function loadOptionsTecnicoEdit(idOptions) {
+    if (isLoadingTecnicoEdit) return;  // Evita múltiples solicitudes simultáneas
+    isLoadingTecnicoEdit = true;
 
     const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
-    const url = `${baseUrl}/dashboard-tecnicos/getAllTecnicos?page=${currentPage}`;
+    const url = `${baseUrl}/dashboard-tecnicos/getAllTecnicos?page=${currentPageTecnicoEdit}`;
 
     try {
         const response = await fetch(url);
@@ -402,18 +367,18 @@ async function loadOptions(idOptions) {
 
         // Renderiza las opciones dinámicamente
         const optionsListUL = document.getElementById(idOptions);
-        populateOptionsList(optionsListUL, data.data);
+        populateOptionsListTecnicoEdit(optionsListUL, data.data);
 
         // Incrementa la página para la siguiente solicitud
-        currentPage++;
+        currentPageTecnicoEdit++;
     } catch (error) {
         console.error("Error al cargar técnicos:", error.message);
     } finally {
-        isLoading = false;
+        isLoadingTecnicoEdit = false;
     }
 }
 
-function populateOptionsList(optionsListUL, tecnicos) {
+function populateOptionsListTecnicoEdit(optionsListUL, tecnicos) {
     tecnicos.forEach((tecnico) => {
         const value = `${tecnico.idTecnico} | ${tecnico.nombreTecnico}`;
         const tecnicoData = JSON.stringify(tecnico);
@@ -425,36 +390,5 @@ function populateOptionsList(optionsListUL, tecnicos) {
     });
 }
 
-function validarCamposVaciosFormularioEdit() {
-  let allFilled = true;
-  formTecnicoEditInputsArray.forEach(input => {
-      if (!input.value.trim()) {
-          allFilled = false;
-      }
-  });
-  return allFilled;
-}
-
-function validarCamposCorrectosFormularioTecnicoEdit() {
-    if (celularEditInput.value.length != 9) {
-        showHideTooltip(celularTecnicoEditTooltip, "El número de celular debe contener 9 dígitos");
-        editarTecnicoMessageError.textContent = "El número de celular debe contener 9 dígitos";
-        editarTecnicoMessageError.classList.add("shown");
-        return false
-    }
-    
-    return true;
-}
-
-function guardarModalEditarTecnico(idModal, idForm) {
-    if (validarCamposVaciosFormularioEdit()) {
-        if (validarCamposCorrectosFormularioTecnicoEdit()) {
-            editarTecnicoMessageError.classList.remove("shown");
-            guardarModal(idModal, idForm);	
-        } 
-    } else {
-        editarTecnicoMessageError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
-        editarTecnicoMessageError.classList.add("shown");
-      }
-}
+/* FIN de funciones para manejar el input dinámico */
 

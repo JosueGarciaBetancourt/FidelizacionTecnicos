@@ -413,12 +413,6 @@ class TecnicoController extends Controller
         return $data->toArray();
     }
 
-    /*public function tabla()
-    {   
-        $tecnicosWithOficios = $this->returnArrayTecnicosWithOficios();
-        return DataTables::of($tecnicosWithOficios)->make(true);
-    }*/
-
     public function tabla(Request $request) {
         if ($request->ajax()) {
             $tecnicosWithOficios = $this->returnArrayTecnicosWithOficios();
