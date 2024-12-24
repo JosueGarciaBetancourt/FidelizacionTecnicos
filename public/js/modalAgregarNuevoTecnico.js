@@ -184,7 +184,7 @@ async function guardarModalAgregarNuevoTecnico(idModal, idForm) {
     try {
         const idTecnico = dniInput.value.trim();
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
+        const baseUrl = `${window.location.origin}`;
         const url = `${baseUrl}/verificar-tecnico`;
         
 

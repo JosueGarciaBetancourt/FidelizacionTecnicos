@@ -86,7 +86,7 @@ async function filterOptionsTecnicoDelete(idInput, idOptions) {
 
     try {
         // Llamada al servidor para buscar técnicos que coincidan con el filtro
-        const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;  // Ajusta la URL base según corresponda
+        const baseUrl = `${window.location.origin}`;  // Ajusta la URL base según corresponda
         const url = `${baseUrl}/dashboard-tecnicos/getFilteredTecnicos`;  // Añadir filtro como parámetro
 
         const response = await fetch(url, {
@@ -148,7 +148,7 @@ async function filterOptionsTecnicoDelete(idInput, idOptions) {
 async function validateValueOnRealTimeTecnicoDelete(input, idMessageError, someHiddenIdInputsArray=null, otherInputsArray=null) {
     const idNombreTecnico = input.value.trim();
     const messageError = document.getElementById(idMessageError);
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
+    const baseUrl = `${window.location.origin}`;
     const url = `${baseUrl}/dashboard-tecnicos/getTecnicoByIdNombre`;
 
     const clearHiddenInputs = () => {
@@ -271,7 +271,7 @@ async function loadOptionsTecnicoDelete(idOptions) {
     if (isLoadingTecnicoDelete) return;  // Evita múltiples solicitudes simultáneas
     isLoadingTecnicoDelete = true;
 
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
+    const baseUrl = `${window.location.origin}`;
     const url = `${baseUrl}/dashboard-tecnicos/getAllTecnicos?page=${currentPageTecnicoDelete}`;
 
     try {
