@@ -46,7 +46,7 @@ class Tecnico extends Model
                 ->select('Oficios.idOficio', 'Oficios.nombre_Oficio'); // Especifica las columnas a seleccionar
     }
 
-    protected $appends = ['idsOficioTecnico', 'idNameOficioTecnico']; // Agregar los campos dinámicos aquí
+    protected $appends = ['idsOficioTecnico', 'idNameOficioTecnico', 'idNombreTecnico']; // Agregar los campos dinámicos aquí
 
     // Método de acceso para obtener los IDs de los oficios asociados al técnico
     public function getIdsOficioTecnicoAttribute()
@@ -68,5 +68,11 @@ class Tecnico extends Model
         return $oficios->isNotEmpty() 
             ? $oficios->map(fn($id, $name) => "{$id}-{$name}")->implode(' | ') 
             : 'No tiene oficios';
+    }
+
+    public function getIdNombreTecnicoAttribute() {
+        $idTecnico = $this->idTecnico ?? ''; 
+        $nombreTecnico = $this->nombreTecnico ?? '';
+        return $idTecnico . " | " . $nombreTecnico;
     }
 }

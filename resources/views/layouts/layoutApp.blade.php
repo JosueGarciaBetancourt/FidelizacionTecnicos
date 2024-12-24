@@ -33,6 +33,7 @@
 
     @stack('scripts')
     <script src="{{ asset('js/main.js') }}"> </script>
+    <script src="{{ asset('js/scrollConfig.js') }}"> </script>
     <script src="{{ asset('js/tooltip.js') }}"> </script>
 	<script src="{{asset('js/storageHelper.js')}}"> </script>
     <script>
