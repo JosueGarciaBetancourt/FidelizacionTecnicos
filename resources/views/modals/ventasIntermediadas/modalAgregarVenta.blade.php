@@ -15,8 +15,8 @@
                         $someHiddenIdInputsArray = ['idTecnicoInput', 'nombreTecnicoInput'];
                         $ventasDB = $ventas;
                     @endphp
-                    <input type="text" id='{{ $someHiddenIdInputsArray[0] }}' name="idTecnico">
-                    <input type="text" id='{{ $someHiddenIdInputsArray[1] }}' name="nombreTecnico">
+                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' name="idTecnico">
+                    <input type="hidden" id='{{ $someHiddenIdInputsArray[1] }}' name="nombreTecnico">
                     <div class="form-group marginTop">
                         <label class="primary-label" id="idLabelTecnico">
                             Técnico 

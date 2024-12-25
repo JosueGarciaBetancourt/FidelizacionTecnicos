@@ -18,6 +18,7 @@ class Login_Tecnico extends Model
     protected $fillable = [
         'idTecnico',
         'password',
+        'isFirstLogin',
     ];
 
     public function Tecnico()

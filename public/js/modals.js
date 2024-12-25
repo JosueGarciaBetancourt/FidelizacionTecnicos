@@ -25,7 +25,6 @@ function openModal(modalId, origin=null) {
 function openConfirmModal(modalId) {
     if (!modalId) return;
 
-    console.log("Abriendo modal de confirmación con id: ", modalId);
     return new Promise((resolve) => {
         // Abrir modal (sin guardar en local storage)
         var modal = document.getElementById(modalId);

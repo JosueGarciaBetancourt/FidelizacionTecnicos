@@ -202,7 +202,7 @@ class VentaIntermediadaController extends Controller
 
             $tecnicoController = new TecnicoController();
             $tecnicos = $tecnicoController->returnModelsTecnicosWithOficios();
-            $idsNombresOficios = $tecnicoController->returnAllIdsNombresOficios(); 
+            $idsNombresOficios = $tecnicoController->returnArrayIdsNombresOficios(); 
 
             return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos', 'idsNombresOficios'));
         } catch (\Exception $e) {

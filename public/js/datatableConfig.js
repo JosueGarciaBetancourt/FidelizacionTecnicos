@@ -829,10 +829,7 @@ $(document).ready(function() {
 		serverSide: true,
 		responsive: true,
 
-		"createdRow": function(row, data, dataIndex){
-			let tdContador = row.children[0];
-			tdContador.innerHTML = dataIndex + 1;
-
+		"createdRow": function(row, data){
 			let tdRango = row.children[8];
 			let span = document.createElement('span');
 
@@ -868,21 +865,9 @@ $(document).ready(function() {
 			}
 		},
 
-		/*ajax: {
-			url: "{{ route('tecnicos.tabla') }},
-			type: "POST",
-			dataType: "json",  // Tipo de datos esperados del servidor
-			error: function(xhr, status, error) {
-				console.error("Error en Ajax:");
-				console.error("Estado: " + status);
-				console.error("Error: " + error);
-				console.error("Revisar si hay funciones de JS duplicadas", xhr.responseText);  // Esto imprimirá la respuesta completa del servidor
-			}
-		},*/
-		
 		columns: [
-			{data: null, name: '#', class: 'celda-centered tdContador'},
-			{data: 'idTecnico', name: 'idTecnico', class: 'celda-centered'},
+			{data: 'index', name: 'index', class: 'celda-centered tdContador'},
+			{data: 'idTecnico', name: 'idTecnico', class: 'celda-centered idTecnico'},
 			{data: 'nombreTecnico', name: 'nombreTecnico'/*, class: 'celda-centered'*/},
 			{data: 'oficioTecnico', name: 'oficioTecnico', class: 'celda-centered'},
 			{data: 'celularTecnico', name: 'celularTecnico', class: 'celda-centered'},
@@ -890,9 +875,10 @@ $(document).ready(function() {
 			{data: 'totalPuntosActuales_Tecnico', name: 'totalPuntosActuales_Tecnico', class: 'celda-centered'},
 			{data: 'historicoPuntos_Tecnico', name: 'historicoPuntos_Tecnico', class: 'celda-centered'},
 			{data: 'rangoTecnico', name: 'rangoTecnico', class: 'celda-centered celda__rangoTecnico'},
-		]
+			{data: 'actions', name: 'actions', class: 'celda-centered', orderable: false},
+		],
 	});
-
+	
 	/*
 	// tblTecnicos sin ajax
 	$('#tblTecnicoss').DataTable({

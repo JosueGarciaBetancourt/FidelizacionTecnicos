@@ -46,6 +46,7 @@
 
 .modal-body.confirm p {
     color: #4a4a4a;
+    padding-right: 0.5rem;
 }
 
 .modal-footer.confirm {

@@ -10,6 +10,7 @@ use Yajra\DataTables\DataTables;
 use App\Models\VentaIntermediada;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Hash;
 
 class TecnicoController extends Controller
 {   
@@ -74,14 +75,13 @@ class TecnicoController extends Controller
 
     public function create()
     {   
-        $tecnicos = $this->returnModelsTecnicosWithOficios(); 
-        $tecnicosBorrados = $this->returnModelsDeletedTecnicosWithOficios();
-        /*
+        /*$tecnicos = $this->returnModelsTecnicosWithOficios(); 
+        $tecnicosBorrados = $this->returnModelsDeletedTecnicosWithOficios();*/
         $tecnicos = Tecnico::all();
-        $tecnicosBorrados = Tecnico::onlyTrashed()->get();*/
+        $tecnicosBorrados = Tecnico::onlyTrashed()->get();
+        $idsNombresOficios = $this->returnArrayIdsNombresOficios(); // 1-Albañil | ...*/
         //dd($tecnicosBorrados->pluck('idsOficioTecnico'));
         //dd($tecnicosBorrados->pluck('idNameOficioTecnico'));
-        $idsNombresOficios = $this->returnArrayIdsNombresOficios(); // 1-Albañil | ...
         return view('dashboard.tecnicos', compact('tecnicos', 'tecnicosBorrados', 'idsNombresOficios'));
     }
 
@@ -392,13 +392,15 @@ class TecnicoController extends Controller
     public function returnArrayTecnicosWithOficios() {
         // Cargar técnicos con sus oficios en una sola consulta
         $tecnicos = Tecnico::with('oficios')->get();
-    
+        $index = 1;
+
         // Mapear los datos para transformarlos
-        $data = $tecnicos->map(function ($tecnico) {
+        $data = $tecnicos->map(function ($tecnico) use (&$index) {
             // Obtener nombres de los oficios y concatenarlos
-            $oficios = $tecnico->oficios->pluck('nombre_Oficio')->implode('/') ?: 'No tiene';
+            $oficios = $tecnico->oficios->pluck('nombre_Oficio')->implode(' / ') ?: 'No tiene';
     
             return [
+                'index' => $index++,
                 'idTecnico' => $tecnico->idTecnico,
                 'nombreTecnico' => $tecnico->nombreTecnico,
                 'oficioTecnico' => $oficios,
@@ -423,7 +425,10 @@ class TecnicoController extends Controller
                 ], 404);
             }
     
-            return DataTables::of($tecnicosWithOficios)->make(true);
+            return DataTables::of($tecnicosWithOficios)
+                ->addColumn('actions', 'tables.tecnicoActionColumn')
+                ->rawColumns(['actions'])
+                ->make(true);
         }
     
         return abort(403);
@@ -544,6 +549,54 @@ class TecnicoController extends Controller
                 'error' => 'Error al obtener los técnicos',
                 'details' => $e->getMessage(),
             ], 500);
+        }
+    }
+
+    public function restorePassword(Request $request)
+    {
+        try {
+            $idTecnico = $request->input('idTecnico', '');
+
+            if (empty($idTecnico)) {
+                return response()->json([
+                    'error' => 'Error: No se envió un idTecnico válido.',
+                ], 400); // Código 400 para errores de cliente
+            }
+
+            // Buscar el técnico
+            $loginTecnico = Login_Tecnico::find($idTecnico);
+
+            if (!$loginTecnico) {
+                return response()->json([
+                    'error' => 'Error: No se encontró un técnico con el ID proporcionado.',
+                ], 404); // Código 404 para "No encontrado"
+            }
+            
+            if (Hash::check($loginTecnico->idTecnico, $loginTecnico->password)) {
+                return response()->json([
+                    'message' => 'La contraseña ya está restaurada.',
+                    'wasRestored' => true,
+                ], 200);
+            }
+            
+            // Actualizar el técnico
+            $loginTecnico->update([
+                'password' => Hash::make($loginTecnico->idTecnico),
+                'isFirstLogin' => 0,
+            ]);
+
+            return response()->json([
+                'message' => 'La contraseña del técnico fue restaurada exitosamente.',
+                'wasRestored' => false,
+            ], 200);
+
+        } catch (\Exception $e) {
+            // Manejo de errores
+            return response()->json([
+                'error' => 'Error interno al restaurar la contraseña.',
+                // Eliminar 'details' para entornos de producción
+                'details' => env('APP_DEBUG') ? $e->getMessage() : 'Consulte con el administrador.',
+            ], 500); // Código 500 para errores internos del servidor
         }
     }
 }

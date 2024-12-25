@@ -65,7 +65,7 @@ class Login_tecnicoSeeder extends Seeder
             $loginData = $newTecnicos->map(function ($idTecnico) {
                 return [
                     'idTecnico' => $idTecnico,
-                    'password' => Hash::make($idTecnico),
+                    'password' => Hash::make("a"),
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
