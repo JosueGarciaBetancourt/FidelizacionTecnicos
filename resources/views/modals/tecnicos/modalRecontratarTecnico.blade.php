@@ -86,7 +86,7 @@
                             :onSpanClickFunction="'cleanHiddenOficiosRecontratarInput'"
                             :spanClassName="'noUserSelect'"
                         />
-                        <input type="text" id='{{ $someHiddenIdInputsArray[1] }}' name="idOficioArray">
+                        <input type="hidden" id='{{ $someHiddenIdInputsArray[1] }}' name="idOficioArray">
                     </div>
 
                     <div class="form-group gap">

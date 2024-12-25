@@ -87,8 +87,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/dashboard-tecnicos/getFilteredTecnicos', [TecnicoController::class, 'getFilteredTecnicos'])->name('tecnicos.filter');  
     Route::post('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
     Route::post('/verificar-tecnico', [TecnicoController::class, 'verificarTecnico'])->name('tecnicos.verificar');
-    route::post('/dashboard-tecnicos/getTecnicoByIdNombre', [TecnicoController::class, 'getTecnicoByIdNombreFetch'])
-                ->name('getTecnicoByIdFetch');
+    route::post('/dashboard-tecnicos/getTecnicoByIdNombre', [TecnicoController::class, 'tecnicos.getTecnicoByIdFetch'])
+                ->name('tecnicos.getTecnicoByIdFetch');
+    route::post('/dashboard-tecnicos/restorePassword', [TecnicoController::class, 'restorePassword'])->name('tecnicos.restorePassword');
     //Route::get('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
 
     // Oficios

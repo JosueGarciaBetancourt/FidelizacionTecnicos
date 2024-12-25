@@ -27,20 +27,21 @@
 			<x-btn-recover-item onclick="openModal('modalRecontratarTecnico')">Habilitar</x-btn-delete-item>
 			@include('modals.tecnicos.modalRecontratarTecnico')
 		</div>
-
+		
 		<div class="secondRow">
 			<table id="tblTecnicos">
 				<thead>
 					<tr>
 						<th class="celda-centered">#</th>
 						<th class="celda-centered">DNI</th>
-						<th class="celda-centered">Nombre</th>
-						<th class="celda-centered">Oficio</th>
+						<th>Nombre</th>
+						<th class="celda-centered celda-oficios">Oficio</th>
 						<th class="celda-centered">Celular</th>
 						<th class="celda-centered">Fecha de nacimiento</th>
 						<th class="celda-centered">Puntos actuales</th>
 						<th class="celda-centered">Histórico de puntos</th>
-						<th class="celda-centered">Rango</th>
+						<th class="celda-centered celda-rango">Rango</th>
+						<th class="celda-centered celda-acciones"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -48,6 +49,11 @@
 			</table>
 		</div>
 		
+		<x-modalConfirmAction
+			:idConfirmModal="'modalConfirmActionRestorePasswordTecnico'"
+			:message="'La contraseña actual será restaurada al número de DNI del técnico, ¿está seguro de esta acción?'"
+		/>
+
 		<x-modalSuccessAction 
 			:idSuccesModal="'successModalTecnicoGuardado'"
 			:message="'Técnico guardado correctamente'"
@@ -67,6 +73,16 @@
 			:idSuccesModal="'successModalTecnicoRecontratado'"
 			:message="'Técnico habilitado correctamente'"
 		/>
+
+		<x-modalSuccessAction 
+            :idSuccesModal="'successModalPasswordRestored'"
+            :message="'La contraseña del técnico fue restaurada exitosamente'"
+        />
+
+		<x-modalFailedAction 
+            :idErrorModal="'errorModalPasswordRestored'"
+            :message="'La contraseña ya está restaurada'"
+        />
 	</div>
 @endsection
 
@@ -89,6 +105,10 @@
 			@if(session('successTecnicoRecontratadoStore'))
 				openModal('successModalTecnicoRecontratado');
 			@endif
+			if (sessionStorage.getItem('passwordRestoredTecnico') === 'true') {
+                openModal('successModalPasswordRestored');
+                sessionStorage.removeItem('passwordRestoredTecnico');
+            }
 		});
 	</script>
 @endpush
