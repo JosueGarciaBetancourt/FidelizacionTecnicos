@@ -89,7 +89,7 @@ function openModalHabilitarUsuario(button, usersDB) {
 }
 
 async function habilitarUsuario(idUsuario) {
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
+    const baseUrl = `${window.location.origin}`;
     const url = `${baseUrl}/dashboard-enableUsuario/${idUsuario}`;
 
     try {
@@ -137,7 +137,7 @@ function openModalInhabilitarUsuario(button, usersDB) {
 }
 
 async function inhabilitarUsuario(idUsuario) {
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
+    const baseUrl = `${window.location.origin}`;
     const url = `${baseUrl}/dashboard-disableUsuario/${idUsuario}`;
 
     try {
@@ -185,7 +185,7 @@ function openModalEliminarUsuario(button, usersDB) {
 }
 
 async function eliminarUsuario(idUsuario) {
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
+    const baseUrl = `${window.location.origin}`;
     const url = `${baseUrl}/dashboard-deleteUsuario/${idUsuario}`;
     //const url = `{{ route('usuarios.delete', ':idUsuario') }}`.replace(':idUsuario', idUsuario);
 

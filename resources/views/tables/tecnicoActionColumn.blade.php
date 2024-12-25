@@ -59,7 +59,7 @@
 	}
 
 	async function restorePassword(idTecnico) {
-		const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
+		const baseUrl = `${window.location.origin}`;
 		const url = `${baseUrl}/dashboard-tecnicos/restorePassword`;
 
 		try {
@@ -80,7 +80,7 @@
 			const data = await response.json();
 
 			console.log(data.wasRestored);
-			
+
 			if (data.wasRestored == true) {
 				justOpenModal('errorModalPasswordRestored');
 				return;
