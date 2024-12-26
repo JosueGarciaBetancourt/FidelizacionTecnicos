@@ -27,11 +27,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     //PDF 
     Route::get('/dashboard-canjes/historialCanje/pdf/{size}/{idCanje}', [CanjeController::class, 'canjePDF'])->name('canjes.pdf');
 
-    // Perfil (laravel)
-    /* Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');*/
-
     // Perfil
     Route::get('/dashboard-usuarios', [ProfileController::class, 'create'])->name('usuarios.create');
     Route::post('/dashboard-storeUsuario', [RegisteredUserController::class, 'store'])->name('usuarios.store');
