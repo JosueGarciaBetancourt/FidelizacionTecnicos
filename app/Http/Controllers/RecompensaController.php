@@ -53,15 +53,17 @@ class RecompensaController extends Controller
         return $nuevoCodigoTipoRecompensa;
     }
 
-    public function returnArrayNombresTiposRecompensas() {
-        $tiposrecompensas = TipoRecompensa::all();
-        // Obtener todos los nombres de los oficios 
-        $arrayNombresTiposRecompensas = [];
-        foreach ($tiposrecompensas as $tiporecompensa) {
-            $arrayNombresTiposRecompensas[] = $tiporecompensa->nombre_TipoRecompensa;
-        }
-        return $arrayNombresTiposRecompensas;
+    public function returnArrayNombresTiposRecompensas()
+    {
+        // Obtener todos los tipos de recompensas y filtrar
+        return TipoRecompensa::all()
+                ->reject(function ($tipoRecompensa) {
+                    return $tipoRecompensa->idTipoRecompensa == 1;
+                })
+                ->pluck('nombre_TipoRecompensa')
+                ->values(); // Reindexar
     }
+
 
     public function create()
     {
@@ -72,30 +74,29 @@ class RecompensaController extends Controller
         // Obtener todas las recompensas activas (Inicialmente "RECOM-000, Efectivo" está inactivo)
         $recompensas = Recompensa::query()
                                 ->join('TiposRecompensas', 'Recompensas.idTipoRecompensa', '=', 'TiposRecompensas.idTipoRecompensa')
-                                ->select(['Recompensas.*', 'TiposRecompensas.nombre_TipoRecompensa']) // Selecciona campos relevantes
+                                ->select(['Recompensas.*', 'TiposRecompensas.nombre_TipoRecompensa'])
                                 ->whereNull('Recompensas.deleted_at')
                                 ->orderBy('Recompensas.idRecompensa', 'ASC') 
-                                ->get();
-        
-        $recompensasSinEfectivo = $recompensas->reject(function ($recompensa) {
-            return $recompensa->idRecompensa === 'RECOM-000';
-        });      
-         
+                                ->get(); 
+
         // Obtener todas las recompensas no activas (soft deleted) con sus tipos
         $recompensasEliminadas = Recompensa::onlyTrashed()
                                             ->join('TiposRecompensas', 'Recompensas.idTipoRecompensa', '=', 'TiposRecompensas.idTipoRecompensa')
-                                            ->select(['Recompensas.*', 'TiposRecompensas.nombre_TipoRecompensa']) // Selecciona campos relevantes
+                                            ->select(['Recompensas.*', 'TiposRecompensas.nombre_TipoRecompensa'])
+                                            ->orderBy('Recompensas.idRecompensa', 'ASC') 
                                             ->get();
 
-        $tiposRecompensas = TipoRecompensa::all();
-        // Para depurar el campo dinámico codigoTipoRecompensa creado desde el modelo
-        /*foreach ($tiposRecompensas as $tipoRecompensa) {
-            dd($tipoRecompensa->codigoTipoRecompensa); 
-        }*/
+        $tiposRecompensas = TipoRecompensa::all()->reject(function ($recompensa) {
+                                return $recompensa->idTipoRecompensa == 1;
+                            })->values(); // Reindexa los índices de la colección
+
+        // dd($tiposRecompensas->pluck('codigoTipoRecompensa')); 
 
         $nombresTiposRecompensas = $this->returnArrayNombresTiposRecompensas();
 
-        return view('dashboard.recompensas', compact('recompensas', 'recompensasSinEfectivo', 'tiposRecompensas', 'idNuevaRecompensa', 
+        //dd($nombresTiposRecompensas);
+
+        return view('dashboard.recompensas', compact('recompensas', 'tiposRecompensas', 'idNuevaRecompensa', 
                                                     'idNuevoTipoRecompensa', 'recompensasEliminadas', 'nombresTiposRecompensas'));
     }
     

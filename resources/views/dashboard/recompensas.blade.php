@@ -45,7 +45,7 @@
             <x-btn-delete-item onclick="openModal('modalEliminarTipoRecompensa')"> Eliminar </x-btn-delete-item>
             @include('modals.recompensas.modalEliminarTipoRecompensa')
         </div>
-        
+
         <x-modalSuccessAction 
             :idSuccesModal="'successModalRecompensaGuardada'"
             :message="'Recompensa guardada correctamente'"

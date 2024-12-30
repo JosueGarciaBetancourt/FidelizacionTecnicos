@@ -11,7 +11,7 @@
                     @csrf
                     <!-- Variables globales -->
                     @php
-                        $recompensasDB = $recompensasSinEfectivo; // Solo recompensas activas
+                        $recompensasDB = $recompensas; // Solo recompensas activas
                         $nombresTiposRecompensasDB = $nombresTiposRecompensas;
                         $dbFieldsNameArray = ['nombre_TipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa', 'stock_Recompensa'];
                         $idInput = 'recompensaEditInput';

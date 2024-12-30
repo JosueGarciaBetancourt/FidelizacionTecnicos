@@ -20,12 +20,14 @@ class TipoRecompensa extends Model
         'nombre_TipoRecompensa',
     ];
 
+    protected $appends = ['codigoTipoRecompensa']; 
+
     public function recompensas()
     {
         return $this->hasMany(Recompensa::class, 'idTipoRecompensa', 'idTipoRecompensa'); 
     }
 
-    public function getCodigoTipoRecompensaAttribute() { //get{NombreDelCampo}Attribute
+    public function getCodigoTipoRecompensaAttribute() {
         return 'TIPO-' . str_pad($this->idTipoRecompensa, 2, '0', STR_PAD_LEFT);
     }
 }

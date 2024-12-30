@@ -278,7 +278,6 @@ function toggleOptionsSelectNoCleanable(idOptions, idSpan) {
     var span = document.getElementById(idSpan);
 
     if (options) {
-        // Alternar la visibilidad de las opciones
         options.classList.toggle('show');
     }
 
