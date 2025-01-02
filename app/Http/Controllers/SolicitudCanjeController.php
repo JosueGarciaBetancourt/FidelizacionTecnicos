@@ -144,6 +144,44 @@ class SolicitudCanjeController extends Controller
         }
     }
 
+    public function eliminarSolicitud(Request $request, $idSolicitudCanje)
+    {
+        try {
+            // Buscar la solicitud por ID
+            $solicitud = SolicitudesCanje::findOrFail($idSolicitudCanje);
+
+            // Validar si la solicitud fue creada hace menos de 5 minutos
+            $fechaHoraCreacion = \Carbon\Carbon::parse($solicitud->created_at);
+            $diferenciaMinutos = now()->diffInMinutes($fechaHoraCreacion);
+
+            if ($diferenciaMinutos > 5) {
+                return response()->json([
+                    'message' => 'No se puede eliminar la solicitud. Han pasado más de 5 minutos desde su creación.',
+                ], 422);
+            }
+
+            // Eliminar las recompensas asociadas a la solicitud
+            SolicitudCanjeRecompensa::where('idSolicitudCanje', $idSolicitudCanje)->delete();
+
+            // Eliminar la solicitud
+            $solicitud->delete();
+
+            return response()->json([
+                'message' => 'Solicitud eliminada exitosamente.',
+            ], 200);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                'message' => 'Solicitud no encontrada.',
+            ], 404);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error al eliminar la solicitud.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+
     // Mostrar todas las solicitudes de canje del usuario
     public function getSolicitudesPorTecnico($idTecnico)
     {
