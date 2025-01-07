@@ -29,6 +29,10 @@
 	color: #555;
 }
 
+#celularInputRecontratar {
+	max-width: 7rem;
+}
+
 #oficioInputRecontratar {
 	width: 22rem;
 }

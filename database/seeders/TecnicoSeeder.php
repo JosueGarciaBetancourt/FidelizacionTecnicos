@@ -43,7 +43,7 @@ class TecnicoSeeder extends Seeder
 
         Tecnico::forceCreate([
             'idTecnico' => '11111111',
-            'nombreTecnico' => 'Eliminado',
+            'nombreTecnico' => 'Inhabilitado',
             'celularTecnico' =>'123456789',
             'fechaNacimiento_Tecnico' => '2000-12-12',
             'totalPuntosActuales_Tecnico' => 0, 
@@ -52,6 +52,6 @@ class TecnicoSeeder extends Seeder
             'deleted_at' => now(),
         ]);
 
-        Tecnico::factory(15)->create();
+        Tecnico::factory(9)->create();
     }
 }

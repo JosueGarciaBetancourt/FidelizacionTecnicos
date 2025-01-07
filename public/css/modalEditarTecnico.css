@@ -37,6 +37,10 @@
 	color: #555;
 }
 
+#celularInputEdit {
+	max-width: 7rem;
+}
+
 #modalEditarTecnico-footer {
 	margin-top: auto;
 }

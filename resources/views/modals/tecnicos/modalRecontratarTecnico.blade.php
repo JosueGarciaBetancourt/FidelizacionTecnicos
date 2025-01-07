@@ -31,7 +31,6 @@
                         <h5> *Solo puede habilitar técnicos previamente inhabilitados.</h5>
                     </div>
 
-                    {{--Optimizar este elemento, aplicar lazy load--}}
                     <div class="form-group gap">
                         <label class="primary-label" for="tecnicoRecontratarSelect">Tecnico:</label>
                         <div class="input-select" id="tecnicoRecontratarSelect">

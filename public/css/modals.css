@@ -92,7 +92,7 @@
     margin-top: 1.5rem;
 }
 
-.form-group .start {
+.form-group.start {
     justify-content: start;
 }
 

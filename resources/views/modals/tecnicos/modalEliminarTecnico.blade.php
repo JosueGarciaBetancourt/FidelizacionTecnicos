@@ -27,7 +27,7 @@
                         $otherInputsArray = [$idCelularInput , $idOficioInputDelete, $idFechaNacimientoInput, $idPuntosActualesInput,
 											$idHistoricoPuntosInput, $idRangoInputDelete];
                     @endphp
-                    <input type="text" id='{{ $someIdInputsArray[0] }}' maxlength="8" name='idTecnico'>
+                    <input type="hidden" id='{{ $someIdInputsArray[0] }}' maxlength="8" name='idTecnico'>
                    
                     <div class="form-group start paddingY" id="idH5DeleteTecnicoModalContainer">
                         <h5> Seleccione el técnico que desee inhabilitar.</h5>
@@ -92,7 +92,7 @@
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer"  id="modalEliminarTecnico-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarTecnico')">Cancelar</button>
                 <button type="button" class="btn btn-primary delete" 
                         onclick="guardarModalEliminarTecnico('modalEliminarTecnico', 'formEliminarTecnico')">Inhabilitar</button>

@@ -12,16 +12,16 @@
                     <!-- Variables globales -->
                     @php
                         $recompensasDB = $recompensas; // Solo recompensas activas
-                        $dbFieldsNameArray = ['nombre_TipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa'];
+                        $dbFieldsNameArray = ['nombre_TipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa', 'stock_Recompensa'];
                         $idInput = 'recompensaInputDelete';
                         $idOptions = 'recompensaDeleteOptions';
                         $idMessageError = 'searchDeleteRecompensaError';
                         $someHiddenIdInputsArray = ['idDeleteRecompensaInput'];
                         $idCostoPuntosInput = 'costoPuntosInputDelete'; // El valor se debe modificar también en modalEliminarRecompensa.js
-                        $idStockRecompensa = 'stockRecompensaInputDelete'; 
+                        $idStockRecompensaDelete = 'stockRecompensaInputDelete'; 
                         $idTipoRecompensaInputDelete = 'tipoRecompensaInputDelete';
                         $idDescripcionRecompensaInputDelete = 'descripcionRecompensaInputDelete';
-                        $otherInputsArray = [$idTipoRecompensaInputDelete , 'descripcionRecompensaInputDelete', $idCostoPuntosInput];
+                        $otherInputsArray = [$idTipoRecompensaInputDelete, $idDescripcionRecompensaInputDelete, $idCostoPuntosInput, $idStockRecompensaDelete];
                         $searchDBField = 'idRecompensa';
                     @endphp
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idRecompensa">
@@ -38,7 +38,6 @@
                                         validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
                                         {{ json_encode($recompensasDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
-
                                 onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
                                 @foreach ($recompensasDB as $recompensa)
@@ -88,13 +87,13 @@
                     </div>
 
                     <div class="form-group gap">
-                        <label class="primary-label noEditable" for='{{ $idStockRecompensa }}'>Stock (máx. 1000 unidades):</label>
-                        <input class="input-item" id='{{ $idStockRecompensa }}' maxlength="4"
+                        <label class="primary-label noEditable" for='{{ $idStockRecompensaDelete }}'>Stock (máx. 1000 unidades):</label>
+                        <input class="input-item" id='{{ $idStockRecompensaDelete }}' maxlength="4"
                                    oninput="validateNumberRealTime(this)" disabled>
                     </div>
                     
                     <div class="form-group start">
-                        <span class="noInline-alert-message" id="EliminarRecompensaMessageError">  </span>      
+                        <span class="noInline-alert-message" id="eliminarRecompensaMessageError">  </span>      
                     </div>
                 </form>
             </div>

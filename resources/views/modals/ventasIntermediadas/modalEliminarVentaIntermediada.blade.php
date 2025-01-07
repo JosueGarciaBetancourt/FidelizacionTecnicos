@@ -39,10 +39,10 @@
                         <h5>Seleccione la venta que desee eliminar.</h5>
                     </div>
 
-                    <div class="form-group">
+                  
+                    <div class="form-group gap start">
                         <label class="primary-label" id="idLabelTecnico">Venta</label>
-                    </div>
-                    <div class="form-group start">
+
                         <div class="input-select" id="tecnicoSelect">
                             <div class="tooltip-container">
                                 <span class="tooltip red" id="idTecnicoTooltip">Este es el mensaje del tooltip</span>
