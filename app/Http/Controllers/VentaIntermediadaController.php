@@ -206,7 +206,7 @@ class VentaIntermediadaController extends Controller
 
             return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos', 'idsNombresOficios'));
         } catch (\Exception $e) {
-            dd($e->getMessage());
+            dd("Error al mostrar las ventas intermediadas: " . $e->getMessage());
         }
     }
     

@@ -272,7 +272,7 @@ async function loadOptionsTecnicoDelete(idOptions) {
     isLoadingTecnicoDelete = true;
 
     const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
-    const url = `${baseUrl}/dashboard-tecnicos/getAllTecnicos?page=${currentPageTecnicoDelete}`;
+    const url = `${baseUrl}/dashboard-tecnicos/getPaginatedTecnicos?page=${currentPageTecnicoDelete}`;
 
     try {
         const response = await fetch(url);

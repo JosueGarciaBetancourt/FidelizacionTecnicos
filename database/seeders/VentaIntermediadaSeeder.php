@@ -171,5 +171,8 @@ class VentaIntermediadaSeeder extends Seeder
             // Aplica el nuevo estado al registro
             $venta->update(['idEstadoVenta' => $nuevoEstado]);
         }
+
+        // Ventas usando factory para el técnico con ID 77043114
+        VentaIntermediada::factory(100)->create();
     }
 }

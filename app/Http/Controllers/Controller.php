@@ -30,4 +30,8 @@ abstract class Controller
             return 0;
         }
     }
+
+    public static function printJSON($data) {
+        Log::info(json_encode($data, JSON_PRETTY_PRINT));
+    }
 }

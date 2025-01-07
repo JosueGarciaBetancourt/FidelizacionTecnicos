@@ -7,6 +7,10 @@
     transform: translateY(-50px); 
 }
 
+#modalEditarTecnico-content {
+	height: 25rem;
+}
+
 #tecnicoEditInput {
 	width: 20rem;
 }
@@ -31,4 +35,8 @@
 #idH5EditTecnicoModalContainer > h5{
 	font-size: 0.9rem;
 	color: #555;
+}
+
+#modalEditarTecnico-footer {
+	margin-top: auto;
 }

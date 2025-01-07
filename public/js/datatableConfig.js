@@ -858,10 +858,12 @@ $(document).ready(function() {
 			type: "POST",
 			dataType: "json",
 			error: function(xhr, status, error) {
-				console.error("Error en Ajax:");
-				console.error("Estado: " + status);
-				console.error("Error: " + error);
-				console.error("Revisar si hay funciones de JS duplicadas", xhr.responseText);  // Esto imprimirá la respuesta completa del servidor
+				if (xhr.status !== 204) {
+					console.log("AJAX:");
+					console.error("status: " + status);
+					console.error("error: " + error);
+					console.error(xhr.status);
+				}
 			}
 		},
 
@@ -1149,33 +1151,8 @@ $(document).ready(function() {
 	*/
 	
 	$('#tblOficios').DataTable({
-		processing: true, // Muestra el indicador de "Cargando..."
-		serverSide: true, // Indica que los datos se obtendrán del servidor
-		
-		ajax: {
-			url: "tblOficiosData",  // Asegúrate de que la ruta esté correcta
-			type: "GET",
-			dataType: "json",  // Tipo de datos esperados del servidor
-			error: function(xhr, status, error) {
-				console.error("Error en Ajax:");
-				console.error("Estado: " + status);
-				console.error("Error: " + error);
-			}
-		},
-		
-		columns: [
-			{ data: 'orderNum', name: 'orderNum', orderable: false, searchable: false }, // Columna de índice
-			{ data: 'codigoOficio', name: 'codigoOficio' }, // Código de oficio
-			{ data: 'nombre_Oficio', name: 'nombre_Oficio' }, // Nombre del oficio
-			{ data: 'descripcion_Oficio', name: 'descripcion_Oficio' }, // Descripción
-			{ data: 'created_at', name: 'created_at' }, // Fecha de creación
-			{ data: 'updated_at', name: 'updated_at' } // Fecha de actualización
-		],
-	
 		lengthMenu: [5, 10, 20, 50], // Opciones de registros por página
-		
 		pageLength: 10, // Cantidad de registros por página
-		
 		dom: "Blifrtp", //B:buttons f:filter r:processing t:table
 						//i:info l:length ("Mostrar n registros") p:paging
 		buttons: [

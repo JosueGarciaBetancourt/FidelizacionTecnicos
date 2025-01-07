@@ -79,13 +79,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/modal-deleteTecnico', [TecnicoController::class, 'delete'])->name('tecnicos.delete');
     Route::post('/modal-recontratarTecnico', [TecnicoController::class, 'recontratar'])->name('tecnicos.rehire'); 
     Route::get('/dashboard-tecnicos/getAllTecnicos', [TecnicoController::class, 'getAllTecnicos'])->name('tecnicos.all');  
+    Route::get('/dashboard-tecnicos/getPaginatedTecnicos', [TecnicoController::class, 'getPaginatedTecnicos'])->name('tecnicos.paginated');  
     Route::post('/dashboard-tecnicos/getFilteredTecnicos', [TecnicoController::class, 'getFilteredTecnicos'])->name('tecnicos.filter');  
     Route::post('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
     Route::post('/verificar-tecnico', [TecnicoController::class, 'verificarTecnico'])->name('tecnicos.verificar');
-    route::post('/dashboard-tecnicos/getTecnicoByIdNombre', [TecnicoController::class, 'tecnicos.getTecnicoByIdFetch'])
+    route::post('/dashboard-tecnicos/getTecnicoByIdNombre', [TecnicoController::class, 'getTecnicoByIdNombre'])
                 ->name('tecnicos.getTecnicoByIdFetch');
     route::post('/dashboard-tecnicos/restorePassword', [TecnicoController::class, 'restorePassword'])->name('tecnicos.restorePassword');
-    //Route::get('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
 
     // Oficios
     Route::get('/dashboard-oficios', [OficioController::class, 'create'])->name('oficios.create');  
