@@ -54,6 +54,7 @@ class CanjeController extends Controller
                                 ->whereNull('Recompensas.deleted_at')
                                 ->orderBy('Recompensas.idRecompensa', 'ASC') 
                                 ->get();
+                                
         // Obtener las opciones de número de comprobante
         $optionsNumComprobante = [];
         foreach ($ventas as $venta) {

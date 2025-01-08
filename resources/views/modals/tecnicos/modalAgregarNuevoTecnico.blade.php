@@ -10,7 +10,6 @@
                     @csrf
 
                     @php 
-                        $tecnicosDB = $tecnicos;
                         $idsNombresOficiosBD = $idsNombresOficios;
                     @endphp
                   
@@ -32,7 +31,7 @@
                             :idSelect="'oficioSelect'"
                             :inputClassName="'onlySelectInput'"
                             :idInput="'oficioInput'"
-                            :idOptions="'oficioOptions'"
+                            :idOptions="'oficioOptionsCreate'"
                             :placeholder="'Seleccionar oficio'"
                             :options="$idsNombresOficiosBD"
                             :onSelectFunction="'selectOptionOficio'"

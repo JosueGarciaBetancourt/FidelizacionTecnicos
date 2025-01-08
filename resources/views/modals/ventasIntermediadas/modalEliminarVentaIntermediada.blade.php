@@ -141,14 +141,10 @@
                     
                 </form>
             </div>
-
-            
             
             <div class="form-group start">
                 <span class="inline-alert-message" id="eliminarVentaMultiMessageError"></span>
             </div>
-            
-           
             
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarVentaIntermediada')">Cancelar</button>

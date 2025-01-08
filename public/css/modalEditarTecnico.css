@@ -23,6 +23,10 @@
 	width: 22rem;
 }
 
+#oficioOptionsEdit {
+	height: 11rem;
+}
+
 #historicoPuntosInputEdit, #puntosActualesInputEdit {
 	max-width: 5rem;
 }

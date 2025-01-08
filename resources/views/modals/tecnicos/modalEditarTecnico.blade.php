@@ -11,7 +11,6 @@
                     @csrf
                     <!-- Variables globales -->
                     @php
-                        $tecnicosDB = $tecnicos;
                         $idsNombresOficiosBD = $idsNombresOficios;
                         $dbOficioName = 'oficio';
                         $idInput = 'tecnicoEditInput';
@@ -56,8 +55,10 @@
                                 placeholder="987654321" name="celularTecnico">
 
                         <label class="primary-label" id='idOficioInputLabel' for='{{ $idOficioInputEdit }}'>Oficio(s):</label>
+                     
                         <x-onlySelect-input 
                             :idInput="$idOficioInputEdit"
+                            :idOptions="'oficioOptionsEdit'"
                             :inputClassName="'onlySelectInput long'"
                             :placeholder="'Seleccionar oficio'"
                             {{-- :name="'oficioTecnico'" --}}

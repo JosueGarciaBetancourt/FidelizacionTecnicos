@@ -117,7 +117,6 @@ function guardarModalEditarTecnico(idModal, idForm) {
 /* INICIO Funciones para manejar el input dinámico */
 
 let currentPageTecnicoEdit = 1; // Página actual
-let isLoadingTecnicoEdit = false;
 
 function selectOptionEditarTecnico(value, tecnico) {
     const hiddenIdTecnicoInput = document.getElementById(someHiddenIdInputsTecnicoEditArray[0]);
@@ -371,18 +370,6 @@ async function loadPaginatedOptionsTecnicoEdit(idOptions) {
         isLoadingTecnicoDelete = false;
     }
 }
-
-/* function populateOptionsListTecnicoEdit(optionsListUL, tecnicos) {
-    tecnicos.forEach((tecnico) => {
-        const value = `${tecnico.idTecnico} | ${tecnico.nombreTecnico}`;
-        const tecnicoData = JSON.stringify(tecnico);
-        const li = document.createElement('li');
-
-        li.textContent = value;
-        li.setAttribute('onclick', `selectOptionEditarTecnico('${value}', ${tecnicoData})`);
-        optionsListUL.appendChild(li);
-    });
-} */
 
 function populateOptionsListTecnicoEdit(optionsListUL, tecnicos) {
     const existingValues = new Set(

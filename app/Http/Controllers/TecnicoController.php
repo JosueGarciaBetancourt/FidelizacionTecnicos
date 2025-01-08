@@ -40,7 +40,7 @@ class TecnicoController extends Controller
         return $tecnicos;
     }
 
-    public function returnModelsDeletedTecnicosWithOficios() {
+    /* public function returnModelsDeletedTecnicosWithOficios() {
         $tecnicos = Tecnico::onlyTrashed()->with(['oficios' => function ($query) {
             $query->select('Oficios.idOficio', 'nombre_Oficio');
         }])->get();
@@ -61,7 +61,7 @@ class TecnicoController extends Controller
         }
 
         return $tecnicos;
-    }
+    } */
 
     public function returnArrayIdsNombresOficios() {
         // Obtener todos los oficios de la BD
@@ -78,12 +78,11 @@ class TecnicoController extends Controller
     {   
         /*$tecnicos = $this->returnModelsTecnicosWithOficios(); 
         $tecnicosBorrados = $this->returnModelsDeletedTecnicosWithOficios();*/
-        $tecnicos = Tecnico::all();
         $tecnicosBorrados = Tecnico::onlyTrashed()->get();
         $idsNombresOficios = $this->returnArrayIdsNombresOficios(); // 1-Albañil | ...*/
         //dd($tecnicosBorrados->pluck('idsOficioTecnico'));
         //dd($tecnicosBorrados->pluck('idNameOficioTecnico'));
-        return view('dashboard.tecnicos', compact('tecnicos', 'tecnicosBorrados', 'idsNombresOficios'));
+        return view('dashboard.tecnicos', compact('tecnicosBorrados', 'idsNombresOficios'));
     }
 
     function store(Request $request) 

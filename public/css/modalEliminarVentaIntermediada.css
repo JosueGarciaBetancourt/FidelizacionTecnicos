@@ -17,6 +17,10 @@
     gap: 2rem;
 }
 
+#formEliminarVenta {
+    padding: 1rem 0;
+}
+
 #idH5DeleteVentaModalContainer > h5{
     font-size: 1rem;
     color: #555;

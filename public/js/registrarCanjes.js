@@ -275,13 +275,9 @@ async function filterNumComprobantesInputWithTecnicoFetch(idTecnico) {
     //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/tecnico/${idTecnico}`;
     const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`; // Esto adaptará la URL al dominio actual
     const url = `${baseUrl}/dashboard-canjes/tecnico/${idTecnico}`; 
-    console.warn("fetch", url);
 
     try {
         const response = await fetch(url);
-        /*console.log("Fetching URL:", url);
-        console.log('Response Status:', response.status);
-        console.log('Response Headers:', response.headers.get('Content-Type'));*/
 
         if (!response.ok) {
             throw new Error(await response.text());

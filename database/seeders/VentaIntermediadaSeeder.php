@@ -173,6 +173,6 @@ class VentaIntermediadaSeeder extends Seeder
         }
 
         // Ventas usando factory para el técnico con ID 77043114
-        VentaIntermediada::factory(100)->create();
+        VentaIntermediada::factory(2000)->create();
     }
 }

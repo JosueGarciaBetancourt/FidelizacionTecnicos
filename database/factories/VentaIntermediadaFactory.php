@@ -15,17 +15,17 @@ class VentaIntermediadaFactory extends Factory
     public function definition(): array
     {
         return [
-            'idVentaIntermediada' => 'F' . $this->faker->randomElement(['001', '002']) . '-' . str_pad($this->faker->unique()->numberBetween(1, 999999), 8, '0', STR_PAD_LEFT),
+            'idVentaIntermediada' => $this->faker->unique()->regexify('F(001|002)-[0-9]{8}'),
             'idTecnico' => '77043114',
             'nombreTecnico' => $this->faker->name,
             'tipoCodigoCliente_VentaIntermediada' => $this->faker->randomElement(['RUC', 'DNI']),
-            'codigoCliente_VentaIntermediada' => $this->faker->numerify('###########'),
+            'codigoCliente_VentaIntermediada' => $this->faker->unique()->numerify('########'),
             'nombreCliente_VentaIntermediada' => $this->faker->name,
             'fechaHoraEmision_VentaIntermediada' => $this->faker->dateTimeBetween('-1 year', 'now'),
-            'montoTotal_VentaIntermediada' => $this->faker->randomFloat(2, 50, 1000),
-            'puntosGanados_VentaIntermediada' => $this->faker->numberBetween(50, 500),
-            'puntosActuales_VentaIntermediada' => $this->faker->numberBetween(0, 500),
-            'idEstadoVenta' => $this->faker->randomElement([1, 2, 3]), // 1: Pendiente, 2: En proceso, 3: Redimido
+            'montoTotal_VentaIntermediada' => 1000,
+            'puntosGanados_VentaIntermediada' => 1000,
+            'puntosActuales_VentaIntermediada' => 1000,
+            'idEstadoVenta' => 1,
         ];
     }
 }

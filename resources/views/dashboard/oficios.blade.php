@@ -55,8 +55,8 @@
                             <th class="celda-centered">Código</th>
                             <th>Nombre de oficio</th>
                             <th>Descripción</th>
-                            <th>Fecha y Hora de creación</th>
-                            <th>Fecha y Hora de actualización</th>
+                            <th class="celda-centered">Fecha y Hora de creación</th>
+                            <th class="celda-centered">Fecha y Hora de actualización</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,8 +69,8 @@
                             <td class="celda-centered">{{ $oficio->codigoOficio }}</td>
                             <td>{{ $oficio->nombre_Oficio }}</td>
                             <td>{{ $oficio->descripcion_Oficio }}</td>
-                            <td>{{ $oficio->created_at }}</td>
-                            <td>{{ $oficio->updated_at }}</td>
+                            <td class="celda-centered">{{ $oficio->created_at }}</td>
+                            <td class="celda-centered">{{ $oficio->updated_at }}</td>
                         </tr>
                         @endforeach
                     </tbody>

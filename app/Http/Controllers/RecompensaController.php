@@ -22,7 +22,6 @@ class RecompensaController extends Controller
 
         // Si la tabla está vacía, comenzar desde "RECOM-001"
         if (!$ultimaRecompensaID) {
-            Log::info('Generando ID inicial RECOM-001');
             return 'RECOM-001';
         }
 
@@ -31,15 +30,13 @@ class RecompensaController extends Controller
 
         // Convertir la parte numérica a entero
         $intNumRecompensa = intval($strNumRecompensa);
-
+        
         // Incrementar el número para generar el siguiente idRecompensa
         $nuevoNumero = $intNumRecompensa + 1;
 
         // Formatear el nuevo número con ceros a la izquierda
         $nuevoIdRecompensa = 'RECOM-'. str_pad($nuevoNumero, 3, '0', STR_PAD_LEFT);
         
-        Log::info('Nuevo ID: '. $nuevoIdRecompensa);
-
         return $nuevoIdRecompensa;
     }
 

@@ -41,6 +41,8 @@ function guardarModalEliminarTecnico(idModal, idForm) {
 }
 
 /* INICIO Funciones para manejar el input dinámico */
+let currentPageTecnicoDelete = 1;
+
 function selectOptionTecnicoDelete(value, tecnico) {
     const hiddenIdTecnicoInput = document.getElementById(someHiddenIdInputsTecnicoDeleteArray[0]);
 
@@ -73,102 +75,65 @@ function selectOptionTecnicoDelete(value, tecnico) {
     searchDeleteTecnicoMessageError.classList.remove("shown");
 }
 
-async function filterOptionsTecnicoDelete(idInput, idOptions) {
-    const input = document.getElementById(idInput);
+async function filterOptionsTecnicoDelete(input, idOptions) {
     const filter = input.value.trim().toUpperCase();
     const ul = document.getElementById(idOptions);
+    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;  
+    const url = `${baseUrl}/dashboard-tecnicos/getFilteredTecnicos`;
 
-    // Si el campo de búsqueda está vacío, no hacemos la solicitud
-    if (filter === "") {
-        ul.classList.remove('show');
-        return;
-    }
+    const response = await fetch(url, {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfTokenMAIN,
+        },
+        body: JSON.stringify({ filter: filter }),
+    });
 
-    try {
-        // Llamada al servidor para buscar técnicos que coincidan con el filtro
-        const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;  // Ajusta la URL base según corresponda
-        const url = `${baseUrl}/dashboard-tecnicos/getFilteredTecnicos`;  // Añadir filtro como parámetro
+    // Limpiar las opciones anteriores
+    ul.innerHTML = "";
 
-        const response = await fetch(url, {
-            method: 'POST', // Cambiado a POST para enviar datos
-            headers: {
-                'Content-Type': 'application/json', // Importante para enviar JSON
-                'X-CSRF-TOKEN': csrfTokenMAIN, // Agregar el token CSRF aquí
-            },
-            body: JSON.stringify({ filter: filter }), // Enviando el comentario
-        });
-
-        // Verificar el estado de la respuesta
-        if (!response.ok) {
-            // Si no es una respuesta exitosa, mostrar el código de estado
-            throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
-        }
-
-        // Verificar que la respuesta sea tipo JSON
-        const contentType = response.headers.get('Content-Type');
-        if (!contentType || !contentType.includes('application/json')) {
-            const text = await response.text(); // Leer la respuesta como texto si no es JSON
-            console.error("Respuesta inesperada (no JSON):", text);
-            throw new Error('Se esperaba una respuesta JSON, pero se recibió otro tipo de contenido.');
-        }
-
-        // Intentar parsear la respuesta JSON
-        const data = await response.json();
-
-        console.log(data);
-        
-        // Limpiar las opciones anteriores
-        ul.innerHTML = "";
-
-        // Verificar si hay resultados
-        if (data.data && data.data.length > 0) {
-            // Mostrar las opciones y agregarlas dinámicamente
-            data.data.forEach(tecnico => {
-                const li = document.createElement('li');
-                const value = `${tecnico.idTecnico} | ${tecnico.nombreTecnico}`;
-                const tecnicoData = JSON.stringify(tecnico);
-                
-                li.textContent = value;
-                li.setAttribute('onclick', `selectOptionTecnicoDelete('${value}', ${tecnicoData})`);
-                ul.appendChild(li);
-            });
-        } else {
-            // Si no hay resultados, mostrar un mensaje o hacer algo
+    // Verificar el estado de la respuesta
+    if (!response.ok) {
+        const errorData = await response.json();
+        if (errorData.data == "") {
+            console.warn(`Error en filterOptionsTecnicoDelete: ${errorData.message}`);
             const li = document.createElement('li');
             li.textContent = 'No se encontraron técnicos';
             ul.appendChild(li);
+            ul.classList.add('show');
         }
-        
-        ul.classList.add('show');
-    } catch (error) {
-        console.error(error.message);
+        return;
     }
+
+    const data = await response.json();
+
+    // Mostrar las opciones y agregarlas dinámicamente
+    data.data.forEach(tecnico => {
+        const li = document.createElement('li');
+        const value = `${tecnico.idTecnico} | ${tecnico.nombreTecnico}`;
+        const tecnicoData = JSON.stringify(tecnico);
+        
+        li.textContent = value;
+        li.setAttribute('onclick', `selectOptionTecnicoDelete('${value}', ${tecnicoData})`);
+        ul.appendChild(li);
+    });
+
+    ul.classList.add('show');
 }
 
-async function validateValueOnRealTimeTecnicoDelete(input, idMessageError, someHiddenIdInputsArray=null, otherInputsArray=null) {
+async function validateValueOnRealTimeTecnicoDelete(input, idMessageError, otherInputsArray = null) {
     const idNombreTecnico = input.value.trim();
     const messageError = document.getElementById(idMessageError);
     const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
     const url = `${baseUrl}/dashboard-tecnicos/getTecnicoByIdNombre`;
 
-    const clearHiddenInputs = () => {
-        if (Array.isArray(someHiddenIdInputsArray)) {
-            someHiddenIdInputsArray.forEach(idInput => {
-                const inputElement = document.getElementById(idInput);
-                if (inputElement) {
-                    inputElement.value = ""; // Asignar valor vacío
-                }
-            });
-        }
-    };
-
     const clearInputs = () => {
-        clearHiddenInputs();
         if (Array.isArray(otherInputsArray)) {
             otherInputsArray.forEach(idOtherInput => {
                 const otherInputElement = document.getElementById(idOtherInput);
                 if (otherInputElement) {
-                    otherInputElement.value = ""; 
+                    otherInputElement.value = "";
                 }
             });
         }
@@ -178,55 +143,60 @@ async function validateValueOnRealTimeTecnicoDelete(input, idMessageError, someH
         messageError.classList.remove('shown');
         clearInputs();
         return;
-    } 
+    }
 
-    const response = await fetch(url, {
-        method: 'POST', 
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfTokenMAIN, 
-        },
-        body: JSON.stringify({ idNombreTecnico: idNombreTecnico }), 
-    });
+    // Validar que el formato sea válido
+    const regex = /^\d+\s\|\s.+$/;
 
-    if (!response.ok) {
-        clearInputs();
+    if (!regex.test(idNombreTecnico)) {
         messageError.classList.add('shown');
-        //const errorData = await response.json();
-        //throw new Error(`Error: ${errorData.error} - ${errorData.details}`);
-    }
-
-    const data = await response.json()
-
-    if (!data.tecnicoBuscado) {
         clearInputs();
-        messageError.classList.add('shown'); 
-        return; 
+        return;
     }
 
-    messageError.classList.remove('shown'); 
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfTokenMAIN,
+            },
+            body: JSON.stringify({ idNombreTecnico: idNombreTecnico }),
+        });
 
-    // Obtener el objeto tecnicoBuscado de la respuesta JSON
-    const tecnicoBuscado = data.tecnicoBuscado;
+        if (!response.ok) {
+            messageError.classList.add('shown');
+            clearInputs();
+            return;
+        }
 
-    // Actualizar los inputs ocultos
-    if (someHiddenIdInputsArray) {
-        document.getElementById(someHiddenIdInputsArray[0]).value = tecnicoBuscado.idTecnico;
-    }
+        const data = await response.json();
 
-    // Rellenar otros inputs visibles si se requiere
-    if (otherInputsArray) {
-        document.getElementById(otherInputsArray[0]).value = tecnicoBuscado.celularTecnico;
-        document.getElementById(otherInputsArray[1]).value = tecnicoBuscado.idNameOficioTecnico;
-        document.getElementById(otherInputsArray[2]).value = tecnicoBuscado.fechaNacimiento_Tecnico;
-        document.getElementById(otherInputsArray[3]).value = tecnicoBuscado.totalPuntosActuales_Tecnico;
-        document.getElementById(otherInputsArray[4]).value = tecnicoBuscado.historicoPuntos_Tecnico;
-        document.getElementById(otherInputsArray[5]).value = tecnicoBuscado.rangoTecnico;
+        if (!data.tecnicoBuscado) {
+            clearInputs();
+            messageError.classList.add('shown');
+            return;
+        }
+
+        messageError.classList.remove('shown');
+
+        // Obtener el objeto tecnicoBuscado de la respuesta JSON
+        const tecnicoBuscado = data.tecnicoBuscado;
+
+        // Rellenar otros inputs visibles si se requiere
+        if (otherInputsArray) {
+            document.getElementById(otherInputsArray[0]).value = tecnicoBuscado.celularTecnico;
+            document.getElementById(otherInputsArray[1]).value = tecnicoBuscado.idNameOficioTecnico;
+            document.getElementById(otherInputsArray[2]).value = tecnicoBuscado.fechaNacimiento_Tecnico;
+            document.getElementById(otherInputsArray[3]).value = tecnicoBuscado.totalPuntosActuales_Tecnico;
+            document.getElementById(otherInputsArray[4]).value = tecnicoBuscado.historicoPuntos_Tecnico;
+            document.getElementById(otherInputsArray[5]).value = tecnicoBuscado.rangoTecnico;
+        }
+    } catch (error) {
+        console.error(`Error inesperado en validateValueOnRealTimeTecnicoEdit: ${error.message}`);
+        clearInputs();
     }
 }
-
-let currentPageTecnicoDelete = 1; 
-let isLoadingTecnicoDelete = false;
 
 // Manejador del evento de scroll
 async function loadMoreOptionsTecnicoDelete(event) {
@@ -235,12 +205,12 @@ async function loadMoreOptionsTecnicoDelete(event) {
 
     // Si el usuario ha llegado al final de la lista (se detecta el scroll)
     if (optionsListUL.scrollTop + optionsListUL.clientHeight >= optionsListUL.scrollHeight * threshold) {
-        // Solo cargar más si no se están haciendo otras solicitudes
-        if (!isLoadingTecnicoDelete) {
-            await loadOptionsTecnicoDelete(optionsListUL.id);  // Cargar más opciones
-        }
+        await loadPaginatedOptionsTecnicoDelete(tecnicoDeleteOptions.id);  // Cargar más opciones
     }
 }
+
+// Conectar el evento de scroll al `ul` para carga infinita
+tecnicoDeleteOptions.addEventListener('scroll', loadMoreOptionsTecnicoDelete);
 
 async function toggleOptionsTecnicoDelete(idInput, idOptions) {
     const input = document.getElementById(idInput);
@@ -249,30 +219,27 @@ async function toggleOptionsTecnicoDelete(idInput, idOptions) {
     if (!optionsListUL || !input) {
         return;
     }
-
+   
     if (optionsListUL.classList.contains('show')) {
-        optionsListUL.classList.remove('show');
+        optionsListUL.classList.remove('show')
         return;
     }
-
+   
     if (input.value === "") {
-        // Realiza la solicitud solo si la lista está vacía
-        await loadOptionsTecnicoDelete(idOptions);
-        optionsListUL.classList.add('show');
-
-        // Conectar el evento de scroll al `ul` para carga infinita
-        optionsListUL.addEventListener('scroll', loadMoreOptionsTecnicoDelete);
+        if (optionsListUL.querySelectorAll('li').length === 0) {
+            await loadPaginatedOptionsTecnicoDelete(idOptions);
+        } 
     } else {
-        filterOptionsTecnicoDelete(idInput, idOptions);
+        filterOptionsTecnicoDelete(input, idOptions);
     }
+
+    optionsListUL.classList.add('show');
 }
 
-async function loadOptionsTecnicoDelete(idOptions) {
-    if (isLoadingTecnicoDelete) return;  // Evita múltiples solicitudes simultáneas
-    isLoadingTecnicoDelete = true;
-
+async function loadPaginatedOptionsTecnicoDelete(idOptions) {
     const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
     const url = `${baseUrl}/dashboard-tecnicos/getPaginatedTecnicos?page=${currentPageTecnicoDelete}`;
+    const optionsListUL = document.getElementById(idOptions);
 
     try {
         const response = await fetch(url);
@@ -284,32 +251,42 @@ async function loadOptionsTecnicoDelete(idOptions) {
 
         const data = await response.json();
 
-        if (!data.data || data.data.length === 0) {
-            throw new Error("No hay más técnicos disponibles");
+        if (data.data == null) {
+            const li = document.createElement('li');
+            li.textContent = data.message;
+            optionsListUL.innerHTML = "";
+            optionsListUL.appendChild(li);
+            return;
         }
 
-        // Renderiza las opciones dinámicamente
-        const optionsListUL = document.getElementById(idOptions);
+        // Actualiza la lista con las opciones evitando duplicados
         populateOptionsListTecnicoDelete(optionsListUL, data.data);
-
-        // Incrementa la página para la siguiente solicitud
         currentPageTecnicoDelete++;
     } catch (error) {
-        console.error("Error al cargar técnicos:", error.message);
+        //console.error("Error al cargar técnicos:", error.message);
     } finally {
         isLoadingTecnicoDelete = false;
     }
 }
 
 function populateOptionsListTecnicoDelete(optionsListUL, tecnicos) {
+    const existingValues = new Set(
+        Array.from(optionsListUL.children).map((li) => li.textContent.trim())
+    );
+
     tecnicos.forEach((tecnico) => {
         const value = `${tecnico.idTecnico} | ${tecnico.nombreTecnico}`;
         const tecnicoData = JSON.stringify(tecnico);
-        const li = document.createElement('li');
 
-        li.textContent = value;
-        li.setAttribute('onclick', `selectOptionTecnicoDelete('${value}', ${tecnicoData})`);
-        optionsListUL.appendChild(li);
+        if (!existingValues.has(value)) {
+            const li = document.createElement('li');
+            li.textContent = value;
+            li.setAttribute('onclick', `selectOptionTecnicoDelete('${value}', ${tecnicoData})`);
+            optionsListUL.appendChild(li);
+
+            // Agrega el nuevo valor al Set
+            existingValues.add(value);
+        }
     });
 }
 

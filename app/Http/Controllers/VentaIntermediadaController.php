@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Tecnico;
 use App\Models\EstadoVenta;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 use App\Models\VentaIntermediada;
-use App\Http\Controllers\TecnicoController;
-use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\TecnicoController;
 
 class VentaIntermediadaController extends Controller
 {
-    public function algo() {
-        return "algo";
-    }
-
     public function limpiarIDs($id)
     {
         // Dividir la cadena usando el guion '-' como delimitador
@@ -49,169 +47,144 @@ class VentaIntermediadaController extends Controller
 
         return $tipoComprobante;
     }
-
-    /*public function create()
-    {
-        // Obtener todas las ventas intermediadas con sus canjes y cargar los modelos relacionados
-        $ventasIntermediadas = VentaIntermediada::with('canjes')->get();
-
-        //Log::info('ventasIntermediadas: ' . $ventasIntermediadas);
-
-        $ventas = $ventasIntermediadas->map(function ($venta) {
-
-            // Limpiar id
-            $idLimpio = $this->limpiarIDs($venta->idVentaIntermediada);
-
-            // Obtener tipo de comprobante
-            $tipoComprobante = $this->detectarTipoComprobante($venta->idVentaIntermediada);
-
-            // Obtener todas las fechas de canje
-            $fechasCanjes = $venta->canjes->pluck('fechaHora_Canje')->toArray();
-        
-            // Obtener la fecha más reciente de todas las fechas de canje
-            $fechaMasReciente = !empty($fechasCanjes) ? max($fechasCanjes) : 'Sin fecha';
-        
-            // Obtener 'puntosRestantes_Canje' del último canje y si no existe asignar puntos ganados
-            $puntosRestantes = $venta->canjes->pluck('puntosRestantes_Canje');
-
-            if (!$puntosRestantes) {
-                $puntosRestantes = $venta->puntosGanados_VentaIntermediada;
-            }
-        
-            // Crear un objeto para retorno
-            $ventaObj = new \stdClass();
-            $ventaObj->idVentaIntermediada = $idLimpio;
-            $ventaObj->tipoComprobante = $tipoComprobante;
-            $ventaObj->idTecnico = $venta->idTecnico;
-            $ventaObj->nombreTecnico = $venta->nombreTecnico;
-            $ventaObj->tipoCodigoCliente_VentaIntermediada = $venta->tipoCodigoCliente_VentaIntermediada;
-            $ventaObj->codigoCliente_VentaIntermediada = $venta->codigoCliente_VentaIntermediada;
-            $ventaObj->nombreCliente_VentaIntermediada = $venta->nombreCliente_VentaIntermediada;
-            $ventaObj->fechaHoraEmision_VentaIntermediada = $venta->fechaHoraEmision_VentaIntermediada;
-            $ventaObj->fechaHoraCargada_VentaIntermediada = $venta->fechaHoraCargada_VentaIntermediada;
-            $ventaObj->montoTotal_VentaIntermediada = $venta->montoTotal_VentaIntermediada;
-            $ventaObj->puntosGanados_VentaIntermediada = $venta->puntosGanados_VentaIntermediada;
-            $ventaObj->estadoVentaIntermediada = $venta->estadoVentaIntermediada;
-            $ventaObj->puntosRestantes = $puntosRestantes;
-            $ventaObj->fechaHoraCanje = $fechaMasReciente;
-        
-            return $ventaObj;
-        });
-        
-        $tecnicos = Tecnico::all();
-        return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos'));
-    }*/
-
-    /*public function create()
-    {
-        // Obtener todas las ventas intermediadas con sus canjes y estado de venta
-        $ventasIntermediadas = VentaIntermediada::all(); 
-        //dd($ventasIntermediadas);
-
-        $ventas = $ventasIntermediadas->map(function ($venta) {
-            // Limpiar id
-            $idLimpio = $this->limpiarIDs($venta->idVentaIntermediada);
-
-            // Obtener tipo de comprobante
-            $tipoComprobante = $this->detectarTipoComprobante($venta->idVentaIntermediada);
-
-            // Obtener el último canje basado en la fecha más reciente
-            $ultimoCanje = $venta->canjes->sortByDesc('fechaHora_Canje')->first();
-
-            // Si existe un canje, usa sus valores, si no, usa puntos ganados y asigna 'Sin fecha'
-            $fechaMasReciente = $ultimoCanje ? $ultimoCanje->fechaHora_Canje : 'Sin fecha';
-            $puntosRestantes = $ultimoCanje ? $ultimoCanje->puntosRestantes_Canje : $venta->puntosGanados_VentaIntermediada;
-
-            // Calcular dos días transcurridos desde la fecha de emisión del comprobante hasta la fecha de hoy
-            $diasTranscurridos = $this->returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
-            
-            // Crear un objeto para retorno
-            $ventaObj = new \stdClass();
-            $ventaObj->idVentaIntermediada = $idLimpio;
-            $ventaObj->tipoComprobante = $tipoComprobante;
-            $ventaObj->idTecnico = $venta->idTecnico;
-            $ventaObj->nombreTecnico = $venta->nombreTecnico;
-            $ventaObj->tipoCodigoCliente_VentaIntermediada = $venta->tipoCodigoCliente_VentaIntermediada;
-            $ventaObj->codigoCliente_VentaIntermediada = $venta->codigoCliente_VentaIntermediada;
-            $ventaObj->nombreCliente_VentaIntermediada = $venta->nombreCliente_VentaIntermediada;
-            $ventaObj->fechaHoraEmision_VentaIntermediada = $venta->fechaHoraEmision_VentaIntermediada;
-            $ventaObj->fechaHoraCargada_VentaIntermediada = $venta->fechaHoraCargada_VentaIntermediada;
-            $ventaObj->montoTotal_VentaIntermediada = $venta->montoTotal_VentaIntermediada;
-            $ventaObj->puntosGanados_VentaIntermediada = $venta->puntosGanados_VentaIntermediada;
-            $ventaObj->idEstadoVenta = $venta->idEstadoVenta;
-            $ventaObj->nombre_EstadoVenta = $venta->nombre_EstadoVenta;
-            $ventaObj->puntosRestantes = $puntosRestantes;
-            $ventaObj->diasTranscurridos = $diasTranscurridos;
-            $ventaObj->fechaHoraCanje = $fechaMasReciente;
-
-            return $ventaObj;
-        });
-
-        //dd($ventas);
-
-        $tecnicos = Tecnico::all();
-        return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos'));
-    }*/
-
-    public function agregarCamposExtraVentas($ventas) {
-        foreach ($ventas as $venta) {
-            $venta->tipoComprobante = $this->detectarTipoComprobante($venta->idVentaIntermediada);
-            $venta->diasTranscurridos = $this->returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
-          
-            $idEstado = $this->updateStateVentaIntermediada($venta->idVentaIntermediada, $venta->puntosActuales_VentaIntermediada);
-            $nombreEstado = $this->getNombreEstadoVentaIntermediadaActualById($venta->idVentaIntermediada);
-
-            $venta->idEstadoVenta = $idEstado; 
-            $venta->nombre_EstadoVenta = $nombreEstado; 
-        }
-        return $ventas;
-    }
-
+    
     public static function updateStateVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales) {
         $venta = VentaIntermediada::findOrFail($idVentaIntermediada);
-        $idEstado = VentaIntermediadaController::returnStateIdVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales);
+    
+        // Calcula el nuevo estado de la venta
+        $idEstado = self::returnStateIdVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales);
+    
+        // Actualiza los datos en la base de datos
         $venta->update([
             'puntosActuales_VentaIntermediada' => $nuevosPuntosActuales,
             'idEstadoVenta' => $idEstado,
         ]);
-
+    
         return $idEstado;
+    }
+    
+    public function agregarCamposExtraVentas($ventas) {
+        foreach ($ventas as $venta) {
+            $venta->tipoComprobante = $this->detectarTipoComprobante($venta->idVentaIntermediada);
+            $venta->diasTranscurridos = $this->returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
+    
+            // Actualiza el estado de la venta
+            $idEstado = self::updateStateVentaIntermediada($venta->idVentaIntermediada, $venta->puntosActuales_VentaIntermediada);
+            $nombreEstado = $this->getNombreEstadoVentaIntermediadaActualById($venta->idVentaIntermediada);
+    
+            // Enriquecer la venta con nuevos datos
+            $venta->idEstadoVenta = $idEstado;
+            $venta->nombre_EstadoVenta = $nombreEstado;
+        }
+        return $ventas;
+    } 
+
+    public function obtenerVentasIntermediadas() {
+        // Consulta y procesamiento de datos
+        $ventasIntermediadas = VentaIntermediada::query()
+            ->leftJoin('Canjes', 'VentasIntermediadas.idVentaIntermediada', '=', 'Canjes.idVentaIntermediada')
+            ->join('EstadoVentas', 'VentasIntermediadas.idEstadoVenta', '=', 'EstadoVentas.idEstadoVenta')
+            ->select([
+                'VentasIntermediadas.*',
+                'Canjes.fechaHora_Canje as fechaHora_Canje',
+                'Canjes.puntosRestantes_Canje as puntosRestantes_Canje',
+                'EstadoVentas.nombre_EstadoVenta as nombre_EstadoVenta'
+            ])
+            ->get()
+            ->groupBy('idVentaIntermediada')
+            ->map(fn($grupo) => $grupo->sortByDesc('fechaHora_Canje')->first());
+    
+        // Enriquecer las ventas con datos adicionales
+        return $this->agregarCamposExtraVentas($ventasIntermediadas);
+    }
+
+    public function returnArrayVentasIntermediadasTabla() {
+        // Obtener las ventas intermediadas con los datos relacionados
+        $ventasIntermediadas = VentaIntermediada::with(['canjes', 'estadoVenta'])->get();
+        // protected $appends = ['tipoComprobante' , 'diasTranscurridos'];
+
+        $index = 1;
+    
+        // Mapear las ventas para estructurarlas
+        $data = $ventasIntermediadas->map(function ($venta) use (&$index) {
+
+            $ultimoCanje = $venta->canjes->sortByDesc('fechaHora_Canje')->first();
+
+            return [
+                'index' => $index++,
+                'idVentaIntermediada' => $venta->idVentaIntermediada,
+                'tipoComprobante' => $venta->tipoComprobante,
+                'fechaHoraEmision_VentaIntermediada' => $venta->fechaHoraEmision_VentaIntermediada,
+                'fechaHoraCargada_VentaIntermediada' => $venta->fechaHoraCargada_VentaIntermediada,
+                'nombreCliente_VentaIntermediada' => $venta->nombreCliente_VentaIntermediada,
+                'tipoCodigoCliente_VentaIntermediada' => $venta->tipoCodigoCliente_VentaIntermediada,
+                'codigoCliente_VentaIntermediada' => $venta->codigoCliente_VentaIntermediada,
+                'montoTotal_VentaIntermediada' => "S/. " . $venta->montoTotal_VentaIntermediada,
+                'puntosGanados_VentaIntermediada' => $venta->puntosGanados_VentaIntermediada,
+                'nombreTecnico' => $venta->nombreTecnico,
+                'idTecnico' => $venta->idTecnico,
+                'fechaHora_Canje' => $ultimoCanje?->fechaHora_Canje ?? 'Sin canje',
+                'diasTranscurridos' => $venta->diasTranscurridos,
+
+                'idEstadoVenta' => $venta->idEstadoVenta,
+                'nombre_EstadoVenta' => $venta->estadoVenta?->nombre_EstadoVenta ?? 'Estado desconocido',
+
+                // Campos compuestos
+                'idVentaIntermediada_tipoComprobante' => $venta->idVentaIntermediada . " " . $venta->tipoComprobante,
+                'nombreCliente_TipoCodigo_Codigo' => $venta->nombreCliente_VentaIntermediada . " " . 
+                                                    $venta->tipoCodigoCliente_VentaIntermediada . ": " . $venta->codigoCliente_VentaIntermediada,
+                'nombreTecnico_idTecnico' => $venta->nombreTecnico . " DNI: " . $venta->idTecnico,
+            ];
+        });
+    
+        return $data->toArray();
+    }
+    
+    public function tabla(Request $request) {
+        try {
+            if ($request->ajax()) {
+                $ventas = $this->returnArrayVentasIntermediadasTabla();
+
+                if (empty($ventas)) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'No se encontraron ventas intermediadas.'
+                    ], 204);
+                }
+                
+                return DataTables::of($ventas)->make(true);
+            }
+        
+            return abort(403);
+        } catch (\Exception $e) {
+            Log::info('Error en tabla VentaIntermediadaController', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+        }
     }
 
     public function create() {
         try {
-            $ventasIntermediadas = VentaIntermediada::query()
-                                ->leftJoin('Canjes', 'VentasIntermediadas.idVentaIntermediada', '=', 'Canjes.idVentaIntermediada')
-                                ->join('EstadoVentas', 'VentasIntermediadas.idEstadoVenta', '=', 'EstadoVentas.idEstadoVenta')
-                                ->select([
-                                    'VentasIntermediadas.*',
-                                    'Canjes.fechaHora_Canje as fechaHora_Canje',
-                                    'Canjes.puntosRestantes_Canje as puntosRestantes_Canje',
-                                    'EstadoVentas.nombre_EstadoVenta as nombre_EstadoVenta'
-                                ])
-                                ->get()
-                                ->groupBy('idVentaIntermediada')
-                                ->map(fn($grupo) => $grupo->sortByDesc('fechaHora_Canje')->first());
-                                
-            $ventas = $this->agregarCamposExtraVentas($ventasIntermediadas);
-           
+            //$ventas = $this->obtenerVentasIntermediadas();
             //dd($ventas->pluck('fechaVenta', 'idVentaIntermediada'));
             //dd($ventas->pluck('horaVenta', 'idVentaIntermediada'));
             //dd($ventas->pluck('fechaCargada', 'idVentaIntermediada'));
             //dd($ventas->pluck('horaCargada', 'idVentaIntermediada'));
 
             $tecnicoController = new TecnicoController();
-            $tecnicos = $tecnicoController->returnModelsTecnicosWithOficios();
             $idsNombresOficios = $tecnicoController->returnArrayIdsNombresOficios(); 
 
-            return view('dashboard.ventasIntermediadas', compact('ventas', 'tecnicos', 'idsNombresOficios'));
+            return view('dashboard.ventasIntermediadas', compact('idsNombresOficios'));
         } catch (\Exception $e) {
             dd("Error al mostrar las ventas intermediadas: " . $e->getMessage());
         }
     }
     
-    function store(Request $request) 
-    {
+    function store(Request $request) {
         $validatedData = $request->validate([
             'idVentaIntermediada' => 'required|string|unique:VentasIntermediadas,idVentaIntermediada',
             'idTecnico' => 'required|exists:Tecnicos,idTecnico',
@@ -240,8 +213,7 @@ class VentaIntermediadaController extends Controller
         return redirect()->route('ventasIntermediadas.create')->with('successVentaIntermiadaStore', 'Venta Intermediada guardada correctamente');
     }
 
-    public function delete(Request $request)
-    {
+    public function delete(Request $request) {
         try {
             // Validación de la solicitud
             $validatedData = $request->validate([
@@ -271,7 +243,6 @@ class VentaIntermediadaController extends Controller
                             ->withErrors(['error' => 'Ocurrió un error inesperado al intentar eliminar la venta intermediada.']);
         }
     }
-
 
     public static function getIDEstadoVentaIntermediadaActualById($idVentaIntermediada) {
         try {
@@ -338,7 +309,7 @@ class VentaIntermediadaController extends Controller
             ],
         */
     }
-
+ 
     // FETCH
     public function getComprobantesEnEsperaByIdTecnico($idTecnico)
     {

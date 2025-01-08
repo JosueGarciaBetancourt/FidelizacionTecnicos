@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -34,9 +35,9 @@ class VentaIntermediada extends Model
         'idEstadoVenta',
     ];
 
-    protected $appends = ['fechaVenta', 'horaVenta', 'fechaCargada', 'horaCargada'];
+    protected $appends = ['tipoComprobante', 'diasTranscurridos'];
   
-    public function getFechaVentaAttribute() { 
+    /* public function getFechaVentaAttribute() { 
         $fechaHoraCompleta = $this->fechaHoraEmision_VentaIntermediada;
         $carbonDate = Carbon::parse($fechaHoraCompleta);
         return $carbonDate->format('Y-m-d');
@@ -66,6 +67,24 @@ class VentaIntermediada extends Model
     
         // Obtener solo la hora en formato deseado
         return $carbonDate->format('H:i:s'); // Devuelve solo la hora
+    }
+    */
+
+    public function getTipoComprobanteAttribute() {
+        $tipoComprobante = '';
+
+        if (strpos($this->idVentaIntermediada, 'F') !== false) {
+            $tipoComprobante = 'FACTURA ELECTRÓNICA';
+        } elseif (strpos($this->idVentaIntermediada, 'B') !== false) {
+            $tipoComprobante = 'BOLETA DE VENTA ELECTRÓNICA';
+        }
+
+        return $tipoComprobante;
+    }
+    
+    public function getDiasTranscurridosAttribute() {
+        $diasTranscurridos = Controller::returnDiasTranscurridosHastaHoy($this->fechaHoraEmision_VentaIntermediada);
+        return $diasTranscurridos;
     }
 
     // Relación uno a muchos (inversa)

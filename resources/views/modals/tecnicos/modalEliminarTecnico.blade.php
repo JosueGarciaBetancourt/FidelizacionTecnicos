@@ -11,7 +11,6 @@
 					@method('DELETE')
                     <!-- Variables globales -->
                     @php
-                        $tecnicosDB = $tecnicos;
                         $idsNombresOficiosBD = $idsNombresOficios;
                         $idInput = 'tecnicoDeleteInput';
                         $idOptions = 'tecnicoDeleteOptions';
@@ -37,9 +36,8 @@
                         <label class="primary-label" for="tecnicoDeleteSelect">Tecnico:</label>
                         <div class="input-select" id="tecnicoDeleteSelect">
                             <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI | Nombre" autocomplete="off"
-                                oninput="validateValueOnRealTimeTecnicoDelete(this, '{{ $idMessageError }}', {{ json_encode($someIdInputsArray) }},
-                                                                            {{ json_encode($otherInputsArray) }}),
-                                        filterOptionsTecnicoDelete('{{ $idInput }}', '{{ $idOptions }}')"
+                                oninput="validateValueOnRealTimeTecnicoDelete(this, '{{ $idMessageError }}', {{ json_encode($otherInputsArray) }}),
+                                        filterOptionsTecnicoDelete(this, '{{ $idOptions }}')"
                                 onclick="toggleOptionsTecnicoDelete('{{ $idInput }}', '{{ $idOptions }}')">
                             <ul class="select-items shortSteps" id="{{ $idOptions }}" onscroll="loadMoreOptionsTecnicoDelete(event)"></ul>
                         </div>
