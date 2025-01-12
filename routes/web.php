@@ -42,6 +42,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/tblVentasIntermediadasData', [VentaIntermediadaController::class, 'tabla'])->name('ventasIntermediadas.tabla');  
     route::get('/dashboard-canjes/tecnico/{idTecnico}', [VentaIntermediadaController::class, 'getComprobantesEnEsperaByIdTecnico'])
             ->name('getVentasIntermediadasWithTecnico');
+    Route::post('/verificar-venta', [VentaIntermediadaController::class, 'verificarExistenciaVenta'])->name('ventasIntermediadas.verificarExistencia');
+
 
     // Canjes
     // Registrar 
@@ -51,7 +53,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard-historial-canje', [CanjeController::class, 'historial'])->name('canjes.historial');  
     route::get('/dashboard-canjes/historialCanje/{idCanje}', [CanjeController::class, 'getDetalleCanjesRecompensasByIdCanje'])
             ->name('getDetalleCanjesRecompensasByIdCanje');
-    
     // Solicitudes Canjes
     Route::get('/dashboard-solicitudesApp-canje', [SolicitudCanjeController::class, 'create'])->name('solicitudescanjes.create');  
     route::get('/dashboard-canjes/solicitudCanje/{idSolicitudCanje}', [SolicitudCanjeController::class, 'getDetalleSolicitudesCanjesRecompensasByIdSolicitudCanje'])
@@ -83,7 +84,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard-tecnicos/getPaginatedTecnicos', [TecnicoController::class, 'getPaginatedTecnicos'])->name('tecnicos.paginated');  
     Route::post('/dashboard-tecnicos/getFilteredTecnicos', [TecnicoController::class, 'getFilteredTecnicos'])->name('tecnicos.filter');  
     Route::post('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
-    Route::post('/verificar-tecnico', [TecnicoController::class, 'verificarTecnico'])->name('tecnicos.verificar');
+    Route::post('/verificar-tecnico', [TecnicoController::class, 'verificarExistenciaTecnico'])->name('tecnicos.verificarExistencia');
     route::post('/dashboard-tecnicos/getTecnicoByIdNombre', [TecnicoController::class, 'getTecnicoByIdNombre'])
                 ->name('tecnicos.getTecnicoByIdFetch');
     route::post('/dashboard-tecnicos/restorePassword', [TecnicoController::class, 'restorePassword'])->name('tecnicos.restorePassword');

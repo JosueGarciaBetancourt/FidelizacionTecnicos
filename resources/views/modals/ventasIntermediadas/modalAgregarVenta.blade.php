@@ -13,7 +13,6 @@
                         $idOptions = 'tecnicoOptions';
                         $idMessageError = 'nuevaVentaMessageError';
                         $someHiddenIdInputsArray = ['idTecnicoInput', 'nombreTecnicoInput'];
-                        $ventasDB = $ventas;
                     @endphp
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' name="idTecnico">
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[1] }}' name="nombreTecnico">
@@ -33,7 +32,7 @@
                                         validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}',
                                         {{ json_encode($someHiddenIdInputsArray) }})" 
                                 onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
-                            <ul class="select-items" id='{{ $idOptions }}'>
+                            {{-- <ul class="select-items" id='{{ $idOptions }}'>
                                 @foreach ($tecnicos as $tecnico)
                                     @php
                                         $value = $tecnico->idTecnico . " | " . $tecnico->nombreTecnico;
@@ -42,7 +41,7 @@
                                         {{ $value }}
                                     </li>
                                 @endforeach
-                            </ul>
+                            </ul> --}}
                         </div>
                         <span class="inline-alert-message" id='{{ $idMessageError }}'> No se encontró el técnico buscado </span>      
                     </div>
@@ -148,7 +147,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalAgregarVenta')">Cancelar</button>
                 <button type="button" class="btn btn-primary"
-                        onclick="guardarModalAgregarVenta('modalAgregarVenta', 'formAgregarVenta', {{ json_encode($ventasDB) }})">Guardar</button>
+                        onclick="guardarModalAgregarVenta('modalAgregarVenta', 'formAgregarVenta')">Guardar</button>
             </div>
         </div>
     </div>

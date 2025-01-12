@@ -148,4 +148,5 @@ function formatDateTime(dateString) {
 }
 
 let csrfTokenMAIN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+let baseUrlMAIN = `${window.location.origin}/FidelizacionTecnicos/public`;
 

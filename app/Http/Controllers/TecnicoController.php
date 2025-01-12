@@ -434,7 +434,7 @@ class TecnicoController extends Controller
         return abort(403);
     }
 
-    public function verificarTecnico(Request $request) {
+    public function verificarExistenciaTecnico(Request $request) {
         try {
             // Validar entrada
             $validated = $request->validate([

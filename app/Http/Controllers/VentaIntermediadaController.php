@@ -177,6 +177,7 @@ class VentaIntermediadaController extends Controller
 
             $tecnicoController = new TecnicoController();
             $idsNombresOficios = $tecnicoController->returnArrayIdsNombresOficios(); 
+            $tecnicos = Tecnico::all();
 
             return view('dashboard.ventasIntermediadas', compact('idsNombresOficios'));
         } catch (\Exception $e) {
@@ -326,5 +327,31 @@ class VentaIntermediadaController extends Controller
                                         ->get();
 
         return response()->json($comprobantes);
+    }
+
+    public function verificarExistenciaVenta(Request $request) {
+        try {
+            // Validar entrada
+            $validated = $request->validate([
+                'idVentaIntermediada' => 'required|string|size:13'
+            ]);
+            
+
+            // Verificar existencia de la venta
+            $exists = VentaIntermediada::where('idVentaIntermediada', $validated['idVentaIntermediada'])->exists();
+            
+            return response()->json(['exists' => $exists]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['error' => 'Validación fallida', 'details' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            Log::info('Error en verificarExistenciaVenta', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json(['error' => 'Error al verificar la venta intermediada', 'details' => $e->getMessage()], 500);
+        }
     }
 }

@@ -11,7 +11,7 @@ let fechaHoraEmisionInput = document.getElementById('fechaHoraEmisionVentaInterm
 let montoTotalInput = document.getElementById('montoTotalInput');
 let puntosGanadosInput = document.getElementById('puntosGanadosInput');
 
-let formInputsArray = [
+let formInputsArrayAgregarVenta = [
     idVentaIntermediadaInput, 
     idTecnicoInput, 
     nombreTecnicoInput, 
@@ -116,7 +116,7 @@ function analizarXML(file) {
 }
 
 function clearSomeHiddenInputs() {
-    formInputsArray.forEach(input => {
+    formInputsArrayAgregarVenta.forEach(input => {
         if (input) {
             input.value = "";
         }
@@ -520,12 +520,13 @@ function updateHiddenDateTimeInput() {
 
 function validarCamposVaciosFormulario() {
     let allFilled = true;
-    formInputsArray.forEach(input => {
+    formInputsArrayAgregarVenta.forEach(input => {
         if (!input.value.trim()) {
             allFilled = false;
 
         }
     });
+
     return allFilled;
 }
 
@@ -604,7 +605,6 @@ function getStringFormatCurrentDate() {
 function validarMaximoDiasTranscurridosHastaHoyFechaHora(fechaHora, maxDias=90) {
     const fechaHoraActual = getStringFormatCurrentDate();
     const dias = getDiasTranscurridosFechaHora(fechaHora, fechaHoraActual);
-    console.log(dias);
     
     return dias <= maxDias;
 }
@@ -620,28 +620,56 @@ function removeZerosIDVentaIntermediada(idVentaIntermediada) {
     return `${prefix}-${trimmedSuffix}`;
 }
 
-function guardarModalAgregarVenta(idModal, idForm, ventasDB) {
-    let itemArraySearched;
-    
-    if (idVentaIntermediadaInput.value) {
-        itemArraySearched = returnItemDBValueWithRequestedID("idVentaIntermediada", idVentaIntermediadaInput.value, ventasDB);
-    }
-     
-    if (itemArraySearched) {
-        multiMessageError2.textContent = "El número de comprobante ya ha sido registrado anteriormente.";
-        multiMessageError2.classList.add("shown");
-    } else if (validarCamposVaciosFormulario()) {
-        if (validarCamposCorrectosFormulario()) {
-            console.log("Enviando formulario satisfactoriamente");
-            multiMessageError2.classList.remove("shown");
-            guardarModal(idModal, idForm);
-        } else {
+async function guardarModalAgregarVenta(idModal, idForm) { 
+    try {
+        const idVentaIntermediada = idVentaIntermediadaInput.value.trim();
+        const url = `${baseUrlMAIN}/verificar-venta`;
+        
+        // Validar el formulario en el cliente
+        if (!validarCamposVaciosFormulario()) {
+            multiMessageError2.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
+            multiMessageError2.classList.add("shown");
+            return;
+        }
+
+        if (!validarCamposCorrectosFormulario()) {
             multiMessageError2.textContent = mensajeCombinado;
             multiMessageError2.classList.add("shown");
+            return;
         }
-    } else {
-        console.log("Todos los campos del formulario deben estar rellenados correctamente.");
-        multiMessageError2.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
-        multiMessageError2.classList.add("shown");
+
+        // Validar existencia de venta intermediada con fetch
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfTokenMAIN
+            },
+            body: JSON.stringify({ idVentaIntermediada })
+        });
+
+        if (!response.ok) {
+            const errorDetails = await response.text();
+            throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}. Detalles: ${errorDetails}`);
+        }
+
+        const data = await response.json();
+
+        if (data.exists) {
+            multiMessageError2.textContent = `El número de comprobante ${idVentaIntermediada} ya ha sido registrado anteriormente.`;
+            multiMessageError2.classList.add('shown');
+            return; 
+        }
+
+        // Si todas las validaciones son correctas, enviar el formulario
+        if (validateDate()) {
+            multiMessageError2.classList.remove('shown');
+            guardarModal(idModal, idForm);
+        }
+    } catch (error) {
+        // Manejo de errores
+        console.error(error);
+        multiMessageError2.textContent = 'Ocurrió un error al verificar la existencia previa del comprobante. Por favor, inténtelo de nuevo.';
+        multiMessageError2.classList.add('shown');
     }
 }

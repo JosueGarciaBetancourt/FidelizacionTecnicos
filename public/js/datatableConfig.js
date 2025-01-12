@@ -40,7 +40,7 @@ $(document).ready(function() {
 			"infoFiltered": "(filtrado de un total de _MAX_ registros)",
 			"search": "<span class='material-symbols-outlined'>search</span>",
 			"searchPlaceholder": "Buscar DNI/Nombre de técnico o número de comprobante", // Placeholder para el campo de búsqueda
-			"loadingRecords": "Cargando...",
+			"loadingRecords": "Cargando datos... (Si tarda demasiado, actualizar la página)",
 			"paginate": {
 				"first": "Primero",
 				"last": "Último",
@@ -332,7 +332,7 @@ $(document).ready(function() {
 					return `${data.idVentaIntermediada} <br>
 							<small>${data.tipoComprobante}</small>`;
 				},
-				name: 'idVentaIntermediada', // Nombre para búsquedas
+				name: 'idVentaIntermediada_tipoComprobante', // Nombre para búsquedas
 			},
 			{data: 'fechaHoraEmision_VentaIntermediada', name: 'fechaHoraEmision_VentaIntermediada', class: 'celda-centered'},
 			{data: 'fechaHoraCargada_VentaIntermediada', name: 'fechaHoraCargada_VentaIntermediada', class: 'celda-centered'},

@@ -12,13 +12,13 @@
 @section('main-content')
     <div class="ventasIntermediadasContainer">
         <div class="firstRow">
-            {{-- <x-btn-create-item onclick="openModal('modalAgregarVenta')"> 
+            <x-btn-create-item onclick="openModal('modalAgregarVenta')"> 
                 Agregar nueva venta 
             </x-btn-create-item>
             
             @include('modals.ventasIntermediadas.modalAgregarVenta')
 
-            <x-btn-delete-item onclick="openModal('modalEliminarVentaIntermediada')"> Eliminar </x-btn-delete-item>
+            {{-- <x-btn-delete-item onclick="openModal('modalEliminarVentaIntermediada')"> Eliminar </x-btn-delete-item>
             @include('modals.ventasIntermediadas.modalEliminarVentaIntermediada')
 
             @include('modals.tecnicos.modalAgregarNuevoTecnico') --}}
