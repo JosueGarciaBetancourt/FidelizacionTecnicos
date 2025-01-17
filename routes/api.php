@@ -12,8 +12,6 @@ Route::get('/user', function (Request $request) {
 
     //RUTAS API
     Route::post('/loginmovil/login-tecnicos', [Login_tecnicoController::class, 'login']);
-    Route::get('/loginmovil/login-CelularTecnicos', [Login_tecnicoController::class, 'getAllTecnicos']);
-    Route::get('/loginmovil/login-DataTecnicos', [Login_tecnicoController::class, 'getAllLoginTecnicos']);
     Route::get('/getTecnico/{idTecnico}', [Login_tecnicoController::class, 'obtenerTecnicoPorId']);  
 
     Route::middleware('auth.api')->group(function () {
