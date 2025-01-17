@@ -469,7 +469,6 @@ async function filterNumComprobantesInputWithTecnicoFetch(idTecnico) {
         }
 
         comprobantesFetch = await response.json();
-        consoleLogJSONItems(comprobantesFetch);
         
         if (comprobantesFetch.length == 0) {
             messageErrorselectOptionTecnicoCanjes.textContent = 'El técnico encontrado no tiene ventas intermediadas "EN ESPERA" o "REDIMIDO (PARCIAL)"'
