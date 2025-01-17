@@ -6,12 +6,13 @@ use Exception;
 use App\Models\Tecnico;
 use App\Models\EstadoVenta;
 use Illuminate\Http\Request;
+use App\Models\SolicitudesCanje;
 use Yajra\DataTables\DataTables;
 use App\Models\VentaIntermediada;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\TecnicoController;
 use Illuminate\Pagination\Paginator;
+use App\Http\Controllers\TecnicoController;
 
 class VentaIntermediadaController extends Controller
 {
@@ -283,6 +284,12 @@ class VentaIntermediadaController extends Controller
 
         // Validar venta con estado En espera
         if ($nuevosPuntosActuales == $venta->puntosGanados_VentaIntermediada && $diasTranscurridos <= $maxdaysCanje) {
+            // Validar venta con estado En espera (solicitado desde app)
+            if (VentaIntermediada::where('idVentaIntermediada', $venta->idVentaIntermediada)->pluck('apareceEnSolicitud')->first() == 1) {
+                Log::info($venta->idVentaIntermediada);
+                return 5;
+            }
+            
             return 1;
         }
 
