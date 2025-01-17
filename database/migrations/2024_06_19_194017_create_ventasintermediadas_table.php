@@ -20,12 +20,14 @@ return new class extends Migration
             $table->string('nombreCliente_VentaIntermediada', 100); // Josué García Betancourt xml
             $table->dateTime('fechaHoraEmision_VentaIntermediada'); // xml
             $table->dateTime('fechaHoraCargada_VentaIntermediada')->useCurrent();
-            $table->double('montoTotal_VentaIntermediada')->unsigned(); //200.50 xml
+            $table->decimal('montoTotal_VentaIntermediada', 10, 2)->unsigned(); //200.50 xml
             $table->integer('puntosGanados_VentaIntermediada')->unsigned(); //201 (redondear el monto total del xml)
             $table->integer('puntosActuales_VentaIntermediada')->unsigned(); 
             
             $table->unsignedBigInteger('idEstadoVenta')->default(1); //1: En espera, 2: Redimido (parcial), 3: Redimido (completo), 4: Tiempo Agotado
             $table->foreign('idEstadoVenta')->references('idEstadoVenta')->on('EstadoVentas');
+            
+            $table->boolean('apareceEnSolicitud')->default(0);
 
             $table->timestamps(); //created_at updated_at
             $table->softDeletes(); //deleted_at

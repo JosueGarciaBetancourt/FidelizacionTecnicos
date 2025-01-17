@@ -12,6 +12,7 @@ let celularTecnicoEditHiddenInput = document.getElementById('idcelularTecnicoEdi
 let idsOficioEditArrayInput = document.getElementById('idsOficioEditArrayInput');
 let someHiddenIdInputsTecnicoEditArray = ['idEditTecnicoInput', 'idsOficioEditArrayInput'];
 
+
 let formTecnicoEditInputsArray = [
 	tecnicoEditInput,
 	celularEditInput,
@@ -114,6 +115,9 @@ function guardarModalEditarTecnico(idModal, idForm) {
 }
 
 /* INICIO Funciones para manejar el input dinámico */
+
+let currentPageTecnicoEdit = 1; // Página actual
+
 function selectOptionEditarTecnico(value, tecnico) {
     const hiddenIdTecnicoInput = document.getElementById(someHiddenIdInputsTecnicoEditArray[0]);
     const hiddenIdsOficioTecnicoInput = document.getElementById(someHiddenIdInputsTecnicoEditArray[1]);
@@ -149,83 +153,56 @@ function selectOptionEditarTecnico(value, tecnico) {
     searchEditTecnicoMessageError.classList.remove("shown");
 }
 
-async function filterOptionsTecnicoEdit(idInput, idOptions) {
-    const input = document.getElementById(idInput);
+async function filterOptionsTecnicoEdit(input, idOptions) {
     const filter = input.value.trim().toUpperCase();
     const ul = document.getElementById(idOptions);
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getFilteredTecnicos`;
 
-    // Si el campo de búsqueda está vacío, no hacemos la solicitud
-    if (filter === "") {
-        ul.classList.remove('show');
-        return;
-    }
+    const response = await fetch(url, {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfTokenMAIN,
+        },
+        body: JSON.stringify({ filter: filter }),
+    });
 
-    try {
-        // Llamada al servidor para buscar técnicos que coincidan con el filtro
-        const baseUrl = `${window.location.origin}`;  // Ajusta la URL base según corresponda
-        const url = `${baseUrl}/dashboard-tecnicos/getFilteredTecnicos`;  // Añadir filtro como parámetro
+    // Limpiar las opciones anteriores
+    ul.innerHTML = "";
 
-        const response = await fetch(url, {
-            method: 'POST', // Cambiado a POST para enviar datos
-            headers: {
-                'Content-Type': 'application/json', // Importante para enviar JSON
-                'X-CSRF-TOKEN': csrfTokenMAIN, // Agregar el token CSRF aquí
-            },
-            body: JSON.stringify({ filter: filter }), // Enviando el comentario
-        });
-
-        // Verificar el estado de la respuesta
-        if (!response.ok) {
-            // Si no es una respuesta exitosa, mostrar el código de estado
-            throw new Error(`Error en la solicitud: ${response.status} ${response.statusText}`);
-        }
-
-        // Verificar que la respuesta sea tipo JSON
-        const contentType = response.headers.get('Content-Type');
-        if (!contentType || !contentType.includes('application/json')) {
-            const text = await response.text(); // Leer la respuesta como texto si no es JSON
-            console.error("Respuesta inesperada (no JSON):", text);
-            throw new Error('Se esperaba una respuesta JSON, pero se recibió otro tipo de contenido.');
-        }
-
-        // Intentar parsear la respuesta JSON
-        const data = await response.json();
-
-        console.log(data);
-        
-        // Limpiar las opciones anteriores
-        ul.innerHTML = "";
-
-        // Verificar si hay resultados
-        if (data.data && data.data.length > 0) {
-            // Mostrar las opciones y agregarlas dinámicamente
-            data.data.forEach(tecnico => {
-                const li = document.createElement('li');
-                const value = `${tecnico.idTecnico} | ${tecnico.nombreTecnico}`;
-                const tecnicoData = JSON.stringify(tecnico);
-                
-                li.textContent = value;
-                li.setAttribute('onclick', `selectOptionEditarTecnico('${value}', ${tecnicoData})`);
-                ul.appendChild(li);
-            });
-        } else {
-            // Si no hay resultados, mostrar un mensaje o hacer algo
+    // Verificar el estado de la respuesta
+    if (!response.ok) {
+        const errorData = await response.json();
+        if (errorData.data == "") {
+            console.warn(`Error en filterOptionsTecnicoEdit: ${errorData.message}`);
             const li = document.createElement('li');
             li.textContent = 'No se encontraron técnicos';
             ul.appendChild(li);
+            ul.classList.add('show');
         }
-        
-        ul.classList.add('show');
-    } catch (error) {
-        console.error(error.message);
+        return;
     }
+
+    const data = await response.json();
+
+    // Mostrar las opciones y agregarlas dinámicamente
+    data.data.forEach(tecnico => {
+        const li = document.createElement('li');
+        const value = `${tecnico.idTecnico} | ${tecnico.nombreTecnico}`;
+        const tecnicoData = JSON.stringify(tecnico);
+        
+        li.textContent = value;
+        li.setAttribute('onclick', `selectOptionEditarTecnico('${value}', ${tecnicoData})`);
+        ul.appendChild(li);
+    });
+
+    ul.classList.add('show');
 }
 
-async function validateValueOnRealTimeTecnicoEdit(input, idMessageError, someHiddenIdInputsArray=null, otherInputsArray=null) {
+async function validateValueOnRealTimeTecnicoEdit(input, idMessageError, someHiddenIdInputsArray = null, otherInputsArray = null) {
     const idNombreTecnico = input.value.trim();
     const messageError = document.getElementById(idMessageError);
-    const baseUrl = `${window.location.origin}`;
-    const url = `${baseUrl}/dashboard-tecnicos/getTecnicoByIdNombre`;
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getTecnicoByIdNombre`;
 
     const clearHiddenInputs = () => {
         if (Array.isArray(someHiddenIdInputsArray)) {
@@ -244,7 +221,7 @@ async function validateValueOnRealTimeTecnicoEdit(input, idMessageError, someHid
             otherInputsArray.forEach(idOtherInput => {
                 const otherInputElement = document.getElementById(idOtherInput);
                 if (otherInputElement) {
-                    otherInputElement.value = ""; 
+                    otherInputElement.value = "";
                 }
             });
         }
@@ -254,56 +231,66 @@ async function validateValueOnRealTimeTecnicoEdit(input, idMessageError, someHid
         messageError.classList.remove('shown');
         clearInputs();
         return;
-    } 
+    }
 
-    const response = await fetch(url, {
-        method: 'POST', 
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': csrfTokenMAIN, 
-        },
-        body: JSON.stringify({ idNombreTecnico: idNombreTecnico }), 
-    });
+    // Validar que el formato sea válido
+    const regex = /^\d+\s\|\s.+$/;
 
-    if (!response.ok) {
-        clearInputs();
+    if (!regex.test(idNombreTecnico)) {
         messageError.classList.add('shown');
-        //const errorData = await response.json();
-        //throw new Error(`Error: ${errorData.error} - ${errorData.details}`);
-    }
-
-    const data = await response.json()
-
-    if (!data.tecnicoBuscado) {
         clearInputs();
-        messageError.classList.add('shown'); 
-        return; 
+        return;
     }
 
-    messageError.classList.remove('shown'); 
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfTokenMAIN,
+            },
+            body: JSON.stringify({ idNombreTecnico: idNombreTecnico }),
+        });
 
-    // Obtener el objeto tecnicoBuscado de la respuesta JSON
-    const tecnicoBuscado = data.tecnicoBuscado;
+        if (!response.ok) {
+            messageError.classList.add('shown');
+            clearInputs();
+            return;
+        }
 
-    // Actualizar los inputs ocultos
-    if (someHiddenIdInputsArray) {
-        document.getElementById(someHiddenIdInputsArray[0]).value = tecnicoBuscado.idTecnico;
-        document.getElementById(someHiddenIdInputsArray[1]).value = tecnicoBuscado.idsOficioTecnico;
-    }
+        const data = await response.json();
 
-    // Rellenar otros inputs visibles si se requiere
-    if (otherInputsArray) {
-        document.getElementById(otherInputsArray[0]).value = tecnicoBuscado.celularTecnico;
-        document.getElementById(otherInputsArray[1]).value = tecnicoBuscado.idNameOficioTecnico;
-        document.getElementById(otherInputsArray[2]).value = tecnicoBuscado.fechaNacimiento_Tecnico;
-        document.getElementById(otherInputsArray[3]).value = tecnicoBuscado.totalPuntosActuales_Tecnico;
-        document.getElementById(otherInputsArray[4]).value = tecnicoBuscado.historicoPuntos_Tecnico;
-        document.getElementById(otherInputsArray[5]).value = tecnicoBuscado.rangoTecnico;
+        if (!data.tecnicoBuscado) {
+            clearInputs();
+            messageError.classList.add('shown');
+            return;
+        }
+
+        messageError.classList.remove('shown');
+
+        // Obtener el objeto tecnicoBuscado de la respuesta JSON
+        const tecnicoBuscado = data.tecnicoBuscado;
+
+        // Actualizar los inputs ocultos
+        if (someHiddenIdInputsArray) {
+            document.getElementById(someHiddenIdInputsArray[0]).value = tecnicoBuscado.idTecnico;
+            document.getElementById(someHiddenIdInputsArray[1]).value = tecnicoBuscado.idsOficioTecnico;
+        }
+
+        // Rellenar otros inputs visibles si se requiere
+        if (otherInputsArray) {
+            document.getElementById(otherInputsArray[0]).value = tecnicoBuscado.celularTecnico;
+            document.getElementById(otherInputsArray[1]).value = tecnicoBuscado.idNameOficioTecnico;
+            document.getElementById(otherInputsArray[2]).value = tecnicoBuscado.fechaNacimiento_Tecnico;
+            document.getElementById(otherInputsArray[3]).value = tecnicoBuscado.totalPuntosActuales_Tecnico;
+            document.getElementById(otherInputsArray[4]).value = tecnicoBuscado.historicoPuntos_Tecnico;
+            document.getElementById(otherInputsArray[5]).value = tecnicoBuscado.rangoTecnico;
+        }
+    } catch (error) {
+        console.error(`Error inesperado en validateValueOnRealTimeTecnicoEdit: ${error.message}`);
+        clearInputs();
     }
 }
-
-let currentPageTecnicoEdit = 1; 
-let isLoadingTecnicoEdit = false;
 
 // Manejador del evento de scroll
 async function loadMoreOptionsTecnicoEdit(event) {
@@ -312,44 +299,39 @@ async function loadMoreOptionsTecnicoEdit(event) {
 
     // Si el usuario ha llegado al final de la lista (se detecta el scroll)
     if (optionsListUL.scrollTop + optionsListUL.clientHeight >= optionsListUL.scrollHeight * threshold) {
-        // Solo cargar más si no se están haciendo otras solicitudes
-        if (!isLoadingTecnicoEdit) {
-            await loadOptionsTecnicoEdit(optionsListUL.id);  // Cargar más opciones
-        }
+        await loadPaginatedOptionsTecnicoEdit(tecnicoEditOptions.id);  // Cargar más opciones
     }
 }
 
-async function toggleOptionsTecnicoEdit(idInput, idOptions) {
-    const input = document.getElementById(idInput);
+// Conectar el evento de scroll al `ul` para carga infinita
+tecnicoEditOptions.addEventListener('scroll', loadMoreOptionsTecnicoEdit);
+
+async function toggleOptionsTecnicoEdit(input, idOptions) {
     const optionsListUL = document.getElementById(idOptions);
 
     if (!optionsListUL || !input) {
         return;
     }
-
+   
     if (optionsListUL.classList.contains('show')) {
-        optionsListUL.classList.remove('show');
+        optionsListUL.classList.remove('show')
         return;
     }
-
+   
     if (input.value === "") {
-        // Realiza la solicitud solo si la lista está vacía
-        await loadOptionsTecnicoEdit(idOptions);
-        optionsListUL.classList.add('show');
-
-        // Conectar el evento de scroll al `ul` para carga infinita
-        optionsListUL.addEventListener('scroll', loadMoreOptionsTecnicoEdit);
+        if (optionsListUL.querySelectorAll('li').length === 0) {
+            await loadPaginatedOptionsTecnicoEdit(idOptions);
+        } 
     } else {
-        filterOptionsTecnicoEdit(idInput, idOptions);
+        filterOptionsTecnicoEdit(input, idOptions);
     }
+
+    optionsListUL.classList.add('show');
 }
 
-async function loadOptionsTecnicoEdit(idOptions) {
-    if (isLoadingTecnicoEdit) return;  // Evita múltiples solicitudes simultáneas
-    isLoadingTecnicoEdit = true;
-
-    const baseUrl = `${window.location.origin}`;
-    const url = `${baseUrl}/dashboard-tecnicos/getAllTecnicos?page=${currentPageTecnicoEdit}`;
+async function loadPaginatedOptionsTecnicoEdit(idOptions) {
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getPaginatedTecnicos?page=${currentPageTecnicoEdit}`;
+    const optionsListUL = document.getElementById(idOptions);
 
     try {
         const response = await fetch(url);
@@ -361,34 +343,47 @@ async function loadOptionsTecnicoEdit(idOptions) {
 
         const data = await response.json();
 
-        if (!data.data || data.data.length === 0) {
-            throw new Error("No hay más técnicos disponibles");
+        if (data.data == null) {
+            const li = document.createElement('li');
+            li.textContent = data.message;
+            optionsListUL.innerHTML = "";
+            optionsListUL.appendChild(li);
+            return;
         }
-
-        // Renderiza las opciones dinámicamente
-        const optionsListUL = document.getElementById(idOptions);
+        
+        /* if (data.current_page === data.last_page) {
+            // Actualiza la lista con las opciones evitando duplicados
+            populateOptionsListTecnicoEdit(optionsListUL, data.data);
+            return;
+        } */
+        
+        // Actualiza la lista con las opciones evitando duplicados
         populateOptionsListTecnicoEdit(optionsListUL, data.data);
-
-        // Incrementa la página para la siguiente solicitud
         currentPageTecnicoEdit++;
     } catch (error) {
-        console.error("Error al cargar técnicos:", error.message);
-    } finally {
-        isLoadingTecnicoEdit = false;
+        //console.error("Error al cargar técnicos:", error.message);
     }
 }
 
 function populateOptionsListTecnicoEdit(optionsListUL, tecnicos) {
+    const existingValues = new Set(
+        Array.from(optionsListUL.children).map((li) => li.textContent.trim())
+    );
+
     tecnicos.forEach((tecnico) => {
         const value = `${tecnico.idTecnico} | ${tecnico.nombreTecnico}`;
         const tecnicoData = JSON.stringify(tecnico);
-        const li = document.createElement('li');
 
-        li.textContent = value;
-        li.setAttribute('onclick', `selectOptionEditarTecnico('${value}', ${tecnicoData})`);
-        optionsListUL.appendChild(li);
+        if (!existingValues.has(value)) {
+            const li = document.createElement('li');
+            li.textContent = value;
+            li.setAttribute('onclick', `selectOptionEditarTecnico('${value}', ${tecnicoData})`);
+            optionsListUL.appendChild(li);
+
+            // Agrega el nuevo valor al Set
+            existingValues.add(value);
+        }
     });
 }
-
 /* FIN de funciones para manejar el input dinámico */
 

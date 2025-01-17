@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Oficio;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr\Throw_;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class OficioController extends Controller
 {
@@ -21,15 +23,11 @@ class OficioController extends Controller
     }
 
     public function create() {
-        // Desde el modelo se agrega un campo dinámico codigoOficio (ejem: OFI-01)
         $oficios = Oficio::all(); 
         // Para depurar el códigoOficio
         //dd($oficios->pluck('codigoOficio'));
+        //dd($oficios->pluck('codigoNombreOficio'));
         
-        foreach ($oficios as $oficio) {
-            $oficio->codigoOficioNombre = $oficio->codigoOficio . " | ". $oficio->nombre_Oficio; //Ejemplo: OFI-02 | Carpintero
-        }
-
         $nuevoCodigoOficio = $this->returnNuevoCodigoOficio();
         $oficiosEliminados = Oficio::onlyTrashed()->get();
  
@@ -122,13 +120,22 @@ class OficioController extends Controller
 
     public function tabla()
     {
-        $oficios = Oficio::all();
+        $oficios = Oficio::select([
+            'idOficio', 
+            'nombre_Oficio', 
+            'descripcion_Oficio', 
+            'created_at', 
+            'updated_at',
+        ])->get();
 
-        // Agregar el índice de cada fila
-        $oficios->each(function($oficio, $index) {
-            $oficio->orderNum = $index + 1;  // Asegúrate de empezar en 1, no en 0
+        // Agregar el índice y formatear las fechas
+        $oficios = $oficios->map(function ($oficio, $index) {
+            $oficio->orderNum = $index + 1;
+            $oficio->created_at = Carbon::parse($oficio->created_at)->toDateTimeString();
+            $oficio->updated_at = Carbon::parse($oficio->updated_at)->toDateTimeString();
+            return $oficio;
         });
-        
+
         return DataTables::make($oficios)->toJson();
     }
 

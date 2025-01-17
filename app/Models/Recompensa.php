@@ -40,4 +40,11 @@ class Recompensa extends Model
     {
         return $this->belongsTo(TipoRecompensa::class, 'idTipoRecompensa', 'idTipoRecompensa');
     }
+
+    protected $appends = ['nombre_TipoRecompensa'];
+
+    public function getNombreTipoRecompensaAttribute()
+    {
+        return $this->tipoRecompensa ? $this->tipoRecompensa->nombre_TipoRecompensa : null;
+    }
 }

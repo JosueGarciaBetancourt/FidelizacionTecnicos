@@ -26,6 +26,37 @@
                 @include('modals.oficios.modalRestaurarOficio')
             </div>
             
+            <!--Tabla de ventas intermediadas-->
+            <div class="secondRow">
+                <table id="tblOficios">
+                    <thead>
+                        <tr>
+                            <th class="celda-centered">#</th>
+                            <th class="celda-centered">Código</th>
+                            <th>Nombre de oficio</th>
+                            <th>Descripción</th>
+                            <th class="celda-centered">Fecha y Hora de creación</th>
+                            <th class="celda-centered">Fecha y Hora de actualización</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php
+                            $contador = 1;
+                        @endphp
+                        @foreach ($oficios as $oficio)
+                        <tr>
+                            <td class="celda-centered">{{ $contador++ }}</td> 
+                            <td class="celda-centered">{{ $oficio->codigoOficio }}</td>
+                            <td>{{ $oficio->nombre_Oficio }}</td>
+                            <td>{{ $oficio->descripcion_Oficio }}</td>
+                            <td class="celda-centered">{{ $oficio->created_at }}</td>
+                            <td class="celda-centered">{{ $oficio->updated_at }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            
             <x-modalSuccessAction 
                 :idSuccesModal="'successModalOficioGuardado'"
                 :message="'Oficio guardado correctamente'"
@@ -45,52 +76,6 @@
                 :idSuccesModal="'successModalOficioRestaurado'"
                 :message="'Oficio habilitado correctamente'"
             />
-
-            <!--Tabla de ventas intermediadas-->
-            <div class="secondRow">
-                {{--
-                <table id="tblOficios">
-                    <thead>
-                        <tr>
-                            <th class="celda-centered">#</th>
-                            <th>Código</th>
-                            <th>Nombre de oficio</th>
-                            <th>Descripción</th>
-                            <th>Fecha y Hora de creación</th>
-                            <th>Fecha y Hora de actualización</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @php
-                            $contador = 1;
-                        @endphp
-                        @foreach ($oficios as $oficio)
-                        <tr>
-                            <td class="celda-centered">{{ $contador++ }}</td> 
-                            <td>{{ $oficio->codigoOficio }}</td>
-                            <td>{{ $oficio->nombre_Oficio }}</td>
-                            <td>{{ $oficio->descripcion_Oficio }}</td>
-                            <td>{{ $oficio->created_at }}</td>
-                            <td>{{ $oficio->updated_at }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                --}}
-                <table id="tblOficios">
-                    <thead>
-                        <tr>
-                            <th class="celda-centered">#</th>
-                            <th>Código</th>
-                            <th>Nombre de oficio</th>
-                            <th>Descripción</th>
-                            <th>Fecha y Hora de creación</th>
-                            <th>Fecha y Hora de actualización</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody> <!-- Aquí se llenarán los datos de forma dinámica -->
-                </table>
-            </div>
         </div>
     @endsection
 

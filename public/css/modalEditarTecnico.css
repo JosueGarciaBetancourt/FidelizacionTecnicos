@@ -7,6 +7,10 @@
     transform: translateY(-50px); 
 }
 
+#modalEditarTecnico-content {
+	height: 25rem;
+}
+
 #tecnicoEditInput {
 	width: 20rem;
 }
@@ -17,6 +21,10 @@
 
 #oficioInputEdit {
 	width: 22rem;
+}
+
+#oficioOptionsEdit {
+	height: 11rem;
 }
 
 #historicoPuntosInputEdit, #puntosActualesInputEdit {
@@ -31,4 +39,12 @@
 #idH5EditTecnicoModalContainer > h5{
 	font-size: 0.9rem;
 	color: #555;
+}
+
+#celularInputEdit {
+	max-width: 7rem;
+}
+
+#modalEditarTecnico-footer {
+	margin-top: auto;
 }

@@ -48,6 +48,41 @@ class OficioSeeder extends Seeder
                 'idOficio' => 9,
                 'nombre_Oficio' => 'Soldador',
             ],
+            [
+                'idOficio' => 10,
+                'nombre_Oficio' => 'Plomero',
+                'descripcion_Oficio' => 'Se especializa en la instalación y reparación de sistemas de agua y drenaje.',
+            ],
+            [
+                'idOficio' => 11,
+                'nombre_Oficio' => 'Techador',
+                'descripcion_Oficio' => 'Responsable de instalar y reparar techos de diferentes tipos.',
+            ],
+            [
+                'idOficio' => 12,
+                'nombre_Oficio' => 'Jardinero',
+                'descripcion_Oficio' => 'Encargado del diseño y mantenimiento de jardines y áreas verdes.',
+            ],
+            [
+                'idOficio' => 13,
+                'nombre_Oficio' => 'Mecánico',
+                'descripcion_Oficio' => 'Especialista en la reparación y mantenimiento de vehículos y maquinaria.',
+            ],
+            [
+                'idOficio' => 14,
+                'nombre_Oficio' => 'Técnico en refrigeración',
+                'descripcion_Oficio' => 'Encargado de instalar, mantener y reparar sistemas de aire acondicionado y refrigeración.',
+            ],
+            [
+                'idOficio' => 15,
+                'nombre_Oficio' => 'Vidriero',
+                'descripcion_Oficio' => 'Trabaja con vidrios y cristales en ventanas, puertas y estructuras decorativas.',
+            ],
+            [
+                'idOficio' => 16,
+                'nombre_Oficio' => 'Yesero',
+                'descripcion_Oficio' => 'Aplica yeso en superficies interiores para acabados decorativos o funcionales.',
+            ],
         ];
 
         foreach ($oficios as $oficio) {

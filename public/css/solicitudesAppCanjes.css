@@ -11,6 +11,8 @@
 
 .firstRowSolicitudCanje {
     padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .secondRowSolicitudCanje {

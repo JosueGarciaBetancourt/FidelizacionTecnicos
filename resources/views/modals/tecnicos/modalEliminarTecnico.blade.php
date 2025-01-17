@@ -11,7 +11,6 @@
 					@method('DELETE')
                     <!-- Variables globales -->
                     @php
-                        $tecnicosDB = $tecnicos;
                         $idsNombresOficiosBD = $idsNombresOficios;
                         $idInput = 'tecnicoDeleteInput';
                         $idOptions = 'tecnicoDeleteOptions';
@@ -27,7 +26,7 @@
                         $otherInputsArray = [$idCelularInput , $idOficioInputDelete, $idFechaNacimientoInput, $idPuntosActualesInput,
 											$idHistoricoPuntosInput, $idRangoInputDelete];
                     @endphp
-                    <input type="text" id='{{ $someIdInputsArray[0] }}' maxlength="8" name='idTecnico'>
+                    <input type="hidden" id='{{ $someIdInputsArray[0] }}' maxlength="8" name='idTecnico'>
                    
                     <div class="form-group start paddingY" id="idH5DeleteTecnicoModalContainer">
                         <h5> Seleccione el técnico que desee inhabilitar.</h5>
@@ -37,9 +36,8 @@
                         <label class="primary-label" for="tecnicoDeleteSelect">Tecnico:</label>
                         <div class="input-select" id="tecnicoDeleteSelect">
                             <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI | Nombre" autocomplete="off"
-                                oninput="validateValueOnRealTimeTecnicoDelete(this, '{{ $idMessageError }}', {{ json_encode($someIdInputsArray) }},
-                                                                            {{ json_encode($otherInputsArray) }}),
-                                        filterOptionsTecnicoDelete('{{ $idInput }}', '{{ $idOptions }}')"
+                                oninput="validateValueOnRealTimeTecnicoDelete(this, '{{ $idMessageError }}', {{ json_encode($otherInputsArray) }}),
+                                        filterOptionsTecnicoDelete(this, '{{ $idOptions }}')"
                                 onclick="toggleOptionsTecnicoDelete('{{ $idInput }}', '{{ $idOptions }}')">
                             <ul class="select-items shortSteps" id="{{ $idOptions }}" onscroll="loadMoreOptionsTecnicoDelete(event)"></ul>
                         </div>
@@ -92,7 +90,7 @@
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer"  id="modalEliminarTecnico-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarTecnico')">Cancelar</button>
                 <button type="button" class="btn btn-primary delete" 
                         onclick="guardarModalEliminarTecnico('modalEliminarTecnico', 'formEliminarTecnico')">Inhabilitar</button>

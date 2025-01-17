@@ -148,7 +148,7 @@ h3 {
 	width: 22rem;
 }
 
-#puntosActualesCanjesInput {
+#puntosActualesTecnicoCanjesInput {
 	width: 7rem;
 	text-align: center;
 	padding-left: 1px;
@@ -183,6 +183,10 @@ h3 {
 	width: 8rem;
 	padding-left: 1rem;
 	padding-right: 0;
+}
+
+#tecnicoCanjesOptions.show {
+	max-height: 16.5em;
 }
 
 #messageErrorTecnicoCanjes {

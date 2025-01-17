@@ -51,7 +51,7 @@
 		
 		<x-modalConfirmAction
 			:idConfirmModal="'modalConfirmActionRestorePasswordTecnico'"
-			:message="'La contraseña actual será restaurada al número de DNI del técnico, ¿está seguro de esta acción?'"
+			:message="'La contraseña actual del técnico será restaurada al número de DNI en la aplicación móvil, ¿está seguro de esta acción?'"
 		/>
 
 		<x-modalSuccessAction 

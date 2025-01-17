@@ -40,7 +40,6 @@ class CanjeController extends Controller
 
     public function registrar()
     {
-        $tecnicos = Tecnico::all();
         // Obtener las ventas intermediadas no asociadas con alguna solicitud de canje
         $ventas = VentaIntermediada::with('estadoVenta') // Cargar relación de estado
                                     ->doesntHave('solicitudesCanje') // Filtrar comprobantes sin solicitudes de canje
@@ -54,6 +53,7 @@ class CanjeController extends Controller
                                 ->whereNull('Recompensas.deleted_at')
                                 ->orderBy('Recompensas.idRecompensa', 'ASC') 
                                 ->get();
+                                
         // Obtener las opciones de número de comprobante
         $optionsNumComprobante = [];
         foreach ($ventas as $venta) {
@@ -62,7 +62,7 @@ class CanjeController extends Controller
         
         // Nuevo Id Canje 
         $nuevoIdCanje = CanjeController::generarIdCanje();
-        return view('dashboard.registrarCanjes', compact('nuevoIdCanje', 'tecnicos', 'optionsNumComprobante', 'recompensas'));
+        return view('dashboard.registrarCanjes', compact('nuevoIdCanje', 'optionsNumComprobante', 'recompensas'));
     }
 
     public function store(Request $request) {

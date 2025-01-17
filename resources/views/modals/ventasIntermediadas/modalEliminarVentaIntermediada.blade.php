@@ -24,7 +24,7 @@
                         $tipoCodigoClienteInput = 'tipoCodigoClienteInputDelete';
                         $codigoClienteInput = 'codigoClienteInputDelete';
                         $nombreClienteInput = 'nombreClienteInputDelete';
-                        $ventasDB = $ventas;
+                        // $ventasDB = $ventas;
                         $otherInputsArray = [$fechaEmisionInput , $horaEmisionInput, $montoTotalInput, $puntosGeneradosInput, $fechaCargadaInput, $horaCargadaInput,
                                             $tipoCodigoClienteInput, $codigoClienteInput, $nombreClienteInput];
                         $dbFieldsNameArray = ['fechaVenta', 'horaVenta', 'montoTotal_VentaIntermediada', 'puntosGanados_VentaIntermediada', 'fechaCargada', 'horaCargada',
@@ -39,41 +39,20 @@
                         <h5>Seleccione la venta que desee eliminar.</h5>
                     </div>
 
-                    <div class="form-group">
+                  
+                    <div class="form-group gap start">
                         <label class="primary-label" id="idLabelTecnico">Venta</label>
-                    </div>
-                    <div class="form-group start">
+
                         <div class="input-select" id="tecnicoSelect">
                             <div class="tooltip-container">
                                 <span class="tooltip red" id="idTecnicoTooltip">Este es el mensaje del tooltip</span>
                             </div>
-                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="Número de venta | Técnico"
-                                oninput="filterOptions('{{ $idInput }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
-                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
-                                        {{ json_encode($ventasDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
-                                onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
-                            <ul class="select-items" id='{{ $idOptions }}'>
-                                @foreach ($ventasDB as $venta)
-                                    @php
-                                        $fechaEmision = htmlspecialchars($venta->fechaVenta, ENT_QUOTES, 'UTF-8');
-                                        $horaEmision = htmlspecialchars($venta->horaVenta, ENT_QUOTES, 'UTF-8');
-                                        $montoTotal = htmlspecialchars($venta->montoTotal_VentaIntermediada, ENT_QUOTES, 'UTF-8');
-                                        $puntosGenerados = htmlspecialchars($venta->puntosGanados_VentaIntermediada, ENT_QUOTES, 'UTF-8');
-                                        $fechaCargada = htmlspecialchars($venta->fechaCargada, ENT_QUOTES, 'UTF-8');
-                                        $horaCargada = htmlspecialchars($venta->horaCargada, ENT_QUOTES, 'UTF-8');
-                                        $tipoCodigoCliente = htmlspecialchars($venta->tipoCodigoCliente_VentaIntermediada, ENT_QUOTES, 'UTF-8');
-                                        $codigoCliente = htmlspecialchars($venta->codigoCliente_VentaIntermediada, ENT_QUOTES, 'UTF-8');
-                                        $nombreCliente = htmlspecialchars($venta->nombreCliente_VentaIntermediada, ENT_QUOTES, 'UTF-8');
-                                        $value = $venta->idVentaIntermediada . " | " . $venta->idTecnico . "-" . $venta->nombreTecnico;
-                                    @endphp
-                                    <li onclick="selectOptionEliminarVenta('{{ $value }}', '{{ $idInput }}', '{{ $idOptions }}', '{{ $fechaEmision }}',
-                                                '{{ $horaEmision }}', '{{ $montoTotal }}', '{{ $puntosGenerados }}', '{{ $fechaCargada }}', 
-                                                '{{ $horaCargada }}', '{{ $tipoCodigoCliente }}', '{{ $codigoCliente }}', '{{ $nombreCliente }}')">
-                                        {{ $value }}
-                                    </li>
-                                @endforeach
-                            </ul>
+                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="60" placeholder="Número de venta | Técnico" autocomplete="off"
+                                oninput="validateValueOnRealTimeEliminarVenta(this, '{{ $idMessageError }}', {{ json_encode($someHiddenIdInputsArray) }},
+                                                                            {{ json_encode($otherInputsArray) }}),
+                                        filterOptionsEliminarVenta(this, '{{ $idOptions }}')"
+                                onclick="toggleOptionsEliminarVenta(this, '{{ $idOptions }}')">
+                            <ul class="select-items shortSteps" id="{{ $idOptions }}" onscroll="loadMoreOptionsEliminarVenta(event)"></ul>
                         </div>
                         <span class="inline-alert-message" id='{{ $idMessageError }}'> No se encontró la venta buscada </span>      
                     </div>
@@ -118,7 +97,7 @@
                                 :idSelect="'tipoDocumentoSelect'"
                                 :inputClassName="'onlySelectInput noHandCursor'"
                                 :idInput="$tipoCodigoClienteInput"
-                                :idOptions="'tipoDocumentoOptions'"
+                                :idOptions="'tipoDocumentoOptionsEliminarVenta'"
                                 :placeholder="'DNI/RUC'"
                                 :options="['DNI', 'RUC']"
                                 :spanClassName="'noUserSelect noHandCursor'"
@@ -141,14 +120,10 @@
                     
                 </form>
             </div>
-
-            
             
             <div class="form-group start">
                 <span class="inline-alert-message" id="eliminarVentaMultiMessageError"></span>
             </div>
-            
-           
             
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarVentaIntermediada')">Cancelar</button>

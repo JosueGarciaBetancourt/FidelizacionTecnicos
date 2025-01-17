@@ -10,6 +10,7 @@ use Yajra\DataTables\DataTables;
 use App\Models\VentaIntermediada;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
 
 class TecnicoController extends Controller
@@ -39,7 +40,7 @@ class TecnicoController extends Controller
         return $tecnicos;
     }
 
-    public function returnModelsDeletedTecnicosWithOficios() {
+    /* public function returnModelsDeletedTecnicosWithOficios() {
         $tecnicos = Tecnico::onlyTrashed()->with(['oficios' => function ($query) {
             $query->select('Oficios.idOficio', 'nombre_Oficio');
         }])->get();
@@ -60,7 +61,7 @@ class TecnicoController extends Controller
         }
 
         return $tecnicos;
-    }
+    } */
 
     public function returnArrayIdsNombresOficios() {
         // Obtener todos los oficios de la BD
@@ -77,12 +78,11 @@ class TecnicoController extends Controller
     {   
         /*$tecnicos = $this->returnModelsTecnicosWithOficios(); 
         $tecnicosBorrados = $this->returnModelsDeletedTecnicosWithOficios();*/
-        $tecnicos = Tecnico::all();
         $tecnicosBorrados = Tecnico::onlyTrashed()->get();
         $idsNombresOficios = $this->returnArrayIdsNombresOficios(); // 1-Albañil | ...*/
         //dd($tecnicosBorrados->pluck('idsOficioTecnico'));
         //dd($tecnicosBorrados->pluck('idNameOficioTecnico'));
-        return view('dashboard.tecnicos', compact('tecnicos', 'tecnicosBorrados', 'idsNombresOficios'));
+        return view('dashboard.tecnicos', compact('tecnicosBorrados', 'idsNombresOficios'));
     }
 
     function store(Request $request) 
@@ -418,11 +418,12 @@ class TecnicoController extends Controller
     public function tabla(Request $request) {
         if ($request->ajax()) {
             $tecnicosWithOficios = $this->returnArrayTecnicosWithOficios();
+
             if (empty($tecnicosWithOficios)) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'No se encontraron técnicos.'
-                ], 404);
+                    'message' => 'No hay técnicos registrados aún.'
+                ], 204);
             }
     
             return DataTables::of($tecnicosWithOficios)
@@ -434,7 +435,7 @@ class TecnicoController extends Controller
         return abort(403);
     }
 
-    public function verificarTecnico(Request $request) {
+    public function verificarExistenciaTecnico(Request $request) {
         try {
             // Validar entrada
             $validated = $request->validate([
@@ -448,27 +449,32 @@ class TecnicoController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['error' => 'Validación fallida', 'details' => $e->errors()], 422);
         } catch (\Exception $e) {
+            // Registrar detalles del error para depuración
+            /* Log::info('Error en verificarTecnico', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]); */
+
             return response()->json(['error' => 'Error al verificar el técnico', 'details' => $e->getMessage()], 500);
         }
     }
 
-    public function getTecnicoByIdNombreFetch(Request $request) {
+    public function getTecnicoByIdNombre(Request $request) {
         try {
             $idNombreTecnico = $request->input('idNombreTecnico', '');
             
             // Validar si el filtro está vacío
             if (empty($idNombreTecnico)) {
-                return response()->json([
-                    'data' => [],
-                    'message' => 'No se ingreso un idNombreTecnico válido.',
-                ], 400);
+                return response()->json(['message' => 'No se ingresó un idNombreTecnico.',
+                ], 404);
             }
-
-            Log::info($idNombreTecnico);
 
             // Validar si el valor contiene el formato 'idTecnico | nombreTecnico'
             if (strpos($idNombreTecnico, ' | ') === false) {
-                return response()->json(['error' => 'Formato incorrecto. El formato debe ser "idTecnico | nombreTecnico"'], 400);
+                return response()->json(['message' => 'Formato incorrecto. El formato debe ser "idTecnico | nombreTecnico"'], 404);
             }
     
             // Separar el valor de 'idNombreTecnico' en 'idTecnico' y 'nombreTecnico'
@@ -481,62 +487,92 @@ class TecnicoController extends Controller
     
             // Verificar si el técnico fue encontrado
             if (!$tecnicoBuscado) {
-                return response()->json(['error' => 'Técnico no encontrado'], 404);
+                return response()->json(['message' => 'Técnico no encontrado'], 404);
             }
         
             // Retornar respuesta exitosa con los datos del técnico
             return response()->json(['tecnicoBuscado' => $tecnicoBuscado], 200);
         
         } catch (\Exception $e) {
-            return response()->json(['error' => 'Error al obtener el técnico', 'details' => $e->getMessage()], 500);
+            // Registrar detalles del error para depuración
+            /* Log::info('Error en getTecnicoByIdNombre', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]); */
+            
+            // Responder con mensaje de error detallado
+            return response()->json([
+                'message' => 'Ocurrió un error en el servidor. Por favor intente nuevamente más tarde.',
+                'error_details' => $e->getMessage()  // Agregar detalles del error si es necesario
+            ], 500);
         }
     }
 
-    public function getAllTecnicos() {
-        try {   
+    public function getPaginatedTecnicos(Request $request) {
+        try {
+            $currentPage = $request->input('page', 1); // Por defecto, carga la página 1
+            $pageSize = $request->input('pageSize', 6); // Por defecto devuelve 6 registros
+
+            // Establecer la página actual en la paginación
+            Paginator::currentPageResolver(function () use ($currentPage) {
+                return $currentPage;
+            });
+            
             // Paginar los resultados
-            $tecnicosDB = Tecnico::paginate(6);
-            
+            $tecnicosPaginatedDB = Tecnico::paginate($pageSize);
+
             // Verificar si se encontraron técnicos
-            if ($tecnicosDB->isEmpty()) {
-                return response()->json(['data' => [], 'message' => 'No se encontraron técnicos.'], 404);
+            if ($tecnicosPaginatedDB->total() === 0) {
+                return response()->json([
+                    'data' => null,
+                    'message' => 'No hay técnicos registrados aún',
+                ], 200);
             }
-    
-            // Retornar los datos de técnicos
+
+            // Controller::printJSON($tecnicosPaginatedDB->items());
+
             return response()->json([
-                'data' => $tecnicosDB->items(),  // Solo devuelve los elementos de la página actual
-                'current_page' => $tecnicosDB->currentPage(),
-                'total' => $tecnicosDB->total(),
-                'last_page' => $tecnicosDB->lastPage(),
-                'per_page' => $tecnicosDB->perPage(),
+                'data' => $tecnicosPaginatedDB->items(),
+                'current_page' => $tecnicosPaginatedDB->currentPage(),
+                'last_page' => $tecnicosPaginatedDB->lastPage(),
+                'total' => $tecnicosPaginatedDB->total(),
             ], 200);
-            
         } catch (\Exception $e) {
-            // Manejo de excepciones
-            return response()->json(['error' => 'Error al obtener los técnicos', 'details' => $e->getMessage()], 500);
+            Log::info('Error en getPaginatedTecnicos', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json(['error' => 'Error al obtener los técnicos paginados', 'details' => $e->getMessage()], 500);
         }
     }
 
     public function getFilteredTecnicos(Request $request) {
         try {
             $filter = $request->input('filter', '');
-    
-            // Validar si el filtro está vacío
-            if (empty($filter)) {
-                return response()->json([
-                    'data' => [],
-                    'message' => 'Por favor, ingrese un filtro válido.',
-                ], 400);
-            }
-    
-            // Construir la consulta
+            $pageSize = $request->input('pageSize', 6);
+
+            // Construir la consulta utilizando Eloquent de manera segura
             $query = Tecnico::query();
     
             $query->whereRaw("CONCAT(idTecnico, ' | ', nombreTecnico) LIKE ?", ["%$filter%"]);
-    
+
             // Obtener los resultados paginados
-            $tecnicosDB = $query->paginate(6);
-    
+            $tecnicosDB = $query->paginate($pageSize);
+
+            // Verificar si hay resultados
+            if ($tecnicosDB->isEmpty()) {
+                return response()->json([
+                    'data' => [],
+                    'message' => 'No se encontraron técnicos para el filtro ingresado.',
+                ], 404);
+            }
+
             return response()->json([
                 'data' => $tecnicosDB->items(),
                 'current_page' => $tecnicosDB->currentPage(),
@@ -545,9 +581,17 @@ class TecnicoController extends Controller
                 'per_page' => $tecnicosDB->perPage(),
             ], 200);
         } catch (\Exception $e) {
+            /* // Registrar detalles del error para depuración
+                Log::info('Error en getFilteredTecnicos', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]); */
+
             return response()->json([
-                'error' => 'Error al obtener los técnicos',
-                'details' => $e->getMessage(),
+                'message' => 'Error al filtrar técnicos: ' . $e->getMessage(),
             ], 500);
         }
     }
@@ -591,6 +635,14 @@ class TecnicoController extends Controller
             ], 200);
 
         } catch (\Exception $e) {
+            /* Log::info('Error en restorePassword', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]); */
+
             // Manejo de errores
             return response()->json([
                 'error' => 'Error interno al restaurar la contraseña.',

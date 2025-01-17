@@ -66,14 +66,15 @@ function handleFormSubmission(elementId, formId, timeout = 2000) {
     if (element.tagName === 'BUTTON') {
         element.disabled = true;
     }
+
     element.classList.add('disabled');
     element.style.pointerEvents = 'none';
     element.style.opacity = '0.7';
     
     // Agregar indicador visual de carga
-    const loadingSpinner = document.createElement('span');
+    /* const loadingSpinner = document.createElement('span');
     loadingSpinner.className = 'spinner';
-    element.appendChild(loadingSpinner);
+    element.appendChild(loadingSpinner); */
 
     // Enviar el formulario
     try {
@@ -86,10 +87,10 @@ function handleFormSubmission(elementId, formId, timeout = 2000) {
     setTimeout(() => {
         if (element) {
             // Eliminar indicador de carga
-            const spinner = element.querySelector('.spinner');
+            /* const spinner = element.querySelector('.spinner');
             if (spinner) {
                 element.removeChild(spinner);
-            }
+            } */
 
             // Restaurar el elemento
             if (element.tagName === 'BUTTON') {
@@ -102,7 +103,7 @@ function handleFormSubmission(elementId, formId, timeout = 2000) {
         }
     }, timeout);
 }
-
+ 
 // Función para enviar el mensaje de error al log de Laravel
 function registrarErrorEnLaravel(mensajeError) {
     fetch('/log-error', {
@@ -134,5 +135,19 @@ function togglePasswordVisibility(viewPasswordIcon, idPasswordInput) {
     }
 }
 
+function formatDateTime(dateString) {
+    const date = new Date(dateString);
+    
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
 let csrfTokenMAIN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+let baseUrlMAIN = `${window.location.origin}/FidelizacionTecnicos/public`;
 

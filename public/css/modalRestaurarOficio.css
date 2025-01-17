@@ -6,6 +6,10 @@
 	width: 20rem;
 }
 
+#formRestaurarOficio {
+	padding: 1rem 0;
+}
+
 #idModalBodyRestaurarOficio {
 	padding: 0;
 }
@@ -17,4 +21,8 @@
 
 #costoPuntosInputRestaurar {
 	background-color: #fff;
+}
+
+#oficioRestaurarOptions {
+	height: 11rem;
 }

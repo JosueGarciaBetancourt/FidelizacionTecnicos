@@ -89,8 +89,7 @@ function openModalHabilitarUsuario(button, usersDB) {
 }
 
 async function habilitarUsuario(idUsuario) {
-    const baseUrl = `${window.location.origin}`;
-    const url = `${baseUrl}/dashboard-enableUsuario/${idUsuario}`;
+    const url = `${baseUrlMAIN}/dashboard-enableUsuario/${idUsuario}`;
 
     try {
         // Obtener el token CSRF desde el contenido de la página
@@ -137,8 +136,7 @@ function openModalInhabilitarUsuario(button, usersDB) {
 }
 
 async function inhabilitarUsuario(idUsuario) {
-    const baseUrl = `${window.location.origin}`;
-    const url = `${baseUrl}/dashboard-disableUsuario/${idUsuario}`;
+    const url = `${baseUrlMAIN}/dashboard-disableUsuario/${idUsuario}`;
 
     try {
         // Obtener el token CSRF desde el contenido de la página
@@ -185,8 +183,7 @@ function openModalEliminarUsuario(button, usersDB) {
 }
 
 async function eliminarUsuario(idUsuario) {
-    const baseUrl = `${window.location.origin}`;
-    const url = `${baseUrl}/dashboard-deleteUsuario/${idUsuario}`;
+    const url = `${baseUrlMAIN}/dashboard-deleteUsuario/${idUsuario}`;
     //const url = `{{ route('usuarios.delete', ':idUsuario') }}`.replace(':idUsuario', idUsuario);
 
     try {

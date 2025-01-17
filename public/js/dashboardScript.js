@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
         canjesMenuClosed = !canjesMenuClosed;
         localStorage.setItem('canjesMenu', canjesMenuClosed ? 'hidden' : '')
         localStorage.setItem('canjesMenu', canjesMenuClosed ? 'hidden' : '')
-        console.log(canjesMenuClosed);
     });
 
     // Función para obtener el estado guardado del sidebar

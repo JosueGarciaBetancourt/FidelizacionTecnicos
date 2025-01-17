@@ -10,7 +10,6 @@
                     @csrf
 
                     @php 
-                        $tecnicosDB = $tecnicos;
                         $idsNombresOficiosBD = $idsNombresOficios;
                     @endphp
                   
@@ -32,7 +31,7 @@
                             :idSelect="'oficioSelect'"
                             :inputClassName="'onlySelectInput'"
                             :idInput="'oficioInput'"
-                            :idOptions="'oficioOptions'"
+                            :idOptions="'oficioOptionsCreate'"
                             :placeholder="'Seleccionar oficio'"
                             :options="$idsNombresOficiosBD"
                             :onSelectFunction="'selectOptionOficio'"
@@ -58,7 +57,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalAgregarNuevoTecnico')">Cancelar</button>
                 
-                <button type="button" class="btn btn-primary" 
+                <button type="button" class="btn btn-primary"
                         onclick="guardarModalAgregarNuevoTecnico('modalAgregarNuevoTecnico', 'formAgregarNuevoTecnico')">Guardar</button>
             </div>
         </div>

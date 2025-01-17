@@ -278,7 +278,6 @@ function toggleOptionsSelectNoCleanable(idOptions, idSpan) {
     var span = document.getElementById(idSpan);
 
     if (options) {
-        // Alternar la visibilidad de las opciones
         options.classList.toggle('show');
     }
 
@@ -625,20 +624,6 @@ function returnObjTecnicoById(idTecnico, tecnicosDB) {
     }
     return null; // Retornar null si no se encuentra el objeto
 }
-
-/*function getDiasTranscurridos(fechaEmision, fechaCargada) {
-    // Asignar las fechas de los inputs
-    var emision = new Date(fechaEmision); // Convierte la fecha de emisión a un objeto Date
-    var carga = new Date(fechaCargada); // Convierte la fecha cargada a un objeto Date
-
-    // Calcula la diferencia en milisegundos
-    var diferenciaMilisegundos = Math.abs(carga - emision);
-
-    // Convertir milisegundos a días
-    var diasTranscurridos = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
-
-    return Math.floor(diasTranscurridos); // Redondea hacia abajo al número entero más cercano
-}*/
 
 function getDiasTranscurridos(fechaEmision, fechaCargada) {
     // Asegurar que las fechas sean objetos Date

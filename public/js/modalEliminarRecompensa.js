@@ -4,14 +4,14 @@ let descripcionRecompensaInputDelete = document.getElementById('descripcionRecom
 let costoPuntosInputDelete = document.getElementById('costoPuntosInputDelete');
 let stockRecompensaDelete = document.getElementById('stockRecompensaInputDelete');
 let searchDeleteRecompensaError = document.getElementById('searchDeleteRecompensaError');
-let eliminarRecompensaMessageError = document.getElementById('EliminarRecompensaMessageError');
+let eliminarRecompensaMessageError = document.getElementById('eliminarRecompensaMessageError');
 
 let formDeleteInputsArray = [
     idRecompensaDeleteInput,
     tipoRecompensaInputDelete,
     descripcionRecompensaInputDelete,
     costoPuntosInputDelete, 
-    //stockRecompensaDelete
+    // stockRecompensaDelete
 ];
 
 function selectOptionEliminarRecompensa(value, idRecompensa, descripcionRecompensa, costoPuntos, stockRecompensa, tipoRecompensa, 
@@ -49,6 +49,8 @@ function selectOptionEliminarRecompensa(value, idRecompensa, descripcionRecompen
     } else {
         tipoRecompensaInputDelete.value = "";
         descripcionRecompensaInputDelete.value = "";
+        costoPuntosInputDelete.value = "";
+        stockRecompensaDelete.value = "";
     }
 }
 

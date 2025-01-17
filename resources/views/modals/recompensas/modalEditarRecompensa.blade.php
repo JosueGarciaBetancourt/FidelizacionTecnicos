@@ -11,7 +11,7 @@
                     @csrf
                     <!-- Variables globales -->
                     @php
-                        $recompensasDB = $recompensasSinEfectivo; // Solo recompensas activas
+                        $recompensasDB = $recompensas; // Solo recompensas activas
                         $nombresTiposRecompensasDB = $nombresTiposRecompensas;
                         $dbFieldsNameArray = ['nombre_TipoRecompensa', 'descripcionRecompensa', 'costoPuntos_Recompensa', 'stock_Recompensa'];
                         $idInput = 'recompensaEditInput';
@@ -39,7 +39,6 @@
                                         validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
                                         {{ json_encode($recompensasDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
-
                                 onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
                                 @foreach ($recompensasDB as $recompensa)
@@ -91,7 +90,7 @@
                     <div class="form-group gap">
                         <label class="primary-label" for='{{ $idStockInput }}'>Stock (máx. 1000 unidades):</label>
                         <input class="input-item" id='{{ $idStockInput }}' maxlength="4"
-                                oninput="validateNumberWithMaxLimitRealTime(this, 1000)" placeholder="1000" name="stock_Recompensa" >
+                                oninput="validateNumberWithMaxLimitRealTime(this, 1000)" name="stock_Recompensa" >
                     </div>
                     
                     <div class="form-group start">

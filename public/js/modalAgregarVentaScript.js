@@ -1,4 +1,6 @@
 let ventaIntermediadaObject = {};
+let tecnicoAgregarVentaInput = document.getElementById('tecnicoInput');
+let tecnicoAgregarVentaOptions = document.getElementById('tecnicoOptions');
 let idVentaIntermediadaInput = document.getElementById('idVentaIntermediadaInput');
 let idTecnicoInput = document.getElementById('idTecnicoInput');
 let nombreTecnicoInput = document.getElementById('nombreTecnicoInput');
@@ -11,7 +13,7 @@ let fechaHoraEmisionInput = document.getElementById('fechaHoraEmisionVentaInterm
 let montoTotalInput = document.getElementById('montoTotalInput');
 let puntosGanadosInput = document.getElementById('puntosGanadosInput');
 
-let formInputsArray = [
+let formInputsArrayAgregarVenta = [
     idVentaIntermediadaInput, 
     idTecnicoInput, 
     nombreTecnicoInput, 
@@ -31,23 +33,238 @@ let horaEmisionTooltip = document.getElementById('idHoraEmisionTooltip');
 let multiMessageError2 = document.getElementById('multiMessageError2');
 let nuevaVentaMessageError = document.getElementById('nuevaVentaMessageError');
 
-function selectOptionAgregarVenta(value, idInput, idOptions) {
-    //Colocar en el input la opción seleccionada 
-    selectOption(value, idInput, idOptions); 
+/* INICIO Funciones para manejar el input dinámico */
+let currentPageAgregarVenta = 1; // Página actual
 
-    // Extraer id y nombre del valor
-    const [id, nombre] = value.split(' | ');
+function selectOptionTecnicosAgregarVenta(value, tecnico) {
+    // Colocar en el input la opción seleccionada 
+    selectOption(value, tecnicoAgregarVentaInput.id, tecnicoAgregarVentaOptions.id); 
     
-    // Actualizar los campos ocultos
-    if (id && nombre) {
-        idTecnicoInput.value = id;
-        nombreTecnicoInput.value = nombre;
-    } else {
+    //consoleLogJSONItems(tecnico);
+    
+    if (!tecnico) {
         idTecnicoInput.value = "";
         nombreTecnicoInput.value = "";
+        return;
     }
-    nuevaVentaMessageError.classList.remove('shown'); 
+   
+    // Llenar campos ocultos
+    idTecnicoInput.value = tecnico.idTecnico;
+    nombreTecnicoInput.value = tecnico.nombreTecnico;
+    nuevaVentaMessageError.classList.remove("shown");
 }
+
+async function filterOptionsTecnicosAgregarVenta(input, idOptions) {
+    const filter = input.value.trim().toUpperCase();
+    const ul = document.getElementById(idOptions);
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getFilteredTecnicos`;
+
+    if (!filter) {
+        currentPageAgregarVenta = 1;
+        ul.innerHTML = "";
+        loadPaginatedOptionsTecnicosAgregarVenta(idOptions);
+        return;
+    }
+
+    const response = await fetch(url, {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfTokenMAIN,
+        },
+        body: JSON.stringify({ filter: filter, pageSize: 9}),
+    });
+
+    // Limpiar las opciones anteriores
+    ul.innerHTML = "";
+
+    // Verificar el estado de la respuesta
+    if (!response.ok) {
+        const errorData = await response.json();
+        if (errorData.data == "") {
+            console.warn(`Error en filterOptionsTecnicosAgregarVenta: ${errorData.message}`);
+            const li = document.createElement('li');
+            li.textContent = 'No se encontraron técnicos';
+            ul.appendChild(li);
+            ul.classList.add('show');
+        }
+        return;
+    }
+
+    const data = await response.json();
+
+    // Mostrar las opciones y agregarlas dinámicamente
+    data.data.forEach(tecnico => {
+        const li = document.createElement('li');
+        const value = `${tecnico.idTecnico} | ${tecnico.nombreTecnico}`;
+        const tecnicoData = JSON.stringify(tecnico);
+        
+        li.textContent = value;
+        li.setAttribute('onclick', `selectOptionTecnicosAgregarVenta('${value}', ${tecnicoData})`);
+        ul.appendChild(li);
+    });
+
+    ul.classList.add('show');
+}
+
+async function validateValueOnRealTimeTecnicosAgregarVenta(input, idMessageError, someHiddenIdInputsArray = null) {
+    const idNombreTecnico = input.value.trim();
+    const messageError = document.getElementById(idMessageError);
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getTecnicoByIdNombre`;
+
+    const clearHiddenInputs = () => {
+        if (Array.isArray(someHiddenIdInputsArray)) {
+            someHiddenIdInputsArray.forEach(idInput => {
+                const inputElement = document.getElementById(idInput);
+                if (inputElement) {
+                    inputElement.value = ""; // Asignar valor vacío
+                }
+            });
+        }
+    };
+
+    if (idNombreTecnico === "") {
+        messageError.classList.remove('shown');
+        clearHiddenInputs();
+        return;
+    }
+
+    // Validar que el formato sea válido
+    const regex = /^\d+\s\|\s.+$/;
+
+    if (!regex.test(idNombreTecnico)) {
+        messageError.classList.add('shown');
+        clearHiddenInputs();
+        return;
+    }
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfTokenMAIN,
+            },
+            body: JSON.stringify({ idNombreTecnico: idNombreTecnico }),
+        });
+
+        if (!response.ok) {
+            messageError.classList.add('shown');
+            clearHiddenInputs();
+            return;
+        }
+
+        const data = await response.json();
+
+        if (!data.tecnicoBuscado) {
+            clearHiddenInputs();
+            messageError.classList.add('shown');
+            return;
+        }
+
+        messageError.classList.remove('shown');
+
+        // Obtener el objeto tecnicoBuscado de la respuesta JSON
+        const tecnicoBuscado = data.tecnicoBuscado;
+
+        // Actualizar los inputs ocultos
+        if (someHiddenIdInputsArray) {
+            document.getElementById(someHiddenIdInputsArray[0]).value = tecnicoBuscado.idTecnico;
+            document.getElementById(someHiddenIdInputsArray[1]).value = tecnicoBuscado.nombreTecnico;
+        }
+    } catch (error) {
+        console.error(`Error inesperado en validateValueOnRealTimeTecnicosAgregarVenta: ${error.message}`);
+        clearHiddenInputs();
+    }
+}
+
+// Manejador del evento de scroll
+async function loadMoreOptionsTecnicosAgregarVenta(event) {
+    const optionsListUL = event.target;
+    const threshold = 0.6; // 60% del contenido visible
+
+    // Si el usuario ha llegado al final de la lista (se detecta el scroll)
+    if (optionsListUL.scrollTop + optionsListUL.clientHeight >= optionsListUL.scrollHeight * threshold) {
+        await loadPaginatedOptionsTecnicosAgregarVenta(tecnicoAgregarVentaOptions.id);  // Cargar más opciones
+    }
+}
+
+// Conectar el evento de scroll al `ul` para carga infinita
+tecnicoAgregarVentaOptions.addEventListener('scroll', loadMoreOptionsTecnicosAgregarVenta);
+
+async function toggleOptionsTecnicosAgregarVenta(input, idOptions) {
+    const optionsListUL = document.getElementById(idOptions);
+
+    if (!optionsListUL || !input) {
+        return;
+    }
+   
+    if (optionsListUL.classList.contains('show')) {
+        optionsListUL.classList.remove('show')
+        return;
+    }
+   
+    if (input.value === "") {
+        if (optionsListUL.querySelectorAll('li').length === 0) {
+            await loadPaginatedOptionsTecnicosAgregarVenta(idOptions);
+        } 
+    } else {
+        filterOptionsTecnicosAgregarVenta(input, idOptions);
+    }
+
+    optionsListUL.classList.add('show');
+}
+
+async function loadPaginatedOptionsTecnicosAgregarVenta(idOptions) {
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getPaginatedTecnicos?page=${currentPageAgregarVenta}&pageSize=9`;
+    const optionsListUL = document.getElementById(idOptions);
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`${errorData.error} - ${errorData.details}`);
+        }
+
+        const data = await response.json();
+
+        if (data.data == null) {
+            const li = document.createElement('li');
+            li.textContent = data.message;
+            optionsListUL.appendChild(li);
+            return;
+        }
+
+        // Actualiza la lista con las opciones evitando duplicados
+        populateOptionsListTecnicosAgregarVenta(optionsListUL, data.data);
+        currentPageAgregarVenta++;
+    } catch (error) {
+        //console.error("Error al cargar técnicos:", error.message);
+    }
+}
+
+function populateOptionsListTecnicosAgregarVenta(optionsListUL, tecnicos) {
+    const existingValues = new Set(
+        Array.from(optionsListUL.children).map((li) => li.textContent.trim())
+    );
+
+    tecnicos.forEach((tecnico) => {
+        const value = `${tecnico.idTecnico} | ${tecnico.nombreTecnico}`;
+        const tecnicoData = JSON.stringify(tecnico);
+
+        if (!existingValues.has(value)) {
+            const li = document.createElement('li');
+            li.textContent = value;
+            li.setAttribute('onclick', `selectOptionTecnicosAgregarVenta('${value}', ${tecnicoData})`);
+            optionsListUL.appendChild(li);
+
+            // Agrega el nuevo valor al Set
+            existingValues.add(value);
+        }
+    });
+}
+/* FIN de funciones para manejar el input dinámico */
 
 function analizarXML(file) {
     /*
@@ -116,7 +333,7 @@ function analizarXML(file) {
 }
 
 function clearSomeHiddenInputs() {
-    formInputsArray.forEach(input => {
+    formInputsArrayAgregarVenta.forEach(input => {
         if (input) {
             input.value = "";
         }
@@ -489,7 +706,6 @@ function clearNumDocumento() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-
     function updatePuntosGanados() {
         // Copia el valor de "Monto total" al campo de "Puntos generados"
         puntosGanadosInput.value = Math.round(parseFloat(montoTotalInput.value));
@@ -520,12 +736,13 @@ function updateHiddenDateTimeInput() {
 
 function validarCamposVaciosFormulario() {
     let allFilled = true;
-    formInputsArray.forEach(input => {
+    formInputsArrayAgregarVenta.forEach(input => {
         if (!input.value.trim()) {
             allFilled = false;
 
         }
     });
+
     return allFilled;
 }
 
@@ -604,7 +821,6 @@ function getStringFormatCurrentDate() {
 function validarMaximoDiasTranscurridosHastaHoyFechaHora(fechaHora, maxDias=90) {
     const fechaHoraActual = getStringFormatCurrentDate();
     const dias = getDiasTranscurridosFechaHora(fechaHora, fechaHoraActual);
-    console.log(dias);
     
     return dias <= maxDias;
 }
@@ -620,28 +836,57 @@ function removeZerosIDVentaIntermediada(idVentaIntermediada) {
     return `${prefix}-${trimmedSuffix}`;
 }
 
-function guardarModalAgregarVenta(idModal, idForm, ventasDB) {
-    let itemArraySearched;
-    
-    if (idVentaIntermediadaInput.value) {
-        itemArraySearched = returnItemDBValueWithRequestedID("idVentaIntermediada", idVentaIntermediadaInput.value, ventasDB);
-    }
-     
-    if (itemArraySearched) {
-        multiMessageError2.textContent = "El número de comprobante ya ha sido registrado anteriormente.";
-        multiMessageError2.classList.add("shown");
-    } else if (validarCamposVaciosFormulario()) {
-        if (validarCamposCorrectosFormulario()) {
-            console.log("Enviando formulario satisfactoriamente");
-            multiMessageError2.classList.remove("shown");
-            guardarModal(idModal, idForm);
-        } else {
+async function guardarModalAgregarVenta(idModal, idForm) { 
+    try {
+        const idVentaIntermediada = idVentaIntermediadaInput.value.trim();
+        const url = `${baseUrlMAIN}/verificar-venta`;
+        
+        // Validar el formulario en el cliente
+        if (!validarCamposVaciosFormulario()) {
+            multiMessageError2.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
+            multiMessageError2.classList.add("shown");
+            return;
+        }
+
+        if (!validarCamposCorrectosFormulario()) {
             multiMessageError2.textContent = mensajeCombinado;
             multiMessageError2.classList.add("shown");
+            return;
         }
-    } else {
-        console.log("Todos los campos del formulario deben estar rellenados correctamente.");
-        multiMessageError2.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
-        multiMessageError2.classList.add("shown");
+
+        // Validar existencia de venta intermediada con fetch
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfTokenMAIN
+            },
+            body: JSON.stringify({ idVentaIntermediada })
+        });
+
+        if (!response.ok) {
+            const errorDetails = await response.text();
+            throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}. Detalles: ${errorDetails}`);
+        }
+
+        const data = await response.json();
+
+        if (data.exists) {
+            multiMessageError2.textContent = `El número de comprobante ${idVentaIntermediada} ya ha sido registrado anteriormente.`;
+            multiMessageError2.classList.add('shown');
+            return; 
+        }
+
+        // Si todas las validaciones son correctas, enviar el formulario
+        if (validateDate()) {
+            multiMessageError2.classList.remove('shown');
+            guardarModal(idModal, idForm);
+        }
+    } catch (error) {
+        // Manejo de errores
+        console.error(error);
+        multiMessageError2.textContent = 'Ocurrió un error al verificar la existencia previa del comprobante. Por favor, inténtelo de nuevo.';
+        multiMessageError2.classList.add('shown');
     }
 }
+

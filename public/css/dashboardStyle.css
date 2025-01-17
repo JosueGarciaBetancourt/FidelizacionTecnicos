@@ -80,6 +80,12 @@ aside .sidebar a h5.hidden {
     opacity: 0; /* Mantiene oculto cuando tiene la clase hidden */
 }
 
+aside .sidebar a.cooldownActive{
+    cursor: default !important;
+    pointer-events: none !important;
+    background-color: gray !important;
+}
+
 #canjesArrowDownSpan.hidden {
     opacity: 0; /* Mantiene oculto cuando tiene la clase hidden */
 }

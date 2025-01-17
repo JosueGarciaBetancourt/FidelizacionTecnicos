@@ -136,8 +136,6 @@ class Login_tecnicoController extends Controller
         }
     }
 
-
-
     public function obtenerTecnicoPorId($idTecnico)
     {
         $datostecnico = DB::table('Tecnicos')
@@ -170,7 +168,6 @@ class Login_tecnicoController extends Controller
         ]);
     }
 
-
     public function getAllLoginTecnicos() 
     {
         $tecnicos = DB::table('login_tecnicos')->get(); 
@@ -195,8 +192,6 @@ class Login_tecnicoController extends Controller
         return response()->json($recompensas);
     }
     
-
-
     public function changePassword(Request $request)
     {
         $request->validate([
@@ -281,7 +276,6 @@ class Login_tecnicoController extends Controller
             return response()->json(['message' => 'Error al actualizar oficios'], 500);
         }
     }
-
 
     public function getAvailableJobs()
     {

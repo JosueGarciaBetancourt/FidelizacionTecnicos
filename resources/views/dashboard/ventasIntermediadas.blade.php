@@ -12,19 +12,10 @@
 @section('main-content')
     <div class="ventasIntermediadasContainer">
         <div class="firstRow">
-            <x-btn-create-item onclick="openModal('modalAgregarVenta')"> 
-                Agregar nueva venta 
-            </x-btn-create-item>
-            
-            @include('modals.ventasIntermediadas.modalAgregarVenta')
-
+            <x-btn-create-item onclick="openModal('modalAgregarVenta')"> Agregar nueva venta </x-btn-create-item>
             <x-btn-delete-item onclick="openModal('modalEliminarVentaIntermediada')"> Eliminar </x-btn-delete-item>
-            @include('modals.ventasIntermediadas.modalEliminarVentaIntermediada')
-
-            @include('modals.tecnicos.modalAgregarNuevoTecnico')
         </div>
 
-        <!--Tabla de ventas intermediadas-->
         <div class="thirdRow">
             <table id="tblVentasIntermediadas">
                 <thead>
@@ -43,6 +34,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {{-- 
                     @php
                         $contador = 1;
                     @endphp
@@ -72,11 +64,16 @@
                             </span>
                         </td>
                     </tr>
-                    @endforeach
+                    @endforeach 
+                    --}}
                 </tbody>
             </table>
         </div>
         
+        @include('modals.ventasIntermediadas.modalEliminarVentaIntermediada')
+        @include('modals.ventasIntermediadas.modalAgregarVenta')
+        @include('modals.tecnicos.modalAgregarNuevoTecnico')
+
         <x-modalSuccessAction 
             :idSuccesModal="'successModalVentaIntermediadaGuardada'"
             :message="'Venta Intermediada registrada correctamente'"

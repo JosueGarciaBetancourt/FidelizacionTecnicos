@@ -1,9 +1,21 @@
 #modalEliminarOficio-dialog {
-	max-width: 700px; 
+	max-width: 650px; 
+}
+
+#formEliminarOficio {
+	padding: 1rem 0;
 }
 
 #oficioInputDelete {
 	width: 30rem;
+}
+
+#codigoOficioInputDelete {
+	width: 20rem;
+}
+
+#descripcionOficioInputDelete {
+	width: 17.5rem;
 }
 
 #idModalBodyEliminarOficio {
@@ -17,4 +29,8 @@
 
 #costoPuntosInputDelete {
 	background-color: #fff;
+}
+
+#oficioDeleteOptions {
+	height: 11rem;
 }

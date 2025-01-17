@@ -11,7 +11,6 @@
                     @csrf
                     <!-- Variables globales -->
                     @php
-                        $tecnicosDB = $tecnicos;
                         $idsNombresOficiosBD = $idsNombresOficios;
                         $dbOficioName = 'oficio';
                         $idInput = 'tecnicoEditInput';
@@ -39,8 +38,8 @@
                             <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI | Nombre" autocomplete="off"
                                 oninput="validateValueOnRealTimeTecnicoEdit(this, '{{ $idMessageError }}', {{ json_encode($someHiddenIdInputsArray) }},
                                                                             {{ json_encode($otherInputsArray) }}),
-                                        filterOptionsTecnicoEdit('{{ $idInput }}', '{{ $idOptions }}')"
-                                onclick="toggleOptionsTecnicoEdit('{{ $idInput }}', '{{ $idOptions }}')">
+                                        filterOptionsTecnicoEdit(this, '{{ $idOptions }}')"
+                                onclick="toggleOptionsTecnicoEdit(this, '{{ $idOptions }}')">
                             <ul class="select-items shortSteps" id="{{ $idOptions }}" onscroll="loadMoreOptionsTecnicoEdit(event)"></ul>
                         </div>
                         <span class="noInline-alert-message" id='{{ $idMessageError }}'>No se encontró el técnico buscado</span>      
@@ -56,8 +55,10 @@
                                 placeholder="987654321" name="celularTecnico">
 
                         <label class="primary-label" id='idOficioInputLabel' for='{{ $idOficioInputEdit }}'>Oficio(s):</label>
+                     
                         <x-onlySelect-input 
                             :idInput="$idOficioInputEdit"
+                            :idOptions="'oficioOptionsEdit'"
                             :inputClassName="'onlySelectInput long'"
                             :placeholder="'Seleccionar oficio'"
                             {{-- :name="'oficioTecnico'" --}}
@@ -95,7 +96,7 @@
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer" id="modalEditarTecnico-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalEditarTecnico')">Cancelar</button>
                 <button type="button" class="btn btn-primary update" 
                         onclick="guardarModalEditarTecnico('modalEditarTecnico', 'formEditarTecnico')">Actualizar</button>

@@ -23,10 +23,10 @@
             </div>
 
             <div class="sidebar">
-                <a href="{{ route('ventasIntermediadas.create') }}" 
+                <a id="ventasIntermediadasLink" href="{{ route('ventasIntermediadas.create') }}"
                     class="{{ Request::routeIs('ventasIntermediadas.create') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">request_page</span>
-                    <h5>Ventas <br>Intermediadas</h5>
+                    <h5>Ventas Intermediadas</h5>
                 </a>
                 
                 <div id="canjesLinkContainer">
@@ -36,7 +36,7 @@
                         <span id="canjesArrowDownSpan" class="material-symbols-outlined">keyboard_arrow_down</span>
                     </a>
                     <div class="select-items-canjes hidden" id="canjesMenu">
-                        <a href="{{ route('canjes.registrar') }}" class="{{ Request::routeIs('canjes.registrar') ? 'subLinkActive' : '' }}">• Nuevo Canje</a>
+                        <a href="{{ route('canjes.registrar') }}" class="{{ Request::routeIs('canjes.registrar') ? 'subLinkActive' : '' }}">• Registrar Canje</a>
                         <a href="{{ route('canjes.historial') }}" class="{{ Request::routeIs('canjes.historial') ? 'subLinkActive' : '' }}">• Ver Historial</a>
                         <a href="{{ route('solicitudescanjes.create') }}" class="{{ Request::routeIs('solicitudescanjes.create') ? 'subLinkActive' : '' }}">• Ver solicitudes desde APP</a>
                     </div>

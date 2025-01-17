@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('EstadoVentas', function (Blueprint $table) {
             $table->id('idEstadoVenta'); //1, 2, 3, 4, ...
-            $table->string('nombre_EstadoVenta', 30); //En espera, Redimido (parcial), Redimido (completo), Tiempo Agotado
+            $table->string('nombre_EstadoVenta', 100); //En espera, Redimido (parcial), Redimido (completo), Tiempo Agotado
             $table->timestamps(); //created_at updated_at
             $table->softDeletes(); //deleted_at
         });

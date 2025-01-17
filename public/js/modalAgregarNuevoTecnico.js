@@ -184,9 +184,7 @@ async function guardarModalAgregarNuevoTecnico(idModal, idForm) {
     try {
         const idTecnico = dniInput.value.trim();
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-        const baseUrl = `${window.location.origin}`;
-        const url = `${baseUrl}/verificar-tecnico`;
-        
+        const url = `${baseUrlMAIN}/verificar-tecnico`;
 
         // Validar el formulario en el cliente
         if (!validateFormAgregarNuevoTecnico()) {
@@ -208,7 +206,7 @@ async function guardarModalAgregarNuevoTecnico(idModal, idForm) {
             return;
         }
 
-        // Validar redundancia de técnico con fetch
+        // Validar existencia de técnico con fetch
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -217,8 +215,6 @@ async function guardarModalAgregarNuevoTecnico(idModal, idForm) {
             },
             body: JSON.stringify({ idTecnico })
         });
-
-        console.log(response);
 
         if (!response.ok) {
             throw new Error('Error en la comunicación con el servidor.');
@@ -229,7 +225,7 @@ async function guardarModalAgregarNuevoTecnico(idModal, idForm) {
         if (data.exists) {
             multiMessageError.textContent = `El técnico con DNI: ${idTecnico} ya ha sido registrado anteriormente.`;
             multiMessageError.classList.add('shown');
-            return; // Detener la ejecución si el técnico ya existe
+            return; 
         }
 
         // Si todas las validaciones son correctas, enviar el formulario
@@ -239,53 +235,8 @@ async function guardarModalAgregarNuevoTecnico(idModal, idForm) {
         }
     } catch (error) {
         // Manejo de errores
-        console.error('Error al verificar el técnico:', error);
-        multiMessageError.textContent = 'Ocurrió un error al verificar el técnico. Por favor, inténtelo de nuevo.';
+        console.error('Error al verificar existencia previa del técnico:', error);
+        multiMessageError.textContent = 'Ocurrió un error al verificar la existencia previa del técnico. Por favor, inténtelo de nuevo.';
         multiMessageError.classList.add('shown');
     }
 }
-
-
-    /*
-    itemArraySearched = returnItemDBValueWithRequestedID("idTecnico", dniInput.value, tecnicosDB);
-
-    if (itemArraySearched) {
-        multiMessageError.textContent = "El técnico con DNI: " + dniInput.value + " ya ha sido registrado anteriormente.";
-        multiMessageError.classList.add("shown");
-        return
-    }
-
-    if (!validateFormAgregarNuevoTecnico()) {
-        multiMessageError.textContent = 'Debe completar todos los campos del formulario correctamente.';
-        multiMessageError.classList.add('shown');
-        console.log("Debe completar todos los campos del formulario.");
-        return; // Salir si la validación de campos falla
-    }
-
-    // Validar longitud de DNI y celular
-    var isDniValid = validateInputLength(dniInput, 8);
-    var isPhoneValid = validateInputLength(phoneInput, 9);
-
-    if (!isDniValid && !isPhoneValid) { 
-        multiMessageError.innerHTML  = `El campo DNI debe contener 8 caracteres. <br>
-                                        El campo Celular debe contener 9 dígitos`; // Template literals → ALT GR + } = `
-        multiMessageError.classList.add('shown');
-        console.log("El campo DNI debe contener 8 caracteres.");
-    } else if (!isDniValid) {
-        multiMessageError.textContent = 'El campo DNI debe contener 8 caracteres.';
-        multiMessageError.classList.add('shown');
-        console.log("El campo DNI debe contener 8 caracteres.");
-    } else if (!isPhoneValid) {
-        multiMessageError.textContent = 'El campo Celular debe contener 9 dígitos.';
-        multiMessageError.classList.add('shown');
-        console.log("El campo Celular debe contener 9 dígitos.");
-    }
-
-    // Si ambas validaciones de longitud son correctas, enviar el formulario
-    if (isDniValid && isPhoneValid && validateDate()) {
-        multiMessageError.classList.remove('shown');
-        guardarModal(idModal, idForm);
-        //document.getElementById(idForm).submit();
-        //closeModal(idModal);
-    }
-}*/
