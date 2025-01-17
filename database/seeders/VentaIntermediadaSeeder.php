@@ -135,7 +135,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'montoTotal_VentaIntermediada' => 500,
                 'puntosGanados_VentaIntermediada' => 500,
                 'puntosActuales_VentaIntermediada' => 500,
-                'idEstadoVenta' => 1,  // En Espera
+                'idEstadoVenta' => 5,  // En espera (solicitado desde app)
                 'apareceEnSolicitud' => 1,
             ],
             [
@@ -150,7 +150,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'montoTotal_VentaIntermediada' => 1000,
                 'puntosGanados_VentaIntermediada' => 1000,
                 'puntosActuales_VentaIntermediada' => 1000,
-                'idEstadoVenta' => 1,  // En Espera
+                'idEstadoVenta' => 5,  // En espera (solicitado desde app)
                 'apareceEnSolicitud' => 1,
             ],
         ];

@@ -29,7 +29,7 @@ class EstadoVentaSeeder extends Seeder
             ],
             [
                 //'idEstadoVenta' => 5,
-                'nombre_EstadoVenta' => 'En espera (solicitud desde app)', //1 a 90 días transcurridos y proviene de una solicitud desde la app
+                'nombre_EstadoVenta' => 'En espera (solicitado desde app)', //1 a 90 días transcurridos y proviene de una solicitud desde la app
             ],
         ];
 
