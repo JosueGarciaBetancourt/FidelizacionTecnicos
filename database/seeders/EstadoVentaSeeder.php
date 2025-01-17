@@ -24,8 +24,8 @@ class EstadoVentaSeeder extends Seeder
                 'nombre_EstadoVenta' => 'Redimido (completo)', // Canjear todos los puntos dentro de los 90 días
             ],
             [
-                 //'idEstadoVenta' => 4,
-                 'nombre_EstadoVenta' => 'Tiempo Agotado', // Tiene que ser una venta En espera ó Redimido (parcial) y supera los 90 días
+                //'idEstadoVenta' => 4,
+                'nombre_EstadoVenta' => 'Tiempo Agotado', // Tiene que ser una venta En espera ó Redimido (parcial) y supera los 90 días
             ],
             [
                 //'idEstadoVenta' => 5,

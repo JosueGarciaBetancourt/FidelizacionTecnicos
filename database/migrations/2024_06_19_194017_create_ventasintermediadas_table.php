@@ -27,7 +27,7 @@ return new class extends Migration
             $table->unsignedBigInteger('idEstadoVenta')->default(1); //1: En espera, 2: Redimido (parcial), 3: Redimido (completo), 4: Tiempo Agotado
             $table->foreign('idEstadoVenta')->references('idEstadoVenta')->on('EstadoVentas');
             
-            $table->bool('apareceEnSolicitud')->default(0);
+            $table->boolean('apareceEnSolicitud')->default(0);
 
             $table->timestamps(); //created_at updated_at
             $table->softDeletes(); //deleted_at
