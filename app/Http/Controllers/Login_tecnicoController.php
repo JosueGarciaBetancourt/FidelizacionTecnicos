@@ -89,11 +89,25 @@ class Login_tecnicoController extends Controller
                 ->join('EstadoVentas', 'VentasIntermediadas.idEstadoVenta', '=', 'EstadoVentas.idEstadoVenta')
                 ->where('VentasIntermediadas.idTecnico', $idTecnico)
                 ->select(
-                    'VentasIntermediadas.*',
+                    'VentasIntermediadas.idVentaIntermediada',
+                    'VentasIntermediadas.idTecnico',
+                    'VentasIntermediadas.nombreTecnico',
+                    'VentasIntermediadas.tipoCodigoCliente_VentaIntermediada',
+                    'VentasIntermediadas.codigoCliente_VentaIntermediada',
+                    'VentasIntermediadas.nombreCliente_VentaIntermediada',
+                    'VentasIntermediadas.fechaHoraEmision_VentaIntermediada',
+                    'VentasIntermediadas.fechaHoraCargada_VentaIntermediada',
+                    'VentasIntermediadas.montoTotal_VentaIntermediada',
+                    'VentasIntermediadas.puntosGanados_VentaIntermediada',
+                    'VentasIntermediadas.puntosActuales_VentaIntermediada',
+                    'VentasIntermediadas.idEstadoVenta',
+                    'VentasIntermediadas.created_at',
+                    'VentasIntermediadas.updated_at',
+                    'VentasIntermediadas.deleted_at',
                     'EstadoVentas.nombre_EstadoVenta as estado_nombre'
                 )
                 ->get();
-            
+
             foreach ($ventas  as $venta) {
                 $venta->montoTotal_VentaIntermediada = (double) $venta->montoTotal_VentaIntermediada;
             }  
