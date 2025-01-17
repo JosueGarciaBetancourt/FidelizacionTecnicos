@@ -96,8 +96,7 @@ function selectOptionEliminarVenta(value, venta) {
 async function filterOptionsEliminarVenta(input, idOptions) {
     const filter = input.value.trim().toUpperCase();
     const ul = document.getElementById(idOptions);
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;  
-    const url = `${baseUrl}/dashboard-ventasIntermediadas/getFilteredVentas`;
+    const url = `${baseUrlMAIN}/dashboard-ventasIntermediadas/getFilteredVentas`;
 
     if (!filter) {
         currentPageEliminarVenta = 1;
@@ -150,8 +149,7 @@ async function filterOptionsEliminarVenta(input, idOptions) {
 async function validateValueOnRealTimeEliminarVenta(input, idMessageError, someHiddenIdInputsArray = null, otherInputsArray = null) {
     const idVentaIdNombreTecnico = input.value.trim();
     const messageError = document.getElementById(idMessageError);
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
-    const url = `${baseUrl}/dashboard-ventasIntermediadas/getVentaByIdVentaIdNombreTecnico`;
+    const url = `${baseUrlMAIN}/dashboard-ventasIntermediadas/getVentaByIdVentaIdNombreTecnico`;
 
     const clearHiddenInputs = () => {
         if (Array.isArray(someHiddenIdInputsArray)) {
@@ -292,8 +290,7 @@ async function toggleOptionsEliminarVenta(input, idOptions) {
 }
 
 async function loadPaginatedOptionsEliminarVenta(idOptions) {
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
-    const url = `${baseUrl}/dashboard-ventasIntermediadas/getPaginatedVentas?page=${currentPageEliminarVenta}`;
+    const url = `${baseUrlMAIN}/dashboard-ventasIntermediadas/getPaginatedVentas?page=${currentPageEliminarVenta}`;
     const optionsListUL = document.getElementById(idOptions);
 
     try {

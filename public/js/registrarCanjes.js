@@ -174,8 +174,7 @@ function selectOptionTecnicoCanjes(value, tecnico) {
 async function filterOptionsTecnicoCanjes(input, idOptions) {
     const filter = input.value.trim().toUpperCase();
     const ul = document.getElementById(idOptions);
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;  
-    const url = `${baseUrl}/dashboard-tecnicos/getFilteredTecnicos?pageSize=8`;
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getFilteredTecnicos?pageSize=8`;
 
     const response = await fetch(url, {
         method: 'POST', 

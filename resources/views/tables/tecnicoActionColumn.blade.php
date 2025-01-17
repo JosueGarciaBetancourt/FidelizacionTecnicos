@@ -59,8 +59,7 @@
 	}
 
 	async function restorePassword(idTecnico) {
-		const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
-		const url = `${baseUrl}/dashboard-tecnicos/restorePassword`;
+		const url = `${baseUrlMAIN}/dashboard-tecnicos/restorePassword`;
 
 		try {
 			const response = await fetch(url, {

@@ -72,7 +72,7 @@ class SolicitudCanjeController extends Controller
         DB::beginTransaction();
 
         try {
-            // Obtener la venta seleccionada
+            // Obtener la venta solicitada
             $venta = VentaIntermediada::where('idVentaIntermediada', $validatedData['idVentaIntermediada'])->firstOrFail();
 
             // Convertir fechaHoraEmision_VentaIntermediada a Carbon
@@ -128,6 +128,13 @@ class SolicitudCanjeController extends Controller
                     'costoRecompensa' => $recompensa['costoRecompensa'],
                 ]);
             }
+
+            // Modificar la venta intermediada solicitada
+            $venta->update([
+                'apareceEnSolicitud' => 1,
+            ]);
+
+            Log::info($venta);
 
             DB::commit();
 

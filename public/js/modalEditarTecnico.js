@@ -156,8 +156,7 @@ function selectOptionEditarTecnico(value, tecnico) {
 async function filterOptionsTecnicoEdit(input, idOptions) {
     const filter = input.value.trim().toUpperCase();
     const ul = document.getElementById(idOptions);
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;  
-    const url = `${baseUrl}/dashboard-tecnicos/getFilteredTecnicos`;
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getFilteredTecnicos`;
 
     const response = await fetch(url, {
         method: 'POST', 
@@ -203,8 +202,7 @@ async function filterOptionsTecnicoEdit(input, idOptions) {
 async function validateValueOnRealTimeTecnicoEdit(input, idMessageError, someHiddenIdInputsArray = null, otherInputsArray = null) {
     const idNombreTecnico = input.value.trim();
     const messageError = document.getElementById(idMessageError);
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
-    const url = `${baseUrl}/dashboard-tecnicos/getTecnicoByIdNombre`;
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getTecnicoByIdNombre`;
 
     const clearHiddenInputs = () => {
         if (Array.isArray(someHiddenIdInputsArray)) {
@@ -332,8 +330,7 @@ async function toggleOptionsTecnicoEdit(input, idOptions) {
 }
 
 async function loadPaginatedOptionsTecnicoEdit(idOptions) {
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
-    const url = `${baseUrl}/dashboard-tecnicos/getPaginatedTecnicos?page=${currentPageTecnicoEdit}`;
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getPaginatedTecnicos?page=${currentPageTecnicoEdit}`;
     const optionsListUL = document.getElementById(idOptions);
 
     try {

@@ -57,8 +57,7 @@ function selectOptionTecnicosAgregarVenta(value, tecnico) {
 async function filterOptionsTecnicosAgregarVenta(input, idOptions) {
     const filter = input.value.trim().toUpperCase();
     const ul = document.getElementById(idOptions);
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;  
-    const url = `${baseUrl}/dashboard-tecnicos/getFilteredTecnicos`;
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getFilteredTecnicos`;
 
     if (!filter) {
         currentPageAgregarVenta = 1;
@@ -111,8 +110,7 @@ async function filterOptionsTecnicosAgregarVenta(input, idOptions) {
 async function validateValueOnRealTimeTecnicosAgregarVenta(input, idMessageError, someHiddenIdInputsArray = null) {
     const idNombreTecnico = input.value.trim();
     const messageError = document.getElementById(idMessageError);
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
-    const url = `${baseUrl}/dashboard-tecnicos/getTecnicoByIdNombre`;
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getTecnicoByIdNombre`;
 
     const clearHiddenInputs = () => {
         if (Array.isArray(someHiddenIdInputsArray)) {
@@ -218,8 +216,7 @@ async function toggleOptionsTecnicosAgregarVenta(input, idOptions) {
 }
 
 async function loadPaginatedOptionsTecnicosAgregarVenta(idOptions) {
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
-    const url = `${baseUrl}/dashboard-tecnicos/getPaginatedTecnicos?page=${currentPageAgregarVenta}&pageSize=9`;
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getPaginatedTecnicos?page=${currentPageAgregarVenta}&pageSize=9`;
     const optionsListUL = document.getElementById(idOptions);
 
     try {

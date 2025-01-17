@@ -78,8 +78,7 @@ function selectOptionTecnicoDelete(value, tecnico) {
 async function filterOptionsTecnicoDelete(input, idOptions) {
     const filter = input.value.trim().toUpperCase();
     const ul = document.getElementById(idOptions);
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;  
-    const url = `${baseUrl}/dashboard-tecnicos/getFilteredTecnicos`;
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getFilteredTecnicos`;
 
     const response = await fetch(url, {
         method: 'POST', 
@@ -125,8 +124,7 @@ async function filterOptionsTecnicoDelete(input, idOptions) {
 async function validateValueOnRealTimeTecnicoDelete(input, idMessageError, otherInputsArray = null) {
     const idNombreTecnico = input.value.trim();
     const messageError = document.getElementById(idMessageError);
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
-    const url = `${baseUrl}/dashboard-tecnicos/getTecnicoByIdNombre`;
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getTecnicoByIdNombre`;
 
     const clearInputs = () => {
         if (Array.isArray(otherInputsArray)) {
@@ -237,8 +235,7 @@ async function toggleOptionsTecnicoDelete(idInput, idOptions) {
 }
 
 async function loadPaginatedOptionsTecnicoDelete(idOptions) {
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;
-    const url = `${baseUrl}/dashboard-tecnicos/getPaginatedTecnicos?page=${currentPageTecnicoDelete}`;
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getPaginatedTecnicos?page=${currentPageTecnicoDelete}`;
     const optionsListUL = document.getElementById(idOptions);
 
     try {
