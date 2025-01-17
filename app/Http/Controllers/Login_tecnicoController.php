@@ -94,6 +94,10 @@ class Login_tecnicoController extends Controller
                 )
                 ->get();
             
+            foreach ($ventas  as $venta) {
+                $venta->montoTotal_VentaIntermediada = (double) $venta->montoTotal_VentaIntermediada;
+            }  
+
             // Si no se encuentran resultados
             if ($ventas->isEmpty()) {
                 return response()->json(['message' => 'No se encontraron ventas para el técnico.'], 404);
