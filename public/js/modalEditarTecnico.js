@@ -308,8 +308,7 @@ async function loadMoreOptionsTecnicoEdit(event) {
 // Conectar el evento de scroll al `ul` para carga infinita
 tecnicoEditOptions.addEventListener('scroll', loadMoreOptionsTecnicoEdit);
 
-async function toggleOptionsTecnicoEdit(idInput, idOptions) {
-    const input = document.getElementById(idInput);
+async function toggleOptionsTecnicoEdit(input, idOptions) {
     const optionsListUL = document.getElementById(idOptions);
 
     if (!optionsListUL || !input) {
@@ -366,8 +365,6 @@ async function loadPaginatedOptionsTecnicoEdit(idOptions) {
         currentPageTecnicoEdit++;
     } catch (error) {
         //console.error("Error al cargar técnicos:", error.message);
-    } finally {
-        isLoadingTecnicoDelete = false;
     }
 }
 
@@ -391,6 +388,5 @@ function populateOptionsListTecnicoEdit(optionsListUL, tecnicos) {
         }
     });
 }
-
 /* FIN de funciones para manejar el input dinámico */
 

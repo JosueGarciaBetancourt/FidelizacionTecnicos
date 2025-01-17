@@ -74,3 +74,7 @@
 td {
     padding: 1rem 0.5rem !important;
 }
+
+#tblTecnicos tbody tr:nth-child(even) {
+    background-color: #f8f8f8; /* Color claro alterno */
+}

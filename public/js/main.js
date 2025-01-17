@@ -66,14 +66,15 @@ function handleFormSubmission(elementId, formId, timeout = 2000) {
     if (element.tagName === 'BUTTON') {
         element.disabled = true;
     }
+
     element.classList.add('disabled');
     element.style.pointerEvents = 'none';
     element.style.opacity = '0.7';
     
     // Agregar indicador visual de carga
-    const loadingSpinner = document.createElement('span');
+    /* const loadingSpinner = document.createElement('span');
     loadingSpinner.className = 'spinner';
-    element.appendChild(loadingSpinner);
+    element.appendChild(loadingSpinner); */
 
     // Enviar el formulario
     try {
@@ -86,10 +87,10 @@ function handleFormSubmission(elementId, formId, timeout = 2000) {
     setTimeout(() => {
         if (element) {
             // Eliminar indicador de carga
-            const spinner = element.querySelector('.spinner');
+            /* const spinner = element.querySelector('.spinner');
             if (spinner) {
                 element.removeChild(spinner);
-            }
+            } */
 
             // Restaurar el elemento
             if (element.tagName === 'BUTTON') {
@@ -102,7 +103,7 @@ function handleFormSubmission(elementId, formId, timeout = 2000) {
         }
     }, timeout);
 }
-
+ 
 // Función para enviar el mensaje de error al log de Laravel
 function registrarErrorEnLaravel(mensajeError) {
     fetch('/log-error', {

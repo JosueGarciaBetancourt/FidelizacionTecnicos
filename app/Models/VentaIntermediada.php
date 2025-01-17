@@ -35,9 +35,9 @@ class VentaIntermediada extends Model
         'idEstadoVenta',
     ];
 
-    protected $appends = ['tipoComprobante', 'diasTranscurridos'];
+    protected $appends = ['tipoComprobante', 'diasTranscurridos', 'fechaVenta', 'horaVenta', 'fechaCargada', 'horaCargada'];
   
-    /* public function getFechaVentaAttribute() { 
+    public function getFechaVentaAttribute() { 
         $fechaHoraCompleta = $this->fechaHoraEmision_VentaIntermediada;
         $carbonDate = Carbon::parse($fechaHoraCompleta);
         return $carbonDate->format('Y-m-d');
@@ -68,7 +68,6 @@ class VentaIntermediada extends Model
         // Obtener solo la hora en formato deseado
         return $carbonDate->format('H:i:s'); // Devuelve solo la hora
     }
-    */
 
     public function getTipoComprobanteAttribute() {
         $tipoComprobante = '';

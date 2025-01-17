@@ -10,6 +10,7 @@ class VentaIntermediadaSeeder extends Seeder
 {
     public function run(): void
     {
+        // 10 ventas de ejemplo
         $ventasIntermediadas = [
             [
                 'idVentaIntermediada' => 'F001-00000072',
@@ -31,7 +32,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'tipoCodigoCliente_VentaIntermediada' => 'RUC',
                 'codigoCliente_VentaIntermediada' => '10703047951',
                 'nombreCliente_VentaIntermediada' => 'BERMUDEZ ROJAS MISHELL',
-                'fechaHoraEmision_VentaIntermediada' => '2024-10-09 08:25:11',
+                'fechaHoraEmision_VentaIntermediada' => '2024-12-09 08:25:11',
                 'montoTotal_VentaIntermediada' => 400,
                 'puntosGanados_VentaIntermediada' => 400,
                 'puntosActuales_VentaIntermediada'=> 400,
@@ -57,8 +58,8 @@ class VentaIntermediadaSeeder extends Seeder
                 'tipoCodigoCliente_VentaIntermediada' => 'RUC',
                 'codigoCliente_VentaIntermediada' => '10456418771',
                 'nombreCliente_VentaIntermediada' => 'PEREZ VIDALON LUIS EDGAR',
-                'fechaHoraEmision_VentaIntermediada' => '2024-10-10 10:00:00',
-                'fechaHoraCargada_VentaIntermediada' => '2024-10-25 10:00:00', 
+                'fechaHoraEmision_VentaIntermediada' => '2024-12-10 10:00:00',
+                'fechaHoraCargada_VentaIntermediada' => '2024-12-25 10:00:00', 
                 'montoTotal_VentaIntermediada' => 99.99,
                 'puntosGanados_VentaIntermediada' => 100,
                 'puntosActuales_VentaIntermediada' => 100,
@@ -71,7 +72,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'tipoCodigoCliente_VentaIntermediada' => 'DNI',
                 'codigoCliente_VentaIntermediada' => '72385453',
                 'nombreCliente_VentaIntermediada' => 'OSORIO VILLAFUERTE, JOSE LUIS',
-                'fechaHoraEmision_VentaIntermediada' => '2024-10-20 08:25:11',
+                'fechaHoraEmision_VentaIntermediada' => '2024-12-20 08:25:11',
                 'montoTotal_VentaIntermediada' => 450,
                 'puntosGanados_VentaIntermediada' => 450,
                 'puntosActuales_VentaIntermediada' => 400,
@@ -100,16 +101,28 @@ class VentaIntermediadaSeeder extends Seeder
                 'tipoCodigoCliente_VentaIntermediada' => 'DNI',
                 'codigoCliente_VentaIntermediada' => '45404787',
                 'nombreCliente_VentaIntermediada' => 'BAQUERIZO QUISPE, ELIZABETH SILVIA',
-                'fechaHoraEmision_VentaIntermediada' => '2024-08-30 10:00:00', // 90 días hasta el 2024-11-20
-                'fechaHoraCargada_VentaIntermediada' => '2024-08-20 10:00:00',
+                'fechaHoraEmision_VentaIntermediada' => '2024-11-30 10:00:00', // 90 días hasta el 2024-11-20
+                'fechaHoraCargada_VentaIntermediada' => '2024-12-20 10:00:00',
                 'montoTotal_VentaIntermediada' => 100,
                 'puntosGanados_VentaIntermediada' => 100,
                 'puntosActuales_VentaIntermediada' => 100,
                 'idEstadoVenta' => 1,  // En Espera
             ],
-
+            [ 
+                'idVentaIntermediada' => 'F001-00001234',
+                'idTecnico' => '43111949',
+                'nombreTecnico' => 'Técnico Guillermo Peña',
+                'tipoCodigoCliente_VentaIntermediada' => 'DNI',
+                'codigoCliente_VentaIntermediada' => '11223344',
+                'nombreCliente_VentaIntermediada' => 'Cliente de prueba',
+                'fechaHoraEmision_VentaIntermediada' => '2024-12-30 10:00:00', 
+                'fechaHoraCargada_VentaIntermediada' => '2024-12-30 10:30:00',
+                'montoTotal_VentaIntermediada' => 999.99,
+                'puntosGanados_VentaIntermediada' => 1000,
+                'puntosActuales_VentaIntermediada' => 1000,
+                'idEstadoVenta' => 1,  // En Espera
+            ],
             /*Ventas para las solicitudes canje*/
-            /*PENDIENTES*/
             [
                 'idVentaIntermediada' => 'F001-00000444',
                 'idTecnico' => '77043114',
@@ -123,6 +136,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'puntosGanados_VentaIntermediada' => 500,
                 'puntosActuales_VentaIntermediada' => 500,
                 'idEstadoVenta' => 1,  // En Espera
+                'apareceEnSolicitud' => 1,
             ],
             [
                 'idVentaIntermediada' => 'F001-00000555',
@@ -131,26 +145,13 @@ class VentaIntermediadaSeeder extends Seeder
                 'tipoCodigoCliente_VentaIntermediada' => 'DNI',
                 'codigoCliente_VentaIntermediada' => '45404787',
                 'nombreCliente_VentaIntermediada' => 'BAQUERIZO QUISPE, ELIZABETH SILVIA',
-                'fechaHoraEmision_VentaIntermediada' => '2024-10-30 10:00:00', 
-                'fechaHoraCargada_VentaIntermediada' => '2024-11-20 10:00:00',
+                'fechaHoraEmision_VentaIntermediada' => '2024-11-30 10:00:00', 
+                'fechaHoraCargada_VentaIntermediada' => '2024-12-20 10:00:00',
                 'montoTotal_VentaIntermediada' => 1000,
                 'puntosGanados_VentaIntermediada' => 1000,
                 'puntosActuales_VentaIntermediada' => 1000,
                 'idEstadoVenta' => 1,  // En Espera
-            ],
-            [
-                'idVentaIntermediada' => 'F001-00001234',
-                'idTecnico' => '43111949',
-                'nombreTecnico' => 'Técnico Guillermo Peña',
-                'tipoCodigoCliente_VentaIntermediada' => 'DNI',
-                'codigoCliente_VentaIntermediada' => '11223344',
-                'nombreCliente_VentaIntermediada' => 'Cliente de prueba',
-                'fechaHoraEmision_VentaIntermediada' => '2024-11-30 10:00:00', 
-                'fechaHoraCargada_VentaIntermediada' => '2024-11-30 10:30:00',
-                'montoTotal_VentaIntermediada' => 999.99,
-                'puntosGanados_VentaIntermediada' => 1000,
-                'puntosActuales_VentaIntermediada' => 1000,
-                'idEstadoVenta' => 1,  // En Espera
+                'apareceEnSolicitud' => 1,
             ],
         ];
 
@@ -173,6 +174,6 @@ class VentaIntermediadaSeeder extends Seeder
         }
 
         // Ventas usando factory para el técnico con ID 77043114
-        VentaIntermediada::factory(1000)->create();
+        // VentaIntermediada::factory(5)->create();
     }
 }

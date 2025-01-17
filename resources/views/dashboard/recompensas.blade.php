@@ -46,41 +46,6 @@
             @include('modals.recompensas.modalEliminarTipoRecompensa')
         </div>
 
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalRecompensaGuardada'"
-            :message="'Recompensa guardada correctamente'"
-        />
-
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalRecompensaActualizada'"
-            :message="'Recompensa actualizada correctamente'"
-        />
-
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalRecompensaEliminada'"
-            :message="'Recompensa inhabilitada correctamente'"
-        />
-
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalRecompensaRestaurada'"
-            :message="'Recompensa habilitada correctamente'"
-        />
-
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalTipoRecompensaGuardado'"
-            :message="'Tipo de recompensa guardado correctamente'"
-        />
-
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalTipoRecompensaActualizado'"
-            :message="'Tipo de recompensa actualizado correctamente'"
-        />
-
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalTipoRecompensaEliminado'"
-            :message="'Tipo de recompensa eliminado correctamente'"
-        />
-
         <div class="thirdRow">
             <table id="tblRecompensas">
                 <thead>
@@ -118,6 +83,41 @@
                 </tbody>
             </table>
         </div>
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalRecompensaGuardada'"
+            :message="'Recompensa guardada correctamente'"
+        />
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalRecompensaActualizada'"
+            :message="'Recompensa actualizada correctamente'"
+        />
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalRecompensaEliminada'"
+            :message="'Recompensa inhabilitada correctamente'"
+        />
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalRecompensaRestaurada'"
+            :message="'Recompensa habilitada correctamente'"
+        />
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalTipoRecompensaGuardado'"
+            :message="'Tipo de recompensa guardado correctamente'"
+        />
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalTipoRecompensaActualizado'"
+            :message="'Tipo de recompensa actualizado correctamente'"
+        />
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalTipoRecompensaEliminado'"
+            :message="'Tipo de recompensa eliminado correctamente'"
+        />
     </div>
 @endsection
 

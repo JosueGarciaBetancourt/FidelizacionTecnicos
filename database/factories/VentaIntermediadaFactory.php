@@ -17,7 +17,7 @@ class VentaIntermediadaFactory extends Factory
         return [
             'idVentaIntermediada' => $this->faker->unique()->regexify('B(001|002)-[0-9]{8}'),
             'idTecnico' => '77043114',
-            'nombreTecnico' => $this->faker->name,
+            'nombreTecnico' => 'Josué Daniel García Betancourt',
             'tipoCodigoCliente_VentaIntermediada' => $this->faker->randomElement(['RUC', 'DNI']),
             'codigoCliente_VentaIntermediada' => $this->faker->unique()->numerify('########'),
             'nombreCliente_VentaIntermediada' => $this->faker->name,

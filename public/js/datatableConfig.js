@@ -34,8 +34,8 @@ $(document).ready(function() {
 		language: {
 			"processing": "Procesando...",
 			"lengthMenu": "Mostrar _MENU_ registros",
-			"zeroRecords": "No se encontraron resultados",
-			"emptyTable": "Ningún dato disponible en esta tabla",
+			"zeroRecords": "No se encontraron ventas intermediadas",
+			"emptyTable": "No se encontraron ventas intermediadas",
 			"infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
 			"infoFiltered": "(filtrado de un total de _MAX_ registros)",
 			"search": "<span class='material-symbols-outlined'>search</span>",
@@ -301,6 +301,7 @@ $(document).ready(function() {
 					console.error("status: " + status);
 					console.error("error: " + error);
 					console.error(xhr.status);
+					location.reload();
 				}
 			}
 		},
@@ -393,8 +394,8 @@ $(document).ready(function() {
 		language: {
 			"processing": "Procesando...",
 			"lengthMenu": "Mostrar _MENU_ registros",
-			"zeroRecords": "No se encontraron resultados",
-			"emptyTable": "Ningún dato disponible en esta tabla",
+			"zeroRecords": "No se encontraron recompensas",
+			"emptyTable": "No se encontraron recompensas",
 			"infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
 			"infoFiltered": "(filtrado de un total de _MAX_ registros)",
 			"search": "<span class='material-symbols-outlined'>search</span>",
@@ -647,27 +648,36 @@ $(document).ready(function() {
 			{   extend: "excelHtml5",
 				text: "<i class='fa-solid fa-file-excel'></i>",
 				titleAttr: "Exportar a excel", //tooltip,
+				exportOptions: {
+					columns: [0, 1, 2, 3, 4, 5, 6, 7, 8], // Exportar solo columnas específicas
+					modifier: {
+						search: 'none', // Ignorar los filtros de búsqueda
+						order: 'applied', // Aplicar el orden actual de la tabla
+						page: 'all' // Incluir todas las páginas
+					}
+				}
 			},  
 			{   extend: "pdfHtml5",
 				text: "<i class='fa-solid fa-file-pdf'></i>",
 				titleAttr: "Exportar a PDF", //tooltip,
 				orientation: 'landscape',
+				exportOptions: {
+					columns: [0, 1, 2, 3, 4, 5, 6, 7, 8], 
+					modifier: {
+						search: 'none', // Ignorar los filtros de búsqueda
+						order: 'applied', // Aplicar el orden actual de la tabla
+						page: 'all' // Incluir todas las páginas
+					}
+				}
 			},  
 		],
-
-		// Configuración del buscador
-		/*search: {
-			caseInsensitive: true, // Búsqueda sin distinción entre mayúsculas y minúsculas
-			regex: true, // Habilitar búsqueda usando expresiones regulares (opcional)
-			smart: true, // Habilitar búsqueda inteligente (por defecto)
-		},*/
 
 		// Configurando el idioma
 		language: {
 			"processing": "Procesando...",
 			"lengthMenu": "Mostrar _MENU_ registros",
-			"zeroRecords": "No se encontraron resultados",
-			"emptyTable": "Ningún dato disponible en esta tabla",
+			"zeroRecords": "No se encontraron técnicos",
+			"emptyTable": "No se encontraron técnicos",
 			"infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
 			"infoFiltered": "(filtrado de un total de _MAX_ registros)",
 			"search": "<span class='material-symbols-outlined'>search</span>",
@@ -931,10 +941,11 @@ $(document).ready(function() {
 			dataType: "json",
 			error: function(xhr, status, error) {
 				if (xhr.status !== 204) {
-					console.log("AJAX:");
+					console.log("AJAX");
 					console.error("status: " + status);
 					console.error("error: " + error);
 					console.error(xhr.status);
+					location.reload();
 				}
 			}
 		},
@@ -981,8 +992,8 @@ $(document).ready(function() {
 		language: {
 			"processing": "Procesando...",
 			"lengthMenu": "Mostrar _MENU_ registros",
-			"zeroRecords": "No se encontraron resultados",
-			"emptyTable": "Ningún dato disponible en esta tabla",
+			"zeroRecords": "No se encontraron oficios",
+			"emptyTable": "No se encontraron oficios",
 			"infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
 			"infoFiltered": "(filtrado de un total de _MAX_ registros)",
 			"search": "<span class='material-symbols-outlined'>search</span>",
@@ -1260,8 +1271,8 @@ $(document).ready(function() {
 		language: {
 			"processing": "Procesando...",
 			"lengthMenu": "Mostrar _MENU_ registros",
-			"zeroRecords": "No se encontraron resultados",
-			"emptyTable": "Ningún dato disponible en esta tabla",
+			"zeroRecords": "No se encontraron canjes",
+			"emptyTable": "No se encontraron canjes",
 			"infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
 			"infoFiltered": "(filtrado de un total de _MAX_ registros)",
 			"search": "<span class='material-symbols-outlined'>search</span>",
@@ -1537,8 +1548,8 @@ $(document).ready(function() {
 		language: {
 			"processing": "Procesando...",
 			"lengthMenu": "Mostrar _MENU_ registros",
-			"zeroRecords": "No se encontraron resultados",
-			"emptyTable": "Ningún dato disponible en esta tabla",
+			"zeroRecords": "No se encontraron solicitudes de canjes",
+			"emptyTable": "No se encontraron solicitudes de canjes",
 			"infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
 			"infoFiltered": "(filtrado de un total de _MAX_ registros)",
 			"search": "<span class='material-symbols-outlined'>search</span>",

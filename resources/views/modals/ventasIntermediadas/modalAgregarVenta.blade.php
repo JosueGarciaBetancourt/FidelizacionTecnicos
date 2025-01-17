@@ -27,21 +27,11 @@
                             <div class="tooltip-container">
                                 <span class="tooltip red" id="idTecnicoTooltip">Este es el mensaje del tooltip</span>
                             </div>
-                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI | Nombre"
-                                oninput="filterOptions('{{ $idInput }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTime(this, '{{ $idOptions }}', '{{ $idMessageError }}',
-                                        {{ json_encode($someHiddenIdInputsArray) }})" 
-                                onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
-                            {{-- <ul class="select-items" id='{{ $idOptions }}'>
-                                @foreach ($tecnicos as $tecnico)
-                                    @php
-                                        $value = $tecnico->idTecnico . " | " . $tecnico->nombreTecnico;
-                                    @endphp
-                                    <li onclick="selectOptionAgregarVenta('{{ $value }}', '{{ $idInput }}', '{{ $idOptions }}')">
-                                        {{ $value }}
-                                    </li>
-                                @endforeach
-                            </ul> --}}
+                            <input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI | Nombre" autocomplete="off"
+                                oninput="validateValueOnRealTimeTecnicosAgregarVenta(this, '{{ $idMessageError }}', {{ json_encode($someHiddenIdInputsArray) }}),
+                                        filterOptionsTecnicosAgregarVenta(this, '{{ $idOptions }}')"
+                                onclick="toggleOptionsTecnicosAgregarVenta(this, '{{ $idOptions }}')">
+                            <ul class="select-items shortSteps" id="{{ $idOptions }}" onscroll="loadMoreOptionsTecnicosAgregarVenta(event)"></ul>
                         </div>
                         <span class="inline-alert-message" id='{{ $idMessageError }}'> No se encontró el técnico buscado </span>      
                     </div>
@@ -57,7 +47,7 @@
                                 :idSelect="'tipoDocumentoSelect'"
                                 :inputClassName="'onlySelectInput'"
                                 :idInput="'tipoCodigoClienteInput'"
-                                :idOptions="'tipoDocumentoOptions'"
+                                :idOptions="'tipoDocumentoOptionsAgregarVenta'"
                                 :placeholder="'DNI/RUC'"
                                 :name="'tipoCodigoCliente_VentaIntermediada'"
                                 :options="['DNI', 'RUC']"

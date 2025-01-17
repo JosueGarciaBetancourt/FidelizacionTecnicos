@@ -39,7 +39,7 @@
                                 oninput="validateValueOnRealTimeTecnicoEdit(this, '{{ $idMessageError }}', {{ json_encode($someHiddenIdInputsArray) }},
                                                                             {{ json_encode($otherInputsArray) }}),
                                         filterOptionsTecnicoEdit(this, '{{ $idOptions }}')"
-                                onclick="toggleOptionsTecnicoEdit('{{ $idInput }}', '{{ $idOptions }}')">
+                                onclick="toggleOptionsTecnicoEdit(this, '{{ $idOptions }}')">
                             <ul class="select-items shortSteps" id="{{ $idOptions }}" onscroll="loadMoreOptionsTecnicoEdit(event)"></ul>
                         </div>
                         <span class="noInline-alert-message" id='{{ $idMessageError }}'>No se encontró el técnico buscado</span>      

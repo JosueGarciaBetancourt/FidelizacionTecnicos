@@ -57,7 +57,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalAgregarNuevoTecnico')">Cancelar</button>
                 
-                <button type="button" class="btn btn-primary" 
+                <button type="button" class="btn btn-primary"
                         onclick="guardarModalAgregarNuevoTecnico('modalAgregarNuevoTecnico', 'formAgregarNuevoTecnico')">Guardar</button>
             </div>
         </div>

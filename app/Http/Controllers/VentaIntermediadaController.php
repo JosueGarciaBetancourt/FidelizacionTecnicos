@@ -11,6 +11,7 @@ use App\Models\VentaIntermediada;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\TecnicoController;
+use Illuminate\Pagination\Paginator;
 
 class VentaIntermediadaController extends Controller
 {
@@ -177,7 +178,6 @@ class VentaIntermediadaController extends Controller
 
             $tecnicoController = new TecnicoController();
             $idsNombresOficios = $tecnicoController->returnArrayIdsNombresOficios(); 
-            $tecnicos = Tecnico::all();
 
             return view('dashboard.ventasIntermediadas', compact('idsNombresOficios'));
         } catch (\Exception $e) {
@@ -352,6 +352,139 @@ class VentaIntermediadaController extends Controller
                 'trace' => $e->getTraceAsString()
             ]);
             return response()->json(['error' => 'Error al verificar la venta intermediada', 'details' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getVentaByIdVentaIdNombreTecnico(Request $request) {
+        try {
+            $idVentaIdNombreTecnico = $request->input('idVentaIdNombreTecnico', '');
+            
+            // Validar si el filtro está vacío
+            if (empty($idVentaIdNombreTecnico)) {
+                return response()->json(['message' => 'No se ingresó un idVentaIdNombreTecnico.',
+                ], 404);
+            }
+
+            // Validar si el valor contiene el formato 'idVentaIntermediada | idTecnico - nombreTecnico'
+            if (!preg_match('/^[BF][0-9]{3}-[0-9]{8} \| \d{8} - .+$/', $idVentaIdNombreTecnico)) {
+                return response()->json([
+                    'message' => 'Formato incorrecto. El formato debe ser "idVentaIntermediada | idTecnico - nombreTecnico".',
+                ], 404);
+            }
+            
+            // Separar el valor en 'idVentaIntermediada', 'idTecnico', y 'nombreTecnico'
+            list($idVentaIntermediada, $idTecnicoNombreTecnico) = explode(' | ', $idVentaIdNombreTecnico);
+            list($idTecnico, $nombreTecnico) = explode(' - ', $idTecnicoNombreTecnico);
+        
+            // Buscar al técnico por id y nombre
+            $ventaBuscada = VentaIntermediada::where('idVentaIntermediada', $idVentaIntermediada)->first();
+            $idTecnicoBuscado = Tecnico::where('idTecnico', $idTecnico)->first();
+            $nombreTecnicoBuscado = Tecnico::where('nombreTecnico', $nombreTecnico)->first();
+
+            if ($ventaBuscada && $idTecnicoBuscado && $nombreTecnicoBuscado) {
+                return response()->json(['ventaBuscada' => $ventaBuscada], 200);
+            }
+           
+            return response()->json(['message' => 'Venta no encontrada'], 404);
+        } catch (\Exception $e) {
+            // Registrar detalles del error para depuración
+            /* Log::info('Error en getTecnicoByIdNombre', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]); */
+            
+            // Responder con mensaje de error detallado
+            return response()->json([
+                'message' => 'Ocurrió un error en el servidor. Por favor intente nuevamente más tarde.',
+                'error_details' => $e->getMessage()  // Agregar detalles del error si es necesario
+            ], 500);
+        }
+    }
+
+    public function getPaginatedVentas(Request $request) {
+        try {
+            $currentPage = $request->input('page', 1); // Por defecto, carga la página 1
+            $pageSize = $request->input('pageSize', 6); // Por defecto devuelve 6 registros
+
+            // Establecer la página actual en la paginación
+            Paginator::currentPageResolver(function () use ($currentPage) {
+                return $currentPage;
+            });
+            
+            // Paginar los resultados
+            $ventasPaginatedDB = VentaIntermediada::paginate($pageSize);
+
+            // Verificar si se encontraron ventas
+            if ($ventasPaginatedDB->total() === 0) {
+                return response()->json([
+                    'data' => null,
+                    'message' => 'No hay ventas registradas aún',
+                ], 200);
+            }
+
+            // Controller::printJSON($ventasPaginatedDB->items());
+
+            return response()->json([
+                'data' => $ventasPaginatedDB->items(),
+                'current_page' => $ventasPaginatedDB->currentPage(),
+                'last_page' => $ventasPaginatedDB->lastPage(),
+                'total' => $ventasPaginatedDB->total(),
+            ], 200);
+        } catch (\Exception $e) {
+            Log::info('Error en getPaginatedVentas', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            return response()->json(['error' => 'Error al obtener las ventas paginadas', 'details' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getFilteredVentas(Request $request) {
+        try {
+            $filter = $request->input('filter', '');
+
+            // Construir la consulta utilizando Eloquent de manera segura
+            $query = VentaIntermediada::query();
+    
+            $query->whereRaw("CONCAT(idVentaIntermediada, ' | ', idTecnico, ' - ', nombreTecnico) LIKE ?", ["%$filter%"]);
+
+            // Obtener los resultados paginados
+            $ventasDB = $query->paginate(6);
+
+            // Verificar si hay resultados
+            if ($ventasDB->isEmpty()) {
+                return response()->json([
+                    'data' => [],
+                    'message' => 'No se encontraron ventas.',
+                ], 404);
+            }
+
+            return response()->json([
+                'data' => $ventasDB->items(),
+                'current_page' => $ventasDB->currentPage(),
+                'total' => $ventasDB->total(),
+                'last_page' => $ventasDB->lastPage(),
+                'per_page' => $ventasDB->perPage(),
+            ], 200);
+        } catch (\Exception $e) {
+            /* // Registrar detalles del error para depuración
+                Log::info('Error en getFilteredVentas', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]); */
+
+            return response()->json([
+                'message' => 'Error al filtrar ventas: ' . $e->getMessage(),
+            ], 500);
         }
     }
 }

@@ -1,7 +1,9 @@
 let tecnicoCanjesInput = document.getElementById('tecnicoCanjesInput');
-let idTecnicoOptions = 'tecnicoCanjesOptions';
+let tecnicoCanjesOptions = document.getElementById('tecnicoCanjesOptions');
+let idTecnicoCanjesInput = 'tecnicoCanjesInput';
+let idTecnicoCanjesOptions = 'tecnicoCanjesOptions';
 let tecnicoCanjesTooltip = document.getElementById('idTecnicoCanjesTooltip');
-let messageErrorTecnicoCanjesInput = document.getElementById('messageErrorTecnicoCanjes')
+let messageErrorselectOptionTecnicoCanjes = document.getElementById('messageErrorTecnicoCanjes')
 let recompensaCanjesTooltip = document.getElementById('idRecompensaCanjesTooltip');
 let cantidadCanjesTooltip = document.getElementById('idCantidadCanjesTooltip');
 let numComprobanteCanjesTooltip = document.getElementById('idNumComprobanteCanjesTooltip');
@@ -9,7 +11,7 @@ let celdaTotalPuntosTooltip = document.getElementById('idCeldaTotalPuntosTooltip
 let isAnyComprobanteSelected = false;
 let resumenContainer = document.getElementById('idResumenContainer');
 let numComprobanteCanjesInput = document.getElementById('comprobanteCanjesInput');
-let puntosActualesCanjesInput = document.getElementById('puntosActualesCanjesInput');
+let puntosActualesTecnicoCanjesInput = document.getElementById('puntosActualesTecnicoCanjesInput');
 let comprobantesFetch = [];
 let estadoComprobanteCanjesTextarea = document.getElementById('estadoComprobanteCanjesTextarea');
 let puntosGeneradosCanjesInput = document.getElementById('puntosGeneradosCanjesInput');
@@ -50,22 +52,7 @@ let date = getFormattedDate();
 let tecnicoFilledCorrectlySearchField = false;
 let recompensaFilledCorrectlySearchField = false;
 
-/*
-function getDiasTranscurridos(fechaEmision, fechaCargada) {
-    // Asignar las fechas de los inputs
-    var emi = new Date(fechaEmision); // Convierte la fecha de emisión a un objeto Date
-    var carg = new Date(fechaCargada); // Convierte la fecha cargada a un objeto Date
-
-    // Calcula la diferencia en milisegundos
-    var diferenciaMilisegundos = Math.abs(carg - emi);
-
-    // Convertir milisegundos a días
-    var diasTranscurridos = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
-
-    return Math.floor(diasTranscurridos); // Redondea hacia abajo al número entero más cercano
-}
-*/
-
+// VENTAS INTERMEDIADAS
 function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
     if (tecnicoCanjesInput.value && tecnicoFilledCorrectlySearchField) {
         selectOption(value, idInput, idOptions); 
@@ -124,7 +111,7 @@ function toggleNumComprobanteCanjesOptions(idInput, idOptions) {
     const tecnicoValue = tecnicoCanjesInput.value;
 
     // Verificamos que se haya encontrado un técnico y que coincida con las opciones disponibles
-    const allItems = getAllLiText(idTecnicoOptions); 
+    const allItems = getAllLiText(idTecnicoCanjesOptions); 
     const itemEncontrado = allItems.includes(tecnicoValue);
 
     /*console.log(allItems);
@@ -138,7 +125,8 @@ function toggleNumComprobanteCanjesOptions(idInput, idOptions) {
     }
 }
 
-function validateOptionTecnicoCanjes(input, idOptions, idMessageError, tecnicosDB) {
+/* INICIO Funciones para manejar el input dinámico de TÉCNICOS*/
+/* function validateOptionTecnicoCanjes(input, idOptions, idMessageError, tecnicosDB) {
     const value = input.value;
     const messageError = document.getElementById(idMessageError);
 
@@ -151,28 +139,228 @@ function validateOptionTecnicoCanjes(input, idOptions, idMessageError, tecnicosD
 
     if (value) {
         if (!itemEncontrado)  {
-            messageError.textContent = "No se encontró el técnico buscado";
-            messageError.classList.add('shown'); 
-            puntosActualesCanjesInput.value = "";   
+            puntosActualesTecnicoCanjesInput.value = "";   
             numComprobanteCanjesInput.value = "";
             tecnicoFilledCorrectlySearchField = false;
+            messageError.textContent = "No se encontró el técnico buscado";
+            messageError.classList.add('shown'); 
         } else {
+            tecnicoFilledCorrectlySearchField = true;
             filterNumComprobantesInputWithTecnicoFetch(idTecnico);
             const puntosTecnicoIngresado = returnPuntosActualesDBWithRequestedTecnicoID(idTecnico, tecnicosDB);
-            puntosActualesCanjesInput.value = puntosTecnicoIngresado;
-            tecnicoFilledCorrectlySearchField = true;
+            puntosActualesTecnicoCanjesInput.value = puntosTecnicoIngresado;
         }
     } else {
         messageError.classList.remove('shown'); 
     }
+} */
+
+let currentPageTecnicoCanjes = 1; // Página actual
+
+function selectOptionTecnicoCanjes(value, tecnico) {
+    if (!tecnico) {
+        puntosActualesTecnicoCanjesInput.value = "";
+        tecnicoFilledCorrectlySearchField = false;
+        return;
+    }
+
+    selectOption(value, idTecnicoCanjesInput, idTecnicoCanjesOptions); 
+
+    puntosActualesTecnicoCanjesInput.value = tecnico.totalPuntosActuales_Tecnico;
+    tecnicoFilledCorrectlySearchField = true;
+    filterNumComprobantesInputWithTecnicoFetch(tecnico.idTecnico);
+} 
+
+async function filterOptionsTecnicoCanjes(input, idOptions) {
+    const filter = input.value.trim().toUpperCase();
+    const ul = document.getElementById(idOptions);
+    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`;  
+    const url = `${baseUrl}/dashboard-tecnicos/getFilteredTecnicos?pageSize=8`;
+
+    const response = await fetch(url, {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfTokenMAIN,
+        },
+        body: JSON.stringify({ filter: filter }),
+    });
+
+    // Limpiar las opciones anteriores
+    ul.innerHTML = "";
+
+    // Verificar el estado de la respuesta
+    if (!response.ok) {
+        const errorData = await response.json();
+        if (errorData.data == "") {
+            console.warn(`Error en filterOptionsTecnicoCanjes: ${errorData.message}`);
+            const li = document.createElement('li');
+            li.textContent = 'No se encontraron técnicos';
+            ul.appendChild(li);
+            ul.classList.add('show');
+        }
+        return;
+    }
+
+    const data = await response.json();
+
+    // Mostrar las opciones y agregarlas dinámicamente
+    data.data.forEach(tecnico => {
+        const li = document.createElement('li');
+        const value = `${tecnico.idTecnico} | ${tecnico.nombreTecnico}`;
+        const tecnicoData = JSON.stringify(tecnico);
+
+        li.textContent = value;
+        li.setAttribute('onclick', `selectOptionTecnicoCanjes('${value}', ${tecnicoData})`);
+        ul.appendChild(li);
+    });
+
+    ul.classList.add('show');
 }
 
-function selectOptionTecnicoCanjes(value, idInput, idOptions, puntosActuales, idTecnico) {
-    selectOption(value, idInput, idOptions);
-    puntosActualesCanjesInput.value = puntosActuales;
-    tecnicoFilledCorrectlySearchField = true;
-    filterNumComprobantesInputWithTecnicoFetch(idTecnico);
+async function validateOptionTecnicoCanjes(input, idMessageError) {
+    const idNombreTecnico = input.value.trim();
+    const messageError = document.getElementById(idMessageError);
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getTecnicoByIdNombre`;
+    tecnicoFilledCorrectlySearchField = false;
+
+    if (idNombreTecnico === "") {
+        messageError.classList.remove('shown');
+        return;
+    }
+
+    // Validar que el formato sea válido
+    const regex = /^\d+\s\|\s.+$/;
+
+    if (!regex.test(idNombreTecnico)) {
+        messageError.classList.add('shown');
+        return;
+    }
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': csrfTokenMAIN,
+            },
+            body: JSON.stringify({ idNombreTecnico: idNombreTecnico }),
+        });
+
+        if (!response.ok) {
+            messageError.classList.add('shown');
+            return;
+        }
+
+        const data = await response.json();
+
+        if (!data.tecnicoBuscado) {
+            messageError.classList.add('shown');
+            return;
+        }
+
+        messageError.classList.remove('shown');
+
+        const tecnicoBuscado = data.tecnicoBuscado;
+
+        tecnicoFilledCorrectlySearchField = true;
+        filterNumComprobantesInputWithTecnicoFetch(tecnicoBuscado.idTecnico);
+    } catch (error) {
+        console.error(`Error inesperado en validateOptionTecnicoCanjes: ${error.message}`);
+    }
 }
+
+// Manejador del evento de scroll
+async function loadMoreOptionsTecnicoCanjes(event) {
+    const optionsListUL = event.target;
+    const threshold = 0.6; // 60% del contenido visible
+
+    // Si el usuario ha llegado al final de la lista (se detecta el scroll)
+    if (optionsListUL.scrollTop + optionsListUL.clientHeight >= optionsListUL.scrollHeight * threshold) {
+        await loadPaginatedOptionsTecnicoCanjes(idTecnicoCanjesOptions);  // Cargar más opciones
+    }
+}
+
+// Conectar el evento de scroll al `ul` para carga infinita
+tecnicoCanjesOptions.addEventListener('scroll', loadMoreOptionsTecnicoCanjes);
+
+async function toggleOptionsTecnicoCanjes(input, idOptions) {
+    const optionsListUL = document.getElementById(idOptions);
+    
+    if (!optionsListUL || !input) {
+        return;
+    }
+   
+    if (optionsListUL.classList.contains('show')) {
+        optionsListUL.classList.remove('show')
+        return;
+    }
+   
+    if (input.value === "") {
+        if (optionsListUL.querySelectorAll('li').length === 0) {
+            await loadPaginatedOptionsTecnicoCanjes(idOptions);
+        } 
+    } else {
+        filterOptionsTecnicoCanjes(input, idOptions);
+    }
+
+    optionsListUL.classList.add('show');
+}
+
+async function loadPaginatedOptionsTecnicoCanjes(idOptions) {
+    const url = `${baseUrlMAIN}/dashboard-tecnicos/getPaginatedTecnicos?page=${currentPageTecnicoCanjes}&pageSize=8`;
+    const optionsListUL = document.getElementById(idOptions);
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`${errorData.error} - ${errorData.details}`);
+        }
+
+        const data = await response.json();
+
+        if (data.data == null) {
+            const li = document.createElement('li');
+            li.textContent = data.message;
+            optionsListUL.innerHTML = "";
+            optionsListUL.appendChild(li);
+            return;
+        }
+        
+        // Actualiza la lista con las opciones evitando duplicados
+        populateOptionsListTecnicoCanjes(optionsListUL, data.data);
+        currentPageTecnicoCanjes++;
+    } catch (error) {
+        //console.error("Error al cargar técnicos:", error.message);
+    }
+}
+
+function populateOptionsListTecnicoCanjes(optionsListUL, tecnicos) {
+    const existingValues = new Set(
+        Array.from(optionsListUL.children).map((li) => li.textContent.trim())
+    );
+
+    tecnicos.forEach((tecnico) => {
+        const value = `${tecnico.idTecnico} | ${tecnico.nombreTecnico}`;
+        const tecnicoData = JSON.stringify(tecnico);
+
+        if (!existingValues.has(value)) {
+            const li = document.createElement('li');
+            li.textContent = value;
+            li.setAttribute('onclick', `selectOptionTecnicoCanjes('${value}', ${tecnicoData})`);
+            optionsListUL.appendChild(li);
+
+            // Agrega el nuevo valor al Set
+            existingValues.add(value);
+        }
+    });
+}
+/* FIN de funciones para manejar el input dinámico */
+
+
+
 
 function selectOptionRecompensaCanjes(value, idInput, idOptions) {
     if (!tecnicoCanjesInput.value) {
@@ -272,9 +460,7 @@ function returnPuntosActualesDBWithRequestedTecnicoID(idTecnico, tecnicosDB) {
 }
 
 async function filterNumComprobantesInputWithTecnicoFetch(idTecnico) {
-    //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/tecnico/${idTecnico}`;
-    const baseUrl = `${window.location.origin}/FidelizacionTecnicos/public`; // Esto adaptará la URL al dominio actual
-    const url = `${baseUrl}/dashboard-canjes/tecnico/${idTecnico}`; 
+    const url = `${baseUrlMAIN}/dashboard-canjes/tecnico/${idTecnico}`; 
 
     try {
         const response = await fetch(url);
@@ -284,12 +470,13 @@ async function filterNumComprobantesInputWithTecnicoFetch(idTecnico) {
         }
 
         comprobantesFetch = await response.json();
-        //console.log(comprobantesFetch);
+        consoleLogJSONItems(comprobantesFetch);
+        
         if (comprobantesFetch.length == 0) {
-            messageErrorTecnicoCanjesInput.textContent = 'El técnico encontrado no tiene ventas intermediadas "EN ESPERA" o "REDIMIDO (PARCIAL)"'
-            messageErrorTecnicoCanjesInput.classList.add('shown');
+            messageErrorselectOptionTecnicoCanjes.textContent = 'El técnico encontrado no tiene ventas intermediadas "EN ESPERA" o "REDIMIDO (PARCIAL)"'
+            messageErrorselectOptionTecnicoCanjes.classList.add('shown');
         } else {
-            messageErrorTecnicoCanjesInput.classList.remove('shown');
+            messageErrorselectOptionTecnicoCanjes.classList.remove('shown');
         }
 
         const comprobanteOptions = document.getElementById('comprobanteOptions');

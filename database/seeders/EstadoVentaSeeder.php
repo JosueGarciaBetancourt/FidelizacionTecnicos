@@ -27,6 +27,10 @@ class EstadoVentaSeeder extends Seeder
                  //'idEstadoVenta' => 4,
                  'nombre_EstadoVenta' => 'Tiempo Agotado', // Tiene que ser una venta En espera ó Redimido (parcial) y supera los 90 días
             ],
+            [
+                //'idEstadoVenta' => 5,
+                'nombre_EstadoVenta' => 'En espera (solicitud desde app)', //1 a 90 días transcurridos y proviene de una solicitud desde la app
+            ],
         ];
 
         foreach ($estadosventas as $estVen) {

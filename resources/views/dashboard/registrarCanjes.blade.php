@@ -13,7 +13,6 @@
 			$idInput = 'tecnicoCanjesInput';
 			$idTecnicoOptions = 'tecnicoCanjesOptions';
 			$idTecnicoMessageError = "messageErrorTecnicoCanjes";
-			$tecnicosDB = $tecnicos;
 			$idForm = "formRegistrarCanje";
 			$idComentario = "comentarioInputRegistrarCanje";
 		@endphp
@@ -28,7 +27,8 @@
 				</div>
 			</div>
 
-			<h4 class="messageConditionCanje">Solo se pueden canjear las ventas intermediadas que tengan el estado <span>En espera</span> o <span>Redimido (parcial)</span></h4>
+			<h4 class="messageConditionCanje">Solo se pueden canjear las ventas intermediadas que tengan el estado <span>En espera</span> o <span>Redimido (parcial)</span>
+											y que no aparezcan en solicitudes desde app.</h4>
 
 			<div class="secondCanjesRow">
 				<div class="verticalPairGroup tooltipInside">
@@ -37,28 +37,16 @@
 						<span class="tooltip red" id="idTecnicoCanjesTooltip">Este es el mensaje del tooltip</span>
 					</div>
 					<div class="input-select" id="tecnicoSelect">
-						<input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI - Nombre" autocomplete="off" value=""
-							oninput="filterOptions('{{ $idInput }}', '{{ $idTecnicoOptions }}'),
-									validateOptionTecnicoCanjes(this, '{{ $idTecnicoOptions }}', '{{ $idTecnicoMessageError }}', {{ json_encode($tecnicosDB) }})"
-							onclick="toggleOptions('{{ $idInput }}', '{{ $idTecnicoOptions }}')">
-						<ul class="select-items" id='{{ $idTecnicoOptions }}'>
-							@foreach ($tecnicosDB as $tecnico)
-								@php
-									$value = $tecnico->idTecnico . " - " . $tecnico->nombreTecnico;
-									$puntosActuales = $tecnico->totalPuntosActuales_Tecnico;
-									$idTecnico = $tecnico->idTecnico
-								@endphp
-								<li onclick="selectOptionTecnicoCanjes('{{ $value }}', '{{ $idInput }}', '{{ $idTecnicoOptions }}', 
-											'{{ $puntosActuales }}', '{{ $idTecnico }}')">
-									{{ $value }}
-								</li>
-							@endforeach
-						</ul>
+						<input class="input-select-item" type="text" id='{{ $idInput }}' maxlength="50" placeholder="DNI | Nombre" autocomplete="off"
+							oninput="validateOptionTecnicoCanjes(this, '{{ $idTecnicoMessageError }}'),
+									filterOptionsTecnicoCanjes(this, '{{ $idTecnicoOptions }}')"
+							onclick="toggleOptionsTecnicoCanjes(this, '{{ $idTecnicoOptions }}')">
+						<ul class="select-items shortSteps" id="{{ $idTecnicoOptions }}" onscroll="loadMoreOptionsTecnicoCanjes(event)"></ul>	
 					</div>
 				</div>
 				<div class="verticalPairGroup">
 					<label class="primary-label noEditable centered"> Total de puntos </label>
-					<input class="input-item" id="puntosActualesCanjesInput" maxlength="4" placeholder="0" readonly>
+					<input class="input-item" id="puntosActualesTecnicoCanjesInput" maxlength="4" placeholder="0" readonly>
 				</div>
 				<span class="inline-alert-message" id="{{ $idTecnicoMessageError }}"> No se encontró el técnico buscado </span>      
 			</div>

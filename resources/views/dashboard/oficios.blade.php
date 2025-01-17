@@ -26,26 +26,6 @@
                 @include('modals.oficios.modalRestaurarOficio')
             </div>
             
-            <x-modalSuccessAction 
-                :idSuccesModal="'successModalOficioGuardado'"
-                :message="'Oficio guardado correctamente'"
-            />
-
-            <x-modalSuccessAction 
-                :idSuccesModal="'successModalOficioActualizado'"
-                :message="'Oficio actualizado correctamente'"
-            />
-
-            <x-modalSuccessAction 
-                :idSuccesModal="'successModalOficioEliminado'"
-                :message="'Oficio inhabilitado correctamente'"
-            />
-
-            <x-modalSuccessAction 
-                :idSuccesModal="'successModalOficioRestaurado'"
-                :message="'Oficio habilitado correctamente'"
-            />
-
             <!--Tabla de ventas intermediadas-->
             <div class="secondRow">
                 <table id="tblOficios">
@@ -76,6 +56,26 @@
                     </tbody>
                 </table>
             </div>
+            
+            <x-modalSuccessAction 
+                :idSuccesModal="'successModalOficioGuardado'"
+                :message="'Oficio guardado correctamente'"
+            />
+
+            <x-modalSuccessAction 
+                :idSuccesModal="'successModalOficioActualizado'"
+                :message="'Oficio actualizado correctamente'"
+            />
+
+            <x-modalSuccessAction 
+                :idSuccesModal="'successModalOficioEliminado'"
+                :message="'Oficio inhabilitado correctamente'"
+            />
+
+            <x-modalSuccessAction 
+                :idSuccesModal="'successModalOficioRestaurado'"
+                :message="'Oficio habilitado correctamente'"
+            />
         </div>
     @endsection
 

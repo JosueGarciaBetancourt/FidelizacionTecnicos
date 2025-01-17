@@ -11,6 +11,7 @@
 <div class="solicitudesAppCanjesContainer">
     <div class="firstRowSolicitudCanje">
         <h3>Solicitudes de Canje</h3>
+		<h4>Las solicitudes de canje son registradas desde la aplicación móvil de los técnicos.</h4>
     </div>
     <div class="secondRowSolicitudCanje">
         <table id="tblSolicitudesAppCanje">

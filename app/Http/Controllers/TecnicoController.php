@@ -418,10 +418,11 @@ class TecnicoController extends Controller
     public function tabla(Request $request) {
         if ($request->ajax()) {
             $tecnicosWithOficios = $this->returnArrayTecnicosWithOficios();
+
             if (empty($tecnicosWithOficios)) {
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'No se encontraron técnicos.'
+                    'message' => 'No hay técnicos registrados aún.'
                 ], 204);
             }
     
@@ -513,6 +514,7 @@ class TecnicoController extends Controller
     public function getPaginatedTecnicos(Request $request) {
         try {
             $currentPage = $request->input('page', 1); // Por defecto, carga la página 1
+            $pageSize = $request->input('pageSize', 6); // Por defecto devuelve 6 registros
 
             // Establecer la página actual en la paginación
             Paginator::currentPageResolver(function () use ($currentPage) {
@@ -520,7 +522,7 @@ class TecnicoController extends Controller
             });
             
             // Paginar los resultados
-            $tecnicosPaginatedDB = Tecnico::paginate(6);
+            $tecnicosPaginatedDB = Tecnico::paginate($pageSize);
 
             // Verificar si se encontraron técnicos
             if ($tecnicosPaginatedDB->total() === 0) {
@@ -539,13 +541,13 @@ class TecnicoController extends Controller
                 'total' => $tecnicosPaginatedDB->total(),
             ], 200);
         } catch (\Exception $e) {
-            /* Log::info('Error en getPaginatedTecnicos', [
+            Log::info('Error en getPaginatedTecnicos', [
                 'message' => $e->getMessage(),
                 'code' => $e->getCode(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
                 'trace' => $e->getTraceAsString()
-            ]); */
+            ]);
             return response()->json(['error' => 'Error al obtener los técnicos paginados', 'details' => $e->getMessage()], 500);
         }
     }
@@ -553,20 +555,21 @@ class TecnicoController extends Controller
     public function getFilteredTecnicos(Request $request) {
         try {
             $filter = $request->input('filter', '');
-    
+            $pageSize = $request->input('pageSize', 6);
+
             // Construir la consulta utilizando Eloquent de manera segura
             $query = Tecnico::query();
     
             $query->whereRaw("CONCAT(idTecnico, ' | ', nombreTecnico) LIKE ?", ["%$filter%"]);
 
             // Obtener los resultados paginados
-            $tecnicosDB = $query->paginate(6);
+            $tecnicosDB = $query->paginate($pageSize);
 
             // Verificar si hay resultados
             if ($tecnicosDB->isEmpty()) {
                 return response()->json([
                     'data' => [],
-                    'message' => 'No se encontraron técnicos.',
+                    'message' => 'No se encontraron técnicos para el filtro ingresado.',
                 ], 404);
             }
 

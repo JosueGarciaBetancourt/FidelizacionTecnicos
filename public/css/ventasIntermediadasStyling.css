@@ -140,5 +140,9 @@
     width: max-content;
 }
 
+#tblVentasIntermediadas tbody tr:nth-child(even) {
+    background-color: #f8f8f8; /* Color claro alterno */
+}
+
 
 
