@@ -11,7 +11,7 @@ class Canje extends Model
 
     protected $table = 'Canjes';
 
-    protected $primaryKey = ['idCanje', 'idRecompensa'];
+    protected $primaryKey = 'idCanje';
 
     public $incrementing = false;  // Indica que la clave primaria no es auto-incrementable
 

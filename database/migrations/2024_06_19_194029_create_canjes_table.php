@@ -9,12 +9,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('Canjes', function (Blueprint $table) {
-            $table->string('idCanje', 10)->primary(); //CANJ-00001 (se genera automáticamente)
+            $table->string('idCanje', 10)->primary(); // CANJ-00001 (se genera automáticamente)
             $table->string('idVentaIntermediada', 13);
             $table->dateTime('fechaHoraEmision_VentaIntermediada');
             $table->dateTime('fechaHora_Canje')->useCurrent();
             $table->integer('diasTranscurridos_Canje')->unsigned(); 
-            $table->integer('puntosComprobante_Canje')->unsigned();
+            $table->integer('puntosComprobante_Canje')->unsigned(); // Puntos generados
             $table->integer('puntosCanjeados_Canje')->unsigned();
             $table->integer('puntosRestantes_Canje')->unsigned(); 
             $table->text('comentario_Canje')->nullable();

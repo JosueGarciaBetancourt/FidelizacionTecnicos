@@ -115,8 +115,8 @@
 }
 
 /*ESTILOS DE LOS ESTADOS DE LAS VENTAS INTERMEDIADAS*/
-/*En espera */
-.estado__span-1 { 
+/* En espera y En espera (solicitado desde app)*/
+.estado__span-1, .estado__span-5 { 
     color: #2394da;
     background-color: rgba(35, 78, 218, 0.2) !important;
 }
@@ -133,7 +133,7 @@
     background-color: rgba(76, 175, 80, 0.2) !important;
 }   
 
-/* Tiempo agorado */
+/* Tiempo agotado */
 .estado__span-4 {
     color: #f44336;
     background-color: rgba(244, 67, 54, 0.2) !important;
