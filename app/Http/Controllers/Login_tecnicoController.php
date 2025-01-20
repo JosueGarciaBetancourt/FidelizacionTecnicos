@@ -137,7 +137,22 @@ class Login_tecnicoController extends Controller
                 ->where('VentasIntermediadas.idTecnico', $idTecnico)
                 ->whereNull('SolicitudesCanjes.idVentaIntermediada') // Filtrar las ventas sin solicitudes pendientes
                 ->select(
-                    'VentasIntermediadas.*',
+                    'VentasIntermediadas.idVentaIntermediada',
+                    'VentasIntermediadas.idTecnico',
+                    'VentasIntermediadas.nombreTecnico',
+                    'VentasIntermediadas.tipoCodigoCliente_VentaIntermediada',
+                    'VentasIntermediadas.codigoCliente_VentaIntermediada',
+                    'VentasIntermediadas.nombreCliente_VentaIntermediada',
+                    'VentasIntermediadas.fechaHoraEmision_VentaIntermediada',
+                    'VentasIntermediadas.fechaHoraCargada_VentaIntermediada',
+                    DB::raw('CAST(VentasIntermediadas.montoTotal_VentaIntermediada AS DECIMAL(10, 2)) as montoTotal_VentaIntermediada'),
+                    'VentasIntermediadas.puntosGanados_VentaIntermediada',
+                    'VentasIntermediadas.puntosActuales_VentaIntermediada',
+                    'VentasIntermediadas.idEstadoVenta',
+                    'VentasIntermediadas.apareceEnSolicitud',
+                    'VentasIntermediadas.created_at',
+                    'VentasIntermediadas.updated_at',
+                    'VentasIntermediadas.deleted_at',
                     'EstadoVentas.nombre_EstadoVenta as estado_nombre'
                 )
                 ->get();
@@ -153,6 +168,7 @@ class Login_tecnicoController extends Controller
             return response()->json(['error' => 'Hubo un problema al procesar la solicitud.', 'message' => $e->getMessage()], 500);
         }
     }
+
 
     public function obtenerTecnicoPorId($idTecnico)
     {
