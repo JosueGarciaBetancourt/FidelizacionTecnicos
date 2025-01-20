@@ -107,8 +107,8 @@ class Login_tecnicoController extends Controller
                     'EstadoVentas.nombre_EstadoVenta as estado_nombre'
                 )
                 ->get();
-
-            foreach ($ventas  as $venta) {
+                      
+            foreach ($ventas as $venta) {
                 $venta->montoTotal_VentaIntermediada = (double) $venta->montoTotal_VentaIntermediada;
             }  
 
@@ -121,7 +121,7 @@ class Login_tecnicoController extends Controller
         } catch (\Exception $e) {
             // Capturar el error y devolver el mensaje de error
             return response()->json(['error' => 'Hubo un problema al procesar la solicitud.', 'message' => $e->getMessage()], 500);
-            }
+        }
     }
 
     public function getVentasIntermediadasFiltradas($idTecnico)
