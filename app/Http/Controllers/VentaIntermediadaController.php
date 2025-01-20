@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\Paginator;
 use App\Http\Controllers\TecnicoController;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class VentaIntermediadaController extends Controller
 {
@@ -267,55 +268,54 @@ class VentaIntermediadaController extends Controller
         }
     }
 
-    public static function returnStateIdVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales) {
-        $venta = VentaIntermediada::findOrFail($idVentaIntermediada);
-        $diasTranscurridos = Controller::returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
-        $maxdaysCanje = env('MAXDAYS_CANJE', 90);
+    public static function returnStateIdVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales)
+    {
+        try {
+            $venta = VentaIntermediada::findOrFail($idVentaIntermediada);
+            $diasTranscurridos = Controller::returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
+            $maxdaysCanje = env('MAXDAYS_CANJE', 90);
 
-        // Validar venta con estado Tiempo agotado
-        if ($diasTranscurridos > $maxdaysCanje && $nuevosPuntosActuales != 0) {
-            return 4; 
-        }
-
-        // Validar venta con estado Redimido (completo)
-        if ($nuevosPuntosActuales == 0 && $diasTranscurridos <= $maxdaysCanje) {
-            return 3;
-        }
-
-        // Validar venta con estado En espera
-        if ($nuevosPuntosActuales == $venta->puntosGanados_VentaIntermediada && $diasTranscurridos <= $maxdaysCanje) {
-            // Validar venta con estado En espera (solicitado desde app)
-            if (VentaIntermediada::where('idVentaIntermediada', $venta->idVentaIntermediada)->pluck('apareceEnSolicitud')->first() == 1) {
-                Log::info($venta->idVentaIntermediada);
-                return 5;
+           
+            // Validar venta con estado Tiempo agotado
+            if ($diasTranscurridos > $maxdaysCanje && $nuevosPuntosActuales != 0) {
+                return 4; 
             }
-            
-            return 1;
-        }
 
-        // Validar venta con estado Redimido (parcial)
-        if ($nuevosPuntosActuales > 0 && $diasTranscurridos <= $maxdaysCanje) {
-            return 2;  
-        }
+            // Validar venta con estado Redimido (completo)
+            if ($nuevosPuntosActuales == 0 && $diasTranscurridos <= $maxdaysCanje) {
+                return 3;
+            }
 
-        /*
-            [   
-                //'idEstadoVenta' => 1,
-                'nombre_EstadoVenta' => 'En espera', //1 a 90 días transcurridos y puntos ganados sean iguales a los puntos actuales
-            ],
-            [
-                //'idEstadoVenta' => 2,
-                'nombre_EstadoVenta' => 'Redimido (parcial)', // Mínimo un canje asociado a la venta
-            ],
-            [
-                //'idEstadoVenta' => 3,
-                'nombre_EstadoVenta' => 'Redimido (completo)', // Canjear todos los puntos dentro de los 90 días
-            ],
-            [
-                 //'idEstadoVenta' => 4,
-                 'nombre_EstadoVenta' => 'Tiempo Agotado', // Tiene que ser una venta En espera ó Redimido (parcial) y supera los 90 días
-            ],
-        */
+            // Validar venta con estado En espera
+            if ($nuevosPuntosActuales == $venta->puntosGanados_VentaIntermediada && $diasTranscurridos <= $maxdaysCanje) {
+                // Validar venta con estado En espera (solicitado desde app)
+                $apareceEnSolicitud = VentaIntermediada::where('idVentaIntermediada', $venta->idVentaIntermediada)
+                                    ->pluck('apareceEnSolicitud')
+                                    ->first();
+
+                if ($apareceEnSolicitud == 1) {
+                    // Log::info("En espera (solicitado desde app) → " . $venta->idVentaIntermediada);
+                    return 5;
+                }
+
+                return 1;
+            }
+
+            // Validar venta con estado Redimido (parcial)
+            if ($nuevosPuntosActuales > 0 && $diasTranscurridos <= $maxdaysCanje) {
+                return 2;  
+            }
+        } catch (ModelNotFoundException $e) {
+            Log::error("VentaIntermediada no encontrada: " . $idVentaIntermediada);
+            return -1; // Código de error para venta no encontrada
+        } catch (Exception $e) {
+            Log::info("Probablemente no exista un estado para esta venta:" . "\n" . "Venta: " . $idVentaIntermediada . "\n" .
+                    "Días transcurridos: " . $diasTranscurridos . "\n" .
+                    "Puntos actuales: " . $nuevosPuntosActuales);
+
+            Log::error("Error en returnStateIdVentaIntermediada: " . $e->getMessage());
+            return -2; // Código de error genérico
+        }
     }
  
     // FETCH
