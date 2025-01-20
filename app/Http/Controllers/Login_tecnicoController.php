@@ -89,12 +89,26 @@ class Login_tecnicoController extends Controller
                 ->join('EstadoVentas', 'VentasIntermediadas.idEstadoVenta', '=', 'EstadoVentas.idEstadoVenta')
                 ->where('VentasIntermediadas.idTecnico', $idTecnico)
                 ->select(
-                    'VentasIntermediadas.*',
+                    'VentasIntermediadas.idVentaIntermediada',
+                    'VentasIntermediadas.idTecnico',
+                    'VentasIntermediadas.nombreTecnico',
+                    'VentasIntermediadas.tipoCodigoCliente_VentaIntermediada',
+                    'VentasIntermediadas.codigoCliente_VentaIntermediada',
+                    'VentasIntermediadas.nombreCliente_VentaIntermediada',
+                    'VentasIntermediadas.fechaHoraEmision_VentaIntermediada',
+                    'VentasIntermediadas.fechaHoraCargada_VentaIntermediada',
+                    'VentasIntermediadas.montoTotal_VentaIntermediada',
+                    'VentasIntermediadas.puntosGanados_VentaIntermediada',
+                    'VentasIntermediadas.puntosActuales_VentaIntermediada',
+                    'VentasIntermediadas.idEstadoVenta',
+                    'VentasIntermediadas.created_at',
+                    'VentasIntermediadas.updated_at',
+                    'VentasIntermediadas.deleted_at',
                     'EstadoVentas.nombre_EstadoVenta as estado_nombre'
                 )
                 ->get();
-            
-            foreach ($ventas  as $venta) {
+                      
+            foreach ($ventas as $venta) {
                 $venta->montoTotal_VentaIntermediada = (double) $venta->montoTotal_VentaIntermediada;
             }  
 
@@ -107,13 +121,12 @@ class Login_tecnicoController extends Controller
         } catch (\Exception $e) {
             // Capturar el error y devolver el mensaje de error
             return response()->json(['error' => 'Hubo un problema al procesar la solicitud.', 'message' => $e->getMessage()], 500);
-            }
+        }
     }
 
     public function getVentasIntermediadasFiltradas($idTecnico)
     {
         try {
-            // Obtener ventas intermediadas excluyendo aquellas que tienen solicitudes pendientes
             $ventas = DB::table('VentasIntermediadas')
                 ->leftJoin('SolicitudesCanjes', function ($join) {
                     $join->on('VentasIntermediadas.idVentaIntermediada', '=', 'SolicitudesCanjes.idVentaIntermediada')
@@ -128,17 +141,29 @@ class Login_tecnicoController extends Controller
                 )
                 ->get();
 
-            // Si no se encuentran resultados
+            // Verificar si no hay resultados
             if ($ventas->isEmpty()) {
                 return response()->json(['message' => 'No se encontraron ventas disponibles para el técnico.'], 404);
             }
 
+            // Convertir el campo montoTotal_VentaIntermediada a double en cada elemento
+            $ventas = $ventas->map(function ($venta) {
+                $venta->montoTotal_VentaIntermediada = (double) $venta->montoTotal_VentaIntermediada;
+                return $venta;
+            });
+
             return response()->json($ventas);
         } catch (\Exception $e) {
-            // Capturar el error y devolver el mensaje de error
-            return response()->json(['error' => 'Hubo un problema al procesar la solicitud.', 'message' => $e->getMessage()], 500);
+            return response()->json([
+                'error' => 'Hubo un problema al procesar la solicitud.',
+                'message' => $e->getMessage(),
+                'line' => $e->getLine(),
+                'file' => $e->getFile()
+            ], 500);
         }
     }
+
+
 
     public function obtenerTecnicoPorId($idTecnico)
     {
