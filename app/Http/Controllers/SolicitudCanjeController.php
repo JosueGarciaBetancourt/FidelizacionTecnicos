@@ -132,7 +132,7 @@ class SolicitudCanjeController extends Controller
             // Modificar la venta intermediada solicitada
             $venta->update([
                 'idEstadoVenta' => 5,
-                'apareceEnSolicitud' => 1,
+                'apareceEnSolicitud' => true,
             ]);
 
             Log::info($venta);

@@ -34,38 +34,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- 
-                    @php
-                        $contador = 1;
-                    @endphp
-                    @foreach ($ventas as $venta)
-                    <tr>
-                        <td class="celda-centered">{{ $contador++ }}</td> 
-                        <td>{{ $venta->idVentaIntermediada }} <br>
-                            <small>{{ $venta->tipoComprobante}}</small>
-                        </td>
-                        <td class="celda-centered">{{ $venta->fechaHoraEmision_VentaIntermediada }}</td>
-                        <td class="celda-centered">{{ $venta->fechaHoraCargada_VentaIntermediada }}</td>
-                        <td>{{ $venta->nombreCliente_VentaIntermediada }} <br>
-                            <small>{{ $venta->tipoCodigoCliente_VentaIntermediada }}:  
-                                   {{ $venta->codigoCliente_VentaIntermediada }}
-                            </small>
-                        </td>
-                        <td class="celda-centered">S/. {{ $venta->montoTotal_VentaIntermediada }}</td>
-                        <td class="celda-centered">{{ $venta->puntosGanados_VentaIntermediada }}</td>
-                        <td>{{ $venta->nombreTecnico }} <br>
-                            <small>DNI: {{ $venta->idTecnico }}</small>
-                        </td>
-                        <td class="celda-centered">{{ $venta->fechaHora_Canje ?? 'Sin fecha de canje'}}</td>
-                        <td class="celda-centered">{{ $venta->diasTranscurridos}}</td>
-                        <td class="estado__celda">
-                            <span class="estado__span-{{strtolower(str_replace(' ', '-', $venta->idEstadoVenta))}}">
-                                {{ $venta->nombre_EstadoVenta }}
-                            </span>
-                        </td>
-                    </tr>
-                    @endforeach 
-                    --}}
                 </tbody>
             </table>
         </div>

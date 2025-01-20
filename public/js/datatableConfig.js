@@ -650,11 +650,6 @@ $(document).ready(function() {
 				titleAttr: "Exportar a excel", //tooltip,
 				exportOptions: {
 					columns: [0, 1, 2, 3, 4, 5, 6, 7, 8], // Exportar solo columnas específicas
-					modifier: {
-						search: 'none', // Ignorar los filtros de búsqueda
-						order: 'applied', // Aplicar el orden actual de la tabla
-						page: 'all' // Incluir todas las páginas
-					}
 				}
 			},  
 			{   extend: "pdfHtml5",
@@ -663,11 +658,6 @@ $(document).ready(function() {
 				orientation: 'landscape',
 				exportOptions: {
 					columns: [0, 1, 2, 3, 4, 5, 6, 7, 8], 
-					modifier: {
-						search: 'none', // Ignorar los filtros de búsqueda
-						order: 'applied', // Aplicar el orden actual de la tabla
-						page: 'all' // Incluir todas las páginas
-					}
 				}
 			},  
 		],
@@ -1246,27 +1236,20 @@ $(document).ready(function() {
 			{   extend: "excelHtml5",
 				text: "<i class='fa-solid fa-file-excel'></i>",
 				titleAttr: "Exportar a excel", //tooltip,
-				exportOptions: { columns: ':visible:not(.no-export)' } 
+				exportOptions: {
+					columns: [0, 1, 2, 3, 4, 5, 6, 7, 8], // Exportar solo columnas específicas
+				}
 			},  
 			{   extend: "pdfHtml5",
 				text: "<i class='fa-solid fa-file-pdf'></i>",
 				titleAttr: "Exportar a PDF", //tooltip,
 				orientation: 'landscape',
-				exportOptions: { columns: ':visible:not(.no-export)' }
+				exportOptions: {
+					columns: [0, 1, 2, 3, 4, 5, 6, 7, 8], 
+				}
 			},  
 		],
 
-		columnDefs: [
-			{ targets: [9], orderable: false }, // Deshabilitar ordenación para la columna 9 (botón Ver Detalle)
-		],
-
-		// Configuración del buscador
-		search: {
-			caseInsensitive: true, // Búsqueda sin distinción entre mayúsculas y minúsculas
-			regex: true, // Habilitar búsqueda usando expresiones regulares (opcional)
-			smart: true, // Habilitar búsqueda inteligente (por defecto)
-		},
-		
 		// Configurando el idioma
 		language: {
 			"processing": "Procesando...",
@@ -1513,6 +1496,74 @@ $(document).ready(function() {
 			},
 			"infoThousands": "."
 		},
+
+		// Ajax
+		processing: true,
+		serverSide: true,
+		responsive: true,
+
+		ajax: {
+			url: "tblHistorialCanjesData",
+			type: "POST",
+			dataType: "json",
+			error: function(xhr, status, error) {
+				if (xhr.status !== 204) {
+					console.log("AJAX");
+					console.error("status: " + status);
+					console.error("error: " + error);
+					console.error(xhr.status);
+					location.reload();
+				}
+			}
+		},
+
+		/*
+			index
+			idCanje
+			fechaHora_Canje
+			idVentaIntermediada
+			puntosComprobante_Canje
+			fechaHoraEmision_VentaIntermediada
+			diasTranscurridos_Canje
+			idTecnico
+			nombreTecnico
+			puntosCanjeados_Canje
+			puntosRestantes_Canje
+
+			// Campos compuestos
+			idVentaIntermediada_puntosGenerados
+			nombreTecnico_idTecnico
+		*/
+		columns: [
+			{data: 'index', name: 'index', class: 'celda-centered'},
+			{data: 'idCanje', name: 'idCanje', class: 'celda-centered idCanje'},
+			{data: 'fechaHora_Canje', name: 'fechaHora_Canje', class: 'celda-centered'},
+			{
+				data: null, // Indica que no se tomará un solo campo
+				render: function (data) {
+					return `${data.idVentaIntermediada} <br>
+							<small>Puntos Generados: ${data.puntosComprobante_Canje}</small>`;
+				},
+				name: 'idVentaIntermediada_puntosGenerados', // Nombre para búsquedas
+			},
+			{data: 'fechaHoraEmision_VentaIntermediada', name: 'fechaHoraEmision_VentaIntermediada', class: 'celda-centered'},
+			{data: 'diasTranscurridos_Canje', name: 'diasTranscurridos_Canje', class: 'celda-centered'},
+			{
+				data: null, // Indica que no se tomará un solo campo
+				render: function (data) {
+					return `${data.nombreTecnico} <br>
+							<small>DNI: ${data.idTecnico}</small>`;
+				},
+				name: 'nombreTecnico_idTecnico', 
+			},
+			{data: 'puntosCanjeados_Canje', name: 'puntosCanjeados_Canje', class: 'celda-centered'},
+			{data: 'puntosRestantes_Canje', name: 'puntosRestantes_Canje', class: 'celda-centered'},
+			{data: 'actions', name: 'actions', class: 'celda-centered', orderable: false},
+		],
+
+		/* columnDefs: [
+			{ targets: [9], orderable: false }, // Deshabilitar ordenación para la columna 9 (botón Ver Detalle)
+		], */
 	});
 
 	$('#tblSolicitudesAppCanje').DataTable({

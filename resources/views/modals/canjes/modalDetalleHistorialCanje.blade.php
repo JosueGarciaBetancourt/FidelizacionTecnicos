@@ -23,7 +23,7 @@
             </div>
             <div class="modal-body" id="idModalBodyDetalleHistorialCanje">
 				<div class="form-group gap">
-					<label class="primary-label noEditable" for='{{ $idNumeroComprobante }}'>Número de comprobante:</label>
+					<label class="primary-label noEditable" for='{{ $idNumeroComprobante }}'>Venta asociada:</label>
 					<input class="input-item center" type="text" id='{{ $idNumeroComprobante }}' disabled>
 					<label class="primary-label noEditable" for='{{ $idFechaHoraEmisionComprobante }}'>Fecha y hora de emisión:</label>
 					<input class="input-item center" type="text" id='{{ $idFechaHoraEmisionComprobante }}' disabled>

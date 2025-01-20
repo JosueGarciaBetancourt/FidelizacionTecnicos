@@ -55,8 +55,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/dashboard-registrarCanje-storeCanje', [CanjeController::class, 'store'])->name('canjes.store');  
     // Ver historial 
     Route::get('/dashboard-historial-canje', [CanjeController::class, 'historial'])->name('canjes.historial');  
-    route::get('/dashboard-canjes/historialCanje/{idCanje}', [CanjeController::class, 'getDetalleCanjesRecompensasByIdCanje'])
-        ->name('getDetalleCanjesRecompensasByIdCanje');
+    route::get('/dashboard-canjes/canjeAndDetails/{idCanje}', [CanjeController::class, 'getObjCanjeAndDetailsByIdCanje'])
+        ->name('getObjCanjeAndDetailsByIdCanje');
+    Route::post('/tblHistorialCanjesData', [CanjeController::class, 'tablaHistorialCanje'])->name('canjes.tablaHistorialCanje');  
+
     // Solicitudes Canjes
     Route::get('/dashboard-solicitudesApp-canje', [SolicitudCanjeController::class, 'create'])->name('solicitudescanjes.create');  
     route::get('/dashboard-canjes/solicitudCanje/{idSolicitudCanje}', [SolicitudCanjeController::class, 'getDetalleSolicitudesCanjesRecompensasByIdSolicitudCanje'])

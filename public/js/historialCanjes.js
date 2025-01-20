@@ -75,22 +75,8 @@ function returnObjCanjeById(idCanje, canjesDB) {
     return objCanje;
 }
 
-function openModalDetalleHistorialCanje(button, canjesDB) {
-    const fila = button.closest('tr');
-    const celdaCodigoCanje = fila.getElementsByClassName('idCanje')[0]; 
-    const codigo = celdaCodigoCanje.innerText;
-    const objCanje = returnObjCanjeById(codigo, canjesDB);
-
-    fillOtherFieldsDetalleHistorialCanje(objCanje);
-    
-    // Realizar la consulta al backend, llenar tabla de recompensas y abrir el modal
-    getDetalleCanjeByIdCanjeFetch(objCanje['idCanje']);
-}
-
-async function getDetalleCanjeByIdCanjeFetch(idCanje) {
-    const baseUrl = `${window.location.origin}`; // Esto adaptará la URL al dominio actual
-    const url = `${baseUrl}/dashboard-canjes/historialCanje/${idCanje}`;
-    //console.warn("fetch", url);
+async function objCanjeAndDetailsByIdCanjeFetch(idCanje) {
+    const url = `${baseUrlMAIN}/dashboard-canjes/canjeAndDetails/${idCanje}`;
 
     try {
         const response = await fetch(url);
@@ -99,8 +85,16 @@ async function getDetalleCanjeByIdCanjeFetch(idCanje) {
             throw new Error(await response.text());
         }
 
-        const detallesCanjes = await response.json();
+        console.log(response);
         
+        const { objCanje, detallesCanjes } = await response.json();
+
+        console.log("Objeto Canje:", objCanje);
+        console.log("Detalles Canjes:", detallesCanjes);
+        
+        // Llenar campos del modal
+        fillOtherFieldsDetalleHistorialCanje(objCanje);
+
         // Llenar la tabla con los detalles de las recompensas
         if (detallesCanjes && detallesCanjes.length > 0) {
             fillTableDetalleHistorialCanje(detallesCanjes);

@@ -30,31 +30,6 @@
 					</tr>
 				</thead>
 				<tbody>
-					@php
-						$contador = 1;
-					@endphp
-					@foreach ($allCanjes as $canje)
-					<tr>
-						<td class="celda-centered">{{ $contador++ }}</td> 
-						<td class="celda-centered idCanje">{{ $canje->idCanje }}</td>
-						<td class="celda-centered">{{ $canje->fechaHora_Canje }}</td>
-						<td class="celda-centered">{{ $canje->idVentaIntermediada }} <br>
-							<small>Puntos generados: {{ $canje->puntosComprobante_Canje }}</small>
-						</td>
-						<td class="celda-centered">{{ $canje->fechaHoraEmision_VentaIntermediada }}</td>
-						<td class="celda-centered">{{ $canje->diasTranscurridos_Canje }}</td>
-						<td>{{ $canje->nombreTecnico }} <br>
-                            <small>DNI: {{ $canje->idTecnico }}</small>
-                        </td>
-						<td class="celda-centered">{{ $canje->puntosCanjeados_Canje }}</td>
-						<td class="celda-centered">{{ $canje->puntosRestantes_Canje }}</td>
-						<td class="celda-btnDetalle no-export">
-							<button class="btnDetalle" onclick="openModalDetalleHistorialCanje(this, {{ json_encode($allCanjes) }})">
-								Ver Detalle <span class="material-symbols-outlined noUserSelect">visibility</span>
-							</button>
-						</td>
-					</tr>
-					@endforeach
 				</tbody>
 			</table>
 		</div>

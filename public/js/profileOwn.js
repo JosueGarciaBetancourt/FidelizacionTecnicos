@@ -64,10 +64,6 @@ function openModalEditarUsuario(button, usersDB) {
     // LLenar campos del formulario de edición de usuario
     fillFieldsEditarUsuario(objUser);
 
-    /*
-    // Realizar la consulta al backend, llenar tabla de recompensas y abrir el modal
-    getDetalleCanjeByIdCanjeFetch(objCanje['idCanje']);*/
-
     openModal("modalEditarUsuario");
 }
 

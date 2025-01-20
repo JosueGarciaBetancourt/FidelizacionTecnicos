@@ -8,16 +8,18 @@ use App\Models\Recompensa;
 use Illuminate\Http\Request;
 use App\Models\CanjeRecompensa;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\SolicitudesCanje;
+use Yajra\DataTables\DataTables;
 use App\Models\VentaIntermediada;
 use Illuminate\Support\Facades\DB;
 use App\Models\CanjeRecompensaView;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\TecnicoController;
 use App\Http\Controllers\RecompensaController;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\CanjeRecompensaController;
 use App\Http\Controllers\VentaIntermediadaController;
-use App\Models\SolicitudesCanje;
 
 class CanjeController extends Controller
 {
@@ -155,70 +157,99 @@ class CanjeController extends Controller
         return view('dashboard.historialCanjes', compact('allCanjes'));
     }
 
-    /*public function getDetalleCanjesRecompensasByIdCanje($idCanje) {
-        // Hacer la consulta a la BD
-        $resultados = CanjeRecompensa::query()
-                        ->join('Canjes', 'CanjesRecompensas.idCanje', '=', 'Canjes.idCanje')
-                        ->join('Recompensas', 'CanjesRecompensas.idRecompensa', '=', 'Recompensas.idRecompensa')
-                        ->where('CanjesRecompensas.idCanje', $idCanje)
-                        ->select([
-                            'CanjesRecompensas.idCanje',
-                            'CanjesRecompensas.idRecompensa',
-                            'CanjesRecompensas.cantidad',
-                            'CanjesRecompensas.costoRecompensa',
-                            'CanjesRecompensas.created_at as canjeRecompensa_created_at', // Alias para evitar conflictos
-                            'Recompensas.tipoRecompensa',
-                            'Recompensas.descripcionRecompensa'
-                        ])
-                        ->get();
-    
-        // Transformar los datos
-        $contador = 0; // Definir fuera del closure
-    
-        $canjesRecompensasAll = $resultados->map(function ($resultado) use (&$contador) { // Pasar $contador como referencia
-            return [
-                'idCanje' => $resultado->idCanje,
-                'index' => $contador++, // Incrementar después de usar el valor actual
-                'idRecompensa' => $resultado->idRecompensa,
-                'tipoRecompensa' => $resultado->tipoRecompensa,
-                'descripcionRecompensa' => $resultado->descripcionRecompensa,
-                'cantidad' => $resultado->cantidad,
-                'costoRecompensa' => $resultado->costoRecompensa,
-                'puntosTotales' => $resultado->cantidad * $resultado->costoRecompensa,
-                //'created_at' => $resultado->canjeRecompensa_created_at, // Comentar si no es necesario
-            ];
-        })->toArray();
-    
-        return response()->json($canjesRecompensasAll);
-    }*/
+    public function returnArrayHistorialCanjesTabla() {
+        // Obtener las ventas intermediadas con los datos relacionados
+        $canjes = Canje::query()
+                    ->join('VentasIntermediadas', 'Canjes.idVentaIntermediada', '=', 'VentasIntermediadas.idVentaIntermediada')
+                    ->join('Tecnicos', 'VentasIntermediadas.idTecnico', '=', 'Tecnicos.idTecnico')
+                    ->select(['Canjes.idCanje', 
+                            'Canjes.idVentaIntermediada', 
+                            'Canjes.fechaHoraEmision_VentaIntermediada', 
+                            'Canjes.fechaHora_Canje', 
+                            'Canjes.diasTranscurridos_Canje', 
+                            'Canjes.puntosComprobante_Canje', // Puntos generados
+                            'Canjes.puntosCanjeados_Canje', 
+                            'Canjes.puntosRestantes_Canje', 
+                            'Tecnicos.idTecnico', 
+                            'Tecnicos.nombreTecnico'])
+                    ->get();
 
-    public function getDetalleCanjesRecompensasByIdCanje($idCanje) {
+        $index = 1;
+    
+        // Mapear las ventas para estructurarlas
+        $data = $canjes->map(function ($canje) use (&$index) {
+            return [
+                'index' => $index++,
+                'idCanje' => $canje->idCanje,
+                'fechaHora_Canje' => $canje->fechaHora_Canje,
+                'idVentaIntermediada' => $canje->idVentaIntermediada,
+                'puntosComprobante_Canje' => $canje->puntosComprobante_Canje,
+                'fechaHoraEmision_VentaIntermediada' => $canje->fechaHoraEmision_VentaIntermediada,
+                'diasTranscurridos_Canje' => $canje->diasTranscurridos_Canje,
+                'idTecnico' => $canje->idTecnico,
+                'nombreTecnico' => $canje->nombreTecnico,
+                'puntosCanjeados_Canje' => $canje->puntosCanjeados_Canje,
+                'puntosRestantes_Canje' => $canje->puntosRestantes_Canje,
+
+                // Campos compuestos
+                'idVentaIntermediada_puntosGenerados' => $canje->idVentaIntermediada . " " . $canje->puntosComprobante_Canje,
+                'nombreTecnico_idTecnico' => $canje->nombreTecnico . " DNI: " . $canje->idTecnico,
+            ];
+        });
+    
+        return $data->toArray();
+    }
+
+    public function tablaHistorialCanje(Request $request) {
+        if ($request->ajax()) {
+            $canjes = $this->returnArrayHistorialCanjesTabla();
+                  
+            if (empty($canjes)) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'No hay canjes registrados aún.'
+                ], 204);
+            }
+    
+            return DataTables::of($canjes)
+                ->addColumn('actions', 'tables.historialCanjeActionColumn')
+                ->rawColumns(['actions'])
+                ->make(true);
+        }
+    
+        return abort(403);
+    }
+
+    public function getObjCanjeAndDetailsByIdCanje($idCanje) {
         try {
+            // Obtener el objeto canje
+            $objCanje = Canje::findOrFail($idCanje);
+
             // Consulta a la vista
-            $resultados = DB::table('canje_recompensas_view')
+            $detalles = DB::table('canje_recompensas_view')
                             ->where('idCanje', $idCanje)
                             ->get();
     
             // Verificar si se encontraron resultados
-            if ($resultados->isEmpty()) {
+            if ($detalles->isEmpty()) {
                 return response()->json(['message' => 'No se encontraron canjes para el ID proporcionado'], 404);
             }
     
             // Mapear los resultados para agregar el índice incremental
-            $canjesRecompensasAll = $resultados->map(function ($item, $key) {
+            $detallesCanjes = $detalles->map(function ($item, $key) {
                 $item->index = $key + 1; // Asignar índice a cada elemento
                 return $item;
             });
     
-            return response()->json($canjesRecompensasAll);
-    
+            return response()->json([
+                'objCanje' => $objCanje,
+                'detallesCanjes' => $detallesCanjes
+            ]);
         } catch (\Exception $e) {
             // Manejo de errores en caso de fallo de consulta
             return response()->json(['error' => 'Error al obtener los detalles del canje ' . $idCanje, 'details' => $e->getMessage()], 500);
         }
     }
-
-
 
     public function getCanjeDataPDFByIdCanje($idCanje) {
         try {
@@ -284,6 +315,4 @@ class CanjeController extends Controller
             dd($e->getMessage());
         }
     }
-
-    
 }

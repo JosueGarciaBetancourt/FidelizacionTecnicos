@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use Exception;
 use Illuminate\Database\Seeder;
 use App\Models\VentaIntermediada;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\VentaIntermediadaController;
 
 class VentaIntermediadaSeeder extends Seeder
@@ -86,8 +88,8 @@ class VentaIntermediadaSeeder extends Seeder
                 'tipoCodigoCliente_VentaIntermediada' => 'DNI',
                 'codigoCliente_VentaIntermediada' => '45404787',
                 'nombreCliente_VentaIntermediada' => 'BAQUERIZO QUISPE, ELIZABETH SILVIA',
-                'fechaHoraEmision_VentaIntermediada' => '2024-10-20 10:00:00',
-                'fechaHoraCargada_VentaIntermediada' => '2024-10-25 10:00:00',
+                'fechaHoraEmision_VentaIntermediada' => '2024-12-25 10:00:00',
+                'fechaHoraCargada_VentaIntermediada' => '2024-12-25 10:00:00',
                 'montoTotal_VentaIntermediada' => 450,
                 'puntosGanados_VentaIntermediada' => 450,
                 'puntosActuales_VentaIntermediada' => 0,
@@ -101,8 +103,8 @@ class VentaIntermediadaSeeder extends Seeder
                 'tipoCodigoCliente_VentaIntermediada' => 'DNI',
                 'codigoCliente_VentaIntermediada' => '45404787',
                 'nombreCliente_VentaIntermediada' => 'BAQUERIZO QUISPE, ELIZABETH SILVIA',
-                'fechaHoraEmision_VentaIntermediada' => '2024-11-30 10:00:00', // 90 días hasta el 2024-11-20
-                'fechaHoraCargada_VentaIntermediada' => '2024-12-20 10:00:00',
+                'fechaHoraEmision_VentaIntermediada' => '2024-12-20 10:00:00', 
+                'fechaHoraCargada_VentaIntermediada' => '2024-12-30 10:00:00',
                 'montoTotal_VentaIntermediada' => 100,
                 'puntosGanados_VentaIntermediada' => 100,
                 'puntosActuales_VentaIntermediada' => 100,
@@ -130,8 +132,8 @@ class VentaIntermediadaSeeder extends Seeder
                 'tipoCodigoCliente_VentaIntermediada' => 'DNI',
                 'codigoCliente_VentaIntermediada' => '45404787',
                 'nombreCliente_VentaIntermediada' => 'BAQUERIZO QUISPE, ELIZABETH SILVIA',
-                'fechaHoraEmision_VentaIntermediada' => '2024-10-30 10:00:00', 
-                'fechaHoraCargada_VentaIntermediada' => '2024-11-20 10:00:00',
+                'fechaHoraEmision_VentaIntermediada' => '2024-11-30 10:00:00', 
+                'fechaHoraCargada_VentaIntermediada' => '2024-12-20 10:00:00',
                 'montoTotal_VentaIntermediada' => 500,
                 'puntosGanados_VentaIntermediada' => 500,
                 'puntosActuales_VentaIntermediada' => 500,
@@ -156,21 +158,29 @@ class VentaIntermediadaSeeder extends Seeder
         ];
 
         foreach ($ventasIntermediadas as $ventaData) {
-            // Verifica si ya tiene una fecha `fechaHoraCargada_VentaIntermediada`.
-            if (!isset($ventaData['fechaHoraCargada_VentaIntermediada'])) {
-                $ventaData['fechaHoraCargada_VentaIntermediada'] = now();
+            try {
+                // Verifica si ya tiene una fecha `fechaHoraCargada_VentaIntermediada`.
+                if (!isset($ventaData['fechaHoraCargada_VentaIntermediada'])) {
+                    $ventaData['fechaHoraCargada_VentaIntermediada'] = now();
+                }
+
+                // Crea la venta intermediada
+                $venta = VentaIntermediada::create($ventaData);
+
+
+                // Actualiza el estado con la lógica del controlador
+                $nuevoEstado = VentaIntermediadaController::returnStateIdVentaIntermediada(
+                                                                $venta->idVentaIntermediada,
+                                                                $venta->puntosActuales_VentaIntermediada,
+                                                            );
+
+                // Log::info($nuevoEstado);
+
+                // Aplica el nuevo estado al registro
+                $venta->update(['idEstadoVenta' => $nuevoEstado]);
+            } catch (Exception $e) {
+                Log::error("Error en VentaIntermediadaSeeder: " . $e->getMessage());
             }
-
-            // Crea la venta intermediada
-            $venta = VentaIntermediada::create($ventaData);
-
-            // Actualiza el estado con la lógica del controlador
-            $nuevoEstado = VentaIntermediadaController::returnStateIdVentaIntermediada(
-                                                            $venta->idVentaIntermediada,
-                                                            $venta->puntosActuales_VentaIntermediada,
-                                                         );
-            // Aplica el nuevo estado al registro
-            $venta->update(['idEstadoVenta' => $nuevoEstado]);
         }
 
         // Ventas usando factory para el técnico con ID 77043114
