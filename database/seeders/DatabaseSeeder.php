@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(OficioSeeder::class);
         $this->call(TecnicoSeeder::class);
         $this->call(TecnicoOficioSeeder::class);
+        $this->call(Login_tecnicoSeeder::class);
         $this->call(TipoRecompensaSeeder::class);
         $this->call(RecompensaSeeder::class);
         $this->call(EstadoVentaSeeder::class);
@@ -27,7 +28,6 @@ class DatabaseSeeder extends Seeder
         $this->call(EstadoSolicitudCanjeSeeder::class);
         $this->call(SolicitudesCanjeSeeder::class);
         $this->call(SolicitudCanjeRecompensaSeeder::class);
-        $this->call(Login_tecnicoSeeder::class);
        
         $endTime = microtime(true); // Marca el fin del tiempo
         $totalTime = $endTime - $startTime; // Calcula el tiempo total

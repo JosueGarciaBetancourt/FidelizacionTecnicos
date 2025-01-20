@@ -33,6 +33,7 @@ class VentaIntermediada extends Model
         'puntosGanados_VentaIntermediada',
         'puntosActuales_VentaIntermediada',
         'idEstadoVenta',
+        'apareceEnSolicitud',
     ];
 
     protected $appends = ['tipoComprobante', 'diasTranscurridos', 'fechaVenta', 'horaVenta', 'fechaCargada', 'horaCargada'];
