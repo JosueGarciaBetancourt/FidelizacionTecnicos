@@ -297,25 +297,6 @@ class VentaIntermediadaController extends Controller
         if ($nuevosPuntosActuales > 0 && $diasTranscurridos <= $maxdaysCanje) {
             return 2;  
         }
-
-        /*
-            [   
-                //'idEstadoVenta' => 1,
-                'nombre_EstadoVenta' => 'En espera', //1 a 90 días transcurridos y puntos ganados sean iguales a los puntos actuales
-            ],
-            [
-                //'idEstadoVenta' => 2,
-                'nombre_EstadoVenta' => 'Redimido (parcial)', // Mínimo un canje asociado a la venta
-            ],
-            [
-                //'idEstadoVenta' => 3,
-                'nombre_EstadoVenta' => 'Redimido (completo)', // Canjear todos los puntos dentro de los 90 días
-            ],
-            [
-                 //'idEstadoVenta' => 4,
-                 'nombre_EstadoVenta' => 'Tiempo Agotado', // Tiene que ser una venta En espera ó Redimido (parcial) y supera los 90 días
-            ],
-        */
     }
  
     // FETCH
