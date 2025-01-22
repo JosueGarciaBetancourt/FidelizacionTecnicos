@@ -113,7 +113,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/dashboard-deleteOficios', [OficioController::class, 'delete'])->name('oficios.delete');  
     Route::post('/modal-restoreOficio', [OficioController::class, 'restaurar'])->name('oficios.restore');
     Route::get('/tblOficiosData', [OficioController::class, 'tabla'])->name('oficios.tabla');
-    Route::get('/dashboard-oficios/export-pdf', [OficioController::class, 'exportarAllOficiosPDF'])->name('recompensas.tablaPDF');
+    Route::get('/dashboard-oficios/export-pdf', [OficioController::class, 'exportarAllOficiosPDF'])->name('oficios.tablaPDF');
 
 
     // Configuración
