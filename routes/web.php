@@ -17,15 +17,14 @@ use App\Http\Controllers\VentaIntermediadaController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
-/*Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');*/
 
 Route::get('', [AuthenticatedSessionController::class, 'create']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
     //PDF 
     Route::get('/dashboard-canjes/historialCanje/pdf/{size}/{idCanje}', [CanjeController::class, 'canjePDF'])->name('canjes.pdf');
+
 
     // Perfil
     Route::get('/dashboard-usuarios', [ProfileController::class, 'create'])->name('usuarios.create');
@@ -34,6 +33,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/dashboard-enableUsuario/{idUsuario}', [ProfileController::class, 'enable'])->name('usuarios.enable');
     Route::delete('/dashboard-disableUsuario/{idUsuario}', [ProfileController::class, 'disable'])->name('usuarios.disable');
     Route::delete('/dashboard-deleteUsuario/{idUsuario}', [ProfileController::class, 'delete'])->name('usuarios.delete');
+
 
     // Ventas Intermediadas
     Route::get('/dashboard-ventasIntermediadas', [VentaIntermediadaController::class, 'create'])->name('ventasIntermediadas.create');
@@ -48,25 +48,32 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard-canjes/tecnico/{idTecnico}', [VentaIntermediadaController::class, 'getComprobantesEnEsperaByIdTecnico'])
         ->name('getVentasIntermediadasWithTecnico');
     Route::post('/verificar-venta', [VentaIntermediadaController::class, 'verificarExistenciaVenta'])->name('ventasIntermediadas.verificarExistencia');
-    
+    Route::get('/dashboard-ventasIntermediadas/export-pdf', [VentaIntermediadaController::class, 'exportarAllVentasPDF'])->name('ventasIntermediadas.tablaPDF');
+
+
     // Canjes
     // Registrar 
     Route::get('/dashboard-registrarCanje', [CanjeController::class, 'registrar'])->name('canjes.registrar');  
     Route::post('/dashboard-registrarCanje-storeCanje', [CanjeController::class, 'store'])->name('canjes.store');  
     // Ver historial 
     Route::get('/dashboard-historial-canje', [CanjeController::class, 'historial'])->name('canjes.historial');  
-    route::get('/dashboard-canjes/canjeAndDetails/{idCanje}', [CanjeController::class, 'getObjCanjeAndDetailsByIdCanje'])
+    Route::get('/dashboard-canjes/canjeAndDetails/{idCanje}', [CanjeController::class, 'getObjCanjeAndDetailsByIdCanje'])
         ->name('getObjCanjeAndDetailsByIdCanje');
     Route::post('/tblHistorialCanjesData', [CanjeController::class, 'tablaHistorialCanje'])->name('canjes.tablaHistorialCanje');  
+    Route::get('/dashboard-canjes/export-pdf', [CanjeController::class, 'exportarAllCanjesPDF'])->name('canjes.tablaPDF');
+
 
     // Solicitudes Canjes
     Route::get('/dashboard-solicitudesApp-canje', [SolicitudCanjeController::class, 'create'])->name('solicitudescanjes.create');  
-    route::get('/dashboard-canjes/solicitudCanje/{idSolicitudCanje}', [SolicitudCanjeController::class, 'getDetalleSolicitudesCanjesRecompensasByIdSolicitudCanje'])
-            ->name('getDetalleSolicitudesCanjesRecompensasByIdSolicitudCanje');
-    Route::post('/dashboard-canjes/solicitudCanje/aprobar/{idSolicitudCanje}', [SolicitudCanjeController::class, 'aprobarSolicitudCanje'])
+    Route::post('/tablaSolicitudCanjeData', [SolicitudCanjeController::class, 'tablaSolicitudCanje'])->name('solicitudescanjes.tablaSolicitudCanje');  
+    Route::get('/dashboard-solicitudesCanjes/solicitudCanjeAndDetails/{idSolicitudCanje}', [SolicitudCanjeController::class, 'getObjSolicitudCanjeAndDetailsByIdSolicitudCanje'])
+            ->name('getObjSolicitudCanjeAndDetailsByIdSolicitudCanje');
+    Route::post('/dashboard-solicitudesCanjes/solicitudCanje/aprobar/{idSolicitudCanje}', [SolicitudCanjeController::class, 'aprobarSolicitudCanje'])
             ->name('aprobarSolicitudCanje');
-    route::post('/dashboard-canjes/solicitudCanje/rechazar/{idSolicitudCanje}', [SolicitudCanjeController::class, 'rechazarSolicitudCanje'])
+    Route::post('/dashboard-solicitudesCanjes/solicitudCanje/rechazar/{idSolicitudCanje}', [SolicitudCanjeController::class, 'rechazarSolicitudCanje'])
             ->name('rechazarSolicitudCanje');
+    Route::get('/dashboard-solicitudesCanjes/export-pdf', [SolicitudCanjeController::class, 'exportarAllSolicitudesCanjesPDF'])->name('solicitudescanjes.tablaPDF');
+
 
     // Recompensas
     Route::get('/dashboard-recompensas', [RecompensaController::class, 'create'])->name('recompensas.create');  
@@ -74,11 +81,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/modal-updateRecompensa', [RecompensaController::class, 'update'])->name('recompensas.update'); 
     Route::delete('/modal-deleteRecompensa', [RecompensaController::class, 'delete'])->name('recompensas.delete');
     Route::post('/modal-restoreRecompensa', [RecompensaController::class, 'restaurar'])->name('recompensas.restore');
+    Route::get('/dashboard-recompensas/export-pdf', [RecompensaController::class, 'exportarAllRecompensasPDF'])->name('recompensas.tablaPDF');
+
 
     // Tipos recompensas
     Route::post('/modal-storeTipoRecompensa', [RecompensaController::class, 'storeTipoRecompensa'])->name('tiposRecompensas.store');  
     Route::put('/modal-updateTipoRecompensa', [RecompensaController::class, 'updateTipoRecompensa'])->name('tiposRecompensas.update'); 
     Route::delete('/modal-deleteTipoRecompensa', [RecompensaController::class, 'deleteTipoRecompensa'])->name('tiposRecompensas.delete');
+
 
     // Técnicos
     Route::get('/dashboard-tecnicos', [TecnicoController::class, 'create'])->name('tecnicos.create');  
@@ -90,9 +100,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/dashboard-tecnicos/getFilteredTecnicos', [TecnicoController::class, 'getFilteredTecnicos'])->name('tecnicos.filter');  
     Route::post('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
     Route::post('/verificar-tecnico', [TecnicoController::class, 'verificarExistenciaTecnico'])->name('tecnicos.verificarExistencia');
-    route::post('/dashboard-tecnicos/getTecnicoByIdNombre', [TecnicoController::class, 'getTecnicoByIdNombre'])
+    Route::post('/dashboard-tecnicos/getTecnicoByIdNombre', [TecnicoController::class, 'getTecnicoByIdNombre'])
                 ->name('tecnicos.getTecnicoByIdFetch');
-    route::post('/dashboard-tecnicos/restorePassword', [TecnicoController::class, 'restorePassword'])->name('tecnicos.restorePassword');
+    Route::post('/dashboard-tecnicos/restorePassword', [TecnicoController::class, 'restorePassword'])->name('tecnicos.restorePassword');
+    Route::get('/dashboard-tecnicos/export-pdf', [TecnicoController::class, 'exportarAllTecnicosPDF'])->name('tecnicos.tablaPDF');
+
 
     // Oficios
     Route::get('/dashboard-oficios', [OficioController::class, 'create'])->name('oficios.create');  
@@ -101,10 +113,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/dashboard-deleteOficios', [OficioController::class, 'delete'])->name('oficios.delete');  
     Route::post('/modal-restoreOficio', [OficioController::class, 'restaurar'])->name('oficios.restore');
     Route::get('/tblOficiosData', [OficioController::class, 'tabla'])->name('oficios.tabla');
+    Route::get('/dashboard-oficios/export-pdf', [OficioController::class, 'exportarAllOficiosPDF'])->name('recompensas.tablaPDF');
+
 
     // Configuración
     Route::get('/dashboard-configuracion', [DashboardController::class, 'configuracion'])->name('configuracion');  
 
+    
     // Correos
     Route::get('emailExample', function () {
         Mail::to('garciabetancourtjosue@gmail.com')

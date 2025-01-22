@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Oficio;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use PhpParser\Node\Expr\Throw_;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Carbon\Carbon;
 
 class OficioController extends Controller
 {
@@ -139,34 +140,55 @@ class OficioController extends Controller
         return DataTables::make($oficios)->toJson();
     }
 
-    /*public function tabla(Request $request)
-    {
-        $query = Oficio::query();
-        
-        // Obtener los parámetros de DataTables para la paginación
-        $start = $request->input('start');   // Offset de la página
-        $length = $request->input('length'); // Número de registros por página
-        
-        // Obtener los datos paginados
-        $oficios = $query->skip($start)->take($length)->get();
+    public function returnArrayOficios() {
+        $oficios = Oficio::all();
+        $index = 1;
 
-        $oficios->each(function($oficio, $index) {
-            $oficio->orderNum = $index + 1;  // Asegúrate de empezar en 1, no en 0
+        $data = $oficios->map(function ($oficio) use (&$index) {
+            return [
+                'index' => $index++,
+                'codigoOficio' => $oficio->codigoOficio,
+                'nombre_Oficio' => $oficio->nombre_Oficio,
+                'descripcion_Oficio' => $oficio->descripcion_Oficio,
+                'created_at' => $oficio->created_at,
+                'updated_at' => $oficio->updated_at,
+            ];
         });
+        
+        return $data->toArray();
+    }
 
-        // Obtener el número total de registros sin filtros
-        $totalRecords = Oficio::count();
+    public function exportarAllOficiosPDF()
+    {
+        try {
+            // Cargar datos de técnicos con oficios
+            $data = $this->returnArrayOficios();
 
-        // Obtener el número total de registros filtrados (si aplica)
-        $filteredRecords = $query->count();
+            // Verificar si hay datos para exportar
+            if (count($data) === 0) {
+                throw new \Exception("No hay datos disponibles para exportar la tabla de oficios.");
+            }
 
-        // Responder a DataTables en el formato correcto
-        return response()->json([
-            'draw' => intval($request->input('draw')),
-            'recordsTotal' => $totalRecords,
-            'recordsFiltered' => $filteredRecords,
-            'data' => $oficios
-        ]);
-    }*/
+            // Configurar los parámetros del PDF
+            $paperSize = 'A4';
+            $view = 'tables.tablaOficiosPDFA4';
+            $fileName = "Club_de_técnicos_DIMACOF_Tabla_de_Oficios.pdf"; 
 
+            // Generar el PDF con los datos
+            $pdf = Pdf::loadView($view, ['data' => $data])
+                    ->setPaper($paperSize, 'landscape');
+
+            // Retornar el PDF para visualizar o descargar
+            return $pdf->stream($fileName);
+        } catch (\Exception $e) {
+            // Registrar el error en los logs
+            Log::error("Error en exportarAllOficiosPDF: " . $e->getMessage());
+
+            // Retornar una respuesta clara al usuario
+            return response()->json([
+                'message' => 'Ocurrió un error al generar el PDF.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

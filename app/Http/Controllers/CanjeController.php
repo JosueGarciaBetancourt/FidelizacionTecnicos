@@ -20,6 +20,7 @@ use App\Http\Controllers\RecompensaController;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\CanjeRecompensaController;
 use App\Http\Controllers\VentaIntermediadaController;
+use Exception;
 
 class CanjeController extends Controller
 {
@@ -149,12 +150,15 @@ class CanjeController extends Controller
     }
     
     public function historial() {
-        $allCanjes = Canje::query()
-                ->join('VentasIntermediadas', 'Canjes.idVentaIntermediada', '=', 'VentasIntermediadas.idVentaIntermediada')
-                ->join('Tecnicos', 'VentasIntermediadas.idTecnico', '=', 'Tecnicos.idTecnico')
-                ->select(['Canjes.*', 'Tecnicos.*'])
-                ->get();
-        return view('dashboard.historialCanjes', compact('allCanjes'));
+        /* $allCanjes = Canje::all();
+        // Decodificar y extraer los valores
+        $recompensasTipos = $allCanjes->map(function ($canje) {
+            $recompensas = json_decode($canje->recompensasJSON, true);
+            return collect($recompensas)->pluck('nombre_TipoRecompensa');
+        });
+
+        dd($recompensasTipos);  */   
+        return view('dashboard.historialCanjes');
     }
 
     public function returnArrayHistorialCanjesTabla() {
@@ -230,6 +234,8 @@ class CanjeController extends Controller
                             ->where('idCanje', $idCanje)
                             ->get();
     
+            // Controller::printJSON($detalles);
+
             // Verificar si se encontraron resultados
             if ($detalles->isEmpty()) {
                 return response()->json(['message' => 'No se encontraron canjes para el ID proporcionado'], 404);
@@ -313,6 +319,126 @@ class CanjeController extends Controller
             return $pdf->stream($fileName);
         } catch (\Exception $e) {
             dd($e->getMessage());
+        }
+    }
+
+    public function returnArrayHistorialCanjesTablaPDF() {
+        try {
+            $canjes = Canje::query()
+                ->join('VentasIntermediadas', 'Canjes.idVentaIntermediada', '=', 'VentasIntermediadas.idVentaIntermediada')
+                ->select('Canjes.*', 'VentasIntermediadas.idTecnico', 'VentasIntermediadas.nombreTecnico')
+                ->get();
+
+            //Controller::printJSON($canjes);
+            //Controller::printJSON(json_decode($canjes->pluck('recompensasJSON'), true));
+            
+            /* Ejemplo de canje 
+                "idCanje": "CANJ-00001",
+                "idVentaIntermediada": "F001-00000072",
+                "fechaHoraEmision_VentaIntermediada": "2024-11-08 10:00:00",
+                "fechaHora_Canje": "2024-11-09 10:00:00",
+                "diasTranscurridos_Canje": 1,
+                "puntosComprobante_Canje": 75,
+                "puntosCanjeados_Canje": 75,
+                "puntosRestantes_Canje": 0,
+                "comentario_Canje": "Ejemplo de comentario de canje",
+                "idUser": 2,
+                "created_at": "2025-01-21T18:18:40.000000Z",
+                "updated_at": "2025-01-21T18:18:40.000000Z",
+                "idTecnico": "77043114",
+                "nombreTecnico": "Josu\u00e9 Garc\u00eda Betancourt",
+                "recompensasJSON": [
+                    {
+                        "idCanje": "CANJ-00001",
+                        "idRecompensa": "RECOM-002",
+                        "idTipoRecompensa": 3,
+                        "nombre_TipoRecompensa": "EPP",
+                        "descripcionRecompensa": "Par de rodilleras para cer\u00e1mica",
+                        "cantidad": 1,
+                        "costoRecompensa": 35,
+                        "puntosTotales": 35,
+                        "canjeRecompensa_created_at": "2025-01-21 13:18:41"
+                    },
+                    {
+                        "idCanje": "CANJ-00001",
+                        "idRecompensa": "RECOM-004",
+                        "idTipoRecompensa": 4,
+                        "nombre_TipoRecompensa": "Herramienta",
+                        "descripcionRecompensa": "Juego de destornilladores",
+                        "cantidad": 1,
+                        "costoRecompensa": 40,
+                        "puntosTotales": 40,
+                        "canjeRecompensa_created_at": "2025-01-21 13:18:41"
+                    }
+                ]
+            */   
+                
+            $index = 1;
+        
+            $data = $canjes->map(function ($canje) use (&$index) {
+                return [
+                    'index' => $index++,
+                    'idCanje' => $canje->idCanje,
+                    'fechaHora_Canje' => $canje->fechaHora_Canje,
+                    'idVentaIntermediada' => $canje->idVentaIntermediada,
+                    'puntosComprobante_Canje' => $canje->puntosComprobante_Canje,
+                    'fechaHoraEmision_VentaIntermediada' => $canje->fechaHoraEmision_VentaIntermediada,
+                    'diasTranscurridos_Canje' => $canje->diasTranscurridos_Canje,
+                    'idTecnico' => $canje->idTecnico,
+                    'nombreTecnico' => $canje->nombreTecnico,
+                    'puntosCanjeados_Canje' => $canje->puntosCanjeados_Canje,
+                    'puntosRestantes_Canje' => $canje->puntosRestantes_Canje,
+                    'recompensasJSON' => json_decode($canje['recompensasJSON'], true),
+                ];
+            });
+            
+            /* Log::info("DATA CANJES PDF:");
+            Controller::printJSON($data); */
+            return $data->toArray();
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    public function exportarAllCanjesPDF()
+    {
+        try {
+            // Cargar datos de técnicos con oficios
+            $data = $this->returnArrayHistorialCanjesTablaPDF();
+            
+            /* Log::info("DATA exportarAllCanjesPDF:");
+            Controller::printJSON($data); */
+
+            // Verificar si hay datos para exportar
+            if (count($data) === 0) {
+                throw new \Exception("No hay datos disponibles para exportar la tabla de canjes.");
+            }
+
+            // Configurar los parámetros del PDF
+            $paperSize = 'A4'; // Tamaño del papel
+            $view = 'tables.tablaCanjesPDFA4'; // Vista para generar el PDF
+            $fileName = "Club_de_técnicos_DIMACOF_Tabla_de_Canjes.pdf"; // Nombre del archivo
+
+            // Generar el PDF con los datos
+            $pdf = Pdf::loadView($view, ['data' => $data])->setPaper($paperSize, 'landscape'); // Configurar tamaño y orientación
+
+            // Retornar el PDF para visualizar o descargar
+            return $pdf->stream($fileName);
+        } catch (\Exception $e) {
+            // Registrar el error en los logs
+            /* Log::error('Error en exportarAllCanjesPDF', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]); */
+
+            // Retornar una respuesta clara al usuario
+            return response()->json([
+                'message' => 'Ocurrió un error al generar el PDF de Canjes.',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 }

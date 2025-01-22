@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Canje extends Model
 {
@@ -30,6 +31,16 @@ class Canje extends Model
         'comentario_Canje',
         'idUser',
     ];
+
+    protected $appends = ['recompensasJSON']; 
+
+    public function getRecompensasJSONAttribute() {
+        $recompensasJSON = DB::table('canje_recompensas_view')
+            ->where('idCanje', $this->idCanje)
+            ->get();
+
+        return $recompensasJSON;
+    }
 
     public function user() {
         return $this->belongsTo('App\Models\User');

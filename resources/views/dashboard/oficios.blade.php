@@ -33,7 +33,7 @@
                         <tr>
                             <th class="celda-centered">#</th>
                             <th class="celda-centered">Código</th>
-                            <th>Nombre de oficio</th>
+                            <th>Nombre</th>
                             <th>Descripción</th>
                             <th class="celda-centered">Fecha y Hora de creación</th>
                             <th class="celda-centered">Fecha y Hora de actualización</th>

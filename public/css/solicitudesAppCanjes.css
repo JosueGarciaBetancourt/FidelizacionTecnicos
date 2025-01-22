@@ -33,6 +33,10 @@ h3 {
     width: 9rem;
 }
 
+.ventaAsociada {
+    width: 9rem;
+}
+
 .celda-btnDetalle {
 	width: 5rem;
 	text-align: center;
@@ -102,67 +106,6 @@ h3 {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-/*Botones de aprobar y rechazar*/
-/* Botón Aprobar */
-.celda-btnAcciones .btnAprobar {
-    cursor: pointer;
-    max-width: 6rem;
-    background-color: #4caf50; /* Verde de aprobación */
-    border: 2px solid #4caf50; /* Borde verde */
-    color: #fff; /* Texto blanco */
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0.5rem 0;
-    gap: 8px; /* Espacio entre ícono y texto */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-/* Efecto hover para el botón Aprobar */
-.celda-btnAcciones .btnAprobar:hover {
-    background-color: #66bb6a; /* Verde más claro */
-    border-color: #66bb6a;
-    transform: translateY(-2px); /* Eleva ligeramente el botón */
-}
-
-/* Botón Rechazar */
-.celda-btnAcciones .btnRechazar {
-    cursor: pointer;
-    max-width: 6rem;
-    background-color: #f44336; /* Rojo de rechazo */
-    border: 2px solid #f44336; /* Borde rojo */
-    color: #fff; /* Texto blanco */
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px; /* Espacio entre ícono y texto */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-/* Efecto hover para el botón Rechazar */
-.celda-btnAcciones .btnRechazar:hover {
-    background-color: #ef5350; /* Rojo más claro */
-    border-color: #ef5350;
-    transform: translateY(-2px); /* Eleva ligeramente el botón */
-}
-
-/* Efecto focus para ambos botones */
-.celda-btnAcciones .btnAprobar:focus,
-.celda-btnAcciones .btnRechazar:focus {
-    outline: none;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Resalta el botón */
 }
 
 /*ESTILOS DE LOS ESTADOS DE LAS VENTAS INTERMEDIADAS*/

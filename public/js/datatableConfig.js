@@ -7,7 +7,7 @@ $(document).ready(function() {
 
 	$('#tblVentasIntermediadas').DataTable({
 		// Configuración inicial
-		lengthMenu: [5, 10, 20], 
+		lengthMenu: [[5, 10, 50, 100, 500, -1], [5, 10, 50, 100, 500, "Todos"]],
 		pageLength: 10, 
 		dom: "Blifrtp", //B:buttons f:filter r:processing t:table
 						//i:info l:length ("Mostrar n registros") p:paging
@@ -20,6 +20,16 @@ $(document).ready(function() {
 				text: "<i class='fa-solid fa-file-pdf'></i>",
 				titleAttr: "Exportar a PDF", //tooltip,
 				orientation: 'landscape',
+				action: function (e, dt, node, config) {
+					// Confirmar si desea exportar todos los datos o solo los visibles
+					if (confirm("¿Deseas exportar todos los registros? Cancelar = Exportar solo registros en pantalla")) {
+						// Redirige a la ruta del backend para exportar todos
+						window.open(baseUrlMAIN + '/dashboard-ventasIntermediadas/export-pdf', '_blank');
+					} else {
+						// Utiliza la exportación predeterminada de DataTables (solo los visibles)
+						$.fn.dataTable.ext.buttons.pdfHtml5.action.call(this, e, dt, node, config);
+					}
+				}
 			},  
 		],
 
@@ -367,8 +377,8 @@ $(document).ready(function() {
 
 	$('#tblRecompensas').DataTable({
 		// Configuración inicial
-		lengthMenu: [5, 15, 30], 
-		pageLength: 15, 
+		lengthMenu: [[5, 10, -1], [5, 10, "Todos"]],
+		pageLength: 10, 
 		dom: "Blifrtp", //B:buttons f:filter r:processing t:table
 						//i:info l:length ("Mostrar n registros") p:paging
 		buttons: [
@@ -380,6 +390,16 @@ $(document).ready(function() {
 				text: "<i class='fa-solid fa-file-pdf'></i>",
 				titleAttr: "Exportar a PDF", //tooltip,
 				orientation: 'landscape',
+				action: function (e, dt, node, config) {
+					// Confirmar si desea exportar todos los datos o solo los visibles
+					if (confirm("¿Deseas exportar todos los registros? Cancelar = Exportar solo registros en pantalla")) {
+						// Redirige a la ruta del backend para exportar todos
+						window.open(baseUrlMAIN + '/dashboard-recompensas/export-pdf', '_blank');
+					} else {
+						// Utiliza la exportación predeterminada de DataTables (solo los visibles)
+						$.fn.dataTable.ext.buttons.pdfHtml5.action.call(this, e, dt, node, config);
+					}
+				}
 			},  
 		],
 
@@ -640,8 +660,8 @@ $(document).ready(function() {
 
 	$('#tblTecnicos').DataTable({
 		// Configuración inicial
-		lengthMenu: [15, 30, 100], 
-		pageLength: 15, 
+		lengthMenu: [[5, 10, 50, 100, 500, -1], [5, 10, 50, 100, 500, "Todos"]],
+		pageLength: 10, 
 		dom: "Blifrtp", //B:buttons f:filter r:processing t:table
 						//i:info l:length ("Mostrar n registros") p:paging
 		buttons: [
@@ -650,7 +670,7 @@ $(document).ready(function() {
 				titleAttr: "Exportar a excel", //tooltip,
 				exportOptions: {
 					columns: [0, 1, 2, 3, 4, 5, 6, 7, 8], // Exportar solo columnas específicas
-				}
+				},
 			},  
 			{   extend: "pdfHtml5",
 				text: "<i class='fa-solid fa-file-pdf'></i>",
@@ -658,6 +678,16 @@ $(document).ready(function() {
 				orientation: 'landscape',
 				exportOptions: {
 					columns: [0, 1, 2, 3, 4, 5, 6, 7, 8], 
+				},
+				action: function (e, dt, node, config) {
+					// Confirmar si desea exportar todos los datos o solo los visibles
+					if (confirm("¿Deseas exportar todos los registros? Cancelar = Exportar solo registros en pantalla")) {
+						// Redirige a la ruta del backend para exportar todos
+						window.open(baseUrlMAIN + '/dashboard-tecnicos/export-pdf', '_blank' );
+					} else {
+						// Utiliza la exportación predeterminada de DataTables (solo los visibles)
+						$.fn.dataTable.ext.buttons.pdfHtml5.action.call(this, e, dt, node, config);
+					}
 				}
 			},  
 		],
@@ -955,7 +985,7 @@ $(document).ready(function() {
 	});
 	
 	$('#tblOficios').DataTable({
-		lengthMenu: [5, 10, 20, 50], // Opciones de registros por página
+		lengthMenu: [[5, 10, -1], [5, 10, "Todos"]],
 		pageLength: 10, // Cantidad de registros por página
 		dom: "Blifrtp", //B:buttons f:filter r:processing t:table
 						//i:info l:length ("Mostrar n registros") p:paging
@@ -968,7 +998,18 @@ $(document).ready(function() {
 				text: "<i class='fa-solid fa-file-pdf'></i>",
 				titleAttr: "Exportar a PDF", //tooltip
 				orientation: 'landscape',
-			},  
+				action: function (e, dt, node, config) {
+					// Confirmar si desea exportar todos los datos o solo los visibles
+					if (confirm("¿Deseas exportar todos los registros? Cancelar = Exportar solo registros en pantalla")) {
+						// Redirige a la ruta del backend para exportar todos
+						window.open(baseUrlMAIN + '/dashboard-oficios/export-pdf', '_blank' );
+						//location.reload();
+					} else {
+						// Utiliza la exportación predeterminada de DataTables (solo los visibles)
+						$.fn.dataTable.ext.buttons.pdfHtml5.action.call(this, e, dt, node, config);
+					}
+				}
+			},
 		],
 
 		// Configuración del buscador
@@ -1228,8 +1269,8 @@ $(document).ready(function() {
 
 	$('#tblHistorialCanjes').DataTable({
 		// Configuración inicial
-		lengthMenu: [5, 15, 30], 
-		pageLength: 15, 
+		lengthMenu: [[5, 10, 50, 100, 500, -1], [5, 10, 50, 100, 500, "Todos"]],
+		pageLength: 10, 
 		dom: "Blifrtp", //B:buttons f:filter r:processing t:table
 						//i:info l:length ("Mostrar n registros") p:paging
 		buttons: [
@@ -1246,6 +1287,16 @@ $(document).ready(function() {
 				orientation: 'landscape',
 				exportOptions: {
 					columns: [0, 1, 2, 3, 4, 5, 6, 7, 8], 
+				},
+				action: function (e, dt, node, config) {
+					// Confirmar si desea exportar todos los datos o solo los visibles
+					if (confirm("¿Deseas exportar todos los registros? Cancelar = Exportar solo registros en pantalla")) {
+						// Redirige a la ruta del backend para exportar todos
+						window.open(baseUrlMAIN + '/dashboard-canjes/export-pdf', '_blank');
+					} else {
+						// Utiliza la exportación predeterminada de DataTables (solo los visibles)
+						$.fn.dataTable.ext.buttons.pdfHtml5.action.call(this, e, dt, node, config);
+					}
 				}
 			},  
 		],
@@ -1534,6 +1585,7 @@ $(document).ready(function() {
 			idVentaIntermediada_puntosGenerados
 			nombreTecnico_idTecnico
 		*/
+
 		columns: [
 			{data: 'index', name: 'index', class: 'celda-centered'},
 			{data: 'idCanje', name: 'idCanje', class: 'celda-centered idCanje'},
@@ -1560,41 +1612,42 @@ $(document).ready(function() {
 			{data: 'puntosRestantes_Canje', name: 'puntosRestantes_Canje', class: 'celda-centered'},
 			{data: 'actions', name: 'actions', class: 'celda-centered', orderable: false},
 		],
-
-		/* columnDefs: [
-			{ targets: [9], orderable: false }, // Deshabilitar ordenación para la columna 9 (botón Ver Detalle)
-		], */
 	});
 
 	$('#tblSolicitudesAppCanje').DataTable({
 		// Configuración inicial
-		lengthMenu: [5, 15, 30], 
-		pageLength: 15, 
+		lengthMenu: [[5, 10, 50, 100, 500, -1], [5, 10, 50, 100, 500, "Todos"]],
+		pageLength: 10, 
 		dom: "Blifrtp", //B:buttons f:filter r:processing t:table
 						//i:info l:length ("Mostrar n registros") p:paging
 		buttons: [
 			{   extend: "excelHtml5",
 				text: "<i class='fa-solid fa-file-excel'></i>",
-				titleAttr: "Exportar a excel", //tooltip,
+				titleAttr: "Exportar a excel",
+				exportOptions: {
+					columns: [0, 1, 2, 3, 4, 5], // Exportar solo columnas específicas
+				},
 			},  
 			{   extend: "pdfHtml5",
 				text: "<i class='fa-solid fa-file-pdf'></i>",
-				titleAttr: "Exportar a PDF", //tooltip,
+				titleAttr: "Exportar a PDF",
 				orientation: 'landscape',
+				exportOptions: {
+					columns: [0, 1, 2, 3, 4, 5], // Exportar solo columnas específicas
+				},
+				action: function (e, dt, node, config) {
+					// Confirmar si desea exportar todos los datos o solo los visibles
+					if (confirm("¿Deseas exportar todos los registros? Cancelar = Exportar solo registros en pantalla")) {
+						// Redirige a la ruta del backend para exportar todos
+						window.open(baseUrlMAIN + '/dashboard-solicitudesCanjes/export-pdf', '_blank');
+					} else {
+						// Utiliza la exportación predeterminada de DataTables (solo los visibles)
+						$.fn.dataTable.ext.buttons.pdfHtml5.action.call(this, e, dt, node, config);
+					}
+				}
 			},  
 		],
 
-		columnDefs: [
-			{ targets: [6,7], orderable: false }, // Deshabilitar ordenación para la columna 7 (Acciones)
-		],
-
-		// Configuración del buscador
-		search: {
-			caseInsensitive: true, // Búsqueda sin distinción entre mayúsculas y minúsculas
-			regex: true, // Habilitar búsqueda usando expresiones regulares (opcional)
-			smart: true, // Habilitar búsqueda inteligente (por defecto)
-		},
-		
 		// Configurando el idioma
 		language: {
 			"processing": "Procesando...",
@@ -1841,5 +1894,74 @@ $(document).ready(function() {
 			},
 			"infoThousands": "."
 		},
+
+		// Ajax
+		processing: true,
+		serverSide: true,
+		responsive: true,
+
+		ajax: {
+			url: "tablaSolicitudCanjeData",
+			type: "POST",
+			dataType: "json",
+			error: function(xhr, status, error) {
+				if (xhr.status !== 204) {
+					console.log("AJAX");
+					console.error("status: " + status);
+					console.error("error: " + error);
+					console.error(xhr.status);
+					location.reload();
+				}
+			}
+		},
+
+		"createdRow": function(row, data){
+			let tdEstadoSolicitudCanje = row.children[5];
+			let span = document.createElement('span');
+			span.classList.add('estado__span-' + (data['idEstadoSolicitudCanje']));
+			span.innerHTML = data['nombre_EstadoSolicitudCanje'];
+			tdEstadoSolicitudCanje.innerHTML = '';
+			tdEstadoSolicitudCanje.appendChild(span);
+		},
+
+		/*
+			index
+			idSolicitudCanje
+			fechaHora_SolicitudCanje
+			nombreTecnico
+			idTecnico
+			idVentaIntermediada
+			puntosComprobante_SolicitudCanje
+			nombre_EstadoSolicitudCanje
+
+			// Campos compuestos
+			nombreTecnico_idTecnico
+			idVentaIntermediada_puntosGenerados
+		*/
+
+		columns: [
+			{data: 'index', name: 'index', class: 'celda-centered'},
+			{data: 'idSolicitudCanje', name: 'idSolicitudCanje', class: 'celda-centered idSolicitudCanje'},
+			{data: 'fechaHora_SolicitudCanje', name: 'fechaHora_SolicitudCanje', class: 'celda-centered'},
+			{
+				data: null, // Indica que no se tomará un solo campo
+				render: function (data) {
+					return `${data.nombreTecnico} <br>
+							<small>DNI: ${data.idTecnico}</small>`;
+				},
+				name: 'nombreTecnico_idTecnico', 
+			},
+			{
+				data: null, // Indica que no se tomará un solo campo
+				render: function (data) {
+					return `${data.idVentaIntermediada} <br>
+							<small>Puntos Generados: ${data.puntosComprobante_SolicitudCanje}</small>`;
+				},
+				name: 'idVentaIntermediada_puntosGenerados', // Nombre para búsquedas
+			},
+			{data: 'nombre_EstadoSolicitudCanje', name: 'nombre_EstadoSolicitudCanje', class: 'celda-centered estado__celda'},
+			{data: 'details', name: 'details', class: 'celda-centered', orderable: false},
+			{data: 'actions', name: 'actions', class: 'celda-centered', orderable: false},
+		],
 	});
 });

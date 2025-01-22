@@ -2,7 +2,6 @@
     <div class="modal-dialog" id="modalDetalleHistorialCanje-dialog">
         <div class="modal-content" id="modalDetalleHistorialCanje-content">
             @php
-                $canjesDB = $allCanjes;
                 $idCodigoCanje = 'codigoCanjeModalDetalleHistorialCanje';
 				$idFechaHoraCanje = 'fechaHoraCanjeModalDetalleHistorialCanje';
 				$idNumeroComprobante = 'numeroComprobanteModalDetalleHistorialCanje';

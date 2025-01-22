@@ -1310,7 +1310,8 @@ div.dt-button-background {
 .dt-button.processing {
   color: rgba(0, 0, 0, 0.2);
 }
-.dt-button.processing:after {
+/* Processing*/
+/* .dt-button.processing:after {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1329,7 +1330,7 @@ div.dt-button-background {
   -ms-animation: dtb-spinner 1500ms infinite linear;
   -webkit-animation: dtb-spinner 1500ms infinite linear;
   -moz-animation: dtb-spinner 1500ms infinite linear;
-}
+} */
 
 @media screen and (max-width: 640px) {
   div.dt-buttons {

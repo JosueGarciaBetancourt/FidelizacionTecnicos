@@ -21,49 +21,13 @@
                     <th class="celda-centered">Código</th>
                     <th class="celda-centered">Fecha y Hora</th>
                     <th class="celda-centered">Técnico</th>
-                    <th class="celda-centered">Venta Asociada</th>
+                    <th class="celda-centered ventaAsociada">Venta Asociada</th>
                     <th class="celda-centered">Estado</th>
                     <th class="celda-centered">Detalles</th>
                     <th class="celda-centered">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-				@php
-					$contador = 1;
-				@endphp
-				@foreach ($solicitudesCanje as $solicitud)
-				<tr>
-					<td class="celda-centered">{{ $contador++ }}</td>
-					<td class="celda-centered idSolicitudCanje">{{ $solicitud->idSolicitudCanje }}</td>
-					<td class="celda-centered">{{ $solicitud->fechaHora_SolicitudCanje }}</td>
-					<td>{{ $solicitud->tecnicos->nombreTecnico }} <br>
-						<small>DNI: {{ $solicitud->idTecnico }}</small>
-					</td>
-					<td class="celda-centered">{{ $solicitud->ventaIntermediada->idVentaIntermediada }} <br>
-						<small>Puntos generados: {{ $solicitud->puntosComprobante_SolicitudCanje }}</small>
-					</td>
-					<td class="estado__celda">
-						<span class="estado__span-{{strtolower(str_replace(' ', '-', $solicitud->idEstadoSolicitudCanje))}}">
-							{{ $solicitud->estadosSolicitudCanje->nombre_EstadoSolicitudCanje }}
-						</span>
-					</td>
-					<td class="celda-btnDetalle">
-						<button class="btnDetalle" onclick="openModalDetalleSolicitudCanje(this, {{ json_encode($solicitudesCanje) }})">
-							Ver Detalle <span class="material-symbols-outlined noUserSelect">visibility</span>
-						</button>
-					</td>
-					<td class="celda-centered celda-btnAcciones" id="idCeldaAcciones">
-						@if ($solicitud->idEstadoSolicitudCanje == 1)
-							<button class="btnAprobar" onclick="aprobarSolicitudCanje('{{ $solicitud->idSolicitudCanje }}')">
-								Aprobar
-							</button>
-							<button class="btnRechazar" onclick="rechazarSolicitudCanje('{{ $solicitud->idSolicitudCanje }}')">
-								Rechazar
-							</button>
-						@endif
-					</td>
-				</tr>
-				@endforeach
 			</tbody>			
         </table>
     </div>

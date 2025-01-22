@@ -3,54 +3,52 @@
 namespace App\Http\Controllers;
 
 use App\Models\Canje;
+use App\Models\Recompensa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\SolicitudesCanje;
+use Yajra\DataTables\DataTables;
+use App\Models\VentaIntermediada;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 use Illuminate\Support\Facades\Auth;
 use App\Models\SolicitudCanjeRecompensa;
 use App\Http\Controllers\CanjeController;
-use App\Models\VentaIntermediada;
-use App\Models\Recompensa;
-
-use Illuminate\Support\Facades\Log;
 
 class SolicitudCanjeController extends Controller
 {
     public function create()
     {
-        // Obtiene las solicitudes de canje con las relaciones necesarias
-        $solicitudesCanje = SolicitudesCanje::with([
-            'tecnicos',                       // Relación con Técnico
-            'estadosSolicitudCanje',          // Relación con el estado de la solicitud
-            'ventaIntermediada',              // Relación con la venta intermediada
-            'solicitudCanjeRecompensa.recompensas', // Relación con las solicitudCanjeRecompensa
-        ])->get();
-
-        //dd($solicitudesCanje->pluck('nombreEstado', 'idSolicitudCanje'));
-        
-        return view('dashboard.solicitudesAppCanjes', compact('solicitudesCanje'));
+        return view('dashboard.solicitudesAppCanjes');
     }
 
-    public function getDetalleSolicitudesCanjesRecompensasByIdSolicitudCanje($idSolicitudCanje) {
+    public function getObjSolicitudCanjeAndDetailsByIdSolicitudCanje($idSolicitudCanje) {
         try {
+            // Obtener el objeto canje
+            $objSolicitudCanje = SolicitudesCanje::findOrFail($idSolicitudCanje);
+            
             // Consulta a la vista
-            $resultados = DB::table('solicitudCanje_recompensas_view')
+            $detalles = DB::table('solicitudCanje_recompensas_view')
                             ->where('idSolicitudCanje', $idSolicitudCanje)
                             ->get();
+
             // Verificar si se encontraron resultados
-            if ($resultados->isEmpty()) {
-                return response()->json(['message' => 'No se encontraron solicitudes canje para el ID proporcionado: ' . $idSolicitudCanje], 404);
+            if ($detalles->isEmpty()) {
+                return response()->json(['message' => 'No se encontraron solicitudes de canjes para el ID proporcionado: ' . $idSolicitudCanje], 404);
             }
     
             // Mapear los resultados para agregar el índice incremental
-            $solicitudesCanjesRecompensasAll = $resultados->map(function ($item, $key) {
+            $detallesSolicitudesCanjes = $detalles->map(function ($item, $key) {
                 $item->index = $key + 1; // Asignar índice a cada elemento
                 return $item;
             });
     
-            return response()->json($solicitudesCanjesRecompensasAll);
-    
+            return response()->json([
+                'objSolicitudCanje' => $objSolicitudCanje,
+                'detallesSolicitudesCanjes' => $detallesSolicitudesCanjes
+            ]);
         } catch (\Exception $e) {
             // Manejo de errores en caso de fallo de consulta
             return response()->json(['error' => 'Error al obtener los detalles de la solicitud canje ' . $idSolicitudCanje, 'details' => $e->getMessage()], 500);
@@ -189,7 +187,6 @@ class SolicitudCanjeController extends Controller
         }
     }
 
-
     // Mostrar todas las solicitudes de canje del usuario
     public function getSolicitudesPorTecnico($idTecnico)
     {
@@ -322,6 +319,198 @@ class SolicitudCanjeController extends Controller
             return response()->json([
                 'error' => 'Error al rechazar la solicitud de canje.',
                 'details' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function returnArraySolicitudesCanjesTabla() {
+        try {
+            // Obtener las ventas intermediadas con los datos relacionados
+            $solicitudescanjes = SolicitudesCanje::query()
+                    ->join('Tecnicos', 'SolicitudesCanjes.idTecnico', '=', 'Tecnicos.idTecnico')
+                    ->join('EstadosSolicitudesCanjes', 'SolicitudesCanjes.idEstadoSolicitudCanje', '=', 'EstadosSolicitudesCanjes.idEstadoSolicitudCanje')
+                    ->select(['SolicitudesCanjes.idSolicitudCanje', 
+                            'SolicitudesCanjes.fechaHora_SolicitudCanje', 
+                            'Tecnicos.nombreTecnico', 
+                            'Tecnicos.idTecnico', 
+                            'SolicitudesCanjes.idVentaIntermediada', 
+                            'SolicitudesCanjes.puntosComprobante_SolicitudCanje', // Puntos generados
+                            'EstadosSolicitudesCanjes.nombre_EstadoSolicitudCanje',
+                            'EstadosSolicitudesCanjes.idEstadoSolicitudCanje'])
+                    ->orderBy('SolicitudesCanjes.idSolicitudCanje', 'ASC') 
+                    ->get();
+
+            $index = 1;
+        
+            // Mapear las ventas para estructurarlas
+            $data = $solicitudescanjes->map(function ($solicanje) use (&$index) {
+                return [
+                    'index' => $index++,
+                    'idSolicitudCanje' => $solicanje->idSolicitudCanje,
+                    'fechaHora_SolicitudCanje' => $solicanje->fechaHora_SolicitudCanje,
+                    'nombreTecnico' => $solicanje->nombreTecnico,
+                    'idTecnico' => $solicanje->idTecnico,
+                    'idVentaIntermediada' => $solicanje->idVentaIntermediada,
+                    'puntosComprobante_SolicitudCanje' => $solicanje->puntosComprobante_SolicitudCanje,
+                    'nombre_EstadoSolicitudCanje' => $solicanje->nombre_EstadoSolicitudCanje,
+                    'idEstadoSolicitudCanje' => $solicanje->idEstadoSolicitudCanje,
+
+                    // Campos compuestos
+                    'idVentaIntermediada_puntosGenerados' => $solicanje->idVentaIntermediada . " " . $solicanje->puntosComprobante_Canje,
+                    'nombreTecnico_idTecnico' => $solicanje->nombreTecnico . " DNI: " . $solicanje->idTecnico,
+                ];
+            });
+        
+            return $data->toArray();
+
+        } catch (\Exception $e) {
+            Log::error('Error en returnArraySolicitudesCanjesTabla: ' . $e->getMessage());
+        }
+    }
+    
+    public function tablaSolicitudCanje(Request $request) {
+        try {
+            if ($request->ajax()) {
+                $solicitudescanjes = $this->returnArraySolicitudesCanjesTabla();
+                        
+                if (empty($solicitudescanjes)) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'No hay solicitudes de canjes registrados aún.'
+                    ], 204);
+                }
+            
+                return DataTables::of($solicitudescanjes)
+                    ->addColumn('details', 'tables.solicitudCanjeDetailsColumn')
+                    //->addColumn('actions', 'tables.solicitudCanjeActionColumn')
+                    ->addColumn('actions', function ($row) {
+                        $idEstadoSolicitudCanje = $row['idEstadoSolicitudCanje']; 
+                        $idSolicitudCanje = $row['idSolicitudCanje'];  
+                        return view('tables.solicitudCanjeActionColumn', compact('row', 'idEstadoSolicitudCanje', 'idSolicitudCanje'))->render();
+                    })
+                    ->rawColumns(['details', 'actions'])
+                    ->make(true);
+            }
+
+            return abort(403);
+        } catch (\Exception $e) {
+            Log::error('Error en tablaSolicitudCanje: ' . $e->getMessage());
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error al procesar la solicitud: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getObjCanjeAndDetailsByIdCanje($idCanje) {
+        try {
+            // Obtener el objeto canje
+            $objCanje = Canje::findOrFail($idCanje);
+
+            // Consulta a la vista
+            $detalles = DB::table('canje_recompensas_view')
+                            ->where('idCanje', $idCanje)
+                            ->get();
+    
+            // Verificar si se encontraron resultados
+            if ($detalles->isEmpty()) {
+                return response()->json(['message' => 'No se encontraron canjes para el ID proporcionado'], 404);
+            }
+    
+            // Mapear los resultados para agregar el índice incremental
+            $detallesCanjes = $detalles->map(function ($item, $key) {
+                $item->index = $key + 1; // Asignar índice a cada elemento
+                return $item;
+            });
+    
+            return response()->json([
+                'objCanje' => $objCanje,
+                'detallesCanjes' => $detallesCanjes
+            ]);
+        } catch (\Exception $e) {
+            // Manejo de errores en caso de fallo de consulta
+            return response()->json(['error' => 'Error al obtener los detalles del canje ' . $idCanje, 'details' => $e->getMessage()], 500);
+        }
+    }
+
+    public function returnArraySolicitudesCanjesTablaPDF() {
+        try {
+            $solicitudesCanjes = SolicitudesCanje::query()
+                ->join('VentasIntermediadas', 'SolicitudesCanjes.idVentaIntermediada', '=', 'VentasIntermediadas.idVentaIntermediada')
+                ->join('EstadosSolicitudesCanjes', 'SolicitudesCanjes.idEstadoSolicitudCanje', '=', 'EstadosSolicitudesCanjes.idEstadoSolicitudCanje')
+                ->select('SolicitudesCanjes.*', 'VentasIntermediadas.idTecnico', 'VentasIntermediadas.nombreTecnico',
+                        'EstadosSolicitudesCanjes.nombre_EstadoSolicitudCanje')
+                ->get();
+
+            //Controller::printJSON($solicitudesCfechaHoraEmision_VentaIntermediadaanjes);
+            //Controller::printJSON(json_decode($solicitudesCanjes->pluck('recompensasJSON'), true));
+            
+            $index = 1;
+        
+            $data = $solicitudesCanjes->map(function ($soliCan) use (&$index) {
+                return [
+                    'index' => $index++,
+                    'idSolicitudCanje' => $soliCan->idSolicitudCanje,
+                    'fechaHora_SolicitudCanje' => $soliCan->fechaHora_SolicitudCanje,
+                    'fechaHoraEmision_VentaIntermediada' => $soliCan->fechaHoraEmision_VentaIntermediada,
+                    'diasTranscurridos_SolicitudCanje' => $soliCan->diasTranscurridos_SolicitudCanje,
+                    'idTecnico' => $soliCan->idTecnico,
+                    'nombreTecnico' => $soliCan->nombreTecnico,
+                    'comentario_SolicitudCanje' => $soliCan->comentario_SolicitudCanje,
+                    'idVentaIntermediada' => $soliCan->idVentaIntermediada,
+                    'puntosComprobante_SolicitudCanje' => $soliCan->puntosComprobante_SolicitudCanje,
+                    'puntosCanjeados_SolicitudCanje' => $soliCan->puntosCanjeados_SolicitudCanje,
+                    'puntosRestantes_SolicitudCanje' => $soliCan->puntosRestantes_SolicitudCanje,
+                    'idEstadoSolicitudCanje' => $soliCan->idEstadoSolicitudCanje,
+                    'nombre_EstadoSolicitudCanje' => $soliCan->nombre_EstadoSolicitudCanje,
+                    'recompensasJSON' => json_decode($soliCan['recompensasJSON'], true),
+                ];
+            });
+            
+            return $data->toArray();
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+        }
+    }
+    
+    public function exportarAllSolicitudesCanjesPDF()
+    {
+        try {
+            $data = $this->returnArraySolicitudesCanjesTablaPDF();
+            
+            /* Log::info("DATA exportarAllSolicitudesCanjesPDF:");
+            Controller::printJSON($data); */
+
+            // Verificar si hay datos para exportar
+            if (count($data) === 0) {
+                throw new \Exception("No hay datos disponibles para exportar la tabla de solicitudes de canjes.");
+            }
+
+            // Configurar los parámetros del PDF
+            $paperSize = 'A4'; // Tamaño del papel
+            $view = 'tables.tablaSolicitudesCanjesPDFA4'; // Vista para generar el PDF
+            $fileName = "Club_de_técnicos_DIMACOF_Tabla_de_Canjes.pdf"; // Nombre del archivo
+
+            // Generar el PDF con los datos
+            $pdf = Pdf::loadView($view, ['data' => $data])->setPaper($paperSize, 'landscape'); // Configurar tamaño y orientación
+
+            // Retornar el PDF para visualizar o descargar
+            return $pdf->stream($fileName);
+        } catch (\Exception $e) {
+            // Registrar el error en los logs
+            /* Log::error('Error en exportarAllSolicitudesCanjesPDF', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]); */
+
+            // Retornar una respuesta clara al usuario
+            return response()->json([
+                'message' => 'Ocurrió un error al generar el PDF de Canjes.',
+                'error' => $e->getMessage()
             ], 500);
         }
     }

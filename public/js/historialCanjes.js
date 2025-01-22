@@ -85,13 +85,8 @@ async function objCanjeAndDetailsByIdCanjeFetch(idCanje) {
             throw new Error(await response.text());
         }
 
-        console.log(response);
-        
         const { objCanje, detallesCanjes } = await response.json();
 
-        console.log("Objeto Canje:", objCanje);
-        console.log("Detalles Canjes:", detallesCanjes);
-        
         // Llenar campos del modal
         fillOtherFieldsDetalleHistorialCanje(objCanje);
 
@@ -99,7 +94,7 @@ async function objCanjeAndDetailsByIdCanjeFetch(idCanje) {
         if (detallesCanjes && detallesCanjes.length > 0) {
             fillTableDetalleHistorialCanje(detallesCanjes);
             
-            const objCanje = {
+            /* const objCanje = {
                 idCanje: idCanje,
                 fechaHora_Canje: document.getElementById('fechaHoraCanjeModalDetalleHistorialCanje').textContent,
                 diasTranscurridos_Canje: document.getElementById('diasTranscurridosCanjeModalDetalleHistorialCanje').textContent.split(' ')[0],
@@ -109,7 +104,7 @@ async function objCanjeAndDetailsByIdCanjeFetch(idCanje) {
                 puntosCanjeados_Canje: document.getElementById('puntosCanjeadosModalDetalleHistorialCanje').value,
                 puntosRestantes_Canje: document.getElementById('puntosRestantesComprobanteModalDetalleHistorialCanje').value,
                 comentario_Canje: document.getElementById('comentarioComprobanteModalDetalleHistorialCanje').value,
-            };
+            }; */
 
             StorageHelper.saveModalDataToStorage('currentCanje', objCanje);
             StorageHelper.saveModalDataToStorage('currentCanjeDetails', detallesCanjes);

@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\Recompensa;
-use App\Models\TipoRecompensa;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Recaller;
+use App\Models\TipoRecompensa;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cookie;
@@ -60,7 +61,6 @@ class RecompensaController extends Controller
                 ->pluck('nombre_TipoRecompensa')
                 ->values(); // Reindexar
     }
-
 
     public function create()
     {
@@ -311,6 +311,62 @@ class RecompensaController extends Controller
             DB::rollBack();
             return redirect()->route('recompensas.create')->withErrors('Ocurrió un error al intentar eliminar el tipo de recompensa. 
                                                                         Por favor, inténtelo de nuevo.');
+        }
+    }
+
+    public function returnArrayRecompensas() {
+        $recompensas = Recompensa::all();
+        $index = 1;
+
+        // Mapear los datos para transformarlos
+        $data = $recompensas->map(function ($recompensa) use (&$index) {
+            return [
+                'index' => $index++,
+                'idRecompensa' => $recompensa->idRecompensa,
+                'idTipoRecompensa' => $recompensa->idTipoRecompensa,
+                'nombre_TipoRecompensa' => $recompensa->nombre_TipoRecompensa,
+                'descripcionRecompensa' => $recompensa->descripcionRecompensa,
+                'costoPuntos_Recompensa' => $recompensa->costoPuntos_Recompensa,
+                'stock_Recompensa' => $recompensa->stock_Recompensa,
+                'created_at' => $recompensa->created_at,
+                'updated_at' => $recompensa->updated_at,
+            ];
+        });
+        
+        return $data->toArray();
+    }
+
+    public function exportarAllRecompensasPDF()
+    {
+        try {
+            // Cargar datos de técnicos con oficios
+            $data = $this->returnArrayRecompensas();
+
+            // Verificar si hay datos para exportar
+            if (count($data) === 0) {
+                throw new \Exception("No hay datos disponibles para exportar la tabla de recompensas.");
+            }
+
+            // Configurar los parámetros del PDF
+            $paperSize = 'A4'; // Tamaño del papel
+            $view = 'tables.tablaRecompensasPDFA4'; // Vista para generar el PDF
+            $fileName = "Club_de_técnicos_DIMACOF_Tabla_de_Recompensas.pdf"; // Nombre del archivo
+
+            // Generar el PDF con los datos
+            $pdf = Pdf::loadView($view, ['data' => $data])
+                    ->setPaper($paperSize, 'landscape'); // Configurar tamaño y orientación
+
+            // Retornar el PDF para visualizar o descargar
+            return $pdf->stream($fileName);
+        } catch (\Exception $e) {
+            // Registrar el error en los logs
+            Log::error("Error en exportarAllRecompensasPDF: " . $e->getMessage());
+
+            // Retornar una respuesta clara al usuario
+            return response()->json([
+                'message' => 'Ocurrió un error al generar el PDF.',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 }

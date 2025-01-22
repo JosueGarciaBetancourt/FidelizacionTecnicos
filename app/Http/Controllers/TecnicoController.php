@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TecnicoController extends Controller
 {   
@@ -649,6 +650,40 @@ class TecnicoController extends Controller
                 // Eliminar 'details' para entornos de producción
                 'details' => env('APP_DEBUG') ? $e->getMessage() : 'Consulte con el administrador.',
             ], 500); // Código 500 para errores internos del servidor
+        }
+    }
+
+    public function exportarAllTecnicosPDF()
+    {
+        try {
+            // Cargar datos de técnicos con oficios
+            $data = $this->returnArrayTecnicosWithOficios();
+
+            // Verificar si hay datos para exportar
+            if (count($data) === 0) {
+                throw new \Exception("No hay datos disponibles para exportar la tabla de técnicos.");
+            }
+
+            // Configurar los parámetros del PDF
+            $paperSize = 'A4'; // Tamaño del papel
+            $view = 'tables.tablaTecnicosPDFA4'; // Vista para generar el PDF
+            $fileName = "Club_de_técnicos_DIMACOF_Tabla_de_técnicos.pdf"; // Nombre del archivo
+
+            // Generar el PDF con los datos
+            $pdf = Pdf::loadView($view, ['data' => $data])
+                    ->setPaper($paperSize, 'landscape'); // Configurar tamaño y orientación
+
+            // Retornar el PDF para visualizar o descargar
+            return $pdf->stream($fileName);
+        } catch (\Exception $e) {
+            // Registrar el error en los logs
+            Log::error("Error en exportarAllTecnicosPDF: " . $e->getMessage());
+
+            // Retornar una respuesta clara al usuario
+            return response()->json([
+                'message' => 'Ocurrió un error al generar el PDF.',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SolicitudesCanje extends Model
 {
@@ -28,8 +29,8 @@ class SolicitudesCanje extends Model
         'comentario_SolicitudCanje',
     ];
 
-    protected $appends = ['userName', 'nombreEstado'];
-
+    protected $appends = ['userName', 'nombreEstado', 'recompensasJSON'];
+    
     public function user() {
         return $this->belongsTo('App\Models\User');
     }
@@ -44,7 +45,7 @@ class SolicitudesCanje extends Model
         return $this->belongsTo(Tecnico::class, 'idTecnico', 'idTecnico');
     }
 
-    public function ventaIntermediada()
+    public function ventasIntermediadas()
     {
         return $this->belongsTo(VentaIntermediada::class, 'idVentaIntermediada', 'idVentaIntermediada');
     }
@@ -67,5 +68,13 @@ class SolicitudesCanje extends Model
         $estadoSolicitudCanje = EstadosSolicitudCanje::find($this->idEstadoSolicitudCanje);
         
         return $estadoSolicitudCanje ? $estadoSolicitudCanje->nombre_EstadoSolicitudCanje : null;
+    }
+
+    public function getRecompensasJSONAttribute() {
+        $recompensasJSON = DB::table('solicitudCanje_recompensas_view')
+                ->where('idSolicitudCanje', $this->idSolicitudCanje)
+                ->get();
+
+        return $recompensasJSON;
     }
 }

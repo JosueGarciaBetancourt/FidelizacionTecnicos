@@ -94,138 +94,42 @@ function fillTableDetalleSolicitudCanje(detallesSolicitudesCanjes) {
     celdaTotalPuntosRecompensas.textContent = total_puntos_recompensas;
 }
 
-function openModalDetalleSolicitudCanje(button, solicitudesCanjeDB) {
-    const fila = button.closest('tr');
-    const celdaCodigoSolicitudCanje = fila.getElementsByClassName('idSolicitudCanje')[0]; 
-    const codigo = celdaCodigoSolicitudCanje.innerText;
-    const objSolicitudCanje = returnObjSolicitudCanjeById(codigo, solicitudesCanjeDB);
-
-    // LLenar campos del formulario de detalle canje
-    fillOtherFieldsDetalleSolicitudCanje(objSolicitudCanje);
-
-    StorageHelper.saveModalDataToStorage('currentSolicitudCanje', objSolicitudCanje);
-
-    // Realizar la consulta al backend, llenar tabla de recompensas y abrir el modal
-    getDetalleSolicitudCanjeByIdCanjeFetch(objSolicitudCanje['idSolicitudCanje']);
-}
-
-function returnObjSolicitudCanjeById(idSolicitudCanje, solicitudesCanjeDB) {
-    const objSolicitudCanje = solicitudesCanjeDB.find(canje => canje.idSolicitudCanje === idSolicitudCanje) || null;
-    return objSolicitudCanje;
-}
-
-async function getDetalleSolicitudCanjeByIdCanjeFetch(idSolicitudCanje) {
-    //const url = `http://localhost/FidelizacionTecnicos/public/dashboard-canjes/solicitudCanje/${idSolicitudCanje}`;
-    const url = `${baseUrlMAIN}/dashboard-canjes/solicitudCanje/${idSolicitudCanje}`; 
-    //console.warn("fetch", url);
+async function objSolicitudCanjeAndDetailsByIdSolicitudCanjeFetch(idSolicitudCanje) {
+    const url = `${baseUrlMAIN}/dashboard-solicitudesCanjes/solicitudCanjeAndDetails/${idSolicitudCanje}`;
 
     try {
         const response = await fetch(url);
-        /*console.log("Fetching URL:", url);
-        console.log('Response Status:', response.status);
-        console.log('Response Headers:', response.headers.get('Content-Type'));*/
 
         if (!response.ok) {
             throw new Error(await response.text());
         }
 
-        const detallesSolicitudesCanjes = await response.json();
+        console.log(response);
+        
+        const { objSolicitudCanje, detallesSolicitudesCanjes } = await response.json();
+
+        console.log("Objeto Solicitud Canje:", objSolicitudCanje);
+        console.log("Detalles:", detallesSolicitudesCanjes);
         
         // Llenar la tabla con los detalles de las recompensas
         if (detallesSolicitudesCanjes && detallesSolicitudesCanjes.length > 0) {
+            fillOtherFieldsDetalleSolicitudCanje(objSolicitudCanje);
             fillTableDetalleSolicitudCanje(detallesSolicitudesCanjes);
+            StorageHelper.saveModalDataToStorage('currentSolicitudCanje', objSolicitudCanje);
             StorageHelper.saveModalDataToStorage('currentSolicitudCanjeDetails', detallesSolicitudesCanjes);
         }
         
-        // Abrir el modal
         justOpenModal('modalDetalleSolicitudCanje');
     } catch (error) {
-        console.error('Error al realizar la consulta al backend para obtener las recompensas de la solicitud canje:', error.message);
+        console.error('Error al realizar la consulta al backend para obtener las recompensas del canje:', error.message);
     }
 }
 
-function aprobarSolicitudCanje(idSolicitudCanje){
-    // Mostrar el modal y esperar la respuesta del usuario
-    openConfirmSolicitudCanjeModal('modalConfirmActionAprobarSolicitudCanje').then((response) => {
-        if (response.answer) {
-            if (response.comment) {
-                aprobarSolicitud(idSolicitudCanje, response.comment); 
-                return;
-            }
-        } 
-    });
-}
+/* function returnObjSolicitudCanjeById(idSolicitudCanje, solicitudesCanjeDB) {
+    const objSolicitudCanje = solicitudesCanjeDB.find(canje => canje.idSolicitudCanje === idSolicitudCanje) || null;
+    return objSolicitudCanje;
+} */
 
-function rechazarSolicitudCanje(idSolicitudCanje){
-    // Mostrar el modal y esperar la respuesta del usuario
-    openConfirmSolicitudCanjeModal('modalConfirmActionRechazarSolicitudCanje').then((response) => {
-        if (response.answer) {
-            if (response.comment) {
-                rechazarSolicitud(idSolicitudCanje, response.comment); 
-            }
-            return;
-        }
-    });
-}
-
-async function aprobarSolicitud(idSolicitudCanje, comentario) {
-    const url = `${baseUrlMAIN}/dashboard-canjes/solicitudCanje/aprobar/${idSolicitudCanje}`;
-
-    try {
-        // Obtener el token CSRF desde el contenido de la página
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        const response = await fetch(url, {
-            method: 'POST', // Cambiado a POST para enviar datos
-            headers: {
-                'Content-Type': 'application/json', // Importante para enviar JSON
-                'X-CSRF-TOKEN': csrfToken, // Agregar el token CSRF aquí
-            },
-            body: JSON.stringify({ comentario: comentario }), // Enviando el comentario
-        });
-
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
-
-        const mensaje = await response.json();
-        console.log(mensaje);
-
-        // Recargar la página después de que la solicitud se haya procesado correctamente
-        location.reload();
-    } catch (error) {
-        console.error('Error al realizar la consulta al backend para aprobar la solicitud:', error.message);
-    }
-}
-
-async function rechazarSolicitud(idSolicitudCanje, comentario) {
-    const url = `${baseUrlMAIN}/dashboard-canjes/solicitudCanje/rechazar/${idSolicitudCanje}`;
-
-    try {
-        // Obtener el token CSRF desde el contenido de la página
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-        const response = await fetch(url, {
-            method: 'POST', // Cambiado a POST para enviar datos
-            headers: {
-                'Content-Type': 'application/json', // Importante para enviar JSON
-                'X-CSRF-TOKEN': csrfToken, // Agregar el token CSRF aquí
-            },
-            body: JSON.stringify({ comentario: comentario }), // Enviando el comentario
-        });
-
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
-
-        const mensaje = await response.json();
-
-        // Recargar la página después de que la solicitud se haya procesado correctamente
-        location.reload();
-    } catch (error) {
-        console.error('Error al realizar la consulta al backend para rechazar la solicitud:', error.message);
-    }
-}
 
 document.addEventListener('DOMContentLoaded', function() {
     try {
@@ -240,8 +144,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Abrir el modal correspondiente
             justOpenModal('modalDetalleSolicitudCanje');
-        } else {
-            console.log('No se encontraron datos persistidos para la Solicitud Canje.');
         }
     } catch (error) {
         console.error('Error al cargar la data de la Solicitud Canje:', error);

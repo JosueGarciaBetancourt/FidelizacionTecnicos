@@ -16,12 +16,12 @@ class SolicitudesCanjeSeeder extends Seeder
                 'idVentaIntermediada' => 'F001-00000444', //En espera
                 'idTecnico' => '77043114', // Josué García
                 'idEstadoSolicitudCanje' => 1, // Pendiente
-                'fechaHoraEmision_VentaIntermediada' => '2024-11-10 10:00:00',
-                'diasTranscurridos_SolicitudCanje' => 13, 
+                'fechaHoraEmision_VentaIntermediada' => '2025-01-21 10:00:00',
+                'diasTranscurridos_SolicitudCanje' => 1, 
                 'puntosComprobante_SolicitudCanje' => 500,  
-                'puntosCanjeados_SolicitudCanje' => 400,
-                'puntosRestantes_SolicitudCanje' => 100, 
-                'fechaHora_SolicitudCanje' => '2024-11-23 10:00:00',
+                'puntosCanjeados_SolicitudCanje' => 405,
+                'puntosRestantes_SolicitudCanje' => 95, 
+                'fechaHora_SolicitudCanje' => '2025-01-22 10:00:00',
                 //'comentario_SolicitudCanje' => ,
             ],
             [
@@ -30,12 +30,12 @@ class SolicitudesCanjeSeeder extends Seeder
                 'idTecnico' => '77665544', // Manuel Carrasco
                 'idEstadoSolicitudCanje' => 1, // Pendiente
                 'idUser' => 2, // Administrador
-                'fechaHoraEmision_VentaIntermediada' => '2024-11-10 10:00:00',
-                'diasTranscurridos_SolicitudCanje' => 13, 
-                'puntosComprobante_SolicitudCanje' => 5,  
+                'fechaHoraEmision_VentaIntermediada' => '2025-01-21 10:00:00',
+                'diasTranscurridos_SolicitudCanje' => 1, 
+                'puntosComprobante_SolicitudCanje' => 1000,  
                 'puntosCanjeados_SolicitudCanje' => 5,
-                'puntosRestantes_SolicitudCanje' => 0, 
-                'fechaHora_SolicitudCanje' => '2024-11-23 10:00:00',
+                'puntosRestantes_SolicitudCanje' => 995, 
+                'fechaHora_SolicitudCanje' => '2025-01-22 10:00:00',
                 //'comentario_SolicitudCanje' => ,
             ],
         ];

@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Tecnico;
 use App\Models\EstadoVenta;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\SolicitudesCanje;
 use Yajra\DataTables\DataTables;
 use App\Models\VentaIntermediada;
@@ -318,6 +319,40 @@ class VentaIntermediadaController extends Controller
         }
     }
  
+    public function exportarAllVentasPDF()
+    {
+        try {
+            // Cargar datos de técnicos con oficios
+            $data = $this->returnArrayVentasIntermediadasTabla();
+
+            // Verificar si hay datos para exportar
+            if (count($data) === 0) {
+                throw new \Exception("No hay datos disponibles para exportar la tabla de ventas intermediadas.");
+            }
+
+            // Configurar los parámetros del PDF
+            $paperSize = 'A4'; // Tamaño del papel
+            $view = 'tables.tablaVentasPDFA4'; // Vista para generar el PDF
+            $fileName = "Club_de_técnicos_DIMACOF_Tabla_de_VentasIntermediadas.pdf"; // Nombre del archivo
+
+            // Generar el PDF con los datos
+            $pdf = Pdf::loadView($view, ['data' => $data])
+                    ->setPaper($paperSize, 'landscape'); // Configurar tamaño y orientación
+
+            // Retornar el PDF para visualizar o descargar
+            return $pdf->stream($fileName);
+        } catch (\Exception $e) {
+            // Registrar el error en los logs
+            Log::error("Error en exportarAllVentasPDF: " . $e->getMessage());
+
+            // Retornar una respuesta clara al usuario
+            return response()->json([
+                'message' => 'Ocurrió un error al generar el PDF.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
     // FETCH
     public function getComprobantesEnEsperaByIdTecnico($idTecnico)
     {
