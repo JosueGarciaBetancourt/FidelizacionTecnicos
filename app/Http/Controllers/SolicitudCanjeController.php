@@ -115,6 +115,7 @@ class SolicitudCanjeController extends Controller
                 'puntosComprobante_SolicitudCanje' => $puntosComprobante,
                 'puntosCanjeados_SolicitudCanje' => $puntosCanjeados,
                 'puntosRestantes_SolicitudCanje' => $puntosRestantes,
+                'comentario_SolicitudCanje' => 'No registrado aún',
             ]);
 
             // Crear los registros en la tabla de recompensas asociadas
