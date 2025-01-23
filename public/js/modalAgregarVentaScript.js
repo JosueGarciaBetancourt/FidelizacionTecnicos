@@ -271,6 +271,14 @@ function analizarXML(file) {
     HACER PRUEBA UNITARIA PARA ESTA FUNCIÓN 
     */
 
+    if (tecnicoAgregarVentaInput.value == '' || tecnicoAgregarVentaInput.value == null) {
+        multiMessageError2.textContent = "Seleccione primero un técnico.";
+        multiMessageError2.classList.add('shown');
+        return;
+    }
+
+    multiMessageError2.classList.remove('shown');
+
     const reader = new FileReader();
 
     reader.onload = function(event) {
@@ -310,10 +318,7 @@ function analizarXML(file) {
             puntosGanados: Math.round(parseFloat(montoTotal)),
         }
 
-		// Imprimir en consola usando Object.entries()
-        /*Object.entries(ventaIntermediadaObject).forEach(([key, value]) => {
-            console.log(`${key}: ${value}`);
-        });*/
+        consoleLogJSONItems(ventaIntermediadaObject);
 
         if (!idTecnicoInput.value.trim() || !nombreTecnicoInput.value.trim()) {
             //console.log("Tiene que rellenar el campo Técnico primero");
@@ -670,7 +675,6 @@ function validatePositiveFloat(input) {
 }
 
 function updateDNIRUCMaxLength(numDocumentoClienteInput) {
-
     // Obtén el tipo de documento seleccionado
     const tipoDocumentoInput = document.getElementById('tipoCodigoClienteInput');
     const numDocumentoInput = numDocumentoClienteInput;

@@ -386,7 +386,6 @@ function guardarModal(idModal, idForm) {
         closeModal(idModal);
     } catch (error) {
         console.log(error.message);
-        registrarErrorEnLaravel(error.message) 
     }
 }
 

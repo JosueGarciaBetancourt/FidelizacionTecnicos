@@ -105,7 +105,7 @@ function handleFormSubmission(elementId, formId, timeout = 2000) {
 }
  
 // Función para enviar el mensaje de error al log de Laravel
-function registrarErrorEnLaravel(mensajeError) {
+/* function registrarErrorEnLaravel(mensajeError) {
     fetch('/log-error', {
         method: 'POST',
         headers: {
@@ -121,7 +121,7 @@ function registrarErrorEnLaravel(mensajeError) {
     .catch(error => {
         console.error("Error al enviar el mensaje al servidor:", error);
     });
-}
+} */
 
 function togglePasswordVisibility(viewPasswordIcon, idPasswordInput) {
     const passwordInput = document.getElementById(idPasswordInput);
