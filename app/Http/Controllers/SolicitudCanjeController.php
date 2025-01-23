@@ -153,6 +153,8 @@ class SolicitudCanjeController extends Controller
 
     public function eliminarSolicitud(Request $request, $idSolicitudCanje)
     {
+        DB::beginTransaction();
+
         try {
             // Buscar la solicitud por ID
             $solicitud = SolicitudesCanje::findOrFail($idSolicitudCanje);
@@ -167,26 +169,44 @@ class SolicitudCanjeController extends Controller
                 ], 422);
             }
 
+            // Recuperar la venta intermediada asociada
+            $venta = VentaIntermediada::where('idVentaIntermediada', $solicitud->idVentaIntermediada)->firstOrFail();
+
+            // Restaurar el estado original de la venta intermediada
+            // Verificamos si `idEstadoVenta` era 1 o 2 antes de cambiar a 5
+            $estadoOriginal = ($venta->apareceEnSolicitud == 1) ? ($venta->idEstadoVenta == 5 ? 1 : $venta->idEstadoVenta) : $venta->idEstadoVenta;
+
+            // Actualizar los campos de la venta intermediada
+            $venta->update([
+                'idEstadoVenta' => $estadoOriginal, // Restaurar el estado original
+                'apareceEnSolicitud' => 0,         // Ya no está en solicitud
+            ]);
+
             // Eliminar las recompensas asociadas a la solicitud
             SolicitudCanjeRecompensa::where('idSolicitudCanje', $idSolicitudCanje)->delete();
 
             // Eliminar la solicitud
             $solicitud->delete();
 
+            DB::commit();
+
             return response()->json([
                 'message' => 'Solicitud eliminada exitosamente.',
             ], 200);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'Solicitud no encontrada.',
             ], 404);
         } catch (\Exception $e) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'Error al eliminar la solicitud.',
                 'error' => $e->getMessage(),
             ], 500);
         }
     }
+
 
     // Mostrar todas las solicitudes de canje del usuario
     public function getSolicitudesPorTecnico($idTecnico)
