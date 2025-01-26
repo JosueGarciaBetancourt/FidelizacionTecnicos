@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
@@ -33,5 +34,10 @@ abstract class Controller
 
     public static function printJSON($data) {
         Log::info(json_encode($data, JSON_PRETTY_PRINT));
+    }
+
+    public function obtenerFechaHoraFormateadaExportaciones() {
+        $fecha = new DateTime(); // Obtiene la fecha y hora actual
+        return $fecha->format('dmY'); // Formato día (2 dígitos), mes (2 dígitos), año (4 dígitos)
     }
 }

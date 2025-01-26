@@ -511,7 +511,7 @@ class SolicitudCanjeController extends Controller
             // Configurar los parámetros del PDF
             $paperSize = 'A4'; // Tamaño del papel
             $view = 'tables.tablaSolicitudesCanjesPDFA4'; // Vista para generar el PDF
-            $fileName = "Club_de_técnicos_DIMACOF_Tabla_de_Canjes.pdf"; // Nombre del archivo
+            $fileName = "Club de técnicos DIMACOF-Listado de Solicitudes de Canjes-" . $this->obtenerFechaHoraFormateadaExportaciones() . ".pdf";
 
             // Generar el PDF con los datos
             $pdf = Pdf::loadView($view, ['data' => $data])->setPaper($paperSize, 'landscape'); // Configurar tamaño y orientación

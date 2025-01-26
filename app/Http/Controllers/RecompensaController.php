@@ -350,7 +350,7 @@ class RecompensaController extends Controller
             // Configurar los parámetros del PDF
             $paperSize = 'A4'; // Tamaño del papel
             $view = 'tables.tablaRecompensasPDFA4'; // Vista para generar el PDF
-            $fileName = "Club_de_técnicos_DIMACOF_Tabla_de_Recompensas.pdf"; // Nombre del archivo
+            $fileName = "Club de técnicos DIMACOF-Listado de Recompensas-" . $this->obtenerFechaHoraFormateadaExportaciones() . ".pdf";
 
             // Generar el PDF con los datos
             $pdf = Pdf::loadView($view, ['data' => $data])

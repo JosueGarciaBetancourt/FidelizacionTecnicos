@@ -14,12 +14,33 @@ $(document).ready(function() {
 		buttons: [
 			{   extend: "excelHtml5",
 				text: "<i class='fa-solid fa-file-excel'></i>",
-				titleAttr: "Exportar a excel", //tooltip,
+				titleAttr: "Exportar a excel", //tooltip
+				title: `Club de Técnicos DIMACOF-Listado de Ventas Intermediadas-${obtenerFechaHoraFormateadaExportaciones()}`, 
+				action: function (e, dt, node, config) {
+					// Confirmar si desea exportar todos los datos o solo los visibles
+					if (confirm("¿Deseas exportar todos los registros? Cancelar = Exportar solo registros en pantalla")) {
+						// Redirige a la ruta del backend para exportar todos
+						window.open(baseUrlMAIN + '/dashboard-ventasIntermediadas/export-excel', '_blank');
+					} else {
+						// Utiliza la exportación predeterminada de DataTables (solo los visibles)
+						$.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, node, config);
+					}
+				}
 			},  
 			{   extend: "pdfHtml5",
 				text: "<i class='fa-solid fa-file-pdf'></i>",
 				titleAttr: "Exportar a PDF", //tooltip,
 				orientation: 'landscape',
+				filename: `Club de Técnicos DIMACOF-Listado de Ventas Intermediadas-${obtenerFechaHoraFormateadaExportaciones()}`, 
+				title: 'Club de Técnicos DIMACOF - Listado de Ventas Intermediadas',
+				customize: function(doc) {
+					// Centrar título
+					doc.content[0].text = {
+						text: 'Club de Técnicos DIMACOF - Listado de Ventas Intermediadas',
+						bold: true,
+						alignment: 'center'
+					};
+				},
 				action: function (e, dt, node, config) {
 					// Confirmar si desea exportar todos los datos o solo los visibles
 					if (confirm("¿Deseas exportar todos los registros? Cancelar = Exportar solo registros en pantalla")) {
@@ -384,12 +405,33 @@ $(document).ready(function() {
 		buttons: [
 			{   extend: "excelHtml5",
 				text: "<i class='fa-solid fa-file-excel'></i>",
-				titleAttr: "Exportar a excel", //tooltip,
+				titleAttr: "Exportar a excel", //tooltip
+				title: `Club de Técnicos DIMACOF-Listado de Recompensas-${obtenerFechaHoraFormateadaExportaciones()}`, 
+				action: function (e, dt, node, config) {
+					// Confirmar si desea exportar todos los datos o solo los visibles
+					if (confirm("¿Deseas exportar todos los registros? Cancelar = Exportar solo registros en pantalla")) {
+						// Redirige a la ruta del backend para exportar todos
+						window.open(baseUrlMAIN + '/dashboard-recompensas/export-excel', '_blank');
+					} else {
+						// Utiliza la exportación predeterminada de DataTables (solo los visibles)
+						$.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, node, config);
+					}
+				}
 			},  
 			{   extend: "pdfHtml5",
 				text: "<i class='fa-solid fa-file-pdf'></i>",
-				titleAttr: "Exportar a PDF", //tooltip,
+				titleAttr: "Exportar a PDF", //tooltip
 				orientation: 'landscape',
+				filename: `Club de Técnicos DIMACOF-Listado de Recompensas-${obtenerFechaHoraFormateadaExportaciones()}`, 
+				title: 'Club de Técnicos DIMACOF - Listado de Recompensas',
+				customize: function(doc) {
+					// Centrar título
+					doc.content[0].text = {
+						text: 'Club de Técnicos DIMACOF - Listado de Recompensas',
+						bold: true,
+						alignment: 'center'
+					};
+				},
 				action: function (e, dt, node, config) {
 					// Confirmar si desea exportar todos los datos o solo los visibles
 					if (confirm("¿Deseas exportar todos los registros? Cancelar = Exportar solo registros en pantalla")) {
@@ -667,17 +709,43 @@ $(document).ready(function() {
 		buttons: [
 			{   extend: "excelHtml5",
 				text: "<i class='fa-solid fa-file-excel'></i>",
-				titleAttr: "Exportar a excel", //tooltip,
+				titleAttr: "Exportar a excel", //tooltip
 				exportOptions: {
 					columns: [0, 1, 2, 3, 4, 5, 6, 7, 8], // Exportar solo columnas específicas
+				},
+				filename: `Club de Técnicos DIMACOF-Listado de Técnicos-${obtenerFechaHoraFormateadaExportaciones()}`, 
+				title: 'Club de Técnicos DIMACOF - Listado de Tecnicos',
+				customize: function(xlsx) {
+					var sheet = xlsx.xl.worksheets['sheet1.xml'];
+					$('c[r="A1"]', sheet).attr({
+						's': '51', // Estilo que incluye negrita y centrado
+					});
+				},
+				action: function (e, dt, node, config) {
+					// Confirmar si desea exportar todos los datos o solo los visibles
+					if (confirm("¿Deseas exportar todos los registros? Cancelar = Exportar solo registros en pantalla")) {
+					} else {
+						// Utiliza la exportación predeterminada de DataTables (solo los visibles)
+						$.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, node, config);
+					}
 				},
 			},  
 			{   extend: "pdfHtml5",
 				text: "<i class='fa-solid fa-file-pdf'></i>",
-				titleAttr: "Exportar a PDF", //tooltip,
+				titleAttr: "Exportar a PDF", //tooltip
 				orientation: 'landscape',
 				exportOptions: {
 					columns: [0, 1, 2, 3, 4, 5, 6, 7, 8], 
+				},
+				filename: `Club de Técnicos DIMACOF-Listado de Técnicos-${obtenerFechaHoraFormateadaExportaciones()}`, 
+				title: 'Club de Técnicos DIMACOF - Listado de Tecnicos',
+				customize: function(doc) {
+					// Centrar título
+					doc.content[0].text = {
+						text: 'Club de Técnicos DIMACOF - Listado de Tecnicos',
+						bold: true,
+						alignment: 'center'
+					};
 				},
 				action: function (e, dt, node, config) {
 					// Confirmar si desea exportar todos los datos o solo los visibles
@@ -993,12 +1061,34 @@ $(document).ready(function() {
 			{   extend: "excelHtml5",
 				text: "<i class='fa-solid fa-file-excel'></i>",
 				titleAttr: "Exportar a excel", //tooltip
+				title: `Club de Técnicos DIMACOF-Listado de Oficios-${obtenerFechaHoraFormateadaExportaciones()}`, 
+				action: function (e, dt, node, config) {
+					// Confirmar si desea exportar todos los datos o solo los visibles
+					if (confirm("¿Deseas exportar todos los registros? Cancelar = Exportar solo registros en pantalla")) {
+						// Redirige a la ruta del backend para exportar todos
+						window.open(baseUrlMAIN + '/dashboard-oficios/excel-pdf', '_blank' );
+						//location.reload();
+					} else {
+						// Utiliza la exportación predeterminada de DataTables (solo los visibles)
+						$.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, node, config);
+					}
+				}
+
 			},  
 			{   extend: "pdfHtml5",
 				text: "<i class='fa-solid fa-file-pdf'></i>",
 				titleAttr: "Exportar a PDF", //tooltip
 				orientation: 'landscape',
-				action: function (e, dt, node, config) {
+				filename: `Club de Técnicos DIMACOF-Listado de Oficios-${obtenerFechaHoraFormateadaExportaciones()}`, 
+				title: 'Club de Técnicos DIMACOF - Listado de Oficios',
+				customize: function(doc) {
+					// Centrar título
+					doc.content[0].text = {
+						text: 'Club de Técnicos DIMACOF - Listado de Oficios',
+						bold: true,
+						alignment: 'center'
+					};
+				},				action: function (e, dt, node, config) {
 					// Confirmar si desea exportar todos los datos o solo los visibles
 					if (confirm("¿Deseas exportar todos los registros? Cancelar = Exportar solo registros en pantalla")) {
 						// Redirige a la ruta del backend para exportar todos
@@ -1276,17 +1366,38 @@ $(document).ready(function() {
 		buttons: [
 			{   extend: "excelHtml5",
 				text: "<i class='fa-solid fa-file-excel'></i>",
-				titleAttr: "Exportar a excel", //tooltip,
+				titleAttr: "Exportar a excel", //tooltip
 				exportOptions: {
 					columns: [0, 1, 2, 3, 4, 5, 6, 7, 8], // Exportar solo columnas específicas
+				},
+				filename: `Club de Técnicos DIMACOF-Listado de Canjes-${obtenerFechaHoraFormateadaExportaciones()}`, 
+				action: function (e, dt, node, config) {
+					// Confirmar si desea exportar todos los datos o solo los visibles
+					if (confirm("¿Deseas exportar todos los registros? Cancelar = Exportar solo registros en pantalla")) {
+						// Redirige a la ruta del backend para exportar todos
+						window.open(baseUrlMAIN + '/dashboard-canjes/export-excel', '_blank');
+					} else {
+						// Utiliza la exportación predeterminada de DataTables (solo los visibles)
+						$.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, node, config);
+					}
 				}
 			},  
 			{   extend: "pdfHtml5",
 				text: "<i class='fa-solid fa-file-pdf'></i>",
-				titleAttr: "Exportar a PDF", //tooltip,
+				titleAttr: "Exportar a PDF", //tooltip
 				orientation: 'landscape',
 				exportOptions: {
 					columns: [0, 1, 2, 3, 4, 5, 6, 7, 8], 
+				},
+				filename: `Club de Técnicos DIMACOF-Listado de Canjes-${obtenerFechaHoraFormateadaExportaciones()}`, 
+				title: 'Club de Técnicos DIMACOF - Listado de Canjes',
+				customize: function(doc) {
+					// Centrar título
+					doc.content[0].text = {
+						text: 'Club de Técnicos DIMACOF - Listado de Canjes',
+						bold: true,
+						alignment: 'center'
+					};
 				},
 				action: function (e, dt, node, config) {
 					// Confirmar si desea exportar todos los datos o solo los visibles
@@ -1627,6 +1738,17 @@ $(document).ready(function() {
 				exportOptions: {
 					columns: [0, 1, 2, 3, 4, 5], // Exportar solo columnas específicas
 				},
+				title: `Club de Técnicos DIMACOF-Listado de Solicitudes de Canjes-${obtenerFechaHoraFormateadaExportaciones()}`, 
+				action: function (e, dt, node, config) {
+					// Confirmar si desea exportar todos los datos o solo los visibles
+					if (confirm("¿Deseas exportar todos los registros? Cancelar = Exportar solo registros en pantalla")) {
+						// Redirige a la ruta del backend para exportar todos
+						window.open(baseUrlMAIN + '/dashboard-solicitudesCanjes/export-excel', '_blank');
+					} else {
+						// Utiliza la exportación predeterminada de DataTables (solo los visibles)
+						$.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, node, config);
+					}
+				}
 			},  
 			{   extend: "pdfHtml5",
 				text: "<i class='fa-solid fa-file-pdf'></i>",
@@ -1634,6 +1756,16 @@ $(document).ready(function() {
 				orientation: 'landscape',
 				exportOptions: {
 					columns: [0, 1, 2, 3, 4, 5], // Exportar solo columnas específicas
+				},
+				filename: `Club de Técnicos DIMACOF-Listado de Solicitudes de Canjes-${obtenerFechaHoraFormateadaExportaciones()}`, 
+				title: 'Club de Técnicos DIMACOF - Listado de Solicitudes de Canjes',
+				customize: function(doc) {
+					// Centrar título
+					doc.content[0].text = {
+						text: 'Club de Técnicos DIMACOF - Listado de Solicitudes de Canjes',
+						bold: true,
+						alignment: 'center'
+					};
 				},
 				action: function (e, dt, node, config) {
 					// Confirmar si desea exportar todos los datos o solo los visibles

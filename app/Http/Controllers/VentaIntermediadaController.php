@@ -333,7 +333,7 @@ class VentaIntermediadaController extends Controller
             // Configurar los parámetros del PDF
             $paperSize = 'A4'; // Tamaño del papel
             $view = 'tables.tablaVentasPDFA4'; // Vista para generar el PDF
-            $fileName = "Club_de_técnicos_DIMACOF_Tabla_de_VentasIntermediadas.pdf"; // Nombre del archivo
+            $fileName = "Club de técnicos DIMACOF-Listado de Ventas Intermediadas-" . $this->obtenerFechaHoraFormateadaExportaciones() . ".pdf";
 
             // Generar el PDF con los datos
             $pdf = Pdf::loadView($view, ['data' => $data])

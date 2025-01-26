@@ -148,5 +148,13 @@ function formatDateTime(dateString) {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
+function obtenerFechaHoraFormateadaExportaciones() {
+    const fecha = new Date();
+    const dia = String(fecha.getDate()).padStart(2, '0');
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0'); // Los meses son 0-indexados
+    const anio = fecha.getFullYear();
+    return `${dia}${mes}${anio}`;
+}
+
 let csrfTokenMAIN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 let baseUrlMAIN = `${window.location.origin}/FidelizacionTecnicos/public`;

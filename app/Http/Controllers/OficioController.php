@@ -172,7 +172,7 @@ class OficioController extends Controller
             // Configurar los parámetros del PDF
             $paperSize = 'A4';
             $view = 'tables.tablaOficiosPDFA4';
-            $fileName = "Club_de_técnicos_DIMACOF_Tabla_de_Oficios.pdf"; 
+            $fileName = "Club de técnicos DIMACOF-Listado de Oficios-" . $this->obtenerFechaHoraFormateadaExportaciones() . ".pdf";
 
             // Generar el PDF con los datos
             $pdf = Pdf::loadView($view, ['data' => $data])

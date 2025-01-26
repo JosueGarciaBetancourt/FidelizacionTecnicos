@@ -667,7 +667,7 @@ class TecnicoController extends Controller
             // Configurar los parámetros del PDF
             $paperSize = 'A4'; // Tamaño del papel
             $view = 'tables.tablaTecnicosPDFA4'; // Vista para generar el PDF
-            $fileName = "Club_de_técnicos_DIMACOF_Tabla_de_técnicos.pdf"; // Nombre del archivo
+            $fileName = "Club de técnicos DIMACOF-Listadode Técnicos-" . $this->obtenerFechaHoraFormateadaExportaciones() . ".pdf";
 
             // Generar el PDF con los datos
             $pdf = Pdf::loadView($view, ['data' => $data])
