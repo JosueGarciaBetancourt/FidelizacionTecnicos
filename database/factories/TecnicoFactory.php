@@ -8,7 +8,8 @@ use App\Http\Controllers\TecnicoController;
 
 class TecnicoFactory extends Factory
 {
-protected $model = Tecnico::class;
+
+    protected $model = Tecnico::class;
 
     public function definition(): array
     {   

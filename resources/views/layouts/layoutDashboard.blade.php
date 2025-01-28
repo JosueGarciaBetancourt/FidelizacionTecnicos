@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ asset('css/modalSuccess.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalError.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalConfirm.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalLoading.css') }}">
     <link rel="stylesheet" href="{{ asset('css/configuracionStyle.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/modalConfirmSolicitudCanje.css') }}">
     @stack('styles')
@@ -115,6 +116,8 @@
         <main class="main">
             @yield('main-content')
         </main>
+        
+        <x-modalLoading/>
     </div>
 @endsection
 

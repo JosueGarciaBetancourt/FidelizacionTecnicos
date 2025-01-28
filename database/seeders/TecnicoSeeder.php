@@ -53,6 +53,5 @@ class TecnicoSeeder extends Seeder
         ]);
 
         Tecnico::factory(97)->create();
-        //Tecnico::factory(10)->create();
     }
 }
