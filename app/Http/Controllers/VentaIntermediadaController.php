@@ -205,6 +205,7 @@ class VentaIntermediadaController extends Controller
         DB::transaction(function () use ($validatedData) {
             // Crear la venta intermediada
             $venta = VentaIntermediada::create(array_merge($validatedData, [
+                'fechaHoraCargada_VentaIntermediada' => now()->subHours(5), // Resta 5 horas de la fecha actual
                 'puntosActuales_VentaIntermediada' => $validatedData['puntosGanados_VentaIntermediada'], // Al inicio tiene todos sus puntos
             ]));
 
