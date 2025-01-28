@@ -79,9 +79,10 @@ class SolicitudCanjeController extends Controller
             // Calcular los valores de los nuevos campos
             $fechaHoraSolicitud = now(); // Fecha actual
             $diasTranscurridos = $fechaEmision->diffInDays($fechaHoraSolicitud);
-            $puntosComprobante = $venta->puntosActuales_VentaIntermediada;
+            $puntosComprobante = $venta->puntosGanados_VentaIntermediada;
+            $puntosActuales = $venta->puntosActuales_VentaIntermediada;
             $puntosCanjeados = $validatedData['puntosCanjeados_SolicitudCanje'];
-            $puntosRestantes = $puntosComprobante - $puntosCanjeados;
+            $puntosRestantes = $puntosActuales - $puntosCanjeados;
 
             if ($puntosRestantes < 0) {
                 return response()->json([
@@ -113,6 +114,7 @@ class SolicitudCanjeController extends Controller
                 'fechaHoraEmision_VentaIntermediada' => $venta->fechaHoraEmision_VentaIntermediada,
                 'diasTranscurridos_SolicitudCanje' => $diasTranscurridos,
                 'puntosComprobante_SolicitudCanje' => $puntosComprobante,
+                'puntosActuales_SolicitudCanje' => $puntosActuales,
                 'puntosCanjeados_SolicitudCanje' => $puntosCanjeados,
                 'puntosRestantes_SolicitudCanje' => $puntosRestantes,
                 'comentario_SolicitudCanje' => 'No registrado aún',
