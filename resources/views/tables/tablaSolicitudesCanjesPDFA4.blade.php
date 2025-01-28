@@ -22,7 +22,7 @@
         }
         
        .celdaTecnico {
-            width: 4.5rem;
+            width: 60px;
         }
 
         /*ESTILOS DE LOS ESTADOS DE LAS VENTAS INTERMEDIADAS*/

@@ -62,6 +62,19 @@ class CanjeSeeder extends Seeder
                 'comentario_Canje' => 'El vendedor 1 no se encontraba en caja, vendedor 2 realizó el canje.',
                 'idUser' => 3,
             ],
+            // Solicitud canje aprobado
+            [
+                // CANJ-00005
+                'idVentaIntermediada' => 'F001-00000444',
+                'fechaHoraEmision_VentaIntermediada' => '2025-01-21 10:00:00',
+                'fechaHora_Canje' => '2025-01-22 11:00:00',
+                'diasTranscurridos_Canje' => 1,
+                'puntosComprobante_Canje' => 500,
+                'puntosCanjeados_Canje' => 405,
+                'puntosRestantes_Canje' => 95,
+                'comentario_Canje' => 'Canje creado a partir de la aprobación de una solicitud de canje desde aplicación.',
+                'idUser' => 1,
+            ],
         ];
 
         foreach ($canjes as $canje) {

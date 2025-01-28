@@ -15,6 +15,7 @@ return new class extends Migration
             $table->dateTime('fechaHora_Canje')->useCurrent();
             $table->integer('diasTranscurridos_Canje')->unsigned(); 
             $table->integer('puntosComprobante_Canje')->unsigned(); // Puntos generados
+            $table->integer('puntosActuales_Canje')->unsigned()->nullable();
             $table->integer('puntosCanjeados_Canje')->unsigned();
             $table->integer('puntosRestantes_Canje')->unsigned(); 
             $table->text('comentario_Canje')->nullable();

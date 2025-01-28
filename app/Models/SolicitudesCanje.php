@@ -24,6 +24,7 @@ class SolicitudesCanje extends Model
         'fechaHora_SolicitudCanje',
         'diasTranscurridos_SolicitudCanje',
         'puntosComprobante_SolicitudCanje',
+        'puntosActuales_SolicitudCanje',
         'puntosCanjeados_SolicitudCanje',
         'puntosRestantes_SolicitudCanje',
         'comentario_SolicitudCanje',

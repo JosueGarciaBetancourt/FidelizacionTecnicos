@@ -25,6 +25,7 @@ class Canje extends Model
         'fechaHora_Canje',
         'diasTranscurridos_Canje',
         'puntosComprobante_Canje',
+        'puntosActuales_Canje',
         'puntosCanjeados_Canje',
         'puntosRestantes_Canje',
         'recompensas_Canje',
