@@ -116,9 +116,8 @@
         <main class="main">
             @yield('main-content')
         </main>
-        
-        <x-modalLoading/>
     </div>
+    <x-modalLoading/>
 @endsection
 
 @push('scripts')

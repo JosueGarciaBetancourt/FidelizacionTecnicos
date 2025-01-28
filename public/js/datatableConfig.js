@@ -21,7 +21,7 @@ $(document).ready(function() {
 				title: 'Club de Técnicos DIMACOF-Listado de Ventas Intermediadas', 
 				action: function (e, dt, node, config) {
 					// Guardar el valor actual de `pageLength`
-					//const currentPageLength = tblVentasIntermediadas.page.len();
+					const currentPageLength = tblVentasIntermediadas.page.len();
 	
 					// Cambiar a mostrar todas las filas
 					tblVentasIntermediadas.page.len(-1).draw(); 
@@ -33,9 +33,8 @@ $(document).ready(function() {
 						loadingModal.classList.remove('show');
 						// Exportar después de que la tabla esté cargada
 						$.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, node, config);
-						location.reload();
 						// Restaurar el valor original de `pageLength`
-						//tblVentasIntermediadas.page.len(currentPageLength).draw();
+						tblVentasIntermediadas.page.len(currentPageLength).draw();
 					});
 				},
 			},  
@@ -419,8 +418,10 @@ $(document).ready(function() {
 	
 					// Cambiar a mostrar todas las filas
 					tblRecompensas.page.len(-1).draw(); 
+					loadingModal.classList.add('show');
 
 					setTimeout(() => {
+						loadingModal.classList.remove('show');
 						$.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, node, config);
 						tblRecompensas.page.len(currentPageLength).draw(); 
 					}, 500); // Esperar medio segundo para asegurar que todas las filas estén cargadas
@@ -718,7 +719,7 @@ $(document).ready(function() {
 				title: 'Club de Técnicos DIMACOF-Listado de Tecnicos',
 				action: function (e, dt, node, config) {
 					// Guardar el valor actual de `pageLength`
-					//const currentPageLength = tblTecnicos.page.len();
+					const currentPageLength = tblTecnicos.page.len();
 	
 					// Cambiar a mostrar todas las filas
 					tblTecnicos.page.len(-1).draw(); 
@@ -730,9 +731,8 @@ $(document).ready(function() {
 						loadingModal.classList.remove('show');
 						// Exportar después de que la tabla esté cargada
 						$.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, node, config);
-						location.reload();
 						// Restaurar el valor original de `pageLength`
-						//tblTecnicos.page.len(currentPageLength).draw();
+						tblTecnicos.page.len(currentPageLength).draw();
 					});
 				},
 			},  
@@ -1060,8 +1060,10 @@ $(document).ready(function() {
 	
 					// Cambiar a mostrar todas las filas
 					tblOficios.page.len(-1).draw(); 
+					loadingModal.classList.add('show');
 
 					setTimeout(() => {
+						loadingModal.classList.remove('show');
 						$.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, node, config);
 						tblOficios.page.len(currentPageLength).draw(); 
 					}, 500); // Esperar medio segundo para asegurar que todas las filas estén cargadas
@@ -1359,7 +1361,7 @@ $(document).ready(function() {
 				title: 'Club de Técnicos DIMACOF-Listado de Canjes',
 				action: function (e, dt, node, config) {
 					// Guardar el valor actual de `pageLength`
-					//const currentPageLength = tblHistorialCanjes.page.len();
+					const currentPageLength = tblHistorialCanjes.page.len();
 	
 					// Cambiar a mostrar todas las filas
 					tblHistorialCanjes.page.len(-1).draw(); 
@@ -1371,9 +1373,8 @@ $(document).ready(function() {
 						loadingModal.classList.remove('show');
 						// Exportar después de que la tabla esté cargada
 						$.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, node, config);
-						location.reload();
 						// Restaurar el valor original de `pageLength`
-						//tblHistorialCanjes.page.len(currentPageLength).draw();
+						tblHistorialCanjes.page.len(currentPageLength).draw();
 					});
 				},
 			},  
@@ -1722,7 +1723,7 @@ $(document).ready(function() {
 				title: 'Club de Técnicos DIMACOF-Listado de Solicitudes de Canjes',
 				action: function (e, dt, node, config) {
 					// Guardar el valor actual de `pageLength`
-					//const currentPageLength = tblSolicitudesAppCanje.page.len();
+					const currentPageLength = tblSolicitudesAppCanje.page.len();
 	
 					// Cambiar a mostrar todas las filas
 					tblSolicitudesAppCanje.page.len(-1).draw(); 
@@ -1734,9 +1735,8 @@ $(document).ready(function() {
 						loadingModal.classList.remove('show');
 						// Exportar después de que la tabla esté cargada
 						$.fn.dataTable.ext.buttons.excelHtml5.action.call(this, e, dt, node, config);
-						location.reload();
 						// Restaurar el valor original de `pageLength`
-						//tblSolicitudesAppCanje.page.len(currentPageLength).draw();
+						tblSolicitudesAppCanje.page.len(currentPageLength).draw();
 					});
 				},
 			},  
