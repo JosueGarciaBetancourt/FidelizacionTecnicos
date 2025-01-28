@@ -87,18 +87,18 @@
                     @endif
                 </div>
                 
-                {{-- @auth
+                @auth
                     <div class="button_container">
                         <a href="{{ url('/dashboard-ventasIntermediadas') }}" class="login_button">
                             Ir al dashboard
                         </a>
                     </div>
-                @else --}}
+                @else
                     <div class="button_container">
                         <button type="submit" class="login_button" id="idLoginButton"
                                 onclick="handleFormSubmission('idLoginButton', 'formLogin')">Iniciar Sesión</button>
                     </div>
-                {{--  @endauth --}}
+                @endauth
             </form>
         </div>
 
