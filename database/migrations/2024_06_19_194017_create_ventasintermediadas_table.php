@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('codigoCliente_VentaIntermediada', 11); // 77043114 - 10703047951 xml
             $table->string('nombreCliente_VentaIntermediada', 100); // Josué García Betancourt xml
             $table->dateTime('fechaHoraEmision_VentaIntermediada'); // xml
-            $table->dateTime('fechaHoraCargada_VentaIntermediada')->default(now()); // ->now()
+            $table->dateTime('fechaHoraCargada_VentaIntermediada')->default(now()->addSeconds(72)); // ->now()
             $table->decimal('montoTotal_VentaIntermediada', 10, 2)->unsigned(); //200.50 xml
             $table->integer('puntosGanados_VentaIntermediada')->unsigned(); //201 (redondear el monto total del xml)
             $table->integer('puntosActuales_VentaIntermediada')->unsigned(); 
