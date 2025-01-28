@@ -371,7 +371,7 @@ $(document).ready(function() {
 				name: 'idVentaIntermediada_tipoComprobante', // Nombre para búsquedas
 			},
 			{data: 'fechaHoraEmision_VentaIntermediada', name: 'fechaHoraEmision_VentaIntermediada', class: 'celda-centered'},
-			{data: 'fechaHoraCargada_VentaIntermediada', name: 'fechaHoraCargada_VentaIntermediada', class: 'celda-centered'},
+			{data: 'created_at', name: 'created_at', class: 'celda-centered'},
 			{
 				data: null,
 				render: function (data) {

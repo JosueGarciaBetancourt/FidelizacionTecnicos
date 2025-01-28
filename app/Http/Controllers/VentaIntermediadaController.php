@@ -120,6 +120,7 @@ class VentaIntermediadaController extends Controller
                 'tipoComprobante' => $venta->tipoComprobante,
                 'fechaHoraEmision_VentaIntermediada' => $venta->fechaHoraEmision_VentaIntermediada,
                 'fechaHoraCargada_VentaIntermediada' => $venta->fechaHoraCargada_VentaIntermediada,
+                'created_at' => $venta->created_at,
                 'nombreCliente_VentaIntermediada' => $venta->nombreCliente_VentaIntermediada,
                 'tipoCodigoCliente_VentaIntermediada' => $venta->tipoCodigoCliente_VentaIntermediada,
                 'codigoCliente_VentaIntermediada' => $venta->codigoCliente_VentaIntermediada,
