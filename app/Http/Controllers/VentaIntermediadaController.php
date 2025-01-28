@@ -278,7 +278,7 @@ class VentaIntermediadaController extends Controller
 
            
             // Validar venta con estado Tiempo agotado
-            if ($diasTranscurridos > $maxdaysCanje && $nuevosPuntosActuales != 0) {
+            if ($nuevosPuntosActuales != 0 && $diasTranscurridos > $maxdaysCanje)  {
                 return 4; 
             }
 

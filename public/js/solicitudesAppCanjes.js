@@ -3,7 +3,7 @@ function fillOtherFieldsDetalleSolicitudCanje(objSolicitudCanje) {
     userInfoContainer.style.display = 'none';
 
     const estadoH5 = document.getElementById('estadoSolicitudCanjeModalDetalleSolicitudCanje');
-    const diasTranscurridosSufix = objSolicitudCanje['diasTranscurridos_SolicitudCanje'] > 2 ? " días transcurridos" : " día transcurrido";
+    const diasTranscurridosSufix = objSolicitudCanje['diasTranscurridos_SolicitudCanje'] >= 2 ? " días transcurridos" : " día transcurrido";
 
     document.getElementById('codigoModalDetalleSolicitudCanje').textContent = objSolicitudCanje['idSolicitudCanje'];
     document.getElementById('fechaHoraModalDetalleSolicitudCanje').textContent = objSolicitudCanje['fechaHora_SolicitudCanje'];
