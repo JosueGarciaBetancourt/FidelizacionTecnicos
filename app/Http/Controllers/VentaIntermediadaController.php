@@ -178,9 +178,7 @@ class VentaIntermediadaController extends Controller
             //dd($ventas->pluck('horaVenta', 'idVentaIntermediada'));
             //dd($ventas->pluck('fechaCargada', 'idVentaIntermediada'));
             //dd($ventas->pluck('horaCargada', 'idVentaIntermediada'));
-            $ventas = $this->returnArrayVentasIntermediadasTabla();
-            dd($ventas);
-
+            
             $tecnicoController = new TecnicoController();
             $idsNombresOficios = $tecnicoController->returnArrayIdsNombresOficios(); 
 
