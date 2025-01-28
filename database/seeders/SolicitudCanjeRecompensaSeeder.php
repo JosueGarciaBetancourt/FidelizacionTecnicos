@@ -25,6 +25,12 @@ class SolicitudCanjeRecompensaSeeder extends Seeder
             ],
             [
                 'idSolicitudCanje' => 'SOLICANJ-00002',
+                'idRecompensa' => 'RECOM-005', // Casco de seguridad
+                'cantidad' => 1,
+                'costoRecompensa' => 25,
+            ],
+            [
+                'idSolicitudCanje' => 'SOLICANJ-00003',
                 'idRecompensa' => 'RECOM-001', // Pulsera de silicona
                 'cantidad' => 5,
                 'costoRecompensa' => 1,

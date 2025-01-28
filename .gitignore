@@ -9,6 +9,7 @@
 .env.backup
 .env.production
 .env.development
+env_branch-switcher.sh
 .phpactor.json
 .phpunit.result.cache
 Homestead.json
@@ -19,4 +20,3 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-env_branch-switcher.sh

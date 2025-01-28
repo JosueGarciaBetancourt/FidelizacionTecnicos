@@ -207,7 +207,6 @@ class SolicitudCanjeController extends Controller
         }
     }
 
-
     // Mostrar todas las solicitudes de canje del usuario
     public function getSolicitudesPorTecnico($idTecnico)
     {

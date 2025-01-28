@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamp('fechaHora_SolicitudCanje')->useCurrent(); // Fecha de creación de la solicitud
             $table->integer('diasTranscurridos_SolicitudCanje')->unsigned()->nullable(); 
             $table->integer('puntosComprobante_SolicitudCanje')->unsigned()->nullable(); // Puntos generados
+            $table->integer('puntosActuales_SolicitudCanje')->unsigned()->nullable(); // Puntos generados
             $table->integer('puntosCanjeados_SolicitudCanje')->unsigned()->nullable();
             $table->integer('puntosRestantes_SolicitudCanje')->unsigned()->nullable(); 
             $table->text('comentario_SolicitudCanje')->nullable(); // Cuando un usuario aprueba o rechaza se realiza un comentario

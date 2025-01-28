@@ -11,7 +11,7 @@ function fillOtherFieldsDetalleSolicitudCanje(objSolicitudCanje) {
     
     document.getElementById('numeroComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['idVentaIntermediada'];
     document.getElementById('fechaHoraEmisionComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['fechaHoraEmision_VentaIntermediada'];
-    document.getElementById('puntosComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosComprobante_SolicitudCanje'];
+    document.getElementById('puntosActualesComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosActuales_SolicitudCanje'];
     document.getElementById('puntosCanjeadosModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosCanjeados_SolicitudCanje'];
     document.getElementById('puntosRestantesComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosRestantes_SolicitudCanje'];
     estadoH5.textContent = objSolicitudCanje['nombreEstado'] || "";
@@ -104,12 +104,9 @@ async function objSolicitudCanjeAndDetailsByIdSolicitudCanjeFetch(idSolicitudCan
             throw new Error(await response.text());
         }
 
-        console.log(response);
-        
         const { objSolicitudCanje, detallesSolicitudesCanjes } = await response.json();
 
-        console.log("Objeto Solicitud Canje:", objSolicitudCanje);
-        console.log("Detalles:", detallesSolicitudesCanjes);
+        console.log("objSolicitudCanje:", objSolicitudCanje);
         
         // Llenar la tabla con los detalles de las recompensas
         if (detallesSolicitudesCanjes && detallesSolicitudesCanjes.length > 0) {

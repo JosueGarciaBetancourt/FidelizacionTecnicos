@@ -8,7 +8,7 @@
 				$idFechaHoraEmisionComprobante = 'fechaHoraEmisionComprobanteModalDetalleSolicitudCanje';
 				$idDiasTranscurridos = 'diasTranscurridosModalDetalleSolicitudCanje';
 				$idEstadoSolicitudCanje = 'estadoSolicitudCanjeModalDetalleSolicitudCanje';
-				$idPuntosComprobante = 'puntosComprobanteModalDetalleSolicitudCanje';
+				$idPuntosActualesComprobante = 'puntosActualesComprobanteModalDetalleSolicitudCanje';
 				$idPuntosCanjeados = 'puntosCanjeadosModalDetalleSolicitudCanje';
 				$idPuntosRestantes = 'puntosRestantesComprobanteModalDetalleSolicitudCanje';
 				$idUserInput = 'userModalDetalleSolicitudCanje';
@@ -25,15 +25,15 @@
             </div>
             <div class="modal-body" id="idModalBodyDetalleHistorialCanje">
 				<div class="form-group gap">
-					<label class="primary-label noEditable" for='{{ $idNumeroComprobante }}'>Número de comprobante:</label>
+					<label class="primary-label noEditable" for='{{ $idNumeroComprobante }}'>Número de venta:</label>
 					<input class="input-item center" type="text" id='{{ $idNumeroComprobante }}' disabled>
 					<label class="primary-label noEditable" for='{{ $idFechaHoraEmisionComprobante }}'>Fecha y hora de emisión:</label>
 					<input class="input-item center" type="text" id='{{ $idFechaHoraEmisionComprobante }}' disabled>
 				</div>
 
 				<div class="form-group gap">
-					<label class="primary-label noEditable" for='{{ $idPuntosComprobante }}'>Puntos comprobante:</label>
-					<input class="input-item center" type="text" id='{{ $idPuntosComprobante }}' disabled>
+					<label class="primary-label noEditable" for='{{ $idPuntosActualesComprobante }}'>Puntos actuales de venta:</label>
+					<input class="input-item center" type="text" id='{{ $idPuntosActualesComprobante }}' disabled>
 					<label class="primary-label noEditable" for='{{ $idPuntosCanjeados }}'>Puntos canjeados:</label>
 					<input class="input-item center" type="text" id='{{ $idPuntosCanjeados }}' disabled>
 					<label class="primary-label noEditable" for='{{ $idPuntosRestantes }}'>Puntos restantes:</label>
