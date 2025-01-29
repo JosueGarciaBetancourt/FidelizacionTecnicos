@@ -19,7 +19,7 @@ class SolicitudCanjeRecompensaSeeder extends Seeder
             ],
             [
                 'idSolicitudCanje' => 'SOLICANJ-00001',
-                'idRecompensa' => 'RECOM-007', // Caja de herramientas
+                'idRecompensa' => 'RECOM-007', // Caja de herramientas vacía
                 'cantidad' => 8,
                 'costoRecompensa' => 50,
             ],
@@ -35,6 +35,13 @@ class SolicitudCanjeRecompensaSeeder extends Seeder
                 'cantidad' => 5,
                 'costoRecompensa' => 1,
             ],
+            [
+                'idSolicitudCanje' => 'SOLICANJ-00004',
+                'idRecompensa' => 'RECOM-007', // Caja de herramientas vacía
+                'cantidad' => 2,
+                'costoRecompensa' => 50,
+            ],
+            
         ];
 
         foreach ($solicitudesCanjeRecompensas as $solcanjrecom) {

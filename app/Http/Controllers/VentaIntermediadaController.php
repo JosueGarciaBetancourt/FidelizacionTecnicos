@@ -52,18 +52,19 @@ class VentaIntermediadaController extends Controller
         return $tipoComprobante;
     }
     
-    public static function updateStateVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales) {
+    public static function returnUpdatedIDEstadoVenta($idVentaIntermediada, $nuevosPuntosActuales) {
         $venta = VentaIntermediada::findOrFail($idVentaIntermediada);
     
         // Calcula el nuevo estado de la venta
         $idEstado = self::returnStateIdVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales);
-    
+
         // Actualiza los datos en la base de datos
         $venta->update([
             'puntosActuales_VentaIntermediada' => $nuevosPuntosActuales,
             'idEstadoVenta' => $idEstado,
         ]);
-    
+        
+
         return $idEstado;
     }
     
@@ -73,7 +74,7 @@ class VentaIntermediadaController extends Controller
             $venta->diasTranscurridos = $this->returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
     
             // Actualiza el estado de la venta
-            $idEstado = self::updateStateVentaIntermediada($venta->idVentaIntermediada, $venta->puntosActuales_VentaIntermediada);
+            $idEstado = self::returnUpdatedIDEstadoVenta($venta->idVentaIntermediada, $venta->puntosActuales_VentaIntermediada);
             $nombreEstado = $this->getNombreEstadoVentaIntermediadaActualById($venta->idVentaIntermediada);
     
             // Enriquecer la venta con nuevos datos
@@ -125,6 +126,7 @@ class VentaIntermediadaController extends Controller
                 'codigoCliente_VentaIntermediada' => $venta->codigoCliente_VentaIntermediada,
                 'montoTotal_VentaIntermediada' => "S/. " . $venta->montoTotal_VentaIntermediada,
                 'puntosGanados_VentaIntermediada' => $venta->puntosGanados_VentaIntermediada,
+                'puntosActuales_VentaIntermediada' => $venta->puntosActuales_VentaIntermediada,
                 'nombreTecnico' => $venta->nombreTecnico,
                 'idTecnico' => $venta->idTecnico,
                 'fechaHora_Canje' => $ultimoCanje?->fechaHora_Canje ?? 'Sin canje',
@@ -137,6 +139,8 @@ class VentaIntermediadaController extends Controller
                 'idVentaIntermediada_tipoComprobante' => $venta->idVentaIntermediada . " " . $venta->tipoComprobante,
                 'nombreCliente_TipoCodigo_Codigo' => $venta->nombreCliente_VentaIntermediada . " " . 
                                                     $venta->tipoCodigoCliente_VentaIntermediada . ": " . $venta->codigoCliente_VentaIntermediada,
+                'puntosGanados_PuntosActuales_VentaIntermediada' => "P. Iniciales: " . $venta->puntosGanados_VentaIntermediada . 
+                                                                    " P. Actuales: " . $venta->puntosActuales_VentaIntermediada,
                 'nombreTecnico_idTecnico' => $venta->nombreTecnico . " DNI: " . $venta->idTecnico,
             ];
         });
@@ -171,6 +175,24 @@ class VentaIntermediadaController extends Controller
         }
     }
 
+    public static function updateEstadosVentasIntermediadasMaxDayCanje() {
+        $maxdaysCanje = env('MAXDAYS_CANJE', 90);
+        $ventasMaxDayCanje = VentaIntermediada::get()->filter(function ($venta) use ($maxdaysCanje) {
+            return $venta->diasTranscurridos > $maxdaysCanje;
+        });
+
+
+        foreach ($ventasMaxDayCanje as $venta) {
+            $idEstado = self::returnStateIdVentaIntermediada($venta->idVentaIntermediada, $venta->puntosActuales_VentaIntermediada);
+            $venta->update([
+                'idEstadoVenta' => $idEstado,
+            ]);
+        }
+
+        /* dd($ventasMaxDayCanje);
+        dd($ventasMaxDayCanje->pluck('diasTranscurridos', 'idVentaIntermediada')); */
+    }
+
     public function create() {
         try {
             //$ventas = $this->obtenerVentasIntermediadas();
@@ -178,6 +200,10 @@ class VentaIntermediadaController extends Controller
             //dd($ventas->pluck('horaVenta', 'idVentaIntermediada'));
             //dd($ventas->pluck('fechaCargada', 'idVentaIntermediada'));
             //dd($ventas->pluck('horaCargada', 'idVentaIntermediada'));
+            //dd($ventas->pluck('diasTranscurridos', 'idVentaIntermediada'));
+
+            //Actualizar estado de ventas con días transcurridos mayor a MaxDayCanje de .env
+            $this->updateEstadosVentasIntermediadasMaxDayCanje();
             
             $tecnicoController = new TecnicoController();
             $idsNombresOficios = $tecnicoController->returnArrayIdsNombresOficios(); 
@@ -276,46 +302,49 @@ class VentaIntermediadaController extends Controller
             $diasTranscurridos = Controller::returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
             $maxdaysCanje = env('MAXDAYS_CANJE', 90);
 
-           
-            // Validar venta con estado Tiempo agotado
-            if ($nuevosPuntosActuales != 0 && $diasTranscurridos > $maxdaysCanje)  {
+            if ($diasTranscurridos > $maxdaysCanje) {
+                //Solo puede ser Tiempo Agotado si antes fue En Espera, En Espera (solicitado desde app) o Redimido (parcial)
+                //Si antes fue Redimido (completo) se queda así 
+
+                //Redimido (completo)
+                if ($nuevosPuntosActuales == 0)  { 
+                    return 3; 
+                } 
+
+                //Tiempo agotado
                 return 4; 
-            }
+            } else {
+                //Según los puntos actuales que tenga la venta se decidirá si es En Espera, En Espera (solicitado desde app) o Redimido (parcial)
+                //o Redimido (completo)
 
-            // Validar venta con estado Redimido (completo)
-            if ($nuevosPuntosActuales == 0 && $diasTranscurridos <= $maxdaysCanje) {
-                return 3;
-            }
-
-            // Validar venta con estado En espera
-            if ($nuevosPuntosActuales == $venta->puntosGanados_VentaIntermediada && $diasTranscurridos <= $maxdaysCanje) {
-                // Validar venta con estado En espera (solicitado desde app)
-                $apareceEnSolicitud = VentaIntermediada::where('idVentaIntermediada', $venta->idVentaIntermediada)
-                                    ->pluck('apareceEnSolicitud')
-                                    ->first();
-
-                if ($apareceEnSolicitud == 1) {
-                    // Log::info("En espera (solicitado desde app) → " . $venta->idVentaIntermediada);
+                //En espera (solicitado desde app)
+                if ($venta->apareceEnSolicitud == 1) {
                     return 5;
                 }
 
-                return 1;
-            }
+                //Redimido (completo)
+                if ($nuevosPuntosActuales == 0)  { 
+                    return 3; 
+                }
 
-            // Validar venta con estado Redimido (parcial)
-            if ($nuevosPuntosActuales > 0 && $diasTranscurridos <= $maxdaysCanje) {
-                return 2;  
+                if ($nuevosPuntosActuales == $venta->puntosGanados_VentaIntermediada) {
+                    //En espera
+                    return 1;
+                }
+
+                //Redimido (parcial)
+                return 2;
             }
         } catch (ModelNotFoundException $e) {
             Log::error("VentaIntermediada no encontrada: " . $idVentaIntermediada);
-            return -1; // Código de error para venta no encontrada
+            return 1; // Código de error para venta no encontrada
         } catch (Exception $e) {
             Log::info("Probablemente no exista un estado para esta venta:" . "\n" . "Venta: " . $idVentaIntermediada . "\n" .
                     "Días transcurridos: " . $diasTranscurridos . "\n" .
                     "Puntos actuales: " . $nuevosPuntosActuales);
 
             Log::error("Error en returnStateIdVentaIntermediada: " . $e->getMessage());
-            return -2; // Código de error genérico
+            return 1; // Código de error genérico
         }
     }
  

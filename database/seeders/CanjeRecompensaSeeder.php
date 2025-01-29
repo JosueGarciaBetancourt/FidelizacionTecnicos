@@ -61,11 +61,18 @@ class CanjeRecompensaSeeder extends Seeder
                 'cantidad' => 1,
                 'costoRecompensa' => 5,
             ],
+            // CANJ-00005, fue aprobado desde una solicitud y le restan algunos puntos a su venta asociada
             [
-                'idCanje' => 'CANJ-00004',
+                'idCanje' => 'CANJ-00005',
                 'idRecompensa' => 'RECOM-001',
                 'cantidad' => 5,
                 'costoRecompensa' => 1,
+            ],
+            [
+                'idCanje' => 'CANJ-00005',
+                'idRecompensa' => 'RECOM-007',
+                'cantidad' => 8,
+                'costoRecompensa' => 40,
             ],
         ];
 

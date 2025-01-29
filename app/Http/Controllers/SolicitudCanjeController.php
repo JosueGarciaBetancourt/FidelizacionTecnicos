@@ -278,7 +278,7 @@ class SolicitudCanjeController extends Controller
     
             $solicitudCanje = SolicitudesCanje::findOrFail($idSolicitudCanje);
             $solicitudesCanjesRecompensas = SolicitudCanjeRecompensa::where('idSolicitudCanje', $idSolicitudCanje)->get();
-    
+
             $recompensas_Canje = [];
             foreach ($solicitudesCanjesRecompensas as $item) {
                 $recompensas_Canje[] = [
@@ -306,7 +306,7 @@ class SolicitudCanjeController extends Controller
                 'idUser' => $idUser,
                 'comentario_SolicitudCanje' => $comentarioSolicitudCanje ?? 'Sin comentario',
             ]);
-    
+            
             DB::commit();
     
             return response()->json(['message' => 'Aprobación completada', 'venta' => $solicitudCanje->idVentaIntermediada]);
@@ -324,6 +324,7 @@ class SolicitudCanjeController extends Controller
              $idUser = Auth::id(); // Obtiene el id del usuario autenticado
              $comentarioSolicitudCanje = $request->input('comentario'); // Recibiendo el comentario desde el modal de confirmación de solicitud de canje
              $solicitudCanje = SolicitudesCanje::findOrFail($idSolicitudCanje);
+             $ventaAsociada = VentaIntermediada::findOrFail($solicitudCanje->idVentaIntermediada);
  
              // Actualizar estado de solicitud canje
              $solicitudCanje->update([
@@ -332,8 +333,12 @@ class SolicitudCanjeController extends Controller
                  'comentario_SolicitudCanje' => $comentarioSolicitudCanje ?? 'Sin comentario',
              ]); 
  
-             // Si todo sale bien, confirmar la transacción
-             DB::commit();
+            // Actualizar venta intermediada
+            $ventaAsociada->update(['apareceEnSolicitud' => 0]);
+            VentaIntermediadaController::returnUpdatedIDEstadoVenta($ventaAsociada->idVentaIntermediada,
+                                                                    $ventaAsociada->puntosActuales_VentaIntermediada);
+            // Si todo sale bien, confirmar la transacción
+            DB::commit();
             $message = "Rechazando solicitud de canje: " . $solicitudCanje->idSolicitudCanje;
             return response()->json($message);
         } catch (\Exception $e) {

@@ -65,6 +65,7 @@ class CanjeController extends Controller
         
         // Nuevo Id Canje 
         $nuevoIdCanje = CanjeController::generarIdCanje();
+
         return view('dashboard.registrarCanjes', compact('nuevoIdCanje', 'optionsNumComprobante', 'recompensas'));
     }
 
@@ -128,10 +129,12 @@ class CanjeController extends Controller
             'idUser' => $idUser,
         ]);
     
-        // Actualizar puntos en la venta intermediada
+        // Actualizar la venta intermediada
+        $venta->update(['apareceEnSolicitud' => 0]);
+
         $nuevosPuntosActuales = $validatedData['puntosRestantes_Canje'];
-        VentaIntermediadaController::updateStateVentaIntermediada($venta->idVentaIntermediada, $nuevosPuntosActuales);
-    
+        VentaIntermediadaController::returnUpdatedIDEstadoVenta($venta->idVentaIntermediada, $nuevosPuntosActuales);
+        
         // Actualizar el stock de las recompensas
         $recompensasCanje = json_decode($recompensasJson);
         foreach ($recompensasCanje as $recom) {

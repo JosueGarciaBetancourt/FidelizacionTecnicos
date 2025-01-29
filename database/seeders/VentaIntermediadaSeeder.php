@@ -21,7 +21,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'tipoCodigoCliente_VentaIntermediada' => 'RUC',
                 'codigoCliente_VentaIntermediada' => '10422733669',
                 'nombreCliente_VentaIntermediada' => 'AQUINO LOPEZ EMERSON',
-                'fechaHoraEmision_VentaIntermediada' => '2024-11-08 00:30:00',
+                'fechaHoraEmision_VentaIntermediada' => '2024-09-01 10:00:00',
                 'montoTotal_VentaIntermediada' => 74.5,
                 'puntosGanados_VentaIntermediada' => 75,
                 'puntosActuales_VentaIntermediada'=> 0,
@@ -136,7 +136,7 @@ class VentaIntermediadaSeeder extends Seeder
                 'fechaHoraCargada_VentaIntermediada' => '2025-01-21 10:00:00',
                 'montoTotal_VentaIntermediada' => 500,
                 'puntosGanados_VentaIntermediada' => 500,
-                'puntosActuales_VentaIntermediada' => 500,
+                'puntosActuales_VentaIntermediada' => 95,
                 'idEstadoVenta' => 5,  // En espera (solicitado desde app)
                 'apareceEnSolicitud' => 1,
             ],
@@ -152,6 +152,22 @@ class VentaIntermediadaSeeder extends Seeder
                 'montoTotal_VentaIntermediada' => 1000,
                 'puntosGanados_VentaIntermediada' => 1000,
                 'puntosActuales_VentaIntermediada' => 1000,
+                'idEstadoVenta' => 5,  // En espera (solicitado desde app)
+                'apareceEnSolicitud' => 1,
+            ],
+            /*Venta para solicitud canje que al canjear será redimido completo*/
+            [
+                'idVentaIntermediada' => 'F001-00000666',
+                'idTecnico' => '77665544',
+                'nombreTecnico' => 'Manuel Carrasco',
+                'tipoCodigoCliente_VentaIntermediada' => 'DNI',
+                'codigoCliente_VentaIntermediada' => '45404787',
+                'nombreCliente_VentaIntermediada' => 'BAQUERIZO QUISPE, ELIZABETH SILVIA',
+                'fechaHoraEmision_VentaIntermediada' => '2025-01-21 10:00:00', 
+                'fechaHoraCargada_VentaIntermediada' => '2025-01-21 10:00:00',
+                'montoTotal_VentaIntermediada' => 100,
+                'puntosGanados_VentaIntermediada' => 100,
+                'puntosActuales_VentaIntermediada' => 100,
                 'idEstadoVenta' => 5,  // En espera (solicitado desde app)
                 'apareceEnSolicitud' => 1,
             ],

@@ -385,7 +385,14 @@ $(document).ready(function() {
 				name: 'montoTotal_VentaIntermediada',
 				class: 'celda-centered',
 			},
-			{data: 'puntosGanados_VentaIntermediada', name: 'puntosGanados_VentaIntermediada', class: 'celda-centered'},
+			{
+				data: null,
+				render: function (data) {
+					return `<small>P. Iniciales: </small> ${data.puntosGanados_VentaIntermediada} <br>
+							<small>P. Actuales:</small> ${data.puntosActuales_VentaIntermediada}`;
+				},
+				name: 'puntosGanados_PuntosActuales_VentaIntermediada',
+			},
 			{
 				data: null,
 				render: function (data) {

@@ -22,7 +22,7 @@ class SolicitudesCanjeSeeder extends Seeder
                 'puntosActuales_SolicitudCanje' => 500,
                 'puntosCanjeados_SolicitudCanje' => 405,
                 'puntosRestantes_SolicitudCanje' => 95, 
-                'fechaHora_SolicitudCanje' => '2025-01-22 10:00:00',
+                'fechaHora_SolicitudCanje' => '2025-01-22 11:00:00',
                 'idUser' => 1,
                 'comentario_SolicitudCanje' => 'Ok',
             ],
@@ -51,6 +51,20 @@ class SolicitudesCanjeSeeder extends Seeder
                 'puntosActuales_SolicitudCanje' => 1000,
                 'puntosCanjeados_SolicitudCanje' => 5,
                 'puntosRestantes_SolicitudCanje' => 995, 
+                'fechaHora_SolicitudCanje' => '2025-01-22 10:00:00',
+                'comentario_SolicitudCanje' => 'No registrado aún',
+            ],
+            [
+                'idSolicitudCanje' => 'SOLICANJ-00004',
+                'idVentaIntermediada' => 'F001-00000666', //En espera
+                'idTecnico' => '77665544', // Manuel Carrasco
+                'idEstadoSolicitudCanje' => 1, // Pendiente
+                'fechaHoraEmision_VentaIntermediada' => '2025-01-21 10:00:00',
+                'diasTranscurridos_SolicitudCanje' => 1, 
+                'puntosComprobante_SolicitudCanje' => 100,  
+                'puntosActuales_SolicitudCanje' => 100,
+                'puntosCanjeados_SolicitudCanje' => 100,
+                'puntosRestantes_SolicitudCanje' => 0, 
                 'fechaHora_SolicitudCanje' => '2025-01-22 10:00:00',
                 'comentario_SolicitudCanje' => 'No registrado aún',
             ],

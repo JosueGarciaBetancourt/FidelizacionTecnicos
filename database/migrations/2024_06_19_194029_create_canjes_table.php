@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,7 +12,7 @@ return new class extends Migration
             $table->string('idCanje', 10)->primary(); // CANJ-00001 (se genera automáticamente)
             $table->string('idVentaIntermediada', 13);
             $table->dateTime('fechaHoraEmision_VentaIntermediada');
-            $table->dateTime('fechaHora_Canje')->default(DB::raw('(CURRENT_TIMESTAMP - INTERVAL 5 HOUR)'));
+            $table->dateTime('fechaHora_Canje')->useCurrent();
             $table->integer('diasTranscurridos_Canje')->unsigned(); 
             $table->integer('puntosComprobante_Canje')->unsigned(); // Puntos generados
             $table->integer('puntosActuales_Canje')->unsigned()->nullable();
@@ -25,9 +24,7 @@ return new class extends Migration
             $table->foreign('idVentaIntermediada')->references('idVentaIntermediada')->on('VentasIntermediadas');
             $table->foreign('idUser')->references('id')->on('users');
 
-            //$table->timestamps(); //created_at updated_at
-            $table->timestamp('created_at')->default(DB::raw('(CURRENT_TIMESTAMP - INTERVAL 5 HOUR)'));
-            $table->timestamp('updated_at')->nullable();    
+            $table->timestamps(); //created_at updated_at
         });
     }
 
