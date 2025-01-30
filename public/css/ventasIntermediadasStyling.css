@@ -96,6 +96,14 @@
     color: #FFF;
 }
 
+#celda-montoTotal {
+    min-width: 6rem;
+}
+
+#celda-puntos {
+    min-width: 6rem;
+}
+
 /* Estilos específicos de celdas de Estado */
 
 .estado__celda {
@@ -111,7 +119,7 @@
     font-weight: bold;
     font-size: 0.85rem;
     display: inline-block;
-    width: 90%;
+    width: 85%;
 }
 
 /*ESTILOS DE LOS ESTADOS DE LAS VENTAS INTERMEDIADAS*/

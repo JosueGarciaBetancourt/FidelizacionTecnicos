@@ -45,7 +45,7 @@
 					</div>
 				</div>
 				<div class="verticalPairGroup">
-					<label class="primary-label noEditable centered"> Total de puntos </label>
+					<label class="primary-label noEditable centered"> Puntos actuales </label>
 					<input class="input-item" id="puntosActualesTecnicoCanjesInput" maxlength="4" placeholder="0" readonly>
 				</div>
 				<span class="inline-alert-message" id="{{ $idTecnicoMessageError }}"> No se encontró el técnico buscado </span>      
@@ -83,7 +83,7 @@
 
 				<div class="verticalPairGroup">
 					<label class="primary-label noEditable centered"> Puntos actuales </label>
-					<input class="input-item noEditable" id="puntosGeneradosCanjesInput" name="puntosComprobante_Canje" maxlength="4" 
+					<input class="input-item noEditable" id="puntosActualesCanjesInput" name="puntosActuales_Canje" maxlength="4" 
 						placeholder="0" readonly>
 				</div>
 

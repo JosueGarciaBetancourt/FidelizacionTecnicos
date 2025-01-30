@@ -38,11 +38,19 @@ h3 {
 }
 
 #celda-numComprobante {
-    width: 10rem;
+    width: 9rem;
+}
+
+#celda-diasTranscurridos {
+    max-width: 5rem;
 }
 
 #celda-tecnico {
-    width: 15rem;
+    max-width: 10rem;
+}
+
+#celda-puntos {
+    min-width: 7.5rem;
 }
 
 #tblHistorialCanjes tbody tr:nth-child(even) {

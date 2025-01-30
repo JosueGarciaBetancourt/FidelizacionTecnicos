@@ -25,8 +25,8 @@
                         <th class="celda-centered">Fecha y Hora de Emisión</th>
                         <th class="celda-centered">Fecha y Hora Cargada</th>
                         <th>Cliente</th>
-                        <th class="celda-centered">Monto Total</th>
-                        <th class="celda-centered">Puntos Generados</th>
+                        <th class="celda-centered" id="celda-montoTotal">Monto Total</th>
+                        <th class="celda-centered" id="celda-puntos">Puntos</th>
                         <th>Técnico</th>
                         <th class="celda-centered">Fecha y Hora Canjeada</th>
                         <th class="celda-centered">Días hasta hoy</th>

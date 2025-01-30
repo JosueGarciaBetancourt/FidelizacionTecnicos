@@ -292,7 +292,7 @@ class SolicitudCanjeController extends Controller
     
             $data = [
                 'idVentaIntermediada' => $solicitudCanje->idVentaIntermediada,
-                'puntosComprobante_Canje' => $solicitudCanje->puntosComprobante_SolicitudCanje,
+                'puntosActuales_Canje' => $solicitudCanje->puntosActuales_SolicitudCanje,
                 'puntosCanjeados_Canje' => $solicitudCanje->puntosCanjeados_SolicitudCanje,
                 'puntosRestantes_Canje' => $solicitudCanje->puntosRestantes_SolicitudCanje,
                 'recompensas_Canje' => $recompensasCanjeString,

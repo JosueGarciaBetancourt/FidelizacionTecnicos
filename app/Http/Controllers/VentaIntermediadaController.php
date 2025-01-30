@@ -392,9 +392,9 @@ class VentaIntermediadaController extends Controller
 
         // Obtener las ventas intermediadas no asociadas con alguna solicitud de canje
         $comprobantes = VentaIntermediada::with('estadoVenta') // Cargar relación de estado
-                                        ->doesntHave('solicitudesCanje') // Filtrar comprobantes sin solicitudes de canje
                                         ->where('idTecnico', $idTecnico)
                                         ->whereIn('idEstadoVenta', [1, 2]) // Estados: En espera o Redimido (parcial)
+                                        ->where('apareceEnSolicitud', 0)
                                         ->get();
 
         return response()->json($comprobantes);

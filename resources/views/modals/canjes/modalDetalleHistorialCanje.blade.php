@@ -7,7 +7,7 @@
 				$idNumeroComprobante = 'numeroComprobanteModalDetalleHistorialCanje';
 				$idFechaHoraEmisionComprobante = 'fechaHoraEmisionComprobanteModalDetalleHistorialCanje';
 				$idDiasTranscurridos = 'diasTranscurridosCanjeModalDetalleHistorialCanje';
-				$idPuntosComprobante = 'puntosComprobanteModalDetalleHistorialCanje';
+				$idPuntosActuales = 'puntosActualesModalDetalleHistorialCanje';
 				$idPuntosCanjeados = 'puntosCanjeadosModalDetalleHistorialCanje';
 				$idPuntosRestantes = 'puntosRestantesComprobanteModalDetalleHistorialCanje';
 				$idComentario = 'comentarioComprobanteModalDetalleHistorialCanje';
@@ -29,8 +29,8 @@
 				</div>
 
 				<div class="form-group gap">
-					<label class="primary-label noEditable" for='{{ $idPuntosComprobante }}'>Puntos comprobante:</label>
-					<input class="input-item center" type="text" id='{{ $idPuntosComprobante }}' disabled>
+					<label class="primary-label noEditable" for='{{ $idPuntosActuales }}'>Puntos actuales de venta:</label>
+					<input class="input-item center" type="text" id='{{ $idPuntosActuales }}' disabled>
 					<label class="primary-label noEditable" for='{{ $idPuntosCanjeados }}'>Puntos canjeados:</label>
 					<input class="input-item center" type="text" id='{{ $idPuntosCanjeados }}' disabled>
 					<label class="primary-label noEditable" for='{{ $idPuntosRestantes }}'>Puntos restantes:</label>

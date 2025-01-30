@@ -14,7 +14,7 @@ let numComprobanteCanjesInput = document.getElementById('comprobanteCanjesInput'
 let puntosActualesTecnicoCanjesInput = document.getElementById('puntosActualesTecnicoCanjesInput');
 let comprobantesFetch = [];
 let estadoComprobanteCanjesTextarea = document.getElementById('estadoComprobanteCanjesTextarea');
-let puntosGeneradosCanjesInput = document.getElementById('puntosGeneradosCanjesInput');
+let puntosActualesCanjesInput = document.getElementById('puntosActualesCanjesInput');
 //let puntosRestantesCanjesInput = document.getElementById('puntosRestantesCanjesInput');
 let clienteCanjesTextarea = document.getElementById('clienteCanjesTextarea');
 let fechaEmisionCanjesInput = document.getElementById('fechaEmisionCanjesInput');
@@ -72,7 +72,7 @@ function selectOptionNumComprobanteCanjes(value, idInput, idOptions) {
                 });
                 estadoComprobanteCanjesTextarea.classList.add(`estado-${comprobanteSeleccionado.idEstadoVenta}`);
                 estadoComprobanteCanjesTextarea.value =  comprobanteSeleccionado.estado_venta.nombre_EstadoVenta || '';
-                puntosGeneradosCanjesInput.value = comprobanteSeleccionado.puntosActuales_VentaIntermediada || '';
+                puntosActualesCanjesInput.value = comprobanteSeleccionado.puntosActuales_VentaIntermediada || '';
                 //puntosRestantesCanjesInput.value = comprobanteSeleccionado.montoTotal_VentaIntermediada || '';
                 clienteCanjesTextarea.value = 
                     (comprobanteSeleccionado.nombreCliente_VentaIntermediada +  "\n" + 
@@ -359,8 +359,6 @@ function populateOptionsListTecnicoCanjes(optionsListUL, tecnicos) {
 /* FIN de funciones para manejar el input dinámico */
 
 
-
-
 function selectOptionRecompensaCanjes(value, idInput, idOptions) {
     if (!tecnicoCanjesInput.value) {
         recompensaFilledCorrectlySearchField = false;
@@ -437,7 +435,7 @@ function cleanAllNumeroComprobante() {
             estadoComprobanteCanjesTextarea.classList.remove(className);
         }
     });
-    puntosGeneradosCanjesInput.value = "";
+    puntosActualesCanjesInput.value = "";
     clienteCanjesTextarea.value = "";
     fechaEmisionCanjesInput.value = "";
     fechaEmisionCanjesInput.classList.add("noEditable");
@@ -470,6 +468,8 @@ async function filterNumComprobantesInputWithTecnicoFetch(idTecnico) {
 
         comprobantesFetch = await response.json();
         
+        //consoleLogJSONItems(comprobantesFetch);
+
         if (comprobantesFetch.length == 0) {
             messageErrorselectOptionTecnicoCanjes.textContent = 'El técnico encontrado no tiene ventas intermediadas "EN ESPERA" o "REDIMIDO (PARCIAL)"'
             messageErrorselectOptionTecnicoCanjes.classList.add('shown');
@@ -680,7 +680,7 @@ function agregarFilaRecompensa() {
 
             // Calcular la suma de puntos totales 
             var sumaPuntosTotalesFilas = 0;
-            const puntosGenerados = puntosGeneradosCanjesInput.value;
+            const puntosGenerados = puntosActualesCanjesInput.value;
 
             // Validar recompensa duplicada en tabla
             const puntosRecompensaAntigua = isCodigoDuplicated(codigo);
@@ -769,7 +769,7 @@ function agregarFilaRecompensa() {
         
         // Calcular la suma de puntos totales 
         var sumaPuntosTotalesFilas = 0;
-        const puntosGenerados = puntosGeneradosCanjesInput.value;
+        const puntosGenerados = puntosActualesCanjesInput.value;
 
         // Calcular stock restante
         const stockRestante = stock - cantidad;
@@ -1021,11 +1021,11 @@ function eliminarFilaTabla() {
 }
 
 function updateResumenBoard() {
-    puntosComprobanteResumen.textContent = puntosGeneradosCanjesInput.value;
+    puntosComprobanteResumen.textContent = puntosActualesCanjesInput.value;
 
-    if (sumaPuntosTotalesTablaRecompensasCanjes <= puntosGeneradosCanjesInput.value) {
+    if (sumaPuntosTotalesTablaRecompensasCanjes <= puntosActualesCanjesInput.value) {
         puntosCanjeadosResumen.value = sumaPuntosTotalesTablaRecompensasCanjes;
-        puntosRestantesResumen.value = puntosGeneradosCanjesInput.value - sumaPuntosTotalesTablaRecompensasCanjes;
+        puntosRestantesResumen.value = puntosActualesCanjesInput.value - sumaPuntosTotalesTablaRecompensasCanjes;
         puntosTotalesExcedenPuntosGenerados = false;
     } else {
         // El total de puntos de la tabla supera a los puntos generados del comprobante seleccionado
@@ -1037,7 +1037,7 @@ function updateResumenBoard() {
         // Mostrar mensaje al usuario
         if (isAnyComprobanteSelected) {
             celdaTotalPuntosTooltip = document.getElementById("idCeldaTotalPuntosTooltip");
-            const message  = `El total de puntos ( ${sumaPuntosTotalesTablaRecompensasCanjes}) excede a los puntos generados por el comprobante (${puntosGeneradosCanjesInput.value})` 
+            const message  = `El total de puntos ( ${sumaPuntosTotalesTablaRecompensasCanjes}) excede a los puntos generados por el comprobante (${puntosActualesCanjesInput.value})` 
             showHideTooltip(celdaTotalPuntosTooltip, message);
         }
     }
@@ -1045,7 +1045,7 @@ function updateResumenBoard() {
     //console.log(puntosTotalesExcedenPuntosGenerados);
     /*
     console.log("UPDATING RESUMEN BOARD");
-    console.log("Puntos generados: " + puntosGeneradosCanjesInput.value,
+    console.log("Puntos generados: " + puntosActualesCanjesInput.value,
                 "Puntos totales tabla: " + sumaPuntosTotalesTablaRecompensasCanjes,
                 "Puntos restantes: " + puntosRestantesResumen.textContent)
     */
@@ -1114,7 +1114,7 @@ function validarPuntosTotales() {
     if (puntosTotalesExcedenPuntosGenerados) {
         celdaTotalPuntosTooltip.classList.remove('green');
         celdaTotalPuntosTooltip.classList.add('red');
-        const message  = `El total de puntos ( ${sumaPuntosTotalesTablaRecompensasCanjes}) excede a los puntos generados por el comprobante (${puntosGeneradosCanjesInput.value})` 
+        const message  = `El total de puntos ( ${sumaPuntosTotalesTablaRecompensasCanjes}) excede a los puntos generados por el comprobante (${puntosActualesCanjesInput.value})` 
         showHideTooltip(celdaTotalPuntosTooltip, message);
         return true;
     }

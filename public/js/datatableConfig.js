@@ -7,7 +7,7 @@ $(document).ready(function() {
 
 	const loadingModal = document.getElementById('loadingModal');
 
-	const tblVentasIntermediadas = $('#tblVentasIntermediadas').DataTable({
+	const tblVentasIntermediadas = $('#tblVentasIntermediadas').DataTable({	
 		// Configuración inicial
 		lengthMenu: [[5, 10, 50, 100, 500, -1], [5, 10, 50, 100, 500, "Todos"]],
 		pageLength: 10, 
@@ -1707,8 +1707,15 @@ $(document).ready(function() {
 				},
 				name: 'nombreTecnico_idTecnico', 
 			},
-			{data: 'puntosCanjeados_Canje', name: 'puntosCanjeados_Canje', class: 'celda-centered'},
-			{data: 'puntosRestantes_Canje', name: 'puntosRestantes_Canje', class: 'celda-centered'},
+			{
+				data: null,
+				render: function (data) {
+					return `Actuales: ${data.puntosActuales_Canje} <br>
+							Canjeados: ${data.puntosCanjeados_Canje} <br>
+							Restantes: ${data.puntosRestantes_Canje}`;
+				},
+				name: 'puntosActuales_PuntosCanjeados_PuntosRestantes_Canje',
+			},
 			{data: 'actions', name: 'actions', class: 'celda-centered', orderable: false},
 		],
 	});

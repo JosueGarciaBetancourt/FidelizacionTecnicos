@@ -5,7 +5,7 @@ function fillOtherFieldsDetalleHistorialCanje(objCanje) {
     document.getElementById('diasTranscurridosCanjeModalDetalleHistorialCanje').textContent = objCanje['diasTranscurridos_Canje'] + diasTranscurridosSufix;
     document.getElementById('numeroComprobanteModalDetalleHistorialCanje').value = objCanje['idVentaIntermediada'];
     document.getElementById('fechaHoraEmisionComprobanteModalDetalleHistorialCanje').value = objCanje['fechaHoraEmision_VentaIntermediada'];
-    document.getElementById('puntosComprobanteModalDetalleHistorialCanje').value = objCanje['puntosComprobante_Canje'];
+    document.getElementById('puntosActualesModalDetalleHistorialCanje').value = objCanje['puntosActuales_Canje'];
     document.getElementById('puntosCanjeadosModalDetalleHistorialCanje').value = objCanje['puntosCanjeados_Canje'];
     document.getElementById('puntosRestantesComprobanteModalDetalleHistorialCanje').value = objCanje['puntosRestantes_Canje'];
     document.getElementById('comentarioComprobanteModalDetalleHistorialCanje').value = objCanje['comentario_Canje'] || "";

@@ -22,10 +22,9 @@
 						<th class="celda-centered date">Fecha y Hora</th>
 						<th class="celda-centered" id="celda-numComprobante">Venta Asociada</th>
 						<th class="celda-centered date">Fecha y hora de emisión</th>
-						<th class="celda-centered">Días transcurridos</th>
+						<th class="celda-centered" id="celda-diasTranscurridos">Días hasta hoy</th>
 						<th class="celda-centered" id="celda-tecnico">Técnico</th>
-						<th class="celda-centered">Puntos canjeados</th> 
-						<th class="celda-centered">Puntos restantes</th> 
+						<th class="celda-centered" id="celda-puntos">Puntos</th> 
 						<th class="celda-centered"></th> 
 					</tr>
 				</thead>

@@ -77,7 +77,7 @@ class CanjeController extends Controller
             // Validar los datos de entrada
             $validatedData = $request->validate([
                 'idVentaIntermediada' => 'required|exists:VentasIntermediadas,idVentaIntermediada',
-                'puntosComprobante_Canje' => 'required|numeric|min:0',
+                'puntosActuales_Canje' => 'required|numeric|min:0',
                 'puntosCanjeados_Canje' => 'required|numeric|min:0',
                 'puntosRestantes_Canje' => 'required|numeric|min:0',
                 'recompensas_Canje' => 'required',
@@ -117,12 +117,13 @@ class CanjeController extends Controller
         $recompensasJson = $validatedData['recompensas_Canje'];
         
         // Crear el nuevo canje
-        $canje = Canje::create([
+        Canje::create([
             'idCanje' => $idCanje,
             'idVentaIntermediada' => $validatedData['idVentaIntermediada'],
             'fechaHoraEmision_VentaIntermediada' => $fechaHoraEmision,
             'diasTranscurridos_Canje' => $diasTranscurridos,
-            'puntosComprobante_Canje' => $validatedData['puntosComprobante_Canje'],
+            'puntosComprobante_Canje' => $venta['puntosGanados_VentaIntermediada'],
+            'puntosActuales_Canje' => $validatedData['puntosActuales_Canje'],
             'puntosCanjeados_Canje' => $validatedData['puntosCanjeados_Canje'],
             'puntosRestantes_Canje' => $validatedData['puntosRestantes_Canje'],
             'comentario_Canje'=> $validatedData['comentario_Canje'],
@@ -175,6 +176,7 @@ class CanjeController extends Controller
                             'Canjes.fechaHora_Canje', 
                             'Canjes.diasTranscurridos_Canje', 
                             'Canjes.puntosComprobante_Canje', // Puntos generados
+                            'Canjes.puntosActuales_Canje',
                             'Canjes.puntosCanjeados_Canje', 
                             'Canjes.puntosRestantes_Canje', 
                             'Tecnicos.idTecnico', 
@@ -195,12 +197,16 @@ class CanjeController extends Controller
                 'diasTranscurridos_Canje' => $canje->diasTranscurridos_Canje,
                 'idTecnico' => $canje->idTecnico,
                 'nombreTecnico' => $canje->nombreTecnico,
+                'puntosActuales_Canje' => $canje->puntosActuales_Canje,
                 'puntosCanjeados_Canje' => $canje->puntosCanjeados_Canje,
                 'puntosRestantes_Canje' => $canje->puntosRestantes_Canje,
 
                 // Campos compuestos
                 'idVentaIntermediada_puntosGenerados' => $canje->idVentaIntermediada . " " . $canje->puntosComprobante_Canje,
                 'nombreTecnico_idTecnico' => $canje->nombreTecnico . " DNI: " . $canje->idTecnico,
+                'puntosActuales_PuntosCanjeados_PuntosRestantes_Canje' => "P. Actuales: " . $canje->puntosActuales_Canje . 
+                                                                    " P. Canjeados: " . $canje->puntosCanjeados_Canje . 
+                                                                    " P. Resstantes: " . $canje->puntosRestantes_Canje,
             ];
         });
     
