@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -15,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('idEstadoSolicitudCanje')->default(1); // Estado de la solicitud con referencia a EstadosCanje
             $table->string('idTecnico', 8); // ID del técnico que hace la solicitud
             $table->unsignedBigInteger('idUser')->nullable(); // Solo se rellena cuando el estado es 'Aprobado' o 'Rechazado'
-            $table->timestamp('fechaHora_SolicitudCanje')->useCurrent();
+            $table->timestamp('fechaHora_SolicitudCanje')->default(DB::raw('(CURRENT_TIMESTAMP - INTERVAL 5 HOUR)'));
             $table->integer('diasTranscurridos_SolicitudCanje')->unsigned()->nullable(); 
             $table->integer('puntosComprobante_SolicitudCanje')->unsigned()->nullable(); // Puntos generados
             $table->integer('puntosActuales_SolicitudCanje')->unsigned()->nullable(); // Puntos generados
@@ -28,7 +29,9 @@ return new class extends Migration
             $table->foreign('idEstadoSolicitudCanje')->references('idEstadoSolicitudCanje')->on('EstadosSolicitudesCanjes');
             $table->foreign('idUser')->references('id')->on('users');
 
-            $table->timestamps(); //created_at updated_at
+            //$table->timestamps(); //created_at updated_at
+            $table->timestamp('created_at')->default(DB::raw('(CURRENT_TIMESTAMP - INTERVAL 5 HOUR)'));
+            $table->timestamp('updated_at')->nullable();
         });
     }
 
