@@ -25,8 +25,12 @@
             width: 5rem;
         }
         
-       .celda-tecnico {
+        .celda-tecnico {
             width: 76px;
+        }
+
+        .celda-comentario {
+            width: 50px;
         }
 
         /*ESTILOS DE LOS ESTADOS DE LAS VENTAS INTERMEDIADAS*/
@@ -34,16 +38,17 @@
             padding: 0 !important;
             margin: 0 !important;
             text-align: center !important; 
-            width: 4rem;
+            width: 3rem;
         }
 
         .estado__celda span {
             padding: 5px;
             border-radius: 5px;
             margin: 0;
+            font-size: 9px;
             font-weight: bold;
             display: inline-block;
-            width: 3rem;
+            width: 2.4rem;
         }
 
         /*Pendiente */
@@ -112,7 +117,7 @@
                     <th rowspan="2" class="celdas-fechaHora">Fecha y Hora de emisión</th>
                     <th rowspan="2">Días hasta hoy</th>
                     <th rowspan="2" class="celda-tecnico">Técnico</th>
-                    <th rowspan="2">Comentario</th>
+                    <th rowspan="2" class="celda-comentario">Comentario</th>
                     <th rowspan="2" class="celda-puntos">Puntos</th>
                     <th colspan="6">RECOMPENSAS</th>
                 </tr>
