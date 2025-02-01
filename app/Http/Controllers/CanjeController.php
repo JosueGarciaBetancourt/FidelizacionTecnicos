@@ -395,6 +395,7 @@ class CanjeController extends Controller
                     'diasTranscurridos_Canje' => $canje->diasTranscurridos_Canje,
                     'idTecnico' => $canje->idTecnico,
                     'nombreTecnico' => $canje->nombreTecnico,
+                    'puntosActuales_Canje' => $canje->puntosActuales_Canje,
                     'puntosCanjeados_Canje' => $canje->puntosCanjeados_Canje,
                     'puntosRestantes_Canje' => $canje->puntosRestantes_Canje,
                     'recompensasJSON' => json_decode($canje['recompensasJSON'], true),

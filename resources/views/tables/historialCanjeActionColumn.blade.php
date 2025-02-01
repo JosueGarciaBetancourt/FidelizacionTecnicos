@@ -5,7 +5,7 @@
 <style> 
 	.btnDetalle {
 		cursor: pointer;
-		max-width: 8rem;
+		max-width: 5.5rem;
 		background-color: #4c6faf;
 		border: 2px solid #4c6faf;
 		color: #fff;

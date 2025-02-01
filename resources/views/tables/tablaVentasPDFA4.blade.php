@@ -7,7 +7,19 @@
         tbody tr:nth-child(even) {
             background-color: #f9f9f9;
         }
-            
+        
+        .celda-montoTotal {
+            width: 6rem;
+        }
+
+        .celda-puntos {
+            width: 6rem;
+        }
+
+        .celda-tecnico {
+            width: 6rem;
+        }
+
         .estado__celda {
             padding: 0 !important;
             margin: 0 !important;
@@ -84,8 +96,8 @@
                     <th>Fecha y Hora Cargada</th>
                     <th>Cliente</th>
                     <th>Monto Total</th>
-                    <th>Puntos Generados</th>
-                    <th>Técnico</th>
+                    <th class="celda-puntos">Puntos</th>
+                    <th class="celda-tecnico">Técnico</th>
                     <th>Fecha y Hora Canjeada</th>
                     <th>Días hasta hoy</th>
                     <th class="estadoVentaTH">Estado</th> 
@@ -95,15 +107,22 @@
                 @foreach ($data as $venta)
                 <tr>
                     <td class="celda-centered">{{ $venta['index'] }}</td>
-                    <td class="celda-centered">{{ $venta['idVentaIntermediada'] }} <br>
+                    <td>{{ $venta['idVentaIntermediada'] }} <br>
                         <small> {{ $venta['tipoComprobante'] }}</small>
                     </td>
                     <td class="celda-centered">{{ $venta['fechaHoraEmision_VentaIntermediada'] }}</td>
                     <td class="celda-centered">{{ $venta['fechaHoraCargada_VentaIntermediada'] }}</td>
-                    <td>{{ $venta['nombreCliente_TipoCodigo_Codigo'] }}</td>
-                    <td class="celda-centered">{{ $venta['montoTotal_VentaIntermediada'] }}</td>
-                    <td class="celda-centered">{{ $venta['puntosGanados_VentaIntermediada'] }}</td>
-                    <td class="celda-centered">{{ $venta['nombreTecnico_idTecnico'] }}</td>
+                    <td>{{ $venta['nombreCliente_VentaIntermediada'] }}<br>
+                            <small>{{ $venta['tipoCodigoCliente_VentaIntermediada'] }}: {{ $venta['codigoCliente_VentaIntermediada'] }}</small>
+                    </td>
+
+                    <td class="celda-centered celda-montoTotal">{{ $venta['montoTotal_VentaIntermediada'] }}</td>
+                    <td><small>P. Iniciales:</small> {{ $venta['puntosGanados_VentaIntermediada'] }} <br>
+                                                <small>P. Actuales:</small> {{ $venta['puntosActuales_VentaIntermediada'] }}  
+                    </td>
+                    <td>{{ $venta['nombreTecnico'] }}<br>
+                                                <small>DNI: {{ $venta['idTecnico'] }}</small>
+                    </td>
                     <td class="celda-centered">{{ $venta['fechaHora_Canje'] }}</td>
                     <td class="celda-centered">{{ $venta['diasTranscurridos'] }}</td>
                     <td class="estado__celda">

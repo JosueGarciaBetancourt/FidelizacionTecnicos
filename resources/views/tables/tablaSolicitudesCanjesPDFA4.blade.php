@@ -14,15 +14,19 @@
         }
 
         .table-container td, th{
-            font-size: 10px;
+            font-size: 10.5px;
         }
 
+        .celdas-fechaHora {
+            width: 3.5rem;
+        }
+        
        .celdaVenta {
             width: 5rem;
         }
         
-       .celdaTecnico {
-            width: 60px;
+       .celda-tecnico {
+            width: 76px;
         }
 
         /*ESTILOS DE LOS ESTADOS DE LAS VENTAS INTERMEDIADAS*/
@@ -60,6 +64,14 @@
             background-color: rgba(244, 67, 54, 0.2) !important;
         }   
 
+        .celda-puntos {
+            width: 5.5rem;
+        }
+
+        .celda-descripcion {
+            width: 4rem;
+        }
+
         .grupo-par {
             background-color: #f9f9f9;
         }
@@ -95,20 +107,19 @@
                     <th rowspan="2">#</th>
                     <th rowspan="2">Código</th>
                     <th rowspan="2">Estado</th>
-                    <th rowspan="2">Fecha y Hora</th>
+                    <th rowspan="2" class="celdas-fechaHora">Fecha y Hora</th>
                     <th rowspan="2" class="celdaVenta">Venta Asociada</th>
-                    <th rowspan="2">Fecha y Hora de emisión</th>
-                    <th rowspan="2">Días transcurridos</th>
-                    <th rowspan="2" class="celdaTecnico">Técnico</th>
+                    <th rowspan="2" class="celdas-fechaHora">Fecha y Hora de emisión</th>
+                    <th rowspan="2">Días hasta hoy</th>
+                    <th rowspan="2" class="celda-tecnico">Técnico</th>
                     <th rowspan="2">Comentario</th>
-                    <th rowspan="2">Puntos canjeados</th>
-                    <th rowspan="2">Puntos restantes</th>
+                    <th rowspan="2" class="celda-puntos">Puntos</th>
                     <th colspan="6">RECOMPENSAS</th>
                 </tr>
                 <tr>
                     <th>Código</th>
                     <th>Tipo</th>
-                    <th>Descripción</th>
+                    <th class="celda-descripcion">Descripción</th>
                     <th>Cantidad</th>
                     <th>Costo puntos</th>
                     <th>Subtotal</th>
@@ -137,16 +148,19 @@
                                 </td>
                                 <td class="celda-centered" rowspan="{{ count($recompensas) }}">{{ $solicitudCanje['fechaHoraEmision_VentaIntermediada'] }}</td>
                                 <td class="celda-centered" rowspan="{{ count($recompensas) }}">{{ $solicitudCanje['diasTranscurridos_SolicitudCanje'] }}</td>
-                                <td class="celda-centered" rowspan="{{ count($recompensas) }}">{{ $solicitudCanje['nombreTecnico'] }} <br>
-                                    DNI: {{ $solicitudCanje['idTecnico'] }}
+                                <td rowspan="{{ count($recompensas) }}">{{ $solicitudCanje['nombreTecnico'] }} <br>
+                                    <small>DNI: {{ $solicitudCanje['idTecnico'] }}</small>
                                 </td>
-                                <td class="celda-centered" rowspan="{{ count($recompensas) }}">{{ $solicitudCanje['comentario_SolicitudCanje'] }}</td>
-                                <td class="celda-centered" rowspan="{{ count($recompensas) }}">{{ $solicitudCanje['puntosCanjeados_SolicitudCanje'] }}</td>
-                                <td class="celda-centered" rowspan="{{ count($recompensas) }}">{{ $solicitudCanje['puntosRestantes_SolicitudCanje'] }}</td>
+                                <td rowspan="{{ count($recompensas) }}">{{ $solicitudCanje['comentario_SolicitudCanje'] }}</td>
+                                <td rowspan="{{ count($recompensas) }}">
+                                    P. Actuales: {{ $solicitudCanje['puntosActuales_SolicitudCanje'] }}<br>
+                                    P. Canjeados: {{ $solicitudCanje['puntosCanjeados_SolicitudCanje'] }}<br>
+                                    P. Restantes: {{ $solicitudCanje['puntosRestantes_SolicitudCanje'] }}
+                                </td>
                             @endif
                             <td class="celda-centered">{{ $recompensa['idRecompensa'] }}</td>
                             <td class="celda-centered">{{ $recompensa['nombre_TipoRecompensa'] }}</td>
-                            <td class="celda-centered">{{ $recompensa['descripcionRecompensa'] }}</td>
+                            <td>{{ $recompensa['descripcionRecompensa'] }}</td>
                             <td class="celda-centered">{{ $recompensa['cantidad'] }}</td>
                             <td class="celda-centered">{{ $recompensa['costoRecompensa'] }}</td>
                             <td class="celda-centered">{{ $recompensa['puntosTotales'] }}</td>

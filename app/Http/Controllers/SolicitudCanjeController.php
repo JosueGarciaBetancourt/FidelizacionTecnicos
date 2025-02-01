@@ -468,6 +468,7 @@ class SolicitudCanjeController extends Controller
                 ->join('EstadosSolicitudesCanjes', 'SolicitudesCanjes.idEstadoSolicitudCanje', '=', 'EstadosSolicitudesCanjes.idEstadoSolicitudCanje')
                 ->select('SolicitudesCanjes.*', 'VentasIntermediadas.idTecnico', 'VentasIntermediadas.nombreTecnico',
                         'EstadosSolicitudesCanjes.nombre_EstadoSolicitudCanje')
+                ->orderBy('SolicitudesCanjes.idSolicitudCanje')
                 ->get();
 
             //Controller::printJSON($solicitudesCfechaHoraEmision_VentaIntermediadaanjes);
@@ -487,6 +488,7 @@ class SolicitudCanjeController extends Controller
                     'comentario_SolicitudCanje' => $soliCan->comentario_SolicitudCanje,
                     'idVentaIntermediada' => $soliCan->idVentaIntermediada,
                     'puntosComprobante_SolicitudCanje' => $soliCan->puntosComprobante_SolicitudCanje,
+                    'puntosActuales_SolicitudCanje' => $soliCan->puntosActuales_SolicitudCanje,
                     'puntosCanjeados_SolicitudCanje' => $soliCan->puntosCanjeados_SolicitudCanje,
                     'puntosRestantes_SolicitudCanje' => $soliCan->puntosRestantes_SolicitudCanje,
                     'idEstadoSolicitudCanje' => $soliCan->idEstadoSolicitudCanje,

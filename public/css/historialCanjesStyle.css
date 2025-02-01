@@ -29,7 +29,7 @@ h3 {
 }
 
 .celda-centered.date {
-    width: 9rem;
+    width: 7rem;
 }
 
 .celda-btnDetalle {
@@ -38,7 +38,7 @@ h3 {
 }
 
 #celda-numComprobante {
-    width: 9rem;
+    width: 10rem;
 }
 
 #celda-diasTranscurridos {
@@ -50,7 +50,7 @@ h3 {
 }
 
 #celda-puntos {
-    min-width: 7.5rem;
+    min-width: 8rem;
 }
 
 #tblHistorialCanjes tbody tr:nth-child(even) {
