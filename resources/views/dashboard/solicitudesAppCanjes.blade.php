@@ -21,7 +21,7 @@
                     <th class="celda-centered">Código</th>
                     <th class="celda-centered">Fecha y Hora</th>
                     <th class="celda-centered">Técnico</th>
-                    <th class="celda-centered ventaAsociada">Venta Asociada</th>
+                    <th class="ventaAsociada">Venta Asociada</th>
                     <th class="celda-centered">Estado</th>
                     <th class="celda-centered">Detalles</th>
                     <th class="celda-centered">Acciones</th>

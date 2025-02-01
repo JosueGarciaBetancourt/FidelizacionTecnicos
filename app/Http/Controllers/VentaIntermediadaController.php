@@ -129,6 +129,7 @@ class VentaIntermediadaController extends Controller
                 'puntosActuales_VentaIntermediada' => $venta->puntosActuales_VentaIntermediada,
                 'nombreTecnico' => $venta->nombreTecnico,
                 'idTecnico' => $venta->idTecnico,
+                'nombreTecnico' => $venta->nombreTecnico,
                 'fechaHora_Canje' => $ultimoCanje?->fechaHora_Canje ?? 'Sin canje',
                 'diasTranscurridos' => $venta->diasTranscurridos,
 

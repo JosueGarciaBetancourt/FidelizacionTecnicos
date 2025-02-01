@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamp('fechaHora_SolicitudCanje')->default(DB::raw('(CURRENT_TIMESTAMP - INTERVAL 5 HOUR)'));
             $table->integer('diasTranscurridos_SolicitudCanje')->unsigned()->nullable(); 
             $table->integer('puntosComprobante_SolicitudCanje')->unsigned()->nullable(); // Puntos generados
-            $table->integer('puntosActuales_SolicitudCanje')->unsigned()->nullable(); // Puntos generados
+            $table->integer('puntosActuales_SolicitudCanje')->unsigned()->nullable();
             $table->integer('puntosCanjeados_SolicitudCanje')->unsigned()->nullable();
             $table->integer('puntosRestantes_SolicitudCanje')->unsigned()->nullable(); 
             $table->text('comentario_SolicitudCanje')->nullable(); // Cuando un usuario aprueba o rechaza se realiza un comentario

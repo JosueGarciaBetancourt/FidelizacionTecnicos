@@ -1710,9 +1710,9 @@ $(document).ready(function() {
 			{
 				data: null,
 				render: function (data) {
-					return `Actuales: ${data.puntosActuales_Canje} <br>
-							Canjeados: ${data.puntosCanjeados_Canje} <br>
-							Restantes: ${data.puntosRestantes_Canje}`;
+					return `<small>P. Actuales:</small> ${data.puntosActuales_Canje} <br>
+							<small>P. Canjeados:</small> ${data.puntosCanjeados_Canje} <br>
+							<small>P. Restantes:</small> ${data.puntosRestantes_Canje}`;
 				},
 				name: 'puntosActuales_PuntosCanjeados_PuntosRestantes_Canje',
 			},
@@ -2078,7 +2078,7 @@ $(document).ready(function() {
 					return `${data.idVentaIntermediada} <br>
 							<small>Puntos Generados: ${data.puntosComprobante_SolicitudCanje}</small>`;
 				},
-				name: 'idVentaIntermediada_puntosGenerados', // Nombre para búsquedas
+				name: 'idVentaIntermediada_puntosGenerados', // Nombre para búsquedas,
 			},
 			{data: 'nombre_EstadoSolicitudCanje', name: 'nombre_EstadoSolicitudCanje', class: 'celda-centered estado__celda'},
 			{data: 'details', name: 'details', class: 'celda-centered', orderable: false},
