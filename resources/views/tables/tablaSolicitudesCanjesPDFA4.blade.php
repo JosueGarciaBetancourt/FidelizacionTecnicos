@@ -38,7 +38,7 @@
             padding: 0 !important;
             margin: 0 !important;
             text-align: center !important; 
-            width: 3rem;
+            width: 3.5rem;
         }
 
         .estado__celda span {
@@ -48,7 +48,7 @@
             font-size: 9px;
             font-weight: bold;
             display: inline-block;
-            width: 2.4rem;
+            width: 2.5rem;
         }
 
         /*Pendiente */
