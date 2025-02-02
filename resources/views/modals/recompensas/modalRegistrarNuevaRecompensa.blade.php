@@ -27,7 +27,9 @@
                             :inputClassName="'onlySelectInput long'"
                             :placeholder="'Seleccionar tipo de recompensa'"
                             :name="'tipoRecompensa'"
+                            :idOptions="'idOptionTipoRecompensa'"
                             :options="$nombresTiposRecompensasDB"
+                            :emptyDataMessage="'No hay tipos de recompensas registradas aún'"
                         />
                     </div>
                     <div class="form-group gap">

@@ -37,6 +37,6 @@
 	width: 22rem;
 }
 
-#tecnicoRecontratarOptions {
-	max-height: 13.5rem;
+#tecnicoRecontratarOptions.show {
+    max-height: 13.5rem !important;
 }

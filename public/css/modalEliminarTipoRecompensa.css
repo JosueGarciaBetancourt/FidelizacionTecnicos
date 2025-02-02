@@ -3,7 +3,7 @@
 }
 
 #codigoTipoRecompensaInputDelete {
-	width: 6rem;
+	width: 15rem;
 }
 
 #idModalBodyEliminarTipoRecompensa {
@@ -17,4 +17,8 @@
 
 #nombreTipoRecompensaInputDelete {
 	width: 15rem;
+}
+
+#form-group-CodigoTipoRecompensaDelete {
+	gap: 1.7rem;
 }

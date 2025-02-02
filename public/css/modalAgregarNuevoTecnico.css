@@ -23,8 +23,8 @@
     width: 20rem;
 }
 
-#oficioOptionsCreate {
-    height: 8rem;
+#oficioOptionsCreate.show {
+    max-height: 8rem !important;
 }
 
 #bornDateLabel {

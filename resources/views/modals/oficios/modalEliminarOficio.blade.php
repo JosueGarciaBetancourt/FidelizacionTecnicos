@@ -39,20 +39,26 @@
 
                                 onclick="toggleOptions('{{ $idCodigoOficioInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
-                                @foreach ($oficiosDB as $oficio)
-                                    @php
-                                        $idNumberOficio = htmlspecialchars($oficio->idOficio, ENT_QUOTES, 'UTF-8');
-                                        $codigoOficio = htmlspecialchars($oficio->codigoOficio, ENT_QUOTES, 'UTF-8');
-                                        $nombreOficio = htmlspecialchars($oficio->nombre_Oficio, ENT_QUOTES, 'UTF-8');
-                                        $descripcionOficio = htmlspecialchars($oficio->descripcion_Oficio, ENT_QUOTES, 'UTF-8');
-                                        $value = $codigoOficio . " | " . $nombreOficio;
-                                    @endphp
-                            
-                                    <li onclick="selectOptionEliminarOficio('{{ $value }}', '{{ $idNumberOficio }}', '{{ $descripcionOficio }}', 
-                                                '{{ $idCodigoOficioInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
-                                        {{ $value }}
-                                    </li>   
-                                @endforeach
+                                @if (count($oficiosDB) > 0)
+                                    @foreach ($oficiosDB as $oficio)
+                                        @php
+                                            $idNumberOficio = htmlspecialchars($oficio->idOficio, ENT_QUOTES, 'UTF-8');
+                                            $codigoOficio = htmlspecialchars($oficio->codigoOficio, ENT_QUOTES, 'UTF-8');
+                                            $nombreOficio = htmlspecialchars($oficio->nombre_Oficio, ENT_QUOTES, 'UTF-8');
+                                            $descripcionOficio = htmlspecialchars($oficio->descripcion_Oficio, ENT_QUOTES, 'UTF-8');
+                                            $value = $codigoOficio . " | " . $nombreOficio;
+                                        @endphp
+                                
+                                        <li onclick="selectOptionEliminarOficio('{{ $value }}', '{{ $idNumberOficio }}', '{{ $descripcionOficio }}', 
+                                                    '{{ $idCodigoOficioInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
+                                            {{ $value }}
+                                        </li>   
+                                    @endforeach
+                                @else
+                                    <li>
+                                        No hay oficios registrados aún
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                         <span class="noInline-alert-message" id='{{ $idMessageError }}'>No se encontró la Oficio buscada</span>      

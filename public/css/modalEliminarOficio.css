@@ -31,6 +31,6 @@
 	background-color: #fff;
 }
 
-#oficioDeleteOptions {
-	height: 11rem;
+#oficioDeleteOptions.show {
+    max-height: 11rem !important;
 }

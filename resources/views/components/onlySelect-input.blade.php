@@ -8,6 +8,7 @@
     $selectFunction = $onSelectFunction ?? 'selectOption'; // Asignar la función predeterminada
     $onClick = $onClickFunction ?? 'toggleOptions'; // Asignar la función predeterminada
     $spanClickFunction = isset($onSpanClickFunction) ? ", " . $onSpanClickFunction . "()" : '';
+    $empDatMsg = $emptyDataMessage ?? 'No hay datos registrados aún';
 @endphp
 
 <div class="input-select">
@@ -28,10 +29,16 @@
               onclick="{{ $isDisabled ? '' : "clearInput('{$dynamicIdInput}')" }} {{$spanClickFunction}}"> cancel </span>
     </div>  
     <ul class="select-items" id="{{ $dynamicIdOptions }}">
-        @foreach ($options as $option) {{--$options es enviada desde la vista--}}
-            <li onclick="{{ $selectFunction }}('{{ $option }}', '{{ $dynamicIdInput }}', '{{ $dynamicIdOptions }}')">
-                {{ $option }} 
+        @if (count($options) > 0)
+            @foreach ($options as $option) {{--$options es enviada desde la vista--}}
+                <li onclick="{{ $selectFunction }}('{{ $option }}', '{{ $dynamicIdInput }}', '{{ $dynamicIdOptions }}')">
+                    {{ $option }} 
+                </li>
+            @endforeach
+        @else
+            <li>
+                {{ $empDatMsg }}
             </li>
-        @endforeach
+        @endif
     </ul>
 </div>

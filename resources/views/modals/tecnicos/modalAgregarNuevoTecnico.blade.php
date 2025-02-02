@@ -37,7 +37,8 @@
                             :onSelectFunction="'selectOptionOficio'"
                             :onSpanClickFunction="'cleanHiddenOficiosInput'"
                             :spanClassName="'noUserSelect'"
-                            />
+                            :emptyDataMessage="'No hay oficios registrados aún'"
+                        />
                         <input type="hidden" id="idsOficioArrayInput" name="idOficioArray">
                     </div>
                     
