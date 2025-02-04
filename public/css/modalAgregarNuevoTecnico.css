@@ -2,25 +2,39 @@
     padding: 10px 0 0 0;
 }
 
+.modal-content.modalAgregarNuevoTecnico {
+    overflow: visible;
+} 
+
 #modalAgregarNuevoTecnico .modal-dialog {
-    max-width: 720px; 
-    transform: translateY(15px); /* Inicialmente desplazado hacia arriba */
+    max-width: 1000px; 
+    transform: translateY(15px);
 }
 
 #modalAgregarNuevoTecnico .modal-dialog.open {
-    transform: translateY(0px); /* Inicialmente desplazado hacia arriba */
-}
-
-#phoneInput {
-    max-width: 9rem;
+    transform: translateY(-4rem); /* Inicialmente desplazado hacia arriba (-)*/
 }
 
 #dniInput {
-    width: 8rem;
+    max-width: 6.5rem;
+}
+
+#nameInput {
+    width: 25rem;
+}
+
+#phoneInput {
+    max-width: 7rem;
 }
 
 #oficioInput {
-    width: 20rem;
+    width: 22.2rem;
+}
+
+#idMultiSelectDropdownContainer {
+    width: 97%;
+    margin-left: 0.8rem;
+    margin-bottom: 1rem;
 }
 
 #oficioOptionsCreate.show {
@@ -28,14 +42,15 @@
 }
 
 #bornDateLabel {
-    margin-right: 0;
-    max-width: 6rem;
+    margin-right: 0.8rem;
 }
 
 #bornDateInput {
     min-width: 8.5rem;
 }
 
-#nameInput {
-    width: 15rem;
+.form-group-multiSelectDropdown {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }

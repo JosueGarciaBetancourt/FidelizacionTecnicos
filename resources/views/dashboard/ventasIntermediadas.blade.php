@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ asset('css/modalAgregarVenta.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalAgregarNuevoTecnico.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalEliminarVentaIntermediada.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/multiselectDropdown.css') }}">
 @endpush
 
 @section('main-content')
@@ -73,6 +74,7 @@
     <script src="{{ asset('js/modalAgregarVentaScript.js') }}"></script>
     <script src="{{ asset('js/modalEliminarVentaIntermediada.js') }}"></script>
     <script src="{{ asset('js/modalAgregarNuevoTecnico.js') }}"></script>
+    <script src="{{ asset('js/multiSelectDropdown.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             @if(session('successVentaIntermiadaStore'))

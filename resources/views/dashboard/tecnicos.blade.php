@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="{{ asset('css/modalEditarTecnico.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/modalEliminarTecnico.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/modalRecontratarTecnico.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/multiselectDropdown.css') }}">
 @endpush
 
 @section('main-content')
@@ -91,6 +92,7 @@
 	<script src="{{ asset('js/modalEditarTecnico.js') }}"></script>
 	<script src="{{ asset('js/modalEliminarTecnico.js') }}"></script>
 	<script src="{{ asset('js/modalRecontratarTecnico.js') }}"></script>
+	<script src="{{ asset('js/multiSelectDropdown.js') }}"></script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			@if(session('successTecnicoStore'))
