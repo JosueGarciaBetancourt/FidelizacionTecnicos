@@ -15,8 +15,10 @@ document.addEventListener("DOMContentLoaded", function() {
     function checkEmptyOptions() {
         if (options.length === 0) {
             emptyDataMessage.style.display = "block";
-            noResultMessage.style.display = "none";
-        } else {
+            if (noResultMessage) {
+                noResultMessage.style.display = "none";
+            }
+        } else if (emptyDataMessage) {
             emptyDataMessage.style.display = "none";
         }
     }

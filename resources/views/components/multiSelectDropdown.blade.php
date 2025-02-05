@@ -1,4 +1,7 @@
-@props(['options' => 'options', 'empyDataMessage' => 'empyDataMessage'])
+@props(['options' => [], 
+		'clickOptionFunction' => '',
+		'empyDataMessage' => '',
+	])
 
 <div class="multiSelectDropdownContainer" id="idMultiSelectDropdownContainer">
 	<div class="custom-select">
@@ -15,7 +18,9 @@
 			@if (count($options) > 0)
 				<div class="option all-tags" data-value="All">Seleccionar todo</div>
 				@foreach ($options as $option) 
-					<div class="option" data-value="{{ $option }}">{{ $option }}</div>
+					<div class="option" data-value="{{ $option }}" onclick="{{ $clickOptionFunction }}('{{ $option }}')">
+						{{ $option }}
+					</div>
 				@endforeach
 				<div class="no-result-message">No se encontraron resultados</div>
 			@else

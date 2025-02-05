@@ -30,7 +30,7 @@
                         <input class="input-item" type="date" id="bornDateInput" name="fechaNacimiento_Tecnico">
                     </div>
                     
-                    {{--  <div class="form-group">
+                    <div class="form-group">
                         <label class="primary-label marginX" id="oficioLabel" for="oficioInput">Oficio:</label>
                         <x-onlySelect-input 
                             :idSelect="'oficioSelect'"
@@ -46,12 +46,13 @@
                         />
                         <input type="text" id="idsOficioArrayInput" name="idOficioArray">
                         <span class="inline-alert-message" id="dateMessageError"> dateMessageError </span>      
-                    </div> --}}
+                    </div>
                     
                     <div class="form-group-multiSelectDropdown">
                         <label class="primary-label marginX" id="oficioLabel" for="oficioInput">Oficio:</label>
                         <x-multiSelectDropdown
                             :options="$idsNombresOficiosBD"
+                            :clickOptionFunction="'selectOptionOficio'"
                             :empyDataMessage="'No hay oficios registrados aún'"
                         />
                     </div>

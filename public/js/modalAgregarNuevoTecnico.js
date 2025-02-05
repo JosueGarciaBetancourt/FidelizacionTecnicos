@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function() {
 let oficiosSeleccionadosIds = [];
 let oficiosSeleccionados = []; // Array para guardar los oficios completos (id-nombre)
 
-function selectOptionOficio(value, idInput, idOptions) {
+/* function selectOptionOficio(value, idInput, idOptions) {
     const oficioId = parseInt(value.split('-')[0]);
     
     if (oficioAgregarTecnicoInput.value.trim() == "") {
@@ -125,6 +125,11 @@ function selectOptionOficio(value, idInput, idOptions) {
     // Actualizar el input oculto
     idsOficioArrayInput.value = JSON.stringify(oficiosSeleccionadosIds);
     return;
+} */
+
+function selectOptionOficio(optionValue) {
+    const oficioId = parseInt(optionValue.split('-')[0]);
+    console.log(oficioId);
 }
 
 function cleanHiddenOficiosInput() {
