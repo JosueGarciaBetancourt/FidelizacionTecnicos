@@ -28,9 +28,10 @@
                                oninput="validateRealTimeInputLength(this, 9), validateNumberRealTime(this)" name="celularTecnico">
                         <label class="primary-label marginX" id="bornDateLabel" for="bornDateInput">Fecha de nacimiento:</label>
                         <input class="input-item" type="date" id="bornDateInput" name="fechaNacimiento_Tecnico">
+                        <span class="inline-alert-message" id="dateMessageError"> dateMessageError </span>      
                     </div>
                     
-                    <div class="form-group">
+                    {{-- <div class="form-group">
                         <label class="primary-label marginX" id="oficioLabel" for="oficioInput">Oficio:</label>
                         <x-onlySelect-input 
                             :idSelect="'oficioSelect'"
@@ -44,21 +45,21 @@
                             :spanClassName="'noUserSelect'"
                             :emptyDataMessage="'No hay oficios registrados aún'"
                         />
-                        <input type="text" id="idsOficioArrayInput" name="idOficioArray">
-                        <span class="inline-alert-message" id="dateMessageError"> dateMessageError </span>      
-                    </div>
+                    </div> --}}
                     
                     <div class="form-group-multiSelectDropdown">
-                        <label class="primary-label marginX" id="oficioLabel" for="oficioInput">Oficio:</label>
+                        <label class="primary-label" id="oficioLabel" for="oficioInput">Oficio:</label>
                         <x-multiSelectDropdown
+                            :idInput="'multiSelectDropdownInput_NuevoTecnico'"
+                            :idSelectedOptionsDiv="'multiSelectDropdownSelectedOptions_NuevoTecnico'"   
                             :options="$idsNombresOficiosBD"
-                            :clickOptionFunction="'selectOptionOficio'"
                             :empyDataMessage="'No hay oficios registrados aún'"
                         />
+                        <input type="text" id="idsOficioArrayInput" name="idOficioArray">
                     </div>
                     
                     <div class="form-group start">
-                        <span class="inline-alert-message" id="multiMessageError"> multiMessageError </span>      
+                        <span class="inline-alert-message" id="multiMessageErrorNuevoTecnico"> multiMessageError </span>      
                     </div>
                   
                     <input type="hidden" name="origin" id="origin">

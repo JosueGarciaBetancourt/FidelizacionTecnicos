@@ -88,11 +88,11 @@
 @endsection
 
 @push('scripts')
+	<script src="{{ asset('js/multiSelectDropdown.js') }}"></script>
 	<script src="{{ asset('js/modalAgregarNuevoTecnico.js') }}"></script>
 	<script src="{{ asset('js/modalEditarTecnico.js') }}"></script>
 	<script src="{{ asset('js/modalEliminarTecnico.js') }}"></script>
 	<script src="{{ asset('js/modalRecontratarTecnico.js') }}"></script>
-	<script src="{{ asset('js/multiSelectDropdown.js') }}"></script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			@if(session('successTecnicoStore'))

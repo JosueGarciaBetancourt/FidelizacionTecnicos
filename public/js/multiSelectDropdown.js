@@ -12,6 +12,9 @@ document.addEventListener("DOMContentLoaded", function() {
     const noResultMessage = customSelect.querySelector(".no-result-message");
     const emptyDataMessage = customSelect.querySelector(".empty-data-message");
 
+    // Permitir la inyección de funciones externas
+    const externFunctions = window.externFunctions || {};
+
     function checkEmptyOptions() {
         if (options.length === 0) {
             emptyDataMessage.style.display = "block";
@@ -42,6 +45,10 @@ document.addEventListener("DOMContentLoaded", function() {
                         <span class="remove-tag" data-value="${value}">&times;</span>
                     </span>
                 `;
+
+                if (externFunctions.selectOptionOficio) {
+                    externFunctions.selectOptionOficio(tagsInput.id, value.trim());
+                }
             });
             selectedOptionsContainer.innerHTML = tagsHTML;
         }
@@ -50,9 +57,16 @@ document.addEventListener("DOMContentLoaded", function() {
             removeTag.addEventListener("click", function() {
                 const valueToRemove = this.getAttribute("data-value");
                 const optionToRemove = customSelect.querySelector(`.option[data-value="${valueToRemove}"]`);
+
                 if (optionToRemove) {
                     optionToRemove.classList.remove("active");
                 }
+
+                // Llamar a la función externa si está definida
+                if (externFunctions.deleteOptionOficio) {
+                    externFunctions.deleteOptionOficio(valueToRemove);
+                }
+
                 updateSelectedOptions();
             });
         });
@@ -61,14 +75,28 @@ document.addEventListener("DOMContentLoaded", function() {
     options.forEach(option => {
         option.addEventListener("click", function() {
             this.classList.toggle("active");
+
+            // Llamar a la función externa si está definida
+            if (!this.classList.contains("active") && externFunctions.deleteOptionOficio) {
+                externFunctions.deleteOptionOficio(this.textContent);
+            }
+
             updateSelectedOptions();
         });
     });
-    
+
     if (allTagsOption) {
         allTagsOption.addEventListener("click", function() {
             const isCurrentlyActive = options.every(option => option.classList.contains("active"));
             options.forEach(option => {
+
+                // Llamar a la función externa si está definida
+                if (!isCurrentlyActive && externFunctions.selectOptionOficio) {
+                    externFunctions.selectOptionOficio(tagsInput.id, option.textContent.trim());
+                } else if (externFunctions.deleteOptionOficio) {
+                    externFunctions.deleteOptionOficio(option.textContent.trim());
+                }
+
                 option.classList.toggle("active", !isCurrentlyActive);
             });
             updateSelectedOptions();
@@ -78,12 +106,14 @@ document.addEventListener("DOMContentLoaded", function() {
     selectBox.addEventListener("click", function(event) {
         if (!event.target.closest(".tag")) {
             optionsContainer.classList.toggle("open");
+            selectBox.classList.toggle("activeFocus");
         }
     });
 
     document.addEventListener("click", function(event) {
         if (!dropdownContainer.contains(event.target) && !event.target.classList.contains("remove-tag")) {
             optionsContainer.classList.remove("open");
+            selectBox.classList.remove("activeFocus");
         }
     });
 

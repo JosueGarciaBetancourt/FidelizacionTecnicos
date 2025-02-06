@@ -1,4 +1,6 @@
-@props(['options' => [], 
+@props(['idInput' => '',
+		'idSelectedOptionsDiv' => '',
+		'options' => [], 
 		'clickOptionFunction' => '',
 		'empyDataMessage' => '',
 	])
@@ -6,8 +8,8 @@
 <div class="multiSelectDropdownContainer" id="idMultiSelectDropdownContainer">
 	<div class="custom-select">
 		<div class="multiSelectDropdown select-box">
-			<input type="hidden" class="tags_input" name="tags"/>
-			<div class="selected-options"><span class="selectedOptions__placeholder">Seleccionar oficio</span></div>
+			<input type="hidden" class="tags_input" id="{{ $idInput }}" name="tags"/>
+			<div class="selected-options" id="{{ $idSelectedOptionsDiv }}"><span class="selectedOptions__placeholder">Seleccionar oficio</span></div>
 			<div class="arrow"><i class="fa fa-angle-down"></i></div>
 		</div>
 		<div class="optionsMultiSelectDropdown">
@@ -18,7 +20,7 @@
 			@if (count($options) > 0)
 				<div class="option all-tags" data-value="All">Seleccionar todo</div>
 				@foreach ($options as $option) 
-					<div class="option" data-value="{{ $option }}" onclick="{{ $clickOptionFunction }}('{{ $option }}')">
+					<div class="option" data-value="{{ $option }}" {{-- onclick="{{ $clickOptionFunction }}('{{ $idInput }}', '{{ $option }}')" --}}>
 						{{ $option }}
 					</div>
 				@endforeach

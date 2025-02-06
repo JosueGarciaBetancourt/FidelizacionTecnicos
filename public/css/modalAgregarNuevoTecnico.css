@@ -20,7 +20,7 @@
 }
 
 #nameInput {
-    width: 25rem;
+    width: 31rem;
 }
 
 #phoneInput {
@@ -51,6 +51,15 @@
 
 .form-group-multiSelectDropdown {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-direction: row;
+    gap: 0.2rem;
 }
+
+#oficioLabel {
+    margin: 0.5rem 0 0 0.75rem ;
+}
+
+#idMultiSelectDropdownContainer {
+    width: 55rem;
+}
+
