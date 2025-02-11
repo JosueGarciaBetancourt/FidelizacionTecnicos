@@ -1,11 +1,12 @@
-@props(['idInput' => '',
+@props(['idMultiSelectDropdownContainer' => '',
+		'idInput' => '',
 		'idSelectedOptionsDiv' => '',
 		'options' => [], 
 		'clickOptionFunction' => '',
 		'empyDataMessage' => '',
 	])
 
-<div class="multiSelectDropdownContainer" id="idMultiSelectDropdownContainer">
+<div class="multiSelectDropdownContainer" id="{{ $idMultiSelectDropdownContainer }}">
 	<div class="custom-select">
 		<div class="multiSelectDropdown select-box">
 			<input type="hidden" class="tags_input" id="{{ $idInput }}" name="tags"/>

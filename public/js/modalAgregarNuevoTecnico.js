@@ -1,5 +1,6 @@
 let today = new Date();
-let minDate = '1900-01-01';
+let minYear = '1950';
+let minDate = `${minYear}-01-01`;
 let maxDate = today.toLocaleDateString('es-PE', {
                 year: 'numeric',
                 month: '2-digit',
@@ -40,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         if (selectedDate < minDate) {
-            dateMessageError.textContent = 'La fecha debe ser posterior al 1 de enero de 1900.'; 
+            dateMessageError.textContent = `La fecha debe ser posterior al 1 de enero de ${minYear}.`; 
             dateMessageError.classList.add('shown'); // Mostrar mensaje de error
             return;
         }
@@ -70,33 +71,32 @@ document.addEventListener("DOMContentLoaded", function() {
         dateMessageError.classList.remove('shown');
         mayorDeEdad = true;
     }
+
+    let oficiosSeleccionadosIds = [];
+
+    // Registrar funciones inyectadas en multiSelectDropdown.js
+    if (typeof window.registerExternFunction === "function") {
+        window.registerExternFunction("idMultiSelectDropdownContainer_NuevoTecnico", "selectOptionOficio", function (optionValue) {
+            const oficioId = parseInt(optionValue.trim().split('-')[0]);
+
+            oficiosSeleccionadosIds = [...new Set([...oficiosSeleccionadosIds, oficioId])].sort((a, b) => a - b);
+            idsOficioArrayInput.value = JSON.stringify(oficiosSeleccionadosIds);
+        });
+
+        window.registerExternFunction("idMultiSelectDropdownContainer_NuevoTecnico", "deleteOptionOficio", function (optionValue) {
+            const oficioId = parseInt(optionValue.trim().split('-')[0]);
+
+            oficiosSeleccionadosIds = oficiosSeleccionadosIds.filter(id => id !== oficioId);
+
+            if (typeof idsOficioArrayInput !== "undefined" && idsOficioArrayInput !== null) {
+                idsOficioArrayInput.value = oficiosSeleccionadosIds.length === 0 ? "" : JSON.stringify(oficiosSeleccionadosIds);
+            }
+        });
+    } else {
+        console.error("window.registerExternFunction no está definido.");
+    }
 });
 
-let oficiosSeleccionadosIds = [];
-
-window.externFunctions = {
-    selectOptionOficio: function selectOptionOficio(idInput, optionValue) {
-        const input = document.getElementById(idInput);
-        const oficioId = parseInt(optionValue.trim().split('-')[0]);
-
-        // Agregar el ID y eliminar duplicados automáticamente con Set
-        oficiosSeleccionadosIds = [...new Set([...oficiosSeleccionadosIds, oficioId])].sort((a, b) => a - b);
-
-        // Actualizar el input oculto
-        idsOficioArrayInput.value = JSON.stringify(oficiosSeleccionadosIds);
-    },
-    deleteOptionOficio: function deleteOptionOficio(optionValue) {
-        const oficioId = parseInt(optionValue.trim().split('-')[0]);
-
-        // Filtrar el array para eliminar el ID
-        oficiosSeleccionadosIds = oficiosSeleccionadosIds.filter(id => id !== oficioId);
-
-        // Verificar si el input existe antes de actualizarlo
-        if (typeof idsOficioArrayInput !== "undefined" && idsOficioArrayInput !== null) {
-            idsOficioArrayInput.value = oficiosSeleccionadosIds.length === 0 ? "" : JSON.stringify(oficiosSeleccionadosIds);
-        }
-    },
-};
 
 function validateDate() {
     var selectedDate = document.getElementById('bornDateInput').value;
@@ -165,7 +165,7 @@ async function guardarModalAgregarNuevoTecnico(idModal, idForm) {
             return;
         }
 
-        // Validar existencia de técnico con fetch
+        // Validar existencia de técnico o técnico inhabilitado con fetch
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -182,7 +182,7 @@ async function guardarModalAgregarNuevoTecnico(idModal, idForm) {
         const data = await response.json();
 
         if (data.exists) {
-            multiMessageError.textContent = `El técnico con DNI: ${idTecnico} ya ha sido registrado anteriormente.`;
+            multiMessageError.textContent = data.message;
             multiMessageError.classList.add('shown');
             return; 
         }

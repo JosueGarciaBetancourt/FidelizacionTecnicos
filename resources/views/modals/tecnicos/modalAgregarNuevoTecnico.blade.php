@@ -31,31 +31,16 @@
                         <span class="inline-alert-message" id="dateMessageError"> dateMessageError </span>      
                     </div>
                     
-                    {{-- <div class="form-group">
-                        <label class="primary-label marginX" id="oficioLabel" for="oficioInput">Oficio:</label>
-                        <x-onlySelect-input 
-                            :idSelect="'oficioSelect'"
-                            :inputClassName="'onlySelectInput'"
-                            :idInput="'oficioInput'"
-                            :idOptions="'oficioOptionsCreate'"
-                            :placeholder="'Seleccionar oficio'"
-                            :options="$idsNombresOficiosBD"
-                            :onSelectFunction="'selectOptionOficio'"
-                            :onSpanClickFunction="'cleanHiddenOficiosInput'"
-                            :spanClassName="'noUserSelect'"
-                            :emptyDataMessage="'No hay oficios registrados aún'"
-                        />
-                    </div> --}}
-                    
                     <div class="form-group-multiSelectDropdown">
-                        <label class="primary-label" id="oficioLabel" for="oficioInput">Oficio:</label>
+                        <label class="primary-label multiSelectDrowpdownLabel" id="idOficioLabelNuevoTecnico">Oficio(s):</label>
                         <x-multiSelectDropdown
+                            :idMultiSelectDropdownContainer="'idMultiSelectDropdownContainer_NuevoTecnico'"
                             :idInput="'multiSelectDropdownInput_NuevoTecnico'"
                             :idSelectedOptionsDiv="'multiSelectDropdownSelectedOptions_NuevoTecnico'"   
                             :options="$idsNombresOficiosBD"
                             :empyDataMessage="'No hay oficios registrados aún'"
                         />
-                        <input type="text" id="idsOficioArrayInput" name="idOficioArray">
+                        <input type="hidden" id="idsOficioArrayInput" name="idOficioArray">
                     </div>
                     
                     <div class="form-group start">

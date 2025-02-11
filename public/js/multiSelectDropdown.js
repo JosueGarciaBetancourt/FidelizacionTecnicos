@@ -1,140 +1,206 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const dropdownContainer = document.querySelector(".multiSelectDropdownContainer");
-    const customSelect = document.querySelector(".custom-select");
-    const selectBox = customSelect.querySelector(".select-box");
-    const optionsContainer = customSelect.querySelector(".optionsMultiSelectDropdown");
-    const selectedOptionsContainer = customSelect.querySelector(".selected-options");
-    const tagsInput = customSelect.querySelector(".tags_input");
-    const options = Array.from(customSelect.querySelectorAll(".option:not(.all-tags)"));
-    const allTagsOption = customSelect.querySelector(".option.all-tags");
-    const searchInput = customSelect.querySelector(".search-tags");
-    const clearButton = customSelect.querySelector(".clear");
-    const noResultMessage = customSelect.querySelector(".no-result-message");
-    const emptyDataMessage = customSelect.querySelector(".empty-data-message");
+document.addEventListener("DOMContentLoaded", function () {
+    // Asegurar que externFunctions exista sin sobrescribirlo
+    window.externFunctions = window.externFunctions || {};
 
-    // Permitir la inyección de funciones externas
-    const externFunctions = window.externFunctions || {};
-
-    function checkEmptyOptions() {
-        if (options.length === 0) {
-            emptyDataMessage.style.display = "block";
-            if (noResultMessage) {
-                noResultMessage.style.display = "none";
-            }
-        } else if (emptyDataMessage) {
-            emptyDataMessage.style.display = "none";
+    // Función para registrar funciones específicas por dropdown
+    window.registerExternFunction = function (dropdownId, name, fn) {
+        if (!window.externFunctions[dropdownId]) {
+            window.externFunctions[dropdownId] = {}; // Crear espacio para este dropdown
         }
-    }
 
-    function updateSelectedOptions() {
-        const activeOptions = options.filter(option => option.classList.contains("active"));
-        const selectedValues = activeOptions.map(option => option.getAttribute("data-value"));
-        const selectedTexts = activeOptions.map(option => option.textContent.trim());
-
-        tagsInput.value = selectedValues.join(', ');
-
-        if (selectedTexts.length === 0) {
-            selectedOptionsContainer.innerHTML = '<span class="selectedOptions__placeholder">Seleccionar oficio</span>';
+        if (typeof fn === "function") {
+            window.externFunctions[dropdownId][name] = fn;
         } else {
-            let tagsHTML = "";
-            selectedTexts.forEach((text, index) => {
-                const value = selectedValues[index];
-                tagsHTML += `
-                    <span class="tag">
-                        ${text}
-                        <span class="remove-tag" data-value="${value}">&times;</span>
-                    </span>
-                `;
+            console.warn(`La función "${name}" no es válida para el dropdown "${dropdownId}".`);
+        }
+    };
 
-                if (externFunctions.selectOptionOficio) {
-                    externFunctions.selectOptionOficio(tagsInput.id, value.trim());
+    // Función para obtener funciones específicas de un dropdown
+    window.getExternFunction = function (dropdownId, name) {
+        return window.externFunctions[dropdownId]?.[name] || null;
+    };
+
+    const dropdownContainers = document.querySelectorAll(".multiSelectDropdownContainer");
+
+    dropdownContainers.forEach((dropdownContainer) => {
+        const dropdownId = dropdownContainer.id; 
+        const customSelect = dropdownContainer.querySelector(".custom-select");
+        const selectBox = customSelect.querySelector(".select-box");
+        const optionsContainer = customSelect.querySelector(".optionsMultiSelectDropdown");
+        const selectedOptionsContainer = customSelect.querySelector(".selected-options");
+        const tagsInput = customSelect.querySelector(".tags_input");
+        const options = Array.from(customSelect.querySelectorAll(".option:not(.all-tags)"));
+        const allTagsOption = customSelect.querySelector(".option.all-tags");
+        const searchInput = customSelect.querySelector(".search-tags");
+        const clearButton = customSelect.querySelector(".clear");
+        const noResultMessage = customSelect.querySelector(".no-result-message");
+        const emptyDataMessage = customSelect.querySelector(".empty-data-message");
+        const arrow = customSelect.querySelector(".arrow");
+        const arrowIcon = arrow.querySelector("i");
+
+        function checkEmptyOptions() {
+            if (options.length === 0) {
+                emptyDataMessage.style.display = "block";
+                if (noResultMessage) {
+                    noResultMessage.style.display = "none";
                 }
-            });
-            selectedOptionsContainer.innerHTML = tagsHTML;
+            } else if (emptyDataMessage) {
+                emptyDataMessage.style.display = "none";
+            }
         }
 
-        selectedOptionsContainer.querySelectorAll(".remove-tag").forEach(removeTag => {
-            removeTag.addEventListener("click", function() {
-                const valueToRemove = this.getAttribute("data-value");
-                const optionToRemove = customSelect.querySelector(`.option[data-value="${valueToRemove}"]`);
+        function updateSelectedOptions() {
+            const activeOptions = options.filter(option => option.classList.contains("active"));
+            const selectedValues = activeOptions.map(option => option.getAttribute("data-value"));
+            const selectedTexts = activeOptions.map(option => option.textContent.trim());
 
-                if (optionToRemove) {
-                    optionToRemove.classList.remove("active");
-                }
+            tagsInput.value = selectedValues.join(', '); // Rellenar hidden input
 
-                // Llamar a la función externa si está definida
-                if (externFunctions.deleteOptionOficio) {
-                    externFunctions.deleteOptionOficio(valueToRemove);
+            if (selectedTexts.length === 0) {
+                selectedOptionsContainer.innerHTML = '<span class="selectedOptions__placeholder">Seleccionar oficio</span>';
+            } else {
+                let tagsHTML = "";
+                selectedTexts.forEach((text, index) => {
+                    const value = selectedValues[index];
+
+                    tagsHTML += `
+                        <span class="tag">
+                            ${text}
+                            <span class="remove-tag" data-value="${value}">&times;</span>
+                        </span>
+                    `;
+
+                    // Obtener funciones dinámicamente en cada iteración
+                    const selectOptionOficio = window.getExternFunction(dropdownId, "selectOptionOficio");
+
+                    if (selectOptionOficio) {
+                        selectOptionOficio(value.trim());
+                    }
+                });
+                selectedOptionsContainer.innerHTML = tagsHTML;
+            }
+
+            selectedOptionsContainer.querySelectorAll(".remove-tag").forEach(removeTag => {
+                removeTag.addEventListener("click", function () {
+                    const valueToRemove = this.getAttribute("data-value");
+                    const optionToRemove = customSelect.querySelector(`.option[data-value="${valueToRemove}"]`);
+
+                    if (optionToRemove) {
+                        optionToRemove.classList.remove("active");
+                    }
+
+                    // Obtener función dinámica en cada evento
+                    const deleteOptionOficio = window.getExternFunction(dropdownId, "deleteOptionOficio");
+                    if (deleteOptionOficio) {
+                        deleteOptionOficio(valueToRemove);
+                    }
+
+                    updateSelectedOptions();
+                });
+            });
+        }
+
+        options.forEach(option => {
+            option.addEventListener("click", function () {
+                this.classList.toggle("active");
+
+                const deleteOptionOficio = window.getExternFunction(dropdownId, "deleteOptionOficio");
+                
+                if (!this.classList.contains("active") && deleteOptionOficio) {
+                    deleteOptionOficio(this.textContent);
                 }
 
                 updateSelectedOptions();
             });
         });
-    }
 
-    options.forEach(option => {
-        option.addEventListener("click", function() {
-            this.classList.toggle("active");
+        if (allTagsOption) {
+            allTagsOption.addEventListener("click", function () {
+                const isCurrentlyActive = options.every(option => option.classList.contains("active"));
+                options.forEach(option => {
+                    const selectOptionOficio = window.getExternFunction(dropdownId, "selectOptionOficio");
+                    const deleteOptionOficio = window.getExternFunction(dropdownId, "deleteOptionOficio");
 
-            // Llamar a la función externa si está definida
-            if (!this.classList.contains("active") && externFunctions.deleteOptionOficio) {
-                externFunctions.deleteOptionOficio(this.textContent);
-            }
+                    if (!isCurrentlyActive && selectOptionOficio) {
+                        selectOptionOficio(option.textContent.trim());
+                    } else if (deleteOptionOficio) {
+                        deleteOptionOficio(option.textContent.trim());
+                    }
 
-            updateSelectedOptions();
-        });
-    });
-
-    if (allTagsOption) {
-        allTagsOption.addEventListener("click", function() {
-            const isCurrentlyActive = options.every(option => option.classList.contains("active"));
-            options.forEach(option => {
-
-                // Llamar a la función externa si está definida
-                if (!isCurrentlyActive && externFunctions.selectOptionOficio) {
-                    externFunctions.selectOptionOficio(tagsInput.id, option.textContent.trim());
-                } else if (externFunctions.deleteOptionOficio) {
-                    externFunctions.deleteOptionOficio(option.textContent.trim());
-                }
-
-                option.classList.toggle("active", !isCurrentlyActive);
+                    option.classList.toggle("active", !isCurrentlyActive);
+                });
+                updateSelectedOptions();
             });
+        }
+
+        function clearTagsMultiSelectDropDown() {
+            const activeOptions = options.filter(option => option.classList.contains("active"));
+            
+            activeOptions.forEach(activeOption => {
+                activeOption.classList.remove("active");
+            });
+
             updateSelectedOptions();
-        });
-    }
-
-    selectBox.addEventListener("click", function(event) {
-        if (!event.target.closest(".tag")) {
-            optionsContainer.classList.toggle("open");
-            selectBox.classList.toggle("activeFocus");
         }
-    });
 
-    document.addEventListener("click", function(event) {
-        if (!dropdownContainer.contains(event.target) && !event.target.classList.contains("remove-tag")) {
-            optionsContainer.classList.remove("open");
-            selectBox.classList.remove("activeFocus");
+        window.registerExternFunction(dropdownId, "clearTagsMultiSelectDropDown", clearTagsMultiSelectDropDown);
+
+        function fillTagsMultiSelectDropdown(optionsString) {
+            // Convertimos la cadena en un array de valores
+            const selectedValues = optionsString.split(',').map(item => item.trim());
+        
+            // Filtramos las opciones que coincidan con los valores de selectedValues
+            const foundOptions = options.filter(option => 
+                selectedValues.some(value => option.textContent.includes(value))
+            );
+        
+            // Marcamos como "active" las opciones encontradas
+            foundOptions.forEach(foundOption => {
+                foundOption.classList.add("active");
+            });
+        
+            updateSelectedOptions();
         }
-    });
 
-    searchInput.addEventListener("input", function() {
-        const searchTerm = this.value.toLowerCase().trim();
-        let visibleOptionsCount = 0;
+        window.registerExternFunction(dropdownId, "fillTagsMultiSelectDropdown", fillTagsMultiSelectDropdown);
 
-        options.forEach(option => {
-            const isMatch = option.textContent.toLowerCase().includes(searchTerm);
-            option.style.display = isMatch ? "block" : "none";
-            if (isMatch) visibleOptionsCount++;
+        selectBox.addEventListener("click", function (event) {
+            if (!event.target.closest(".tag")) {
+                optionsContainer.classList.toggle("opened");
+                selectBox.classList.toggle("activeFocus");
+                arrowIcon.classList.toggle("fa-angle-down");
+                arrowIcon.classList.toggle("fa-angle-up");
+            }
         });
 
-        noResultMessage.style.display = visibleOptionsCount === 0 ? "block" : "none";
-    });
+        document.addEventListener("click", function (event) {
+            if (!dropdownContainer.contains(event.target) && !event.target.classList.contains("remove-tag")) {
+                optionsContainer.classList.remove("opened");
+                selectBox.classList.remove("activeFocus");
+                arrowIcon.classList.remove("fa-angle-up");
+                arrowIcon.classList.add("fa-angle-down");
+            }
+        });
 
-    clearButton.addEventListener("click", function() {
-        searchInput.value = "";
-        options.forEach(option => option.style.display = "block");
-        noResultMessage.style.display = "none";
-    });
+        searchInput.addEventListener("input", function () {
+            const searchTerm = this.value.toLowerCase().trim();
+            let visibleOptionsCount = 0;
 
-    checkEmptyOptions();
+            options.forEach(option => {
+                const isMatch = option.textContent.toLowerCase().includes(searchTerm);
+                option.style.display = isMatch ? "block" : "none";
+                if (isMatch) visibleOptionsCount++;
+            });
+
+            noResultMessage.style.display = visibleOptionsCount === 0 ? "block" : "none";
+        });
+
+        clearButton.addEventListener("click", function () {
+            searchInput.value = "";
+            options.forEach(option => option.style.display = "block");
+            noResultMessage.style.display = "none";
+        });
+
+        checkEmptyOptions();
+    });
 });

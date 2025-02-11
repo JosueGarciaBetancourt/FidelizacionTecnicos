@@ -98,9 +98,10 @@ class TecnicoController extends Controller
                 'idOficioArray' => 'required|json', // Valida que sea un JSON válido
             ]);
 
+
             // Decodifica el JSON a un array
             $idOficioArray = json_decode($validatedData['idOficioArray'], true);
-
+            
             // Verifica que sea un array y aplica la validación para cada elemento
             if (!is_array($idOficioArray) || !collect($idOficioArray)->every(fn($id) => is_int($id) && $id > 0)) {
                 throw new \Exception("El campo idOficioArray debe ser un array de ENTEROS POSITIVOS.");
@@ -116,14 +117,15 @@ class TecnicoController extends Controller
             $tecnicoEliminado = Tecnico::onlyTrashed()->where('idTecnico', $validatedData['idTecnico'])->first();
 
             if ($tecnicoEliminado) {
+                //dd("Este técnico ya ha sido registrado anteriormente pero está inhabilitado.");
                 // Restaurar el técnico si ha sido eliminado lógicamente
                 $tecnicoEliminado->restore();
-                $rango = $this->getRango($tecnicoEliminado->historicoPuntos_Tecnico);
+                /* $rango = $this->getRango($tecnicoEliminado->historicoPuntos_Tecnico);
                 $tecnicoData = array_merge($validatedData, ['rangoTecnico' => $rango]);
-                $tecnicoEliminado->update($tecnicoData);
+                $tecnicoEliminado->update($tecnicoData); */
             } else {
                 // Crear un nuevo técnico si no existe
-                $tecnico = Tecnico::create([
+                Tecnico::create([
                     'idTecnico' => $validatedData['idTecnico'],
                     'nombreTecnico' => $validatedData['nombreTecnico'],
                     'celularTecnico' => $validatedData['celularTecnico'],
@@ -153,18 +155,17 @@ class TecnicoController extends Controller
             // Confirmar la transacción
             DB::commit();
 
+            // Redirigir basado en el origen
+            switch ($origin) { 
+                case 'ventasIntermediadas.create':
+                    return redirect()->route('ventasIntermediadas.create')->with('successTecnicoStore', 'Técnico agregado exitósamente desde ventas.');
+                default:
+                    return redirect()->route('tecnicos.create')->with('successTecnicoStore', 'Técnico agregado exitósamente.');
+            }
         } catch (\Exception $e) {
             // Si ocurre un error, revertir la transacción
             DB::rollBack();
             return redirect()->back()->withErrors("Error en la validación o inserción del formulario: " . $e->getMessage());
-        }
-
-        // Redirigir basado en el origen
-        switch ($origin) { 
-            case 'ventasIntermediadas.create':
-                return redirect()->route('ventasIntermediadas.create')->with('successTecnicoStore', 'Técnico agregado exitósamente desde ventas.');
-            default:
-                return redirect()->route('tecnicos.create')->with('successTecnicoStore', 'Técnico agregado exitósamente.');
         }
     }
 
@@ -444,9 +445,22 @@ class TecnicoController extends Controller
             ]);
     
             // Verificar existencia del técnico
-            $exists = Tecnico::where('idTecnico', $validated['idTecnico'])->exists();
-    
-            return response()->json(['exists' => $exists]);
+            $tecnico = Tecnico::withTrashed()->where('idTecnico', $validated['idTecnico'])->first();
+
+            if ($tecnico) {
+                if ($tecnico->trashed()) {
+                    $message = "El técnico con DNI: " . $tecnico->idTecnico . " ya ha sido registrado anteriormente pero está inhabilitado";
+                } else {
+                    $message = "El técnico con DNI: " . $tecnico->idTecnico . " ya ha sido registrado anteriormente";
+                }
+            } else {
+                $message = "";
+            }
+
+            return response()->json([
+                'exists' => (bool) $tecnico,
+                'message' => $message
+            ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['error' => 'Validación fallida', 'details' => $e->errors()], 422);
         } catch (\Exception $e) {
