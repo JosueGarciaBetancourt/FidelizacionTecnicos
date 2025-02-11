@@ -161,3 +161,28 @@
     align-self: flex-start;
     margin: 0.5rem 0 0 0 ;
 }
+
+.multiSelectDropdown.disabled {
+	pointer-events: none;
+	opacity: 0.6;
+	user-select: none;
+}
+
+.optionsMultiSelectDropdown.disabled {
+	display: none !important;
+	user-select: none;
+}
+
+.option.disabled {
+	pointer-events: none;
+	user-select: none;
+}
+
+.selectedOptions__placeholder {
+	color: #AAA;
+}
+
+.selectedOptions__placeholder.disabled {
+	color: #888;
+	user-select: none;
+}

@@ -54,10 +54,11 @@
 	width: 55rem;
 }
 
+#idFormGroupCelularEditarTecnico {
+	gap: 0.6rem;
+}
+
 #idOficioLabelEditarTecnico {
 	margin-right: 1rem;
 }
 
-#idFormGroupCelularEditarTecnico {
-	gap: 0.6rem;
-}

@@ -21,6 +21,7 @@ let formTecnicoEditInputsArray = [
     puntosActualesEditInput,
     historicoPuntosEditInput,
     rangoInputEdit,
+    idsOficioEditArrayInput,
 ];
 
 let celularTecnicoEditTooltip = document.getElementById('idCelularTecnicoEditTooltip');
@@ -96,20 +97,20 @@ function guardarModalEditarTecnico(idModal, idForm) {
       }
 }
 
-function clearMultiSelectDropDownEditarTecnico() {
-    const clearTagsMultiSelectDropDown = window.getExternFunction("idMultiSelectDropdownContainer_EditarTecnico", "clearTagsMultiSelectDropDown");
-    if (clearTagsMultiSelectDropDown) {
-        clearTagsMultiSelectDropDown();
+function clearMultiSelectDropdownEditarTecnico() {
+    const clearTagsMultiSelectDropdown = window.getExternFunction("idMultiSelectDropdownContainer_EditarTecnico", "clearTagsMultiSelectDropdown");
+    if (clearTagsMultiSelectDropdown) {
+        clearTagsMultiSelectDropdown();
     }
 }
 
 function fillMultiSelectDropdownEditarTecnico(idNameOficioTecnico) {
     const idsNamesOficios = idNameOficioTecnico.split('|').map(item => item.trim()).join(', ');
     hiddenMultiselectDropdownInputEditarTecnico.value = idsNamesOficios;                                     
-    
+
     const fillTagsMultiSelectDropdown = window.getExternFunction("idMultiSelectDropdownContainer_EditarTecnico", "fillTagsMultiSelectDropdown");
     if (fillTagsMultiSelectDropdown) {
-        fillTagsMultiSelectDropdown(idsNamesOficios);
+        fillTagsMultiSelectDropdown(idsNamesOficios.split(',').map(item => item.trim()));
     }
 }
 
@@ -129,7 +130,7 @@ function selectOptionEditarTecnico(value, tecnico) {
     
     if (!tecnico) {
         celularEditInput.value = "";
-        clearMultiSelectDropDownEditarTecnico();
+        clearMultiSelectDropdownEditarTecnico();
         fechaNacimientoEditInput.value = "";
         puntosActualesEditInput.value = "";
         historicoPuntosEditInput.value = "";
@@ -227,12 +228,12 @@ async function validateValueOnRealTimeTecnicoEdit(input, idMessageError, someHid
                 }
             });
         }
+        clearMultiSelectDropdownEditarTecnico();
     };
 
     if (idNombreTecnico === "") {
         messageError.classList.remove('shown');
         clearInputs();
-        clearMultiSelectDropDownEditarTecnico();
         return;
     }
 
@@ -242,7 +243,6 @@ async function validateValueOnRealTimeTecnicoEdit(input, idMessageError, someHid
     if (!regex.test(idNombreTecnico)) {
         messageError.classList.add('shown');
         clearInputs();
-        clearMultiSelectDropDownEditarTecnico();
         return;
     }
 
@@ -259,7 +259,6 @@ async function validateValueOnRealTimeTecnicoEdit(input, idMessageError, someHid
         if (!response.ok) {
             messageError.classList.add('shown');
             clearInputs();
-            clearMultiSelectDropDownEditarTecnico();
             return;
         }
 
@@ -267,7 +266,6 @@ async function validateValueOnRealTimeTecnicoEdit(input, idMessageError, someHid
 
         if (!data.tecnicoBuscado) {
             clearInputs();
-            clearMultiSelectDropDownEditarTecnico();
             messageError.classList.add('shown');
             return;
         }

@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         }
 
-        function clearTagsMultiSelectDropDown() {
+        function clearTagsMultiSelectDropdown() {
             const activeOptions = options.filter(option => option.classList.contains("active"));
             
             activeOptions.forEach(activeOption => {
@@ -143,15 +143,11 @@ document.addEventListener("DOMContentLoaded", function () {
             updateSelectedOptions();
         }
 
-        window.registerExternFunction(dropdownId, "clearTagsMultiSelectDropDown", clearTagsMultiSelectDropDown);
+        window.registerExternFunction(dropdownId, "clearTagsMultiSelectDropdown", clearTagsMultiSelectDropdown);
 
-        function fillTagsMultiSelectDropdown(optionsString) {
-            // Convertimos la cadena en un array de valores
-            const selectedValues = optionsString.split(',').map(item => item.trim());
-        
-            // Filtramos las opciones que coincidan con los valores de selectedValues
+        function fillTagsMultiSelectDropdown(optionsArray) {
             const foundOptions = options.filter(option => 
-                selectedValues.some(value => option.textContent.includes(value))
+                optionsArray.some(value => option.textContent.includes(value))
             );
         
             // Marcamos como "active" las opciones encontradas
@@ -182,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        searchInput.addEventListener("input", function () {
+        searchInput?.addEventListener("input", function () {
             const searchTerm = this.value.toLowerCase().trim();
             let visibleOptionsCount = 0;
 
@@ -195,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
             noResultMessage.style.display = visibleOptionsCount === 0 ? "block" : "none";
         });
 
-        clearButton.addEventListener("click", function () {
+        clearButton?.addEventListener("click", function () {
             searchInput.value = "";
             options.forEach(option => option.style.display = "block");
             noResultMessage.style.display = "none";

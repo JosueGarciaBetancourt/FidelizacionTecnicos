@@ -16,7 +16,7 @@
                         $idOptions = 'tecnicoDeleteOptions';
                         $idMessageError = 'searchDeleteTecnicoMessageError';
 						$idModalDeleteMessageError = 'eliminarTecnicoMessageError';
-                        $someIdInputsArray = ['idDeleteTecnicoInput'];
+                        $someHiddenIdInputsArray = ['idDeleteTecnicoInput'];
 						$idCelularInput = 'celularInputDelete'; //El valor se debe modificar también en modalEliminarTecnico.js
                         $idFechaNacimientoInput = 'fechaNacimientoInputDelete';
                         $idOficioInputDelete = 'oficioInputDelete';
@@ -26,7 +26,7 @@
                         $otherInputsArray = [$idCelularInput , $idOficioInputDelete, $idFechaNacimientoInput, $idPuntosActualesInput,
 											$idHistoricoPuntosInput, $idRangoInputDelete];
                     @endphp
-                    <input type="hidden" id='{{ $someIdInputsArray[0] }}' maxlength="8" name='idTecnico'>
+                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="8" name='idTecnico'>
                    
                     <div class="form-group start paddingY" id="idH5DeleteTecnicoModalContainer">
                         <h5> Seleccione el técnico que desee inhabilitar.</h5>
@@ -49,18 +49,17 @@
                         <input class="input-item" type="number" id='{{ $idCelularInput }}'
                                 oninput="validateRealTimeInputLength(this, 9), validateNumberRealTime(this)" 
                                 placeholder="987654321" name="celularTecnico" disabled>
+                    </div>
 
-                        <label class="primary-label noEditable" id='idOficioInputLabel' for='{{ $idOficioInputDelete }}'>Oficio:</label>
-
-                        <x-onlySelect-input 
-                            :idInput="$idOficioInputDelete"
-                            :inputClassName="'onlySelectInput long noHandCursor'"
-                            :placeholder="'Seleccionar oficio'"
-                            {{-- :name="'oficioTecnico'" --}}
+                    <div class="form-group-multiSelectDropdown">
+                        <label class="primary-label noEditable multiSelectDrowpdownLabel" id="idOficioLabelEliminarTecnico">Oficio(s):</label>
+                        <x-multiSelectDropdown
+                            :idMultiSelectDropdownContainer="'idMultiSelectDropdownContainer_EliminarTecnico'"
+                            :idInput="'multiSelectDropdownInput_EliminarTecnico'"
+                            :idSelectedOptionsDiv="'multiSelectDropdownSelectedOptions_EliminarTecnico'"   
                             :options="$idsNombresOficiosBD"
+                            :empyDataMessage="'No hay oficios registrados aún'"
                             :disabled="true"
-                            :spanClassName="'noUserSelect noHandCursor'"
-                            :focusBorder="'noFocusBorder'"
                         />
                     </div>
 

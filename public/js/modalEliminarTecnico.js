@@ -1,7 +1,6 @@
 let tecnicoDeleteInput = document.getElementById('tecnicoDeleteInput');
 let tecnicoDeleteOptions = document.getElementById('tecnicoDeleteOptions');
 let celularDeleteInput = document.getElementById('celularInputDelete');
-let oficioDeleteInput = document.getElementById('oficioInputDelete');
 let fechaNacimientoDeleteInput = document.getElementById('fechaNacimientoInputDelete');
 let puntosActualesDeleteInput = document.getElementById('puntosActualesInputDelete');
 let historicoPuntosDeleteInput = document.getElementById('historicoPuntosInputDelete');
@@ -13,7 +12,6 @@ let someHiddenIdInputsTecnicoDeleteArray = ['idDeleteTecnicoInput'];
 let formTecnicoDeleteInputsArray = [
 	tecnicoDeleteInput,
 	celularDeleteInput,
-	oficioDeleteInput,
     fechaNacimientoDeleteInput,
     puntosActualesDeleteInput,
     historicoPuntosDeleteInput,
@@ -40,6 +38,22 @@ function guardarModalEliminarTecnico(idModal, idForm) {
 	}
 }
 
+function clearMultiSelectDropdownEliminarTecnico() {
+    const clearTagsMultiSelectDropdown = window.getExternFunction("idMultiSelectDropdownContainer_EliminarTecnico", "clearTagsMultiSelectDropdown");
+    if (clearTagsMultiSelectDropdown) {
+        clearTagsMultiSelectDropdown();
+    }
+}
+
+function fillMultiSelectDropdownEliminarTecnico(idNameOficioTecnico) {
+    const idsNamesOficios = idNameOficioTecnico.split('|').map(item => item.trim()).join(', ');
+    const fillTagsMultiSelectDropdown = window.getExternFunction("idMultiSelectDropdownContainer_EliminarTecnico", "fillTagsMultiSelectDropdown");
+    
+    if (fillTagsMultiSelectDropdown) {
+        fillTagsMultiSelectDropdown(idsNamesOficios.split(',').map(item => item.trim()));
+    }
+}
+
 /* INICIO Funciones para manejar el input dinámico */
 let currentPageTecnicoDelete = 1;
 
@@ -53,7 +67,7 @@ function selectOptionTecnicoDelete(value, tecnico) {
     
     if (!tecnico) {
         celularDeleteInput.value = "";
-        oficioDeleteInput.value = "";
+        clearMultiSelectDropdownEliminarTecnico();
         fechaNacimientoDeleteInput.value = "";
         puntosActualesDeleteInput.value = "";
         historicoPuntosDeleteInput.value = "";
@@ -64,7 +78,7 @@ function selectOptionTecnicoDelete(value, tecnico) {
    
     // Llenar los demás campos del formulario
     celularDeleteInput.value = tecnico.celularTecnico;
-    oficioDeleteInput.value = tecnico.idNameOficioTecnico;
+    fillMultiSelectDropdownEliminarTecnico(tecnico.idNameOficioTecnico);
     fechaNacimientoDeleteInput.value = tecnico.fechaNacimiento_Tecnico;
     puntosActualesDeleteInput.value = tecnico.totalPuntosActuales_Tecnico;
     historicoPuntosDeleteInput.value = tecnico.historicoPuntos_Tecnico;
@@ -135,6 +149,7 @@ async function validateValueOnRealTimeTecnicoDelete(input, idMessageError, other
                 }
             });
         }
+        clearMultiSelectDropdownEliminarTecnico();
     };
 
     if (idNombreTecnico === "") {
@@ -184,7 +199,7 @@ async function validateValueOnRealTimeTecnicoDelete(input, idMessageError, other
         // Rellenar otros inputs visibles si se requiere
         if (otherInputsArray) {
             document.getElementById(otherInputsArray[0]).value = tecnicoBuscado.celularTecnico;
-            document.getElementById(otherInputsArray[1]).value = tecnicoBuscado.idNameOficioTecnico;
+            fillMultiSelectDropdownEliminarTecnico(tecnicoBuscado.idNameOficioTecnico);
             document.getElementById(otherInputsArray[2]).value = tecnicoBuscado.fechaNacimiento_Tecnico;
             document.getElementById(otherInputsArray[3]).value = tecnicoBuscado.totalPuntosActuales_Tecnico;
             document.getElementById(otherInputsArray[4]).value = tecnicoBuscado.historicoPuntos_Tecnico;
