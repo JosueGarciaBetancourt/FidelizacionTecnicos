@@ -1,18 +1,24 @@
 let today = new Date();
-let minDate = '1900-01-01';
-let maxDate = today.toISOString().split('T')[0];
+let minYear = '1950';
+let minDate = `${minYear}-01-01`;
+let maxDate = today.toLocaleDateString('es-PE', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).split('/').reverse().join('-');
 let objMaxDate = new Date(maxDate); // Convierte maxDate a un objeto Date
 let mayorDeEdad = false;
-let idsOficioArrayInput = document.getElementById('idsOficioArrayInput');
-let oficioAgregarTecnicoInput = document.getElementById('oficioInput');
-    
-document.addEventListener("DOMContentLoaded", function() {
-    var dniInput = document.getElementById('dniInput');
-    var phoneInput = document.getElementById('phoneInput');
-    var dateInput = document.getElementById('bornDateInput');
-    var dateMessageError = document.getElementById('dateMessageError');
-    var multiMessageError = document.getElementById('multiMessageError');
 
+let dniInput = document.getElementById('dniInput');
+let nameInput = document.getElementById('nameInput');
+let phoneInput = document.getElementById('phoneInput');
+let idsOficioArrayInput = document.getElementById('idsOficioArrayInput');
+let fechaNacimientoInput = document.getElementById('bornDateInput');
+let multiMessageError = document.getElementById('multiMessageErrorNuevoTecnico');
+let dateInput = document.getElementById('bornDateInput');
+let dateMessageError = document.getElementById('dateMessageError');
+
+document.addEventListener("DOMContentLoaded", function() {
     if (dateInput) {
         // Establecer los atributos min y max una sola vez
         dateInput.setAttribute('min', minDate);
@@ -23,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-     // Función para validar la fecha
+    // Función para validar la fecha
     function validateRealTimeDate() {
         const selectedDate = dateInput.value;
         const objSelectedDate = new Date(selectedDate);
@@ -33,17 +39,25 @@ document.addEventListener("DOMContentLoaded", function() {
             dateMessageError.classList.remove('shown'); 
             return; // Salir de la función si el campo está vacío
         }
-        
 
-       // Calcula la diferencia en milisegundos
+        if (selectedDate < minDate) {
+            dateMessageError.textContent = `La fecha debe ser posterior al 1 de enero de ${minYear}.`; 
+            dateMessageError.classList.add('shown'); // Mostrar mensaje de error
+            return;
+        }
+
+        if (selectedDate >= maxDate) {
+            dateMessageError.textContent = 'La fecha debe ser anterior a la fecha actual'; 
+            dateMessageError.classList.add('shown'); // Mostrar mensaje de error
+            return;
+        }
+        
+        // Calcula la diferencia en milisegundos
         const differenceInMilliseconds = objMaxDate - objSelectedDate;
        
         // Calcula los años a partir de la diferencia en milisegundos
         const millisecondsPerYear = 1000 * 60 * 60 * 24 * 365.25; // Considera los años bisiestos
         const edad = Math.floor(differenceInMilliseconds / millisecondsPerYear);
-
-        console.log(`Edad: ${edad} años`);
-
 
         // Verificar si es mayor de edad
         if (edad < 18) {
@@ -54,82 +68,35 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
+        dateMessageError.classList.remove('shown');
         mayorDeEdad = true;
+    }
 
-        if (selectedDate < minDate) {
-            dateMessageError.textContent = 'La fecha debe ser posterior al 1 de enero de 1900.'; 
-            dateMessageError.classList.add('shown'); // Mostrar mensaje de error
-        } else if (selectedDate > maxDate) {
-            dateMessageError.textContent = 'La fecha debe ser anterior a la fecha actual'; 
-            dateMessageError.classList.add('shown'); // Mostrar mensaje de error
-        } else {
-            dateMessageError.classList.remove('shown'); // Ocultar mensaje de error
-        }
+    let oficiosSeleccionadosIds = [];
+
+    // Registrar funciones inyectadas en multiSelectDropdown.js
+    if (typeof window.registerExternFunction === "function") {
+        window.registerExternFunction("idMultiSelectDropdownContainer_NuevoTecnico", "selectOptionOficio", function (optionValue) {
+            const oficioId = parseInt(optionValue.trim().split('-')[0]);
+
+            oficiosSeleccionadosIds = [...new Set([...oficiosSeleccionadosIds, oficioId])].sort((a, b) => a - b);
+            idsOficioArrayInput.value = JSON.stringify(oficiosSeleccionadosIds);
+        });
+
+        window.registerExternFunction("idMultiSelectDropdownContainer_NuevoTecnico", "deleteOptionOficio", function (optionValue) {
+            const oficioId = parseInt(optionValue.trim().split('-')[0]);
+
+            oficiosSeleccionadosIds = oficiosSeleccionadosIds.filter(id => id !== oficioId);
+
+            if (typeof idsOficioArrayInput !== "undefined" && idsOficioArrayInput !== null) {
+                idsOficioArrayInput.value = oficiosSeleccionadosIds.length === 0 ? "" : JSON.stringify(oficiosSeleccionadosIds);
+            }
+        });
+    } else {
+        console.error("window.registerExternFunction no está definido.");
     }
 });
 
-let oficiosSeleccionadosIds = [];
-let oficiosSeleccionados = []; // Array para guardar los oficios completos (id-nombre)
-
-function selectOptionOficio(value, idInput, idOptions) {
-    const oficioId = parseInt(value.split('-')[0]);
-    
-    if (oficioAgregarTecnicoInput.value.trim() == "") {
-        var input = document.getElementById(idInput);
-        var options = document.getElementById(idOptions);
-
-        if (input) {
-            input.value = value;
-            options.classList.remove('show');
-            // Almacenar el primer ID y valor completo
-            oficiosSeleccionadosIds = [oficioId];
-            oficiosSeleccionados = [value];
-            console.log('IDs de oficios seleccionados:', oficiosSeleccionadosIds);
-            // Actualizar el input oculto
-            idsOficioArrayInput.value = JSON.stringify(oficiosSeleccionadosIds);
-        } else {
-            console.error('El elemento con id ' + idOptions + ' no se encontró en el DOM');
-        }
-        return;
-    }
-
-    var input = document.getElementById(idInput);
-    var options = document.getElementById(idOptions);
-
-    if (input) {
-        // Agregar el nuevo ID y valor al array
-        oficiosSeleccionadosIds.push(oficioId);
-        oficiosSeleccionados.push(value);
-        
-        // Eliminar duplicados manteniendo la correspondencia entre arrays
-        let unique = new Map();
-        for(let i = 0; i < oficiosSeleccionadosIds.length; i++) {
-            unique.set(oficiosSeleccionadosIds[i], oficiosSeleccionados[i]);
-        }
-        
-        // Convertir el Map a arrays ordenados
-        let sortedEntries = Array.from(unique.entries()).sort((a, b) => a[0] - b[0]);
-        oficiosSeleccionadosIds = sortedEntries.map(entry => entry[0]);
-        oficiosSeleccionados = sortedEntries.map(entry => entry[1]);
-        
-        // Actualizar el input con los valores ordenados
-        input.value = oficiosSeleccionados.join(" | ");
-        options.classList.remove('show');
-        
-        // Para debug
-        console.log('IDs de oficios seleccionados:', oficiosSeleccionadosIds);
-    } else {
-        console.error('El elemento con id ' + idOptions + ' no se encontró en el DOM');
-    }
-
-    // Actualizar el input oculto
-    idsOficioArrayInput.value = JSON.stringify(oficiosSeleccionadosIds);
-    return;
-}
-
-function cleanHiddenOficiosInput() {
-    idsOficioArrayInput.value = "";
-}
 
 function validateDate() {
     var selectedDate = document.getElementById('bornDateInput').value;
@@ -150,27 +117,19 @@ function validateDate() {
 }
 
 function validateFormAgregarNuevoTecnico() {
-    // Obtener referencias a los campos de entrada
-    var dniInput = document.getElementById('dniInput');
-    var nameInput = document.getElementById('nameInput');
-    var phoneInput = document.getElementById('phoneInput');
-    var oficioInput = document.getElementById('oficioInput');
-    var fechaNacimientoInput = document.getElementById('bornDateInput');
-
     // Crear un objeto con las entradas y sus respectivos mensajes de error
     var fields = {
-        dni: { value: dniInput.value, message: "DNI vacío" },
-        name: { value: nameInput.value, message: "Nombre vacío" },
-        phone: { value: phoneInput.value, message: "Celular vacío" },
-        oficio: { value: oficioInput.value, message: "Oficio vacío" },
-        fechaNacimiento: { value: fechaNacimientoInput.value, message: "Fecha de nacimiento vacío" },
+        dni: { value: dniInput.value},
+        name: { value: nameInput.value},
+        phone: { value: phoneInput.value},
+        oficio: { value: idsOficioArrayInput.value},      
+        fechaNacimiento: { value: fechaNacimientoInput.value},
     };
 
     // Verificar si todos los campos están llenos
     var isValid = true;
     for (var key in fields) {
         if (!fields[key].value) {
-            //console.log(fields[key].message);
             isValid = false;
         }
     }
@@ -206,7 +165,7 @@ async function guardarModalAgregarNuevoTecnico(idModal, idForm) {
             return;
         }
 
-        // Validar existencia de técnico con fetch
+        // Validar existencia de técnico o técnico inhabilitado con fetch
         const response = await fetch(url, {
             method: 'POST',
             headers: {
@@ -223,7 +182,7 @@ async function guardarModalAgregarNuevoTecnico(idModal, idForm) {
         const data = await response.json();
 
         if (data.exists) {
-            multiMessageError.textContent = `El técnico con DNI: ${idTecnico} ya ha sido registrado anteriormente.`;
+            multiMessageError.textContent = data.message;
             multiMessageError.classList.add('shown');
             return; 
         }

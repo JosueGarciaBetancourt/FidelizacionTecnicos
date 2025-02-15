@@ -45,7 +45,7 @@
                         <span class="noInline-alert-message" id='{{ $idMessageError }}'>No se encontró el técnico buscado</span>      
                     </div>
 
-                    <div class="form-group gap">
+                    <div class="form-group" id="idFormGroupCelularEditarTecnico">
                         <label class="primary-label" for="costoUnitarioInput">Celular:</label>
                         <div class="tooltip-container">
                             <span class="tooltip" id="idCelularTecnicoEditTooltip">Este es el mensaje del tooltip</span>
@@ -53,32 +53,26 @@
                         <input class="input-item" type="number" id='{{ $idCelularInput }}'
                                 oninput="validateRealTimeInputLength(this, 9), validateNumberRealTime(this)" 
                                 placeholder="987654321" name="celularTecnico">
+                    </div>
 
-                        <label class="primary-label" id='idOficioInputLabel' for='{{ $idOficioInputEdit }}'>Oficio(s):</label>
-                     
-                        <x-onlySelect-input 
-                            :idInput="$idOficioInputEdit"
-                            :idOptions="'oficioOptionsEdit'"
-                            :inputClassName="'onlySelectInput long'"
-                            :placeholder="'Seleccionar oficio'"
-                            {{-- :name="'oficioTecnico'" --}}
+                    <div class="form-group-multiSelectDropdown">
+                        <label class="primary-label multiSelectDrowpdownLabel" id="idOficioLabelEditarTecnico">Oficio(s):</label>
+                        <x-multiSelectDropdown
+                            :idMultiSelectDropdownContainer="'idMultiSelectDropdownContainer_EditarTecnico'"
+                            :idInput="'multiSelectDropdownInput_EditarTecnico'"
+                            :idSelectedOptionsDiv="'multiSelectDropdownSelectedOptions_EditarTecnico'"   
                             :options="$idsNombresOficiosBD"
-                            :onSelectFunction="'selectOptionEditOficio'"
-                            :onSpanClickFunction="'cleanHiddenOficiosEditInput'"
-                            :spanClassName="'noUserSelect'"
+                            :empyDataMessage="'No hay oficios registrados aún'"
                         />
-                        <input type="hidden" id='{{ $someHiddenIdInputsArray[1] }}' name="idOficioArray">
+                        <input type="hidden" id="{{ $someHiddenIdInputsArray[1] }}" name="idOficioArray">
                     </div>
 
                     <div class="form-group gap">
                         <label class="primary-label noEditable" id="idFechaNacimientoTecnicoLabel" for='{{ $idFechaNacimientoInput }}'>Fecha de nacimiento:</label>
-                        <input class="input-item center" type="date" id='{{ $idFechaNacimientoInput }}'
-                               name="fechaNacimiento_Tecnico" disabled>
-
+                        <input class="input-item center" type="date" id='{{ $idFechaNacimientoInput }}' name="fechaNacimiento_Tecnico" disabled>
                         <label class="primary-label noEditable" id="idPuntosActualesLabel"  for='{{ $idPuntosActualesInput }}' >Puntos actuales:</label>
                         <input class="input-item center" id='{{ $idPuntosActualesInput }}' type="text"
-                                placeholder="0" name="totalPuntosActuales_Tecnico" oninput="validateRealTimeInputLength(this, 4)"
-                                disabled>
+                                placeholder="0" name="totalPuntosActuales_Tecnico" oninput="validateRealTimeInputLength(this, 4)" disabled>
                     </div>
 
                     <div class="form-group gap">

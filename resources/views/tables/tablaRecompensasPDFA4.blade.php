@@ -8,10 +8,15 @@
             background-color: #f9f9f9;
         }
         
+        .celda-numeral {
+            width: 1rem;
+        }
+
         .celda__tipoRecompensa {
             padding: 15px !important;
             margin: 0 !important;
             text-align: center !important; 
+            width: 4rem;
         }
 
         .celda__tipoRecompensa span {
@@ -21,8 +26,9 @@
             font-weight: bold;
             font-size: 0.7rem;
             display: inline-block;
-            width: 100%; /*max-width: 100% para anchos dinámicos*/
+            width: 4rem;
         }
+
         .tipoRecompensa__span-1 {
             color: #139161;
             background-color: rgba(19, 145, 97, 0.15) !important;
@@ -45,6 +51,22 @@
 
         .idRecompensa {
             width: 5rem;
+        }
+
+        .celda-descripcion {
+            width: 20rem;
+        }
+
+        .celda-costo {
+            width: 4rem;
+        }
+
+        .celda-stock {
+            width: 4rem;
+        }
+
+        .celdas-fechaHora {
+            width: 7rem;
         }
     </style>
 @endpush
@@ -71,14 +93,14 @@
         <table>
             <thead>
                 <tr>
-                    <th>#</th>
+                    <th class="celda-numeral">#</th>
                     <th>Código</th>
-                    <th class="celda__tipoRecompensa">Tipo</th>
-                    <th>Descripción</th>
-                    <th>Costo (puntos)</th>
-                    <th>Stock (unidades)</th>
-                    <th>Fecha y Hora de creación</th>
-                    <th>Fecha y Hora de actualización</th>
+                    <th>Tipo</th>
+                    <th class="celda-descripcion">Descripción</th>
+                    <th class="celda-costo">Costo (puntos)</th>
+                    <th class="celda-stock">Stock (unidades)</th>
+                    <th class="celdas-fechaHora">Fecha y Hora de creación</th>
+                    <th class="celdas-fechaHora">Fecha y Hora de actualización</th>
                 </tr>
             </thead>
             <tbody>

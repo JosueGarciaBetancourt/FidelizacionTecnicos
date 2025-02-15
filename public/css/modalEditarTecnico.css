@@ -1,18 +1,19 @@
 #modalEditarTecnico-dialog {
-	max-width: 850px; 
+	max-width: 1000px; 
     transform: translateY(-10px);
 }
 
 #modalEditarTecnico .modal-dialog.open {
-    transform: translateY(-50px); 
+    transform: translateY(-124px); 
 }
 
 #modalEditarTecnico-content {
-	height: 25rem;
+	max-height: 45rem;
+	overflow: visible;
 }
 
 #tecnicoEditInput {
-	width: 20rem;
+	width: 25rem;
 }
 
 #idModalBodyEditarTecnico {
@@ -48,3 +49,16 @@
 #modalEditarTecnico-footer {
 	margin-top: auto;
 }
+
+#idMultiSelectDropdownContainer_EditarTecnico {
+	width: 55rem;
+}
+
+#idFormGroupCelularEditarTecnico {
+	gap: 0.6rem;
+}
+
+#idOficioLabelEditarTecnico {
+	margin-right: 1rem;
+}
+

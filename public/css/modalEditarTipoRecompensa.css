@@ -3,7 +3,7 @@
 }
 
 #codigoTipoRecompensaInputEdit {
-	width: 6rem;
+	width: 15rem;
 }
 
 #idModalBodyEditarTipoRecompensa {
@@ -17,4 +17,8 @@
 
 #nombreTipoRecompensaInputEdit {
 	width: 15rem;
+}
+
+#form-group-CodigoTipoRecompensa {
+	gap: 1.7rem;
 }

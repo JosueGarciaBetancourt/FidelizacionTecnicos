@@ -1,10 +1,15 @@
 #modalRecontratarTecnico-dialog {
-	max-width: 850px; 
+	max-width: 1000px; 
     transform: translateY(-10px);
 }
 
 #modalRecontratarTecnico .modal-dialog.open {
-    transform: translateY(-50px); 
+    transform: translateY(-124px); 
+}
+
+#modalRecontratarTecnico-content {
+	max-height: 45rem;
+	overflow: visible;
 }
 
 #tecnicoRecontratarInput {
@@ -33,10 +38,18 @@
 	max-width: 7rem;
 }
 
-#oficioInputRecontratar {
-	width: 22rem;
+#idMultiSelectDropdownContainer_RecontratarTecnico {
+	width: 55rem;
 }
 
-#tecnicoRecontratarOptions {
-	max-height: 13.5rem;
+#tecnicoRecontratarOptions.show {
+    max-height: 13.5rem !important;
+}
+
+#idFormGroupCelularRecontratarTecnico {
+	gap: 0.6rem;
+}
+
+#idOficioLabelRecontratarTecnico {
+	margin-right: 1rem;
 }

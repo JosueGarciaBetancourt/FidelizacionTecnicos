@@ -1,6 +1,6 @@
 <div class="modal second modalAgregarNuevoTecnico" id="modalAgregarNuevoTecnico">
     <div class="modal-dialog modalAgregarNuevoTecnico">
-        <div class="modal-content">
+        <div class="modal-content modalAgregarNuevoTecnico">
             <div class="modal-header">
                 <h5 class="modal-title">Registrar nuevo técnico</h5>
                 <button class="close noUserSelect" onclick="closeModal('modalAgregarNuevoTecnico')">&times;</button>
@@ -26,31 +26,27 @@
                         <label class="primary-label marginX" id="phoneLabel" for="phoneInput">Celular:</label>
                         <input class="input-item" type="number" id="phoneInput" placeholder="999888777"
                                oninput="validateRealTimeInputLength(this, 9), validateNumberRealTime(this)" name="celularTecnico">
-                        <label class="primary-label marginX" id="oficioLabel" for="oficioInput">Oficio:</label>
-                        <x-onlySelect-input 
-                            :idSelect="'oficioSelect'"
-                            :inputClassName="'onlySelectInput'"
-                            :idInput="'oficioInput'"
-                            :idOptions="'oficioOptionsCreate'"
-                            :placeholder="'Seleccionar oficio'"
-                            :options="$idsNombresOficiosBD"
-                            :onSelectFunction="'selectOptionOficio'"
-                            :onSpanClickFunction="'cleanHiddenOficiosInput'"
-                            :spanClassName="'noUserSelect'"
-                            />
-                        <input type="hidden" id="idsOficioArrayInput" name="idOficioArray">
-                    </div>
-                    
-                    <div class="form-group start">
                         <label class="primary-label marginX" id="bornDateLabel" for="bornDateInput">Fecha de nacimiento:</label>
                         <input class="input-item" type="date" id="bornDateInput" name="fechaNacimiento_Tecnico">
                         <span class="inline-alert-message" id="dateMessageError"> dateMessageError </span>      
                     </div>
                     
-                    <div class="form-group start">
-                        <span class="inline-alert-message" id="multiMessageError"> multiMessageError </span>      
+                    <div class="form-group-multiSelectDropdown">
+                        <label class="primary-label multiSelectDrowpdownLabel" id="idOficioLabelNuevoTecnico">Oficio(s):</label>
+                        <x-multiSelectDropdown
+                            :idMultiSelectDropdownContainer="'idMultiSelectDropdownContainer_NuevoTecnico'"
+                            :idInput="'multiSelectDropdownInput_NuevoTecnico'"
+                            :idSelectedOptionsDiv="'multiSelectDropdownSelectedOptions_NuevoTecnico'"   
+                            :options="$idsNombresOficiosBD"
+                            :empyDataMessage="'No hay oficios registrados aún'"
+                        />
+                        <input type="hidden" id="idsOficioArrayInput" name="idOficioArray">
                     </div>
-
+                    
+                    <div class="form-group start">
+                        <span class="inline-alert-message" id="multiMessageErrorNuevoTecnico"> multiMessageError </span>      
+                    </div>
+                  
                     <input type="hidden" name="origin" id="origin">
                 </form>
             </div>

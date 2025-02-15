@@ -38,6 +38,7 @@
 
                                 onclick="toggleOptions('{{ $codigoInputOficioRestaurar }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
+                                @if (count($oficiosEliminadosDB) > 0)
                                 @foreach ($oficiosEliminadosDB as $oficio)
                                     @php
                                         $idNumberOficio = htmlspecialchars($oficio->idOficio, ENT_QUOTES, 'UTF-8');
@@ -52,6 +53,11 @@
                                         {{ $value }}
                                     </li>
                                 @endforeach
+                                @else
+                                    <li>
+                                        No hay oficios inhabilitados aún
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                         <span class="noInline-alert-message" id='{{ $idMessageError }}'>No se encontró el oficio buscado</span>      

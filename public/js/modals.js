@@ -243,8 +243,8 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function setOnlySelectInputFocusColor() {
-    document.   addEventListener('click', function(event) {
-        var elements = document.querySelectorAll('.onlySelectInput-container');
+    document.addEventListener('click', function(event) {
+        var elements = document.querySelectorAll('.onlySelectInput-container', '.multiSelectDropdown');
         elements.forEach(function(element) {
             var isClickInside = element.contains(event.target);
             if (!isClickInside) {
@@ -337,7 +337,6 @@ function closeOptionsOnClickOutside() {
     
     // Función para manejar el clic fuera del select
     function handleClickOutside(event) {
-
         // Recorre todos los selects y verifica si el clic fue dentro de uno
         selects.forEach(function(select) {
             var options = select.querySelector('ul');

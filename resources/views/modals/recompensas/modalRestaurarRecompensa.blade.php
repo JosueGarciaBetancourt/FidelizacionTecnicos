@@ -41,22 +41,28 @@
 
                                 onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
-                                @foreach ($recompensasEliminadasDB as $recompensa)
-                                    @php
-                                        $idRecompensa = htmlspecialchars($recompensa->idRecompensa, ENT_QUOTES, 'UTF-8');
-                                        $descripcionRecompensa = htmlspecialchars($recompensa->descripcionRecompensa, ENT_QUOTES, 'UTF-8');
-                                        $costoPuntos = htmlspecialchars($recompensa->costoPuntos_Recompensa, ENT_QUOTES, 'UTF-8');
-                                        $stockRecompensa = htmlspecialchars($recompensa->stock_Recompensa, ENT_QUOTES, 'UTF-8');
-                                        $tipoRecompensa = htmlspecialchars($recompensa->nombre_TipoRecompensa, ENT_QUOTES, 'UTF-8');
-                                        $value = $idRecompensa . " | " . $descripcionRecompensa;
-                                    @endphp
-                            
-                                   <li onclick="selectOptionRestaurarRecompensa('{{ $value }}', '{{ $idRecompensa }}', '{{ $descripcionRecompensa }}', 
-                                        '{{ $costoPuntos }}', '{{ $stockRecompensa }}', '{{ $tipoRecompensa }}', '{{ $idInput }}', '{{ $idOptions }}',
-                                         {{ json_encode($someHiddenIdInputsArray) }})">
-                                        {{ $value }}
+                                @if (count($recompensasEliminadasDB) > 0)
+                                    @foreach ($recompensasEliminadasDB as $recompensa)
+                                        @php
+                                            $idRecompensa = htmlspecialchars($recompensa->idRecompensa, ENT_QUOTES, 'UTF-8');
+                                            $descripcionRecompensa = htmlspecialchars($recompensa->descripcionRecompensa, ENT_QUOTES, 'UTF-8');
+                                            $costoPuntos = htmlspecialchars($recompensa->costoPuntos_Recompensa, ENT_QUOTES, 'UTF-8');
+                                            $stockRecompensa = htmlspecialchars($recompensa->stock_Recompensa, ENT_QUOTES, 'UTF-8');
+                                            $tipoRecompensa = htmlspecialchars($recompensa->nombre_TipoRecompensa, ENT_QUOTES, 'UTF-8');
+                                            $value = $idRecompensa . " | " . $descripcionRecompensa;
+                                        @endphp
+                                
+                                    <li onclick="selectOptionRestaurarRecompensa('{{ $value }}', '{{ $idRecompensa }}', '{{ $descripcionRecompensa }}', 
+                                            '{{ $costoPuntos }}', '{{ $stockRecompensa }}', '{{ $tipoRecompensa }}', '{{ $idInput }}', '{{ $idOptions }}',
+                                            {{ json_encode($someHiddenIdInputsArray) }})">
+                                            {{ $value }}
+                                        </li>
+                                    @endforeach
+                                @else
+                                    <li>
+                                        No hay recompensas inhabilitadas aún
                                     </li>
-                                @endforeach
+                                @endif
                             </ul>
                         </div>
                         <span class="noInline-alert-message" id='{{ $idMessageError }}'>No se encontró la recompensa buscada</span>      

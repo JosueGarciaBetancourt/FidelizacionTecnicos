@@ -40,32 +40,38 @@
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, {{ json_encode($tecnicosBorradosDB) }})"
                                 onclick="toggleOptions('{{ $idInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
-                                @foreach ($tecnicosBorradosDB as $tecnico)
-                                    @php
-                                        $idTecnico = htmlspecialchars($tecnico->idTecnico, ENT_QUOTES, 'UTF-8');
-                                        $nombreTecnico = htmlspecialchars($tecnico->nombreTecnico, ENT_QUOTES, 'UTF-8');
-                                        $celularTecnico = htmlspecialchars($tecnico->celularTecnico, ENT_QUOTES, 'UTF-8');
-										$idNameOficioTecnico = htmlspecialchars($tecnico->idNameOficioTecnico, ENT_QUOTES, 'UTF-8');
-										$fechaNacimiento_Tecnico = htmlspecialchars($tecnico->fechaNacimiento_Tecnico, ENT_QUOTES, 'UTF-8');
-										$totalPuntosActuales_Tecnico = htmlspecialchars($tecnico->totalPuntosActuales_Tecnico, ENT_QUOTES, 'UTF-8');
-										$historicoPuntos_Tecnico = htmlspecialchars($tecnico->historicoPuntos_Tecnico, ENT_QUOTES, 'UTF-8');
-										$rangoTecnico = htmlspecialchars($tecnico->rangoTecnico, ENT_QUOTES, 'UTF-8');
-                                        $value = $idTecnico . " | " . $nombreTecnico;
-                                    @endphp
-                            
-                                   <li onclick="selectOptionRecontratarTecnico('{{ $value }}', '{{ $idTecnico }}', '{{ $nombreTecnico }}', '{{ $celularTecnico }}',
-												'{{ $idNameOficioTecnico }}', '{{ $fechaNacimiento_Tecnico }}', '{{ $totalPuntosActuales_Tecnico }}', 
-                                                '{{ $historicoPuntos_Tecnico }}', '{{ $rangoTecnico }}', '{{ $idInput }}', '{{ $idOptions }}', 
-                                                {{ json_encode($someHiddenIdInputsArray) }})">
-                                        {{ $value }}
+                                @if (count($tecnicosBorradosDB) > 0)
+                                    @foreach ($tecnicosBorradosDB as $tecnico)
+                                        @php
+                                            $idTecnico = htmlspecialchars($tecnico->idTecnico, ENT_QUOTES, 'UTF-8');
+                                            $nombreTecnico = htmlspecialchars($tecnico->nombreTecnico, ENT_QUOTES, 'UTF-8');
+                                            $celularTecnico = htmlspecialchars($tecnico->celularTecnico, ENT_QUOTES, 'UTF-8');
+                                            $idNameOficioTecnico = htmlspecialchars($tecnico->idNameOficioTecnico, ENT_QUOTES, 'UTF-8');
+                                            $fechaNacimiento_Tecnico = htmlspecialchars($tecnico->fechaNacimiento_Tecnico, ENT_QUOTES, 'UTF-8');
+                                            $totalPuntosActuales_Tecnico = htmlspecialchars($tecnico->totalPuntosActuales_Tecnico, ENT_QUOTES, 'UTF-8');
+                                            $historicoPuntos_Tecnico = htmlspecialchars($tecnico->historicoPuntos_Tecnico, ENT_QUOTES, 'UTF-8');
+                                            $rangoTecnico = htmlspecialchars($tecnico->rangoTecnico, ENT_QUOTES, 'UTF-8');
+                                            $value = $idTecnico . " | " . $nombreTecnico;
+                                        @endphp
+                                
+                                        <li onclick="selectOptionRecontratarTecnico('{{ $value }}', '{{ $idTecnico }}', '{{ $nombreTecnico }}', '{{ $celularTecnico }}',
+                                                        '{{ $idNameOficioTecnico }}', '{{ $fechaNacimiento_Tecnico }}', '{{ $totalPuntosActuales_Tecnico }}', 
+                                                        '{{ $historicoPuntos_Tecnico }}', '{{ $rangoTecnico }}', '{{ $idInput }}', '{{ $idOptions }}', 
+                                                        {{ json_encode($someHiddenIdInputsArray) }})">
+                                                {{ $value }}
+                                        </li>
+                                    @endforeach
+                                @else
+                                    <li>
+                                        No hay técnicos inhabilitados aún
                                     </li>
-                                @endforeach
+                                @endif
                             </ul>
                         </div>
                         <span class="noInline-alert-message" id='{{ $idMessageError }}'>No se encontró el técnico buscado</span>      
                     </div>
 
-                    <div class="form-group gap">
+                    <div class="form-group" id="idFormGroupCelularRecontratarTecnico">
                         <label class="primary-label" for="costoUnitarioInput">Celular:</label>
                         <div class="tooltip-container">
                             <span class="tooltip" id="idCelularTecnicoRecontratarTooltip">Este es el mensaje del tooltip</span>
@@ -73,19 +79,18 @@
                         <input class="input-item" type="number" id='{{ $idCelularInput }}'
                                 oninput="validateRealTimeInputLength(this, 9), validateNumberRealTime(this)" 
                                 placeholder="987654321" name="celularTecnico">
+                    </div>
 
-                        <label class="primary-label" id='idOficioInputLabel' for='{{ $idOficioInputRecontratar }}'>Oficio:</label>
-                        <x-onlySelect-input 
-                            :idInput="$idOficioInputRecontratar"
-                            :inputClassName="'onlySelectInput long'"
-                            :placeholder="'Seleccionar oficio'"
-                            :name="'oficioTecnico'"
+                    <div class="form-group-multiSelectDropdown">
+                        <label class="primary-label multiSelectDrowpdownLabel" id="idOficioLabelRecontratarTecnico">Oficio(s):</label>
+                        <x-multiSelectDropdown
+                            :idMultiSelectDropdownContainer="'idMultiSelectDropdownContainer_RecontratarTecnico'"
+                            :idInput="'multiSelectDropdownInput_RecontratarTecnico'"
+                            :idSelectedOptionsDiv="'multiSelectDropdownSelectedOptions_RecontratarTecnico'"   
                             :options="$idsNombresOficiosBD"
-                            :onSelectFunction="'selectOptionRecontratarOficio'"
-                            :onSpanClickFunction="'cleanHiddenOficiosRecontratarInput'"
-                            :spanClassName="'noUserSelect'"
+                            :empyDataMessage="'No hay oficios registrados aún'"
                         />
-                        <input type="hidden" id='{{ $someHiddenIdInputsArray[1] }}' name="idOficioArray">
+                        <input type="hidden" id="{{ $someHiddenIdInputsArray[1] }}" name="idOficioArray">
                     </div>
 
                     <div class="form-group gap">
@@ -109,7 +114,7 @@
                     </div>
 
                     <div class="form-group start">
-                        <span class="noInline-alert-message" id="RecontratarTecnicoMessageError">  </span>      
+                        <span class="noInline-alert-message" id="recontratarTecnicoMessageError">  </span>      
                     </div>
                 </form>
             </div>

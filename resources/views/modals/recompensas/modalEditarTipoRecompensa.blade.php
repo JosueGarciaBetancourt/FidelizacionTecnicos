@@ -29,7 +29,7 @@
                         <h5> *Solo puede editar el nombre de un Tipo de Recompensa previamente creado que no tenga alguna recompensa asociada.</h5>
                     </div>
 
-                    <div class="form-group gap">
+                    <div class="form-group gap" id="form-group-CodigoTipoRecompensa">
                         <label class="primary-label" for="tipoRecompensaEditSelect">Código:</label>
                         <div class="input-select" id="tipoRecompensaEditSelect">
                             <input class="input-select-item" type="text" id='{{ $idCodigoTipoRecompensaInput }}' maxlength="100" placeholder="Código" autocomplete="off"
@@ -39,19 +39,25 @@
                                         {{ json_encode($tiposRecompensasDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
                                 onclick="toggleOptions('{{ $idCodigoTipoRecompensaInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
-                                @foreach ($tiposRecompensasDB as $tipoRecompensa)
-                                    @php
-                                        $idNumberTipoRecompensa = htmlspecialchars($tipoRecompensa->idTipoRecompensa, ENT_QUOTES, 'UTF-8');
-                                        $nombreTipoRecompensa = htmlspecialchars($tipoRecompensa->nombre_TipoRecompensa, ENT_QUOTES, 'UTF-8');
-                                        $codigoTipoRecompensa = htmlspecialchars($tipoRecompensa->codigoTipoRecompensa, ENT_QUOTES, 'UTF-8');
-                                        $value = $codigoTipoRecompensa;
-                                    @endphp
-                            
-                                    <li onclick="selectOptionEditTipoRecompensa('{{ $value }}', '{{ $idNumberTipoRecompensa }}', '{{ $nombreTipoRecompensa }}', 
-                                                '{{ $idCodigoTipoRecompensaInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
-                                        {{ $value }}
-                                    </li>   
-                                @endforeach
+                                @if (count($tiposRecompensasDB) > 0)
+                                    @foreach ($tiposRecompensasDB as $tipoRecompensa)
+                                        @php
+                                            $idNumberTipoRecompensa = htmlspecialchars($tipoRecompensa->idTipoRecompensa, ENT_QUOTES, 'UTF-8');
+                                            $nombreTipoRecompensa = htmlspecialchars($tipoRecompensa->nombre_TipoRecompensa, ENT_QUOTES, 'UTF-8');
+                                            $codigoTipoRecompensa = htmlspecialchars($tipoRecompensa->codigoTipoRecompensa, ENT_QUOTES, 'UTF-8');
+                                            $value = $codigoTipoRecompensa;
+                                        @endphp
+                                
+                                        <li onclick="selectOptionEditTipoRecompensa('{{ $value }}', '{{ $idNumberTipoRecompensa }}', '{{ $nombreTipoRecompensa }}', 
+                                                    '{{ $idCodigoTipoRecompensaInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
+                                            {{ $value }}
+                                        </li>   
+                                    @endforeach
+                                @else
+                                    <li>
+                                        No hay tipos de recompensas registrados aún
+                                    </li>
+                                @endif
                             </ul>
                         </div>
                         <span class="noInline-alert-message" id='{{ $idSearchMessageError }}'>No se encontró el tipo de recompensa buscado</span>      

@@ -1,14 +1,14 @@
 #modalEliminarTecnico-dialog {
-	max-width: 850px; 
+	max-width: 900px; 
     transform: translateY(-10px);
 }
 
 #modalEliminarTecnico .modal-dialog.open {
-    transform: translateY(-50px); 
+    transform: translateY(-100px); 
 }
 
 #modalEliminarTecnico-content {
-	height: 25rem;
+	max-height: 50rem;
 }
 
 #tecnicoDeleteInput {
@@ -36,10 +36,14 @@
 	max-width: 7rem;
 }
 
-#oficioInputDelete {
-	width: 22rem;
+#idMultiSelectDropdownContainer_EliminarTecnico {
+	width: 55rem;
 }
 
 #modalEliminarTecnico-footer {
 	margin-top: auto;
+}
+
+#idOficioLabelEliminarTecnico {
+	margin-right: 1rem;
 }

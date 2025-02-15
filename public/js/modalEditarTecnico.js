@@ -1,7 +1,7 @@
 let tecnicoEditInput = document.getElementById('tecnicoEditInput');
 let tecnicoEditOptions = document.getElementById('tecnicoEditOptions');
 let celularEditInput = document.getElementById('celularInputEdit');
-let oficioEditInput = document.getElementById('oficioInputEdit');
+/* let oficioEditInput = document.getElementById('oficioInputEdit');*/
 let fechaNacimientoEditInput = document.getElementById('fechaNacimientoInputEdit');
 let puntosActualesEditInput = document.getElementById('puntosActualesInputEdit');
 let historicoPuntosEditInput = document.getElementById('historicoPuntosInputEdit');
@@ -11,75 +11,58 @@ let editarTecnicoMessageError = document.getElementById('editarTecnicoMessageErr
 let celularTecnicoEditHiddenInput = document.getElementById('idcelularTecnicoEditInput');
 let idsOficioEditArrayInput = document.getElementById('idsOficioEditArrayInput');
 let someHiddenIdInputsTecnicoEditArray = ['idEditTecnicoInput', 'idsOficioEditArrayInput'];
-
+let multiselectDropdownContainerEditarTecnico = document.getElementById('idMultiSelectDropdownContainer_EditarTecnico');
+let hiddenMultiselectDropdownInputEditarTecnico = document.getElementById('multiSelectDropdownInput_EditarTecnico');
 
 let formTecnicoEditInputsArray = [
 	tecnicoEditInput,
 	celularEditInput,
-	oficioEditInput,
     fechaNacimientoEditInput,
     puntosActualesEditInput,
     historicoPuntosEditInput,
     rangoInputEdit,
+    idsOficioEditArrayInput,
 ];
 
 let celularTecnicoEditTooltip = document.getElementById('idCelularTecnicoEditTooltip');
 
-function selectOptionEditOficio(value, idInput, idOptions) {
-    // Extrae el ID del oficio actual seleccionado
-    const oficioId = parseInt(value.split('-')[0]);
+document.addEventListener("DOMContentLoaded", function() {
+    let oficiosSeleccionadosIdsEdit = [];
 
-    // Referencias a los elementos de DOM necesarios
-    const input = document.getElementById(idInput);
-    const options = document.getElementById(idOptions);
+    // Registrar funciones inyectadas en multiSelectDropdown.js
+    if (typeof window.registerExternFunction === "function") {
+        window.registerExternFunction("idMultiSelectDropdownContainer_EditarTecnico", "selectOptionOficio", function (optionValue) {
+            var oficioId;
 
-    if (!input || !options) {
-        console.error(`No se encontraron los elementos con IDs ${idInput} o ${idOptions} en el DOM`);
-        return;
-    }
+            if (!isNaN(optionValue) && Number.isInteger(Number(optionValue))) {
+                oficioId = optionValue
+            } else {
+                oficioId = parseInt(optionValue.trim().split('-')[0]);
+            }
 
-    let oficiosActuales = [];
-
-    // Verifica si oficioEditInput está vacío
-    if (oficioEditInput.value.trim() === "") {
-        // Primer oficio agregado
-        input.value = value;
-        idsOficioEditArrayInput.value = JSON.stringify([oficioId]);
-    } else {
-        // Obtiene los oficios actuales y los separa
-        oficiosActuales = oficioEditInput.value.split(' | ')
-            .map(oficio => oficio.trim())
-            .filter(oficio => oficio !== '');
-
-        // Agrega el nuevo oficio si no existe
-        if (!oficiosActuales.some(oficio => parseInt(oficio.split('-')[0]) === oficioId)) {
-            oficiosActuales.push(value);
-        }
-
-        // Ordena los oficios por ID
-        oficiosActuales.sort((a, b) => {
-            const idA = parseInt(a.split('-')[0]);
-            const idB = parseInt(b.split('-')[0]);
-            return idA - idB;
+            oficiosSeleccionadosIdsEdit = [...new Set([...oficiosSeleccionadosIdsEdit, oficioId])].sort((a, b) => a - b);
+            idsOficioEditArrayInput.value = JSON.stringify(oficiosSeleccionadosIdsEdit);
         });
-
-        // Actualiza el input oculto con los IDs ordenados
-        const idsOrdenados = oficiosActuales.map(oficio => parseInt(oficio.split('-')[0]));
-        idsOficioEditArrayInput.value = JSON.stringify(idsOrdenados);
-
-        // Actualiza el input con los oficios ordenados
-        input.value = oficiosActuales.join(' | ');
-    }
-
-    options.classList.remove('show');
     
-    // Para debug
-    //console.log('IDs de oficios seleccionados:', JSON.parse(idsOficioEditArrayInput.value));
-}
+        window.registerExternFunction("idMultiSelectDropdownContainer_EditarTecnico", "deleteOptionOficio", function (optionValue) {
+            var oficioId;
 
-function cleanHiddenOficiosEditInput() {
-    idsOficioEditArrayInput.value = "";
-}
+            if (!isNaN(optionValue) && Number.isInteger(Number(optionValue))) {
+                oficioId = optionValue
+            } else {
+                oficioId = parseInt(optionValue.trim().split('-')[0]);
+            }
+    
+            oficiosSeleccionadosIdsEdit = oficiosSeleccionadosIdsEdit.filter(id => id !== oficioId); // Remover el id
+    
+            if (typeof idsOficioEditArrayInput !== "undefined" && idsOficioEditArrayInput !== null) {
+                idsOficioEditArrayInput.value = oficiosSeleccionadosIdsEdit.length === 0 ? "" : JSON.stringify(oficiosSeleccionadosIdsEdit);
+            }
+        });
+    } else {
+        console.error("window.registerExternFunction no está definido.");
+    }
+});
 
 function validarCamposVaciosFormularioEdit() {
   let allFilled = true;
@@ -114,6 +97,23 @@ function guardarModalEditarTecnico(idModal, idForm) {
       }
 }
 
+function clearMultiSelectDropdownEditarTecnico() {
+    const clearTagsMultiSelectDropdown = window.getExternFunction("idMultiSelectDropdownContainer_EditarTecnico", "clearTagsMultiSelectDropdown");
+    if (clearTagsMultiSelectDropdown) {
+        clearTagsMultiSelectDropdown();
+    }
+}
+
+function fillMultiSelectDropdownEditarTecnico(idNameOficioTecnico) {
+    const idsNamesOficios = idNameOficioTecnico.split('|').map(item => item.trim()).join(', ');
+    hiddenMultiselectDropdownInputEditarTecnico.value = idsNamesOficios;                                     
+
+    const fillTagsMultiSelectDropdown = window.getExternFunction("idMultiSelectDropdownContainer_EditarTecnico", "fillTagsMultiSelectDropdown");
+    if (fillTagsMultiSelectDropdown) {
+        fillTagsMultiSelectDropdown(idsNamesOficios.split(',').map(item => item.trim()));
+    }
+}
+
 /* INICIO Funciones para manejar el input dinámico */
 
 let currentPageTecnicoEdit = 1; // Página actual
@@ -126,10 +126,11 @@ function selectOptionEditarTecnico(value, tecnico) {
     selectOption(value, tecnicoEditInput.id, tecnicoEditOptions.id); 
     
     //consoleLogJSONItems(tecnico);
+    //console.log(tecnico.idNameOficioTecnico);
     
     if (!tecnico) {
         celularEditInput.value = "";
-        oficioEditInput.value = "";
+        clearMultiSelectDropdownEditarTecnico();
         fechaNacimientoEditInput.value = "";
         puntosActualesEditInput.value = "";
         historicoPuntosEditInput.value = "";
@@ -138,14 +139,16 @@ function selectOptionEditarTecnico(value, tecnico) {
         hiddenIdsOficioTecnicoInput.value = "";
         return;
     }
-   
+
     // Llenar los demás campos del formulario
     celularEditInput.value = tecnico.celularTecnico;
-    oficioEditInput.value = tecnico.idNameOficioTecnico;
     fechaNacimientoEditInput.value = tecnico.fechaNacimiento_Tecnico;
     puntosActualesEditInput.value = tecnico.totalPuntosActuales_Tecnico;
     historicoPuntosEditInput.value = tecnico.historicoPuntos_Tecnico;
     rangoInputEdit.value = tecnico.rangoTecnico;
+
+    // Llenar el multiselect dropdown
+    fillMultiSelectDropdownEditarTecnico(tecnico.idNameOficioTecnico);
 
     // Llenar campos ocultos
     hiddenIdTecnicoInput.value = tecnico.idTecnico;
@@ -225,6 +228,7 @@ async function validateValueOnRealTimeTecnicoEdit(input, idMessageError, someHid
                 }
             });
         }
+        clearMultiSelectDropdownEditarTecnico();
     };
 
     if (idNombreTecnico === "") {
@@ -280,7 +284,7 @@ async function validateValueOnRealTimeTecnicoEdit(input, idMessageError, someHid
         // Rellenar otros inputs visibles si se requiere
         if (otherInputsArray) {
             document.getElementById(otherInputsArray[0]).value = tecnicoBuscado.celularTecnico;
-            document.getElementById(otherInputsArray[1]).value = tecnicoBuscado.idNameOficioTecnico;
+            fillMultiSelectDropdownEditarTecnico(tecnicoBuscado.idNameOficioTecnico);
             document.getElementById(otherInputsArray[2]).value = tecnicoBuscado.fechaNacimiento_Tecnico;
             document.getElementById(otherInputsArray[3]).value = tecnicoBuscado.totalPuntosActuales_Tecnico;
             document.getElementById(otherInputsArray[4]).value = tecnicoBuscado.historicoPuntos_Tecnico;

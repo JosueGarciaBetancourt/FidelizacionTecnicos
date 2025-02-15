@@ -23,6 +23,6 @@
 	background-color: #fff;
 }
 
-#oficioRestaurarOptions {
-	height: 11rem;
+#oficioRestaurarOptions.show {
+    max-height: 11rem !important;
 }

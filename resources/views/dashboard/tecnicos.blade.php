@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="{{ asset('css/modalEditarTecnico.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/modalEliminarTecnico.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/modalRecontratarTecnico.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/multiselectDropdown.css') }}">
 @endpush
 
 @section('main-content')
@@ -51,7 +52,7 @@
 		
 		<x-modalConfirmAction
 			:idConfirmModal="'modalConfirmActionRestorePasswordTecnico'"
-			:message="'La contraseña actual del técnico será restaurada al número de DNI en la aplicación móvil, ¿está seguro de esta acción?'"
+			:message="'La contraseña actual del técnico en la aplicación móvil será restaurada a su número de DNI, ¿está seguro de esta acción?'"
 		/>
 
 		<x-modalSuccessAction 
@@ -87,6 +88,7 @@
 @endsection
 
 @push('scripts')
+	<script src="{{ asset('js/multiSelectDropdown.js') }}"></script>
 	<script src="{{ asset('js/modalAgregarNuevoTecnico.js') }}"></script>
 	<script src="{{ asset('js/modalEditarTecnico.js') }}"></script>
 	<script src="{{ asset('js/modalEliminarTecnico.js') }}"></script>
