@@ -121,7 +121,7 @@
 	text-align: center;
 	color: #888;
 }
-.error {
+.multiSelectDropdownError {
 	color: #ff1a2a;
 	margin-top: 8px;
 	display: none;
