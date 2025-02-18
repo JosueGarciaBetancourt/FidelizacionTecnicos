@@ -15,6 +15,20 @@ use App\Http\Requests\ProfileUpdateRequest;
 
 class ProfileController extends Controller
 {    
+    public function getLoggedUser() { 
+        if (Auth::check() && Auth::user()) {
+            return response()->json([
+                'success' => true,
+                'user' => Auth::user(),
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'No autenticado'
+            ], 401); // Código 401 para indicar que no está autenticado
+        }
+    }
+
     public function returnArrayNombresPerfilesUsuarios() {
         // Obtiene todos los perfiles de usuario
         $perfiles = PerfilUsuario::all();
@@ -65,7 +79,6 @@ class ProfileController extends Controller
 
         return view('dashboard.profileOwn', compact('users', 'nombresPerfilesUsuarios', 'perfilesUsuarios'));
     }
-
 
     /*public function edit(Request $request): View
     {
@@ -204,5 +217,4 @@ class ProfileController extends Controller
             ], 500);
         }
     }
-
 }

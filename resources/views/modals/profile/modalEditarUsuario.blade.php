@@ -7,8 +7,8 @@
             </div>
             <div class="modal-body" id="idModalBodyAgregarNuevoTecnico">
                 <div class="section-navbar">
-                    <a href="#" class="section-tab active">Datos de Usuario</a>
-                    <a href="#" class="section-tab">Datos personales</a>
+                    <a href="#" class="section-tab editar active">Datos de Usuario</a>
+                    <a href="#" class="section-tab editar">Datos personales</a>
                 </div>
 
                 <form id="formEditarUsuario" action="{{ route('usuarios.update') }}" method="POST">
@@ -28,74 +28,80 @@
                         $confirmPasswordTooltip = "idConfirmPasswordTooltip";
                     @endphp
 
-                    <div class="form-group gap">
-                        <input type="hidden" id="{{ $idUserInput }}" name="id" readonly> 
-                        <div class="group-items">
-                            <label class="secondary-label" id="dniLabel" for="{{ $nameInput }}">Nombre</label>
-                            <input class="input-item" type="text" id="{{ $nameInput }}" placeholder="Ingresar nombre" maxlength="30" 
-                                    oninput="validateRealTimeInputLength(this, 30)" name="name">
-                        </div>
-                    
-                        <div class="group-items">
-                            <label class="secondary-label" id="nameLabel"  for="{{ $emailInput }}">Correo electrónico</label>
-                            <input class="input-item blocked" type="email" id="{{ $emailInput }}" readOnly
-                                maxlength="30">
-                        </div>
-                    </div>
-
-                    <div class="form-group gap">
-                        <div class="group-items">
-                            <label class="secondary-label" id="nameLabel" for="{{ $passwordInput }}" >Contraseña</label>
-                            <div class="passwordInputContainer">
-                                <input class="passwordInput" type="password" id="{{ $passwordInput }}" autocomplete="off"
-                                    maxlength="20">
-                                <span class="viewPasswordIcon material-symbols-outlined noUserSelect" onclick="togglePasswordVisibility(this, '{{ $passwordInput }}')">
-                                    visibility_off
-                                </span>                           
+                    <div class="editarUsuarioContainer">
+                        <section class="sectionContent editar active">
+                            <div class="form-group gap">
+                                <input type="hidden" id="{{ $idUserInput }}" name="id" readonly> 
+                                <div class="group-items">
+                                    <label class="secondary-label" id="dniLabel" for="{{ $nameInput }}">Nombre</label>
+                                    <input class="input-item" type="text" id="{{ $nameInput }}" placeholder="Ingresar nombre" maxlength="30" 
+                                            oninput="validateRealTimeInputLength(this, 30)" name="name">
+                                </div>
+                            
+                                <div class="group-items">
+                                    <label class="secondary-label" id="nameLabel"  for="{{ $emailInput }}">Correo electrónico</label>
+                                    <input class="input-item blocked" type="email" id="{{ $emailInput }}" readOnly
+                                        maxlength="30">
+                                </div>
                             </div>
-                        </div>
-    
-                        <div class="group-items">
-                            <label class="secondary-label" id="nameLabel"  for="{{ $confirmPasswordInput }}">Confirmar Contraseña</label>
-                            <div class="tooltip-container">
-                                <span class="tooltip red" id="{{ $confirmPasswordTooltip }}">La confirmación de contraseña no coincide.</span>
+        
+                            <div class="form-group gap">
+                                <div class="group-items">
+                                    <label class="secondary-label" id="nameLabel" for="{{ $passwordInput }}" >Contraseña</label>
+                                    <div class="passwordInputContainer">
+                                        <input class="passwordInput" type="password" id="{{ $passwordInput }}" autocomplete="off"
+                                            maxlength="20">
+                                        <span class="viewPasswordIcon material-symbols-outlined noUserSelect" onclick="togglePasswordVisibility(this, '{{ $passwordInput }}')">
+                                            visibility_off
+                                        </span>                           
+                                    </div>
+                                </div>
+            
+                                <div class="group-items">
+                                    <label class="secondary-label" id="nameLabel"  for="{{ $confirmPasswordInput }}">Confirmar Contraseña</label>
+                                    <div class="tooltip-container">
+                                        <span class="tooltip red" id="{{ $confirmPasswordTooltip }}">La confirmación de contraseña no coincide.</span>
+                                    </div>
+                                    <div class="passwordInputContainer">
+                                        <input class="passwordInput" type="password" id="{{ $confirmPasswordInput }}" autocomplete="off"
+                                            maxlength="20" name="password">
+                                        <span class="viewPasswordIcon material-symbols-outlined noUserSelect" onclick="togglePasswordVisibility(this, '{{ $confirmPasswordInput }}')">
+                                            visibility_off
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="passwordInputContainer">
-                                <input class="passwordInput" type="password" id="{{ $confirmPasswordInput }}" autocomplete="off"
-                                    maxlength="20" name="password">
-                                <span class="viewPasswordIcon material-symbols-outlined noUserSelect" onclick="togglePasswordVisibility(this, '{{ $confirmPasswordInput }}')">
-                                    visibility_off
-                                </span>
+         
+                            <div class="group-items">
+                                <label class="secondary-label noEditable" id="perfilUsuarioLabel" for="{{ $perfilUsuarioInput }}">Perfil</label>
+                                    <x-onlySelectNoCleanable-input
+                                            :idSelect="$perfilUsuarioSelect"
+                                            :idInput="$perfilUsuarioInput"
+                                            :defaultValue="'Administrador'"
+                                            :options="$nombresPerfilesUsuarios"
+                                            :onSelectFunction="'selectOptionPerfilUsuarioEdit'"
+                                            :extraArgOnClickFunction="$perfilesUsuariosDB"
+                                            :isExtraArgJson="true"
+                                            :inputClassName="'onlySelectInput long blocked'"
+                                            :spanClassName="'blocked'"
+                                            :disabled="false"
+                                            :containerClassName="'noFocusBorder blocked'"
+                                    />
+                                <input type="hidden" id="idPerfilUsuarioInput" name="idPerfilUsuario" readonly> 
                             </div>
-                        </div>
-                    </div>
- 
-                    <div class="group-items">
-                        <label class="secondary-label noEditable" id="perfilUsuarioLabel" for="{{ $perfilUsuarioInput }}">Perfil</label>
-                            <x-onlySelectNoCleanable-input
-                                :idSelect="$perfilUsuarioSelect"
-                                :idInput="$perfilUsuarioInput"
-                                :defaultValue="'Administrador'"
-                                :options="$nombresPerfilesUsuarios"
-                                :onSelectFunction="'selectOptionPerfilUsuarioEdit'"
-                                :extraArgOnClickFunction="$perfilesUsuariosDB"
-                                :isExtraArgJson="true"
-
-                                :inputClassName="'onlySelectInput long blocked'"
-                                :spanClassName="'blocked'"
-                                :disabled="false"
-                                :containerClassName="'noFocusBorder blocked'"
-                            />
-                        <input type="hidden" id="idPerfilUsuarioInput" name="idPerfilUsuario" readonly> 
-                    </div>
-
-                    <div class="form-group start">
-                        <span class="inline-alert-message" id="editarUsuarioMessageError"> multiMessageError </span>      
+        
+                            <div class="form-group start">
+                                <span class="inline-alert-message" id="editarUsuarioMessageError"> multiMessageError </span>      
+                            </div>
+                        </section>
+                        <section class="sectionContent editar">
+                            Aquí irán los datos personales del usuario
+                        </section>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal('modalEditarUsuario')">Cancelar</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModalProfileOwn('modalEditarUsuario')">Cancelar</button>
                 <button type="button" class="btn btn-primary" 
                         onclick="guardarModalEditarUsuario('modalEditarUsuario', 'formEditarUsuario')">Guardar</button>
             </div>

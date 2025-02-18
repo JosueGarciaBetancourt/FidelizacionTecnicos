@@ -71,10 +71,10 @@
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('js/multiSelectDropdown.js') }}"></script>
+    <script src="{{ asset('js/modalAgregarNuevoTecnico.js') }}"></script>
     <script src="{{ asset('js/modalAgregarVentaScript.js') }}"></script>
     <script src="{{ asset('js/modalEliminarVentaIntermediada.js') }}"></script>
-    <script src="{{ asset('js/modalAgregarNuevoTecnico.js') }}"></script>
-    <script src="{{ asset('js/multiSelectDropdown.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             @if(session('successVentaIntermiadaStore'))

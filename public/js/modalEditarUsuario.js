@@ -81,3 +81,22 @@ function guardarModalEditarUsuario(idModal, idForm) {
         editarUsuarioMessageError.classList.add("shown");
       }
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    const tabs = document.querySelectorAll(".section-tab.editar");
+    const sections = document.querySelectorAll(".sectionContent.editar");
+    
+    tabs.forEach((tab, index) => {
+        tab.addEventListener("click", function (event) {
+            event.preventDefault();
+            
+            // Remover la clase 'active' de todas las pestañas y secciones
+            tabs.forEach(t => t.classList.remove("active"));
+            sections.forEach(section => section.classList.remove("active"));
+            
+            // Agregar la clase 'active' a la pestaña y sección correspondiente
+            tab.classList.add("active");
+            sections[index].classList.add("active");
+        });
+    });
+});

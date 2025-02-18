@@ -3,7 +3,7 @@
 }
 
 .modal-content.modalEditarUsuario {
-    height: 420px;
+    height: 100%;
 }
 
 .modal-content {
@@ -42,6 +42,20 @@
 #formEditarUsuario {
 	padding: 1rem 0 0 0;
 	height: 245px;
+}
+
+.editarUsuarioContainer {
+	display: flex;
+	width: 100%;
+}
+
+.sectionContent {
+	width: 35rem;
+	display: none;
+}
+
+.sectionContent.active{
+	display: block;
 }
 
 #perfilUsuarioInput {
