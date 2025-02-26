@@ -18,6 +18,7 @@ return new class extends Migration
             $table->rememberToken();
 
             $table->string('DNI')->unique()->nullable();
+            $table->string('personalName')->nullable();
             $table->string('surname')->nullable();
             $table->dateTime('fechaNacimiento')->nullable();
             $table->string('correoPersonal')->unique()->nullable();

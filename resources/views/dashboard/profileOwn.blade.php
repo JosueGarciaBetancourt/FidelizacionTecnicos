@@ -107,7 +107,6 @@
 @endsection
 
 @push('scripts')
-    <script type="module" src="{{asset('js/envUtil.js')}}"></script>
     <script src="{{asset('js/profileOwn.js')}}"></script>
     <script src="{{asset('js/modalCrearUsuario.js')}}"></script>
     <script src="{{asset('js/modalEditarUsuario.js')}}"></script>

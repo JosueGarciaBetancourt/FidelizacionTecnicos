@@ -26,6 +26,15 @@
                         $perfilUsuarioSelect = "perfilUsuarioSelectEditarUsuario";
                         $perfilUsuarioInput = "perfilUsuarioInputEditarUsuario";
                         $confirmPasswordTooltip = "idConfirmPasswordTooltip";
+                        // Datos personales section
+                        $DNIInput = "DNIInputEditarUsuario";
+                        $personalNameInput = "personalNameInputEditarUsuario";
+                        $surnameInput = "surnameInputEditarUsuario";
+                        $fechaNacimientoInput = "fechaNacimientoInputEditarUsuario";
+                        $correoPersonalInput = "correoPersonalInputEditarUsuario";
+                        $correoPersonalTooltip = "idEmailTooltipEditar";
+                        $celularPersonalInput = "celularPersonalInputEditarUsuario";
+                        $celularCorporativoInput = "celularCorporativoInputEditarUsuario";
                     @endphp
 
                     <div class="editarUsuarioContainer">
@@ -94,8 +103,59 @@
                                 <span class="inline-alert-message" id="editarUsuarioMessageError"> multiMessageError </span>      
                             </div>
                         </section>
+                        
                         <section class="sectionContent editar">
-                            Aquí irán los datos personales del usuario
+                            <div class="form-group gap">
+                                <div class="group-items">
+                                    <label class="secondary-label" id="DNIEditarLabel" for="{{ $DNIInput }}">DNI</label>
+                                    <input class="input-item" type="number" id="{{ $DNIInput }}" placeholder="12345678"
+                                        oninput="validateRealTimeInputLength(this, 8), validateNumberRealTime(this)" name="DNI" 
+                                        value="11122233" required>
+                                </div>
+                            
+                                <div class="group-items">
+                                    <label class="secondary-label" id="personalNameEditarLabel"  for="{{ $personalNameInput }}">Nombres</label>
+                                    <input class="input-item" type="text" id="{{ $personalNameInput }}" name="personalName" value="Josué Daniel" required>
+                                </div>
+
+                                <div class="group-items">
+                                    <label class="secondary-label" id="surnameEditarLabel"  for="{{ $surnameInput }}">Apellidos</label>
+                                    <input class="input-item" type="text" id="{{ $surnameInput }}" name="surname" value="García Betancourt" required>
+                                </div>
+                            </div>
+                          
+                            <div class="form-group gap">
+                                <div class="group-items">
+                                    <label class="secondary-label" id="fechaNacimientoEditarLabel"  for="{{ $fechaNacimientoInput }}">Fecha de nacimiento</label>
+                                    <input class="input-item" type="date" id="{{ $fechaNacimientoInput }}" name="fechaNacimiento">
+                                </div>
+
+                                <div class="group-items">
+                                    <label class="secondary-label" id="correoElectronicoPersonalEditarLabel"  for="{{ $correoPersonalInput }}">Correo electrónico personal</label>
+                                    <div class="tooltip-container">
+                                        <span class="tooltip red" id="{{ $correoPersonalTooltip }}"></span>
+                                    </div>
+                                    <input class="input-item" type="email" id="{{ $correoPersonalInput }}"  maxlength="30" name="correoPersonal" value="josue@gmail.com" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group gap">
+                                <div class="group-items">
+                                    <label class="secondary-label" id="celularPersonalEditarLabel" for="{{ $celularPersonalInput }}">Celular personal</label>
+                                    <input class="input-item" type="number" id="{{ $celularPersonalInput }}" placeholder="999888777"
+                                        oninput="validateRealTimeInputLength(this, 9), validateNumberRealTime(this)" name="celularPersonal">
+                                </div>
+
+                                <div class="group-items">
+                                    <label class="secondary-label" id="celularCorporativoEditarLabel" for="{{ $celularCorporativoInput }}">Celular corporativo</label>
+                                    <input class="input-item" type="number" id="{{ $celularCorporativoInput }}" placeholder="999888777"
+                                        oninput="validateRealTimeInputLength(this, 9), validateNumberRealTime(this)" name="celularCorporativo">
+                                </div>
+                            </div>
+
+                            <div class="form-group start">
+                                <span class="inline-alert-message" id="crearUsuarioMessageError"> multiMessageError </span>      
+                            </div>
                         </section>
                     </div>
                 </form>

@@ -1,3 +1,14 @@
+let todayMAIN = new Date();
+let minYearMAIN = '1950';
+let minDateMAIN = `${minYearMAIN}-01-01`;
+let maxDateMAIN = todayMAIN.toLocaleDateString('es-PE', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).split('/').reverse().join('-');
+
+let objMaxDateMAIN = new Date(maxDateMAIN);
+
 function consoleLogJSONItems(items, options = { indent: 2, maxDepth: null }) {
     try {
         // Si `items` es una cadena, intenta parsearla

@@ -3,10 +3,21 @@ let emailInputCrearUsuario = document.getElementById('emailInputCrearUsuario');
 let passwordInputCrearUsuario = document.getElementById('passwordInputCrearUsuario');
 let confirmPasswordInputCrearUsuario = document.getElementById('confirmPasswordInputCrearUsuario');
 let perfilUsuarioInputCrearUsuario = document.getElementById('perfilUsuarioInputCrearUsuario');
-let crearUsuarioMessageError = document.getElementById('crearUsuarioMessageError');
-let confirmPasswordTooltipCrearUsuario = document.getElementById('idConfirmPasswordTooltipCrear');
-let emailTooltipCrear = document.getElementById('idEmailTooltipCrear');
+let crearDatosUsuarioMessageError = document.getElementById('crearDatosUsuarioMessageError');
+let emailTooltipCrear = document.getElementById('correoInputCrearUsuario');
 let idPerfilUsuarioInputCrear = document.getElementById('idPerfilUsuarioInputCrear');
+
+let DNIInput = document.getElementById('DNIInputCrearUsuario');
+let personalNameInput = document.getElementById('personalNameInputCrearUsuario');
+let surnameInput = document.getElementById('surnameInputCrearUsuario');
+let fechaNacimientoCrearUsuarioInput = document.getElementById('fechaNacimientoInputCrearUsuario');
+let dateMessageCrearUsuarioError = document.getElementById('dateMessageCrearUsuarioError');
+let correoPersonalInput = document.getElementById('correoPersonalInputCrearUsuario');
+let correoPersonalTooltip = document.getElementById('correoPersonalTooltipCrearUsuario');
+let celularPersonalInput = document.getElementById('celularPersonalInputCrearUsuario');
+let celularCorporativoInput = document.getElementById('celularCorporativoInputCrearUsuario');
+let mayorDeEdadCrearUsuario = false;
+let crearDatosPersonalesMessageError = document.getElementById('crearDatosPersonalesMessageError');
 
 let formCrearUsuarioInputsArray = [
 	nameInputCrearUsuario,
@@ -16,6 +27,60 @@ let formCrearUsuarioInputsArray = [
     perfilUsuarioInputCrearUsuario,
     idPerfilUsuarioInputCrear,
 ];
+
+document.addEventListener("DOMContentLoaded", function() {
+    if (fechaNacimientoCrearUsuarioInput) {
+        // Establecer los atributos min y max una sola vez (evitar que se seleccionen fechas fuera del os límites)
+        fechaNacimientoCrearUsuarioInput.setAttribute('min', minDateMAIN);
+        fechaNacimientoCrearUsuarioInput.setAttribute('max', maxDateMAIN);
+    
+        fechaNacimientoCrearUsuarioInput.addEventListener('input', function() {
+            validateRealTimeDateCrearUsuario();
+        });
+    }
+    
+    // Función para validar la fecha
+    function validateRealTimeDateCrearUsuario() {
+        const selectedDate = fechaNacimientoCrearUsuarioInput.value;
+        const objSelectedDate = new Date(selectedDate);
+    
+        // Verificar si el campo de fecha está vacío
+        if (!selectedDate) {
+            dateMessageCrearUsuarioError.classList.remove('shown'); 
+            return; // Salir de la función si el campo está vacío
+        }
+    
+        if (selectedDate < minDateMAIN) {
+            dateMessageCrearUsuarioError.textContent = `La fecha debe ser posterior al 1 de enero de ${minYearMAIN}.`; 
+            dateMessageCrearUsuarioError.classList.add('shown'); // Mostrar mensaje de error
+            return;
+        }
+    
+        if (selectedDate >= maxDateMAIN) {
+            dateMessageCrearUsuarioError.textContent = 'La fecha debe ser anterior a la fecha actual'; 
+            dateMessageCrearUsuarioError.classList.add('shown'); // Mostrar mensaje de error
+            return;
+        }
+        
+        // Calcula la diferencia en milisegundos
+        const differenceInMilliseconds = objMaxDateMAIN - objSelectedDate;
+        
+        // Calcula los años a partir de la diferencia en milisegundos
+        const millisecondsPerYear = 1000 * 60 * 60 * 24 * 365.25; // Considera los años bisiestos
+        const edad = Math.floor(differenceInMilliseconds / millisecondsPerYear);
+    
+        // Verificar si es mayor de edad
+        if (edad < 18) {
+            dateMessageCrearUsuarioError.textContent = 'El usuario debe ser mayor de edad.'; 
+            dateMessageCrearUsuarioError.classList.add('shown'); 
+            mayorDeEdadCrearUsuario = false;
+            return;
+        }
+    
+        dateMessageCrearUsuarioError.classList.remove('shown');
+        mayorDeEdadCrearUsuario = true;
+    }
+});
 
 function returnIdByNombrePerfilUser(nombrePerfil, perfilesDB) {
     if (typeof perfilesDB !== 'object' || perfilesDB === null) {
@@ -58,44 +123,92 @@ function validarCamposVaciosFormularioCrearUsuario() {
 }
 
 function validarCamposCorrectosFormularioTecnicoCrear() {
+    let errores = []; // Array para almacenar los errores
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    // Validar datos de usuario
+    if (!emailPattern.test(emailInputCrearUsuario.value)) {
+        if (emailInputCrearUsuario.closest(".sectionContent.crear.active")) {
+            showHideTooltip(emailTooltipCrear, "Por favor, introduce un correo electrónico válido con un dominio");
+        }
+        errores.push("Correo electrónico sin dominio válido.");
+    }
+
+    if (emailInputCrearUsuario.value !== emailInputCrearUsuario.value.toLowerCase()) {
+        if (emailInputCrearUsuario.closest(".sectionContent.crear.active")) {
+            showHideTooltip(emailTooltipCrear, "Por favor, introduce un correo electrónico válido en minúsculas");
+        }
+        errores.push("Correo electrónico no válido en mayúsculas.");
+    }
+
     if (confirmPasswordInputCrearUsuario.value.trim() !== passwordInputCrearUsuario.value.trim()) {
-        showHideTooltip(confirmPasswordTooltipCrearUsuario, "La confirmación de contraseña no coincide");
-        return false
+        errores.push("La confirmación de contraseña no coincide.");
     }
 
     if (passwordInputCrearUsuario.value.length <= 6 && passwordInputCrearUsuario.value.length > 0) {
-        crearUsuarioMessageError.textContent = "La contraseña debe contener más de 6 caracteres.";
-        crearUsuarioMessageError.classList.add("shown");
-        return false
+        crearDatosUsuarioMessageError.textContent = "La contraseña debe contener más de 6 caracteres.";
+        crearDatosUsuarioMessageError.classList.add("shown");
+        errores.push("La contraseña debe contener más de 6 caracteres.");
     }
 
-    // Validar email
-    const emailInput = emailInputCrearUsuario.value;
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    if (!emailPattern.test(emailInput)) {
-        showHideTooltip(emailTooltipCrear, "Por favor, introduce un correo electrónico válido con un dominio.");
-        return false
+    // Validar datos personales (opcionales)
+    if (DNIInput.value && DNIInput.value.trim() !== "") {
+        const isDniValid = validateInputLength(DNIInput, 8);
+        if (!isDniValid) errores.push("DNI no válido.");
     }
 
-    if (emailInput !== emailInput.toLowerCase()) {
-        showHideTooltip(emailTooltipCrear, "Por favor, introduce un correo electrónico válido en minúsculas.");
-        return false
+    if (fechaNacimientoCrearUsuarioInput.value || fechaNacimientoCrearUsuarioInput.value.trim() !== "") {
+        if (!mayorDeEdadCrearUsuario) errores.push("Fecha de nacimiento no válida.");
     }
-    
+
+    if (correoPersonalInput.value && correoPersonalInput.value.trim() !== "") {
+        if (!emailPattern.test(correoPersonalInput.value)) {
+            if (correoPersonalInput.closest(".sectionContent.crear.active")) {
+                showHideTooltip(correoPersonalTooltip, "Por favor, introduce un correo electrónico personal válido con un dominio");
+            }
+            errores.push("Correo electrónico personal sin dominio válido.");
+        } else if (correoPersonalInput.value !== correoPersonalInput.value.toLowerCase()) {
+            if (correoPersonalInput.closest(".sectionContent.crear.active")) {
+                showHideTooltip(correoPersonalTooltip, "Por favor, introduce un correo electrónico personal válido en minúsculas");
+            }
+            errores.push("Correo electrónico personal no válido en mayúsculas.");
+        }
+    }
+
+    if (celularPersonalInput.value && celularPersonalInput.value.trim() !== "") {
+        if (!validateInputLength(celularPersonalInput, 9)) errores.push("Celular personal no válido.");
+    }
+
+    if (celularCorporativoInput.value && celularCorporativoInput.value.trim() !== "") {
+        if (!validateInputLength(celularCorporativoInput, 9)) errores.push("Celular corporativo no válido.");
+    }
+
+    if (errores.length > 0) {
+        crearDatosUsuarioMessageError.textContent = errores.join(" ");
+        crearDatosPersonalesMessageError.textContent = errores.join(" ");
+        return false;
+    }
+
+    crearDatosUsuarioMessageError.textContent = "";
+    crearDatosPersonalesMessageError.textContent = "";
     return true;
 }
 
 function guardarModalCrearUsuario(idModal, idForm) {
     if (validarCamposVaciosFormularioCrearUsuario()) {
         if (!validarCamposCorrectosFormularioTecnicoCrear()) {
+            crearDatosUsuarioMessageError.classList.add("shown");
+            crearDatosPersonalesMessageError.classList.add("shown");
             return;
         }
-        crearUsuarioMessageError.classList.remove("shown");
+        crearDatosUsuarioMessageError.classList.remove("shown");
+        crearDatosPersonalesMessageError.classList.remove("shown");
         guardarModal(idModal, idForm);	
     } else {
-        crearUsuarioMessageError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
-        crearUsuarioMessageError.classList.add("shown");
+        crearDatosUsuarioMessageError.textContent = "Todos los campos del formulario deben estar rellenados correctamente";
+        crearDatosPersonalesMessageError.textContent = "Todos los campos del formulario deben estar rellenados correctamente";
+        crearDatosUsuarioMessageError.classList.add("shown");
+        crearDatosPersonalesMessageError.classList.add("shown");
       }
 }
 

@@ -19,61 +19,70 @@
                         $perfilesUsuariosDB = $perfilesUsuarios;
                         $nameInput = "nameInputCrearUsuario";
                         $emailInput = "emailInputCrearUsuario";
-                        $emailTooltip = "idEmailTooltipCrear";
+                        $emailTooltip = "correoInputCrearUsuario";
                         $passwordInput = "passwordInputCrearUsuario";
                         $confirmPasswordInput = "confirmPasswordInputCrearUsuario";
                         $perfilUsuarioSelect = "perfilUsuarioSelectCrearUsuario";
                         $perfilUsuarioInput = "perfilUsuarioInputCrearUsuario";
-                        $confirmPasswordTooltip = "idConfirmPasswordTooltipCrear";
+                        $crearDatosUsuarioMessageError = "crearDatosUsuarioMessageError";
+                        // Datos personales section
+                        $DNIInput = "DNIInputCrearUsuario";
+                        $personalNameInput = "personalNameInputCrearUsuario";
+                        $surnameInput = "surnameInputCrearUsuario";
+                        $fechaNacimientoInput = "fechaNacimientoInputCrearUsuario";
+                        $dateMessageCrearUsuarioError = "dateMessageCrearUsuarioError";
+                        $correoPersonalInput = "correoPersonalInputCrearUsuario";
+                        $correoPersonalTooltip = "correoPersonalTooltipCrearUsuario";
+                        $celularPersonalInput = "celularPersonalInputCrearUsuario";
+                        $celularCorporativoInput = "celularCorporativoInputCrearUsuario";
+                        $crearDatosPersonalesMessageError = "crearDatosPersonalesMessageError";
                     @endphp
                     
                     <div class="crearUsuarioContainer">
                         <section class="sectionContent crear active">
-                            <div class="form-group gap">
-                                <div class="group-items">
-                                    <label class="secondary-label" id="dniLabel" for="{{ $nameInput }}">Nombre</label>
-                                    <input class="input-item" type="text" id="{{ $nameInput }}" placeholder="Ingresar nombre" maxlength="30" 
-                                            oninput="validateRealTimeInputLength(this, 30)" name="name" required value="josue">
-                                </div>
-                            
-                                <div class="group-items">
-                                    <label class="secondary-label" id="nameLabel"  for="{{ $emailInput }}">Correo electrónico</label>
-                                    <div class="tooltip-container">
-                                        <span class="tooltip red" id="{{ $emailTooltip }}"></span>
+                            <div class="content">
+                                <div class="form-group gap">
+                                    <div class="group-items">
+                                        <label class="secondary-label" id="nameLabel" for="{{ $nameInput }}">Nombre</label>
+                                        <input class="input-item" type="text" id="{{ $nameInput }}" placeholder="Ingresar nombre" maxlength="30" 
+                                                oninput="validateRealTimeInputLength(this, 30)" name="name" required value="josue">
                                     </div>
-                                    <input class="input-item" type="email" id="{{ $emailInput }}"  maxlength="30" name="email"required value="josue@dimacof.com">
+                                
+                                    <div class="group-items">
+                                        <label class="secondary-label" id="emailLabel"  for="{{ $emailInput }}">Correo electrónico</label>
+                                        <div class="tooltip-container">
+                                            <span class="tooltip red" id="{{ $emailTooltip }}"></span>
+                                        </div>
+                                        <input class="input-item" type="email" id="{{ $emailInput }}"  maxlength="30" name="email" value="josue@dimacof.com" required>
+                                    </div>
                                 </div>
-                            </div>
-    
-                            <div class="form-group gap">
-                                <div class="group-items">
-                                    <label class="secondary-label" id="nameLabel" for="{{ $passwordInput }}" >Contraseña</label>
-                                    <div class="passwordInputContainer">
-                                        <input class="passwordInput" type="password" id="{{ $passwordInput }}" autocomplete="off"
-                                            maxlength="20" value="12345678">
-                                        <span class="viewPasswordIcon material-symbols-outlined noUserSelect" onclick="togglePasswordVisibility(this, '{{ $passwordInput }}')">
-                                            visibility_off
-                                        </span>                           
+        
+                                <div class="form-group gap">
+                                    <div class="group-items">
+                                        <label class="secondary-label" id="passwordLabel" for="{{ $passwordInput }}" >Contraseña</label>
+                                        <div class="passwordInputContainer">
+                                            <input class="passwordInput" type="password" id="{{ $passwordInput }}" autocomplete="off"
+                                                maxlength="20" value="12345678">
+                                            <span class="viewPasswordIcon material-symbols-outlined noUserSelect" onclick="togglePasswordVisibility(this, '{{ $passwordInput }}')">
+                                                visibility_off
+                                            </span>                           
+                                        </div>
+                                    </div>
+                
+                                    <div class="group-items">
+                                        <label class="secondary-label" id="confirmPasswordLabel"  for="{{ $confirmPasswordInput }}">Confirmar Contraseña</label>
+                                        <div class="passwordInputContainer">
+                                            <input class="passwordInput" type="password" id="{{ $confirmPasswordInput }}" autocomplete="off"
+                                                maxlength="20" name="password" value="12345678">
+                                            <span class="viewPasswordIcon material-symbols-outlined noUserSelect" onclick="togglePasswordVisibility(this, '{{ $confirmPasswordInput }}')">
+                                                visibility_off
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
             
                                 <div class="group-items">
-                                    <label class="secondary-label" id="nameLabel"  for="{{ $confirmPasswordInput }}">Confirmar Contraseña</label>
-                                    <div class="tooltip-container">
-                                        <span class="tooltip red" id="{{ $confirmPasswordTooltip }}">La confirmación de contraseña no coincide.</span>
-                                    </div>
-                                    <div class="passwordInputContainer">
-                                        <input class="passwordInput" type="password" id="{{ $confirmPasswordInput }}" autocomplete="off"
-                                            maxlength="20" name="password" value="12345678">
-                                        <span class="viewPasswordIcon material-symbols-outlined noUserSelect" onclick="togglePasswordVisibility(this, '{{ $confirmPasswordInput }}')">
-                                            visibility_off
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <div class="group-items">
-                                <label class="secondary-label noEditable" id="perfilUsuarioLabel" for="{{ $perfilUsuarioInput }}">Perfil</label>
+                                    <label class="secondary-label noEditable" id="perfilUsuarioLabel" for="{{ $perfilUsuarioInput }}">Perfil</label>
                                     <x-onlySelectNoCleanable-input
                                         :idSelect="$perfilUsuarioSelect"
                                         :idInput="$perfilUsuarioInput"
@@ -86,16 +95,67 @@
                                         :inputClassName="'onlySelectInput long'"
                                         :disabled="false"
                                     />
-                                <input type="hidden" id="idPerfilUsuarioInputCrear" name="idPerfilUsuario" value="1" readonly> 
+                                    <input type="hidden" id="idPerfilUsuarioInputCrear" name="idPerfilUsuario" value="1" readonly> 
+                                </div>
                             </div>
-    
-                            <div class="form-group start">
-                                <span class="inline-alert-message" id="crearUsuarioMessageError"> multiMessageError </span>      
-                            </div>
+                           
+                            <span class="inline-alert-message" id="{{ $crearDatosUsuarioMessageError }}"> multiMessageError </span>      
                         </section>
     
                         <section class="sectionContent crear">
-                            Aquí irán los datos personales del usuario
+                            <div class="content">
+                                <div class="form-group gap">
+                                    <div class="group-items">
+                                        <label class="secondary-label" id="DNILabel" for="{{ $DNIInput }}">DNI</label>
+                                        <input class="input-item" type="number" id="{{ $DNIInput }}" placeholder="12345678"
+                                            oninput="validateRealTimeInputLength(this, 8), validateNumberRealTime(this)" name="DNI" 
+                                            value="11122233" required>
+                                    </div>
+                                
+                                    <div class="group-items">
+                                        <label class="secondary-label" id="personalNameLabel"  for="{{ $personalNameInput }}">Nombres</label>
+                                        <input class="input-item" type="text" id="{{ $personalNameInput }}" name="personalName" value="Josué Daniel">
+                                    </div>
+    
+                                    <div class="group-items">
+                                        <label class="secondary-label" id="surnameLabel"  for="{{ $surnameInput }}">Apellidos</label>
+                                        <input class="input-item" type="text" id="{{ $surnameInput }}" name="surname" value="García Betancourt">
+                                    </div>
+                                </div>
+                              
+                                <div class="form-group gap">
+                                    <div class="group-items">
+                                        <label class="secondary-label" id="fechaNacimientoLabel"  for="{{ $fechaNacimientoInput }}">Fecha de nacimiento</label>
+                                        <input class="input-item" type="date" id="{{ $fechaNacimientoInput }}" name="fechaNacimiento" value="2002-12-12">
+                                    </div>
+                                 
+                                    <span class="inline-alert-message" id="{{ $dateMessageCrearUsuarioError }}"> dateMessageCrearUsuarioError </span>      
+                                </div>
+                                
+                                <div class="form-group gap">
+                                    <div class="group-items">
+                                        <label class="secondary-label" id="correoElectronicoPersonalLabel"  for="{{ $correoPersonalInput }}">Correo electrónico personal</label>
+                                        <div class="tooltip-container">
+                                            <span class="tooltip red" id="{{ $correoPersonalTooltip }}"></span>
+                                        </div>
+                                        <input class="input-item" type="email" id="{{ $correoPersonalInput }}"  maxlength="30" name="correoPersonal" value="josue@gmail.com" required>
+                                    </div>
+    
+                                    <div class="group-items">
+                                        <label class="secondary-label" id="celularPersonalLabel" for="{{ $celularPersonalInput }}">Celular personal</label>
+                                        <input class="input-item" type="number" id="{{ $celularPersonalInput }}" placeholder="999888777"
+                                            oninput="validateRealTimeInputLength(this, 9), validateNumberRealTime(this)" name="celularPersonal" value="964866527">
+                                    </div>
+    
+                                    <div class="group-items">
+                                        <label class="secondary-label" id="celularCorporativoLabel" for="{{ $celularCorporativoInput }}">Celular corporativo</label>
+                                        <input class="input-item" type="number" id="{{ $celularCorporativoInput }}" placeholder="999888777"
+                                            oninput="validateRealTimeInputLength(this, 9), validateNumberRealTime(this)" name="celularCorporativo" value="999888777">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <span class="inline-alert-message" id="{{ $crearDatosPersonalesMessageError }}"> multiMessageError </span>      
                         </section>
                     </div>
                 </form>

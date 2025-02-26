@@ -69,3 +69,19 @@
 #emailInputEditarUsuario {
 	width: 17rem;
 }
+
+#DNIInputEditarUsuario {
+	max-width: 6.5rem;
+}
+
+#personalNameInputEditarUsuario {
+	width: 12rem;
+}
+
+#surnameInputEditarUsuario {
+	width: 12rem;
+}
+
+#celularPersonalInputEditarUsuario, #celularCorporativoInputEditarUsuario {
+	max-width: 7rem;
+}

@@ -1,37 +1,26 @@
-let today = new Date();
-let minYear = '1950';
-let minDate = `${minYear}-01-01`;
-let maxDate = today.toLocaleDateString('es-PE', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
-            }).split('/').reverse().join('-');
-let objMaxDate = new Date(maxDate); // Convierte maxDate a un objeto Date
 let mayorDeEdad = false;
-
 let dniInput = document.getElementById('dniInput');
 let nameInput = document.getElementById('nameInput');
 let phoneInput = document.getElementById('phoneInput');
 let idsOficioArrayInput = document.getElementById('idsOficioArrayInput');
 let fechaNacimientoInput = document.getElementById('bornDateInput');
 let multiMessageError = document.getElementById('multiMessageErrorNuevoTecnico');
-let dateInput = document.getElementById('bornDateInput');
 let dateMessageError = document.getElementById('dateMessageError');
 
 document.addEventListener("DOMContentLoaded", function() {
-    if (dateInput) {
+    if (fechaNacimientoInput) {
         // Establecer los atributos min y max una sola vez
-        dateInput.setAttribute('min', minDate);
-        dateInput.setAttribute('max', maxDate);
+        fechaNacimientoInput.setAttribute('min', minDateMAIN);
+        fechaNacimientoInput.setAttribute('max', maxDateMAIN);
 
-        dateInput.addEventListener('input', function() {
+        fechaNacimientoInput.addEventListener('input', function() {
             validateRealTimeDate();
         });
     }
 
     // Función para validar la fecha
     function validateRealTimeDate() {
-        const selectedDate = dateInput.value;
+        const selectedDate = fechaNacimientoInput.value;
         const objSelectedDate = new Date(selectedDate);
 
         // Verificar si el campo de fecha está vacío
@@ -40,20 +29,20 @@ document.addEventListener("DOMContentLoaded", function() {
             return; // Salir de la función si el campo está vacío
         }
 
-        if (selectedDate < minDate) {
-            dateMessageError.textContent = `La fecha debe ser posterior al 1 de enero de ${minYear}.`; 
+        if (selectedDate < minDateMAIN) {
+            dateMessageError.textContent = `La fecha debe ser posterior al 1 de enero de ${minYearMAIN}.`; 
             dateMessageError.classList.add('shown'); // Mostrar mensaje de error
             return;
         }
 
-        if (selectedDate >= maxDate) {
+        if (selectedDate >= maxDateMAIN) {
             dateMessageError.textContent = 'La fecha debe ser anterior a la fecha actual'; 
             dateMessageError.classList.add('shown'); // Mostrar mensaje de error
             return;
         }
         
         // Calcula la diferencia en milisegundos
-        const differenceInMilliseconds = objMaxDate - objSelectedDate;
+        const differenceInMilliseconds = objMaxDateMAIN - objSelectedDate;
        
         // Calcula los años a partir de la diferencia en milisegundos
         const millisecondsPerYear = 1000 * 60 * 60 * 24 * 365.25; // Considera los años bisiestos
@@ -61,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Verificar si es mayor de edad
         if (edad < 18) {
-            console.log("El técnico debe ser mayor de edad.");
             dateMessageError.textContent = 'El técnico debe ser mayor de edad.'; 
             dateMessageError.classList.add('shown'); 
             mayorDeEdad = false;
@@ -99,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 function validateDate() {
-    var selectedDate = document.getElementById('bornDateInput').value;
+    var selectedDate = fechaNacimientoInput.value;
 
     // Verificar si el campo de fecha está vacío
     if (!selectedDate) {
@@ -107,9 +95,9 @@ function validateDate() {
         return true; // Salir de la función si el campo está vacío
     }
     
-    if (selectedDate < minDate) {
+    if (selectedDate < minDateMAIN) {
         return false;
-    } else if (selectedDate > maxDate) {
+    } else if (selectedDate > maxDateMAIN) {
         return false;
     } else {
         return true;

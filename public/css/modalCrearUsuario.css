@@ -1,14 +1,15 @@
 .modal-dialog.modalCrearUsuario {
-	max-width: 38rem;
+	max-width: auto;
 }
 
 .modal-content.modalCrearUsuario {
-    height: 100%;
+    height: auto;
 }
 
-.modal-content {
+.modal-content.modalCrearUsuario {
 	padding-left: 1.5rem;
 	padding-right: 1.5rem;
+	overflow: visible;
 }
 
 .modal-body {
@@ -41,21 +42,26 @@
 /*CONTENT*/
 #formCrearUsuario {
 	padding: 1rem 0 0 0;
-	height: 235px;
+	height: auto;
 }
 
 .crearUsuarioContainer {
 	display: flex;
-	width: 100%;
+	width: auto;
 }
 
 .sectionContent {
-	width: 35rem;
+	width: auto;
+	height: 100%;
 	display: none;
 }
 
 .sectionContent.active{
 	display: block;
+}
+
+.content {
+	min-height: 12.3rem;
 }
 
 #perfilUsuarioInput {
@@ -85,4 +91,34 @@
 #crearUsuarioMessageError {
 	margin: 5px 0 0 0;
 	padding: 0;
+}
+
+#DNIInputCrearUsuario {
+	max-width: 6.5rem;
+}
+
+#personalNameInputCrearUsuario {
+	width: 12rem;
+}
+
+#surnameInputCrearUsuario {
+	width: 12rem;
+}
+
+#celularPersonalInputCrearUsuario, #celularCorporativoInputCrearUsuario {
+	max-width: 7rem;
+}
+
+#dateMessageCrearUsuarioError {
+	padding: 1.1rem 0 0 0;
+}
+
+#fechaNacimientoInputCrearUsuario {
+	height: 2.45rem;
+}
+
+#crearDatosUsuarioMessageError, #crearDatosPersonalesMessageError {
+	margin: 0 0 0.4rem 0;
+	padding: 0;
+	max-width: 100%;
 }
