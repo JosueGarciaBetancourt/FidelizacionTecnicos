@@ -34,8 +34,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/dashboard-disableUsuario/{idUsuario}', [ProfileController::class, 'disable'])->name('usuarios.disable');
     Route::delete('/dashboard-deleteUsuario/{idUsuario}', [ProfileController::class, 'delete'])->name('usuarios.delete');
     Route::get('/dashboard-getLoggedUser', [ProfileController::class, 'getLoggedUser'])->name('usuarios.getLoggedUser');
+    Route::post('/verificar-userDataDuplication', [ProfileController::class, 'verifyUserDataDuplication'])->name('usuarios.verifyUserDataDuplication');
 
-
+    
     // Ventas Intermediadas
     Route::get('/dashboard-ventasIntermediadas', [VentaIntermediadaController::class, 'create'])->name('ventasIntermediadas.create');
     Route::post('/modal-storeVenta', [VentaIntermediadaController::class, 'store'])->name('ventasIntermediadas.store');

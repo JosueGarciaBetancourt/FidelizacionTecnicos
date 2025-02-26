@@ -70,7 +70,7 @@ class RegisteredUserController extends Controller
             'surname' => ['nullable', 'string'], 
             'fechaNacimiento' => ['nullable', 'date'], 
             'correoPersonal' => ['nullable', 'string', 'lowercase', 'email', 'max:255', 'unique:users,correoPersonal'], 
-            'celularPersonal' => ['nullable', 'string', 'regex:/^[0-9]{9}$/'], 
+            'celularPersonal' => ['nullable', 'string', 'regex:/^[0-9]{9}$/' , 'unique:users,celularPersonal'], 
             'celularCorporativo' => ['nullable', 'string', 'regex:/^[0-9]{9}$/'], 
         ]);
         
@@ -94,7 +94,6 @@ class RegisteredUserController extends Controller
         
         // Crear el usuario con los datos requeridos y opcionales
         $user = User::create($userData);
-        
 
         event(new Registered($user));
         

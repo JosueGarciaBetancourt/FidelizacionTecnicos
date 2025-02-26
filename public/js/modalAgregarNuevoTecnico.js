@@ -132,7 +132,7 @@ async function guardarModalAgregarNuevoTecnico(idModal, idForm) {
         const idTecnico = dniInput.value.trim();
         const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         const url = `${baseUrlMAIN}/verificar-tecnico`;
-
+        
         // Validar el formulario en el cliente
         if (!validateFormAgregarNuevoTecnico()) {
             multiMessageError.textContent = 'Debe completar todos los campos del formulario correctamente.';

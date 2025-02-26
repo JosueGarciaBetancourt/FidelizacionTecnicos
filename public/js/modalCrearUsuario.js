@@ -194,22 +194,72 @@ function validarCamposCorrectosFormularioTecnicoCrear() {
     return true;
 }
 
-function guardarModalCrearUsuario(idModal, idForm) {
+async function guardarModalCrearUsuario(idModal, idForm) {
     if (validarCamposVaciosFormularioCrearUsuario()) {
         if (!validarCamposCorrectosFormularioTecnicoCrear()) {
             crearDatosUsuarioMessageError.classList.add("shown");
             crearDatosPersonalesMessageError.classList.add("shown");
             return;
         }
-        crearDatosUsuarioMessageError.classList.remove("shown");
-        crearDatosPersonalesMessageError.classList.remove("shown");
-        guardarModal(idModal, idForm);	
+
+        // Validar duplicados en BD
+        const url = `${baseUrlMAIN}/verificar-userDataDuplication`;
+        const userEmail = emailInputCrearUsuario.value.trim();
+        const userDNI = DNIInput.value.trim();
+        const userPersonalEmail = correoPersonalInput.value.trim();
+        const userPersonalPhone = celularPersonalInput.value.trim();
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfTokenMAIN
+                },
+                body: JSON.stringify({userEmail: userEmail, userDNI: userDNI, userPersonalEmail: userPersonalEmail, userPersonalPhone: userPersonalPhone}),
+            });
+
+            if (!response.ok) {
+                const errorDetails = await response.text();
+                throw new Error(`Error en la solicitud: ${response.status} - ${response.statusText}. Detalles: ${errorDetails}`);
+            }
+            
+            const data = await response.json();
+
+            if (data.success) {
+                if (data.duplicates && Object.keys(data.duplicates).length > 0) {
+                    let erroresMsg = [];
+                
+                    if (data.duplicates["userEmail"]) erroresMsg.push(`El correo ${userEmail} ya ha sido registrado.`);
+                    if (data.duplicates["userDNI"]) erroresMsg.push(`El DNI ${userDNI} ya ha sido registrado.`);
+                    if (data.duplicates["userPersonalEmail"]) erroresMsg.push(`El correo personal ${userPersonalEmail} ya ha sido registrado.`);
+                    if (data.duplicates["userPersonalPhone"]) erroresMsg.push(`El celular personal ${userPersonalPhone} ya ha sido registrado.`);
+                
+                    crearDatosUsuarioMessageError.textContent = erroresMsg.join(" ");
+                    crearDatosPersonalesMessageError.textContent = erroresMsg.join(" ");
+                    crearDatosUsuarioMessageError.classList.add("shown");
+                    crearDatosPersonalesMessageError.classList.add("shown");
+                
+                    return;
+                }
+
+                crearDatosUsuarioMessageError.classList.remove("shown");
+                crearDatosPersonalesMessageError.classList.remove("shown");
+                guardarModal(idModal, idForm);	
+            }
+        } catch (error) {
+            console.log(error);
+            crearDatosUsuarioMessageError.textContent = 'Ocurrió un error al verificar datos duplicados del usuario a crear. Por favor, inténtelo de nuevo.';
+            crearDatosPersonalesMessageError.textContent = 'Ocurrió un error al verificar datos duplicados del usuario a crear. Por favor, inténtelo de nuevo.';
+            crearDatosUsuarioMessageError.classList.add("shown");
+            crearDatosPersonalesMessageError.classList.add("shown");
+        }
     } else {
         crearDatosUsuarioMessageError.textContent = "Todos los campos del formulario deben estar rellenados correctamente";
         crearDatosPersonalesMessageError.textContent = "Todos los campos del formulario deben estar rellenados correctamente";
         crearDatosUsuarioMessageError.classList.add("shown");
         crearDatosPersonalesMessageError.classList.add("shown");
-      }
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function () {

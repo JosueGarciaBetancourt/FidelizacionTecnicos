@@ -29,6 +29,52 @@ class ProfileController extends Controller
         }
     }
 
+    public function verifyUserDataDuplication(Request $request) {
+        try {
+            if (!Auth::check()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Usuario no autenticado'
+                ], 401);
+            }
+        
+            $userEmail = $request->input('userEmail', '');
+            $DNI = $request->input('userDNI', '');
+            $personalEmail = $request->input('userPersonalEmail', '');
+            $personalPhone = $request->input('userPersonalPhone', '');
+        
+            // Inicializar el array de duplicaciones
+            $duplicates = [];
+        
+            if (!empty($userEmail) && User::where('email', $userEmail)->exists()) {
+                $duplicates['userEmail'] = true;
+            }
+        
+            if (!empty($DNI) && User::where('DNI', $DNI)->exists()) {
+                $duplicates['userDNI'] = true;
+            }
+        
+            if (!empty($personalEmail) && User::where('correoPersonal', $personalEmail)->exists()) {
+                $duplicates['userPersonalEmail'] = true;
+            }
+        
+            if (!empty($personalPhone) && User::where('celularPersonal', $personalPhone)->exists()) {
+                $duplicates['userPersonalPhone'] = true;
+            }
+            
+            return response()->json([
+                'success' => true,
+                'user' => Auth::user(),
+                'duplicates' => $duplicates,
+            ]);
+        } catch (\Throwable $error) {
+            Log::error('Error en verifyUserDataDuplication: ', ['error' => $error]);
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+    }
+
     public function returnArrayNombresPerfilesUsuarios() {
         // Obtiene todos los perfiles de usuario
         $perfiles = PerfilUsuario::all();
