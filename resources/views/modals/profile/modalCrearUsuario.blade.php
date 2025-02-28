@@ -19,7 +19,7 @@
                         $perfilesUsuariosDB = $perfilesUsuarios;
                         $nameInput = "nameInputCrearUsuario";
                         $emailInput = "emailInputCrearUsuario";
-                        $emailTooltip = "correoInputCrearUsuario";
+                        $emailTooltip = "correoTooltipCrearUsuario";
                         $passwordInput = "passwordInputCrearUsuario";
                         $confirmPasswordInput = "confirmPasswordInputCrearUsuario";
                         $perfilUsuarioSelect = "perfilUsuarioSelectCrearUsuario";
@@ -40,7 +40,7 @@
                     
                     <div class="crearUsuarioContainer">
                         <section class="sectionContent crear active">
-                            <div class="content">
+                            <div class="crearContent">
                                 <div class="form-group gap">
                                     <div class="group-items">
                                         <label class="secondary-label" id="nameLabel" for="{{ $nameInput }}">Nombre</label>
@@ -53,7 +53,7 @@
                                         <div class="tooltip-container">
                                             <span class="tooltip red" id="{{ $emailTooltip }}"></span>
                                         </div>
-                                        <input class="input-item" type="email" id="{{ $emailInput }}"  maxlength="30" name="email" value="josue@dimacof.com" required>
+                                        <input class="input-item" type="email" id="{{ $emailInput }}" maxlength="50" name="email" value="josue@dimacof.com" required>
                                     </div>
                                 </div>
         
@@ -86,16 +86,15 @@
                                     <x-onlySelectNoCleanable-input
                                         :idSelect="$perfilUsuarioSelect"
                                         :idInput="$perfilUsuarioInput"
-                                        :defaultValue="'Administrador'"
-                                        :options="$nombresPerfilesUsuarios"
+                                        :defaultValue="'Vendedor'"
+                                        :options="$nombresPerfilesUsuariosNoAdmin"
                                         :onSelectFunction="'selectOptionPerfilUsuarioCrear'"
                                         :extraArgOnClickFunction="$perfilesUsuariosDB"
                                         :isExtraArgJson="true"
-    
                                         :inputClassName="'onlySelectInput long'"
                                         :disabled="false"
                                     />
-                                    <input type="hidden" id="idPerfilUsuarioInputCrear" name="idPerfilUsuario" value="1" readonly> 
+                                    <input type="hidden" id="idPerfilCrearUsuarioInput" name="idPerfilUsuario" value="2" readonly> 
                                 </div>
                             </div>
                            
@@ -103,13 +102,12 @@
                         </section>
     
                         <section class="sectionContent crear">
-                            <div class="content">
+                            <div class="crearContent">
                                 <div class="form-group gap">
                                     <div class="group-items">
                                         <label class="secondary-label" id="DNILabel" for="{{ $DNIInput }}">DNI</label>
                                         <input class="input-item" type="number" id="{{ $DNIInput }}" placeholder="12345678"
-                                            oninput="validateRealTimeInputLength(this, 8), validateNumberRealTime(this)" name="DNI" 
-                                            value="11122233" required>
+                                            oninput="validateRealTimeInputLength(this, 8), validateNumberRealTime(this)" name="DNI" value="11122233">
                                     </div>
                                 
                                     <div class="group-items">
@@ -138,7 +136,7 @@
                                         <div class="tooltip-container">
                                             <span class="tooltip red" id="{{ $correoPersonalTooltip }}"></span>
                                         </div>
-                                        <input class="input-item" type="email" id="{{ $correoPersonalInput }}"  maxlength="30" name="correoPersonal" value="josue@gmail.com" required>
+                                        <input class="input-item profileEmail" type="email" id="{{ $correoPersonalInput }}"  maxlength="30" name="correoPersonal" value="josue@gmail.com">
                                     </div>
     
                                     <div class="group-items">

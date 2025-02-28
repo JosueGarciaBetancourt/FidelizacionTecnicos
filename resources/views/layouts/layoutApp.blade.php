@@ -31,6 +31,7 @@
         @yield('footer')
     </footer>
 
+    <script src="{{ asset('js/JSONsConfig.js') }}"> </script>
     <script src="{{ asset('js/main.js') }}"> </script>
     <script src="{{ asset('js/scrollConfig.js') }}"> </script>
     <script src="{{ asset('js/tooltip.js') }}"> </script>

@@ -1,14 +1,15 @@
 .modal-dialog.modalEditarUsuario {
-	max-width: 38rem;
+	max-width: auto;
 }
 
 .modal-content.modalEditarUsuario {
-    height: 100%;
+    height: auto;
 }
 
 .modal-content {
 	padding-left: 1.5rem;
 	padding-right: 1.5rem;
+	overflow: visible;
 }
 
 .modal-body {
@@ -41,21 +42,16 @@
 /*CONTENT*/
 #formEditarUsuario {
 	padding: 1rem 0 0 0;
-	height: 245px;
+	height: auto;
 }
 
 .editarUsuarioContainer {
 	display: flex;
-	width: 100%;
+	width: auto;
 }
 
-.sectionContent {
-	width: 35rem;
-	display: none;
-}
-
-.sectionContent.active{
-	display: block;
+.editarContent {
+	min-height: 12.3rem;
 }
 
 #perfilUsuarioInput {
@@ -84,4 +80,34 @@
 
 #celularPersonalInputEditarUsuario, #celularCorporativoInputEditarUsuario {
 	max-width: 7rem;
+}
+
+#DNIInputEditarUsuario {
+	max-width: 6.5rem;
+}
+
+#personalNameInputEditarUsuario {
+	width: 12rem;
+}
+
+#surnameInputEditarUsuario {
+	width: 12rem;
+}
+
+#celularPersonalInputEditarUsuario, #celularCorporativoInputEditarUsuario {
+	max-width: 7rem;
+}
+
+#dateMessageEditarUsuarioError {
+	padding: 1.1rem 0 0 0;
+}
+
+#fechaNacimientoInputEditarUsuario {
+	height: 2.45rem;
+}
+
+#editarDatosUsuarioMessageError, #editarDatosPersonalesMessageError {
+	margin: 0 0 0.4rem 0;
+	padding: 0;
+	max-width: 100%;
 }

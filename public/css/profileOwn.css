@@ -169,3 +169,18 @@
     outline: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
 }
+
+/*Modales de crear y editar*/
+.sectionContent {
+	width: auto;
+	height: 100%;
+	display: none;
+}
+
+.sectionContent.active {
+	display: block;
+}
+
+.input-item.profileEmail {
+   width: 17rem;
+}

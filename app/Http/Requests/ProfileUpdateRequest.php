@@ -14,14 +14,24 @@ class ProfileUpdateRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
-    public function rules(): array
-    {
-        return [
+
+     public function rules(): array
+     {   
+         //dd($this->all());
+     
+         return [
+            'id' => ['required', 'integer', 'exists:users,id'], 
             'name' => ['required', 'string', 'max:255'],
-            /*'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 
-                Rule::unique(User::class)->ignore($this->user()->id)],*/
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->id)], 
             'password' => ['nullable', 'string', 'min:7'], 
             'idPerfilUsuario' => ['required', 'integer', 'exists:PerfilesUsuarios,idPerfilUsuario'], 
-        ];
-    }
+            'DNI' => ['nullable', 'string', 'size:8', Rule::unique('users', 'DNI')->ignore($this->id)],
+            'personalName' => ['nullable', 'string'], 
+            'surname' => ['nullable', 'string'], 
+            'fechaNacimiento' => ['nullable', 'date'], 
+            'correoPersonal' => ['nullable', 'string', 'lowercase', 'email', 'max:255', Rule::unique('users', 'correoPersonal')->ignore($this->id)], 
+            'celularPersonal' => ['nullable', 'string', 'regex:/^[0-9]{9}$/', Rule::unique('users', 'celularPersonal')->ignore($this->id)], 
+            'celularCorporativo' => ['nullable', 'string', 'regex:/^[0-9]{9}$/'], 
+         ];
+     }
 }

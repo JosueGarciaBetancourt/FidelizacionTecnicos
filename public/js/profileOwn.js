@@ -1,3 +1,5 @@
+let objUserToEdit = null;
+
 function actualizarComponentesSegunTipoUsuario(isAdminEditModal) {
     const perfilUsuarioInput = document.getElementById('perfilUsuarioInputEditarUsuario'); 
     const perfilUsuarioContainer = document.getElementById('perfilUsuarioSelectEditarUsuario'); 
@@ -37,33 +39,45 @@ function fillFieldsEditarUsuario(objUser) {
         return;
     }
 
-    const perfil = objUser.nombre_PerfilUsuario;
     const viewIcons = Array.from(document.getElementsByClassName('viewPasswordIcon'));  
-  
-    viewIcons.forEach(icon => {
-        icon.textContent = "visibility_off";
-    });
+    viewIcons.forEach(icon => {icon.textContent = "visibility_off";});
+
+    //consoleLogJSONItems(objUser);
 
     document.getElementById('idUser').value = objUser.id;
     document.getElementById('nameInputEditarUsuario').value = objUser.name;
     document.getElementById('emailInputEditarUsuario').value = objUser.email;
-    document.getElementById('perfilUsuarioInputEditarUsuario').value = perfil;
+    document.getElementById('perfilUsuarioInputEditarUsuario').value = objUser.nombre_PerfilUsuario;
     document.getElementById('passwordInputEditarUsuario').value = "";
-    document.getElementById('confirmPasswordInputEditarUsuario').value = "";
     document.getElementById('passwordInputEditarUsuario').type = "password";
+    document.getElementById('confirmPasswordInputEditarUsuario').value = "";
     document.getElementById('confirmPasswordInputEditarUsuario').type = "password";
-    document.getElementById('idPerfilUsuarioInput').value = objUser.idPerfilUsuario;
-    document.getElementById('editarUsuarioMessageError').classList.remove('shown');
+    document.getElementById('idPerfilEditarUsuarioInput').value = objUser.idPerfilUsuario;
+
+    // Datos personales
+    document.getElementById('DNIInputEditarUsuario').value = objUser.DNI;
+    document.getElementById('personalNameInputEditarUsuario').value = objUser.personalName;
+    document.getElementById('surnameInputEditarUsuario').value = objUser.surname;
+    document.getElementById('fechaNacimientoInputEditarUsuario').value = objUser.fechaNacimiento;
+    document.getElementById('correoPersonalInputEditarUsuario').value = objUser.correoPersonal;
+    document.getElementById('celularPersonalInputEditarUsuario').value = objUser.celularPersonal;
+    document.getElementById('celularCorporativoInputEditarUsuario').value = objUser.celularCorporativo;
+
+    // Mensajes de error de las secciones del modal
+    document.getElementById('editarDatosUsuarioMessageError').classList.remove('shown');
+    document.getElementById('editarDatosPersonalesMessageError').classList.remove('shown');
 
     // Adaptar componente de selección de perfil
     actualizarComponentesSegunTipoUsuario(objUser.email == "admin@dimacof.com")
+
+    objUserToEdit = objUser;
 }
 
 function openModalEditarUsuario(button, usersDB) {
     const fila = button.closest('tr');
     const celdaEmail = fila.getElementsByClassName('email')[0]; 
     const email = celdaEmail.innerText.trim();
-    const objUser= returnObjUserByEmail(email, usersDB);
+    const objUser = returnObjUserByEmail(email, usersDB);
     
     // LLenar campos del formulario de edición de usuario
     fillFieldsEditarUsuario(objUser);

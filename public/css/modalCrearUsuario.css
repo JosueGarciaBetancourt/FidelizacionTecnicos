@@ -50,17 +50,7 @@
 	width: auto;
 }
 
-.sectionContent {
-	width: auto;
-	height: 100%;
-	display: none;
-}
-
-.sectionContent.active{
-	display: block;
-}
-
-.content {
+.crearContent {
 	min-height: 12.3rem;
 }
 
