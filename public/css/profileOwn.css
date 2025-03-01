@@ -169,3 +169,58 @@
     outline: none;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
 }
+
+/*Modales de crear y editar usuario*/
+.sectionContent {
+	width: auto;
+	height: 100%;
+	display: none;
+}
+
+.sectionContent.active {
+	display: block;
+}
+
+.input-item.profileEmail {
+   width: 17rem;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: row;
+    padding: 9px 10px;
+    width: 20rem;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.emailTextInput {
+    width: auto;
+    min-width: 30px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    color: #666;
+    outline: none;
+    border: none;
+    padding-right: 5px;
+}
+
+.emailTextInput.blocked {
+    cursor: not-allowed;
+}
+
+.emailTextInput::placeholder {
+    color: #BBB;
+}
+
+.emailDomain {
+    flex-shrink: 0;
+    color: #19375a;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.passwordInputContainer {
+	width: 13rem;
+}

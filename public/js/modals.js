@@ -244,13 +244,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function setOnlySelectInputFocusColor() {
     document.addEventListener('click', function(event) {
-        var elements = document.querySelectorAll('.onlySelectInput-container', '.multiSelectDropdown');
+        var elements = document.querySelectorAll('.onlySelectInput-container, .multiSelectDropdown, .inputContainer');
         elements.forEach(function(element) {
             var isClickInside = element.contains(event.target);
             if (!isClickInside) {
                 element.classList.remove('activeFocus');
             } else {
-                element.classList.add('activeFocus'); // Mantener el color de foco si está dentro
+                element.classList.add('activeFocus');
             }
         });
     });

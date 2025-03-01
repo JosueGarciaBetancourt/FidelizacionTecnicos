@@ -324,6 +324,41 @@
     border-color: #007bff; 
 }
 
+/*Estilos de containers para inputs*/
+.inputContainer {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s;
+    color: #666;
+    background-color: #FFF;
+}
+
+.inputContainer.activeFocus {
+    border-color: #007bff; 
+}
+
+.inputContainer.noFocusBorder.activeFocus {
+    border-color: #ccc; 
+}
+
+.inputContainer.noHandCursor {
+    cursor: default;
+}
+
+.inputContainer::placeholder {
+    color: #BBB;
+}
+
+.inputContainer.blocked{
+    background-color: #EEE;
+    cursor: not-allowed;
+}
+
 /*Estilos de los only select inputs */
 .onlySelectInput-container {
     position: relative;

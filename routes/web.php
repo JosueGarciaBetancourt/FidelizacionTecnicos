@@ -21,7 +21,6 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 Route::get('', [AuthenticatedSessionController::class, 'create']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
-
     //PDF 
     Route::get('/dashboard-canjes/historialCanje/pdf/{size}/{idCanje}', [CanjeController::class, 'canjePDF'])->name('canjes.pdf');
 
@@ -30,11 +29,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard-usuarios', [ProfileController::class, 'create'])->name('usuarios.create');
     Route::post('/dashboard-storeUsuario', [RegisteredUserController::class, 'store'])->name('usuarios.store');
     Route::patch('/dashboard-updateUsuario', [ProfileController::class, 'update'])->name('usuarios.update');
-    Route::post('/dashboard-enableUsuario/{idUsuario}', [ProfileController::class, 'enable'])->name('usuarios.enable');
-    Route::delete('/dashboard-disableUsuario/{idUsuario}', [ProfileController::class, 'disable'])->name('usuarios.disable');
-    Route::delete('/dashboard-deleteUsuario/{idUsuario}', [ProfileController::class, 'delete'])->name('usuarios.delete');
+    Route::post('/dashboard-enableUsuario/{idUsuario}', [ProfileController::class, 'enableUser'])->name('usuarios.enable');
+    Route::delete('/dashboard-disableUsuario/{idUsuario}', [ProfileController::class, 'disableUser'])->name('usuarios.disable');
+    Route::delete('/dashboard-deleteUsuario/{idUsuario}', [ProfileController::class, 'deleteUser'])->name('usuarios.delete');
+    Route::get('/dashboard-getLoggedUser', [ProfileController::class, 'getLoggedUser'])->name('usuarios.getLoggedUser');
+    Route::post('/verificar-userDataDuplication', [ProfileController::class, 'verifyUserDataDuplication'])->name('usuarios.verifyUserDataDuplication');
+    Route::post('/verificar-userEditDataDuplication', [ProfileController::class, 'verifyUserEditDataDuplication'])->name('usuarios.verifyUserEditDataDuplication');
+    Route::get('/dashboard-getAdminEmail', [ProfileController::class, 'getAdminEmail'])->name('usuarios.getAdminEmail');
 
-
+    
     // Ventas Intermediadas
     Route::get('/dashboard-ventasIntermediadas', [VentaIntermediadaController::class, 'create'])->name('ventasIntermediadas.create');
     Route::post('/modal-storeVenta', [VentaIntermediadaController::class, 'store'])->name('ventasIntermediadas.store');

@@ -51,6 +51,8 @@ class RegisteredUserController extends Controller
     
     public function store(Request $request): RedirectResponse
     {
+        //dd($request->all());
+
         $userDeleted = User::onlyTrashed()->where('email', $request['email'])->first();
 
         if ($userDeleted) {
@@ -60,18 +62,38 @@ class RegisteredUserController extends Controller
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:7'],
             'idPerfilUsuario' => ['required', 'integer', 'exists:PerfilesUsuarios,idPerfilUsuario'], 
+            'DNI' => ['nullable', 'string', 'size:8', 'unique:users,DNI'], 
+            'personalName' => ['nullable', 'string'], 
+            'surname' => ['nullable', 'string'], 
+            'fechaNacimiento' => ['nullable', 'date'], 
+            'correoPersonal' => ['nullable', 'string', 'lowercase', 'email', 'max:255', 'unique:users,correoPersonal'], 
+            'celularPersonal' => ['nullable', 'string', 'regex:/^[0-9]{9}$/' , 'unique:users,celularPersonal'], 
+            'celularCorporativo' => ['nullable', 'string', 'regex:/^[0-9]{9}$/'], 
         ]);
+        
 
         // Crear nuevo usuario si no ha sido registrado anteriormente
-        $user = User::create([
+        $userData = [
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'idPerfilUsuario' => $request->idPerfilUsuario,
-        ]);
+        ];
+        
+        // Agregar los campos opcionales solo si están presentes
+        $optionalFields = ['DNI', 'personalName', 'surname', 'fechaNacimiento', 'correoPersonal', 'celularPersonal', 'celularCorporativo'];
+        
+        foreach ($optionalFields as $field) {
+            if ($request->filled($field)) {
+                $userData[$field] = $request->$field;
+            }
+        }
+        
+        // Crear el usuario con los datos requeridos y opcionales
+        $user = User::create($userData);
 
         event(new Registered($user));
         

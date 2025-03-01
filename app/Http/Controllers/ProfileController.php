@@ -12,15 +12,148 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller
 {    
+    public function getAdminEmail() { 
+        if (Auth::check() && Auth::user()) {
+            return response()->json([
+                'success' => true,
+                'email' => User::where('email', env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com"))->value('email') ?? 'No encontrado',
+                ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'No autenticado'
+            ], 401); // Código 401 para indicar que no está autenticado
+        }
+    }
+    
+    public function getLoggedUser() { 
+        if (Auth::check() && Auth::user()) {
+            return response()->json([
+                'success' => true,
+                'user' => Auth::user(),
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'No autenticado'
+            ], 401); // Código 401 para indicar que no está autenticado
+        }
+    }
+
+    public function verifyUserDataDuplication(Request $request) {
+        try {
+            if (!Auth::check()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Usuario no autenticado'
+                ], 401);
+            }
+        
+            $userEmail = $request->input('userEmail', '');
+            $DNI = $request->input('userDNI', '');
+            $personalEmail = $request->input('userPersonalEmail', '');
+            $personalPhone = $request->input('userPersonalPhone', '');
+        
+            // Inicializar el array de duplicaciones
+            $duplicates = [];
+        
+            if (!empty($userEmail) && User::where('email', $userEmail)->exists()) {
+                $duplicates['userEmail'] = true;
+            }
+        
+            if (!empty($DNI) && User::where('DNI', $DNI)->exists()) {
+                $duplicates['userDNI'] = true;
+            }
+        
+            if (!empty($personalEmail) && User::where('correoPersonal', $personalEmail)->exists()) {
+                $duplicates['userPersonalEmail'] = true;
+            }
+        
+            if (!empty($personalPhone) && User::where('celularPersonal', $personalPhone)->exists()) {
+                $duplicates['userPersonalPhone'] = true;
+            }
+            
+            return response()->json([
+                'success' => true,
+                'user' => Auth::user(),
+                'duplicates' => $duplicates,
+            ]);
+        } catch (\Throwable $error) {
+            Log::error('Error en verifyUserDataDuplication: ', ['error' => $error]);
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+    }
+
+    public function verifyUserEditDataDuplication(Request $request) {
+        try {
+            if (!Auth::check()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Usuario no autenticado'
+                ], 401);
+            }
+            
+            $userID = $request->input('userID', '');
+            
+            // Validar si el usuario a editar existe
+            $userToEdit = User::find($userID);
+            if (!$userToEdit) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Usuario no encontrado'
+                ], 404);
+            }
+    
+            $userEmail = $request->input('userEmail', '');
+            $DNI = $request->input('userDNI', '');
+            $personalEmail = $request->input('userPersonalEmail', '');
+            $personalPhone = $request->input('userPersonalPhone', '');
+    
+            // Inicializar el array de duplicaciones
+            $duplicates = [];
+            
+            if (!empty($userEmail) && User::where('email', $userEmail)->where('id', '!=', $userID)->exists()) {
+                $duplicates['userEmail'] = true;
+            }
+        
+            if (!empty($DNI) && User::where('DNI', $DNI)->where('id', '!=', $userID)->exists()) {
+                $duplicates['userDNI'] = true;
+            }
+        
+            if (!empty($personalEmail) && User::where('correoPersonal', $personalEmail)->where('id', '!=', $userID)->exists()) {
+                $duplicates['userPersonalEmail'] = true;
+            }
+        
+            if (!empty($personalPhone) && User::where('celularPersonal', $personalPhone)->where('id', '!=', $userID)->exists()) {
+                $duplicates['userPersonalPhone'] = true;
+            }
+            
+            return response()->json([
+                'success' => true,
+                'user' => $userToEdit,
+                'duplicates' => $duplicates,
+            ]);
+        } catch (\Throwable $error) {
+            Log::error('Error en verifyUserDataDuplication: ', ['error' => $error]);
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+    }
+
     public function returnArrayNombresPerfilesUsuarios() {
         // Obtiene todos los perfiles de usuario
         $perfiles = PerfilUsuario::all();
 
         // Verifica si hay un usuario autenticado y si es el administrador
-        if (Auth::check() && Auth::user()->email !== env('ADMIN_EMAIL', "admin@dimacof.com")) {
+        if (Auth::check() && Auth::user()->email !== env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com")) {
             // Rechazar (eliminar) los perfiles donde idPerfilUsuario sea 1
             $perfiles = $perfiles->reject(function($perfil) {
                 return $perfil->idPerfilUsuario === 1;
@@ -52,76 +185,65 @@ class ProfileController extends Controller
                     $query->where('id', $user->id);
                 })
                 ->withTrashed() // Incluye registros con soft delete
-                ->select('id', 'idPerfilUsuario', 'name', 'email', 'DNI', 'surname', 'fechaNacimiento', 
-                        'correoPersonal', 'celularPersonal', 'celularCorporativo', 'deleted_at')
+                /* ->select('id', 'idPerfilUsuario', 'name', 'email', 'DNI', 'personalName', 'surname', 'fechaNacimiento', 
+                        'correoPersonal', 'celularPersonal', 'celularCorporativo', 'deleted_at') */
                 ->get();
 
         // Para depurar nombre_PerfilUsuario
         //dd($users->pluck('nombre_PerfilUsuario'));
 
-        $nombresPerfilesUsuarios = $this->returnArrayNombresPerfilesUsuarios();
-
+        $nombresPerfilesUsuariosNoAdmin = array_slice($this->returnArrayNombresPerfilesUsuarios(), 1);
         $perfilesUsuarios = PerfilUsuario::all()->pluck('nombre_PerfilUsuario', 'idPerfilUsuario');
+        $userEmailDomain = env('EMAIL_DOMAIN', 'dimacof.com');
 
-        return view('dashboard.profileOwn', compact('users', 'nombresPerfilesUsuarios', 'perfilesUsuarios'));
+        return view('dashboard.profileOwn', compact('users', 'nombresPerfilesUsuariosNoAdmin', 'perfilesUsuarios', 'userEmailDomain'));
     }
 
-
-    /*public function edit(Request $request): View
-    {
-        return view('modals.profile.modalEditProfile', [
-            'user' => $request->user(),
-        ]);
-
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
-    }*/
-
-    /**
-     * Update the user's profile information.
-     */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         try {
-            // Obtener el usuario a partir del id
-            $user = User::where('id', $request->id)->first();
-
-            // Validar y actualizar los campos, incluyendo la lógica del password
+            // Obtener el usuario a partir del ID
+            $user = User::find($request->id);
+            
+            // Verificar si el usuario existe
+            if (!$user) {
+                return Redirect::back()->withErrors(['update_error' => 'El usuario no existe.']);
+            }
+            
+            // Validar y obtener los datos del request
             $data = $request->validated();
-    
+
             // Si el campo password no está vacío, hashearlo antes de actualizar
             if (!empty($data['password'])) {
                 $data['password'] = Hash::make($data['password']);
             } else {
-                // Eliminar la clave 'password' para no actualizarla
-                unset($data['password']);
+                unset($data['password']); // No actualizar la contraseña si no se envía
             }
     
-            // Rellenar y guardar los cambios en el modelo
-            $user->fill($data);
-            
-            // Si el campo 'email' ha cambiado, invalidar la verificación de correo
-            /*if ($user->isDirty('email')) {
+            // Si el email ha cambiado, invalidar la verificación de correo
+            if (isset($data['email']) && $user->email !== $data['email']) {
                 $user->email_verified_at = null;
-            }*/
-            
-            // Guardar los cambios
+            }
+
+            // Rellenar y guardar los cambios
+            $user->fill($data);
             $user->save();
-           
-            //dd($user); 
     
             // Redirigir con un mensaje de éxito
             return Redirect::route('usuarios.create')->with('successUsuarioUpdate', 'Usuario actualizado correctamente');
         } catch (\Throwable $error) {
-            // Registrar el error en los logs de la aplicación
+            // Registrar el error en los logs
             Log::error('Error actualizando el perfil: ', ['error' => $error]);
-            // Redirigir con un mensaje de error
+            dd('Error actualizando el perfil ', ['error' => $error]);
+
+            // Redirigir con mensaje de error
             return Redirect::back()->withErrors(['update_error' => 'Ocurrió un error al actualizar el perfil. Inténtalo de nuevo.']);
+        } catch (ValidationException $e) {
+            dd("Errores de validación", $e->errors()); // Muestra los errores directamente
         }
     }
 
-    public function enable($idUsuario)
+    public function enableUser($idUsuario)
     {
         // Verificar si el usuario existe 
         $user = User::onlyTrashed()->find($idUsuario);
@@ -139,7 +261,7 @@ class ProfileController extends Controller
         ], 200);
     }
 
-    public function disable($idUsuario)
+    public function disableUser($idUsuario)
     {
         // Verificar si el usuario existe
         $user = User::find($idUsuario);
@@ -158,7 +280,7 @@ class ProfileController extends Controller
         ], 200);
     }
 
-    public function delete($idUsuario)
+    public function deleteUser($idUsuario)
     {
         // Verificar si el usuario existe
         $user = User::find($idUsuario);
@@ -204,5 +326,4 @@ class ProfileController extends Controller
             ], 500);
         }
     }
-
 }

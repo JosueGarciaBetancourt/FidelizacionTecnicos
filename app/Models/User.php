@@ -22,6 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'DNI',
+        'personalName',
         'surname',
         'fechaNacimiento',
         'correoPersonal',

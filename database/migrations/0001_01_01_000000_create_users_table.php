@@ -18,9 +18,11 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
 
+            // Datos personales
             $table->string('DNI')->unique()->nullable();
+            $table->string('personalName')->nullable();
             $table->string('surname')->nullable();
-            $table->dateTime('fechaNacimiento')->nullable();
+            $table->date('fechaNacimiento')->nullable();
             $table->string('correoPersonal')->unique()->nullable();
             $table->string('celularPersonal')->unique()->nullable();
             $table->string('celularCorporativo')->nullable();

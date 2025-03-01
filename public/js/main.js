@@ -1,48 +1,13 @@
-function consoleLogJSONItems(items, options = { indent: 2, maxDepth: null }) {
-    try {
-        // Si `items` es una cadena, intenta parsearla
-        if (typeof items === 'string') {
-            try {
-                items = JSON.parse(items);
-            } catch (parseError) {
-                throw new Error('La cadena proporcionada no es un JSON válido.');
-            }
-        }
+let todayMAIN = new Date();
+let minYearMAIN = '1950';
+let minDateMAIN = `${minYearMAIN}-01-01`;
+let maxDateMAIN = todayMAIN.toLocaleDateString('es-PE', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).split('/').reverse().join('-');
 
-        // Validación: Verificar si `items` es un objeto o un array
-        if (typeof items !== 'object' || items === null) {
-            throw new Error('El argumento proporcionado no es un objeto o array válido.');
-        }
-
-        // Opciones por defecto
-        const { indent, maxDepth } = options;
-
-        // Función recursiva para limitar la profundidad
-        function formatJSON(obj, depth = 0) {
-            if (maxDepth !== null && depth >= maxDepth) {
-                return typeof obj === 'object' && obj !== null ? '[Object]' : obj;
-            }
-
-            if (Array.isArray(obj)) {
-                return obj.map((item) => formatJSON(item, depth + 1));
-            } else if (typeof obj === 'object' && obj !== null) {
-                return Object.fromEntries(
-                    Object.entries(obj).map(([key, value]) => [key, formatJSON(value, depth + 1)])
-                );
-            }
-
-            return obj; // Retorna valores primitivos tal cual
-        }
-
-        // Formatear el JSON con profundidad limitada
-        const formattedJSON = maxDepth !== null ? formatJSON(items) : items;
-
-        // Imprimir en consola el JSON formateado
-        console.log(JSON.stringify(formattedJSON, null, indent));
-    } catch (error) {
-        console.error('Error al procesar el JSON:', error.message);
-    }
-}
+let objMaxDateMAIN = new Date(maxDateMAIN);
 
 function handleFormSubmission(elementId, formId, timeout = 2000) {
     const element = document.getElementById(elementId);
