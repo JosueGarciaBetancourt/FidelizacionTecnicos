@@ -17,6 +17,20 @@ use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller
 {    
+    public function getAdminEmail() { 
+        if (Auth::check() && Auth::user()) {
+            return response()->json([
+                'success' => true,
+                'email' => User::where('email', env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com"))->value('email') ?? 'No encontrado',
+                ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'No autenticado'
+            ], 401); // Código 401 para indicar que no está autenticado
+        }
+    }
+    
     public function getLoggedUser() { 
         if (Auth::check() && Auth::user()) {
             return response()->json([
@@ -139,7 +153,7 @@ class ProfileController extends Controller
         $perfiles = PerfilUsuario::all();
 
         // Verifica si hay un usuario autenticado y si es el administrador
-        if (Auth::check() && Auth::user()->email !== env('ADMIN_EMAIL', "admin@dimacof.com")) {
+        if (Auth::check() && Auth::user()->email !== env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com")) {
             // Rechazar (eliminar) los perfiles donde idPerfilUsuario sea 1
             $perfiles = $perfiles->reject(function($perfil) {
                 return $perfil->idPerfilUsuario === 1;
@@ -171,7 +185,7 @@ class ProfileController extends Controller
                     $query->where('id', $user->id);
                 })
                 ->withTrashed() // Incluye registros con soft delete
-                /* ->select('id', 'idPerfilUsuario', 'name', 'email', 'DNI', 'surname', 'fechaNacimiento', 
+                /* ->select('id', 'idPerfilUsuario', 'name', 'email', 'DNI', 'personalName', 'surname', 'fechaNacimiento', 
                         'correoPersonal', 'celularPersonal', 'celularCorporativo', 'deleted_at') */
                 ->get();
 
@@ -179,10 +193,10 @@ class ProfileController extends Controller
         //dd($users->pluck('nombre_PerfilUsuario'));
 
         $nombresPerfilesUsuariosNoAdmin = array_slice($this->returnArrayNombresPerfilesUsuarios(), 1);
-
         $perfilesUsuarios = PerfilUsuario::all()->pluck('nombre_PerfilUsuario', 'idPerfilUsuario');
+        $userEmailDomain = env('EMAIL_DOMAIN', 'dimacof.com');
 
-        return view('dashboard.profileOwn', compact('users', 'nombresPerfilesUsuariosNoAdmin', 'perfilesUsuarios'));
+        return view('dashboard.profileOwn', compact('users', 'nombresPerfilesUsuariosNoAdmin', 'perfilesUsuarios', 'userEmailDomain'));
     }
 
     public function update(ProfileUpdateRequest $request): RedirectResponse

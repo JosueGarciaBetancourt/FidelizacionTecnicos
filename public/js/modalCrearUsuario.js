@@ -1,5 +1,6 @@
 let nameInputCrearUsuario = document.getElementById('nameInputCrearUsuario');
-let emailInputCrearUsuario = document.getElementById('emailInputCrearUsuario');
+let emailTextInputCrearUsuario = document.getElementById('emailTextInputCrearUsuario');
+let emailHiddenInputCrearUsuario = document.getElementById('emailHiddenInputCrearUsuario');
 let passwordInputCrearUsuario = document.getElementById('passwordInputCrearUsuario');
 let confirmPasswordInputCrearUsuario = document.getElementById('confirmPasswordInputCrearUsuario');
 let perfilUsuarioInputCrearUsuario = document.getElementById('perfilUsuarioInputCrearUsuario');
@@ -21,7 +22,7 @@ let crearDatosPersonalesMessageError = document.getElementById('crearDatosPerson
 
 let formCrearUsuarioRequiredInputsArray = [
 	nameInputCrearUsuario,
-    emailInputCrearUsuario,
+    emailTextInputCrearUsuario,
     passwordInputCrearUsuario,
     confirmPasswordInputCrearUsuario,
     perfilUsuarioInputCrearUsuario,
@@ -109,7 +110,6 @@ function selectOptionPerfilUsuarioCrear(value, idInput, idOptions, perfilesDB) {
     }
 
     const idPerfilUsuario = returnIdByNombrePerfilUser(value, perfilesDB);
-    console.log(idPerfilUsuario);
     idPerfilUsuarioInputCrear.value = idPerfilUsuario;
 }
 
@@ -125,18 +125,19 @@ function validarCamposVaciosFormularioCrearUsuario() {
 
 function validarCamposCorrectosFormularioCrearUsuario() {
     let errores = []; // Array para almacenar los errores
+    const emailTextPattern = /^[a-z0-9._]+(\+[a-z0-9]+)?$/;
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     // Validar datos de usuario
-    if (!emailPattern.test(emailInputCrearUsuario.value)) {
-        if (emailInputCrearUsuario.closest(".sectionContent.crear.active")) {
-            showHideTooltip(emailTooltipCrear, "Por favor, introduce un correo electrónico válido con un dominio");
+    if (!emailTextPattern.test(emailTextInputCrearUsuario.value)) {
+        if (emailTextInputCrearUsuario.closest(".sectionContent.crear.active")) {
+            showHideTooltip(emailTooltipCrear, "Por favor, introduce un correo electrónico válido");
         }
-        errores.push("Correo electrónico sin dominio válido.");
+        errores.push("Correo electrónico no válido.");
     }
 
-    if (emailInputCrearUsuario.value !== emailInputCrearUsuario.value.toLowerCase()) {
-        if (emailInputCrearUsuario.closest(".sectionContent.crear.active")) {
+    if (emailTextInputCrearUsuario.value !== emailTextInputCrearUsuario.value.toLowerCase()) {
+        if (emailTextInputCrearUsuario.closest(".sectionContent.crear.active")) {
             showHideTooltip(emailTooltipCrear, "Por favor, introduce un correo electrónico válido en minúsculas");
         }
         errores.push("Correo electrónico no válido en mayúsculas.");
@@ -165,9 +166,9 @@ function validarCamposCorrectosFormularioCrearUsuario() {
     if (correoPersonalCrearUsuarioInput.value && correoPersonalCrearUsuarioInput.value.trim() !== "") {
         if (!emailPattern.test(correoPersonalCrearUsuarioInput.value)) {
             if (correoPersonalCrearUsuarioInput.closest(".sectionContent.crear.active")) {
-                showHideTooltip(correoPersonalCrearUsuarioTooltip, "Por favor, introduce un correo electrónico personal válido con un dominio");
+                showHideTooltip(correoPersonalCrearUsuarioTooltip, "Por favor, introduce un correo electrónico personal válido");
             }
-            errores.push("Correo electrónico personal sin dominio válido.");
+            errores.push("Correo electrónico personal no válido.");
         } else if (correoPersonalCrearUsuarioInput.value !== correoPersonalCrearUsuarioInput.value.toLowerCase()) {
             if (correoPersonalCrearUsuarioInput.closest(".sectionContent.crear.active")) {
                 showHideTooltip(correoPersonalCrearUsuarioTooltip, "Por favor, introduce un correo electrónico personal válido en minúsculas");
@@ -205,7 +206,7 @@ async function guardarModalCrearUsuario(idModal, idForm) {
 
         // Validar duplicados en BD
         const url = `${baseUrlMAIN}/verificar-userDataDuplication`;
-        const userEmail = emailInputCrearUsuario.value.trim();
+        const userEmail = emailTextInputCrearUsuario.value.trim();
         const userDNI = DNICrearUsuarioInput.value.trim();
         const userPersonalEmail = correoPersonalCrearUsuarioInput.value.trim();
         const userPersonalPhone = celularPersonalCrearUsuarioInput.value.trim();

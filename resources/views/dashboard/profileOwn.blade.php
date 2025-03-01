@@ -10,7 +10,7 @@
 
 @section('main-content')
     <div class="profileOwnContainer">
-        @if (Auth::user()->email === "admin@dimacof.com")
+        @if (Auth::user()->email === env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com"))
             <div class="firstRow">
                 <x-btn-create-item onclick="openModal('modalCrearUsuario')"> 
                     Nuevo usuario 
@@ -34,7 +34,7 @@
                     <tbody>
                         @php
                             $contador = 1;
-                            $isAdminProfile = Auth::user()->email === "admin@dimacof.com";
+                            $isAdminProfile = Auth::user()->email === env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com");
                         @endphp
                         @foreach ($users as $user)
                             <tr>
@@ -44,7 +44,7 @@
                                 <td class="celda-centered" >{{ $user->nombre_PerfilUsuario }}</td>
                                 <td class="celda-centered celda-btnAcciones">
                                     @php
-                                        $isNotAdminUser = $user->email !== "admin@dimacof.com";
+                                        $isNotAdminUser = $user->email !== env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com");
                                         $isUserEnabled = is_null($user->deleted_at);
                                     @endphp
                                 

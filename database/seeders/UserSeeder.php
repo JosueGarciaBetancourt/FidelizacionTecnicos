@@ -13,8 +13,8 @@ class UserSeeder extends Seeder
     {
         User::create([
             'idPerfilUsuario' => 1,
-            'name' => 'Admin',
-            'email' => env('ADMIN_EMAIL', 'admin@dimacof.com'),
+            'name' => env('ADMIN_USERNAME', "admin"), // Editar en el .env
+            'email' => env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com"), // Editar en el .env
             'password' => Hash::make('12345678'),
             'DNI' => '12345678',
             'personalName' => 'Josué Daniel',
@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
         User::create([
             'idPerfilUsuario' => 2,
             'name' => 'Vendedor Guillermo Peña',
-            'email' => 'guillermo@dimacof.com',
+            'email' => 'guillermo' . env('EMAIL_DOMAIN', "@dimacof.com"),
             'password' => Hash::make('continental'),
             'DNI' => '44221100',
             'personalName' => 'Guillermo Eduardo',
@@ -42,14 +42,14 @@ class UserSeeder extends Seeder
         User::create([
             'idPerfilUsuario' => 2,
             'name' => 'Raúl Torre',
-            'email' => 'raul@dimacof.com',
+            'email' => 'raul' . env('EMAIL_DOMAIN', "@dimacof.com"),
             'password' => Hash::make('12345678'),
         ]);
 
         User::create([
             'idPerfilUsuario' => 2,
             'name' => 'Test',
-            'email' => 'test@dimacof.com',
+            'email' => 'test' . env('EMAIL_DOMAIN', "@dimacof.com"),
             'password' => Hash::make('12345678'),
         ]);
     }

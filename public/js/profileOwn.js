@@ -1,31 +1,30 @@
 let objUserToEdit = null;
 
 function actualizarComponentesSegunTipoUsuario(isAdminEditModal) {
+    const emailTextInput = document.getElementById('emailTextInputEditarUsuario'); 
+    const emailTextInputContainer = document.getElementById('idEmailTextInput_container'); 
     const perfilUsuarioInput = document.getElementById('perfilUsuarioInputEditarUsuario'); 
     const perfilUsuarioContainer = document.getElementById('perfilUsuarioSelectEditarUsuario'); 
     const perfilUsuarioSpan = perfilUsuarioContainer.querySelector('span');
-    const isAdminLogged = userLoggedMAIN.email == "admin@dimacof.com";
-
-    if (isAdminLogged) {
-        if (!isAdminEditModal) {
-            //Habilitar el input de perfil
-            perfilUsuarioInput.classList.remove('blocked');
-            perfilUsuarioInput.removeAttribute('disabled');
-            perfilUsuarioInput.classList.add('onlySelectInput', 'long');
-            perfilUsuarioInput.classList.add('onlySelectInput', 'long'); 
-            perfilUsuarioSpan.classList.remove('blocked');
-            perfilUsuarioSpan.removeAttribute('disabled');
-            perfilUsuarioContainer.classList.remove('blocked', 'noFocusBorder');
-        } else {
-            //Deshabilitar el input de perfil
-            perfilUsuarioInput.classList.add('onlySelectInput', 'long', 'blocked');
-            perfilUsuarioSpan.classList.add('blocked');
-            perfilUsuarioContainer.classList.add('noFocusBorder', 'blocked');
-            perfilUsuarioInput.setAttribute('disabled', true); 
-            perfilUsuarioSpan.setAttribute('disabled', true);
-        }
+    const isAdminLogged = (userLoggedMAIN.email == adminEmailMAIN);
+    
+    if (isAdminLogged && !isAdminEditModal) {
+        //Habilitar el input de emailText y perfil
+        emailTextInput.classList.remove('blocked');
+        emailTextInput.removeAttribute('disabled', true); 
+        emailTextInputContainer.classList.remove('noFocusBorder', 'blocked');
+        perfilUsuarioInput.classList.remove('blocked');
+        perfilUsuarioInput.removeAttribute('disabled');
+        perfilUsuarioInput.classList.add('onlySelectInput', 'long');
+        perfilUsuarioInput.classList.add('onlySelectInput', 'long'); 
+        perfilUsuarioSpan.classList.remove('blocked');
+        perfilUsuarioSpan.removeAttribute('disabled');
+        perfilUsuarioContainer.classList.remove('noFocusBorder', 'blocked');
     } else {
-        //Deshabilitar el input de perfil
+        //Deshabilitar el input de emailText y perfil
+        emailTextInput.classList.add('blocked');
+        emailTextInput.setAttribute('disabled', true); 
+        emailTextInputContainer.classList.add('noFocusBorder', 'blocked');
         perfilUsuarioInput.classList.add('onlySelectInput', 'long', 'blocked');
         perfilUsuarioSpan.classList.add('blocked');
         perfilUsuarioContainer.classList.add('noFocusBorder', 'blocked');
@@ -46,7 +45,8 @@ function fillFieldsEditarUsuario(objUser) {
 
     document.getElementById('idUser').value = objUser.id;
     document.getElementById('nameInputEditarUsuario').value = objUser.name;
-    document.getElementById('emailInputEditarUsuario').value = objUser.email;
+    document.getElementById('emailTextInputEditarUsuario').value = objUser.email.split('@')[0];
+    document.getElementById('emailHiddenInputEditarUsuario').value = objUser.email;
     document.getElementById('perfilUsuarioInputEditarUsuario').value = objUser.nombre_PerfilUsuario;
     document.getElementById('passwordInputEditarUsuario').value = "";
     document.getElementById('passwordInputEditarUsuario').type = "password";
@@ -67,8 +67,12 @@ function fillFieldsEditarUsuario(objUser) {
     document.getElementById('editarDatosUsuarioMessageError').classList.remove('shown');
     document.getElementById('editarDatosPersonalesMessageError').classList.remove('shown');
 
+    if (!userLoggedMAIN || !adminEmailMAIN) {
+        location.reload();
+    }
+
     // Adaptar componente de selección de perfil
-    actualizarComponentesSegunTipoUsuario(objUser.email == "admin@dimacof.com")
+    actualizarComponentesSegunTipoUsuario(objUser.email == adminEmailMAIN)
 
     objUserToEdit = objUser;
 }
@@ -269,4 +273,13 @@ function closeModalProfileOwn(idModal) {
         if (tabs.length > 0) tabs[0].classList.add("active");
         if (sections.length > 0) sections[0].classList.add("active");
     }, 500); // Se ejecuta después de 500 ms
+}
+
+function fillHiddenEmailInput(firstInput, secondInputID) {
+    const input = firstInput;
+    const secInput = document.getElementById(secondInputID);
+
+    if (input && secInput) {
+        secInput.value = input.value + "@dimacof.com";
+    }
 }

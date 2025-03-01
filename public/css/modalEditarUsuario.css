@@ -48,6 +48,7 @@
 .editarUsuarioContainer {
 	display: flex;
 	width: auto;
+	margin-bottom: 0.3rem;
 }
 
 .editarContent {
@@ -107,7 +108,7 @@
 }
 
 #editarDatosUsuarioMessageError, #editarDatosPersonalesMessageError {
-	margin: 0 0 0.4rem 0;
+	margin-top: 0.25rem;
 	padding: 0;
 	max-width: 100%;
 }

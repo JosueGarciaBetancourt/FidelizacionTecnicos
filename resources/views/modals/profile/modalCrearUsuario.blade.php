@@ -18,7 +18,9 @@
                         $usersDB = $users;
                         $perfilesUsuariosDB = $perfilesUsuarios;
                         $nameInput = "nameInputCrearUsuario";
-                        $emailInput = "emailInputCrearUsuario";
+                        $emailTextInput = "emailTextInputCrearUsuario";
+                        $emailDomain = $userEmailDomain;
+                        $emailHiddenInput = "emailHiddenInputCrearUsuario";
                         $emailTooltip = "correoTooltipCrearUsuario";
                         $passwordInput = "passwordInputCrearUsuario";
                         $confirmPasswordInput = "confirmPasswordInputCrearUsuario";
@@ -44,16 +46,20 @@
                                 <div class="form-group gap">
                                     <div class="group-items">
                                         <label class="secondary-label" id="nameLabel" for="{{ $nameInput }}">Nombre</label>
-                                        <input class="input-item" type="text" id="{{ $nameInput }}" placeholder="Ingresar nombre" maxlength="30" 
-                                                oninput="validateRealTimeInputLength(this, 30)" name="name" required value="josue">
+                                        <input class="input-item" type="text" id="{{ $nameInput }}" placeholder="Ingresar nombre" maxlength="100" name="name" value="josue" required>
                                     </div>
                                 
                                     <div class="group-items">
-                                        <label class="secondary-label" id="emailLabel"  for="{{ $emailInput }}">Correo electrónico</label>
+                                        <label class="secondary-label" id="emailLabel"  for="{{ $emailTextInput }}">Correo electrónico</label>
                                         <div class="tooltip-container">
                                             <span class="tooltip red" id="{{ $emailTooltip }}"></span>
                                         </div>
-                                        <input class="input-item" type="email" id="{{ $emailInput }}" maxlength="50" name="email" value="josue@dimacof.com" required>
+                                        <div class="inputContainer">
+                                            <input class="emailTextInput" type="text" id="{{ $emailTextInput }}" maxlength="70" value="josue" 
+                                                oninput="fillHiddenEmailInput(this, {{ $emailHiddenInput }})" placeholder="vendedor_123" required>
+                                            <span class="emailDomain">{{ $emailDomain }}</span>
+                                        </div>
+                                        <input type="hidden" id="{{ $emailHiddenInput }}" maxlength="100" name="email" value="josue{{ $emailDomain }}" readonly required>
                                     </div>
                                 </div>
         
@@ -61,8 +67,7 @@
                                     <div class="group-items">
                                         <label class="secondary-label" id="passwordLabel" for="{{ $passwordInput }}" >Contraseña</label>
                                         <div class="passwordInputContainer">
-                                            <input class="passwordInput" type="password" id="{{ $passwordInput }}" autocomplete="off"
-                                                maxlength="20" value="12345678">
+                                            <input class="passwordInput" type="password" id="{{ $passwordInput }}" autocomplete="off" maxlength="20" value="12345678">
                                             <span class="viewPasswordIcon material-symbols-outlined noUserSelect" onclick="togglePasswordVisibility(this, '{{ $passwordInput }}')">
                                                 visibility_off
                                             </span>                           
@@ -136,7 +141,7 @@
                                         <div class="tooltip-container">
                                             <span class="tooltip red" id="{{ $correoPersonalTooltip }}"></span>
                                         </div>
-                                        <input class="input-item profileEmail" type="email" id="{{ $correoPersonalInput }}"  maxlength="30" name="correoPersonal" value="josue@gmail.com">
+                                        <input class="input-item profileEmail" type="email" id="{{ $correoPersonalInput }}"  maxlength="100" name="correoPersonal" value="josue@gmail.com">
                                     </div>
     
                                     <div class="group-items">

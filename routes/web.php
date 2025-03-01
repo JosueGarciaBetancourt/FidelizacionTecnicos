@@ -21,7 +21,6 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 Route::get('', [AuthenticatedSessionController::class, 'create']);
 
 Route::middleware(['auth', 'verified'])->group(function () {
-
     //PDF 
     Route::get('/dashboard-canjes/historialCanje/pdf/{size}/{idCanje}', [CanjeController::class, 'canjePDF'])->name('canjes.pdf');
 
@@ -36,6 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard-getLoggedUser', [ProfileController::class, 'getLoggedUser'])->name('usuarios.getLoggedUser');
     Route::post('/verificar-userDataDuplication', [ProfileController::class, 'verifyUserDataDuplication'])->name('usuarios.verifyUserDataDuplication');
     Route::post('/verificar-userEditDataDuplication', [ProfileController::class, 'verifyUserEditDataDuplication'])->name('usuarios.verifyUserEditDataDuplication');
+    Route::get('/dashboard-getAdminEmail', [ProfileController::class, 'getAdminEmail'])->name('usuarios.getAdminEmail');
 
     
     // Ventas Intermediadas

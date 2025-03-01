@@ -1,5 +1,5 @@
 .modal-dialog.modalCrearUsuario {
-	max-width: auto;
+	width: auto;
 }
 
 .modal-content.modalCrearUsuario {
@@ -43,15 +43,18 @@
 #formCrearUsuario {
 	padding: 1rem 0 0 0;
 	height: auto;
+	width: auto;
 }
 
 .crearUsuarioContainer {
 	display: flex;
 	width: auto;
+	margin-bottom: 0.3rem;
 }
 
 .crearContent {
 	min-height: 12.3rem;
+	width: auto;
 }
 
 #perfilUsuarioInput {
@@ -63,11 +66,7 @@
 }
 
 #nameInputCrearUsuario {
-	width: 15rem;
-}
-
-#emailInputCrearUsuario {
-	width: 17rem;
+	width: 13rem;
 }
 
 .modal-footer {
@@ -108,7 +107,7 @@
 }
 
 #crearDatosUsuarioMessageError, #crearDatosPersonalesMessageError {
-	margin: 0 0 0.4rem 0;
+	margin-top: 0.25rem;
 	padding: 0;
 	max-width: 100%;
 }

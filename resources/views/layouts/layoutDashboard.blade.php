@@ -121,7 +121,7 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/userLoggedDashboard.js') }}"></script>
+    <script src="{{ asset('js/userUtils.js') }}"></script>
     <script src="{{ asset('js/dashboardScript.js') }}"></script>
     <script src="{{ asset('js/jquery.min.js') }}"> </script>
     <script src="{{ asset('js/datatables.js') }}"> </script>

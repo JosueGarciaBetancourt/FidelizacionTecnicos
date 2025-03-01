@@ -1,5 +1,5 @@
 let nameInputEditarUsuario = document.getElementById('nameInputEditarUsuario');
-let emailInputEditarUsuario = document.getElementById('emailInputEditarUsuario');
+let emailTextInputEditarUsuario = document.getElementById('emailTextInputEditarUsuario');
 let passwordInputEditarUsuario = document.getElementById('passwordInputEditarUsuario');
 let confirmPasswordInputEditarUsuario = document.getElementById('confirmPasswordInputEditarUsuario');
 let perfilUsuarioInputEditarUsuario = document.getElementById('perfilUsuarioInputEditarUsuario');
@@ -21,7 +21,7 @@ let editarDatosPersonalesMessageError = document.getElementById('editarDatosPers
 
 let formEditUsuarioRequiredInputsArray = [
 	nameInputEditarUsuario,
-    emailInputEditarUsuario,
+    emailTextInputEditarUsuario,
     perfilUsuarioInputEditarUsuario,
     idPerfilEditarUsuarioInput,
 ];
@@ -122,18 +122,19 @@ function validarCamposVaciosFormularioEditarUsuario() {
 
 function validarCamposCorrectosFormularioEditarUsuario() {
     let errores = []; // Array para almacenar los errores
+    const emailTextPattern = /^[a-z0-9._]+(\+[a-z0-9]+)?$/;
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     // Validar datos de usuario
-    if (!emailPattern.test(emailInputEditarUsuario.value)) {
-        if (emailInputEditarUsuario.closest(".sectionContent.crear.active")) {
-            showHideTooltip(emailTooltipCrear, "Por favor, introduce un correo electrónico válido con un dominio");
+    if (!emailTextPattern.test(emailTextInputEditarUsuario.value)) {
+        if (emailTextInputEditarUsuario.closest(".sectionContent.crear.active")) {
+            showHideTooltip(emailTooltipCrear, "Por favor, introduce un correo electrónico válido");
         }
-        errores.push("Correo electrónico sin dominio válido.");
+        errores.push("Correo electrónico no válido.");
     }
 
-    if (emailInputEditarUsuario.value !== emailInputEditarUsuario.value.toLowerCase()) {
-        if (emailInputEditarUsuario.closest(".sectionContent.crear.active")) {
+    if (emailTextInputEditarUsuario.value !== emailTextInputEditarUsuario.value.toLowerCase()) {
+        if (emailTextInputEditarUsuario.closest(".sectionContent.crear.active")) {
             showHideTooltip(emailTooltipCrear, "Por favor, introduce un correo electrónico válido en minúsculas");
         }
         errores.push("Correo electrónico no válido en mayúsculas.");
@@ -162,9 +163,9 @@ function validarCamposCorrectosFormularioEditarUsuario() {
     if (correoPersonalEditarUsuarioInput.value && correoPersonalEditarUsuarioInput.value.trim() !== "") {
         if (!emailPattern.test(correoPersonalEditarUsuarioInput.value)) {
             if (correoPersonalEditarUsuarioInput.closest(".sectionContent.crear.active")) {
-                showHideTooltip(correoPersonalCrearUsuarioTooltip, "Por favor, introduce un correo electrónico personal válido con un dominio");
+                showHideTooltip(correoPersonalCrearUsuarioTooltip, "Por favor, introduce un correo electrónico personal válido");
             }
-            errores.push("Correo electrónico personal sin dominio válido.");
+            errores.push("Correo electrónico personal no válido.");
         } else if (correoPersonalEditarUsuarioInput.value !== correoPersonalEditarUsuarioInput.value.toLowerCase()) {
             if (correoPersonalEditarUsuarioInput.closest(".sectionContent.crear.active")) {
                 showHideTooltip(correoPersonalCrearUsuarioTooltip, "Por favor, introduce un correo electrónico personal válido en minúsculas");
@@ -204,7 +205,7 @@ async function guardarModalEditarUsuario(idModal, idForm) {
 
         // Validar duplicados en BD
         const url = `${baseUrlMAIN}/verificar-userEditDataDuplication`;
-        const userEmail = emailInputEditarUsuario.value.trim();
+        const userEmail = emailTextInputEditarUsuario.value.trim();
         const userDNI = DNIEditarUsuarioInput.value.trim();
         const userPersonalEmail = correoPersonalEditarUsuarioInput.value.trim();
         const userPersonalPhone = celularPersonalEditarUsuarioInput.value.trim();
