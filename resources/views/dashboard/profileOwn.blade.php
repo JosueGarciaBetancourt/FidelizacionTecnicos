@@ -4,20 +4,26 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/profileOwn.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/modalEditarUsuario.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalCrearUsuario.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalEditarDominioCorreo.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalEditarUsuario.css') }}">
 @endpush
 
 @section('main-content')
     <div class="profileOwnContainer">
-        @if (Auth::user()->email === env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com"))
+        @if (Auth::user()->email === config('settings.adminEmail'))
             <div class="firstRow">
                 <x-btn-create-item onclick="openModal('modalCrearUsuario')"> 
                     Nuevo usuario 
                 </x-btn-create-item>
                 @include('modals.profile.modalCrearUsuario')
+                <x-btn-edit-item onclick="openModal('modalEditarDominioCorreo')"> 
+                    Editar dominio de correo 
+                </x-btn-edit-item>
+                @include('modals.profile.modalEditarDominioCorreo')
             </div>
         @endif
+
         <section class="cardContainer">
             <div class="cardTitle">Listado de usuarios</div>
             <div class="cardBody">
@@ -34,7 +40,7 @@
                     <tbody>
                         @php
                             $contador = 1;
-                            $isAdminProfile = Auth::user()->email === env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com");
+                            $isAdminProfile = Auth::user()->email === config('settings.adminEmail');
                         @endphp
                         @foreach ($users as $user)
                             <tr>
@@ -44,7 +50,7 @@
                                 <td class="celda-centered" >{{ $user->nombre_PerfilUsuario }}</td>
                                 <td class="celda-centered celda-btnAcciones">
                                     @php
-                                        $isNotAdminUser = $user->email !== env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com");
+                                        $isNotAdminUser = $user->email !== config('settings.adminEmail');
                                         $isUserEnabled = is_null($user->deleted_at);
                                     @endphp
                                 
@@ -110,6 +116,8 @@
     <script src="{{asset('js/profileOwn.js')}}"></script>
     <script src="{{asset('js/modalCrearUsuario.js')}}"></script>
     <script src="{{asset('js/modalEditarUsuario.js')}}"></script>
+    <script src="{{asset('js/modalEditarDominioCorreo.js')}}"></script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             @if(session('successUsuarioStore'))

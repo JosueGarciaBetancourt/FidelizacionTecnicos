@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TecnicoController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RecompensaController;
+use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\SolicitudCanjeController;
 use App\Http\Controllers\VentaIntermediadaController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -121,6 +122,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Configuración
     Route::get('/dashboard-configuracion', [DashboardController::class, 'configuracion'])->name('configuracion');  
+    Route::put('/changeGeneralVariables', [ConfiguracionController::class, 'changeGeneralVariables'])->name('configuracion.variables');
 
     
     // Correos

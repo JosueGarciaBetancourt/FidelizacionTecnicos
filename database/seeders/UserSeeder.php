@@ -2,19 +2,25 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Setting;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
+        $adminUsername = Setting::where('key', 'adminUsername')->value('value') ?? 'admin';
+        $emailDomain = Setting::where('key', 'emailDomain')->value('value') ?? 'dimacof.com';
+        $adminEmail = $adminUsername . '@' . $emailDomain;
+
         User::create([
             'idPerfilUsuario' => 1,
-            'name' => env('ADMIN_USERNAME', "admin"), // Editar en el .env
-            'email' => env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com"), // Editar en el .env
+            'name' => $adminUsername,
+            'email' => $adminEmail, 
             'password' => Hash::make('12345678'),
             'DNI' => '12345678',
             'personalName' => 'Josué Daniel',
@@ -28,7 +34,7 @@ class UserSeeder extends Seeder
         User::create([
             'idPerfilUsuario' => 2,
             'name' => 'Vendedor Guillermo Peña',
-            'email' => 'guillermo' . env('EMAIL_DOMAIN', "@dimacof.com"),
+            'email' => 'guillermo' . '@' . $emailDomain,
             'password' => Hash::make('continental'),
             'DNI' => '44221100',
             'personalName' => 'Guillermo Eduardo',
@@ -42,14 +48,14 @@ class UserSeeder extends Seeder
         User::create([
             'idPerfilUsuario' => 2,
             'name' => 'Raúl Torre',
-            'email' => 'raul' . env('EMAIL_DOMAIN', "@dimacof.com"),
+            'email' => 'raul' . '@' . $emailDomain,
             'password' => Hash::make('12345678'),
         ]);
 
         User::create([
             'idPerfilUsuario' => 2,
             'name' => 'Test',
-            'email' => 'test' . env('EMAIL_DOMAIN', "@dimacof.com"),
+            'email' => 'test' . '@' . $emailDomain,
             'password' => Hash::make('12345678'),
         ]);
     }

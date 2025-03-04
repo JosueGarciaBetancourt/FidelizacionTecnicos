@@ -177,7 +177,7 @@ class VentaIntermediadaController extends Controller
     }
 
     public static function updateEstadosVentasIntermediadasMaxDayCanje() {
-        $maxdaysCanje = env('MAXDAYS_CANJE', 90);
+        $maxdaysCanje = config('settings.maxdaysCanje');
         $ventasMaxDayCanje = VentaIntermediada::get()->filter(function ($venta) use ($maxdaysCanje) {
             return $venta->diasTranscurridos > $maxdaysCanje;
         });
@@ -301,8 +301,8 @@ class VentaIntermediadaController extends Controller
         try {
             $venta = VentaIntermediada::findOrFail($idVentaIntermediada);
             $diasTranscurridos = Controller::returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
-            $maxdaysCanje = env('MAXDAYS_CANJE', 90);
-
+            $maxdaysCanje = config('settings.maxdaysCanje');
+            
             if ($diasTranscurridos > $maxdaysCanje) {
                 //Solo puede ser Tiempo Agotado si antes fue En Espera, En Espera (solicitado desde app) o Redimido (parcial)
                 //Si antes fue Redimido (completo) se queda así 

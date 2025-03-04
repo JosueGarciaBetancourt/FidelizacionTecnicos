@@ -123,6 +123,7 @@ return [
 
     'providers' => ServiceProvider::defaultProviders()->merge([
         Yajra\DataTables\DataTablesServiceProvider::class, 
+        App\Providers\SettingsServiceProvider::class,
         ])->toArray(), 
     
     'aliases' => Facade::defaultAliases()->merge([

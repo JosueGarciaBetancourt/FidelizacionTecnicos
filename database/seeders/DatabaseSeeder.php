@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         $startTime = microtime(true); // Marca el inicio del tiempo
         
+        $this->call(SettingsSeeder::class);
         $this->call(PerfilUsuarioSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(OficioSeeder::class);

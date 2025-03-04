@@ -2,17 +2,20 @@ let objUserToEdit = null;
 
 function actualizarComponentesSegunTipoUsuario(isAdminEditModal) {
     const emailTextInput = document.getElementById('emailTextInputEditarUsuario'); 
-    const emailTextInputContainer = document.getElementById('idEmailTextInput_container'); 
+    const emailTextInputContainer = document.getElementById('idEmailTextInputContainer'); 
+    const perfilUsuarioLabel = document.getElementById('perfilUsuarioEditarLabel');
     const perfilUsuarioInput = document.getElementById('perfilUsuarioInputEditarUsuario'); 
     const perfilUsuarioContainer = document.getElementById('perfilUsuarioSelectEditarUsuario'); 
     const perfilUsuarioSpan = perfilUsuarioContainer.querySelector('span');
     const isAdminLogged = (userLoggedMAIN.email == adminEmailMAIN);
-    
+
     if (isAdminLogged && !isAdminEditModal) {
         //Habilitar el input de emailText y perfil
         emailTextInput.classList.remove('blocked');
         emailTextInput.removeAttribute('disabled', true); 
         emailTextInputContainer.classList.remove('noFocusBorder', 'blocked');
+        perfilUsuarioLabel.classList.remove('secondary-label');
+        perfilUsuarioLabel.classList.add('primary-label');
         perfilUsuarioInput.classList.remove('blocked');
         perfilUsuarioInput.removeAttribute('disabled');
         perfilUsuarioInput.classList.add('onlySelectInput', 'long');
@@ -25,12 +28,16 @@ function actualizarComponentesSegunTipoUsuario(isAdminEditModal) {
         emailTextInput.classList.add('blocked');
         emailTextInput.setAttribute('disabled', true); 
         emailTextInputContainer.classList.add('noFocusBorder', 'blocked');
+        perfilUsuarioLabel.classList.remove('primary-label');
+        perfilUsuarioLabel.classList.add('secondary-label');
         perfilUsuarioInput.classList.add('onlySelectInput', 'long', 'blocked');
         perfilUsuarioSpan.classList.add('blocked');
         perfilUsuarioContainer.classList.add('noFocusBorder', 'blocked');
         perfilUsuarioInput.setAttribute('disabled', true); 
         perfilUsuarioSpan.setAttribute('disabled', true);
     }
+    
+    // Guardar en session storage
 }
 
 function fillFieldsEditarUsuario(objUser) {
@@ -53,7 +60,7 @@ function fillFieldsEditarUsuario(objUser) {
     document.getElementById('confirmPasswordInputEditarUsuario').value = "";
     document.getElementById('confirmPasswordInputEditarUsuario').type = "password";
     document.getElementById('idPerfilEditarUsuarioInput').value = objUser.idPerfilUsuario;
-
+    
     // Datos personales
     document.getElementById('DNIInputEditarUsuario').value = objUser.DNI;
     document.getElementById('personalNameInputEditarUsuario').value = objUser.personalName;
@@ -70,6 +77,8 @@ function fillFieldsEditarUsuario(objUser) {
     if (!userLoggedMAIN || !adminEmailMAIN) {
         location.reload();
     }
+
+    // Guardar en session storage
 
     // Adaptar componente de selección de perfil
     actualizarComponentesSegunTipoUsuario(objUser.email == adminEmailMAIN)
