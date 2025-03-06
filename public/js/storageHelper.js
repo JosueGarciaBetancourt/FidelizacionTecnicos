@@ -10,6 +10,7 @@ class StorageHelper {
         }
         try {
             localStorage.setItem(key, JSON.stringify(value));
+            //console.log("sessionStorage filled: ", sessionStorage);
         } catch (error) {
             console.error(`Error al guardar en localStorage con la clave "${key}":`, error);
         }

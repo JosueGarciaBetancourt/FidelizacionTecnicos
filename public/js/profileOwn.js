@@ -1,6 +1,163 @@
 let objUserToEdit = null;
 
-function actualizarComponentesSegunTipoUsuario(isAdminEditModal) {
+document.addEventListener('DOMContentLoaded', function() {
+    try {
+        const modalOpened = StorageHelper.load('modalOpenedProfileOwn');
+        if (modalOpened != null || modalOpened != "") {
+            if (modalOpened == "crear") {
+                const objCrear = StorageHelper.loadModalDataFromStorage('modalCrearUsuarioObject');
+                if (objCrear) {
+                    fillFieldsCrearUsuario(objCrear);
+                }
+                justOpenModal("modalCrearUsuario");
+            } else if (modalOpened == "editarDominioCorreo") {
+                const objEditarDominioCorreo = StorageHelper.loadModalDataFromStorage('modalEditarDominioCorreoObject');
+                if (objEditarDominioCorreo) {
+                    document.getElementById('newDomainInputEditarDominioCorreo').value = objEditarDominioCorreo;
+                }
+                justOpenModal("modalEditarDominioCorreo");
+            } else if (modalOpened == "editar") {
+                const objEditar = StorageHelper.loadModalDataFromStorage('modalEditarUsuarioObject');
+                if (objEditar) {
+                    fillFieldsEditarUsuario(objEditar);
+                }
+                justOpenModal("modalEditarUsuario");
+            }  
+        }
+    } catch (error) {
+        console.error( error);
+    }
+});
+
+// Obtener los inputs del formulario
+const inputsCrearUsuarioProfileOWn = {
+    name: document.getElementById('nameInputCrearUsuario'),
+    email: document.getElementById('emailHiddenInputCrearUsuario'),
+    nombre_PerfilUsuario: document.getElementById('perfilUsuarioInputCrearUsuario'),
+    idPerfilUsuario: document.getElementById('idPerfilCrearUsuarioInput'),
+    DNI: document.getElementById('DNIInputCrearUsuario'),
+    personalName: document.getElementById('personalNameInputCrearUsuario'),
+    surname: document.getElementById('surnameInputCrearUsuario'),
+    fechaNacimiento: document.getElementById('fechaNacimientoInputCrearUsuario'),
+    correoPersonal: document.getElementById('correoPersonalInputCrearUsuario'),
+    celularPersonal: document.getElementById('celularPersonalInputCrearUsuario'),
+    celularCorporativo: document.getElementById('celularCorporativoInputCrearUsuario'),
+};
+
+// Guardar la data en sessionStorage cada vez que el usuario escriba
+Object.entries(inputsCrearUsuarioProfileOWn).forEach(([key, input]) => {
+    if (input) { // Verifica que el input no sea null
+        const currentData = StorageHelper.load('modalCrearUsuarioObject') || {};
+
+        input.addEventListener("input", () => {
+            currentData[key] = input.value;
+            StorageHelper.save('modalCrearUsuarioObject', currentData);
+        });
+    }
+});
+
+function saveStorageDataCrearUsuario() {
+    // Cargar datos previos de sessionStorage o inicializar objeto vacío
+    const currentData = StorageHelper.load('modalCrearUsuarioObject') || {};
+
+    // Cargar el valor guardado de currentData si existe
+    if (currentData != {}) {
+        fillFieldsCrearUsuario(currentData);
+    }
+
+    // Recorrer los inputs para guardar valores iniciales
+    Object.entries(inputsCrearUsuarioProfileOWn).forEach(([key, input]) => {
+        if (inputsCrearUsuarioProfileOWn) {
+            // Guardar valor inicial
+            currentData[key] = input.value;
+        }
+    });
+
+    // Guardar los valores iniciales en sessionStorage
+    StorageHelper.save('modalCrearUsuarioObject', currentData);
+}
+
+function fillFieldsCrearUsuario(objUser) {
+    if (!objUser) {
+        return;
+    }
+
+    const viewIcons = Array.from(document.getElementsByClassName('viewPasswordIcon'));  
+    viewIcons.forEach(icon => {icon.textContent = "visibility_off";});
+
+    // consoleLogJSONItems(objUser);
+
+    // Datos de usuario
+    document.getElementById('nameInputCrearUsuario').value = objUser.name;
+    document.getElementById('emailTextInputCrearUsuario').value = objUser.email.split('@')[0];
+    document.getElementById('emailHiddenInputCrearUsuario').value = objUser.email;
+    document.getElementById('perfilUsuarioInputCrearUsuario').value = objUser.nombre_PerfilUsuario;
+    document.getElementById('passwordInputCrearUsuario').value = "";
+    document.getElementById('passwordInputCrearUsuario').type = "password";
+    document.getElementById('confirmPasswordInputCrearUsuario').value = "";
+    document.getElementById('confirmPasswordInputCrearUsuario').type = "password";
+    document.getElementById('idPerfilCrearUsuarioInput').value = objUser.idPerfilUsuario;
+    
+    // Datos personales
+    document.getElementById('DNIInputCrearUsuario').value = objUser.DNI;
+    document.getElementById('personalNameInputCrearUsuario').value = objUser.personalName;
+    document.getElementById('surnameInputCrearUsuario').value = objUser.surname;
+    document.getElementById('fechaNacimientoInputCrearUsuario').value = objUser.fechaNacimiento;
+    document.getElementById('correoPersonalInputCrearUsuario').value = objUser.correoPersonal;
+    document.getElementById('celularPersonalInputCrearUsuario').value = objUser.celularPersonal;
+    document.getElementById('celularCorporativoInputCrearUsuario').value = objUser.celularCorporativo;
+
+    // Mensajes de error de las secciones del modal
+    document.getElementById('crearDatosUsuarioMessageError').classList.remove('shown');
+    document.getElementById('crearDatosPersonalesMessageError').classList.remove('shown');
+}
+
+function openModalCrearUsuario(id) {
+    // Guardar en sessionStorage que el modal se ha abierto
+    StorageHelper.save('modalOpenedProfileOwn', 'crear');
+
+    saveStorageDataCrearUsuario();
+
+    // Abrir el modal
+    justOpenModal(id);
+}
+
+var newDomainProfileOWn = document.getElementById('newDomainInputEditarDominioCorreo');
+
+// Guardar el valor en sessionStorage cada vez que el usuario escriba
+newDomainProfileOWn.addEventListener("input", () => {
+    StorageHelper.save('modalEditarDominioCorreoObject', newDomainProfileOWn.value);
+    console.log("newDomain guardado: " + newDomainProfileOWn.value);
+});
+
+function saveStorageDataEditarDominioCorreo() {
+    // Obtener el input del modal
+    if (newDomainProfileOWn) {
+        // Cargar el valor guardado en sessionStorage si existe
+        const savedDomain = StorageHelper.load('modalEditarDominioCorreoObject') || "";
+        if (savedDomain != "") {
+            newDomainProfileOWn.value = savedDomain;
+        }
+
+        // Guardar el valor inicial (sin modificar el input)
+        StorageHelper.save('modalEditarDominioCorreoObject', newDomainProfileOWn.value);
+        console.log("newDomain guardado: " + newDomainProfileOWn.value);
+    } else {
+        console.warn("El input 'newDomainInputEditarDominioCorreo' no se encontró en el DOM.");
+    }
+}
+
+function openModalEditarDominio(id) {
+    // Guardar en sessionStorage que el modal se ha abierto
+    StorageHelper.save('modalOpenedProfileOwn', 'editarDominioCorreo');
+
+    saveStorageDataEditarDominioCorreo();
+
+    // Abrir el modal
+    justOpenModal(id);
+}
+
+function actualizarComponentesSegunTipoUsuarioEditar(isAdminEditModal) {
     const emailTextInput = document.getElementById('emailTextInputEditarUsuario'); 
     const emailTextInputContainer = document.getElementById('idEmailTextInputContainer'); 
     const perfilUsuarioLabel = document.getElementById('perfilUsuarioEditarLabel');
@@ -37,7 +194,11 @@ function actualizarComponentesSegunTipoUsuario(isAdminEditModal) {
         perfilUsuarioSpan.setAttribute('disabled', true);
     }
     
+    // Construir el JSON
+    //const modalEditarUsuarioObject = "";
+
     // Guardar en session storage
+    //StorageHelper.saveModalDataToStorage('modalEditarUsuarioObject', modalEditarUsuarioObject);
 }
 
 function fillFieldsEditarUsuario(objUser) {
@@ -45,45 +206,52 @@ function fillFieldsEditarUsuario(objUser) {
         return;
     }
 
-    const viewIcons = Array.from(document.getElementsByClassName('viewPasswordIcon'));  
-    viewIcons.forEach(icon => {icon.textContent = "visibility_off";});
+    const checkInterval = setInterval(() => {
+        if (userLoggedMAIN && adminEmailMAIN) {
+            clearInterval(checkInterval);
 
-    //consoleLogJSONItems(objUser);
+            const viewIcons = Array.from(document.getElementsByClassName('viewPasswordIcon'));  
+            viewIcons.forEach(icon => {icon.textContent = "visibility_off";});
 
-    document.getElementById('idUser').value = objUser.id;
-    document.getElementById('nameInputEditarUsuario').value = objUser.name;
-    document.getElementById('emailTextInputEditarUsuario').value = objUser.email.split('@')[0];
-    document.getElementById('emailHiddenInputEditarUsuario').value = objUser.email;
-    document.getElementById('perfilUsuarioInputEditarUsuario').value = objUser.nombre_PerfilUsuario;
-    document.getElementById('passwordInputEditarUsuario').value = "";
-    document.getElementById('passwordInputEditarUsuario').type = "password";
-    document.getElementById('confirmPasswordInputEditarUsuario').value = "";
-    document.getElementById('confirmPasswordInputEditarUsuario').type = "password";
-    document.getElementById('idPerfilEditarUsuarioInput').value = objUser.idPerfilUsuario;
-    
-    // Datos personales
-    document.getElementById('DNIInputEditarUsuario').value = objUser.DNI;
-    document.getElementById('personalNameInputEditarUsuario').value = objUser.personalName;
-    document.getElementById('surnameInputEditarUsuario').value = objUser.surname;
-    document.getElementById('fechaNacimientoInputEditarUsuario').value = objUser.fechaNacimiento;
-    document.getElementById('correoPersonalInputEditarUsuario').value = objUser.correoPersonal;
-    document.getElementById('celularPersonalInputEditarUsuario').value = objUser.celularPersonal;
-    document.getElementById('celularCorporativoInputEditarUsuario').value = objUser.celularCorporativo;
+            //consoleLogJSONItems(objUser);
 
-    // Mensajes de error de las secciones del modal
-    document.getElementById('editarDatosUsuarioMessageError').classList.remove('shown');
-    document.getElementById('editarDatosPersonalesMessageError').classList.remove('shown');
+            document.getElementById('idUser').value = objUser.id;
+            document.getElementById('nameInputEditarUsuario').value = objUser.name;
+            document.getElementById('emailTextInputEditarUsuario').value = objUser.email.split('@')[0];
+            document.getElementById('emailHiddenInputEditarUsuario').value = objUser.email;
+            document.getElementById('perfilUsuarioInputEditarUsuario').value = objUser.nombre_PerfilUsuario;
+            document.getElementById('passwordInputEditarUsuario').value = "";
+            document.getElementById('passwordInputEditarUsuario').type = "password";
+            document.getElementById('confirmPasswordInputEditarUsuario').value = "";
+            document.getElementById('confirmPasswordInputEditarUsuario').type = "password";
+            document.getElementById('idPerfilEditarUsuarioInput').value = objUser.idPerfilUsuario;
+            
+            // Datos personales
+            document.getElementById('DNIInputEditarUsuario').value = objUser.DNI;
+            document.getElementById('personalNameInputEditarUsuario').value = objUser.personalName;
+            document.getElementById('surnameInputEditarUsuario').value = objUser.surname;
+            document.getElementById('fechaNacimientoInputEditarUsuario').value = objUser.fechaNacimiento;
+            document.getElementById('correoPersonalInputEditarUsuario').value = objUser.correoPersonal;
+            document.getElementById('celularPersonalInputEditarUsuario').value = objUser.celularPersonal;
+            document.getElementById('celularCorporativoInputEditarUsuario').value = objUser.celularCorporativo;
 
-    if (!userLoggedMAIN || !adminEmailMAIN) {
-        location.reload();
-    }
+            // Mensajes de error de las secciones del modal
+            document.getElementById('editarDatosUsuarioMessageError').classList.remove('shown');
+            document.getElementById('editarDatosPersonalesMessageError').classList.remove('shown');
 
-    // Guardar en session storage
+            // Adaptar componente de selección de perfil
+            actualizarComponentesSegunTipoUsuarioEditar(objUser.email == adminEmailMAIN)
 
-    // Adaptar componente de selección de perfil
-    actualizarComponentesSegunTipoUsuario(objUser.email == adminEmailMAIN)
+            objUserToEdit = objUser;
+        }
+    }, 50);
 
-    objUserToEdit = objUser;
+    setTimeout(() => {
+        clearInterval(checkInterval);
+        if (!userLoggedMAIN || !adminEmailMAIN) {
+            console.warn("Tiempo de espera agotado, userLoggedMAIN o adminEmailMAIN no están definidos.");
+        }
+    }, 1000);
 }
 
 function openModalEditarUsuario(button, usersDB) {
@@ -95,7 +263,11 @@ function openModalEditarUsuario(button, usersDB) {
     // LLenar campos del formulario de edición de usuario
     fillFieldsEditarUsuario(objUser);
 
-    openModal("modalEditarUsuario");
+    // Guardar en session storage
+    StorageHelper.save('modalOpenedProfileOwn', 'editar');
+    StorageHelper.saveModalDataToStorage('modalEditarUsuarioObject', objUser);
+
+    justOpenModal("modalEditarUsuario");
 }
 
 function openModalHabilitarUsuario(button, usersDB) {
@@ -265,6 +437,9 @@ function returnObjUserByEmail(email, usersDB) {
 }
 
 function closeModalProfileOwn(idModal) {
+    // Limpiar storage
+    StorageHelper.clear('modalOpenedProfileOwn');
+
     closeModal(idModal);
 
     setTimeout(() => {
@@ -289,6 +464,14 @@ function fillHiddenEmailInput(firstInput, secondInputID) {
     const secInput = document.getElementById(secondInputID);
 
     if (input && secInput) {
-        secInput.value = input.value + "@dimacof.com";
+        secInput.value = input.value + '@' + emailDomainMAIN;
+
+        if (firstInput.id == "emailTextInputCrearUsuario") {
+            // Guardar en session storage
+            const currentData = StorageHelper.load('modalCrearUsuarioObject') || {};
+            currentData['email'] = secInput.value;
+
+            StorageHelper.save('modalCrearUsuarioObject', currentData);
+        }
     }
 }

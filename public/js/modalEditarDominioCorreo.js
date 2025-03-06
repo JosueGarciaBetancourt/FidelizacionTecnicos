@@ -10,5 +10,8 @@ function guardarModalEditarDominioCorreo(idModal, idForm) {
     }
 
     editarDominioCorreoMessageError.classList.remove('shown');
+
+    // Limpiar storage
+    StorageHelper.clear('modalOpenedProfileOwn');
     guardarModal(idModal, idForm);
 }

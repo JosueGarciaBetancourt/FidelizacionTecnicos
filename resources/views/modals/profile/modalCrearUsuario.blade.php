@@ -3,7 +3,7 @@
         <div class="modal-content modalCrearUsuario">
             <div class="modal-header">
                 <h5 class="modal-title">Crear Usuario</h5>
-                <button class="close noUserSelect" onclick="closeModal('modalCrearUsuario')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModalProfileOwn('modalCrearUsuario')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyAgregarNuevoUsuario">
                 <div class="section-navbar">
@@ -55,8 +55,8 @@
                                             <span class="tooltip red" id="{{ $emailTooltip }}"></span>
                                         </div>
                                         <div class="inputContainer">
-                                            <input class="emailTextInput" type="text" id="{{ $emailTextInput }}" maxlength="70" value="josue" 
-                                                oninput="fillHiddenEmailInput(this, {{ $emailHiddenInput }})" placeholder="vendedor_123" required>
+                                            <input class="emailTextInput" type="text" id="{{ $emailTextInput }}" maxlength="70" value="josue"
+                                                oninput="fillHiddenEmailInput(this, '{{ $emailHiddenInput }}')" placeholder="vendedor_123" required>
                                             <span class="emailDomain">{{ '@' . $emailDomain }}</span>
                                         </div>
                                         <input type="hidden" id="{{ $emailHiddenInput }}" maxlength="100" name="email" value="josue{{ '@' . $emailDomain }}" readonly required>

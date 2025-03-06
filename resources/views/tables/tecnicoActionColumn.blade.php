@@ -1,6 +1,8 @@
-<a href="#" class="btnRestorePassword" onclick="openModalRestorePassword(this)">Restaurar contraseña
-	<span class="material-symbols-outlined noUserSelect">lock_open</span>
-</a>
+@if (Auth::check() && Auth::user()->idPerfilUsuario != 3)
+	<a href="#" class="btnRestorePassword" onclick="openModalRestorePassword(this)">Restaurar contraseña
+		<span class="material-symbols-outlined noUserSelect">lock_open</span>
+	</a>
+@endif
 
 <style> 
 	.btnRestorePassword {

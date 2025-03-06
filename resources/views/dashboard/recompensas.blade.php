@@ -15,36 +15,42 @@
 
 @section('main-content')
     <div class="recompensasContainer">
-        <h3>Recompensa</h3>
-        <div class="firstRowRecompensas">
-            <x-btn-create-item onclick="openModal('modalRegistrarNuevaRecompensa')"> 
-                Nueva recompensa
-            </x-btn-create-item>
-            @include('modals.recompensas.modalRegistrarNuevaRecompensa')
+        @php
+            $isAsisstantLogged = Auth::check() && Auth::user()->idPerfilUsuario == 3;
+        @endphp
 
-            <x-btn-edit-item onclick="openModal('modalEditarRecompensa')"> Editar </x-btn-edit-item>
-            @include('modals.recompensas.modalEditarRecompensa')
+        @if (!$isAsisstantLogged)
+            <h3>Recompensa</h3>
+            <div class="firstRowRecompensas">
+                <x-btn-create-item onclick="openModal('modalRegistrarNuevaRecompensa')"> 
+                    Nueva recompensa
+                </x-btn-create-item>
+                @include('modals.recompensas.modalRegistrarNuevaRecompensa')
 
-            <x-btn-delete-item onclick="openModal('modalEliminarRecompensa')"> Inhabilitar </x-btn-delete-item>
-            @include('modals.recompensas.modalEliminarRecompensa')
+                <x-btn-edit-item onclick="openModal('modalEditarRecompensa')"> Editar </x-btn-edit-item>
+                @include('modals.recompensas.modalEditarRecompensa')
 
-            <x-btn-recover-item onclick="openModal('modalRestaurarRecompensa')"> Habilitar </x-btn-delete-item>
-            @include('modals.recompensas.modalRestaurarRecompensa')
-        </div>
+                <x-btn-delete-item onclick="openModal('modalEliminarRecompensa')"> Inhabilitar </x-btn-delete-item>
+                @include('modals.recompensas.modalEliminarRecompensa')
 
-        <h3>Tipo de recompensa</h3>
-        <div class="secondRowRecompensas">
-            <x-btn-create-item onclick="openModal('modalRegistrarNuevoTipoRecompensa')"> 
-                Nuevo tipo de recompensa
-            </x-btn-create-item>
-            @include('modals.recompensas.modalRegistrarNuevoTipoRecompensa')
+                <x-btn-recover-item onclick="openModal('modalRestaurarRecompensa')"> Habilitar </x-btn-delete-item>
+                @include('modals.recompensas.modalRestaurarRecompensa')
+            </div>
 
-            <x-btn-edit-item onclick="openModal('modalEditarTipoRecompensa')"> Editar </x-btn-edit-item>
-            @include('modals.recompensas.modalEditarTipoRecompensa')
+            <h3>Tipo de recompensa</h3>
+            <div class="secondRowRecompensas">
+                <x-btn-create-item onclick="openModal('modalRegistrarNuevoTipoRecompensa')"> 
+                    Nuevo tipo de recompensa
+                </x-btn-create-item>
+                @include('modals.recompensas.modalRegistrarNuevoTipoRecompensa')
 
-            <x-btn-delete-item onclick="openModal('modalEliminarTipoRecompensa')"> Eliminar </x-btn-delete-item>
-            @include('modals.recompensas.modalEliminarTipoRecompensa')
-        </div>
+                <x-btn-edit-item onclick="openModal('modalEditarTipoRecompensa')"> Editar </x-btn-edit-item>
+                @include('modals.recompensas.modalEditarTipoRecompensa')
+
+                <x-btn-delete-item onclick="openModal('modalEliminarTipoRecompensa')"> Eliminar </x-btn-delete-item>
+                @include('modals.recompensas.modalEliminarTipoRecompensa')
+            </div>
+        @endif
 
         <div class="thirdRow">
             <table id="tblRecompensas">

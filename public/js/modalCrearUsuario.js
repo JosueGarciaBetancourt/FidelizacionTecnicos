@@ -111,6 +111,13 @@ function selectOptionPerfilUsuarioCrear(value, idInput, idOptions, perfilesDB) {
 
     const idPerfilUsuario = returnIdByNombrePerfilUser(value, perfilesDB);
     idPerfilUsuarioInputCrear.value = idPerfilUsuario;
+
+    // Guardar en session storage
+    const currentData = StorageHelper.load('modalCrearUsuarioObject') || {};
+    currentData['idPerfilUsuario'] = idPerfilUsuario;
+    currentData['nombre_PerfilUsuario'] = value;
+
+    StorageHelper.save('modalCrearUsuarioObject', currentData);
 }
 
 function validarCamposVaciosFormularioCrearUsuario() {
@@ -247,6 +254,9 @@ async function guardarModalCrearUsuario(idModal, idForm) {
 
                 crearDatosUsuarioMessageError.classList.remove("shown");
                 crearDatosPersonalesMessageError.classList.remove("shown");
+
+                // Limpiar storage
+                StorageHelper.clear('modalOpenedProfileOwn');
                 guardarModal(idModal, idForm);	
             }
         } catch (error) {

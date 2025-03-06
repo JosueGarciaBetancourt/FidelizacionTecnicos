@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class ConfiguracionController extends Controller
 {
-    public function changeGeneralVariables(Request $request)
+    public function changeSettingsVariables(Request $request)
     {
         $validatedData = $request->validate([
             'key' => 'required|string',
@@ -35,8 +35,13 @@ class ConfiguracionController extends Controller
             User::query()->update([
                 'email' => DB::raw("CONCAT(SUBSTRING_INDEX(email, '@', 1), '@" . addslashes($newDomain) . "')")
             ]);
+
+            return redirect()->route('usuarios.create')->with('successDominioCorreoUpdate', 'Dominio de correo actualizado correctamente.');
+        } else if ($validatedData['key'] === "maxdaysCanje") {
+            return redirect()->route('configuracion.create')->with('successMaxdaysCanjeUpdate', 'Días máximos de canje actualizado correctamente.');
+        } else {
+            return redirect()->route('configuracion.create')->with('successSettingVariableUpdate', 'Configuración actualizada correctamente.');
         }
 
-        return redirect()->route('usuarios.create')->with('successDominioCorreoUpdate', 'Dominio de correo guardado correctamente.');
     }
 }

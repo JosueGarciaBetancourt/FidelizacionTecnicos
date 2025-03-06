@@ -15,6 +15,10 @@
 @endpush
 
 @section('content')
+    @php
+        $isAsisstantLogged = Auth::check() && Auth::user()->idPerfilUsuario == 3;
+    @endphp
+
     <div class="dashboard-container" data-routes='{"perfil": "{{ route('usuarios.create') }}", "logout": "{{ route('logout') }}"}'>
         <aside>
             <div class="top">
@@ -37,7 +41,9 @@
                         <span id="canjesArrowDownSpan" class="material-symbols-outlined">keyboard_arrow_down</span>
                     </a>
                     <div class="select-items-canjes hidden" id="canjesMenu">
-                        <a href="{{ route('canjes.registrar') }}" class="{{ Request::routeIs('canjes.registrar') ? 'subLinkActive' : '' }}">• Registrar Canje</a>
+                        @if (!$isAsisstantLogged)
+                            <a href="{{ route('canjes.registrar') }}" class="{{ Request::routeIs('canjes.registrar') ? 'subLinkActive' : '' }}">• Registrar Canje</a>
+                        @endif
                         <a href="{{ route('canjes.historial') }}" class="{{ Request::routeIs('canjes.historial') ? 'subLinkActive' : '' }}">• Ver Historial</a>
                         <a href="{{ route('solicitudescanjes.create') }}" class="{{ Request::routeIs('solicitudescanjes.create') ? 'subLinkActive' : '' }}">• Ver solicitudes desde APP</a>
                     </div>
@@ -61,8 +67,8 @@
                     <h5>Oficios</h5>
                 </a>
 
-                <a href="{{ route('configuracion') }}" 
-                    class="{{ Request::routeIs('configuracion') ? 'active' : '' }}">
+                <a href="{{ route('configuracion.create') }}" 
+                    class="{{ Request::routeIs('configuracion.create') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">settings</span>
                     <h5>Configuración</h5>
                 </a>

@@ -37,7 +37,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/verificar-userDataDuplication', [ProfileController::class, 'verifyUserDataDuplication'])->name('usuarios.verifyUserDataDuplication');
     Route::post('/verificar-userEditDataDuplication', [ProfileController::class, 'verifyUserEditDataDuplication'])->name('usuarios.verifyUserEditDataDuplication');
     Route::get('/dashboard-getAdminEmail', [ProfileController::class, 'getAdminEmail'])->name('usuarios.getAdminEmail');
-
+    Route::get('/dashboard-getEmailDomain', [ProfileController::class, 'getEmailDomain'])->name('usuarios.getEmailDomain');
     
     // Ventas Intermediadas
     Route::get('/dashboard-ventasIntermediadas', [VentaIntermediadaController::class, 'create'])->name('ventasIntermediadas.create');
@@ -121,8 +121,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     // Configuración
-    Route::get('/dashboard-configuracion', [DashboardController::class, 'configuracion'])->name('configuracion');  
-    Route::put('/changeGeneralVariables', [ConfiguracionController::class, 'changeGeneralVariables'])->name('configuracion.variables');
+    Route::get('/dashboard-configuracion', [DashboardController::class, 'configuracion'])->name('configuracion.create');  
+    Route::put('/changeSettingsVariables', [ConfiguracionController::class, 'changeSettingsVariables'])->name('configuracion.update');
 
     
     // Correos

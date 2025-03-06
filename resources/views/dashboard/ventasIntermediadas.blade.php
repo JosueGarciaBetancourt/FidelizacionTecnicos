@@ -11,11 +11,17 @@
 @endpush
 
 @section('main-content')
+    @php
+        $isAsisstantLogged = Auth::check() && Auth::user()->idPerfilUsuario == 3;
+    @endphp
+
     <div class="ventasIntermediadasContainer">
-        <div class="firstRow">
-            <x-btn-create-item onclick="openModal('modalAgregarVenta')"> Agregar nueva venta </x-btn-create-item>
-            <x-btn-delete-item onclick="openModal('modalEliminarVentaIntermediada')"> Eliminar </x-btn-delete-item>
-        </div>
+        @if (!$isAsisstantLogged)
+            <div class="firstRow">
+                <x-btn-create-item onclick="openModal('modalAgregarVenta')"> Agregar nueva venta </x-btn-create-item>
+                <x-btn-delete-item onclick="openModal('modalEliminarVentaIntermediada')"> Eliminar </x-btn-delete-item>
+            </div>
+        @endif
 
         <div class="thirdRow">
             <table id="tblVentasIntermediadas">

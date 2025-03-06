@@ -7,6 +7,10 @@
 @endpush
 
 @section('main-content')
+	@php
+		$isAdminLogged = Auth::check() && Auth::user()->idPerfilUsuario == 1;
+	@endphp
+		
 	<div class="configuracionContainer">
 		<div class="firstRow">
 			<h1>Configuración del Sistema</h1>
@@ -36,9 +40,18 @@
 					<input type="color" id="sidebarColor" value="#007bff">
 				</div>
 			</div>
-			
-			<button id="saveConfig" class="save-config">Guardar Configuración</button>
+
+			@if ($isAdminLogged) 
+				<div class="config-section">
+					<h2>Variables generales</h2>
+					<div class="config-option">
+						<label for="maxdaysCanjeSettingsInput">Días máximos de canje</label>
+						<input type="number" id="maxdaysCanjeSettingsInput" value="{{ config('settings.maxdaysCanje') }}">
+					</div>
+				</div>
+			@endif
 		</div>
+		<button id="saveConfig" class="save-config">Guardar Configuración</button>
 	</div>
 
 	<x-modalSuccessAction 

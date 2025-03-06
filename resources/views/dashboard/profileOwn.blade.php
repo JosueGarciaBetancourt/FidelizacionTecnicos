@@ -13,11 +13,11 @@
     <div class="profileOwnContainer">
         @if (Auth::user()->email === config('settings.adminEmail'))
             <div class="firstRow">
-                <x-btn-create-item onclick="openModal('modalCrearUsuario')"> 
+                <x-btn-create-item onclick="openModalCrearUsuario('modalCrearUsuario')"> 
                     Nuevo usuario 
                 </x-btn-create-item>
                 @include('modals.profile.modalCrearUsuario')
-                <x-btn-edit-item onclick="openModal('modalEditarDominioCorreo')"> 
+                <x-btn-edit-item onclick="openModalEditarDominio('modalEditarDominioCorreo')"> 
                     Editar dominio de correo 
                 </x-btn-edit-item>
                 @include('modals.profile.modalEditarDominioCorreo')
@@ -86,6 +86,11 @@
         />
 
         <x-modalSuccessAction 
+            :idSuccesModal="'successModalDominioCorreoActualizado'"
+            :message="'Dominio de correo actualizado correctamente'"
+        />
+
+        <x-modalSuccessAction 
             :idSuccesModal="'successModalUsuarioActualizado'"
             :message="'Usuario actualizado correctamente'"
         />
@@ -126,6 +131,9 @@
             @if(session('successUsuarioUpdate'))
                 openModal('successModalUsuarioActualizado');
             @endif
+            @if(session('successDominioCorreoUpdate'))
+				openModal('successModalDominioCorreoActualizado');
+			@endif
 
             if (sessionStorage.getItem('usuarioInhabilitado') === 'true') {
                 openModal('successModalUsuarioInhabilitado');
@@ -141,11 +149,6 @@
                 openModal('successModalUsuarioEliminado');
                 sessionStorage.removeItem('usuarioEliminado');
             }
-
-            /*if (sessionStorage.getItem('errorClaveForanea') === 'true') {
-                openModal('errorModalClaveForanea');
-                sessionStorage.removeItem('errorClaveForanea');
-            }*/
         });
     </script>
 @endpush

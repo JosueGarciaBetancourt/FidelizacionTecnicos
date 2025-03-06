@@ -3,10 +3,10 @@
         <div class="modal-content modalEditarDominioCorreo">
             <div class="modal-header">
                 <h5 class="modal-title">Editar dominio de correo</h5>
-                <button class="close noUserSelect" onclick="closeModal('modalEditarDominioCorreo')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModalProfileOwn('modalEditarDominioCorreo')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyEditarDominicoCorreo">
-                <form id="formEditarDominicoCorreo" action="{{ route('configuracion.variables') }}" method="POST">
+                <form id="formEditarDominicoCorreo" action="{{ route('configuracion.update') }}" method="POST">
                     @method('PUT')
                     @csrf
 
@@ -38,7 +38,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal('modalEditarDominioCorreo')">Cancelar</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModalProfileOwn('modalEditarDominioCorreo')">Cancelar</button>
                 <button type="button" class="btn btn-primary" 
                         onclick="guardarModalEditarDominioCorreo('modalEditarDominioCorreo', 'formEditarDominicoCorreo')">Guardar</button>
             </div>

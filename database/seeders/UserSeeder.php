@@ -47,15 +47,15 @@ class UserSeeder extends Seeder
 
         User::create([
             'idPerfilUsuario' => 2,
-            'name' => 'Raúl Torre',
-            'email' => 'raul' . '@' . $emailDomain,
+            'name' => 'Raúl',
+            'email' => 'vendedor1' . '@' . $emailDomain,
             'password' => Hash::make('12345678'),
         ]);
 
         User::create([
-            'idPerfilUsuario' => 2,
-            'name' => 'Test',
-            'email' => 'test' . '@' . $emailDomain,
+            'idPerfilUsuario' => 3,
+            'name' => 'Pablito',
+            'email' => 'asistente' . '@' . $emailDomain,
             'password' => Hash::make('12345678'),
         ]);
     }

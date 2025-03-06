@@ -45,6 +45,20 @@ class ProfileController extends Controller
         }
     }
 
+    public function getEmailDomain() { 
+        if (Auth::check() && Auth::user()) {
+            return response()->json([
+                'success' => true,
+                'emailDomain' => config('settings.emailDomain'),
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'No autenticado'
+            ], 401); // Código 401 para indicar que no está autenticado
+        }
+    }
+
     public function verifyUserDataDuplication(Request $request) {
         try {
             if (!Auth::check()) {

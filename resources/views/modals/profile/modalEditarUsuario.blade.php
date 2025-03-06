@@ -3,7 +3,7 @@
         <div class="modal-content modalEditarUsuario">
             <div class="modal-header">
                 <h5 class="modal-title">Editar Usuario</h5>
-                <button class="close noUserSelect" onclick="closeModal('modalEditarUsuario')">&times;</button>
+                <button class="close noUserSelect" onclick="closeModalProfileOwn('modalEditarUsuario')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyAgregarNuevoTecnico">
                 <div class="section-navbar">
@@ -61,7 +61,7 @@
                                         </div>
                                         <div class="inputContainer" id="idEmailTextInputContainer">
                                             <input class="emailTextInput" type="text" id="{{ $emailTextInput }}" maxlength="70" value="josue" 
-                                                oninput="fillHiddenEmailInput(this, {{ $emailHiddenInput }})" placeholder="vendedor_123" required>
+                                                oninput="fillHiddenEmailInput(this, '{{ $emailHiddenInput }}')" placeholder="vendedor_123" required>
                                             <span class="emailDomain">{{ '@' . $emailDomain }}</span>
                                         </div>
                                         <input type="hidden" id="{{ $emailHiddenInput }}" maxlength="100" name="email" readonly required>
