@@ -2,46 +2,49 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
-use App\Models\User;
-use App\Models\Setting;
 use Illuminate\Http\Request;
+use App\Models\Setting;
+use App\Models\User;
 
 class ConfiguracionController extends Controller
 {
     public function changeSettingsVariables(Request $request)
     {
         $validatedData = $request->validate([
-            'key' => 'required|string',
-            'value' => 'required|string',
+            'keys' => 'required|array',
+            'values' => 'required|array',
+            'keys.*' => 'required|string',
+            'values.*' => 'required|string',
+            'originConfig' => 'nullable|string',
         ]);
 
-        // Buscar la configuración en la base de datos
-        $settingField = Setting::where('key', $validatedData['key'])->first();
+        // Iterar sobre los valores enviados
+        foreach ($validatedData['keys'] as $index => $key) {
+            $value = $validatedData['values'][$index];
 
-        if (!$settingField) {
-            return redirect()->back()->with('error', 'Configuración no encontrada.');
+            // Actualizar o crear la configuración en la BD
+            Setting::updateOrCreate(['key' => $key], ['value' => $value]);
+
+            // Si cambia el dominio de correo, actualizar los emails
+            if ($key === 'emailDomain') {
+                $this->updateUserEmails($value);
+            }
         }
 
-        // Actualizar el valor de la configuración
-        $settingField->update([
-            'value' => $validatedData['value'],
-        ]);
-
-        // Si la clave es 'emailDomain', actualizar correos de los usuarios
-        if ($validatedData['key'] === "emailDomain") {
-            $newDomain = $validatedData['value'];
-        
-            User::query()->update([
-                'email' => DB::raw("CONCAT(SUBSTRING_INDEX(email, '@', 1), '@" . addslashes($newDomain) . "')")
-            ]);
-
-            return redirect()->route('usuarios.create')->with('successDominioCorreoUpdate', 'Dominio de correo actualizado correctamente.');
-        } else if ($validatedData['key'] === "maxdaysCanje") {
-            return redirect()->route('configuracion.create')->with('successMaxdaysCanjeUpdate', 'Días máximos de canje actualizado correctamente.');
-        } else {
-            return redirect()->route('configuracion.create')->with('successSettingVariableUpdate', 'Configuración actualizada correctamente.');
+        switch ($validatedData['originConfig']) {
+            case "originProfileOwn":
+                return redirect()->route('usuarios.create')->with('successDominioCorreoUpdate', 'Dominio de correo actualizado correctamente.');
+            default:
+                return redirect()->route('configuracion.create')->with('success', 'Configuraciones actualizadas correctamente.');
         }
-
     }
+
+    private function updateUserEmails(string $newDomain)
+    {
+        User::all()->each(function ($user) use ($newDomain) {
+            $username = strstr($user->email, '@', true); // Obtener parte antes del @
+            $user->update(['email' => $username . '@' . $newDomain]);
+        });
+    }
+
 }

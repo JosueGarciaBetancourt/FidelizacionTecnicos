@@ -29,12 +29,13 @@
 
                         <div class="group-items">
                             <label class="primary-label" id="newDomainLabel" for="{{ $newDomainInput }}">Dominio nuevo</label>
-                            <input type="hidden" value="emailDomain" name="key" readonly>
-                            <input class="input-item" type="text" id="{{ $newDomainInput }}" maxlength="100" placeholder="dominionuevo.com" name="value" required>
+                            <input type="hidden" value="emailDomain" name="keys[]" readonly>
+                            <input class="input-item" type="text" id="{{ $newDomainInput }}" maxlength="100" placeholder="dominionuevo.com" name="values[]" required>
                         </div>
                     </div>
 
-                    <span class="inline-alert-message" id="{{ $editarDominioCorreoMessageError }}"> multiMessageError </span>      
+                    <span class="inline-alert-message" id="{{ $editarDominioCorreoMessageError }}"> multiMessageError </span>  
+                    <input type="hidden" name="originConfig" value="originProfileOwn" readonly>
                 </form>
             </div>
             <div class="modal-footer">

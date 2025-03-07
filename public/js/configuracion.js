@@ -33,13 +33,13 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.setItem('fontSize', fontSizeSelect.value);
         localStorage.setItem('sidebarColor', sidebarColorInput.value);
 
-        // Mostrar modal de éxito
-        openModal('successModalConfiguracionGuardada');
-
         // Aplicar cambios inmediatamente
         applyDarkMode();
         applyFontSize();
         applySidebarColor();
+
+        // Guardar variables generales editadas
+        document.getElementById("formEditaVariablesConfiguracion").submit();
     }
 
     function applyDarkMode() {

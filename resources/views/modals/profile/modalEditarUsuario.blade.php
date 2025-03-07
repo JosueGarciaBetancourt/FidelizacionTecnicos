@@ -93,22 +93,28 @@
                                     </div>
                                 </div>
             
-                                <div class="group-items">
-                                    <label class="primary-label" id="perfilUsuarioEditarLabel" for="{{ $perfilUsuarioInput }}">Perfil</label>
-                                        <x-onlySelectNoCleanable-input
-                                                :idSelect="$perfilUsuarioSelect"
-                                                :idInput="$perfilUsuarioInput"
-                                                :defaultValue="'Administrador'"
-                                                :options="$nombresPerfilesUsuariosNoAdmin"
-                                                :onSelectFunction="'selectOptionPerfilUsuarioEdit'"
-                                                :extraArgOnClickFunction="$perfilesUsuariosDB"
-                                                :isExtraArgJson="true"
-                                                :inputClassName="'onlySelectInput long blocked'"
-                                                :spanClassName="'blocked'"
-                                                :disabled="false"
-                                                :containerClassName="'noFocusBorder blocked'"
-                                        />
-                                    <input type="hidden" id="idPerfilEditarUsuarioInput" name="idPerfilUsuario" readonly> 
+                                <div class="form-group gap">
+                                    <div class="group-items">
+                                        <label class="primary-label" id="perfilUsuarioEditarLabel" for="{{ $perfilUsuarioInput }}">Perfil</label>
+                                            <x-onlySelectNoCleanable-input
+                                                    :idSelect="$perfilUsuarioSelect"
+                                                    :idInput="$perfilUsuarioInput"
+                                                    :defaultValue="'Administrador'"
+                                                    :options="$nombresPerfilesUsuariosNoAdmin"
+                                                    :onSelectFunction="'selectOptionPerfilUsuarioEdit'"
+                                                    :extraArgOnClickFunction="$perfilesUsuariosDB"
+                                                    :isExtraArgJson="true"
+                                                    :inputClassName="'onlySelectInput long blocked'"
+                                                    :spanClassName="'blocked'"
+                                                    :disabled="false"
+                                                    :containerClassName="'noFocusBorder blocked'"
+                                            />
+                                        <input type="hidden" id="idPerfilEditarUsuarioInput" name="idPerfilUsuario" readonly> 
+                                    </div>
+
+                                    <span class="limit-text"> 
+                                        El perfil de asistente tiene permisos únicamente para visualizar en el sistema.
+                                    </span>  
                                 </div>
                             </div>
 

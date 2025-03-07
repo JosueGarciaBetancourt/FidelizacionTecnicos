@@ -69,6 +69,13 @@ body {
     color: var(--clr-dark);
 }
 
+.config-option input[type="number"] {
+    width: 5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #a80707;
+}
+
 .toggle-switch {
     appearance: none;
     width: 50px;

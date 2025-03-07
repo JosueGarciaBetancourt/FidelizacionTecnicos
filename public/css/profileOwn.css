@@ -229,3 +229,13 @@
     font-size: 0.85rem;
     font-weight: 600;
 }
+
+.limit-text {
+    display: block; /* Para asegurarse de que respete el ancho */
+    margin-top: 1rem;
+    max-width: 18rem; /* Ajusta el ancho según el diseño */
+    white-space: normal; /* Permite saltos de línea */
+    overflow: hidden; /* Evita desbordamientos */
+    font-size: 0.85rem;
+    color: #666;
+}

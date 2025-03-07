@@ -42,16 +42,37 @@
 			</div>
 
 			@if ($isAdminLogged) 
-				<div class="config-section">
-					<h2>Variables generales</h2>
-					<div class="config-option">
-						<label for="maxdaysCanjeSettingsInput">Días máximos de canje</label>
-						<input type="number" id="maxdaysCanjeSettingsInput" value="{{ config('settings.maxdaysCanje') }}">
+				<form id="formEditaVariablesConfiguracion" action="{{ route('configuracion.update') }}" method="POST">
+					@method('PUT')
+					@csrf
+
+					<div class="config-section">
+						<h2>Variables generales</h2>
+
+						<div class="config-option">
+							<label for="maxdaysCanjeSettingsInput">Días máximos de canje:</label>
+							<input type="hidden" value="maxdaysCanje" name="keys[]" readonly>
+							<input type="number" class="input-item" id="maxdaysCanjeSettingsInput" name="values[]" value="{{ config('settings.maxdaysCanje') }}">
+						</div>
+
+						<div class="config-option">
+							<label for="emailDomainInput">Dominio de correo:</label>
+							<input type="hidden" value="emailDomain" name="keys[]" readonly>
+							<input type="text" class="input-item" id="emailDomainInput" name="values[]" value="{{ config('settings.emailDomain') }}">
+						</div>
+
+						<div class="config-option">
+							<label for="adminUsernameInput">Nombre de usuario del correo del Administrador:</label>
+							<input type="hidden" value="adminUsername" name="keys[]" readonly>
+							<input type="text" class="input-item" id="adminUsernameInput" name="values[]" value="{{ config('settings.adminUsername') }}">
+						</div>
+						
+						<input type="hidden" name="originConfig" value="default" readonly>
 					</div>
-				</div>
+				</form>
 			@endif
 		</div>
-		<button id="saveConfig" class="save-config">Guardar Configuración</button>
+		<button type="submit" id="saveConfig" class="save-config">Guardar Configuración</button>
 	</div>
 
 	<x-modalSuccessAction 
@@ -62,4 +83,11 @@
 
 @push('scripts')
     <script src="{{ asset('js/configuracion.js') }}"></script>
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			@if(session('success'))
+				openModal('successModalConfiguracionGuardada');
+			@endif
+		});
+	</script>
 @endpush
