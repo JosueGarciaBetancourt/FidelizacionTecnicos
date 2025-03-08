@@ -31,7 +31,7 @@
                     <thead>
                         <tr>
                             <th class="celda-centered">#</th>
-                            <th class="celda-lefted">Email</th>
+                            <th class="celda-lefted">Email (inicio de sesión)</th>
                             <th class="celda-lefted">Nombre</th>
                             <th class="celda-centered">Perfil</th>
                             <th class="celda-centered"></th>

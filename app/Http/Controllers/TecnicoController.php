@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 use App\Models\Oficio;
+use App\Models\Setting;
 use App\Models\Tecnico;
 use Illuminate\Http\Request;
 use App\Models\Login_Tecnico;
 use App\Models\TecnicoOficio;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Yajra\DataTables\DataTables;
 use App\Models\VentaIntermediada;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Artisan;
 
 class TecnicoController extends Controller
 {   
@@ -327,15 +329,24 @@ class TecnicoController extends Controller
         }
     }
 
-    public function getRango(int $puntos): string
+    public static function getRango(int $puntos): string
     {
-        if ($puntos < 24000) {
-            return 'Plata';
-        } elseif ($puntos >= 24000 && $puntos < 60000) {
-            return 'Oro';
-        } else {
-            return 'Black';
+        // Limpiar caché de configuración antes de acceder
+        $rangos = [
+            'Black' => Setting::where('key', 'puntosMinRangoBlack')->value('value'),
+            'Oro'   => Setting::where('key', 'puntosMinRangoOro')->value('value'),
+            'Plata' => Setting::where('key', 'puntosMinRangoPlata')->value('value'),
+        ];
+
+        //dd($rangos['Oro']);
+        
+        foreach ($rangos as $rango => $minPuntos) {
+            if ($puntos >= $minPuntos) {
+                return $rango;
+            }
         }
+
+        return 'Sin rango';
     }
 
     public static function updatePuntosActualesTecnicoById($idTecnico) {

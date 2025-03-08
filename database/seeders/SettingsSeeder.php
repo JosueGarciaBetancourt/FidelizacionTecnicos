@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Setting;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class SettingsSeeder extends Seeder
 {
@@ -23,10 +24,24 @@ class SettingsSeeder extends Seeder
                 'key' => 'maxdaysCanje',
                 'value' => 90,
             ],
+            [
+                'key' => 'puntosMinRangoPlata',
+                'value' => 0,
+            ],
+            [
+                'key' => 'puntosMinRangoOro',
+                'value' => 24000,
+            ],
+            [
+                'key' => 'puntosMinRangoBlack',
+                'value' => 60000,
+            ],
         ];
 
         foreach ($settings as $setting) {
             Setting::create($setting);
         }
+
+        Cache::forget('settings_cache');
     }
 }

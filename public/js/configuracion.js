@@ -27,6 +27,24 @@ document.addEventListener('DOMContentLoaded', function() {
         applySidebarColor();
     }
 
+    function validateSettingsVariables() {
+        const puntosMinRangoPlata = parseInt(document.getElementById("puntosMinRangoPlataSettingsInput").value, 10);
+        const puntosMinRangoOro = parseInt(document.getElementById("puntosMinRangoOroSettingsInput").value, 10);
+        const puntosMinRangoBlack = parseInt(document.getElementById("puntosMinRangoBlackSettingsInput").value, 10);
+    
+        if (isNaN(puntosMinRangoPlata) || isNaN(puntosMinRangoOro) || isNaN(puntosMinRangoBlack)) {
+            return false; // Evita errores si algún campo está vacío o tiene valores inválidos
+        }
+    
+        if (puntosMinRangoPlata >= puntosMinRangoOro || puntosMinRangoPlata >= puntosMinRangoBlack || puntosMinRangoOro >= puntosMinRangoBlack) {
+            const msg = "Los valores de los rangos son incorrectos. Asegúrate de que Plata < Oro < Black y vuelve a guardar.";
+            openErrorModal("errorModalConfiguracion", msg);
+            return false;
+        }
+    
+        return true;
+    }
+
     function saveConfig() {
         // Guardar configuración en localStorage
         localStorage.setItem('darkMode', darkModeToggle.checked);
@@ -37,9 +55,12 @@ document.addEventListener('DOMContentLoaded', function() {
         applyDarkMode();
         applyFontSize();
         applySidebarColor();
-
-        // Guardar variables generales editadas
-        document.getElementById("formEditaVariablesConfiguracion").submit();
+        
+        // Validar variables generales
+        if (validateSettingsVariables()) {
+            // Guardar variables generales editadas
+            document.getElementById("formEditaVariablesConfiguracion").submit();
+        }
     }
 
     function applyDarkMode() {

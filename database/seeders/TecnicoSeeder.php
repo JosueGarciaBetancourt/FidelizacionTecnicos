@@ -52,6 +52,6 @@ class TecnicoSeeder extends Seeder
             'deleted_at' => now(),
         ]);
 
-        //Tecnico::factory(47)->create();
+        //Tecnico::factory(97)->create();
     }
 }

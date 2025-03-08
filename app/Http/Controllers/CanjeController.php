@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\Canje;
 use App\Models\Tecnico;
 use App\Models\Recompensa;
@@ -20,10 +21,12 @@ use App\Http\Controllers\RecompensaController;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\CanjeRecompensaController;
 use App\Http\Controllers\VentaIntermediadaController;
-use Exception;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests; 
 
 class CanjeController extends Controller
 {
+    use AuthorizesRequests; // Usa el trait
+
     public static function generarIdCanje()
     {
         // Obtener el último valor de idCanje
@@ -43,6 +46,13 @@ class CanjeController extends Controller
 
     public function registrar()
     {
+        // Autorizar usuario logeado a acceder al registro de canjes
+        try {
+            $this->authorize('registrar', Canje::class); // Verifica permisos
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return redirect()->route('canjes.historial')->with('error', 'No tienes permiso para registrar un canje.');
+        }
+        
         // Obtener las ventas intermediadas no asociadas con alguna solicitud de canje
         $ventas = VentaIntermediada::with('estadoVenta') // Cargar relación de estado
                                     ->doesntHave('solicitudesCanje') // Filtrar comprobantes sin solicitudes de canje
@@ -58,10 +68,7 @@ class CanjeController extends Controller
                                 ->get();
                                 
         // Obtener las opciones de número de comprobante
-        $optionsNumComprobante = [];
-        foreach ($ventas as $venta) {
-            $optionsNumComprobante[] = $venta->idVentaIntermediada;
-        }
+        $optionsNumComprobante = $ventas->pluck('idVentaIntermediada')->toArray();
         
         // Nuevo Id Canje 
         $nuevoIdCanje = CanjeController::generarIdCanje();

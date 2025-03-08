@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Setting;
 use App\Models\User;
+use App\Models\Setting;
+use App\Models\Tecnico;
+use App\Http\Controllers\TecnicoController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Carbon\Carbon;
 
 class ConfiguracionController extends Controller
 {
@@ -22,21 +26,25 @@ class ConfiguracionController extends Controller
         foreach ($validatedData['keys'] as $index => $key) {
             $value = $validatedData['values'][$index];
 
-            // Actualizar o crear la configuración en la BD
-            Setting::updateOrCreate(['key' => $key], ['value' => $value]);
+            // Actualizar configuración correctamente
+            Setting::updateOrInsert(['key' => $key], ['value' => $value]);
 
-            // Si cambia el dominio de correo, actualizar los emails
-            if ($key === 'emailDomain') {
+            // Validar si es un cambio de rango y actualizar técnicos
+            if (in_array($key, [/* 'puntosMinRangoPlata', 'puntosMinRangoOro',  */'puntosMinRangoBlack'])) {
+                $this->updateRangoTecnicos();
+            } elseif ($key === "emailDomain") {
                 $this->updateUserEmails($value);
             }
         }
 
-        switch ($validatedData['originConfig']) {
-            case "originProfileOwn":
-                return redirect()->route('usuarios.create')->with('successDominioCorreoUpdate', 'Dominio de correo actualizado correctamente.');
-            default:
-                return redirect()->route('configuracion.create')->with('success', 'Configuraciones actualizadas correctamente.');
-        }
+        // Limpiar caché de configuración para reflejar cambios
+        Cache::forget('settings_cache');
+
+        // Retornar según el origen de la request
+        return match ($validatedData['originConfig'] ?? '') {
+            "originProfileOwn" => redirect()->route('usuarios.create')->with('successDominioCorreoUpdate', 'Dominio de correo actualizado correctamente.'),
+            default => redirect()->route('configuracion.create')->with('success', 'Configuraciones actualizadas correctamente.'),
+        };
     }
 
     private function updateUserEmails(string $newDomain)
@@ -45,6 +53,27 @@ class ConfiguracionController extends Controller
             $username = strstr($user->email, '@', true); // Obtener parte antes del @
             $user->update(['email' => $username . '@' . $newDomain]);
         });
+    }
+
+    private function updateRangoTecnicos()
+    {
+        $tecnicos = Tecnico::all();
+
+        $tecnicos->each(function ($tecnico) {
+            $tecnico->rangoTecnico = TecnicoController::getRango($tecnico->historicoPuntos_Tecnico);
+        });
+
+        $tecnicosArray = $tecnicos->map(function ($tecnico) {
+            return collect($tecnico)
+                ->except(['idNameOficioTecnico', 'idNombreTecnico', 'idsOficioTecnico'])
+                ->merge([
+                    'created_at' => Carbon::parse($tecnico->created_at)->format('Y-m-d H:i:s'),
+                    'updated_at' => Carbon::parse($tecnico->updated_at)->format('Y-m-d H:i:s')
+                ])
+                ->toArray();
+        });
+        
+        Tecnico::upsert($tecnicosArray->toArray(), ['idTecnico'], ['rangoTecnico', 'updated_at']);
     }
 
 }

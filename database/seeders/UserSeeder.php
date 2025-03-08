@@ -17,6 +17,8 @@ class UserSeeder extends Seeder
         $emailDomain = Setting::where('key', 'emailDomain')->value('value') ?? 'dimacof.com';
         $adminEmail = $adminUsername . '@' . $emailDomain;
 
+        //dd($adminEmail);
+
         User::create([
             'idPerfilUsuario' => 1,
             'name' => $adminUsername,
