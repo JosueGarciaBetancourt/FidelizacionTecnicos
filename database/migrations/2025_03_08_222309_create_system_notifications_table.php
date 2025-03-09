@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create('system_notifications', function (Blueprint $table) {
             $table->id();
-            $table->string('type'); // request_page, timer, workspace_premium
+            $table->string('icon'); // request_page, timer, workspace_premium
             $table->string('title');
             $table->text('description');
             $table->text('routeToReview')->nullable(); // Ruta para "Revisar"
