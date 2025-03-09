@@ -409,7 +409,6 @@ class SolicitudCanjeController extends Controller
             
                 return DataTables::of($solicitudescanjes)
                     ->addColumn('details', 'tables.solicitudCanjeDetailsColumn')
-                    //->addColumn('actions', 'tables.solicitudCanjeActionColumn')
                     ->addColumn('actions', function ($row) {
                         $idEstadoSolicitudCanje = $row['idEstadoSolicitudCanje']; 
                         $idSolicitudCanje = $row['idSolicitudCanje'];  

@@ -246,6 +246,9 @@ async function guardarModalEditarUsuario(idModal, idForm) {
 
                 editarDatosUsuarioMessageError.classList.remove("shown");
                 editarDatosPersonalesMessageError.classList.remove("shown");
+
+                // Limpiar storage
+                StorageHelper.clear('modalOpenedProfileOwn');
                 guardarModal(idModal, idForm);	
             }
         } catch (error) {

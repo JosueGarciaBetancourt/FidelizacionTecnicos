@@ -1,0 +1,47 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Setting;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+class SettingsSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $settings = [
+            [
+                'key' => 'emailDomain',
+                'value' => 'dimacoftest.com',
+            ],
+            [
+                'key' => 'adminUsername',
+                'value' => 'admin', 
+            ],
+            [
+                'key' => 'maxdaysCanje',
+                'value' => 90,
+            ],
+            [
+                'key' => 'puntosMinRangoPlata',
+                'value' => 0,
+            ],
+            [
+                'key' => 'puntosMinRangoOro',
+                'value' => 24000,
+            ],
+            [
+                'key' => 'puntosMinRangoBlack',
+                'value' => 60000,
+            ],
+        ];
+
+        foreach ($settings as $setting) {
+            Setting::create($setting);
+        }
+
+        Cache::forget('settings_cache');
+    }
+}

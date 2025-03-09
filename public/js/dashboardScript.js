@@ -91,17 +91,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Mostrar opciones de la lista con el id correspondiente
-    window.toggleOptionsUser = function(id) {
-        var options = document.getElementById(id);
+    window.toggleOptionsUser = function(idOptions, idSpan) {
+        var options = document.getElementById(idOptions);
+        var span = document.getElementById(idSpan);
+        
         options.style.display = (options.style.display === 'block') ? 'none' : 'block';
+        
+        if (span) {
+            span.textContent = span.textContent === "keyboard_arrow_down" ? "keyboard_arrow_up" : "keyboard_arrow_down";
+        }
     }
-
-    // Colocar el valor de la opción en el input
-    /*window.selectOptionDashboard = function(value) {
-        var input = document.getElementById('idUserDivList').getElementsByTagName('input')[0];
-        input.value = value;
-        toggleOptionsUser('userList');
-    }*/
 
     const routesData = document.querySelector('.dashboard-container').getAttribute('data-routes');
     const routes = JSON.parse(routesData);  // Convierte la cadena JSON a un objeto
@@ -196,4 +195,78 @@ function getAllLiText(idOptions) {
 
 function closeUserList() {
     userList.style.opacity = 0;
+}
+
+function toggleNotificationMessage(element) {
+    const panel = element.closest('.notification_wrapper').querySelector('.notification_panel');
+    panel.classList.toggle('open');
+    
+    // Close panel when clicking outside
+    document.addEventListener('click', function closePanel(e) {
+        if (!element.contains(e.target) && !panel.contains(e.target)) {
+            panel.classList.remove('open');
+            document.removeEventListener('click', closePanel);
+        }
+    });
+    
+    // Prevent the click from propagating to document
+    event.stopPropagation();
+}
+
+// Mark all as read functionality
+document.querySelector('.mark_all_read').addEventListener('click', function(e) {
+    e.preventDefault();
+    const unreadItems = document.querySelectorAll('.notification_item.unread');
+    unreadItems.forEach(item => {
+        item.classList.remove('unread');
+    });
+    
+    // Update the counter
+    document.querySelector('.notification_count').textContent = '0';
+    
+    // Hide notification count if zero
+    if (document.querySelector('.notification_count').textContent === '0') {
+        document.querySelector('.notification_count').style.display = 'none';
+    }
+});
+
+// Action button handlers
+document.querySelectorAll('.approve_btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const notificationItem = this.closest('.notification_item');
+        const notificationDesc = notificationItem.querySelector('.notification_desc');
+        const codeMatch = notificationDesc.textContent.match(/SOLICANJ-\d+/);
+        
+        if (codeMatch) {
+            const code = codeMatch[0];
+            alert(`Aprobando canje: ${code}`);
+            notificationItem.classList.remove('unread');
+            
+            // Update notification content to show it was approved
+            notificationItem.querySelector('.notification_icon').className = 'notification_icon approved';
+            notificationItem.querySelector('.notification_icon span').textContent = 'check_circle';
+            notificationItem.querySelector('.notification_title').textContent = 'Canje aprobado';
+            notificationDesc.textContent = `${code} ha sido aprobado`;
+            
+            // Remove action buttons
+            this.closest('.notification_actions').innerHTML = '<button class="view_btn">Ver detalle</button>';
+            
+            // Update counter
+            updateNotificationCount();
+        }
+    });
+});
+
+// Function to update notification count
+function updateNotificationCount() {
+    const unreadCount = document.querySelectorAll('.notification_item.unread').length;
+    const countElement = document.querySelector('.notification_count');
+    
+    countElement.textContent = unreadCount;
+    
+    if (unreadCount === 0) {
+        countElement.style.display = 'none';
+    } else {
+        countElement.style.display = 'block';
+    }
 }

@@ -8,6 +8,10 @@
 @endpush
 
 @section('main-content')
+    @php
+        $isAsisstantLogged = Auth::check() && Auth::user()->idPerfilUsuario == 3;
+    @endphp
+
 <div class="solicitudesAppCanjesContainer">
     <div class="firstRowSolicitudCanje">
         <h3>Solicitudes de Canje</h3>
@@ -24,7 +28,9 @@
                     <th class="ventaAsociada">Venta Asociada</th>
                     <th class="celda-centered">Estado</th>
                     <th class="celda-centered">Detalles</th>
-                    <th class="celda-centered">Acciones</th>
+                    @if (!$isAsisstantLogged)
+                        <th class="celda-centered">Acciones</th>
+                    @endif
                 </tr>
             </thead>
             <tbody>

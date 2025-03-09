@@ -4,20 +4,26 @@
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/profileOwn.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/modalEditarUsuario.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalCrearUsuario.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalEditarDominioCorreo.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalEditarUsuario.css') }}">
 @endpush
 
 @section('main-content')
     <div class="profileOwnContainer">
-        @if (Auth::user()->email === env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com"))
+        @if (Auth::user()->email === config('settings.adminEmail'))
             <div class="firstRow">
-                <x-btn-create-item onclick="openModal('modalCrearUsuario')"> 
+                <x-btn-create-item onclick="openModalCrearUsuario('modalCrearUsuario')"> 
                     Nuevo usuario 
                 </x-btn-create-item>
                 @include('modals.profile.modalCrearUsuario')
+                <x-btn-edit-item onclick="openModalEditarDominio('modalEditarDominioCorreo')"> 
+                    Editar dominio de correo 
+                </x-btn-edit-item>
+                @include('modals.profile.modalEditarDominioCorreo')
             </div>
         @endif
+
         <section class="cardContainer">
             <div class="cardTitle">Listado de usuarios</div>
             <div class="cardBody">
@@ -25,7 +31,7 @@
                     <thead>
                         <tr>
                             <th class="celda-centered">#</th>
-                            <th class="celda-lefted">Email</th>
+                            <th class="celda-lefted">Email (inicio de sesión)</th>
                             <th class="celda-lefted">Nombre</th>
                             <th class="celda-centered">Perfil</th>
                             <th class="celda-centered"></th>
@@ -34,7 +40,7 @@
                     <tbody>
                         @php
                             $contador = 1;
-                            $isAdminProfile = Auth::user()->email === env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com");
+                            $isAdminProfile = Auth::user()->email === config('settings.adminEmail');
                         @endphp
                         @foreach ($users as $user)
                             <tr>
@@ -44,7 +50,7 @@
                                 <td class="celda-centered" >{{ $user->nombre_PerfilUsuario }}</td>
                                 <td class="celda-centered celda-btnAcciones">
                                     @php
-                                        $isNotAdminUser = $user->email !== env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com");
+                                        $isNotAdminUser = $user->email !== config('settings.adminEmail');
                                         $isUserEnabled = is_null($user->deleted_at);
                                     @endphp
                                 
@@ -80,6 +86,11 @@
         />
 
         <x-modalSuccessAction 
+            :idSuccesModal="'successModalDominioCorreoActualizado'"
+            :message="'Dominio de correo actualizado correctamente'"
+        />
+
+        <x-modalSuccessAction 
             :idSuccesModal="'successModalUsuarioActualizado'"
             :message="'Usuario actualizado correctamente'"
         />
@@ -110,6 +121,8 @@
     <script src="{{asset('js/profileOwn.js')}}"></script>
     <script src="{{asset('js/modalCrearUsuario.js')}}"></script>
     <script src="{{asset('js/modalEditarUsuario.js')}}"></script>
+    <script src="{{asset('js/modalEditarDominioCorreo.js')}}"></script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             @if(session('successUsuarioStore'))
@@ -118,6 +131,9 @@
             @if(session('successUsuarioUpdate'))
                 openModal('successModalUsuarioActualizado');
             @endif
+            @if(session('successDominioCorreoUpdate'))
+				openModal('successModalDominioCorreoActualizado');
+			@endif
 
             if (sessionStorage.getItem('usuarioInhabilitado') === 'true') {
                 openModal('successModalUsuarioInhabilitado');
@@ -133,11 +149,6 @@
                 openModal('successModalUsuarioEliminado');
                 sessionStorage.removeItem('usuarioEliminado');
             }
-
-            /*if (sessionStorage.getItem('errorClaveForanea') === 'true') {
-                openModal('errorModalClaveForanea');
-                sessionStorage.removeItem('errorClaveForanea');
-            }*/
         });
     </script>
 @endpush

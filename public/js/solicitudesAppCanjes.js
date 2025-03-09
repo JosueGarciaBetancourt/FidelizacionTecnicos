@@ -127,7 +127,6 @@ async function objSolicitudCanjeAndDetailsByIdSolicitudCanjeFetch(idSolicitudCan
     return objSolicitudCanje;
 } */
 
-
 document.addEventListener('DOMContentLoaded', function() {
     try {
         // Intentar cargar datos persistidos para la Solicitud Canje

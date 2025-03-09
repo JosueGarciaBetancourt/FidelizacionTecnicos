@@ -103,7 +103,6 @@ function openConfirmSolicitudCanjeModal(modalId) {
             } else {
                 // No ingresa comentario
                 document.getElementById('comentarioAprobRechaCanjeErrorMessage').classList.add('shown');
-                console.log("NO PUSISTE UN COMENTARIO");
             }
         };
 
@@ -151,6 +150,21 @@ function justCloseModal(modalId) {
         setTimeout(function() {
             modal.style.display = 'none';
         }, 300); // Espera 0.3 segundos (igual a la duración de la transición CSS)
+    }
+}
+
+function openErrorModal(modalId, message=null) {
+    const errorModal = document.getElementById(modalId);
+            
+    if (errorModal) {
+        if (message) {
+            const errorMessageP = errorModal.querySelector("#messageErrorModalFailedAction");
+            if (errorMessageP) {
+                errorMessageP.innerText = message;
+            }
+        }
+
+        justOpenModal(modalId);
     }
 }
 

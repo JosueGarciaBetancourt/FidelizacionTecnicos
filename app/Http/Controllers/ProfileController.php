@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use App\Models\User;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Models\PerfilUsuario;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class ProfileController extends Controller
@@ -21,7 +21,7 @@ class ProfileController extends Controller
         if (Auth::check() && Auth::user()) {
             return response()->json([
                 'success' => true,
-                'email' => User::where('email', env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com"))->value('email') ?? 'No encontrado',
+                'email' => User::where('email', config('settings.adminEmail'))->value('email'),
                 ]);
         } else {
             return response()->json([
@@ -36,6 +36,20 @@ class ProfileController extends Controller
             return response()->json([
                 'success' => true,
                 'user' => Auth::user(),
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'No autenticado'
+            ], 401); // Código 401 para indicar que no está autenticado
+        }
+    }
+
+    public function getEmailDomain() { 
+        if (Auth::check() && Auth::user()) {
+            return response()->json([
+                'success' => true,
+                'emailDomain' => config('settings.emailDomain'),
             ]);
         } else {
             return response()->json([
@@ -153,7 +167,7 @@ class ProfileController extends Controller
         $perfiles = PerfilUsuario::all();
 
         // Verifica si hay un usuario autenticado y si es el administrador
-        if (Auth::check() && Auth::user()->email !== env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com")) {
+        if (Auth::check() && Auth::user()->email !== config('settings.adminEmail')) {
             // Rechazar (eliminar) los perfiles donde idPerfilUsuario sea 1
             $perfiles = $perfiles->reject(function($perfil) {
                 return $perfil->idPerfilUsuario === 1;
@@ -194,7 +208,7 @@ class ProfileController extends Controller
 
         $nombresPerfilesUsuariosNoAdmin = array_slice($this->returnArrayNombresPerfilesUsuarios(), 1);
         $perfilesUsuarios = PerfilUsuario::all()->pluck('nombre_PerfilUsuario', 'idPerfilUsuario');
-        $userEmailDomain = env('EMAIL_DOMAIN', 'dimacof.com');
+        $userEmailDomain = Setting::where('key', 'emailDomain')->value('value');
 
         return view('dashboard.profileOwn', compact('users', 'nombresPerfilesUsuariosNoAdmin', 'perfilesUsuarios', 'userEmailDomain'));
     }

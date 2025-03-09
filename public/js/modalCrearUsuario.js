@@ -111,6 +111,13 @@ function selectOptionPerfilUsuarioCrear(value, idInput, idOptions, perfilesDB) {
 
     const idPerfilUsuario = returnIdByNombrePerfilUser(value, perfilesDB);
     idPerfilUsuarioInputCrear.value = idPerfilUsuario;
+
+    // Guardar en session storage
+    const currentData = StorageHelper.load('modalCrearUsuarioObject') || {};
+    currentData['idPerfilUsuario'] = idPerfilUsuario;
+    currentData['nombre_PerfilUsuario'] = value;
+
+    StorageHelper.save('modalCrearUsuarioObject', currentData);
 }
 
 function validarCamposVaciosFormularioCrearUsuario() {
@@ -127,7 +134,7 @@ function validarCamposCorrectosFormularioCrearUsuario() {
     let errores = []; // Array para almacenar los errores
     const emailTextPattern = /^[a-z0-9._]+(\+[a-z0-9]+)?$/;
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
+    
     // Validar datos de usuario
     if (!emailTextPattern.test(emailTextInputCrearUsuario.value)) {
         if (emailTextInputCrearUsuario.closest(".sectionContent.crear.active")) {
@@ -247,6 +254,9 @@ async function guardarModalCrearUsuario(idModal, idForm) {
 
                 crearDatosUsuarioMessageError.classList.remove("shown");
                 crearDatosPersonalesMessageError.classList.remove("shown");
+
+                // Limpiar storage
+                StorageHelper.clear('modalOpenedProfileOwn');
                 guardarModal(idModal, idForm);	
             }
         } catch (error) {

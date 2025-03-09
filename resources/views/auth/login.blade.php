@@ -29,7 +29,7 @@
 
              <!-- Erase this part in production, just for developing -->
             @php
-                $adminEmail = env('ADMIN_USERNAME', "admin") . env('EMAIL_DOMAIN', "@dimacof.com");
+                $adminEmailBD = $adminEmail;
                 $adminPassword = "12345678";
             @endphp
             <!-- -->
@@ -42,7 +42,7 @@
                         <h3>Correo electrónico</h3>
                     </div>   
                     <input id="email" class="credential-box-input" type="email" name="email" 
-                            value="{{ $adminEmail }}" placeholder="Ingrese email" autofocus autocomplete="username" required>
+                            value="{{ $adminEmailBD }}" placeholder="Ingrese email" autofocus autocomplete="username" required>
                 </div>
                 {{--{{ old('email') }}--}}
                 @error('email')
@@ -138,3 +138,7 @@
         }
     </script>
 @endsection
+
+@push('scripts')
+	<script src="{{ asset('js/login.js') }}"></script>
+@endpush

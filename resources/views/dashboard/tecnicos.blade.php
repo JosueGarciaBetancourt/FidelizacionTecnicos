@@ -12,22 +12,28 @@
 @endpush
 
 @section('main-content')
+	@php
+		$isAsisstantLogged = Auth::check() && Auth::user()->idPerfilUsuario == 3;
+	@endphp
+
 	<div class="tecnicosContainer">
-		<div class="firstRow">
-			<x-btn-create-item onclick="openModal('modalAgregarNuevoTecnico')"> 
-				Registrar nuevo técnico
-			</x-btn-create-item>
-			@include('modals.tecnicos.modalAgregarNuevoTecnico')
-			
-			<x-btn-edit-item onclick="openModal('modalEditarTecnico')"> Editar </x-btn-edit-item>
-			@include('modals.tecnicos.modalEditarTecnico')
+		@if (!$isAsisstantLogged)
+			<div class="firstRow">
+				<x-btn-create-item onclick="openModal('modalAgregarNuevoTecnico')"> 
+					Registrar nuevo técnico
+				</x-btn-create-item>
+				@include('modals.tecnicos.modalAgregarNuevoTecnico')
+				
+				<x-btn-edit-item onclick="openModal('modalEditarTecnico')"> Editar </x-btn-edit-item>
+				@include('modals.tecnicos.modalEditarTecnico')
 
-			<x-btn-delete-item onclick="openModal('modalEliminarTecnico')"> Inhabilitar </x-btn-delete-item>
-			@include('modals.tecnicos.modalEliminarTecnico')
+				<x-btn-delete-item onclick="openModal('modalEliminarTecnico')"> Inhabilitar </x-btn-delete-item>
+				@include('modals.tecnicos.modalEliminarTecnico')
 
-			<x-btn-recover-item onclick="openModal('modalRecontratarTecnico')">Habilitar</x-btn-delete-item>
-			@include('modals.tecnicos.modalRecontratarTecnico')
-		</div>
+				<x-btn-recover-item onclick="openModal('modalRecontratarTecnico')">Habilitar</x-btn-delete-item>
+				@include('modals.tecnicos.modalRecontratarTecnico')
+			</div>
+		@endif
 		
 		<div class="secondRow">
 			<table id="tblTecnicos">
@@ -42,7 +48,9 @@
 						<th class="celda-centered">Puntos actuales</th>
 						<th class="celda-centered">Histórico de puntos</th>
 						<th class="celda-centered celda-rango">Rango</th>
-						<th class="celda-centered celda-acciones"></th>
+						@if (!$isAsisstantLogged)
+							<th class="celda-centered celda-acciones"></th>
+						@endif
 					</tr>
 				</thead>
 				<tbody>

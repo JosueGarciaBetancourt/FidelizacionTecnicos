@@ -1,5 +1,5 @@
 <div class="celda-btnAcciones" onclick="">
-	@if ($idEstadoSolicitudCanje === 1)
+	@if ($idEstadoSolicitudCanje === 1 && Auth::check() && Auth::user()->idPerfilUsuario != 3)
 		<button class="btnAprobar" onclick="aprobarSolicitudCanje('{{ $idSolicitudCanje }}')">Aprobar</button>
 		<button class="btnRechazar" onclick="rechazarSolicitudCanje('{{ $idSolicitudCanje }}')">Rechazar</button>
 	@endif

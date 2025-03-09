@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Setting;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
     public function create()
     {   
-        return view('auth.login');
+        $adminUsername = config('settings.adminUsername');
+        $userEmailDomain = config('settings.emailDomain');
+        $adminEmail = config('settings.adminEmail');
+
+        return view('auth.login', compact('adminUsername', 'userEmailDomain', 'adminEmail'));
     }
 
     public function store(LoginRequest $request): RedirectResponse
