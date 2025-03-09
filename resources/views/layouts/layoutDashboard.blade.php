@@ -132,7 +132,7 @@
                                 </div>
                             </li>
                             
-                            <li class="notification_item unread">
+                            <li class="notification_item read">
                                 <div class="notification_icon workspace_premium">
                                     <span class="material-symbols-outlined">workspace_premium</span>
                                 </div>
