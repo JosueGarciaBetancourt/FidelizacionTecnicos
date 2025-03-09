@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('type'); // request_page, timer, workspace_premium
             $table->string('title');
             $table->text('description');
-            $table->text('link')->nullable(); // Ruta para "Revisar"
+            $table->text('routeToReview')->nullable(); // Ruta para "Revisar"
             $table->boolean('active')->default(true); // Para poder desactivar notificaciones antiguas
             //$table->timestamps(); //created_at updated_at
             $table->timestamp('created_at')->default(DB::raw('(CURRENT_TIMESTAMP - INTERVAL 5 HOUR)'));
