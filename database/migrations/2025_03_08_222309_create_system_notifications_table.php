@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -15,7 +16,9 @@ return new class extends Migration
             $table->text('description');
             $table->text('link')->nullable(); // Ruta para "Revisar"
             $table->boolean('active')->default(true); // Para poder desactivar notificaciones antiguas
-            $table->timestamps();
+            //$table->timestamps(); //created_at updated_at
+            $table->timestamp('created_at')->default(DB::raw('(CURRENT_TIMESTAMP - INTERVAL 5 HOUR)'));
+            $table->timestamp('updated_at')->nullable();	
         });
     }
 
