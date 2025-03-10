@@ -338,7 +338,7 @@ aside.hovered {
     position: absolute;
     top: 100%;
     right: 0;
-    width: 350px;
+    width: 400px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -459,7 +459,7 @@ aside.hovered {
 }
 
 .notification_actions {
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 5px;
 }
@@ -472,14 +472,41 @@ aside.hovered {
     border: none;
 }
 
+.notification_item.unread .notification_actions {
+    display: flex;
+}
+
 .approve_btn {
     background-color: rgb(33, 169, 144);
     color: white;
 }
 
-.review_btn, .view_btn {
-    background-color: #e0e0e0;
-    color: #333;
+/* Review Button - Base Style */
+.review_btn {
+    background-color: #0d6434;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-size: 0.85rem !important;
+    box-shadow: 0 2px 4px rgba(7, 58, 30, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    outline: none;
+}
+
+/* Review Button - Hover State */
+.review_btn:hover {
+    background-color: #45a373;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(7, 58, 30, 0.3);
 }
 
 .notification_footer {

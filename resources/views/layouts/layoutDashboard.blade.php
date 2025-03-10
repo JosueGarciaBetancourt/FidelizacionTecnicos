@@ -91,67 +91,36 @@
             
             <div class="profile">
                 <div class="notification_wrapper">
-                    <a href="#" class="notification_container" onclick="toggleNotificationMessage(this)">
+                    <a href="#" class="notification_container" id="notification-toggle">
                         <span class="material-symbols-outlined noUserSelect bell" title="Notificaciones">notifications</span>
-                        <span class="notification_count noUserSelect">3</span>
+                        <span class="notification_count noUserSelect" id="notification-count">{{ $notifications->count() }}</span>
                     </a>
                     
-                    <div class="notification_panel">
+                    <div class="notification_panel" id="notification-panel">
                         <div class="notification_header">
                             <h3>Notificaciones</h3>
-                            <a href="#" class="mark_all_read">Marcar todo como leído</a>
                         </div>
                         
-                        <ul class="notification_list">
-                            <li class="notification_item unread">
-                                <div class="notification_icon request_page">
-                                    <span class="material-symbols-outlined">request_page</span>
-                                </div>
-                                <div class="notification_content">
-                                    <p class="notification_title">Nueva solicitud de canje</p>
-                                    <p class="notification_desc">SOLICANJ-00003 recibida desde app móvil</p>
-                                    <p class="notification_time">Hace 5 minutos</p>
-                                </div>
-                                <div class="notification_actions">
-                                    {{-- <button class="approve_btn">Aprobar</button> --}}
-                                    <a href="{{ route('solicitudescanjes.create') }}" class="review_btn">Revisar</a>
-                                </div>
-                            </li>
-                            
-                            <li class="notification_item unread">
-                                <div class="notification_icon timer">
-                                    <span class="material-symbols-outlined">timer</span>
-                                </div>
-                                <div class="notification_content">
-                                    <p class="notification_title">Venta cerca de agotarse</p>
-                                    <p class="notification_desc">F001-00000072 está a 7 días de agotarse</p>
-                                    <p class="notification_time">Hace 2 horas</p>
-                                </div>
-                                <div class="notification_actions">
-                                    <a href="{{ route('ventasIntermediadas.create') }}" class="review_btn">Revisar</a>
-                                </div>
-                            </li>
-                            
-                            <li class="notification_item read">
-                                <div class="notification_icon workspace_premium">
-                                    <span class="material-symbols-outlined">workspace_premium</span>
-                                </div>
-                                <div class="notification_content">
-                                    <p class="notification_title">Cambio de rango</p>
-                                    <p class="notification_desc">77043114|Josué Daniel García Betancourt subió a rango Oro</p>
-                                    <p class="notification_time">Hace 3 horas</p>
-                                </div>
-                                <div class="notification_actions">
-                                    <a href="{{ route('tecnicos.create') }}" class="review_btn">Revisar</a>
-                                </div>
-                            </li>
+                        <ul class="notification_list" id="notification-list">
+                            @foreach($notifications as $notification)
+                                <li @class(['notification_item', 'unread' => $notification->active, 'read' => !$notification->active])>
+                                {{-- <li class="notification_item unread"> --}}
+                                    <div class="notification_icon {{ $notification->icon }}">
+                                        <span class="material-symbols-outlined">{{ $notification->icon }}</span>
+                                    </div>
+                                    <div class="notification_content">
+                                        <p class="notification_title">{{ $notification->title }}</p>
+                                        <p class="notification_desc">{{ $notification->description }}</p>
+                                        <p class="notification_time">{{ $notification->time_ago }}</p>
+                                    </div>
+                                    <div class="notification_actions">
+                                        @if($notification->routeToReview)
+                                            <a href="{{ route($notification->routeToReview) }}" onclick="reviewNotification('{{ $notification->id }}')" class="review_btn">Revisar</a>
+                                        @endif
+                                    </div>
+                                </li>
+                            @endforeach
                         </ul>
-                        
-                        {{--
-                        <div class="notification_footer">
-                            <a href="/notifications" class="view_all">Ver todas las notificaciones</a>
-                        </div>
-                        --}}
                     </div>
                 </div>
 
@@ -192,6 +161,7 @@
 @push('scripts')
     <script src="{{ asset('js/userUtils.js') }}"></script>
     <script src="{{ asset('js/dashboardScript.js') }}"></script>
+    <script src="{{ asset('js/notificaciones.js') }}"></script>
     <script src="{{ asset('js/jquery.min.js') }}"> </script>
     <script src="{{ asset('js/datatables.js') }}"> </script>
     <script src="{{ asset('js/datatableConfig.js') }}"> </script>

@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\Paginator;
 use App\Http\Controllers\TecnicoController;
+use App\Http\Controllers\SystemNotificationController;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class VentaIntermediadaController extends Controller
@@ -209,7 +210,10 @@ class VentaIntermediadaController extends Controller
             $tecnicoController = new TecnicoController();
             $idsNombresOficios = $tecnicoController->returnArrayIdsNombresOficios(); 
 
-            return view('dashboard.ventasIntermediadas', compact('idsNombresOficios'));
+            // Obtener las notificaciones
+            $notifications = SystemNotificationController::getActiveNotifications();
+        
+            return view('dashboard.ventasIntermediadas', compact('idsNombresOficios', 'notifications'));
         } catch (\Exception $e) {
             dd("Error al mostrar las ventas intermediadas: " . $e->getMessage());
         }

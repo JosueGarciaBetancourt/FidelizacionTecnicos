@@ -10,6 +10,7 @@ use PhpParser\Node\Expr\Throw_;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\SystemNotificationController;
 
 class OficioController extends Controller
 {
@@ -31,8 +32,11 @@ class OficioController extends Controller
         
         $nuevoCodigoOficio = $this->returnNuevoCodigoOficio();
         $oficiosEliminados = Oficio::onlyTrashed()->get();
+
+        // Obtener las notificaciones
+        $notifications = SystemNotificationController::getActiveNotifications();
  
-        return view('dashboard.oficios', compact('oficios', 'nuevoCodigoOficio', 'oficiosEliminados'));
+        return view('dashboard.oficios', compact('oficios', 'nuevoCodigoOficio', 'oficiosEliminados', 'notifications'));
     }
 
     public function store(Request $request) {

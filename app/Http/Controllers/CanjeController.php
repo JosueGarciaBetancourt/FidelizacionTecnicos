@@ -21,6 +21,7 @@ use App\Http\Controllers\RecompensaController;
 use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\CanjeRecompensaController;
 use App\Http\Controllers\VentaIntermediadaController;
+use App\Http\Controllers\SystemNotificationController;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests; 
 
 class CanjeController extends Controller
@@ -73,7 +74,10 @@ class CanjeController extends Controller
         // Nuevo Id Canje 
         $nuevoIdCanje = CanjeController::generarIdCanje();
 
-        return view('dashboard.registrarCanjes', compact('nuevoIdCanje', 'optionsNumComprobante', 'recompensas'));
+        // Obtener las notificaciones
+        $notifications = SystemNotificationController::getActiveNotifications();
+
+        return view('dashboard.registrarCanjes', compact('nuevoIdCanje', 'optionsNumComprobante', 'recompensas', 'notifications'));
     }
 
     public function store(Request $request) {
@@ -169,7 +173,11 @@ class CanjeController extends Controller
         });
 
         dd($recompensasTipos);  */   
-        return view('dashboard.historialCanjes');
+
+        // Obtener las notificaciones
+        $notifications = SystemNotificationController::getActiveNotifications();
+
+        return view('dashboard.historialCanjes', compact('notifications'));
     }
 
     public function returnArrayHistorialCanjesTabla() {

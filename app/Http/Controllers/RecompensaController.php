@@ -11,7 +11,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cookie;
-
+use App\Http\Controllers\SystemNotificationController;
 
 class RecompensaController extends Controller
 {   
@@ -93,8 +93,13 @@ class RecompensaController extends Controller
 
         //dd($nombresTiposRecompensas);
 
+        // Obtener las notificaciones
+        $notifications = SystemNotificationController::getActiveNotifications();
+
+
         return view('dashboard.recompensas', compact('recompensas', 'tiposRecompensas', 'idNuevaRecompensa', 
-                                                    'idNuevoTipoRecompensa', 'recompensasEliminadas', 'nombresTiposRecompensas'));
+                                                    'idNuevoTipoRecompensa', 'recompensasEliminadas', 'nombresTiposRecompensas',
+                                                    'notifications'));
     }
     
     public function store(Request $request) 

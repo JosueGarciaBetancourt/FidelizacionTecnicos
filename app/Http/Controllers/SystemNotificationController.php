@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SystemNotification;
 use Illuminate\Http\Request;
+use App\Models\SystemNotification;
+use Illuminate\Support\Facades\Log;
 
 class SystemNotificationController extends Controller
 {
-    public function getActiveNotifications()
+    public static function getActiveNotifications()
     {
         $notifications = SystemNotification::where('active', true)
             ->orderBy('created_at', 'desc')
             //->take(5)
             ->get();
             
-        return response()->json([
+        return $notifications;
+        /* return response()->json([
             'notifications' => $notifications,
-            'count' => $notifications->count()
-        ]);
+            'notiCount' => $notifications->count()
+        ]); */
     }
     
     // Método para usar en vistas con Blade
@@ -32,12 +34,24 @@ class SystemNotificationController extends Controller
     }
     
     // Este método podría usarse por un administrador para desactivar notificaciones
-    public function deactivateNotification($id)
-    {
-        $notification = SystemNotification::findOrFail($id);
-        $notification->active = false;
-        $notification->save();
-        
-        return response()->json(['success' => true]);
+    public function deactivateNotification(Request $request)
+    {   
+        try {
+            $idNotificacion = $request->input('idNotificacion', '');
+
+            if ($idNotificacion) {
+                $notification = SystemNotification::findOrFail($idNotificacion);
+                $notification->active = 0;
+                $notification->save();
+    
+                // Controller::printJSON($notification);
+                
+                return response()->json(['success' => true]);
+            }
+            return response()->json(['success' => false]);
+        } catch (\Exception $e) {
+            Log::error('Error en returnArraySolicitudesCanjesTabla: ' . $e->getMessage());
+            return response()->json(['success' => false]);
+        }
     }
 }

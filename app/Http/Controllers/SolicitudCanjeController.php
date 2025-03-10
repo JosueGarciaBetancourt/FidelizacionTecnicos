@@ -12,16 +12,20 @@ use Yajra\DataTables\DataTables;
 use App\Models\VentaIntermediada;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
 use Illuminate\Support\Facades\Auth;
 use App\Models\SolicitudCanjeRecompensa;
 use App\Http\Controllers\CanjeController;
+use App\Http\Controllers\SystemNotificationController;
+
 
 class SolicitudCanjeController extends Controller
 {
     public function create()
     {
-        return view('dashboard.solicitudesAppCanjes');
+        // Obtener las notificaciones
+        $notifications = SystemNotificationController::getActiveNotifications();
+
+        return view('dashboard.solicitudesAppCanjes', compact('notifications'));
     }
 
     public function getObjSolicitudCanjeAndDetailsByIdSolicitudCanje($idSolicitudCanje) {
