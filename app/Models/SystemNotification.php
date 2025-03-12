@@ -10,7 +10,7 @@ class SystemNotification extends Model
     use HasFactory;
     
     protected $fillable = [
-        'icon', 'title', 'tblToFilter', 'item', 'description', 'link', 'active'
+        'icon', 'title', 'tblToFilter', 'item', 'description', 'routeToReview', 'active'
     ];
     
     public function getTimeAgoAttribute()

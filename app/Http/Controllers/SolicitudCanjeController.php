@@ -153,6 +153,7 @@ class SolicitudCanjeController extends Controller
                 'routeToReview' => 'solicitudescanjes.create',
             ]);
 
+
             DB::commit();
 
             return response()->json([
