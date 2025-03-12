@@ -9,11 +9,19 @@ use Illuminate\Support\ServiceProvider;
 
 class SettingsServiceProvider extends ServiceProvider
 {
-    
-
     public function boot(): void
     {
-        // Obtener la configuración desde caché o base de datos
+        // Verificar si estamos en entorno de build (no acceder a la DB)
+        if ($this->app->environment('build')) {
+            return;
+        }
+
+        // Si no existe la tabla, no continuar
+        if (!Schema::hasTable('settings')) {
+            return;
+        }
+
+        // Cargar configuración desde la DB (solo en runtime)
         $settings = Cache::rememberForever('settings_cache', function () {
             return Setting::pluck('value', 'key')->map(function ($value, $key) {
                 return in_array($key, ['maxdaysCanje', 'puntosMinRangoPlata', 'puntosMinRangoOro', 'puntosMinRangoBlack']) 
@@ -22,7 +30,6 @@ class SettingsServiceProvider extends ServiceProvider
             })->toArray();
         });
 
-        // Configurar los valores
         config([
             'settings.adminUsername' => $settings['adminUsername'] ?? 'admin',
             'settings.emailDomain' => $settings['emailDomain'] ?? 'dimacof.com',
