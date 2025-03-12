@@ -9,6 +9,8 @@ use Illuminate\Support\ServiceProvider;
 
 class SettingsServiceProvider extends ServiceProvider
 {
+    protected $defer = true; // ⬅️ Hace que el provider se cargue solo cuando se necesite
+    
     public function boot(): void
     {
         // Verifica si la tabla "settings" existe antes de hacer consultas
