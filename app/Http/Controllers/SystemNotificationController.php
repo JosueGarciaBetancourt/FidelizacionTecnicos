@@ -43,8 +43,8 @@ class SystemNotificationController extends Controller
 
             if ($idNotificacion && $routeToReview) {
                 $notification = SystemNotification::findOrFail($idNotificacion);
-                $notification->active = 0;
-                $notification->save();
+               /*  $notification->active = 0;
+                $notification->save(); */
 
                 /* Log::info("Datos recibidos en deactivateNotification", [
                     'idNotificacion' => $idNotificacion,
@@ -52,7 +52,8 @@ class SystemNotificationController extends Controller
                 ]); */
                 
                 // Disparar el evento para eliminar la notificación en la BD
-                event(new NotificationReviewed($idNotificacion));
+                //event(new NotificationReviewed($idNotificacion));
+                $notification->delete();
 
                 if (Route::has($routeToReview)) { 
                     return response()->json([
