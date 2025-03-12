@@ -147,7 +147,7 @@ aside .sidebar a h5 {
 }
 
 aside .sidebar a:last-child {
-	margin-top: 2rem; 
+	margin-top: 1rem; 
 	width: 100%;
 }
 
@@ -331,6 +331,7 @@ aside.hovered {
     font-size: 0.7rem;
     min-width: 1rem;
     text-align: center;
+    display: none;
 }
 
 .notification_panel {
@@ -338,7 +339,7 @@ aside.hovered {
     position: absolute;
     top: 100%;
     right: 0;
-    width: 350px;
+    width: 400px;
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -384,10 +385,6 @@ aside.hovered {
     position: relative;
 }
 
-.notification_item.unread {
-    background-color: rgba(33, 169, 144, 0.05);
-}
-
 .notification_item.unread::before {
     content: "";
     position: absolute;
@@ -396,6 +393,20 @@ aside.hovered {
     height: 100%;
     width: 3px;
     background-color: rgb(33, 169, 144);
+}
+
+
+.notification_item.request_page.unread {
+    background-color: #f2f9fe;
+}
+
+
+.notification_item.timer.unread {
+    background-color: #fff7f7;
+}
+
+.notification_item.workspace_premium.unread {
+    background-color: #f6fff7;
 }
 
 .notification_icon {
@@ -459,7 +470,7 @@ aside.hovered {
 }
 
 .notification_actions {
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 5px;
 }
@@ -472,14 +483,41 @@ aside.hovered {
     border: none;
 }
 
+.notification_item.unread .notification_actions {
+    display: flex;
+}
+
 .approve_btn {
     background-color: rgb(33, 169, 144);
     color: white;
 }
 
-.review_btn, .view_btn {
-    background-color: #e0e0e0;
-    color: #333;
+/* Review Button - Base Style */
+.review_btn {
+    background-color: rgb(22, 145, 122);
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-size: 0.85rem !important;
+    box-shadow: 0 2px 4px rgba(7, 58, 30, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    outline: none;
+}
+
+/* Review Button - Hover State */
+.review_btn:hover {
+    background-color: rgb(60, 183, 161);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(7, 58, 30, 0.3);
 }
 
 .notification_footer {

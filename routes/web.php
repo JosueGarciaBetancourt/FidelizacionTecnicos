@@ -17,7 +17,7 @@ use App\Http\Controllers\SolicitudCanjeController;
 use App\Http\Controllers\VentaIntermediadaController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-
+use App\Http\Controllers\SystemNotificationController;
 
 Route::get('', [AuthenticatedSessionController::class, 'create']);
 
@@ -124,7 +124,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard-configuracion', [DashboardController::class, 'configuracion'])->name('configuracion.create');  
     Route::put('/changeSettingsVariables', [ConfiguracionController::class, 'changeSettingsVariables'])->name('configuracion.update');
 
-    
+    // Notificaciones
+    Route::post('/systemNotification/deactivateNotification', [SystemNotificationController::class, 'deactivateNotification'])->name('systemNotification.deactivate');
+
     // Correos
     Route::get('emailExample', function () {
         Mail::to('garciabetancourtjosue@gmail.com')

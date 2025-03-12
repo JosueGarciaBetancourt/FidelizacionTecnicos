@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\SystemNotificationController;
 
 class TecnicoController extends Controller
 {   
@@ -85,7 +86,11 @@ class TecnicoController extends Controller
         $idsNombresOficios = $this->returnArrayIdsNombresOficios(); // 1-Albañil | ...*/
         //dd($tecnicosBorrados->pluck('idsOficioTecnico'));
         //dd($tecnicosBorrados->pluck('idNameOficioTecnico'));
-        return view('dashboard.tecnicos', compact('tecnicosBorrados', 'idsNombresOficios'));
+
+        // Obtener las notificaciones
+        $notifications = SystemNotificationController::getActiveNotifications();
+
+        return view('dashboard.tecnicos', compact('tecnicosBorrados', 'idsNombresOficios', 'notifications'));
     }
 
     function store(Request $request) 

@@ -10,18 +10,23 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\SolicitudesCanje;
 use Yajra\DataTables\DataTables;
 use App\Models\VentaIntermediada;
+use App\Models\SystemNotification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
 use Illuminate\Support\Facades\Auth;
 use App\Models\SolicitudCanjeRecompensa;
 use App\Http\Controllers\CanjeController;
+use App\Http\Controllers\SystemNotificationController;
+
 
 class SolicitudCanjeController extends Controller
 {
     public function create()
     {
-        return view('dashboard.solicitudesAppCanjes');
+        // Obtener las notificaciones
+        $notifications = SystemNotificationController::getActiveNotifications();
+
+        return view('dashboard.solicitudesAppCanjes', compact('notifications'));
     }
 
     public function getObjSolicitudCanjeAndDetailsByIdSolicitudCanje($idSolicitudCanje) {
@@ -136,7 +141,17 @@ class SolicitudCanjeController extends Controller
                 'apareceEnSolicitud' => 1,
             ]);
 
-            Log::info($venta);
+            //Log::info($venta);
+
+            // Crear la notificación asociada
+            SystemNotification::create([
+                'icon' => 'request_page',
+                'title' => 'Nueva solicitud de canje',
+                'tblToFilter' => 'tblSolicitudesAppCanje',
+                'item' => $idSolicitudCanje,
+                'description' => 'recibida desde app móvil',
+                'routeToReview' => 'solicitudescanjes.create',
+            ]);
 
             DB::commit();
 

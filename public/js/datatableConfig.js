@@ -7,7 +7,7 @@ $(document).ready(function() {
 
 	const loadingModal = document.getElementById('loadingModal');
 
-	const tblVentasIntermediadas = $('#tblVentasIntermediadas').DataTable({	
+	window.tblVentasIntermediadas  = $('#tblVentasIntermediadas').DataTable({	
 		// Configuración inicial
 		lengthMenu: [[5, 10, 50, 100, 500, -1], [5, 10, 50, 100, 500, "Todos"]],
 		pageLength: 10, 
@@ -709,7 +709,7 @@ $(document).ready(function() {
 		},
 	});
 
-	const tblTecnicos = $('#tblTecnicos').DataTable({
+	window.tblTecnicos = $('#tblTecnicos').DataTable({
 		// Configuración inicial
 		lengthMenu: [[5, 10, 50, 100, 500, -1], [5, 10, 50, 100, 500, "Todos"]],
 		pageLength: 10, 
@@ -1049,7 +1049,7 @@ $(document).ready(function() {
 			{data: 'actions', name: 'actions', class: 'celda-centered', orderable: false},
 		],
 	});
-	
+
 	const tblOficios = $('#tblOficios').DataTable({
 		lengthMenu: [[5, 10, -1], [5, 10, "Todos"]],
 		pageLength: 10, // Cantidad de registros por página
@@ -1720,7 +1720,7 @@ $(document).ready(function() {
 		],
 	});
 
-	const tblSolicitudesAppCanje = $('#tblSolicitudesAppCanje').DataTable({
+	window.tblSolicitudesAppCanje  = $('#tblSolicitudesAppCanje').DataTable({
 		// Configuración inicial
 		lengthMenu: [[10, 10, 50, 100, 500, -1], [10, 10, 50, 100, 500, "Todos"]],
 		pageLength: 10, 

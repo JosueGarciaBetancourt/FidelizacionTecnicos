@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Validation\ValidationException;
+use App\Http\Controllers\SystemNotificationController;
 
 class ProfileController extends Controller
 {    
@@ -210,7 +211,10 @@ class ProfileController extends Controller
         $perfilesUsuarios = PerfilUsuario::all()->pluck('nombre_PerfilUsuario', 'idPerfilUsuario');
         $userEmailDomain = Setting::where('key', 'emailDomain')->value('value');
 
-        return view('dashboard.profileOwn', compact('users', 'nombresPerfilesUsuariosNoAdmin', 'perfilesUsuarios', 'userEmailDomain'));
+        // Obtener las notificaciones
+        $notifications = SystemNotificationController::getActiveNotifications();
+
+        return view('dashboard.profileOwn', compact('users', 'nombresPerfilesUsuariosNoAdmin', 'perfilesUsuarios', 'userEmailDomain', 'notifications'));
     }
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
