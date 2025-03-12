@@ -122,4 +122,4 @@ function obtenerFechaHoraFormateadaExportaciones() {
 }
 
 let csrfTokenMAIN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-let baseUrlMAIN = `${window.location.origin}`;
+let baseUrlMAIN = `${window.location.origin}/FidelizacionTecnicos/public`;
