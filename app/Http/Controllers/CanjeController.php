@@ -49,7 +49,7 @@ class CanjeController extends Controller
     {
         // Autorizar usuario logeado a acceder al registro de canjes
         try {
-            $this->authorize('registrar', Canje::class); // Verifica permisos
+            $this->authorize('registrar', Canje::class); // Verifica permisos en políticas registradas en AuthServiceProvider.php
         } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
             return redirect()->route('canjes.historial')->with('error', 'No tienes permiso para registrar un canje.');
         }

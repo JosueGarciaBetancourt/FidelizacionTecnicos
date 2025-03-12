@@ -147,7 +147,7 @@ aside .sidebar a h5 {
 }
 
 aside .sidebar a:last-child {
-	margin-top: 2rem; 
+	margin-top: 1rem; 
 	width: 100%;
 }
 
@@ -331,6 +331,7 @@ aside.hovered {
     font-size: 0.7rem;
     min-width: 1rem;
     text-align: center;
+    display: none;
 }
 
 .notification_panel {
@@ -384,10 +385,6 @@ aside.hovered {
     position: relative;
 }
 
-.notification_item.unread {
-    background-color: rgba(33, 169, 144, 0.05);
-}
-
 .notification_item.unread::before {
     content: "";
     position: absolute;
@@ -396,6 +393,20 @@ aside.hovered {
     height: 100%;
     width: 3px;
     background-color: rgb(33, 169, 144);
+}
+
+
+.notification_item.request_page.unread {
+    background-color: #f2f9fe;
+}
+
+
+.notification_item.timer.unread {
+    background-color: #fff7f7;
+}
+
+.notification_item.workspace_premium.unread {
+    background-color: #f6fff7;
 }
 
 .notification_icon {
@@ -483,7 +494,7 @@ aside.hovered {
 
 /* Review Button - Base Style */
 .review_btn {
-    background-color: #0d6434;
+    background-color: rgb(22, 145, 122);
     color: #ffffff;
     padding: 8px 16px;
     border-radius: 6px;
@@ -503,7 +514,7 @@ aside.hovered {
 
 /* Review Button - Hover State */
 .review_btn:hover {
-    background-color: #45a373;
+    background-color: rgb(60, 183, 161);
     color: #ffffff;
     transform: translateY(-1px);
     box-shadow: 0 4px 8px rgba(7, 58, 30, 0.3);
