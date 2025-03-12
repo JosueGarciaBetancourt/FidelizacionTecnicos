@@ -13,10 +13,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        // Registrar SettingsServiceProvider solo si la tabla existe
-        if (Schema::hasTable('settings')) {
-            $this->app->register(\App\Providers\SettingsServiceProvider::class);
-        }
+        $this->app->singleton('settings', function () {
+            // Verificar conexión a la DB antes de cargar settings
+            if (Schema::hasTable('settings')) {
+                return SettingsLoader::load();
+            }
+            return [];
+        });
     }
 
     /**
