@@ -21,11 +21,11 @@ class SystemNotificationSeeder extends Seeder
             ],
             [  
                 'icon' => 'timer',
-                'tblToFilter' => 'tblVentasIntermediadas',
-                'title' => 'Venta cerca de agotarse',
-                'item' => 'F001-00000072',
-                'description' => 'está a 7 días de agotarse',
-                'routeToReview' => 'ventasIntermediadas.create',
+                'tblToFilter' => 'tblRecompensas',
+                'title' => 'Recompensa a punto de agotar stock',
+                'item' => 'RECOM-001 | Pulsera de silicona',
+                'description' => 'tiene 15 o menos unidades restantes',
+                'routeToReview' => 'recompensas.create',
             ],
             [  
                 'icon' => 'workspace_premium',

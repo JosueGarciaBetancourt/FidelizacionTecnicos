@@ -208,7 +208,7 @@
     <script src="{{ asset('js/datatables.js') }}"></script>
     <script src="{{ asset('js/datatableConfig.js') }}"></script>
     <script src="{{ asset('js/modals.js') }}"></script>
-    <script src="{{ asset('js/notificaciones.js') }}"></script>
+    <script src="{{ asset('js/systemNotifications.js') }}"></script>
     <script>
         // Aplicar configuración al cargar la página
         document.addEventListener('DOMContentLoaded', function() {

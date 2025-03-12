@@ -36,6 +36,14 @@ class SettingsSeeder extends Seeder
                 'key' => 'puntosMinRangoBlack',
                 'value' => 60000,
             ],
+            [
+                'key' => 'unidadesRestantesRecompensasNotificacion',
+                'value' => 15,
+            ],
+            [
+                'key' => 'diasAgotarVentaIntermediadaNotificacion',
+                'value' => 7,
+            ],
         ];
 
         foreach ($settings as $setting) {

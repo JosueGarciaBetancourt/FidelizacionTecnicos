@@ -407,7 +407,7 @@ $(document).ready(function() {
 		],
 	});
 
-	const tblRecompensas = $('#tblRecompensas').DataTable({
+	window.tblRecompensas = $('#tblRecompensas').DataTable({
 		// Configuración inicial
 		lengthMenu: [[5, 10, -1], [5, 10, "Todos"]],
 		pageLength: 10, 

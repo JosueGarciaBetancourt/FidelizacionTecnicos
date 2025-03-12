@@ -21,7 +21,8 @@ class SettingsServiceProvider extends ServiceProvider
             return Setting::pluck('value', 'key')->map(function ($value, $key) {
                 // Convertir valores específicos a enteros
                 return in_array($key, ['maxdaysCanje', 'puntosMinRangoPlata', 'puntosMinRangoOro',
-                                     'puntosMinRangoBlack']) ? (int) $value : $value;
+                                        'puntosMinRangoBlack', 'unidadesRestantesRecompensasNotificacion',
+                                        'diasAgotarVentaIntermediadaNotificacion']) ? (int) $value : $value;
             })->toArray();
         });
 
@@ -33,6 +34,8 @@ class SettingsServiceProvider extends ServiceProvider
         $puntosMinRangoPlata = $settings['puntosMinRangoPlata'] ?? 0;
         $puntosMinRangoOro = $settings['puntosMinRangoOro'] ?? 24000;
         $puntosMinRangoBlack = $settings['puntosMinRangoBlack'] ?? 60000;
+        $unidadesRestantesRecompensasNotificacion = $settings['unidadesRestantesRecompensasNotificacion'] ?? 15;
+        $diasAgotarVentaIntermediadaNotificacion = $settings['diasAgotarVentaIntermediadaNotificacion'] ?? 7;
 
         // Agregar valores a la configuración de Laravel
         config([
@@ -43,6 +46,8 @@ class SettingsServiceProvider extends ServiceProvider
             'settings.puntosMinRangoPlata' => $puntosMinRangoPlata,
             'settings.puntosMinRangoOro' => $puntosMinRangoOro,
             'settings.puntosMinRangoBlack' => $puntosMinRangoBlack,
+            'settings.unidadesRestantesRecompensasNotificacion' => $unidadesRestantesRecompensasNotificacion,
+            'settings.diasAgotarVentaIntermediadaNotificacion' => $diasAgotarVentaIntermediadaNotificacion,
         ]);
     }
 }

@@ -81,7 +81,8 @@
                         </td>
                         <td>{{ $recompensa->descripcionRecompensa }}</td>
                         <td class="celda-centered">{{ $recompensa->costoPuntos_Recompensa }}</td>
-                        <td class="celda-centered">{{ $recompensa->stock_Recompensa }}</td>
+                        <td @class(['celda-centered', 'fewStock' => $recompensa->stock_Recompensa <= 15])>{{ $recompensa->stock_Recompensa }}</td>
+                        {{-- <td class="celda-centered">{{ $recompensa->stock_Recompensa }}</td> --}}
                         <td class="celda-centered">{{ $recompensa->created_at}}</td>
                         <td class="celda-centered">{{ $recompensa->updated_at}}</td>
                     </tr>

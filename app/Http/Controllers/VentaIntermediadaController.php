@@ -212,7 +212,7 @@ class VentaIntermediadaController extends Controller
 
             // Obtener las notificaciones
             $notifications = SystemNotificationController::getActiveNotifications();
-        
+            
             return view('dashboard.ventasIntermediadas', compact('idsNombresOficios', 'notifications'));
         } catch (\Exception $e) {
             dd("Error al mostrar las ventas intermediadas: " . $e->getMessage());

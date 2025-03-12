@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Auth\Recaller;
 use App\Models\TipoRecompensa;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Models\SystemNotification;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cookie;
@@ -144,8 +145,20 @@ class RecompensaController extends Controller
             // Crear recompensa en la base de datos
             Recompensa::create($recompensaData);
 
+            // Si el stock de la recompensa es menor o igual a 15, crear una notificación
+            if ($recompensaData['stock_Recompensa'] <= config('settings.unidadesRestantesRecompensasNotificacion')) {
+                SystemNotification::create([
+                    'icon' => 'timer',
+                    'tblToFilter' => 'tblRecompensas',
+                    'title' => 'Recompensa a punto de agotar stock',
+                    'item' => $recompensaData['idRecompensa'] . ' | ' . $recompensaData['descripcionRecompensa'],
+                    'description' => 'tiene ' . config('settings.unidadesRestantesRecompensasNotificacion'). ' o menos unidades restantes',
+                    'routeToReview' => 'recompensas.create',
+                ]);
+            }
+            
             DB::commit();
-
+            
             // Redirigir con éxito
             $messageStore = 'Recompensa guardada correctamente.';
             return redirect()->route('recompensas.create')->with('successRecompensaStore', $messageStore);
@@ -160,6 +173,7 @@ class RecompensaController extends Controller
     public function update(Request $request) 
     {
         $recompensaSolicitada = Recompensa::find($request->idRecompensa);
+
         // Actualizar los campos
         $recompensaSolicitada->update([
             'costoPuntos_Recompensa' => $request->costoPuntos_Recompensa,
@@ -167,7 +181,19 @@ class RecompensaController extends Controller
         ]);
 
         $messageUpdate = 'Recompensa actualizada correctamente';
-        
+
+        // Si el stock de la recompensa es menor o igual a 15, crear una notificación
+        if ($recompensaSolicitada['stock_Recompensa'] <= config('settings.unidadesRestantesRecompensasNotificacion')) {
+            SystemNotification::create([
+                'icon' => 'timer',
+                'tblToFilter' => 'tblRecompensas',
+                'title' => 'Recompensa a punto de agotar stock',
+                'item' => $recompensaSolicitada->idRecompensa . ' | ' . $recompensaSolicitada->descripcionRecompensa,
+                'description' => 'tiene ' . config('settings.unidadesRestantesRecompensasNotificacion'). ' o menos unidades restantes',
+                'routeToReview' => 'recompensas.create',
+            ]);
+        }
+
         return redirect()->route('recompensas.create')->with('successRecompensaUpdate', $messageUpdate);
     }
 
@@ -232,6 +258,18 @@ class RecompensaController extends Controller
             $recompensa->update([
                 'stock_Recompensa' => $nuevoStock,
             ]);
+
+            // Si el stock de la recompensa es menor o igual a 15, crear una notificación
+            if ($recompensa['stock_Recompensa'] <= config('settings.unidadesRestantesRecompensasNotificacion')) {
+                SystemNotification::create([
+                    'icon' => 'timer',
+                    'tblToFilter' => 'tblRecompensas',
+                    'title' => 'Recompensa a punto de agotar stock',
+                    'item' => $recompensa['idRecompensa'] . ' | ' . $recompensa['descripcionRecompensa'],
+                    'description' => 'tiene ' . config('settings.unidadesRestantesRecompensasNotificacion'). ' o menos unidades restantes',
+                    'routeToReview' => 'recompensas.create',
+                ]);
+            }
         } else {
             // Manejar el caso en el que la recompensa no se encuentra
             throw new Exception("Recompensa no encontrada con id: {$idRecompensa}");
