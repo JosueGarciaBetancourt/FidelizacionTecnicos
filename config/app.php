@@ -123,7 +123,7 @@ return [
 
     'providers' => ServiceProvider::defaultProviders()->merge([
         Yajra\DataTables\DataTablesServiceProvider::class,  // Librería de tabla dinámica
-        App\Providers\SettingsServiceProvider::class, // Variables de ajustes generales
+        // App\Providers\SettingsServiceProvider::class, // Variables de ajustes generales
         App\Providers\AuthServiceProvider::class, // Políticas en URL's
         App\Providers\EventServiceProvider::class, // Eventos
         ])->toArray(), 
