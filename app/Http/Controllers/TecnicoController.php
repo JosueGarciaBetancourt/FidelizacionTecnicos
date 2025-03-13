@@ -10,7 +10,9 @@ use App\Models\TecnicoOficio;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Yajra\DataTables\DataTables;
 use App\Models\VentaIntermediada;
+use App\Models\SystemNotification;
 use Illuminate\Support\Facades\DB;
+use App\Models\TecnicoNotification;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Hash;
@@ -104,7 +106,6 @@ class TecnicoController extends Controller
                 'fechaNacimiento_Tecnico' => 'required|date', // Valida que sea una fecha
                 'idOficioArray' => 'required|json', // Valida que sea un JSON válido
             ]);
-
 
             // Decodifica el JSON a un array
             $idOficioArray = json_decode($validatedData['idOficioArray'], true);
@@ -205,18 +206,19 @@ class TecnicoController extends Controller
                 'idTecnico' => $validatedData['idTecnico'],
                 'idOficioArray' => $idOficioArray, // Array decodificado y validado
             ];
-        
+            
             // dd($validatedDataTecnico, $validatedDataTecnicoOficio);
         } catch (\Exception $e) {
             dd("Error en la validación del formulario Editar Técnico: " . $e->getMessage());
         }
 
         $tecnico = Tecnico::find($validatedDataTecnico['idTecnico']);
-        $rango = $this->getRango($tecnico->historicoPuntos_Tecnico);
+        $newRango = $this->getRango($tecnico->historicoPuntos_Tecnico);
+
         // Actualizar en Tecnicos
         $tecnico->update([
             'celularTecnico' => $validatedDataTecnico['celularTecnico'],
-            'rangoTecnico' => $rango,
+            'rangoTecnico' => $newRango,
         ]);
 
         // Actualizar la relación en la tabla TecnicosOficios
@@ -343,8 +345,6 @@ class TecnicoController extends Controller
             'Plata' => Setting::where('key', 'puntosMinRangoPlata')->value('value'),
         ];
 
-        //dd($rangos['Oro']);
-        
         foreach ($rangos as $rango => $minPuntos) {
             if ($puntos >= $minPuntos) {
                 return $rango;
@@ -365,10 +365,30 @@ class TecnicoController extends Controller
 
     public static function updatePuntosHistoricosTecnicoById($idTecnico) {
         $tecnico = Tecnico::where('idTecnico', $idTecnico)->first();
+        $oldRango = $tecnico->rangoTecnico;
         $nuevoHistoricoPuntos = TecnicoController::calcPuntosHistoricosByIdtecnico($idTecnico);
+        $newRango = TecnicoController::getRango($nuevoHistoricoPuntos);
+
         $tecnico->update([
             'historicoPuntos_Tecnico' => $nuevoHistoricoPuntos,
+            'rangoTecnico' => $newRango,
         ]);
+
+        // Crear notificación de sistema y notificación de técnico (móvil) al detectar cambio de rango del técnico
+        if ($newRango !== $oldRango) {
+            SystemNotification::create([
+                'icon' => 'workspace_premium',
+                'tblToFilter' => 'tblTecnicos',
+                'title' => 'Cambio de rango de técnico',
+                'item' => $tecnico['idTecnico'] . ' | ' . $tecnico['nombreTecnico'],
+                'description' => 'subió a rango ' . $newRango,
+                'routeToReview' => 'tecnicos.create',
+            ]);
+            TecnicoNotification::create([
+                'idTecnico' => $tecnico['idTecnico'],
+                'description' => '¡Felicidades! Subiste de rango. Ahora eres rango ' . $newRango,
+            ]);
+        }
     }
     
     public static function calcPuntosActualesByIdtecnico($idTecnico) {
@@ -449,7 +469,7 @@ class TecnicoController extends Controller
                 ->rawColumns(['actions'])
                 ->make(true);
         }
-    
+        
         return abort(403);
     }
 

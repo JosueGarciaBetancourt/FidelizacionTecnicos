@@ -13,7 +13,7 @@ class SystemNotificationSeeder extends Seeder
         $systemNotifications = [
             [  
                 'icon' => 'request_page',
-                'title' => 'Nueva solicitud de canje',
+                'title' => 'Nueva solicitud de canje (seeder)',
                 'tblToFilter' => 'tblSolicitudesAppCanje',
                 'item' => 'SOLICANJ-00003',
                 'description' => 'recibida desde app móvil',
@@ -22,7 +22,7 @@ class SystemNotificationSeeder extends Seeder
             [  
                 'icon' => 'timer',
                 'tblToFilter' => 'tblRecompensas',
-                'title' => 'Recompensa a punto de agotar stock',
+                'title' => 'Recompensa a punto de agotar stock (seeder)',
                 'item' => 'RECOM-001 | Pulsera de silicona',
                 'description' => 'tiene 15 o menos unidades restantes',
                 'routeToReview' => 'recompensas.create',
@@ -30,7 +30,7 @@ class SystemNotificationSeeder extends Seeder
             [  
                 'icon' => 'workspace_premium',
                 'tblToFilter' => 'tblTecnicos',
-                'title' => 'Cambio de rango de técnico',
+                'title' => 'Cambio de rango de técnico (seeder)',
                 'item' => '77043114 | Josué Daniel García Betancourt',
                 'description' => 'subió a rango Oro',
                 'routeToReview' => 'tecnicos.create',

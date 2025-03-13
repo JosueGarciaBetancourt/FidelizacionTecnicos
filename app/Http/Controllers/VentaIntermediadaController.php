@@ -240,9 +240,9 @@ class VentaIntermediadaController extends Controller
             ]));
 
             // Actualizar los puntos actuales del técnico
-            TecnicoController::updatePuntosActualesTecnicoById($venta['idTecnico']); // Llamado estático
+            TecnicoController::updatePuntosActualesTecnicoById($venta['idTecnico']);
             // Actualizar los puntos históricos del técnico
-            TecnicoController::updatePuntosHistoricosTecnicoById($venta['idTecnico']); // Llamado estático
+            TecnicoController::updatePuntosHistoricosTecnicoById($venta['idTecnico']); 
         });
 
         return redirect()->route('ventasIntermediadas.create')->with('successVentaIntermiadaStore', 'Venta Intermediada guardada correctamente');

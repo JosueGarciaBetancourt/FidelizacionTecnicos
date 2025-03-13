@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\Tecnico;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\TecnicoController;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class TecnicoSeeder extends Seeder
 {
@@ -27,7 +28,7 @@ class TecnicoSeeder extends Seeder
             'celularTecnico' =>'999888777', 
             'fechaNacimiento_Tecnico' => '1998-10-13',
             'totalPuntosActuales_Tecnico' => 0,
-            'historicoPuntos_Tecnico' => 575,
+            'historicoPuntos_Tecnico' => 1775,
             'rangoTecnico' => 'Plata', // Menor a 24000 (más detalle en TecnicoController.php getRango())
         ]);
 

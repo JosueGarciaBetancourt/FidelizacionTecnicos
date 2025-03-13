@@ -14,7 +14,7 @@ class SettingsSeeder extends Seeder
         $settings = [
             [
                 'key' => 'emailDomain',
-                'value' => 'dimacoftest.com',
+                'value' => 'dimacof.com',
             ],
             [
                 'key' => 'adminUsername',
@@ -30,7 +30,7 @@ class SettingsSeeder extends Seeder
             ],
             [
                 'key' => 'puntosMinRangoOro',
-                'value' => 24000,
+                'value' => 20000,
             ],
             [
                 'key' => 'puntosMinRangoBlack',

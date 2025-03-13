@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SystemNotification extends Model
+class TecnicoNotification extends Model
 {
     use HasFactory;
     
-    protected $table = 'system_notifications';
+    protected $table = 'tecnicos_notifications';
 
     protected $fillable = [
-        'icon', 'title', 'tblToFilter', 'item', 'description', 'routeToReview', 'active'
+        'idTecnico', 'idVentaIntermediada', 'description', 'active'
     ];
     
     public function getTimeAgoAttribute()
