@@ -300,12 +300,12 @@ class VentaIntermediadaController extends Controller
         }
     }
 
-    public static function returnStateIdVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales)
+    public static function returnStateIdVentaIntermediada($idVentaIntermediada, $nuevosPuntosActuales, $maxdaysCanjeAux=null)
     {
         try {
             $venta = VentaIntermediada::findOrFail($idVentaIntermediada);
             $diasTranscurridos = Controller::returnDiasTranscurridosHastaHoy($venta->fechaHoraEmision_VentaIntermediada);
-            $maxdaysCanje = config('settings.maxdaysCanje');
+            $maxdaysCanje = $maxdaysCanjeAux ?? config('settings.maxdaysCanje');
             
             if ($diasTranscurridos > $maxdaysCanje) {
                 //Solo puede ser Tiempo Agotado si antes fue En Espera, En Espera (solicitado desde app) o Redimido (parcial)

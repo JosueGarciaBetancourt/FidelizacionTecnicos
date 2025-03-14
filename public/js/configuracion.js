@@ -31,7 +31,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const puntosMinRangoPlata = parseInt(document.getElementById("puntosMinRangoPlataSettingsInput").value, 10);
         const puntosMinRangoOro = parseInt(document.getElementById("puntosMinRangoOroSettingsInput").value, 10);
         const puntosMinRangoBlack = parseInt(document.getElementById("puntosMinRangoBlackSettingsInput").value, 10);
-    
+        const maxdaysCanjeSettings = parseInt(document.getElementById("maxdaysCanjeSettingsInput").value, 10);
+        const diasAgotarVentaIntermediadaNotificacion = parseInt(document.getElementById("diasAgotarVentaIntermediadaNotificacionInput").value, 10);
+        
         if (isNaN(puntosMinRangoPlata) || isNaN(puntosMinRangoOro) || isNaN(puntosMinRangoBlack)) {
             return false; // Evita errores si algún campo está vacío o tiene valores inválidos
         }
@@ -41,7 +43,14 @@ document.addEventListener('DOMContentLoaded', function() {
             openErrorModal("errorModalConfiguracion", msg);
             return false;
         }
-    
+
+        if (maxdaysCanjeSettings < diasAgotarVentaIntermediadaNotificacion) {
+            const msg = `Los días máximos para canjear una venta (${maxdaysCanjeSettings}) deben ser mayores a los \
+                        días antes para notificar a un técnico sobre agotamiento de canje (${diasAgotarVentaIntermediadaNotificacion}).`;
+            openErrorModal("errorModalConfiguracion", msg);
+            return false;
+        }
+
         return true;
     }
 

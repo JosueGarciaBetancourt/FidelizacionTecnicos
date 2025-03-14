@@ -53,17 +53,17 @@
 						$puntosMinRangoPlataInput = "puntosMinRangoPlataSettingsInput";
 						$puntosMinRangoOroInput = "puntosMinRangoOroSettingsInput";
 						$puntosMinRangoBlackInput = "puntosMinRangoBlackSettingsInput";
-						$unidadesRestantesRecompensasNotificacionInput = "unidadesRestantesRecompensasNotificacion";
-						$diasAgotarVentaIntermediadaNotificacionInput = "diasAgotarVentaIntermediadaNotificacion";
+						$unidadesRestantesRecompensasNotificacionInput = "unidadesRestantesRecompensasNotificacionInput";
+						$diasAgotarVentaIntermediadaNotificacionInput = "diasAgotarVentaIntermediadaNotificacionInput";
 					@endphp
 
 					<div class="config-section">
 						<h2>Variables generales</h2>
 						
-						<h3> Sistema</h3>
+						<h3> Usuarios del sistema</h3>
 
 						<div class="config-option">
-							<label for="emailDomainInput">Dominio de correo:</label>
+							<label for="{{ $emailDomainInput }}">Dominio de correo:</label>
 							<input type="hidden" value="emailDomain" name="keys[]" readonly>
 							<input type="text" class="input-item" id="{{ $emailDomainInput}}" name="values[]" value="{{ config('settings.emailDomain') }}">
 						</div>
@@ -74,14 +74,16 @@
 							<input type="text" class="input-item" id="{{ $adminUsernameInput}}" name="values[]" value="{{ config('settings.adminUsername') }}">
 						</div> --}}
 
-						<h3> Técnicos</h3>
-
+						<h3> Ventas intermediadas</h3>
+						
 						<div class="config-option">
-							<label for="{{ $maxdaysCanjeInput }}">Días máximos para que un técnico pueda realizar un canje:</label>
+							<label for="{{ $maxdaysCanjeInput }}">Días máximos para canjear una venta:</label>
 							<input type="hidden" value="maxdaysCanje" name="keys[]" readonly>
 							<input type="number" class="input-item" id="{{ $maxdaysCanjeInput}}" name="values[]" 
-								oninput="validateRealTimeInputLength(this, 3)" value="{{ config('settings.maxdaysCanje') }}">
+								oninput="validateRealTimeInputLength(this, 3), validateNumberWithMaxLimitRealTime(this, 90)" value="{{ config('settings.maxdaysCanje') }}">
 						</div>
+
+						<h3> Técnicos</h3>
 
 						<div class="config-option">
 							<label for="{{ $puntosMinRangoPlataInput }}">Puntos mínimos para que un técnico alcance el rango PLATA:</label>
@@ -107,14 +109,14 @@
 						<h3> Notificaciones</h3>
 
 						<div class="config-option">
-							<label for="{{ $puntosMinRangoBlackInput }}">Unidades mínimas de recompensas para notificar sobre agotamiento de stock:</label>
+							<label for="{{ $unidadesRestantesRecompensasNotificacionInput }}">Unidades mínimas de recompensas para notificar sobre agotamiento de stock:</label>
 							<input type="hidden" value="unidadesRestantesRecompensasNotificacion" name="keys[]" readonly>
 							<input type="number" class="input-item" id="{{ $unidadesRestantesRecompensasNotificacionInput }}" name="values[]" 
 								oninput="validateRealTimeInputLength(this, 3)" value="{{ config('settings.unidadesRestantesRecompensasNotificacion') }}">
 						</div>
 
 						<div class="config-option">
-							<label for="{{ $puntosMinRangoBlackInput }}">Días antes para notificar a un técnico sobre agotamiento de canje de una venta intermediada:</label>
+							<label for="{{ $diasAgotarVentaIntermediadaNotificacionInput }}">Días antes para notificar a un técnico sobre agotamiento de canje de una venta intermediada:</label>
 							<input type="hidden" value="diasAgotarVentaIntermediadaNotificacion" name="keys[]" readonly>
 							<input type="number" class="input-item" id="{{ $diasAgotarVentaIntermediadaNotificacionInput }}" name="values[]" 
 								oninput="validateRealTimeInputLength(this, 2), validateNumberWithMaxLimitRealTime(this, 90)" value="{{ config('settings.diasAgotarVentaIntermediadaNotificacion') }}">

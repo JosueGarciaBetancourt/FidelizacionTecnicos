@@ -8,14 +8,25 @@ use App\Models\Setting;
 use App\Models\Tecnico;
 use App\Models\Recompensa;
 use Illuminate\Http\Request;
+use App\Models\VentaIntermediada;
 use App\Models\SystemNotification;
+use App\Models\TecnicoNotification;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Controllers\TecnicoController;
-use App\Models\TecnicoNotification;
-use App\Models\VentaIntermediada;
+use App\Http\Controllers\VentaIntermediadaController;
 
 class ConfiguracionController extends Controller
 {
+    private $emailDomainKey = 'emailDomain';
+    private $adminUsernameKey = 'adminUsername';
+    private $maxdaysCanjeKey = 'maxdaysCanje';
+    private $puntosMinRangoPlataKey = 'puntosMinRangoPlata';
+    private $puntosMinRangoOroKey = 'puntosMinRangoOro';
+    private $puntosMinRangoBlackKey = 'puntosMinRangoBlack';
+    private $unidadesRestantesRecompensasNotificacionKey = 'unidadesRestantesRecompensasNotificacion';
+    private $diasAgotarVentaIntermediadaNotificacionKey = 'diasAgotarVentaIntermediadaNotificacion';
+
     public function changeSettingsVariables(Request $request)
     {
         $validatedData = $request->validate([
@@ -33,15 +44,16 @@ class ConfiguracionController extends Controller
             // Actualizar configuración correctamente
             Setting::updateOrInsert(['key' => $key], ['value' => $value]);
 
-            // Validar si es un cambio de rango y actualizar técnicos
-            // Para ahorrar recursos siempre y cuando se reciba puntosMinRangoBlack 
-            if (in_array($key, [/* 'puntosMinRangoPlata', 'puntosMinRangoOro', */'puntosMinRangoBlack'])) { 
+            if ($key === $this->emailDomainKey) {
+                $this->updateEstadoVentasIntermediadas($value);
+            } else if (in_array($key, [/* $this->puntosMinRangoPlataKey, $this->puntosMinRangoOroKey,  */$this->puntosMinRangoBlackKey])) { 
+                // Para ahorrar recursos se comentan algunos rangos siempre y cuando se reciba puntosMinRangoBlack 
                 $this->updateRangoTecnicos();
-            } else if ($key === "emailDomain") {
+            } else if ($key === $this->emailDomainKey) {
                 $this->updateUserEmails($value);
-            } else if ($key === "unidadesRestantesRecompensasNotificacion") {
+            } else if ($key === $this->unidadesRestantesRecompensasNotificacionKey) {
                 $this->createRecompensasNotifications($value);
-            } else if ($key === "diasAgotarVentaIntermediadaNotificacion") {
+            } else if ($key === $this->diasAgotarVentaIntermediadaNotificacionKey) {
                 $this->createAgotamientoVentasIntermediadasNotifications($value);
             }
         }
@@ -68,23 +80,41 @@ class ConfiguracionController extends Controller
     {
         $tecnicos = Tecnico::all();
 
+        // Verificar si hay técnicos antes de continuar
+        if ($tecnicos->isEmpty()) {
+            return;
+        }
+
+        $idTecnicosArray = $tecnicos->pluck('idTecnico')->toArray();
+        
+        // Eliminar todas las notificaciones asociadas en una sola consulta
+        SystemNotification::where(function ($query) use ($idTecnicosArray) {
+            foreach ($idTecnicosArray as $id) {
+                $query->orWhere('item', 'LIKE', "%{$id}%");
+            }
+        })->delete();
+
+        TecnicoNotification::whereIn('idTecnico', $tecnicos->pluck('idTecnico'))->delete();
+        
         $tecnicos->each(function ($tecnico) {
             $oldRango = $tecnico->rangoTecnico;
             $newRango = TecnicoController::getRango($tecnico->historicoPuntos_Tecnico);
             $tecnico->rangoTecnico = $newRango;
 
-            // Crear notificación de sistema y notificación de técnico (móvil) al detectar cambio de rango del técnico
+            // Si el rango cambió, generar notificaciones
             if ($newRango !== $oldRango) {
+                // Crear nueva notificación de sistema
                 SystemNotification::create([
                     'icon' => 'workspace_premium',
                     'tblToFilter' => 'tblTecnicos',
                     'title' => 'Cambio de rango de técnico',
-                    'item' => $tecnico['idTecnico'] . ' | ' . $tecnico['nombreTecnico'],
+                    'item' => "{$tecnico->idTecnico} | {$tecnico->nombreTecnico}",
                     'description' => 'subió a rango ' . $newRango,
                     'routeToReview' => 'tecnicos.create',
                 ]);
+
                 TecnicoNotification::create([
-                    'idTecnico' => $tecnico['idTecnico'],
+                    'idTecnico' => $tecnico->idTecnico,
                     'description' => '¡Felicidades! Subiste de rango. Ahora eres rango ' . $newRango,
                 ]);
             }
@@ -103,20 +133,47 @@ class ConfiguracionController extends Controller
         Tecnico::upsert($tecnicosArray->toArray(), ['idTecnico'], ['rangoTecnico', 'updated_at']);
     }
 
-    
+    private function updateEstadoVentasIntermediadas($maxdaysCanje) 
+    {
+        try {
+            VentaIntermediada::all()->each(function ($venta) use ($maxdaysCanje) {
+                $idEstadoVenta = VentaIntermediadaController::returnStateIdVentaIntermediada(
+                    $venta->idVentaIntermediada,
+                    $venta->puntosActuales_VentaIntermediada,
+                    $maxdaysCanje
+                );
+
+                $venta->update(['idEstadoVenta' => $idEstadoVenta]);
+            });
+        } catch (\Exception $e) {
+            dd("updateEstadoVentasIntermediadas: " . $e);
+            //Log::error("Error en createAgotamientoVentasIntermediadasNotifications: " . $e->getMessage());
+        }
+    }
+
     private function createRecompensasNotifications(int $remainingUnits)
     {
         try {
             $recompensas = Recompensa::all();
 
+            $idRecompensasArray = $recompensas->pluck('idRecompensa')->toArray();
+        
+            // Eliminar todas las notificaciones asociadas en una sola consulta
+            SystemNotification::where(function ($query) use ($idRecompensasArray) {
+                foreach ($idRecompensasArray as $id) {
+                    $query->orWhere('item', 'LIKE', "%{$id}%");
+                }
+            })->delete();
+
             $recompensas->each(function ($recompensa) use ($remainingUnits) {
-                if ($recompensa['stock_Recompensa'] <= $remainingUnits) {
+              
+                if ($recompensa->stock_Recompensa <= $remainingUnits) {
                     SystemNotification::create([
                         'icon' => 'timer',
                         'tblToFilter' => 'tblRecompensas',
                         'title' => 'Recompensa a punto de agotar stock',
-                        'item' => $recompensa['idRecompensa'] . ' | ' . $recompensa['descripcionRecompensa'],
-                        'description' => 'Tiene ' . $remainingUnits . ' o menos unidades restantes',
+                        'item' => $recompensa->idRecompensa . ' | ' . $recompensa->descripcionRecompensa,
+                        'description' => "tiene {$recompensa->stock_Recompensa} unidades restantes",
                         'routeToReview' => 'recompensas.create',
                     ]);
                 }
@@ -126,23 +183,36 @@ class ConfiguracionController extends Controller
         }
     }
 
-    private function createAgotamientoVentasIntermediadasNotifications(int $remainingDays)
+    private function createAgotamientoVentasIntermediadasNotifications(int $diasAgotarVentaIntermediadaNotificacion)
     {
         try {
-            $ventas = VentaIntermediada::all();
-            
-            $ventas->each(function ($venta) use ($remainingDays){
-                if (config('settings.maxdaysCanje') >= $venta['diasTranscurridos'] && 
-                    config('settings.maxdaysCanje') - $venta['diasTranscurridos'] == $remainingDays) {
-                    TecnicoNotification::create([
-                        'idTecnico' => $venta['idTecnico'],
-                        'idVentaIntermediada' => $venta['idVentaIntermediada'],
-                        'description' => 'Venta intermediada con ' . $remainingDays . ' días para agotarse',
-                    ]);
-                }
+            $maxDaysCanje = Setting::where('key', 'maxDaysCanje')->value('value');
+            $maxDaysNotification = $maxDaysCanje - $diasAgotarVentaIntermediadaNotificacion;
+
+            $ventas = VentaIntermediada::whereIn('idEstadoVenta', [1, 2, 4, 5])->get()
+                ->filter(function ($venta) use ($maxDaysNotification) {
+                    return $venta->diasTranscurridos <= $maxDaysNotification;
             });
+                        
+            // Eliminar todas las notificaciones de las ventas en una sola consulta
+            TecnicoNotification::whereIn('idVentaIntermediada', $ventas->pluck('idVentaIntermediada'))->delete();
+
+            $notificaciones = $ventas->map(function ($venta) use ($maxDaysCanje) {
+                $remainingDays = $maxDaysCanje - $venta->diasTranscurridos;
+                return [
+                    'idTecnico' => $venta->idTecnico,
+                    'idVentaIntermediada' => $venta->idVentaIntermediada,
+                    'description' => 'La venta intermediada ' .  $venta->idVentaIntermediada . ' se agotará en ' . $remainingDays . ' días',
+                ];
+            })->filter();
+            
+            // Insertar solo si hay notificaciones
+            if ($notificaciones->isNotEmpty()) {
+                TecnicoNotification::insert($notificaciones->toArray());
+            }
         } catch (\Exception $e) {
             dd("createAgotamientoVentasIntermediadasNotifications: " . $e);
+            //Log::error("Error en createAgotamientoVentasIntermediadasNotifications: " . $e->getMessage());
         }
     }
 }

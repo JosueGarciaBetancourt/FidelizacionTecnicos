@@ -29,13 +29,13 @@ class SettingsServiceProvider extends ServiceProvider
         // Usar los valores directamente desde el caché
         $adminUsername = $settings['adminUsername'] ?? 'admin';
         $emailDomain = $settings['emailDomain'] ?? 'dimacof.com';
-        $adminEmail = $adminUsername . '@' . $emailDomain;
         $maxdaysCanje = $settings['maxdaysCanje'] ?? 90;
         $puntosMinRangoPlata = $settings['puntosMinRangoPlata'] ?? 0;
         $puntosMinRangoOro = $settings['puntosMinRangoOro'] ?? 24000;
         $puntosMinRangoBlack = $settings['puntosMinRangoBlack'] ?? 60000;
         $unidadesRestantesRecompensasNotificacion = $settings['unidadesRestantesRecompensasNotificacion'] ?? 15;
         $diasAgotarVentaIntermediadaNotificacion = $settings['diasAgotarVentaIntermediadaNotificacion'] ?? 7;
+        $adminEmail = $adminUsername . '@' . $emailDomain;
 
         // Agregar valores a la configuración de Laravel
         config([

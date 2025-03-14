@@ -24,7 +24,7 @@ class SystemNotificationSeeder extends Seeder
                 'tblToFilter' => 'tblRecompensas',
                 'title' => 'Recompensa a punto de agotar stock (seeder)',
                 'item' => 'RECOM-001 | Pulsera de silicona',
-                'description' => 'tiene 15 o menos unidades restantes',
+                'description' => 'tiene 15 unidades restantes',
                 'routeToReview' => 'recompensas.create',
             ],
             [  
