@@ -12,8 +12,8 @@ return new class extends Migration
         Schema::create('PerfilesUsuarios', function (Blueprint $table) {
             $table->id("idPerfilUsuario");
             $table->string('nombre_PerfilUsuario', 50);
-            /* $$table->timestamps(); //created_at updated_at */
-            $table->timestamp('created_at')->default(DB::raw('(CURRENT_TIMESTAMP - INTERVAL 5 HOUR)'));
+            /* $table->timestamps(); //created_at updated_at */
+            $table->timestamp('created_at')->default(DB::raw('(CURRENT_TIMESTAMP + INTERVAL 5 HOUR)'));
             $table->timestamp('updated_at')->nullable();
             $table->softDeletes(); //deleted_at
         });
