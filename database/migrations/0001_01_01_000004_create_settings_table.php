@@ -14,8 +14,6 @@ return new class extends Migration
             $table->string('key')->unique(); // emailDomain, adminUsername
             $table->text('value'); // @dimacoftest.com, admintest
             $table->timestamps();
-            /* $table->timestamp('created_at')->default(DB::raw('(CURRENT_TIMESTAMP - INTERVAL 5 HOUR)'));
-            $table->timestamp('updated_at')->nullable(); */	
         });
     }
 
