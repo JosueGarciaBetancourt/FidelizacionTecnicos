@@ -188,12 +188,12 @@ class ConfiguracionController extends Controller
         try {
             $maxDaysCanje = Setting::where('key', 'maxDaysCanje')->value('value');
             $maxDaysNotification = $maxDaysCanje - $diasAgotarVentaIntermediadaNotificacion;
-
+            
             $ventas = VentaIntermediada::whereIn('idEstadoVenta', [1, 2, 4, 5])->get()
-                ->filter(function ($venta) use ($maxDaysNotification) {
-                    return $venta->diasTranscurridos <= $maxDaysNotification;
+                ->filter(function ($venta) use ($maxDaysNotification, $maxDaysCanje) {
+                    return $venta->diasTranscurridos <= $maxDaysCanje && $venta->diasTranscurridos >= $maxDaysNotification; 
             });
-                        
+
             // Eliminar todas las notificaciones de las ventas en una sola consulta
             TecnicoNotification::whereIn('idVentaIntermediada', $ventas->pluck('idVentaIntermediada'))->delete();
 
@@ -205,14 +205,11 @@ class ConfiguracionController extends Controller
                     'description' => 'La venta intermediada ' .  $venta->idVentaIntermediada . ' se agotará en ' . $remainingDays . ' días',
                 ];
             })->filter();
-            
-            // Insertar solo si hay notificaciones
-            if ($notificaciones->isNotEmpty()) {
-                TecnicoNotification::insert($notificaciones->toArray());
-            }
+
+            TecnicoNotification::insert($notificaciones->toArray());
         } catch (\Exception $e) {
             dd("createAgotamientoVentasIntermediadasNotifications: " . $e);
-            //Log::error("Error en createAgotamientoVentasIntermediadasNotifications: " . $e->getMessage());
+            Log::error("Error en createAgotamientoVentasIntermediadasNotifications: " . $e->getMessage());
         }
     }
 }

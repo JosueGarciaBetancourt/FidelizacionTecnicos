@@ -112,33 +112,37 @@
                             <h3>Notificaciones</h3>
                         </div>
 
-                        <ul class="notification_list" id="notification-list">
-                            @foreach ($notifications as $notification)
-                                <li @class([
-                                    'notification_item',
-                                    $notification->icon,
-                                    'unread' => $notification->active,
-                                    'read' => !$notification->active,
-                                ])>
-                                    <div class="notification_icon {{ $notification->icon }}">
-                                        <span class="material-symbols-outlined">{{ $notification->icon }}</span>
-                                    </div>
-                                    <div class="notification_content">
-                                        <p class="notification_title">{{ $notification->title }}</p>
-                                        <p class="notification_desc">{{ $notification->item }}
-                                            {{ $notification->description }}</p>
-                                        <p class="notification_time">{{ $notification->time_ago }}</p>
-                                    </div>
-                                    <div class="notification_actions">
-                                        @if ($notification->routeToReview)
-                                            <a onclick="reviewNotification('{{ $notification->id }}', '{{ $notification->routeToReview }}',
-                                                '{{ $notification->tblToFilter }}', '{{ $notification->item }}')"
-                                                class="review_btn">Revisar</a>
-                                        @endif
-                                    </div>
-                                </li>
-                            @endforeach
-                        </ul>
+                        @if ($notifications && $notifications->isNotEmpty())
+                            <ul class="notification_list" id="notification-list">
+                                @foreach ($notifications as $notification)
+                                    <li @class([
+                                        'notification_item',
+                                        $notification->icon,
+                                        'unread' => $notification->active,
+                                        'read' => !$notification->active,
+                                    ])>
+                                        <div class="notification_icon {{ $notification->icon }}">
+                                            <span class="material-symbols-outlined">{{ $notification->icon }}</span>
+                                        </div>
+                                        <div class="notification_content">
+                                            <p class="notification_title">{{ $notification->title }}</p>
+                                            <p class="notification_desc">{{ $notification->item }}
+                                                {{ $notification->description }}</p>
+                                            <p class="notification_time">{{ $notification->time_ago }}</p>
+                                        </div>
+                                        <div class="notification_actions">
+                                            @if ($notification->routeToReview)
+                                                <a onclick="reviewNotification('{{ $notification->id }}', '{{ $notification->routeToReview }}',
+                                                    '{{ $notification->tblToFilter }}', '{{ $notification->item }}')"
+                                                    class="review_btn">Revisar</a>
+                                            @endif
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <p class="noNotificationsMessageP">No hay notificaciones</p>
+                        @endif
                     </div>
                 </div>
 

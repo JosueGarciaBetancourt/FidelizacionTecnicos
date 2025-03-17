@@ -30,7 +30,7 @@ class SettingsSeeder extends Seeder
             ],
             [
                 'key' => 'puntosMinRangoOro',
-                'value' => 20000,
+                'value' => 24000,
             ],
             [
                 'key' => 'puntosMinRangoBlack',

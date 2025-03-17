@@ -60,6 +60,20 @@ class ProfileController extends Controller
         }
     }
 
+    public function getMaxdaysCanje() { 
+        if (Auth::check() && Auth::user()) {
+            return response()->json([
+                'success' => true,
+                'maxdaysCanje' => config('settings.maxdaysCanje'),
+            ]);
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'No autenticado'
+            ], 401); // Código 401 para indicar que no está autenticado
+        }
+    }
+
     public function verifyUserDataDuplication(Request $request) {
         try {
             if (!Auth::check()) {

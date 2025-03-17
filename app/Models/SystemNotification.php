@@ -10,6 +10,7 @@ class SystemNotification extends Model
     use HasFactory;
     
     protected $table = 'system_notifications';
+    public $timestamps = true;
 
     protected $fillable = [
         'icon', 'title', 'tblToFilter', 'item', 'description', 'routeToReview', 'active'

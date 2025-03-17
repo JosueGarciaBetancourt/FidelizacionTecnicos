@@ -38,7 +38,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/verificar-userEditDataDuplication', [ProfileController::class, 'verifyUserEditDataDuplication'])->name('usuarios.verifyUserEditDataDuplication');
     Route::get('/dashboard-getAdminEmail', [ProfileController::class, 'getAdminEmail'])->name('usuarios.getAdminEmail');
     Route::get('/dashboard-getEmailDomain', [ProfileController::class, 'getEmailDomain'])->name('usuarios.getEmailDomain');
+    Route::get('/dashboard-getMaxdaysCanje', [ProfileController::class, 'getMaxdaysCanje'])->name('usuarios.getMaxdaysCanje');
     
+
     // Ventas Intermediadas
     Route::get('/dashboard-ventasIntermediadas', [VentaIntermediadaController::class, 'create'])->name('ventasIntermediadas.create');
     Route::post('/modal-storeVenta', [VentaIntermediadaController::class, 'store'])->name('ventasIntermediadas.store');
