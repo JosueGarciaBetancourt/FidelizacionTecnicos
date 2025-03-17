@@ -11,4 +11,4 @@ CHANGELOG.md export-ignore
 .styleci.yml export-ignore
 
 database/migrations/* merge=ours
-
+app/models/* merge=ours
