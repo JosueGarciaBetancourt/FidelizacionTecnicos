@@ -16,9 +16,6 @@ return new class extends Migration
             $table->text('description'); 
             $table->boolean('active')->default(true); // Para poder desactivar notificaciones revisadas
 
-            $table->foreign('idTecnico')->references('idTecnico')->on('Tecnicos')->onDelete('cascade');
-            $table->foreign('idVentaIntermediada')->references('idVentaIntermediada')->on('VentasIntermediadas')->onDelete('cascade');
-
             $table->timestamps();
         });
     }

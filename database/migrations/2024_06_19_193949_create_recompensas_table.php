@@ -15,9 +15,7 @@ return new class extends Migration
             $table->string('descripcionRecompensa')->default('Sin descripción'); 
             $table->unsignedInteger('costoPuntos_Recompensa')->default(1); 
             $table->unsignedInteger('stock_Recompensa')->nullable(); 
-            //$table->timestamps(); //created_at updated_at
-            $table->timestamp('created_at')->default(DB::raw('(CURRENT_TIMESTAMP - INTERVAL 5 HOUR)'));
-            $table->timestamp('updated_at')->nullable();	
+            $table->timestamps(); //created_at updated_at
             $table->softDeletes(); // deleted_at
     
             $table->foreign('idTipoRecompensa')->references('idTipoRecompensa')->on('TiposRecompensas')->onDelete('cascade');

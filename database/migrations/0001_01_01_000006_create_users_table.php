@@ -29,9 +29,7 @@ return new class extends Migration
 
             $table->foreign('idPerfilUsuario')->references('idPerfilUsuario')->on('PerfilesUsuarios')->onDelete('no action');
             
-            //$table->timestamps(); //created_at updated_at
-            $table->timestamp('created_at')->default(DB::raw('(CURRENT_TIMESTAMP - INTERVAL 5 HOUR)'));
-            $table->timestamp('updated_at')->nullable();
+            $table->timestamps(); //created_at updated_at
             $table->softDeletes(); // deleted_at
         });
 

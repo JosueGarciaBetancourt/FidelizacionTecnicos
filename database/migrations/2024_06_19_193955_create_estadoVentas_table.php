@@ -12,9 +12,7 @@ return new class extends Migration
         Schema::create('EstadoVentas', function (Blueprint $table) {
             $table->id('idEstadoVenta'); //1, 2, 3, 4, ...
             $table->string('nombre_EstadoVenta', 100); //En espera, Redimido (parcial), Redimido (completo), Tiempo Agotado
-            //$table->timestamps(); //created_at updated_at
-            $table->timestamp('created_at')->default(DB::raw('(CURRENT_TIMESTAMP - INTERVAL 5 HOUR)'));
-            $table->timestamp('updated_at')->nullable();	
+            $table->timestamps(); //created_at updated_at
             $table->softDeletes(); //deleted_at
         });
     }

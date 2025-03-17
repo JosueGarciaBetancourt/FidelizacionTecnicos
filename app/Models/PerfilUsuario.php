@@ -24,7 +24,7 @@ class PerfilUsuario extends Model
     ];
 
     // Mutador para created_at
-    protected static function boot()
+    /* protected static function boot()
     {
         parent::boot();
 
@@ -38,7 +38,7 @@ class PerfilUsuario extends Model
         static::updating(function ($perfilUsuario) {
             $perfilUsuario->updated_at = Carbon::now()->addHours(5);
         });
-    }
+    } */
       
     public function users()
     {
