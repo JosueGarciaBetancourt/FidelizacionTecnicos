@@ -107,4 +107,18 @@ class VentaIntermediada extends Model
     {
         return $this->hasMany(SolicitudesCanje::class, 'idVentaIntermediada', 'idVentaIntermediada'); 
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($ventaIntermediada) {
+            $ventaIntermediada->created_at = Carbon::now()->addHours(5);
+            $ventaIntermediada->updated_at = Carbon::now()->addHours(5);
+        });
+
+        static::updating(function ($ventaIntermediada) {
+            $ventaIntermediada->updated_at = Carbon::now()->addHours(5);
+        });
+    }
 }

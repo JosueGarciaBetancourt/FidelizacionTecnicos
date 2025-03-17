@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Recompensa extends Model
 {
@@ -46,5 +47,19 @@ class Recompensa extends Model
     public function getNombreTipoRecompensaAttribute()
     {
         return $this->tipoRecompensa ? $this->tipoRecompensa->nombre_TipoRecompensa : null;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($recompensa) {
+            $recompensa->created_at = Carbon::now()->addHours(5);
+            $recompensa->updated_at = Carbon::now()->addHours(5);
+        });
+
+        static::updating(function ($recompensa) {
+            $recompensa->updated_at = Carbon::now()->addHours(5);
+        });
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Tecnico extends Model
 {
@@ -74,5 +75,19 @@ class Tecnico extends Model
         $idTecnico = $this->idTecnico ?? ''; 
         $nombreTecnico = $this->nombreTecnico ?? '';
         return $idTecnico . " | " . $nombreTecnico;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($tecnico) {
+            $tecnico->created_at = Carbon::now()->addHours(5);
+            $tecnico->updated_at = Carbon::now()->addHours(5);
+        });
+
+        static::updating(function ($tecnico) {
+            $tecnico->updated_at = Carbon::now()->addHours(5);
+        });
     }
 }
