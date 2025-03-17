@@ -22,7 +22,7 @@ class SolicitudesCanjeSeeder extends Seeder
                 'puntosActuales_SolicitudCanje' => 500,
                 'puntosCanjeados_SolicitudCanje' => 405,
                 'puntosRestantes_SolicitudCanje' => 95, 
-                /* 'fechaHora_SolicitudCanje' => '2025-01-22 11:00:00', */
+                'fechaHora_SolicitudCanje' => '2025-01-22 11:00:00',
                 'idUser' => 1,
                 'comentario_SolicitudCanje' => 'Ok',
             ],
