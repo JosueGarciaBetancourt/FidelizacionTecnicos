@@ -20,27 +20,30 @@ class CheckVentasIntermediadas implements ShouldQueue
 
     public function handle(): void
     {
-        Controller::printJSON(config('settings'));
+        //Controller::printJSON(config('settings'));
 
         // Obtener valores desde la configuración
         $maxDaysCanje = config('settings.maxdaysCanje');
         $diasAgotarVentaIntermediadaNotificacion = config('settings.diasAgotarVentaIntermediadaNotificacion');
         $maxDaysNotification = $maxDaysCanje - $diasAgotarVentaIntermediadaNotificacion;
 
-        // Obtener ventas dentro del rango permitido
-        $ventas = VentaIntermediada::whereIn('idEstadoVenta', [1, 2, 4, 5])
-            ->where('diasTranscurridos', '<=', $maxDaysNotification)
-            ->get();
+        $ventas = VentaIntermediada::whereIn('idEstadoVenta', [1, 2, 4, 5])->get()
+            ->filter(function ($venta) use ($maxDaysNotification, $maxDaysCanje) {
+                return $venta->diasTranscurridos <= $maxDaysCanje && $venta->diasTranscurridos >= $maxDaysNotification;
+        });
 
         if ($ventas->isNotEmpty()) {
             foreach ($ventas as $venta) {
-                $remainingDays = config('settings.maxdayscanje') - $venta->diasTranscurridos;
+                $remainingDays = $maxDaysCanje - $venta->diasTranscurridos;
                 TecnicoNotification::create([
                     "idTecnico" => $venta->idTecnico,
                     "idVentaIntermediada" => $venta->idVentaIntermediada,
-                    "description" => "La venta intermediada " .  $venta->idVentaIntermediada . "se agotará en " . $remainingDays . " días",
+                    "description" => "La venta intermediada " .  $venta->idVentaIntermediada . " se agotará en " . $remainingDays . " días",
+                    /* "created_at" => now(),
+                    "updated_at" => now(), */
                 ]);
             }
+            Controller::printJSON($ventas);
         }
     }
 }

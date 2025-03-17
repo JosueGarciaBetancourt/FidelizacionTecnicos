@@ -21,7 +21,7 @@ class TecnicoNotificationSeeder extends Seeder
             [  
                 'idTecnico' => '77043114',
                 'idVentaIntermediada' => 'F001-00000076',
-                'description' => 'Venta intermediada con 7 días para agotarse', // Los días para agotarse pueden modificarse
+                'description' => 'La venta intermediada F001-00000076 se agotará en 7 días', // Los días para agotarse pueden modificarse
             ],
         ];
 

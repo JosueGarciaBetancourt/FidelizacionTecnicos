@@ -37,8 +37,8 @@ class SystemNotificationSeeder extends Seeder
             ],
         ];
 
-        foreach ($systemNotifications as $sysNoti) {
+        /* foreach ($systemNotifications as $sysNoti) {
             SystemNotification::create($sysNoti);
-        }
+        } */
     }
 }

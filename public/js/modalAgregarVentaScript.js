@@ -803,7 +803,7 @@ function validarCamposCorrectosFormulario() {
 
     // Validando máximo de 90 días transcurridos
     if (!validarMaximoDiasTranscurridosHastaHoyFechaHora(fechaHoraEmisionInput.value)) {
-        mensajeCombinado += "La fecha supera el máximo de 90 días para el registro de la venta intermediada. ";
+        mensajeCombinado += `La fecha supera el máximo de ${maxdaysCanjeMAIN} días para el registro de la venta intermediada. `;
         returnError = true;
     }
     
@@ -822,11 +822,11 @@ function getStringFormatCurrentDate() {
 }
 
 // Función mejorada para validar días transcurridos
-function validarMaximoDiasTranscurridosHastaHoyFechaHora(fechaHora, maxDias=90) {
+function validarMaximoDiasTranscurridosHastaHoyFechaHora(fechaHora) {
     const fechaHoraActual = getStringFormatCurrentDate();
     const dias = getDiasTranscurridosFechaHora(fechaHora, fechaHoraActual);
     
-    return dias <= maxDias;
+    return dias <= maxdaysCanjeMAIN;
 }
 
 function removeZerosIDVentaIntermediada(idVentaIntermediada) {

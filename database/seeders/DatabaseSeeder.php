@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
         $this->call(SolicitudesCanjeSeeder::class);
         $this->call(SolicitudCanjeRecompensaSeeder::class);
         $this->call(SystemNotificationSeeder::class);
+        $this->call(TecnicoNotificationSeeder::class);
 
         $endTime = microtime(true); // Marca el fin del tiempo
         $totalTime = $endTime - $startTime; // Calcula el tiempo total

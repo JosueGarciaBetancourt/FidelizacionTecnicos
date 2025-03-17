@@ -10,10 +10,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('login_tecnicos', function (Blueprint $table) {
-            $table->string('idTecnico', 8)->primary(); // Cambiado a 'idTecnico' para consistencia
-            $table->string('password');
+            $table->string('idTecnico', 8)->primary();
             $table->foreign('idTecnico')->references('idTecnico')->on('Tecnicos')->onDelete('cascade');
 
+            $table->string('password');
             $table->boolean('isFirstLogin')->default(0); // columna para verificar si es el primer login
             $table->string('api_key')->nullable();
             $table->rememberToken();

@@ -366,6 +366,10 @@ aside.hovered {
     color: #333;
 }
 
+.noNotificationsMessageP {
+    padding: 7px 15px;
+}
+
 .mark_all_read {
     font-size: 0.8rem;
     color: #4285f4;

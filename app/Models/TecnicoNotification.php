@@ -11,6 +11,7 @@ class TecnicoNotification extends Model
     use HasFactory;
     
     protected $table = 'tecnicos_notifications';
+    public $timestamps = true;
 
     protected $fillable = [
         'idTecnico', 'idVentaIntermediada', 'description', 'active'

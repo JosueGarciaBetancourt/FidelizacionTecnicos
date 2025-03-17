@@ -1,6 +1,8 @@
 let userLoggedMAIN;
 let adminEmailMAIN;
 let emailDomainMAIN;
+let maxdaysCanjeMAIN;
+
 
 async function getUserLogged() {
     const url = `${baseUrlMAIN}/dashboard-getLoggedUser`;
@@ -91,11 +93,44 @@ async function getEmailDomain() {
     }
 }
 
+
 async function initEmailDomain() {
     emailDomainMAIN = await getEmailDomain();
     //console.log("emailDomainMAIN: " + emailDomainMAIN);
 }
 
+async function getMaxdaysCanje() {
+    const url = `${baseUrlMAIN}/dashboard-getMaxdaysCanje`;
+
+    try {
+        const response = await fetch(url);
+
+        // Verificar si la respuesta HTTP es un error (por ejemplo, 401)
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`${errorData.message || 'Error desconocido'}`);
+        }
+
+        // Convertir la respuesta a JSON
+        const maxdaysCanje = await response.json();
+
+        // Validar la estructura esperada
+        if (!maxdaysCanje.success) {
+            throw new Error(maxdaysCanje.message || 'No autenticado');
+        }
+
+        return maxdaysCanje.maxdaysCanje;
+    } catch (error) {
+        console.log("Error al obtener maxdaysCanje:", error.message);
+    }
+}
+
+async function initMaxdaysCanje() {
+    maxdaysCanjeMAIN = await getMaxdaysCanje();
+    console.log("maxdaysCanjeMAIN: " + maxdaysCanjeMAIN);
+}
+
+initMaxdaysCanje();
 initUserLogged();
 initAdminEmail();
 initEmailDomain();
