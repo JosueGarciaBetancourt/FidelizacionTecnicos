@@ -11,4 +11,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 
-//Schedule::job(new CheckVentasIntermediadas())->everyMinute();/* ->dailyAt('00:00');*/
+Schedule::job(new CheckVentasIntermediadas())->dailyAt('00:00');/* ->everyMinute();
