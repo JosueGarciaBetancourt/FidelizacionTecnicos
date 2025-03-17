@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 
 class Oficio extends Model
 {
@@ -39,5 +40,19 @@ class Oficio extends Model
     public function getCodigoNombreOficioAttribute() {
         $codigoNombreOficio = 'OFI-' . str_pad($this->idOficio, 2, '0', STR_PAD_LEFT) . " | " . $this->nombre_Oficio;
         return $codigoNombreOficio;
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($setting) {
+            $setting->created_at = Carbon::now()->addHours(5);
+            $setting->updated_at = Carbon::now()->addHours(5);
+        });
+
+        static::updating(function ($setting) {
+            $setting->updated_at = Carbon::now()->addHours(5);
+        });
     }
 }

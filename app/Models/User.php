@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -64,5 +65,19 @@ class User extends Authenticatable
     public function getNombrePerfilUsuarioAttribute()
     {
         return $this->PerfilUsuario->nombre_PerfilUsuario ?? 'Sin perfil';
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($setting) {
+            $setting->created_at = Carbon::now()->addHours(5);
+            $setting->updated_at = Carbon::now()->addHours(5);
+        });
+
+        static::updating(function ($setting) {
+            $setting->updated_at = Carbon::now()->addHours(5);
+        });
     }
 }

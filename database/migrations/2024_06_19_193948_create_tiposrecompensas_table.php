@@ -12,9 +12,7 @@ return new class extends Migration
         Schema::create('TiposRecompensas', function (Blueprint $table) {
             $table->id('idTipoRecompensa');
             $table->string('nombre_TipoRecompensa', 50)->unique()->comment('Nombre del tipo de recompensa, único para cada tipo'); // Nombre único
-            //$table->timestamps(); //created_at updated_at
-            $table->timestamp('created_at')->default(DB::raw('(CURRENT_TIMESTAMP - INTERVAL 5 HOUR)'));
-            $table->timestamp('updated_at')->nullable();	
+            $table->timestamps(); //created_at updated_at
             $table->softDeletes(); // deleted_at
         });
     }
