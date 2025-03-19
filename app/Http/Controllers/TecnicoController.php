@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Rango;
 use App\Models\Oficio;
 use App\Models\Setting;
 use App\Models\Tecnico;
@@ -125,12 +126,7 @@ class TecnicoController extends Controller
             $tecnicoEliminado = Tecnico::onlyTrashed()->where('idTecnico', $validatedData['idTecnico'])->first();
 
             if ($tecnicoEliminado) {
-                //dd("Este técnico ya ha sido registrado anteriormente pero está inhabilitado.");
-                // Restaurar el técnico si ha sido eliminado lógicamente
                 $tecnicoEliminado->restore();
-                /* $rango = $this->getRango($tecnicoEliminado->historicoPuntos_Tecnico);
-                $tecnicoData = array_merge($validatedData, ['rangoTecnico' => $rango]);
-                $tecnicoEliminado->update($tecnicoData); */
             } else {
                 // Crear un nuevo técnico si no existe
                 Tecnico::create([
@@ -213,12 +209,12 @@ class TecnicoController extends Controller
         }
 
         $tecnico = Tecnico::find($validatedDataTecnico['idTecnico']);
-        $newRango = $this->getRango($tecnico->historicoPuntos_Tecnico);
+        $newIDRango = $this->getIDRango($tecnico->historicoPuntos_Tecnico);
 
         // Actualizar en Tecnicos
         $tecnico->update([
             'celularTecnico' => $validatedDataTecnico['celularTecnico'],
-            'rangoTecnico' => $newRango,
+            'idRango' => $newIDRango,
         ]);
 
         // Actualizar la relación en la tabla TecnicosOficios
@@ -305,11 +301,11 @@ class TecnicoController extends Controller
             // Restaurar el técnico
             $tecnicoEliminado->restore();
             
-            // Calcular el rango
-            $rango = $this->getRango($tecnicoEliminado->historicoPuntos_Tecnico);
+            // Calcular el idRango
+            $newIDRango = $this->getIDRango($tecnicoEliminado->historicoPuntos_Tecnico);
             
             // Actualizar los datos del técnico
-            $tecnicoData = array_merge($validatedDataTecnico, ['rangoTecnico' => $rango]);
+            $tecnicoData = array_merge($validatedDataTecnico, ['idRango' => $newIDRango]);
             $tecnicoEliminado->update($tecnicoData);
 
             // Actualizar la relación en la tabla TecnicosOficios
@@ -336,22 +332,46 @@ class TecnicoController extends Controller
         }
     }
 
-    public static function getRango(int $puntos): string
+    public static function getIDRango(int $puntos): int
     {
-        // Limpiar caché de configuración antes de acceder
-        $rangos = [
-            'Black' => Setting::where('key', 'puntosMinRangoBlack')->value('value'),
-            'Oro'   => Setting::where('key', 'puntosMinRangoOro')->value('value'),
-            'Plata' => Setting::where('key', 'puntosMinRangoPlata')->value('value'),
-        ];
-
-        foreach ($rangos as $rango => $minPuntos) {
-            if ($puntos >= $minPuntos) {
-                return $rango;
-            }
+        // Si los puntos son 0 y el rango Plata requiero 0 puntos mínimos, devolver "Plata"
+        if ($puntos === 0 && Rango::where('idRango', 2)->value('puntosMinimos_Rango') === 0) {
+            return 2;
         }
 
-        return 'Sin rango';
+        // Obtener los rangos ordenados de mayor a menor
+        $rangos = Rango::orderByDesc('puntosMinimos_Rango')->get();
+        
+        // Buscar el primer rango que coincida
+        foreach ($rangos as $rango) {
+            if ($puntos >= $rango->puntosMinimos_Rango) {
+                return $rango->idRango;
+            }
+        }
+        
+        // Retornar "Sin rango"
+        return 1;
+    }
+
+    public static function getRango(int $puntos): string
+    {
+        // Obtener los rangos ordenados de mayor a menor
+        $rangos = Rango::orderByDesc('puntosMinimos_Rango')->get(['nombre_Rango', 'puntosMinimos_Rango']);
+    
+        // Si los puntos son 0 y el rango Plata requiero 0 puntos mínimos, devolver "Plata"
+        if ($puntos === 0 && Rango::where('idRango', 2)->value('puntosMinimos_Rango') === 0) {
+            return Rango::where('idRango', 2)->value('nombre_Rango');
+        }
+        
+        // Buscar el primer rango que coincida
+        foreach ($rangos as $rango) {
+            if ($puntos >= ($rango->puntosMinimos_Rango ?? 0)) {
+                return $rango->nombre_Rango;
+            }
+        }
+        
+        // Retornar "Sin rango"
+        return Rango::where('idRango', 1)->value('nombre_Rango');
     }
 
     public static function updatePuntosActualesTecnicoById($idTecnico) {
@@ -365,17 +385,19 @@ class TecnicoController extends Controller
 
     public static function updatePuntosHistoricosTecnicoById($idTecnico) {
         $tecnico = Tecnico::where('idTecnico', $idTecnico)->first();
-        $oldRango = $tecnico->rangoTecnico;
+        $oldIDRango = $tecnico->idRango;
         $nuevoHistoricoPuntos = TecnicoController::calcPuntosHistoricosByIdtecnico($idTecnico);
-        $newRango = TecnicoController::getRango($nuevoHistoricoPuntos);
+        $newIDRango = TecnicoController::getIDRango($nuevoHistoricoPuntos);
 
         $tecnico->update([
             'historicoPuntos_Tecnico' => $nuevoHistoricoPuntos,
-            'rangoTecnico' => $newRango,
+            'idRango' => $newIDRango,
         ]);
 
         // Crear notificación de sistema y notificación de técnico (móvil) al detectar cambio de rango del técnico
-        if ($newRango !== $oldRango) {
+        if ($newIDRango !== $oldIDRango) {
+            $newRango = Rango::find($newIDRango)->nombre_Rango;
+
             SystemNotification::create([
                 'icon' => 'workspace_premium',
                 'tblToFilter' => 'tblTecnicos',
@@ -446,7 +468,7 @@ class TecnicoController extends Controller
                 'fechaNacimiento_Tecnico' => $tecnico->fechaNacimiento_Tecnico,
                 'totalPuntosActuales_Tecnico' => $tecnico->totalPuntosActuales_Tecnico,
                 'historicoPuntos_Tecnico' => $tecnico->historicoPuntos_Tecnico,
-                'rangoTecnico' => $tecnico->rangoTecnico,
+                'rangoTecnico' => $tecnico->nombre_Rango, // usando atributo de appends
             ];
         });
     
@@ -615,6 +637,8 @@ class TecnicoController extends Controller
 
             // Obtener los resultados paginados
             $tecnicosDB = $query->paginate($pageSize);
+
+            Log::info($tecnicosDB);
 
             // Verificar si hay resultados
             if ($tecnicosDB->isEmpty()) {

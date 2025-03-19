@@ -22,7 +22,7 @@ class Tecnico extends Model
         'fechaNacimiento_Tecnico',
         'totalPuntosActuales_Tecnico',
         'historicoPuntos_Tecnico',
-        'rangoTecnico',
+        'idRango',
     ];
 
     public function ventasIntermediadas() {
@@ -46,7 +46,11 @@ class Tecnico extends Model
                 ->select('Oficios.idOficio', 'Oficios.nombre_Oficio'); // Especifica las columnas a seleccionar
     }
 
-    protected $appends = ['idsOficioTecnico', 'idNameOficioTecnico', 'idNombreTecnico']; // Agregar los campos dinámicos aquí
+    public function rango() {
+        return $this->belongsTo(Rango::class, 'idRango', 'idRango');
+    }
+
+    protected $appends = ['idsOficioTecnico', 'idNameOficioTecnico', 'idNombreTecnico', 'nombre_Rango']; // Agregar los campos dinámicos aquí
 
     // Método de acceso para obtener los IDs de los oficios asociados al técnico
     public function getIdsOficioTecnicoAttribute()
@@ -74,5 +78,10 @@ class Tecnico extends Model
         $idTecnico = $this->idTecnico ?? ''; 
         $nombreTecnico = $this->nombreTecnico ?? '';
         return $idTecnico . " | " . $nombreTecnico;
+    }
+
+    // Método de acceso corregido
+    public function getNombreRangoAttribute() {
+        return $this->rango?->nombre_Rango ?? Rango::where('idRango', 1)->value('nombre_Rango');
     }
 }

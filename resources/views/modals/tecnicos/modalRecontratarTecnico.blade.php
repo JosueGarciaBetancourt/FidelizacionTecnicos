@@ -50,13 +50,13 @@
                                             $fechaNacimiento_Tecnico = htmlspecialchars($tecnico->fechaNacimiento_Tecnico, ENT_QUOTES, 'UTF-8');
                                             $totalPuntosActuales_Tecnico = htmlspecialchars($tecnico->totalPuntosActuales_Tecnico, ENT_QUOTES, 'UTF-8');
                                             $historicoPuntos_Tecnico = htmlspecialchars($tecnico->historicoPuntos_Tecnico, ENT_QUOTES, 'UTF-8');
-                                            $rangoTecnico = htmlspecialchars($tecnico->rangoTecnico, ENT_QUOTES, 'UTF-8');
+                                            $nombre_Rango = htmlspecialchars($tecnico->nombre_Rango, ENT_QUOTES, 'UTF-8');
                                             $value = $idTecnico . " | " . $nombreTecnico;
                                         @endphp
                                 
                                         <li onclick="selectOptionRecontratarTecnico('{{ $value }}', '{{ $idTecnico }}', '{{ $nombreTecnico }}', '{{ $celularTecnico }}',
                                                         '{{ $idNameOficioTecnico }}', '{{ $fechaNacimiento_Tecnico }}', '{{ $totalPuntosActuales_Tecnico }}', 
-                                                        '{{ $historicoPuntos_Tecnico }}', '{{ $rangoTecnico }}', '{{ $idInput }}', '{{ $idOptions }}', 
+                                                        '{{ $historicoPuntos_Tecnico }}', '{{ $nombre_Rango }}', '{{ $idInput }}', '{{ $idOptions }}', 
                                                         {{ json_encode($someHiddenIdInputsArray) }})">
                                                 {{ $value }}
                                         </li>

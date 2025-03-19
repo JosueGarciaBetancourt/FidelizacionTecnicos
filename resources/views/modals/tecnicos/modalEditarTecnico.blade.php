@@ -16,7 +16,7 @@
                         $idInput = 'tecnicoEditInput';
                         $idOptions = 'tecnicoEditOptions';
                         $idMessageError = 'searchEditTecnicoMessageError';
-                        $someHiddenIdInputsArray = ['idEditTecnicoInput', 'idsOficioEditArrayInput'];
+                        $someHiddenIdInputsArray = ['idEditTecnicoInput', 'idsOficioEditArrayInput', 'idRangoEditInput'];
 						$idCelularInput = 'celularInputEdit'; //El valor se debe modificar también en modalEditarTecnico.js
                         $idFechaNacimientoInput = 'fechaNacimientoInputEdit';
                         $idOficioInputEdit = 'oficioInputEdit';
@@ -81,7 +81,7 @@
                                 oninput="validateRealTimeInputLength(this, 6)" disabled>
 
                         <label class="primary-label noEditable" id="idRangoInputLabel"  for='{{ $idRangoInputEdit }}'>Rango:</label>
-                        <input class="input-item center" id='{{ $idRangoInputEdit }}' type="text" placeholder="Plata | Oro | Black" name="rangoTecnico"
+                        <input class="input-item center" id='{{ $idRangoInputEdit }}' type="text" placeholder="Plata | Oro | Black"
                                 oninput="validateRealTimeInputLength(this, 5)" disabled>
                     </div>
 

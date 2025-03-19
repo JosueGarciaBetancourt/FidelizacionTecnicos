@@ -19,7 +19,7 @@ class TecnicoSeeder extends Seeder
             'fechaNacimiento_Tecnico' => '2005-05-16',
             'totalPuntosActuales_Tecnico' => 900, // Suma de puntos de ventas intermediadas En espera y Redimido (parcial)
             'historicoPuntos_Tecnico' => 1025, // Suma de los puntos de todas las ventas intermediadas
-            'rangoTecnico' => 'Plata', // Menor a 24000 (más detalle en TecnicoController.php getRango())
+            'idRango' => 2, // Menor a 24000 (más detalle en SettingsServiceProvider.php)
         ]);
         
         Tecnico::create([
@@ -29,7 +29,7 @@ class TecnicoSeeder extends Seeder
             'fechaNacimiento_Tecnico' => '1998-10-13',
             'totalPuntosActuales_Tecnico' => 0,
             'historicoPuntos_Tecnico' => 1775,
-            'rangoTecnico' => 'Plata', // Menor a 24000 (más detalle en TecnicoController.php getRango())
+            'idRango' => 2, // Menor a 24000 (más detalle en SettingsServiceProvider.php)
         ]);
 
         Tecnico::create([
@@ -39,7 +39,7 @@ class TecnicoSeeder extends Seeder
             'fechaNacimiento_Tecnico' => '1985-04-03',
             'totalPuntosActuales_Tecnico' => 1000, // Suma de puntos de ventas intermediadas En espera y Redimido (parcial)
             'historicoPuntos_Tecnico' => 25000, // Suma de los puntos de todas las ventas intermediadas
-            'rangoTecnico' => 'Oro', // Menor a 24000 (más detalle en TecnicoController.php getRango())
+            'idRango' => 3, // Menor a 60000 (más detalle en SettingsServiceProvider.php)
         ]);
 
         Tecnico::forceCreate([
@@ -49,7 +49,7 @@ class TecnicoSeeder extends Seeder
             'fechaNacimiento_Tecnico' => '2000-12-12',
             'totalPuntosActuales_Tecnico' => 0, 
             'historicoPuntos_Tecnico' => 0,
-            'rangoTecnico' => 'Plata', 
+            'idRango' => 2, // Menor a 24000 (más detalle en SettingsServiceProvider.php)
             'deleted_at' => now(),
         ]);
 

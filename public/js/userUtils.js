@@ -127,7 +127,7 @@ async function getMaxdaysCanje() {
 
 async function initMaxdaysCanje() {
     maxdaysCanjeMAIN = await getMaxdaysCanje();
-    console.log("maxdaysCanjeMAIN: " + maxdaysCanjeMAIN);
+    //console.log("maxdaysCanjeMAIN: " + maxdaysCanjeMAIN);
 }
 
 initMaxdaysCanje();

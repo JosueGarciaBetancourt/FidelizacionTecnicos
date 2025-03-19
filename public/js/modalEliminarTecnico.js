@@ -82,7 +82,7 @@ function selectOptionTecnicoDelete(value, tecnico) {
     fechaNacimientoDeleteInput.value = tecnico.fechaNacimiento_Tecnico;
     puntosActualesDeleteInput.value = tecnico.totalPuntosActuales_Tecnico;
     historicoPuntosDeleteInput.value = tecnico.historicoPuntos_Tecnico;
-    rangoInputDelete.value = tecnico.rangoTecnico;
+    rangoInputDelete.value = tecnico.nombre_Rango;
 
     // Llenar campos ocultos
     hiddenIdTecnicoInput.value = tecnico.idTecnico;
@@ -203,7 +203,7 @@ async function validateValueOnRealTimeTecnicoDelete(input, idMessageError, other
             document.getElementById(otherInputsArray[2]).value = tecnicoBuscado.fechaNacimiento_Tecnico;
             document.getElementById(otherInputsArray[3]).value = tecnicoBuscado.totalPuntosActuales_Tecnico;
             document.getElementById(otherInputsArray[4]).value = tecnicoBuscado.historicoPuntos_Tecnico;
-            document.getElementById(otherInputsArray[5]).value = tecnicoBuscado.rangoTecnico;
+            document.getElementById(otherInputsArray[5]).value = tecnicoBuscado.nombre_Rango;
         }
     } catch (error) {
         console.error(`Error inesperado en validateValueOnRealTimeTecnicoEdit: ${error.message}`);

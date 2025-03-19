@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rango;
 use App\Models\Recompensa;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\TecnicoController;
-use Illuminate\Support\Str;
 
 class Login_tecnicoController extends Controller
 {
@@ -165,7 +166,7 @@ class Login_tecnicoController extends Controller
 
 
 
-    public function obtenerTecnicoPorId($idTecnico)
+    /* public function obtenerTecnicoPorId($idTecnico)
     {
         $datostecnico = DB::table('Tecnicos')
             ->where('idTecnico', $idTecnico)
@@ -193,6 +194,47 @@ class Login_tecnicoController extends Controller
                 'historicoPuntos_Tecnico' => $datostecnico->historicoPuntos_Tecnico,
                 'rangoTecnico' => $datostecnico->rangoTecnico,
                 'oficios' => $oficios, // Añadir los oficios como lista
+            ]
+        ]);
+    } */
+
+    public function obtenerTecnicoPorId($idTecnico)
+    {
+        $datostecnico = DB::table('Tecnicos')
+            ->leftJoin('Rangos', 'Tecnicos.idRango', '=', 'Rangos.idRango')
+            ->where('Tecnicos.idTecnico', $idTecnico)
+            ->select(
+                'Tecnicos.idTecnico',
+                'Tecnicos.nombreTecnico',
+                'Tecnicos.celularTecnico',
+                'Tecnicos.fechaNacimiento_Tecnico',
+                'Tecnicos.totalPuntosActuales_Tecnico',
+                'Tecnicos.historicoPuntos_Tecnico',
+                'Rangos.nombre_Rango as rangoTecnico' // Alias para el nombre del rango
+            )
+            ->first();
+
+        if (!$datostecnico) {
+            return response()->json(['message' => 'Técnico no encontrado'], 404);
+        }
+
+        // Obtener los oficios asociados al técnico
+        $oficios = DB::table('Oficios')
+            ->join('TecnicosOficios', 'Oficios.idOficio', '=', 'TecnicosOficios.idOficio')
+            ->where('TecnicosOficios.idTecnico', $idTecnico)
+            ->select('Oficios.idOficio', 'Oficios.nombre_Oficio', 'Oficios.descripcion_Oficio')
+            ->get();
+
+        return response()->json([
+            'tecnico' => [
+                'idTecnico' => $datostecnico->idTecnico,
+                'nombreTecnico' => $datostecnico->nombreTecnico,
+                'celularTecnico' => $datostecnico->celularTecnico,
+                'fechaNacimiento_Tecnico' => $datostecnico->fechaNacimiento_Tecnico,
+                'totalPuntosActuales_Tecnico' => $datostecnico->totalPuntosActuales_Tecnico,
+                'historicoPuntos_Tecnico' => $datostecnico->historicoPuntos_Tecnico,
+                'rangoTecnico' => $datostecnico->rangoTecnico ?? Rango::find(1)->nombre_Rango,
+                'oficios' => $oficios, 
             ]
         ]);
     }

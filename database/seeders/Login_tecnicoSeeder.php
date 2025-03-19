@@ -38,7 +38,8 @@ class Login_tecnicoSeeder extends Seeder
         $totalLogins = DB::table('login_tecnicos')->count();
         Log::info('Total de logins en la tabla: ' . $totalLogins);
     }
-}*/
+}
+*/
 
 namespace Database\Seeders;
 

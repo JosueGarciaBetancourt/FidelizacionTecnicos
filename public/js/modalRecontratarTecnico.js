@@ -101,7 +101,7 @@ function fillMultiSelectDropdownRecontratarTecnico(idNameOficioTecnico) {
 }
 
 function selectOptionRecontratarTecnico(value, idTecnico, nombreTecnico, celularTecnico, oficiosTecnico, fechaNacimiento_Tecnico,
-    totalPuntosActuales_Tecnico, historicoPuntos_Tecnico, rangoTecnico, idInput, idOptions, someHiddenIdInputsArray) {
+    totalPuntosActuales_Tecnico, historicoPuntos_Tecnico, nombre_Rango, idInput, idOptions, someHiddenIdInputsArray) {
     
     // Colocar en el input la opción seleccionada 
     if (idInput && idOptions) {
@@ -110,13 +110,13 @@ function selectOptionRecontratarTecnico(value, idTecnico, nombreTecnico, celular
     
     // Actualizar los demás campos del formulario
     if (celularTecnico && oficiosTecnico && fechaNacimiento_Tecnico && totalPuntosActuales_Tecnico && historicoPuntos_Tecnico && 
-        rangoTecnico && someHiddenIdInputsArray) {
+        nombre_Rango && someHiddenIdInputsArray) {
        
         celularRecontratarInput.value = celularTecnico;
         fechaNacimientoRecontratarInput.value = fechaNacimiento_Tecnico;
         puntosActualesRecontratarInput.value = totalPuntosActuales_Tecnico;
         historicoPuntosRecontratarInput.value = historicoPuntos_Tecnico;
-        rangoInputRecontratar.value = rangoTecnico;
+        rangoInputRecontratar.value = nombre_Rango;
         fillMultiSelectDropdownRecontratarTecnico(oficiosTecnico);
 
         // Llenar campos ocultos
@@ -193,7 +193,7 @@ function validateValueOnRealTimeTecnicoRecontratar(input, idOptions, idMessageEr
                 document.getElementById(otherInputsArray[2]).value = objTecnico['fechaNacimiento_Tecnico'];
                 document.getElementById(otherInputsArray[3]).value = objTecnico['totalPuntosActuales_Tecnico'];
                 document.getElementById(otherInputsArray[4]).value = objTecnico['historicoPuntos_Tecnico'];
-                document.getElementById(otherInputsArray[5]).value = objTecnico['rangoTecnico'];
+                document.getElementById(otherInputsArray[5]).value = objTecnico['nombre_Rango'];
             }
         }
     }

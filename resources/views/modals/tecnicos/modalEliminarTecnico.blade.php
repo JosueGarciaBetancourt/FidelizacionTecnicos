@@ -80,7 +80,7 @@
                                 oninput="validateRealTimeInputLength(this, 6)" disabled>
 
                         <label class="primary-label noEditable" id="idRangoInputLabel"  for='{{ $idRangoInputDelete }}'>Rango:</label>
-                        <input class="input-item center" id='{{ $idRangoInputDelete }}' type="text" placeholder="Plata, Oro ó Black" name="rangoTecnico"
+                        <input class="input-item center" id='{{ $idRangoInputDelete }}' type="text" placeholder="Plata, Oro ó Black"
                                 oninput="validateRealTimeInputLength(this, 5)" disabled>
                     </div>
 
