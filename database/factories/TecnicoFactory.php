@@ -23,7 +23,7 @@ class TecnicoFactory extends Factory
             'fechaNacimiento_Tecnico' => $this->faker->dateTimeBetween('1970-01-01', 'now')->format('Y-m-d'), 
             'totalPuntosActuales_Tecnico' => $this->faker->numberBetween(0, 200), // Asumiendo un rango de puntos posibles
             'historicoPuntos_Tecnico' => $puntos, // Ajustado para generar un número de puntos históricos
-            'rangoTecnico' => $tecnicoController->getRango($puntos), 
+            'idRango' => $tecnicoController->getIDRango($puntos), 
         ];
     }
 }

@@ -16,7 +16,10 @@ return new class extends Migration
             $table->date('fechaNacimiento_Tecnico');  
             $table->integer('totalPuntosActuales_Tecnico')->unsigned()->default(0);
             $table->integer('historicoPuntos_Tecnico')->unsigned()->default(0);
-            $table->string('rangoTecnico')->default('Plata'); //Plata (menos de 24000), Oro (24000 a 60000), Black (más de 60000)
+            
+            $table->unsignedBigInteger('idRango')->default(1);
+            $table->foreign('idRango')->references('idRango')->on('Rangos')->onDelete('cascade');
+
             $table->timestamps(); //created_at updated_at
             $table->softDeletes(); //deleted_at
         });

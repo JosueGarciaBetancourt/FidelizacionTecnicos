@@ -125,7 +125,7 @@ function selectOptionEditarTecnico(value, tecnico) {
     // Colocar en el input la opción seleccionada 
     selectOption(value, tecnicoEditInput.id, tecnicoEditOptions.id); 
     
-    //consoleLogJSONItems(tecnico);
+    consoleLogJSONItems(tecnico);
     //console.log(tecnico.idNameOficioTecnico);
     
     if (!tecnico) {
@@ -145,7 +145,7 @@ function selectOptionEditarTecnico(value, tecnico) {
     fechaNacimientoEditInput.value = tecnico.fechaNacimiento_Tecnico;
     puntosActualesEditInput.value = tecnico.totalPuntosActuales_Tecnico;
     historicoPuntosEditInput.value = tecnico.historicoPuntos_Tecnico;
-    rangoInputEdit.value = tecnico.rangoTecnico;
+    rangoInputEdit.value = tecnico.nombre_Rango;
 
     // Llenar el multiselect dropdown
     fillMultiSelectDropdownEditarTecnico(tecnico.idNameOficioTecnico);
@@ -288,7 +288,7 @@ async function validateValueOnRealTimeTecnicoEdit(input, idMessageError, someHid
             document.getElementById(otherInputsArray[2]).value = tecnicoBuscado.fechaNacimiento_Tecnico;
             document.getElementById(otherInputsArray[3]).value = tecnicoBuscado.totalPuntosActuales_Tecnico;
             document.getElementById(otherInputsArray[4]).value = tecnicoBuscado.historicoPuntos_Tecnico;
-            document.getElementById(otherInputsArray[5]).value = tecnicoBuscado.rangoTecnico;
+            document.getElementById(otherInputsArray[5]).value = tecnicoBuscado.nombre_Rango;
         }
     } catch (error) {
         console.error(`Error inesperado en validateValueOnRealTimeTecnicoEdit: ${error.message}`);

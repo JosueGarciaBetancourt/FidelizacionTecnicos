@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Rango;
 use App\Models\Setting;
 use App\Models\Tecnico;
 use App\Models\Recompensa;
@@ -87,7 +88,7 @@ class ConfiguracionController extends Controller
 
         $idTecnicosArray = $tecnicos->pluck('idTecnico')->toArray();
         
-        // Eliminar todas las notificaciones asociadas en una sola consulta
+        // Eliminar todas las notificaciones de sistema y de técnico
         SystemNotification::where(function ($query) use ($idTecnicosArray) {
             foreach ($idTecnicosArray as $id) {
                 $query->orWhere('item', 'LIKE', "%{$id}%");
@@ -97,19 +98,21 @@ class ConfiguracionController extends Controller
         TecnicoNotification::whereIn('idTecnico', $tecnicos->pluck('idTecnico'))->delete();
         
         $tecnicos->each(function ($tecnico) {
-            $oldRango = $tecnico->rangoTecnico;
-            $newRango = TecnicoController::getRango($tecnico->historicoPuntos_Tecnico);
-            $tecnico->rangoTecnico = $newRango;
+            $oldIDRango = $tecnico->idRango;
+            $newIDRango = TecnicoController::getIDRango($tecnico->historicoPuntos_Tecnico);
+            $tecnico->idRango = $newIDRango;
 
             // Si el rango cambió, generar notificaciones
-            if ($newRango !== $oldRango) {
+            if ($newIDRango !== $oldIDRango) {
+                $newRango = Rango::find($newIDRango)->nombre_Rango;
+
                 // Crear nueva notificación de sistema
                 SystemNotification::create([
                     'icon' => 'workspace_premium',
                     'tblToFilter' => 'tblTecnicos',
                     'title' => 'Cambio de rango de técnico',
                     'item' => "{$tecnico->idTecnico} | {$tecnico->nombreTecnico}",
-                    'description' => 'subió a rango ' . $newRango,
+                    'description' => 'subió a rango ' . $tecnico->idRango,
                     'routeToReview' => 'tecnicos.create',
                 ]);
 
@@ -130,7 +133,7 @@ class ConfiguracionController extends Controller
                 ->toArray();
         });
         
-        Tecnico::upsert($tecnicosArray->toArray(), ['idTecnico'], ['rangoTecnico', 'updated_at']);
+        Tecnico::upsert($tecnicosArray->toArray(), ['idTecnico'], ['idRango', 'updated_at']);
     }
 
     private function updateEstadoVentasIntermediadas($maxdaysCanje) 
