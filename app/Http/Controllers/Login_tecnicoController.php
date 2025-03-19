@@ -238,10 +238,9 @@ class Login_tecnicoController extends Controller
                     'oficios' => $oficios, 
                 ]
             ]);
-
         } catch (\Exception $e) {
             Log::error('Error en obtenerTecnicoPorId: ' . $e->getMessage());
-            return response()->json(['error' => 'Ocurrió un error en el servidor'], 500);
+            return response()->json(['error' => 'Ocurrió un error en el servidor: ' . $e->getMessage()], 500);
         }
     }
 
