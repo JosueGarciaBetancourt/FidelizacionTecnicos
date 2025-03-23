@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\SolicitudCanjeRecompensa;
 use App\Http\Controllers\CanjeController;
 use App\Http\Controllers\SystemNotificationController;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
 class SolicitudCanjeController extends Controller
@@ -169,7 +170,7 @@ class SolicitudCanjeController extends Controller
         }
     }
 
-    public function eliminarSolicitud(Request $request, $idSolicitudCanje)
+    public function eliminarSolicitud($idSolicitudCanje)
     {
         DB::beginTransaction();
 
@@ -556,6 +557,32 @@ class SolicitudCanjeController extends Controller
                 'message' => 'Ocurrió un error al generar el PDF de Canjes.',
                 'error' => $e->getMessage()
             ], 500);
+        }
+    }
+
+    public static function returnStateIdSolicitudCanje($idSolicitudCanje, $diasTranscurridosVenta, $maxdaysCanjeAux=null)
+    {
+        try {
+            $solicitud = SolicitudesCanje::findOrFail($idSolicitudCanje);
+            $oldIdEstado = $solicitud->idEstadoSolicitudCanje;
+            $maxdaysCanje = $maxdaysCanjeAux ?? config('settings.maxdaysCanje');
+            
+            //dd("ID: $idSolicitudCanje | Días transcurridos venta: $diasTranscurridosVenta | MaxdaysCanje: $maxdaysCanjeAux | OldIdEstado: $oldIdEstado");
+
+            if ($diasTranscurridosVenta > $maxdaysCanje) {
+                return 4; //Tiempo agotado
+            } else {
+                return $oldIdEstado;
+            }
+        } catch (ModelNotFoundException $e) {
+            Log::error("Solicitud de canje no encontrado: " . $idSolicitudCanje);
+            return 1; // Código de error para venta no encontrada
+        } catch (\Exception $e) {
+            Log::info("Probablemente no exista un estado para este solicitud de canje:" . "\n" . "Solicitud: " . $idSolicitudCanje . "\n" .
+                    "Días transcurridos de venta asociada: " . $diasTranscurridosVenta);
+
+            Log::error("Error en returnStateIdSolicitudCanje: " . $e->getMessage());
+            return 1; // Código de error genérico
         }
     }
 }

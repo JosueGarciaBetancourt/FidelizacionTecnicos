@@ -43,17 +43,13 @@ class OficioController extends Controller
         try {
             $validatedData = $request->validate([
                 'nombre_Oficio' => 'required|string',
-                'descripcion_Oficio' => 'required|string',
+                'descripcion_Oficio' => 'nullable|string',
             ]);
-            DB::beginTransaction();
             $oficio = new Oficio($validatedData);
             $oficio->save(); // Guarda solo cuando estés seguro
             $messageStore = 'Recompensa guardada correctamente';
-            DB::commit();
             return redirect()->route('oficios.create')->with('successOficioStore', $messageStore);
         } catch (\Exception $e) {
-            // Revertir la transacción en caso de error
-            DB::rollBack();
             return redirect()->route('oficios.create')->withErrors('Ocurrió un error al intentar crear el oficio. Por favor, inténtelo de nuevo.');
         }
     }
@@ -75,7 +71,7 @@ class OficioController extends Controller
         return redirect()->route('oficios.create')->with('successOficioUpdate', $messageUpdate);
     }
 
-    public function delete(Request $request) {
+    public function disable(Request $request) {
         $validatedData = $request->validate([
             'idOficio' => 'required|exists:Oficios,idOficio',
         ]);
@@ -87,15 +83,15 @@ class OficioController extends Controller
         if ($oficio) {
             // Aplica soft delete
             $oficio->delete();
-            $messageDelete = 'Oficio eliminado correctamente';
+            $messageDisable = 'Oficio inhabilitado correctamente';
         } else {
-            $messageDelete = 'Oficio no encontrado';
+            $messageDisable = 'Oficio no encontrado';
         }
     
-        return redirect()->route('oficios.create')->with('successOficioDelete', $messageDelete);
+        return redirect()->route('oficios.create')->with('successOficioDisable', $messageDisable);
     }
 
-    public function restaurar(Request $request) {
+    public function restore(Request $request) {
         try {
             $validatedData = $request->validate([
                 'idOficio' => 'required|numeric|min:0',
@@ -120,6 +116,29 @@ class OficioController extends Controller
             // Revertir la transacción en caso de error
             DB::rollBack();
             return redirect()->route('oficios.create')->withErrors('Ocurrió un error al intentar restaurar el oficio. Por favor, inténtelo de nuevo.');
+        }
+    }
+
+    public function delete(Request $request) {
+        try {
+            $validatedData = $request->validate([
+                'idOficio' => 'required|exists:Oficios,idOficio',
+            ]);
+    
+            // Encuentra el oficio
+            $oficio = Oficio::findOrFail($validatedData['idOficio']);
+    
+            // Verifica si tiene técnicos asociados en la tabla intermedia
+            if ($oficio->tecnicos()->exists()) {
+                return redirect()->route('oficios.create')->with('errorOficioDelete', 'El oficio no puede ser eliminado porque hay técnicos asociados.');
+            }
+    
+            // Si no hay técnicos asociados, eliminar el oficio
+            $oficio->forceDelete();
+    
+            return redirect()->route('oficios.create')->with('successOficioDelete', 'Oficio eliminado correctamente');
+        } catch (\Exception $e) {
+            return redirect()->route('oficios.create');
         }
     }
 

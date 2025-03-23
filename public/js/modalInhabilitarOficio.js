@@ -1,13 +1,13 @@
-let idNumberOficioInputDelete = document.getElementById('idDeleteOficioInput');
-let descripcionOficioInputDelete = document.getElementById('descripcionOficioInputDelete');
-let searchMessageErrorOficioDelete = document.getElementById('searchDeleteOficioError');
-let generalDeleteOficioError = document.getElementById('generalDeleteOficioError');
+let idNumberOficioInputDisable = document.getElementById('idDisableOficioInput');
+let descripcionOficioInputDisable = document.getElementById('descripcionOficioInputDisable');
+let searchMessageErrorOficioDisable = document.getElementById('searchDisableOficioError');
+let generalDisableOficioError = document.getElementById('generalDisableOficioError');
 
-let formDeleteOficioArray = [
-    descripcionOficioInputDelete,
+let formDisableOficioArray = [
+    descripcionOficioInputDisable,
 ];
 
-function selectOptionEliminarOficio(value, idNumberOficio, descripcionOficio, idInput, idOptions, someHiddenIdInputsArray) {
+function selectOptionInhabilitarOficio(value, idNumberOficio, descripcionOficio, idInput, idOptions, someHiddenIdInputsArray) {
     function sanitizeString(str) {
         if (typeof str !== 'string') return str;
         return str
@@ -28,18 +28,18 @@ function selectOptionEliminarOficio(value, idNumberOficio, descripcionOficio, id
 
     // Actualizar los demás campos del formulario
     if (descripcionOficio && sanitizedDescripcionOficio) {
-        descripcionOficioInputDelete.value = descripcionOficio;
+        descripcionOficioInputDisable.value = descripcionOficio;
         // Llenar campos ocultos
         document.getElementById(someHiddenIdInputsArray[0]).value = idNumberOficio;
-        searchMessageErrorOficioDelete.classList.remove("shown");
+        searchMessageErrorOficioDisable.classList.remove("shown");
     } else {
-        descripcionOficioInputDelete.value = "";
+        descripcionOficioInputDisable.value = "";
     }
 }
 
-function validarCamposVaciosFormularioDelete() {
+function validarCamposVaciosFormularioDisable() {
   let allFilled = true;
-  formDeleteOficioArray.forEach(input => {
+  formDisableOficioArray.forEach(input => {
       if (!input.value.trim()) {
           allFilled = false;
       }
@@ -47,12 +47,12 @@ function validarCamposVaciosFormularioDelete() {
   return allFilled;
 }
 
-function guardarModalEliminarOficio(idModal, idForm) {
-    if (validarCamposVaciosFormularioDelete()) {
-        generalDeleteOficioError.classList.remove("shown");
+function guardarModalInhabilitarOficio(idModal, idForm) {
+    if (validarCamposVaciosFormularioDisable()) {
+        generalDisableOficioError.classList.remove("shown");
         guardarModal(idModal, idForm);	
     } else {
-        generalDeleteOficioError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
-        generalDeleteOficioError.classList.add("shown");
+        generalDisableOficioError.textContent = "Todos los campos del formulario deben estar rellenados correctamente.";
+        generalDisableOficioError.classList.add("shown");
     }
 }

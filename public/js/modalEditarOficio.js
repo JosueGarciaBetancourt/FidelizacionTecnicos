@@ -58,13 +58,13 @@ function validarCamposCorrectosOficioEdit() {
 }
 
 function validarCamposVaciosFormularioOficioEdit() {
-  let allFilled = true;
-  formEditOficioArray.forEach(input => {
-      if (!input.value.trim()) {
-          allFilled = false;
-      }
-  });
-  return allFilled;
+    let allFilled = true;
+    formEditOficioArray.forEach(input => {
+        if (!input.value.trim()) {
+            allFilled = false;
+        }
+    });
+    return allFilled;
 }
 
 function guardarModalEditarOficio(idModal, idForm) {

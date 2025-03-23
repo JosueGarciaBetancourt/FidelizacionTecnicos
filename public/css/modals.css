@@ -162,15 +162,14 @@
     background-color: #5b2ddb;
 }
 
-.btn-primary.delete {
-    background-color: #570E28;
+.btn-primary.disable {
+    background-color: #570e52;
     color: #fff;
 }
 
-.btn-primary.delete:hover{
-    background-color: #922f52;
+.btn-primary.disable:hover{
+    background-color: #7e275a;
 }
-
 
 .btn-primary.recover {
     background-color: #0e6a28;
@@ -179,6 +178,15 @@
 
 .btn-primary.recover:hover{
     background-color: #19963f;
+}
+
+.btn-primary.delete {
+    background-color: #570E28;
+    color: #fff;
+}
+
+.btn-primary.delete:hover{
+    background-color: #922f52;
 }
 
 .close {

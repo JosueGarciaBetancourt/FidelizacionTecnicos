@@ -69,6 +69,12 @@
             background-color: rgba(244, 67, 54, 0.2) !important;
         }   
 
+         /* Tiempo Agotado */
+         .estado__span-4 {
+            color: #ffffff; 
+            background-color: #6a4d57 !important; 
+        }   
+
         .celda-puntos {
             width: 5.5rem;
         }

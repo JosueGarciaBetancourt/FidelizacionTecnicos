@@ -219,9 +219,9 @@ h6{
     color: #FFF;
 }
 
-/*DELETE*/
-.btnDeleteItem-container {
-    background: #570E28;
+/* DISABLE */
+.btnDisableItem-container {
+    background: #570e52;
     border-radius: 40px;
     display: flex; 
     max-width: 15rem; 
@@ -232,11 +232,11 @@ h6{
     transition-duration: .4s;
 }
 
-.btnDeleteItem-container:hover{
-    background-color: #922f52;
+.btnDisableItem-container:hover{
+    background-color: #7e275a;
 }
 
-.btnDeleteItem {
+.btnDisableItem {
     color: #FFF;
     font-size: 0.85rem;
     font-weight: 600;
@@ -252,20 +252,13 @@ h6{
     word-break: break-word; /* Asegura que las palabras largas se rompan correctamente */
 }
 
-.btnDeleteItem span {
+.btnDisableItem span {
 	padding-left: 0.5rem;
     font-size: 1.2rem;
     color: #FFF;
 }
 
-input[type="date"] {
-    font-family: "Source Sans 3", sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    text-align: center;
-}
-
-/* RECUPERAR */
+/* RESTORE */
 .btnRecoverItem-container {
     background: #0e6a28;
     border-radius: 40px;
@@ -302,6 +295,55 @@ input[type="date"] {
 	padding-left: 0.5rem;
     font-size: 1.2rem;
     color: #FFF;
+}
+
+/*DELETE*/
+.btnDeleteItem-container {
+    background: #740202;
+    border-radius: 40px;
+    display: flex; 
+    max-width: 15rem; 
+    min-height: 3rem; 
+    align-items: center;
+    padding: 0.1rem 1rem;
+    margin: 0;
+    transition-duration: .4s;
+}
+
+.btnDeleteItem-container:hover{
+    background-color: #b94545;
+}
+
+.btnDeleteItem {
+    color: #FFF;
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    width: 100%; /* Toma todo el ancho disponible del contenedor padre */
+    padding: 0.3rem; 
+    align-items: center;
+    justify-content: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+    white-space: normal; /* Permite que el texto se ajuste automáticamente */
+    word-break: break-word; /* Asegura que las palabras largas se rompan correctamente */
+}
+
+.btnDeleteItem span {
+	padding-left: 0.5rem;
+    font-size: 1.2rem;
+    color: #FFF;
+}
+
+
+
+
+input[type="date"] {
+    font-family: "Source Sans 3", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
 }
 
 /* Estilos para el modo oscuro */

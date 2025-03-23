@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\Setting;
 use App\Models\Tecnico;
 use App\Models\EstadoVenta;
 use Illuminate\Http\Request;
@@ -13,7 +14,10 @@ use App\Models\VentaIntermediada;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Controllers\TecnicoController;
+use App\Http\Controllers\ConfiguracionController;
+use App\Http\Controllers\SolicitudCanjeController;
 use App\Http\Controllers\SystemNotificationController;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -210,10 +214,13 @@ class VentaIntermediadaController extends Controller
             $tecnicoController = new TecnicoController();
             $idsNombresOficios = $tecnicoController->returnArrayIdsNombresOficios(); 
 
+            // Obtener los días máximos de canje de una venta intermediada
+            $maxdaysCanje = config('settings.maxdaysCanje'); 
+
             // Obtener las notificaciones
             $notifications = SystemNotificationController::getActiveNotifications();
             
-            return view('dashboard.ventasIntermediadas', compact('idsNombresOficios', 'notifications'));
+            return view('dashboard.ventasIntermediadas', compact('idsNombresOficios', 'notifications', 'maxdaysCanje'));
         } catch (\Exception $e) {
             dd("Error al mostrar las ventas intermediadas: " . $e->getMessage());
         }
@@ -385,6 +392,57 @@ class VentaIntermediadaController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    public function updateEstadoVentasIntermediadasSolicitudesCanjes(int $newMaxdaysCanje) 
+    {
+        try {
+            // Actualizar las ventas
+            VentaIntermediada::all()->each(function ($venta) use ($newMaxdaysCanje) {
+                $idEstadoVenta = VentaIntermediadaController::returnStateIdVentaIntermediada(
+                    $venta->idVentaIntermediada,
+                    $venta->puntosActuales_VentaIntermediada,
+                    $newMaxdaysCanje
+                );
+
+                $venta->update(['idEstadoVenta' => $idEstadoVenta]);
+            });
+
+            // Actualizar solicitudes pendientes y con tiempo agotado
+            SolicitudesCanje::whereIn('idEstadoSolicitudCanje', [1, 4])->each(function ($soli) use ($newMaxdaysCanje) {
+                $idEstadoSolicitudCanje = SolicitudCanjeController::returnStateIdSolicitudCanje(
+                    $soli->idSolicitudCanje,
+                    $soli->diasTranscurridosVenta,
+                    $newMaxdaysCanje
+                );
+
+                $soli->update(['idEstadoSolicitudCanje' => $idEstadoSolicitudCanje]);
+            });
+        } catch (\Exception $e) {
+            dd("updateEstadoVentasIntermediadasSolicitudesCanjes: " . $e);
+            //Log::error("Error en createAgotamientoVentasIntermediadasNotifications: " . $e->getMessage());
+        }
+    }
+
+    public function updateMaxdayscanje(Request $request) {
+        $maxdayscanjeValidated = $request->validate([
+            'maxdaysCanje' => 'required|numeric|min:0|max:90'
+        ]);
+    
+        $settingMaxdayscanje = Setting::where('key', 'maxdaysCanje')->first();
+    
+        if ($settingMaxdayscanje) {
+            $settingMaxdayscanje->update(['value' => $maxdayscanjeValidated['maxdaysCanje']]);
+        }
+
+        // Actualizar los estados de las ventas y generar notificaciones
+        $this->updateEstadoVentasIntermediadasSolicitudesCanjes($maxdayscanjeValidated['maxdaysCanje']);
+        ConfiguracionController::createAgotamientoVentasIntermediadasNotifications(config('settings.diasAgotarVentaIntermediadaNotificacion'));
+        
+        // Limpiar caché de configuración para reflejar cambios
+        Cache::forget('settings_cache');
+
+        return redirect()->route('ventasIntermediadas.create')->with('successMaxdayscanjeStore', 'Días máximos de canje guardados correctamente');
     }
 
     // FETCH

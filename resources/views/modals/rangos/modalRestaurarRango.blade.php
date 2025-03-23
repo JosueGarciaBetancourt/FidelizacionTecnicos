@@ -24,7 +24,7 @@
                     <input type="hidden" id='{{ $someHiddencodigoInputOficioRestaurarsArray[0] }}' maxlength="9" name="idOficio">
                    
                     <div class="form-group start paddingY" id="idH5RestaurarOficioModalContainer">
-                        <h5>*Solo puede habilitar oficios previamente inhabilitados.</h5>
+                        <h5>*Solo puede hablitar oficios previamente inhabilitados.</h5>
                     </div>
 
                     <div class="form-group gap">

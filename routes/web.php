@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\CanjeController;
+use App\Http\Controllers\RangoController;
 use App\Http\Controllers\OficioController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TecnicoController;
@@ -15,9 +16,9 @@ use App\Http\Controllers\RecompensaController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\SolicitudCanjeController;
 use App\Http\Controllers\VentaIntermediadaController;
+use App\Http\Controllers\SystemNotificationController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\SystemNotificationController;
 
 Route::get('', [AuthenticatedSessionController::class, 'create']);
 
@@ -44,6 +45,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Ventas Intermediadas
     Route::get('/dashboard-ventasIntermediadas', [VentaIntermediadaController::class, 'create'])->name('ventasIntermediadas.create');
     Route::post('/modal-storeVenta', [VentaIntermediadaController::class, 'store'])->name('ventasIntermediadas.store');
+    Route::put('/modal-updateMaxdayscanje', [VentaIntermediadaController::class, 'updateMaxdayscanje'])->name('ventasIntermediadas.updateMaxdayscanje');
     Route::delete('/modal-deleteVenta', [VentaIntermediadaController::class, 'delete'])->name('ventasIntermediadas.delete');
     Route::post('/tblVentasIntermediadasData', [VentaIntermediadaController::class, 'tabla'])->name('ventasIntermediadas.tabla');  
     Route::post('/dashboard-ventasIntermediadas/getVentaByIdVentaIdNombreTecnico', [VentaIntermediadaController::class, 'getVentaByIdVentaIdNombreTecnico'])
@@ -116,11 +118,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard-oficios', [OficioController::class, 'create'])->name('oficios.create');  
     Route::post('/dashboard-storeOficios', [OficioController::class, 'store'])->name('oficios.store');  
     Route::put('/dashboard-updateOficios', [OficioController::class, 'update'])->name('oficios.update');  
+    Route::delete('/dashboard-disableOficios', [OficioController::class, 'disable'])->name('oficios.disable');  
+    Route::post('/modal-restoreOficio', [OficioController::class, 'restore'])->name('oficios.restore');
     Route::delete('/dashboard-deleteOficios', [OficioController::class, 'delete'])->name('oficios.delete');  
-    Route::post('/modal-restoreOficio', [OficioController::class, 'restaurar'])->name('oficios.restore');
     Route::get('/tblOficiosData', [OficioController::class, 'tabla'])->name('oficios.tabla');
     Route::get('/dashboard-oficios/export-pdf', [OficioController::class, 'exportarAllOficiosPDF'])->name('oficios.tablaPDF');
 
+    // Rangos
+    Route::get('/dashboard-rangos', [RangoController::class, 'create'])->name('rangos.create');  
+    Route::post('/dashboard-storeRangos', [RangoController::class, 'store'])->name('rangos.store');  
+    Route::put('/dashboard-updateRangos', [RangoController::class, 'update'])->name('rangos.update');  
 
     // Configuración
     Route::get('/dashboard-configuracion', [DashboardController::class, 'configuracion'])->name('configuracion.create');  

@@ -6,8 +6,9 @@
     <link rel="stylesheet" href="{{ asset('css/oficiosStyle.css') }}">
     <link rel="stylesheet" href="{{asset('css/modalRegistrarNuevoOficio.css')}}">
     <link rel="stylesheet" href="{{asset('css/modalEditarOficio.css')}}">
-    <link rel="stylesheet" href="{{asset('css/modalEliminarOficio.css')}}">
+    <link rel="stylesheet" href="{{asset('css/modalInhabilitarOficio.css')}}">
     <link rel="stylesheet" href="{{asset('css/modalRestaurarOficio.css')}}">
+    <link rel="stylesheet" href="{{asset('css/modalEliminarOficio.css')}}">
 @endpush
 
 @section('main-content')
@@ -24,15 +25,17 @@
                 <x-btn-edit-item onclick="openModal('modalEditarOficio')"> Editar </x-btn-edit-item>
                 @include('modals.oficios.modalEditarOficio')
 
-                <x-btn-delete-item onclick="openModal('modalEliminarOficio')"> Inhabilitar </x-btn-delete-item>
-                @include('modals.oficios.modalEliminarOficio')
+                <x-btn-disable-item onclick="openModal('modalInhabilitarOficio')"> Inhabilitar </x-btn-disable-item>
+                @include('modals.oficios.modalInhabilitarOficio')
 
                 <x-btn-recover-item onclick="openModal('modalRestaurarOficio')"> Habilitar </x-btn-delete-item>
                 @include('modals.oficios.modalRestaurarOficio')
+
+                <x-btn-delete-item onclick="openModal('modalEliminarOficio')"> Eliminar </x-btn-delete-item>
+                @include('modals.oficios.modalEliminarOficio')
             </div>
         @endif
         
-        <!--Tabla de ventas intermediadas-->
         <div class="secondRow">
             <table id="tblOficios">
                 <thead>
@@ -74,7 +77,7 @@
         />
 
         <x-modalSuccessAction 
-            :idSuccesModal="'successModalOficioEliminado'"
+            :idSuccesModal="'successModalOficioDisable'"
             :message="'Oficio inhabilitado correctamente'"
         />
 
@@ -82,14 +85,25 @@
             :idSuccesModal="'successModalOficioRestaurado'"
             :message="'Oficio habilitado correctamente'"
         />
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalOficioDelete'"
+            :message="'Oficio eliminado correctamente'"
+        />
+
+        <x-modalFailedAction 
+            :idErrorModal="'errorModalOficioDelete'"
+            :message="'El oficio no puede ser eliminado porque hay técnicos asociados a este'"
+        />
     </div>
 @endsection
 
 @push('scripts')
     <script src="{{ asset('js/modalRegistrarNuevoOficio.js') }}"></script>
     <script src="{{ asset('js/modalEditarOficio.js') }}"></script>
-    <script src="{{ asset('js/modalEliminarOficio.js') }}"></script>
+    <script src="{{ asset('js/modalInhabilitarOficio.js') }}"></script>
     <script src="{{ asset('js/modalRestaurarOficio.js') }}"></script>
+    <script src="{{ asset('js/modalEliminarOficio.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             @if(session('successOficioStore'))
@@ -98,11 +112,17 @@
             @if(session('successOficioUpdate'))
                 openModal('successModalOficioActualizado');
             @endif
-            @if(session('successOficioDelete'))
-                openModal('successModalOficioEliminado');
+            @if(session('successOficioDisable'))
+                openModal('successModalOficioDisable');
             @endif
             @if(session('successOficioRestaurado'))
                 openModal('successModalOficioRestaurado');
+            @endif
+            @if(session('successOficioDelete'))
+                openModal('successModalOficioDelete');
+            @endif
+            @if(session('errorOficioDelete'))
+                justOpenModal('errorModalOficioDelete');
             @endif
         });
     </script>

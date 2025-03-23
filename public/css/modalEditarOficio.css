@@ -1,5 +1,5 @@
 #modalEditarOficio-dialog {
-	max-width: 650px; 
+	max-width: 480px; 
 	max-height: 1rem;
 }
 
@@ -8,7 +8,15 @@
 }
 
 #formEditarOficio {
-	padding: 1rem 0;
+	padding: 0;
+}
+
+#modalEditarOficio .modal-dialog {
+    transform: translateY(0); /* Inicialmente desplazado hacia arriba */
+}
+
+#modalEditarOficio .modal-dialog.open {
+    transform: translateY(-3.5rem);
 }
 
 #codigoOficioInputEdit {

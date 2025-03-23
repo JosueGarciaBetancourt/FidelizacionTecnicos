@@ -6,7 +6,7 @@ let registrarOficioMessageError = document.getElementById('generalRegistrarOfici
 let formInputsArray = [
     codigoOficioRegistrarInput,
     nombreOficioRegistrarInput,
-	descripcionOficioRegistrarTextarea,
+	//descripcionOficioRegistrarTextarea,
 ];
 
 let mensajeCombinadoRegistrarOficio = "";

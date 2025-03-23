@@ -30,7 +30,7 @@
                 <x-btn-edit-item onclick="openModal('modalEditarRecompensa')"> Editar </x-btn-edit-item>
                 @include('modals.recompensas.modalEditarRecompensa')
 
-                <x-btn-delete-item onclick="openModal('modalEliminarRecompensa')"> Inhabilitar </x-btn-delete-item>
+                <x-btn-disable-item onclick="openModal('modalEliminarRecompensa')"> Inhabilitar </x-btn-disable-item>
                 @include('modals.recompensas.modalEliminarRecompensa')
 
                 <x-btn-recover-item onclick="openModal('modalRestaurarRecompensa')"> Habilitar </x-btn-delete-item>

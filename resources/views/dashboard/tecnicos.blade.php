@@ -27,7 +27,7 @@
 				<x-btn-edit-item onclick="openModal('modalEditarTecnico')"> Editar </x-btn-edit-item>
 				@include('modals.tecnicos.modalEditarTecnico')
 
-				<x-btn-delete-item onclick="openModal('modalEliminarTecnico')"> Inhabilitar </x-btn-delete-item>
+				<x-btn-disable-item onclick="openModal('modalEliminarTecnico')"> Inhabilitar </x-btn-disable-item>
 				@include('modals.tecnicos.modalEliminarTecnico')
 
 				<x-btn-recover-item onclick="openModal('modalRecontratarTecnico')">Habilitar</x-btn-delete-item>

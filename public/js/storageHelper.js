@@ -1,4 +1,11 @@
 class StorageHelper {
+    static clearAll() {
+        localStorage.clear();
+    }
+    
+    static printTable() {
+        console.table(localStorage);
+    }
     /**
      * Guarda un valor en localStorage.
      * @param {string} key - Clave para identificar el ítem almacenado.
@@ -34,6 +41,32 @@ class StorageHelper {
         }
     }
 
+    static partialLoad(partialKey) {
+        if (typeof partialKey !== 'string' || partialKey.trim() === '') {
+            throw new Error('La clave debe ser una cadena de texto no vacía.');
+        }
+    
+        try {
+            // Obtener todas las claves almacenadas en localStorage
+            const keys = Object.keys(localStorage);
+            
+            // Buscar la primera clave que contenga el texto parcial
+            const matchedKey = keys.find(key => key.startsWith(partialKey));
+    
+            // Si se encuentra una coincidencia, cargar su valor
+            if (matchedKey) {
+                const value = localStorage.getItem(matchedKey);
+                return value ? JSON.parse(value) : null;
+            }
+    
+            // Si no se encontró ninguna clave coincidente
+            return null;
+        } catch (error) {
+            console.error(`Error al buscar en localStorage con la clave parcial "${partialKey}":`, error);
+            return null;
+        }
+    }
+
     /**
      * Elimina un valor de localStorage por su clave.
      * @param {string} key - Clave para eliminar el ítem.
@@ -46,6 +79,26 @@ class StorageHelper {
             localStorage.removeItem(key);
         } catch (error) {
             console.error(`Error al eliminar de localStorage con la clave "${key}":`, error);
+        }
+    }
+
+    static partialClear(partialKey) {
+        if (typeof partialKey !== 'string' || partialKey.trim() === '') {
+            throw new Error('La clave debe ser una cadena de texto no vacía, partialKey:' + partialKey);
+        }
+    
+        try {
+            // Obtener todas las claves almacenadas en localStorage
+            const keys = Object.keys(localStorage);
+    
+            // Filtrar claves que contengan el texto parcial y eliminarlas
+            keys.forEach(key => {
+                if (key.includes(partialKey)) {
+                    localStorage.removeItem(key);
+                }
+            });
+        } catch (error) {
+            console.error(`Error al eliminar en localStorage con la clave parcial "${partialKey}":`, error);
         }
     }
 

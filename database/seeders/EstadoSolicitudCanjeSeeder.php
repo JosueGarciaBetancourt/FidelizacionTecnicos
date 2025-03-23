@@ -23,6 +23,10 @@ class EstadoSolicitudCanjeSeeder extends Seeder
                 'idEstadoSolicitudCanje' => 3,
                 'nombre_EstadoSolicitudCanje' => 'Rechazado',
             ],
+            [
+                'idEstadoSolicitudCanje' => 4,
+                'nombre_EstadoSolicitudCanje' => 'Tiempo Agotado',
+            ],
         ];
 
         foreach ($estadossolicitudcanjes as $estSolCan) {

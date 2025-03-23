@@ -16,7 +16,7 @@ function fillOtherFieldsDetalleSolicitudCanje(objSolicitudCanje) {
     document.getElementById('puntosRestantesComprobanteModalDetalleSolicitudCanje').value = objSolicitudCanje['puntosRestantes_SolicitudCanje'];
     estadoH5.textContent = objSolicitudCanje['nombreEstado'] || "";
 
-    estadoH5.classList.remove('estadoAprobado', 'estadoRechazado', 'estadoPendiente');
+    estadoH5.classList.remove('estadoAprobado', 'estadoRechazado', 'estadoPendiente', 'estadoTiempoAgotado');
     
     const estado = (estadoH5.textContent).toLowerCase();
     
@@ -24,6 +24,8 @@ function fillOtherFieldsDetalleSolicitudCanje(objSolicitudCanje) {
         estadoH5.classList.add('estadoAprobado');
     } else if (estado === "rechazado") {
         estadoH5.classList.add('estadoRechazado');
+    } else if (estado === "tiempo agotado") {
+        estadoH5.classList.add('estadoTiempoAgotado');
     } else {
         estadoH5.classList.add('estadoPendiente');
     }
@@ -106,7 +108,7 @@ async function objSolicitudCanjeAndDetailsByIdSolicitudCanjeFetch(idSolicitudCan
 
         const { objSolicitudCanje, detallesSolicitudesCanjes } = await response.json();
 
-        console.log("objSolicitudCanje:", objSolicitudCanje);
+        // console.log("objSolicitudCanje:", objSolicitudCanje);
         
         // Llenar la tabla con los detalles de las recompensas
         if (detallesSolicitudesCanjes && detallesSolicitudesCanjes.length > 0) {

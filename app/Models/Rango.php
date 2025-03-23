@@ -23,7 +23,19 @@ class Rango extends Model
         'puntosMinimos_Rango',
     ];
     
+    // Mutator para aplicar el valor por defecto
+    public function setDescripcionRangoAttribute($value)
+    {
+        $this->attributes['descripcion_Rango'] = $value ?? 'Sin descripción';
+    }
+
     public function tecnicos() {
         return $this->hasMany(Tecnico::class, 'idRango', 'idRango');
+    }
+
+    protected $appends = ['codigoRango']; 
+
+    public function getCodigoRangoAttribute() { 
+        return 'RAN-' . str_pad($this->idRango, 2, '0', STR_PAD_LEFT);
     }
 }

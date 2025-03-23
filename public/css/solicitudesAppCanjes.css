@@ -142,3 +142,9 @@ h3 {
     color: #f44336;
     background-color: rgba(244, 67, 54, 0.2) !important;
 }   
+
+/* Tiempo agotado */
+.estado__span-4 {
+    color: #ffffff; 
+    background-color: #6a4d57 !important; 
+}   

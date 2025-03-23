@@ -56,17 +56,22 @@
     text-align: center;
 }
 
-.rangoTecnico__span-plata {
+.rangoTecnico__span-1 { /*sin rango*/ 
+    color: #ffffff; 
+    background-color: #6a4d57 !important; 
+}
+
+.rangoTecnico__span-2 { /*plata*/
     color: #38495a;
     background-color: #c0c1c3 !important;
 }
 
-.rangoTecnico__span-oro {
+.rangoTecnico__span-3 { /*oro*/
     color: #694a01;
     background-color: #FFD700 !important;
 }
 
-.rangoTecnico__span-black {
+.rangoTecnico__span-4 { /*black*/
     color: #fff;
     background-color: #333 !important;
 }

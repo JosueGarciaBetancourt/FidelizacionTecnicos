@@ -1,9 +1,17 @@
 #modalEliminarOficio-dialog {
-	max-width: 650px; 
+	max-width: 480px; 
 }
 
 #formEliminarOficio {
-	padding: 1rem 0;
+	padding: 0;
+}
+
+#modalEliminarOficio .modal-dialog {
+    transform: translateY(0); /* Inicialmente desplazado hacia arriba */
+}
+
+#modalEliminarOficio .modal-dialog.open {
+    transform: translateY(-3.5rem);
 }
 
 #oficioInputDelete {

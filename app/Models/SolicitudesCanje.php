@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Carbon\Carbon;
 
 class SolicitudesCanje extends Model
 {
@@ -31,8 +32,13 @@ class SolicitudesCanje extends Model
         'comentario_SolicitudCanje',
     ];
 
-    protected $appends = ['userName', 'nombreEstado', 'recompensasJSON'];
+    protected $appends = ['userName', 'nombreEstado', 'recompensasJSON', 'diasTranscurridosVenta'];
     
+    public function getDiasTranscurridosVentaAttribute() {
+        $diasTranscurridos = Controller::returnDiasTranscurridosHastaHoy($this->fechaHoraEmision_VentaIntermediada);
+        return $diasTranscurridos;
+    }
+
     public function user() {
         return $this->belongsTo('App\Models\User');
     }

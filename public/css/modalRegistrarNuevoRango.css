@@ -1,0 +1,38 @@
+#modalRegistrarNuevoRango-dialog {
+	max-width: 480px; 
+}
+
+#idModalBodyRegistrarNuevoRango {
+    padding: 10px 0 0 0;
+}
+
+#formRegistrarNuevoRango {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+}
+
+#modalRegistrarNuevoRango .modal-dialog {
+    transform: translateY(0); /* Inicialmente desplazado hacia arriba */
+}
+
+#modalRegistrarNuevoRango .modal-dialog.open {
+    transform: translateY(-3.5rem);
+}
+
+#codigoRangoInputRegistrar {
+	width: 5rem;
+	text-align: center;
+}
+
+#nombreRangoInputRegistrar {
+	width: 20rem;
+}
+
+#descripcionLabel {
+	width: 5.5rem;
+}
+
+#descripcionRangoInputRegistrar {
+	width: 20rem;
+}

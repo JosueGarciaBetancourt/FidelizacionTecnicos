@@ -19,18 +19,23 @@
             text-align: center;
         }
 
-        .rango-black {
-            background-color: #333333;
+        .rango.1 { /*sin rango*/ 
+            color: #ffffff; 
+            background-color: #6a4d57 !important; 
+        }
+        
+        .rango.2 {
+            background-color: #C0C0C0;
+            color: #333333;
         }
 
-        .rango-oro {
+        .rango.3 {
             background-color: #FFD700;
             color: #333333;
         }
 
-        .rango-plata {
-            background-color: #C0C0C0;
-            color: #333333;
+        .rango.4 {
+            background-color: #333333;
         }
     </style>
 @endpush
@@ -80,9 +85,7 @@
                     <td class="celda-centered">{{ $tecnico['totalPuntosActuales_Tecnico'] }}</td>
                     <td class="celda-centered">{{ $tecnico['historicoPuntos_Tecnico'] }}</td>
                     <td>
-                        <span class="rango {{ $tecnico['rangoTecnico'] == 'Black' ? 'rango-black' : 
-                                            ($tecnico['rangoTecnico'] == 'Oro' ? 'rango-oro' : 
-                                            'rango-plata') }}">
+                        <span class="rango {{ $tecnico['idRango'] }}">
                             {{ $tecnico['rangoTecnico'] }}
                         </span>
                     </td>

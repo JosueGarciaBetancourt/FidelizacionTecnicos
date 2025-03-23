@@ -531,7 +531,6 @@ function returnItemDBValueWithRequestedID(searchField, searchValue, itemsDB) {
 
 // string id debe tener el formato: CODIGO-001
 function returnIDIntegerByStringID(idString) {
-    console.log(idString);
     // Validar el formato y extraer el número después del guion
     const match = idString.match(/-\d+$/);
     if (!match) {

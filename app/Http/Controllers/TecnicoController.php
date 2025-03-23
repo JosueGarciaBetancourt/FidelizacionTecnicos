@@ -340,8 +340,12 @@ class TecnicoController extends Controller
         }
 
         // Obtener los rangos ordenados de mayor a menor
-        $rangos = Rango::orderByDesc('puntosMinimos_Rango')->get();
-        
+        $rangos = Rango::orderByDesc('puntosMinimos_Rango') // Primero ordena por puntos mínimos (mayor a menor)
+                        ->orderBy('idRango', 'desc') // En caso de empate, ordena por idRango (menor a mayor)
+                        ->get();
+
+        //dd($rangos->pluck('puntosMinimos_Rango', 'idRango'));
+
         // Buscar el primer rango que coincida
         foreach ($rangos as $rango) {
             if ($puntos >= $rango->puntosMinimos_Rango) {
@@ -468,10 +472,13 @@ class TecnicoController extends Controller
                 'fechaNacimiento_Tecnico' => $tecnico->fechaNacimiento_Tecnico,
                 'totalPuntosActuales_Tecnico' => $tecnico->totalPuntosActuales_Tecnico,
                 'historicoPuntos_Tecnico' => $tecnico->historicoPuntos_Tecnico,
+                'idRango' => $tecnico->idRango,
                 'rangoTecnico' => $tecnico->nombre_Rango, // usando atributo de appends
             ];
         });
-    
+        
+        Log::info($data);
+
         return $data->toArray();
     }
 

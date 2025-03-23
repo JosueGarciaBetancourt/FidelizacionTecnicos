@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('css/ventasIntermediadasStyling.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalAgregarVenta.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalAgregarNuevoTecnico.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalEditarMaxdayscanje.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalEliminarVentaIntermediada.css') }}">
     <link rel="stylesheet" href="{{ asset('css/multiselectDropdown.css') }}">
 @endpush
@@ -19,7 +20,14 @@
         @if (!$isAsisstantLogged)
             <div class="firstRow">
                 <x-btn-create-item onclick="openModal('modalAgregarVenta')"> Agregar nueva venta </x-btn-create-item>
+                @include('modals.ventasIntermediadas.modalAgregarVenta')
+                @include('modals.tecnicos.modalAgregarNuevoTecnico')
+                
+                <x-btn-edit-item onclick="openModal('modalEditarMaxdayscanje')"> Editar días máximos de canje </x-btn-edit-item>
+                @include('modals.ventasIntermediadas.modalEditarMaxdayscanje')
+
                 <x-btn-delete-item onclick="openModal('modalEliminarVentaIntermediada')"> Eliminar </x-btn-delete-item>
+                @include('modals.ventasIntermediadas.modalEliminarVentaIntermediada')
             </div>
         @endif
 
@@ -45,23 +53,25 @@
             </table>
         </div>
         
-        @include('modals.ventasIntermediadas.modalEliminarVentaIntermediada')
-        @include('modals.ventasIntermediadas.modalAgregarVenta')
-        @include('modals.tecnicos.modalAgregarNuevoTecnico')
-
         <x-modalSuccessAction 
             :idSuccesModal="'successModalVentaIntermediadaGuardada'"
             :message="'Venta Intermediada registrada correctamente'"
         />
         
         <x-modalSuccessAction 
-            :idSuccesModal="'successModalVentaIntermediadaEliminada'"
-            :message="'Venta Intermediada eliminada correctamente'"
+            :idSuccesModal="'successModalTecnicoGuardado'"
+            :message="'Técnico guardado correctamente'"
+        />
+
+        
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalMaxdayscanjeGuardado'"
+            :message="'Días máximos de canje guardados correctamente'"
         />
 
         <x-modalSuccessAction 
-            :idSuccesModal="'successModalTecnicoGuardado'"
-            :message="'Técnico guardado correctamente'"
+            :idSuccesModal="'successModalVentaIntermediadaEliminada'"
+            :message="'Venta Intermediada eliminada correctamente'"
         />
 
         <x-modalSuccessAction 
@@ -80,17 +90,21 @@
     <script src="{{ asset('js/multiSelectDropdown.js') }}"></script>
     <script src="{{ asset('js/modalAgregarNuevoTecnico.js') }}"></script>
     <script src="{{ asset('js/modalAgregarVentaScript.js') }}"></script>
+    <script src="{{ asset('js/modalEditarMaxdayscanje.js') }}"></script>
     <script src="{{ asset('js/modalEliminarVentaIntermediada.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             @if(session('successVentaIntermiadaStore'))
                     openModal('successModalVentaIntermediadaGuardada');
             @endif
-            @if(session('successVentaIntermiadaDelete'))
-                    openModal('successModalVentaIntermediadaEliminada');
-            @endif
             @if(session('successTecnicoStore'))
                     openModal('successModalTecnicoGuardado');
+            @endif
+            @if(session('successMaxdayscanjeStore'))
+                    openModal('successModalMaxdayscanjeGuardado');
+            @endif
+            @if(session('successVentaIntermiadaDelete'))
+                    openModal('successModalVentaIntermediadaEliminada');
             @endif
             @if(session('successTecnicoRecontratadoStore'))
                     openModal('successModalTecnicoRecontratado');
@@ -98,6 +112,7 @@
             @if ($errors->has('errorClaveForanea'))
                 justOpenModal('errorModalVentaIntermediada');
             @endif
+
         });
     </script>
 @endpush

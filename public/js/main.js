@@ -10,7 +10,7 @@ let maxDateMAIN = todayMAIN.toLocaleDateString('es-PE', {
 let objMaxDateMAIN = new Date(maxDateMAIN);
 
 let csrfTokenMAIN = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-let baseUrlMAIN = `${window.location.origin}`;
+let baseUrlMAIN = `${window.location.origin}/FidelizacionTecnicos/public`;
 
 function handleFormSubmission(elementId, formId, timeout = 2000) {
     const element = document.getElementById(elementId);

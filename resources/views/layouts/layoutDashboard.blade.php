@@ -57,25 +57,31 @@
                     </div>
                 </div>
 
-                <a href="{{ route('recompensas.create') }}" onclick="openLoadingModal()"
+                <a href="{{ route('recompensas.create') }}" onclick="openLoadingModal(), scrollDownSidebar(this, 0)"
                     class="{{ Request::routeIs('recompensas.create') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">handyman</span>
                     <h5>Recompensas</h5>
                 </a>
 
-                <a href="{{ route('tecnicos.create') }}" onclick="openLoadingModal()"
+                <a href="{{ route('tecnicos.create') }}" onclick="openLoadingModal(), scrollDownSidebar(this, 0)"
                     class="{{ Request::routeIs('tecnicos.create') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">groups</span>
                     <h5>Técnicos</h5>
                 </a>
 
-                <a href="{{ route('oficios.create') }}" onclick="openLoadingModal()"
+                <a href="{{ route('oficios.create') }}" onclick="openLoadingModal(), scrollDownSidebar(this, 100)"
                     class="{{ Request::routeIs('oficios.create') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">engineering</span>
                     <h5>Oficios</h5>
                 </a>
 
-                <a href="{{ route('configuracion.create') }}" onclick="openLoadingModal()"
+                <a href="{{ route('rangos.create') }}" onclick="openLoadingModal(), scrollDownSidebar(this, 100)"
+                    class="{{ Request::routeIs('rangos.create') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">stat_3</span>
+                    <h5>Rangos</h5>
+                </a>
+
+                <a href="{{ route('configuracion.create') }}" onclick="openLoadingModal(), scrollDownSidebar(this, 150)"
                     class="{{ Request::routeIs('configuracion.create') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">settings</span>
                     <h5>Configuración</h5>
@@ -219,10 +225,76 @@
             if (localStorage.getItem('darkMode') === 'true') {
                 document.documentElement.classList.add('dark-mode');
             }
+
             document.documentElement.classList.add(`font-${localStorage.getItem('fontSize') || 'medium'}`);
-            document.documentElement.style.setProperty('--button-color', localStorage.getItem('accentColor') ||
-                '#007bff');
+            document.documentElement.style.setProperty('--button-color', localStorage.getItem('accentColor') || '#007bff');
+           
+            //StorageHelper.clearAll();
+
+            loadAsideScrollDown();
         });
+
+        // Management Aside Scrolldown
+        function loadAsideScrollDown() {
+            const aside = document.querySelector('aside');
+
+            if (!aside) {
+                return;
+            }
+
+            const linkStored = StorageHelper.partialLoad('ScrollDownSidebar-');
+            const currentActiveLink = getActiveLink();
+            const pixelsScrollDownStored = StorageHelper.partialLoad('pixelsScrollDownSidebar-');
+
+
+            if (linkStored == `ScrollDownSidebar-${currentActiveLink}`) {
+                aside.scrollBy(0, pixelsScrollDownStored);
+                //StorageHelper.printTable();
+                return;
+            }
+
+            StorageHelper.partialClear("ScrollDownSidebar-");
+            StorageHelper.partialClear("pixelsScrollDownSidebar");
+
+            //StorageHelper.printTable();
+
+            // Default Scrolldown 
+            aside.scrollBy(0,-50); 
+        }
+
+        function getActiveLink() {
+            // Selecciona todos los enlaces dentro de la barra lateral
+            const links = document.querySelectorAll('.sidebar a');
+
+            for (const link of links) {
+                // Verifica si el enlace tiene la clase 'active'
+                if (link.classList.contains('active')) {
+                    // Extrae el texto dentro de la etiqueta <h5>
+                    const textContent = link.querySelector('h5')?.textContent.trim();
+                    return textContent || null; // Retorna el texto o null si no se encuentra
+                }
+            }
+
+            return null; // Retorna null si no hay un enlace activo
+        }
+
+        function scrollDownSidebar(link, pixelsToScrollDown) {
+            const aside = document.querySelector('aside');
+            const linkTextContent = link.querySelector('h5').textContent.trim();
+            const linkStored = StorageHelper.partialLoad('ScrollDownSidebar-');
+
+            if (linkStored !== null) {
+                StorageHelper.partialClear(linkStored);
+                StorageHelper.partialClear(`pixels${linkStored}`);
+            }
+
+
+            if (aside) {
+                StorageHelper.save(`ScrollDownSidebar-${linkTextContent}`, `ScrollDownSidebar-${linkTextContent}`);
+                StorageHelper.save(`pixelsScrollDownSidebar-${linkTextContent}`, parseInt(pixelsToScrollDown, 10));
+            }
+        }
+        // Ending Management Aside Scrolldown
 
         function openLoadingModal() {
             document.getElementById('loadingModal').classList.add("show");

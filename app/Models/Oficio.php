@@ -23,13 +23,19 @@ class Oficio extends Model
         'descripcion_Oficio',
     ];
 
+    // Mutator para aplicar el valor por defecto
+    public function setDescripcionOficioAttribute($value)
+    {
+        $this->attributes['descripcion_Oficio'] = $value ?? 'Sin descripción';
+    }
+    
     protected $appends = ['codigoOficio', 'codigoNombreOficio']; // Agregar aquí el atributo dinámico
 
     public function tecnicosOficios() {
         return $this->hasMany(TecnicoOficio::class, 'idOficio', 'idOficio');
     }
 
-    public function oficios() {
+    public function tecnicos() {
         return $this->belongsToMany(Tecnico::class, 'TecnicosOficios', 'idOficio', 'idTecnico');
     }
 
