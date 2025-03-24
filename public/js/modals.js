@@ -542,10 +542,11 @@ function returnIDIntegerByStringID(idString) {
     return numberID;
 }
 
-function validateValueOnRealTimeIDInteger(input, idOptions, idMessageError, someHiddenIdInputsArray, otherInputsArray = null, itemsDB = null, 
-                                            searchField = null, dbFieldsNameArray = null) {
+function validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray = null, itemsDB = null, 
+                                            searchField = null, dbFieldsNameArray = null, idGeneralMessageError = null) {
     const value = input.value;
-    const messageError = document.getElementById(idMessageError);
+    const searchMessageError = document.getElementById(idSearchMessageError);
+    const generalMessageError = idGeneralMessageError ? document.getElementById(idGeneralMessageError) : null;
 
     const clearHiddenInputs = () => {
         someHiddenIdInputsArray.forEach(idInput => {
@@ -572,7 +573,8 @@ function validateValueOnRealTimeIDInteger(input, idOptions, idMessageError, some
 
     if (!value || value === "") {
         clearInputs();
-        messageError.classList.remove('shown');
+        searchMessageError.classList.remove('shown');
+        if (generalMessageError) {generalMessageError.classList.remove('shown');}
         return; 
     }
 
@@ -584,11 +586,13 @@ function validateValueOnRealTimeIDInteger(input, idOptions, idMessageError, some
     
     if (!itemEncontrado) {
         clearInputs();
-        messageError.classList.add('shown'); 
+        searchMessageError.classList.add('shown'); 
+        if (generalMessageError) {generalMessageError.classList.remove('shown');}
         return; 
     }
 
-    messageError.classList.remove('shown');
+    searchMessageError.classList.remove('shown');
+    if (generalMessageError) {generalMessageError.classList.remove('shown');}
 
     // Dividir el valor en partes (id y nombre)
     var [idString, nombre] = ["",""];
@@ -613,14 +617,13 @@ function validateValueOnRealTimeIDInteger(input, idOptions, idMessageError, some
     if (otherInputsArray && itemsDB && searchField) {
         const searchValue = idInteger;
         const itemArraySearched = returnItemDBValueWithRequestedID(searchField, searchValue, itemsDB);
-
         if (itemArraySearched) {
             otherInputsArray.forEach((idVisibleInput, index) => {
                 const visibleInputElement = document.getElementById(idVisibleInput);
                 if (visibleInputElement) {
                     // Usar el índice para acceder al nombre del campo en dbFieldsNameArray
                     const dbField = dbFieldsNameArray[index];
-                    visibleInputElement.value = itemArraySearched[dbField] || ""; 
+                    visibleInputElement.value = itemArraySearched[dbField] === 0 ? 0 : itemArraySearched[dbField] || ""; 
                 }
             });
         }

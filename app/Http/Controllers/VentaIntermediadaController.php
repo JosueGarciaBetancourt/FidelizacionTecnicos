@@ -438,7 +438,7 @@ class VentaIntermediadaController extends Controller
         // Actualizar los estados de las ventas y generar notificaciones
         $this->updateEstadoVentasIntermediadasSolicitudesCanjes($maxdayscanjeValidated['maxdaysCanje']);
         ConfiguracionController::createAgotamientoVentasIntermediadasNotifications(config('settings.diasAgotarVentaIntermediadaNotificacion'));
-        
+
         // Limpiar caché de configuración para reflejar cambios
         Cache::forget('settings_cache');
 

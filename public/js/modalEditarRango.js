@@ -11,6 +11,17 @@ let formEditRangoArray = [
     puntosMinimosRangoInputEdit,
 ];
 
+function enableDisablePuntosMinimosRangoInput(value = null) {
+    if (!value || value.toLowerCase() != "ran-01 | sin rango") {
+        puntosMinimosRangoInputEdit.classList.remove('blocked');
+        puntosMinimosRangoInputEdit.removeAttribute('disabled', true); 
+        return;
+    }   
+
+    puntosMinimosRangoInputEdit.classList.add('blocked');
+    puntosMinimosRangoInputEdit.setAttribute('disabled', true);
+}
+
 function selectOptionEditRango(value, idNumberRango, descripcionRango, puntosMinimosRango, idInput, idOptions, someHiddenIdInputsArray) {
     // Escapar caracteres especiales en la descripción
     function sanitizeString(str) {
@@ -35,23 +46,47 @@ function selectOptionEditRango(value, idNumberRango, descripcionRango, puntosMin
     if (sanitizedDescripcionRango) {
         descripcionRangoInputEdit.value = sanitizedDescripcionRango;
         puntosMinimosRangoInputEdit.value = puntosMinimosRango;
+
+        enableDisablePuntosMinimosRangoInput(value);
+
         // Llenar campos ocultos
         document.getElementById(someHiddenIdInputsArray[0]).value = idNumberRango;
+
         searchEditMessageError.classList.remove("shown");
+        generalEditRangoError.classList.remove("shown");
     } else {
         descripcionRangoInputEdit.value = "";
         puntosMinimosRangoInputEdit.value = "";
     }
 }
 
-function validarCamposCorrectosRangoEdit() {
-    mensajeCombinadoEditRango = "";
-    var returnError = false;
+function validateValueOnRealTimeRangoEdit(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
+                                            searchField, dbFieldsNameArray, idGeneralMessageError) {
+                                                
+    validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
+                                    searchField, dbFieldsNameArray, idGeneralMessageError);
+    
+    enableDisablePuntosMinimosRangoInput(input.value);
+}
 
-    /*if (stockRecompensaInputEdit.value == 0) {
-        mensajeCombinadoEditRango += " El stock no puede ser 0.";
+let mensajeCombinadoEditRango = "";
+
+function validarCamposCorrectosRangoEdit(rangosDB) {
+    var returnError = false;
+    mensajeCombinadoEditRango = "";
+    
+    // Asignar valor de puntos mínimos del formulario al rango de rangosDB
+    rangosDB.find(r => r.idRango === Number(idNumberRangoInput.value)).puntosMinimos_Rango = Number(puntosMinimosRangoInputEdit.value);
+
+    const puntosMinimosRangoPlata = rangosDB.find(r => r.idRango === 2).puntosMinimos_Rango;
+    const puntosMinimosRangoOro = rangosDB.find(r => r.idRango === 3).puntosMinimos_Rango;
+    const puntosMinimosRangoBlack = rangosDB.find(r => r.idRango === 4).puntosMinimos_Rango;
+
+    // Validar que los rangos sean Plata < Oro < Black
+    if (puntosMinimosRangoPlata >= puntosMinimosRangoOro || puntosMinimosRangoPlata >= puntosMinimosRangoBlack || puntosMinimosRangoOro >= puntosMinimosRangoBlack) {
+        mensajeCombinadoEditRango += "Los puntos mínimos son incorrectos, asegúrate de que cumpla la siguiente regla: Plata < Oro < Black.";
         returnError = true;
-	}*/
+    }
     
     if (returnError) {
         return false;
@@ -71,9 +106,9 @@ function validarCamposVaciosFormularioRangoEdit() {
     return allFilled;
 }
 
-function guardarModalEditarRango(idModal, idForm) {
+function guardarModalEditarRango(idModal, idForm, rangosDB) {
     if (validarCamposVaciosFormularioRangoEdit()) {
-        if (validarCamposCorrectosRangoEdit()) {
+        if (validarCamposCorrectosRangoEdit(rangosDB)) {
             generalEditRangoError.classList.remove("shown");
             guardarModal(idModal, idForm);	
         } else {

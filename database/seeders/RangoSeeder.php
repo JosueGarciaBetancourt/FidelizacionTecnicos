@@ -15,7 +15,7 @@ class RangoSeeder extends Seeder
             [
                 'idRango' => 1,
                 'nombre_Rango' => 'Sin rango',
-                'descripcion_Rango' => 'Es el rango que se le asignan a los técnicos que no cumplen con los puntos mínimos',
+                'descripcion_Rango' => 'Es el rango que se le asignan a los técnicos que no cumplen con los puntos mínimos de los otros rangos',
                 'puntosMinimos_Rango' => 0,
             ],
             [

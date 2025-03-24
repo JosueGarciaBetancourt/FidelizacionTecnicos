@@ -2,7 +2,7 @@
     <div class="modal-dialog" id="modalEditarRango-dialog">
         <div class="modal-content" id="modalEditarRango-content">
             <div class="modal-header">
-                <h5 class="modal-title">Editar Rango</h5>
+                <h5 class="modal-title">Editar rango</h5>
                 <button class="close noUserSelect" onclick="closeModal('modalEditarRango')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyEditarRango">
@@ -14,7 +14,7 @@
                         $rangosDB = $rangos;
                         $idSearchMessageError = 'searchEditRangoError';
                         $idCodigoRangoInput = 'codigoRangoInputEdit';
-                        $idOptions = 'RangoEditOptions';
+                        $idOptions = 'rangoEditOptions';
                         $idDescripcionRangoInputEdit = 'descripcionRangoInputEdit';
                         $idPuntosMinimosInput = 'puntosMinimosRangoInputEdit';
                         $someHiddenIdInputsArray = ['idNumberRango'];
@@ -30,24 +30,25 @@
                     </div> --}}
 
                     <div class="form-group gap">
-                        <label class="primary-label" for="RangoEditSelect">Rango:</label>
-                        <div class="input-select" id="RangoEditSelect">
+                        <label class="primary-label" for="rangoEditSelect">Rango:</label>
+                        <div class="input-select" id="rangoEditSelect">
                             <input class="input-select-item" type="text" id='{{ $idCodigoRangoInput }}' maxlength="100" placeholder="Código - Nombre" autocomplete="off"
                                 oninput="filterOptions('{{ $idCodigoRangoInput }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTimeIDInteger(this, '{{ $idOptions }}', '{{ $idSearchMessageError }}', 
+                                        validateValueOnRealTimeRangoEdit(this, '{{ $idOptions }}', '{{ $idSearchMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
-                                        {{ json_encode($rangosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
+                                        {{ json_encode($rangosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }},
+                                        '{{ $idGeneralMessageError }}')"
 
                                 onclick="toggleOptions('{{ $idCodigoRangoInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
                                 @if (count($rangosDB) > 0)
-                                    @foreach ($rangosDB as $Rango)
+                                    @foreach ($rangosDB as $rango)
                                         @php
-                                            $idNumberRango = htmlspecialchars($Rango->idRango, ENT_QUOTES, 'UTF-8');
-                                            $codigoRango = htmlspecialchars($Rango->codigoRango, ENT_QUOTES, 'UTF-8');
-                                            $nombreRango = htmlspecialchars($Rango->nombre_Rango, ENT_QUOTES, 'UTF-8');
-                                            $descripcionRango = htmlspecialchars($Rango->descripcion_Rango, ENT_QUOTES, 'UTF-8');
-                                            $puntosMinimosRango = htmlspecialchars($Rango->puntosMinimos_Rango, ENT_QUOTES, 'UTF-8');
+                                            $idNumberRango = htmlspecialchars($rango->idRango, ENT_QUOTES, 'UTF-8');
+                                            $codigoRango = htmlspecialchars($rango->codigoRango, ENT_QUOTES, 'UTF-8');
+                                            $nombreRango = htmlspecialchars($rango->nombre_Rango, ENT_QUOTES, 'UTF-8');
+                                            $descripcionRango = htmlspecialchars($rango->descripcion_Rango, ENT_QUOTES, 'UTF-8');
+                                            $puntosMinimosRango = htmlspecialchars($rango->puntosMinimos_Rango, ENT_QUOTES, 'UTF-8');
                                             $value = $codigoRango . " | " . $nombreRango;
                                         @endphp
                                 
@@ -73,9 +74,9 @@
                     </div>
 
                     <div class="form-group gap">
-                        <label class="primary-label marginX" id="puntosMinimosLabel"  for='{{ $idPuntosMinimosInput }}'>Puntos mínimos:</label>
-                        <input class="input-item" type="number" oninput="validateRealTimeInputLength(this, 5), validateNumberRealTime(this)" 
-                            id='{{ $idPuntosMinimosInput }}' placeholder="10000" name="puntosMinimos_Rango">
+                        <label class="primary-label" id="puntosMinimosLabel"  for='{{ $idPuntosMinimosInput }}'>Puntos mínimos:</label>
+                        <input class="input-item" type="number" id='{{ $idPuntosMinimosInput }}' oninput="validateRealTimeInputLength(this, 5),
+                            validateNumberRealTime(this)" placeholder="10000" name="puntosMinimos_Rango">
                     </div>
                     
                     <div class="form-group start">
@@ -86,7 +87,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalEditarRango')">Cancelar</button>
                 <button type="button" class="btn btn-primary update" 
-                        onclick="guardarModalEditarRango('modalEditarRango', 'formEditarRango')">Actualizar</button>
+                        onclick="guardarModalEditarRango('modalEditarRango', 'formEditarRango', {{ json_encode($rangosDB) }})">Actualizar</button>
             </div>
         </div>
     </div>

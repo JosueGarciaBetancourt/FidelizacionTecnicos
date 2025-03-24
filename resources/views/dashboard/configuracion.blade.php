@@ -68,13 +68,14 @@
 							<input type="text" class="input-item" id="{{ $emailDomainInput}}" name="values[]" value="{{ config('settings.emailDomain') }}">
 						</div>
 
-						{{-- <div class="config-option">
+						{{--
+						<div class="config-option">
 							<label for="{{ $adminUsernameInput }}">Nombre de usuario del correo del Administrador:</label>
 							<input type="hidden" value="adminUsername" name="keys[]" readonly>
 							<input type="text" class="input-item" id="{{ $adminUsernameInput}}" name="values[]" value="{{ config('settings.adminUsername') }}">
-						</div> --}}
+						</div>
 
-						{{-- <h3> Ventas intermediadas</h3>
+						<h3> Ventas intermediadas</h3>
 						
 						<div class="config-option">
 							<label for="{{ $maxdaysCanjeInput }}">Días máximos para canjear una venta:</label>
@@ -82,9 +83,8 @@
 							<input type="number" class="input-item" id="{{ $maxdaysCanjeInput}}" name="values[]" 
 								oninput="validateRealTimeInputLength(this, 3), validateNumberWithMaxLimitRealTime(this, 90)" value="{{ config('settings.maxdaysCanje') }}">
 						</div>
-						--}}
 						
-						<h3> Técnicos</h3>
+						 <h3> Técnicos</h3>
 
 						<div class="config-option">
 							<label for="{{ $puntosMinRangoPlataInput }}">Puntos mínimos para que un técnico alcance el rango PLATA:</label>
@@ -106,7 +106,10 @@
 							<input type="number" class="input-item" id="{{ $puntosMinRangoBlackInput }}" name="values[]" 
 								oninput="validateRealTimeInputLength(this, 5)" value="{{ config('settings.puntosMinRangoBlack') }}">
 						</div>
+ 						--}}
 
+						<input type="hidden" id="{{ $maxdaysCanjeInput}}" value="{{ config('settings.maxdaysCanje') }}">
+						
 						<h3> Notificaciones</h3>
 
 						<div class="config-option">

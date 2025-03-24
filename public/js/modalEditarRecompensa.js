@@ -5,7 +5,7 @@ let costoPuntosInput = document.getElementById('costoPuntosInputEdit');
 let stockRecompensaInputEdit = document.getElementById('stockRecompensaInputEdit');
 let searchRecompensaError = document.getElementById('searchEditRecompensaError');
 let editarRecompensaMessageError = document.getElementById('editarRecompensaMessageError');
-let mensajeCombinadoEditRecompensaEditRecompensa = "";
+let mensajeCombinadoEditRecompensa = "";
 
 let formEditRecompensaArray = [
   idRecompensaInput,

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Rango;
 use App\Models\Setting;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use App\Http\Controllers\ConfiguracionController;
 
 class RangoController extends Controller
 {
@@ -60,22 +62,36 @@ class RangoController extends Controller
             'puntosMinimos_Rango' => $validatedData['puntosMinimos_Rango'],
         ]);
         
+        // Actualizar técnicos y crear notificaciones si es necesario
+        ConfiguracionController::updateRangoTecnicos();
+
+        // Actualizar en la tabla Settings
+        $this->updateRangoInSettingsTable($rangoSolicitado);
+
         $messageUpdate = 'Rango actualizado correctamente';
         return redirect()->route('rangos.create')->with('successRangoUpdate', $messageUpdate);
     }
 
-    public static function updateRangosFromSettings()
+    public function updateRangoInSettingsTable($rango)
     {
-        // Obtener los valores de la tabla Settings
-        $plata = Setting::where('key', 'puntosMinRangoPlata')->value('value');
-        $oro = Setting::where('key', 'puntosMinRangoOro')->value('value');
-        $black =Setting::where('key', 'puntosMinRangoBlack')->value('value');
+         // Verificar que los valores existen antes de actualizar
+        if (!isset($rango->nombre_Rango) || !isset($rango->puntosMinimos_Rango)) {
+            return;
+        }
 
-        // Actualizar cada rango
-        Rango::where('nombre_Rango', 'Plata')->update(['puntosMinimos_Rango' => $plata]);
-        Rango::where('nombre_Rango', 'Oro')->update(['puntosMinimos_Rango' => $oro]);
-        Rango::where('nombre_Rango', 'Black')->update(['puntosMinimos_Rango' => $black]);
+        // Actualizar la configuración en la tabla settings
+        /* $updatedSetting = Setting::where('key', 'puntosMinRango' . $rango->nombre_Rango)->update([
+            'value' => $rango->puntosMinimos_Rango,           
+        ]); */
+        $updatedSetting = Setting::where('key', 'puntosMinRango' . $rango->nombre_Rango)->first();
 
-        return redirect()->back()->with('success', 'Rangos actualizados correctamente.');
+        $updatedSetting->update([
+            'value' => $rango->puntosMinimos_Rango,
+        ]);
+
+        //dd("updatedSetting: ", $updatedSetting);
+
+        // Limpiar caché de configuración para reflejar cambios
+        Cache::forget('settings_cache');
     }
 }

@@ -9,7 +9,7 @@ let formEditTipoRecompensaArray = [
     nombreTipoRecompensaInputEdit,
 ];
 
-let mensajeCombinadoEditOficio = "";
+let mensajeCombinadoEditTipoRecompensa = "";
 
 function selectOptionEditTipoRecompensa(value, idNumberTipoRecompensa, nombreTipoRecompensa, idInput, idOptions, someHiddenIdInputsArray) {
     // Escapar caracteres especiales en la descripción
@@ -68,16 +68,16 @@ function isTipoAsociadoRecompensaEdit(recompensasDB) {
 }
 
 function validarCamposCorrectosTipoRecompensaEdit(tiposRecompensasDB, recompensasDB) {
-    mensajeCombinadoEditOficio = "";
+    mensajeCombinadoEditTipoRecompensa = "";
     var returnError = false;
 
     if (isTipoRecompensaEditDuplicado(tiposRecompensasDB)) {
-        mensajeCombinadoEditOficio += "El nombre de este tipo de recompensa ya ha sido registrado anteriormente. ";
+        mensajeCombinadoEditTipoRecompensa += "El nombre de este tipo de recompensa ya ha sido registrado anteriormente. ";
         returnError = true;
     }
     
     if (isTipoAsociadoRecompensaEdit(recompensasDB)) {
-        mensajeCombinadoEditOficio += `El tipo de recompensa con código ${codigoTipoRecompensaInputEdit.value} ya tiene recompensas asociadas, no puede editarlo.`;
+        mensajeCombinadoEditTipoRecompensa += `El tipo de recompensa con código ${codigoTipoRecompensaInputEdit.value} ya tiene recompensas asociadas, no puede editarlo.`;
         returnError = true;
     }
 
@@ -95,7 +95,7 @@ function guardarModalEditarTipoRecompensa(idModal, idForm, tiposRecompensasDB, r
             generalEditTipoRecompensaError.classList.remove("shown");
             guardarModal(idModal, idForm);	
         } else {
-            generalEditTipoRecompensaError.textContent = mensajeCombinadoEditOficio;
+            generalEditTipoRecompensaError.textContent = mensajeCombinadoEditTipoRecompensa;
             generalEditTipoRecompensaError.classList.add("shown");
         }
 	} else {

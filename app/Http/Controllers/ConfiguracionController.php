@@ -46,11 +46,7 @@ class ConfiguracionController extends Controller
             // Actualizar configuración correctamente
             Setting::updateOrInsert(['key' => $key], ['value' => $value]);
 
-            if (in_array($key, [/* $this->puntosMinRangoPlataKey, $this->puntosMinRangoOroKey,  */$this->puntosMinRangoBlackKey])) { 
-                // Para ahorrar recursos se comentan algunos rangos siempre y cuando se reciba puntosMinRangoBlack 
-                RangoController::updateRangosFromSettings();
-                $this->updateRangoTecnicos();
-            } else if ($key === $this->emailDomainKey) {
+            if ($key === $this->emailDomainKey) {
                 $this->updateUserEmails($value);
             } else if ($key === $this->unidadesRestantesRecompensasNotificacionKey) {
                 $this->createRecompensasNotifications($value);
@@ -77,7 +73,7 @@ class ConfiguracionController extends Controller
         });
     }
 
-    private function updateRangoTecnicos()
+    public static function updateRangoTecnicos()
     {
         try {
             // Obtener solo las columnas necesarias

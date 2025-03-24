@@ -5,6 +5,7 @@
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/rangosStyle.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalRegistrarNuevoRango.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalEditarRango.css') }}">
 @endpush
 
 @section('main-content')

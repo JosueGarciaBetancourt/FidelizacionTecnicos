@@ -40,10 +40,11 @@ function selectOptionEditOficio(value, idNumberOficio, descripcionOficio, idInpu
     }
 }
 
-function validarCamposCorrectosOficioEdit() {
-    mensajeCombinadoEditOficio = "";
-    var returnError = false;
+let mensajeCombinadoEditOficio = "";
 
+function validarCamposCorrectosOficioEdit() {
+    var returnError = false;
+    mensajeCombinadoEditOficio = "";
     /*if (stockRecompensaInputEdit.value == 0) {
         mensajeCombinadoEditOficio += " El stock no puede ser 0.";
         returnError = true;
