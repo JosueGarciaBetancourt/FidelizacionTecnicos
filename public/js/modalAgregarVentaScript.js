@@ -70,6 +70,7 @@ async function filterOptionsTecnicosAgregarVenta(input, idOptions) {
         method: 'POST', 
         headers: {
             'Content-Type': 'application/json',
+            //'X-Requested-With': 'XMLHttpRequest',
             'X-CSRF-TOKEN': csrfTokenMAIN,
         },
         body: JSON.stringify({ filter: filter, pageSize: 9}),
