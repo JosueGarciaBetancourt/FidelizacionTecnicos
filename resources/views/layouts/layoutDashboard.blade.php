@@ -19,8 +19,7 @@
         $isAsisstantLogged = Auth::check() && Auth::user()->idPerfilUsuario == 3;
     @endphp
 
-    <div class="dashboard-container"
-        data-routes='{"perfil": "{{ route('usuarios.create') }}", "logout": "{{ route('logout') }}"}'>
+    <div class="dashboard-container" data-routes='{"perfil": "{{ route('usuarios.create') }}", "logout": "{{ route('logout') }}"}'>
         <aside>
             <div class="top">
                 <div class="logo">
@@ -57,31 +56,31 @@
                     </div>
                 </div>
 
-                <a href="{{ route('recompensas.create') }}" onclick="openLoadingModal(), scrollDownSidebar(this, 0)"
+                <a href="{{ route('recompensas.create') }}" onclick="openLoadingModal()"
                     class="{{ Request::routeIs('recompensas.create') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">handyman</span>
                     <h5>Recompensas</h5>
                 </a>
 
-                <a href="{{ route('tecnicos.create') }}" onclick="openLoadingModal(), scrollDownSidebar(this, 0)"
+                <a href="{{ route('tecnicos.create') }}" onclick="openLoadingModal()"
                     class="{{ Request::routeIs('tecnicos.create') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">groups</span>
                     <h5>Técnicos</h5>
                 </a>
 
-                <a href="{{ route('oficios.create') }}" onclick="openLoadingModal(), scrollDownSidebar(this, 100)"
+                <a href="{{ route('oficios.create') }}" onclick="openLoadingModal(), scrollDownSidebar(this, 150)"
                     class="{{ Request::routeIs('oficios.create') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">engineering</span>
                     <h5>Oficios</h5>
                 </a>
 
-                <a href="{{ route('rangos.create') }}" onclick="openLoadingModal(), scrollDownSidebar(this, 100)"
+                <a href="{{ route('rangos.create') }}" onclick="openLoadingModal(), scrollDownSidebar(this, 150)"
                     class="{{ Request::routeIs('rangos.create') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">stat_3</span>
                     <h5>Rangos</h5>
                 </a>
 
-                <a href="{{ route('configuracion.create') }}" onclick="openLoadingModal(), scrollDownSidebar(this, 150)"
+                <a href="{{ route('configuracion.create') }}" onclick="openLoadingModal(), scrollDownSidebar(this, 200)"
                     class="{{ Request::routeIs('configuracion.create') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">settings</span>
                     <h5>Configuración</h5>
@@ -232,6 +231,7 @@
             //StorageHelper.clearAll();
 
             loadAsideScrollDown();
+            closeLoadingModal();
         });
 
         // Management Aside Scrolldown
@@ -294,10 +294,16 @@
                 StorageHelper.save(`pixelsScrollDownSidebar-${linkTextContent}`, parseInt(pixelsToScrollDown, 10));
             }
         }
+        
         // Ending Management Aside Scrolldown
 
         function openLoadingModal() {
             document.getElementById('loadingModal').classList.add("show");
+        }
+
+        function closeLoadingModal() {
+            document.getElementById('loadingModal').classList.remove("show");
+            console.log("Cerrando modal de carga");
         }
 
         function openFarewellModal() {

@@ -15,7 +15,6 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'auth.api' => \App\Http\Middleware\VerifyApiKey::class,
-            'BlockDirectHttpMethodAccess' => \App\Http\Middleware\BlockDirectHttpMethodAccess::class,
           ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
@@ -24,5 +23,10 @@ return Application::configure(basePath: dirname(__DIR__))
                 'error' => 'Demasiados intentos de login. Por favor intenta después.',
             ], 429);
         });
+
+        // Manejo del error 405 (Method Not Allowed)
+       /*  $exceptions->renderable(function (\Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $e, $request) {
+            return redirect()->route('ventasIntermediadas.create')->with('error', 'La acción que intentas realizar no está autorizada.');
+        }); */
     })
     ->create();
