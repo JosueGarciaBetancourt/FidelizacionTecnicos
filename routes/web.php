@@ -22,7 +22,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 Route::get('', [AuthenticatedSessionController::class, 'create']);
 
-Route::middleware(['auth', 'verified', 'BlockDirectHttpMethodAccess'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     //PDF
     Route::get('/dashboard-canjes/historialCanje/pdf/{size}/{idCanje}', [CanjeController::class, 'canjePDF'])->name('canjes.pdf');
 

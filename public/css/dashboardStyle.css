@@ -56,14 +56,14 @@ aside {
     grid-row: 1 / span 2; 
     height: 100%;
     position: fixed;
-    overflow: hidden;
     width: 12rem; /* Anchura inicial del aside */
     background-color: var(--clr-aside);
     box-shadow: 1px 0px 10px rgba(0, 0, 0, 0.1); /* Ajusta los valores según tus preferencias */
     transition: width 0.3s ease; /* Transición para cambiar la anchura */
     z-index: 50;
     user-select: none;
-    overflow-y: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
     /*display: none; Deshabilitar*/
 }
 
@@ -120,7 +120,7 @@ aside .sidebar {
 	display: flex;
 	flex-direction: column;
 	height: 100%; /* Altura máxima del body sidebar*/
-	position: sticky;
+	/* position: sticky; */
 	top: 1rem;
     transition: margin-left 0.9s ease; /* Transición para el contenido principal */
 }
