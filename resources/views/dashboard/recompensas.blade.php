@@ -6,8 +6,9 @@
     <link rel="stylesheet" href="{{ asset('css/recompensasStyle.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalRegistrarNuevaRecompensa.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalEditarRecompensa.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/modalEliminarRecompensa.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalInhabilitarRecompensa.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalRestaurarRecompensa.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalEliminarRecompensa.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalRegistrarNuevoTipoRecompensa.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalEditarTipoRecompensa.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalEliminarTipoRecompensa.css') }}">
@@ -30,11 +31,14 @@
                 <x-btn-edit-item onclick="openModal('modalEditarRecompensa')"> Editar </x-btn-edit-item>
                 @include('modals.recompensas.modalEditarRecompensa')
 
-                <x-btn-disable-item onclick="openModal('modalEliminarRecompensa')"> Inhabilitar </x-btn-disable-item>
-                @include('modals.recompensas.modalEliminarRecompensa')
+                <x-btn-disable-item onclick="openModal('modalInhabilitarRecompensa')"> Inhabilitar </x-btn-disable-item>
+                @include('modals.recompensas.modalInhabilitarRecompensa')
 
-                <x-btn-recover-item onclick="openModal('modalRestaurarRecompensa')"> Habilitar </x-btn-delete-item>
+                <x-btn-recover-item onclick="openModal('modalRestaurarRecompensa')"> Habilitar </x-btn-recover-item>
                 @include('modals.recompensas.modalRestaurarRecompensa')
+
+                <x-btn-delete-item onclick="openModal('modalEliminarRecompensa')"> Eliminar </x-btn-delete-item>
+                @include('modals.recompensas.modalEliminarRecompensa')
             </div>
 
             <h3>Tipo de recompensa</h3>
@@ -104,13 +108,18 @@
         />
 
         <x-modalSuccessAction 
-            :idSuccesModal="'successModalRecompensaEliminada'"
+            :idSuccesModal="'successModalRecompensaDisable'"
             :message="'Recompensa inhabilitada correctamente'"
         />
 
         <x-modalSuccessAction 
             :idSuccesModal="'successModalRecompensaRestaurada'"
             :message="'Recompensa habilitada correctamente'"
+        />
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalRecompensaEliminada'"
+            :message="'Recompensa eliminada correctamente'"
         />
 
         <x-modalSuccessAction 
@@ -127,14 +136,25 @@
             :idSuccesModal="'successModalTipoRecompensaEliminado'"
             :message="'Tipo de recompensa eliminado correctamente'"
         />
+
+        <x-modalFailedAction 
+            :idErrorModal="'errorModalRecompensaDisable'"
+            :message="'La recompensa no puede ser inhabilitada porque aparece en solicitudes de canje pendientes'"
+        />
+
+        <x-modalFailedAction 
+            :idErrorModal="'errorModalRecompensaDelete'"
+            :message="'La recompensa no puede ser eliminada porque hay canjes ó solicitudes de canje asociados'"
+        />
     </div>
 @endsection
 
 @push('scripts')
     <script src="{{ asset('js/modalRegistrarNuevaRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalEditarRecompensa.js') }}"></script>
-    <script src="{{ asset('js/modalEliminarRecompensa.js') }}"></script>
+    <script src="{{ asset('js/modalInhabilitarRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalRestaurarRecompensa.js') }}"></script>
+    <script src="{{ asset('js/modalEliminarRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalRegistrarNuevoTipoRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalEditarTipoRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalEliminarTipoRecompensa.js') }}"></script>
@@ -146,12 +166,22 @@
             @if(session('successRecompensaUpdate'))
                 openModal('successModalRecompensaActualizada');
             @endif
-            @if(session('successRecompensaDelete'))
-                openModal('successModalRecompensaEliminada');
+            @if(session('successRecompensaDisable'))
+                openModal('successModalRecompensaDisable');
             @endif
             @if(session('successRecompensaRestaurada'))
                 openModal('successModalRecompensaRestaurada');
             @endif
+            @if(session('successRecompensaDelete'))
+                openModal('successModalRecompensaEliminada');
+            @endif
+            @if(session('errorRecompensaDisable'))
+                justOpenModal('errorModalRecompensaDisable');
+            @endif
+            @if(session('errorRecompensaDelete'))
+                justOpenModal('errorModalRecompensaDelete');
+            @endif
+         
             @if(session('successTipoRecompensaStore'))
                 openModal('successModalTipoRecompensaGuardado');
             @endif

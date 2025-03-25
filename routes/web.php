@@ -87,8 +87,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard-recompensas', [RecompensaController::class, 'create'])->name('recompensas.create');  
     Route::post('/modal-storeRecompensa', [RecompensaController::class, 'store'])->name('recompensas.store');  
     Route::put('/modal-updateRecompensa', [RecompensaController::class, 'update'])->name('recompensas.update'); 
+    Route::delete('/modal-disableRecompensa', [RecompensaController::class, 'disable'])->name('recompensas.disable');
+    Route::post('/modal-restoreRecompensa', [RecompensaController::class, 'restore'])->name('recompensas.restore');
     Route::delete('/modal-deleteRecompensa', [RecompensaController::class, 'delete'])->name('recompensas.delete');
-    Route::post('/modal-restoreRecompensa', [RecompensaController::class, 'restaurar'])->name('recompensas.restore');
     Route::get('/dashboard-recompensas/export-pdf', [RecompensaController::class, 'exportarAllRecompensasPDF'])->name('recompensas.tablaPDF');
 
 
@@ -102,8 +103,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard-tecnicos', [TecnicoController::class, 'create'])->name('tecnicos.create');  
     Route::post('/modal-storeTecnico', [TecnicoController::class, 'store'])->name('tecnicos.store');  
     Route::put('/modal-updateTecnico', [TecnicoController::class, 'update'])->name('tecnicos.update'); 
+    Route::delete('/modal-disableTecnico', [TecnicoController::class, 'disable'])->name('tecnicos.disable');
+    Route::post('/modal-restoreTecnico', [TecnicoController::class, 'restore'])->name('tecnicos.restore');
     Route::delete('/modal-deleteTecnico', [TecnicoController::class, 'delete'])->name('tecnicos.delete');
-    Route::post('/modal-recontratarTecnico', [TecnicoController::class, 'recontratar'])->name('tecnicos.rehire'); 
     Route::get('/dashboard-tecnicos/getPaginatedTecnicos', [TecnicoController::class, 'getPaginatedTecnicos'])->name('tecnicos.paginated');  
     Route::post('/dashboard-tecnicos/getFilteredTecnicos', [TecnicoController::class, 'getFilteredTecnicos'])->name('tecnicos.filter');  
     Route::post('/tblTecnicosData', [TecnicoController::class, 'tabla'])->name('tecnicos.tabla');  
@@ -112,7 +114,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ->name('tecnicos.getTecnicoByIdFetch');
     Route::post('/dashboard-tecnicos/restorePassword', [TecnicoController::class, 'restorePassword'])->name('tecnicos.restorePassword');
     Route::get('/dashboard-tecnicos/export-pdf', [TecnicoController::class, 'exportarAllTecnicosPDF'])->name('tecnicos.tablaPDF');
-
 
     // Oficios
     Route::get('/dashboard-oficios', [OficioController::class, 'create'])->name('oficios.create');  

@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('idVentaIntermediada', 13)->primary(); // F001-00000072 xml
 
             $table->string('idTecnico', 8); // 77043114
-            $table->foreign('idTecnico')->references('idTecnico')->on('Tecnicos');
+            $table->foreign('idTecnico')->references('idTecnico')->on('Tecnicos')->onDelete('cascade');
 
             $table->string('nombreTecnico', 255);   
             $table->string('tipoCodigoCliente_VentaIntermediada', 3); // DNI - RUC xml

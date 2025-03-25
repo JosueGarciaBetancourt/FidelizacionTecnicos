@@ -237,25 +237,25 @@ class TecnicoController extends Controller
         return redirect()->route('tecnicos.create')->with('successTecnicoUpdate', $messageUpdate);
     }
 
-    public function delete(Request $request) 
+    public function disable(Request $request) 
     {
-        // Encuentra el técnico usando el idTécnico
-        $tecnico = Tecnico::where("idTecnico", $request->idTecnico)->first();
-    
-        // Verifica si se encontró el técnico
-        if ($tecnico) {
-            // Aplica soft delete
+        try {
+            $validatedData = $request->validate([
+                'idTecnico' => 'required|exists:Tecnicos,idTecnico',
+            ]);
+
+            $tecnico = Tecnico::findOrFail($validatedData['idTecnico']);
+        
             $tecnico->delete();
-    
             $messageDelete = 'Técnico eliminado correctamente';
-        } else {
-            $messageDelete = 'Técnico no encontrado';
+
+            return redirect()->route('tecnicos.create')->with('successTecnicoDisable', $messageDelete);
+        } catch (\Exception $e) {
+            return redirect()->route('tecnicos.create');
         }
-    
-        return redirect()->route('tecnicos.create')->with('successTecnicoDelete', $messageDelete);
     }
 
-    public function recontratar(Request $request)
+    public function restore(Request $request)
     {
         try {
             // Primera validación, solo para asegurar que es un JSON válido
@@ -326,12 +326,35 @@ class TecnicoController extends Controller
             //dd($tecnicoEliminado);
             // Confirmar transacción
             DB::commit();
-            return redirect()->route('tecnicos.create')->with('successTecnicoRecontratadoStore', 'Técnico agregado exitosamente.');
+            return redirect()->route('tecnicos.create')->with('successTecnicoRestore', 'Técnico agregado exitosamente.');
         } catch (\Exception $e) {
             // Revertir transacción si hay un error
             DB::rollBack();
             // Redirigir con mensaje de error
             return redirect()->route('tecnicos.create')->withErrors('Ocurrió un error al intentar recontratar al técnico. Por favor, inténtelo de nuevo.');
+        }
+    }
+
+    public function delete(Request $request) {
+        try {
+            $validatedData = $request->validate([
+                'idTecnico' => 'required|exists:Tecnicos,idTecnico',
+            ]);
+    
+            $tecnico = Tecnico::findOrFail($validatedData['idTecnico']);
+    
+
+            if ($tecnico->ventasIntermediadas()->exists()) {
+                return redirect()->route('tecnicos.create')
+                    ->with('errorTecnicoDelete', 'El técnico no puede ser eliminado porque tiene ventas intermediadas asociadas a él.');
+            }
+
+            $tecnico->forceDelete();
+    
+            return redirect()->route('tecnicos.create')->with('successTecnicoDelete', 'Técnico eliminado correctamente');
+        } catch (\Exception $e) {
+            dd($e);
+            return redirect()->route('tecnicos.create');
         }
     }
 

@@ -197,13 +197,17 @@ class RecompensaController extends Controller
         return redirect()->route('recompensas.create')->with('successRecompensaUpdate', $messageUpdate);
     }
 
-    public function delete(Request $request) 
+    public function disable(Request $request) 
     {
         // Encuentra la recompensa usando el idRecompensa
         $recompensa = Recompensa::where("idRecompensa", $request->idRecompensa)->first();
     
         // Verifica si se encontró la recompensa
         if ($recompensa) {
+            if ($recompensa->solicitudesCanjesRecompensas()->exists()) {
+                return redirect()->route('recompensas.create')->with('errorRecompensaDisable', 'La recompensa no puede ser inhabilitada porque hay solicitudes de canje asociadas.');
+            }
+
             // Aplica soft delete
             $recompensa->delete();
     
@@ -212,10 +216,10 @@ class RecompensaController extends Controller
             $messageDelete = 'Recompensa no encontrada';
         }
     
-        return redirect()->route('recompensas.create')->with('successRecompensaDelete', $messageDelete);
+        return redirect()->route('recompensas.create')->with('successRecompensaDisable', $messageDelete);
     }
 
-    public function restaurar(Request $request) {
+    public function restore(Request $request) {
         try {
             $validatedData = $request->validate([
                 'idRecompensa' => 'required|string|max:9',
@@ -245,6 +249,28 @@ class RecompensaController extends Controller
             DB::rollBack();
             
             return redirect()->route('recompensas.create')->withErrors('Ocurrió un error al intentar restaurar la recompensa. Por favor, inténtelo de nuevo.');
+        }
+    }
+
+    public function delete(Request $request) {
+        try {
+
+            $validatedData = $request->validate([
+                'idRecompensa' => 'required|exists:Recompensas,idRecompensa',
+            ]);
+    
+            $recompensa = Recompensa::findOrFail($validatedData['idRecompensa']);
+            
+
+            if ($recompensa->canjesRecompensas()->exists() || $recompensa->solicitudesCanjesRecompensas()->exists()) {
+                return redirect()->route('recompensas.create')->with('errorRecompensaDelete', 'La recompensa no puede ser eliminada porque hay canjes ó solicitudes de canje asociados.');
+            }
+            
+            $recompensa->forceDelete();
+    
+            return redirect()->route('recompensas.create')->with('successRecompensaDelete', 'Recompensa eliminada correctamente');
+        } catch (\Exception $e) {
+            return redirect()->route('recompensas.create');
         }
     }
 

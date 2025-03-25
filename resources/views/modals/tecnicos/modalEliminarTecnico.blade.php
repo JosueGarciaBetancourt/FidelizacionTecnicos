@@ -2,7 +2,7 @@
     <div class="modal-dialog" id="modalEliminarTecnico-dialog">
         <div class="modal-content" id="modalEliminarTecnico-content">
             <div class="modal-header">
-                <h5 class="modal-title">Inhabilitar técnico</h5>
+                <h5 class="modal-title">Eliminar técnico</h5>
                 <button class="close noUserSelect" onclick="closeModal('modalEliminarTecnico')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyDeleteTecnico">
@@ -48,7 +48,7 @@
                         <label class="primary-label noEditable" for="costoUnitarioInput">Celular:</label>
                         <input class="input-item" type="number" id='{{ $idCelularInput }}'
                                 oninput="validateRealTimeInputLength(this, 9), validateNumberRealTime(this)" 
-                                placeholder="987654321" name="celularTecnico" disabled>
+                                placeholder="987654321" disabled>
                     </div>
 
                     <div class="form-group-multiSelectDropdown">
@@ -65,18 +65,17 @@
 
                     <div class="form-group gap">
                         <label class="primary-label noEditable" id="idFechaNacimientoTecnicoLabel" for='{{ $idFechaNacimientoInput }}'>Fecha de nacimiento:</label>
-                        <input class="input-item center" type="date" id='{{ $idFechaNacimientoInput }}'
-                               name="fechaNacimiento_Tecnico" disabled>
+                        <input class="input-item center" type="date" id='{{ $idFechaNacimientoInput }}' disabled>
 
                         <label class="primary-label noEditable" id="idPuntosActualesLabel"  for='{{ $idPuntosActualesInput }}' >Puntos actuales:</label>
                         <input class="input-item center" id='{{ $idPuntosActualesInput }}' type="text"
-                                placeholder="0" name="totalPuntosActuales_Tecnico" oninput="validateRealTimeInputLength(this, 4)"
+                                placeholder="0" oninput="validateRealTimeInputLength(this, 4)"
                                 disabled>
                     </div>
 
                     <div class="form-group gap">
                         <label class="primary-label noEditable" id="idHistoricoPuntosLabel"  for='{{ $idHistoricoPuntosInput }}'>Histórico de puntos:</label>
-                        <input class="input-item center" id='{{ $idHistoricoPuntosInput }}' type="text" placeholder="0" name="historicoPuntos_Tecnico"
+                        <input class="input-item center" id='{{ $idHistoricoPuntosInput }}' type="text" placeholder="0"
                                 oninput="validateRealTimeInputLength(this, 6)" disabled>
 
                         <label class="primary-label noEditable" id="idRangoInputLabel"  for='{{ $idRangoInputDelete }}'>Rango:</label>
@@ -92,7 +91,7 @@
             <div class="modal-footer"  id="modalEliminarTecnico-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarTecnico')">Cancelar</button>
                 <button type="button" class="btn btn-primary delete" 
-                        onclick="guardarModalEliminarTecnico('modalEliminarTecnico', 'formEliminarTecnico')">Inhabilitar</button>
+                        onclick="guardarModalEliminarTecnico('modalEliminarTecnico', 'formEliminarTecnico')">Eliminar</button>
             </div>
         </div>
     </div>
