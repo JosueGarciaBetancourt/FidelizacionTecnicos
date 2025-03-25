@@ -1,0 +1,20 @@
+#modalInhabilitarRecompensa-dialog {
+	max-width: 700px; 
+}
+
+#recompensaInputDisable {
+	width: 30rem;
+}
+
+#idModalBodyInhabilitarRecompensa {
+	padding: 0;
+}
+
+#idH5DisableRecompensaModalContainer > h5{
+	font-size: 1rem;
+	color: #555;
+}
+
+#costoPuntosInputDisable {
+	background-color: #fff;
+}

@@ -82,7 +82,7 @@
         />
 
         <x-modalSuccessAction 
-            :idSuccesModal="'successModalOficioRestaurado'"
+            :idSuccesModal="'successOficioRestore'"
             :message="'Oficio habilitado correctamente'"
         />
 
@@ -115,7 +115,7 @@
             @if(session('successOficioDisable'))
                 openModal('successModalOficioDisable');
             @endif
-            @if(session('successOficioRestaurado'))
+            @if(session('successOficioRestore'))
                 openModal('successModalOficioRestaurado');
             @endif
             @if(session('successOficioDelete'))

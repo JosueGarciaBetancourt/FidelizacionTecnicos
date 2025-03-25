@@ -54,10 +54,32 @@
 		:commentLabel="'Comentario de rechazo'"
 		:placeholder="'Solicitud rechazada porque ...'"
 	/>
+
+    <x-modalSuccessAction 
+        :idSuccesModal="'successModalSolicitudAprobada'"
+        :message="'Solicitud aprobada correctamente'"
+    />
+
+    <x-modalSuccessAction 
+        :idSuccesModal="'successModalSolicitudRechazada'"
+        :message="'Solicitud rechazada correctamente'"
+    />
 </div>
 @endsection
 
 @push('scripts')
 	<script src="{{ asset('js/solicitudesAppCanjes.js') }}"></script>
 	<script src="{{asset('js/modalDetalleSolicitudCanje.js')}}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (sessionStorage.getItem('solicitudAprobada') === 'true') {
+                justOpenModal('successModalSolicitudAprobada');
+                sessionStorage.removeItem('solicitudAprobada');
+            }
+            if (sessionStorage.getItem('solicitudRechazada') === 'true') {
+                justOpenModal('successModalSolicitudRechazada');
+                sessionStorage.removeItem('solicitudRechazada');
+            }
+        });
+    </script>
 @endpush

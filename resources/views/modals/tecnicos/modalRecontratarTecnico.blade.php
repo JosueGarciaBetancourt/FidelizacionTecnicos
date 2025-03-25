@@ -6,7 +6,7 @@
                 <button class="close noUserSelect" onclick="closeModal('modalRecontratarTecnico')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyRecontratarTecnico">
-                <form id="formRecontratarTecnico" action="{{ route('tecnicos.rehire') }}" method="POST">
+                <form id="formRecontratarTecnico" action="{{ route('tecnicos.restore') }}" method="POST">
                     @csrf
                     <!-- Variables globales -->
                     @php

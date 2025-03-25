@@ -114,7 +114,7 @@ class OficioController extends Controller
             $oficioEliminado->restore();
             
             DB::commit();
-            return redirect()->route('oficios.create')->with('successOficioRestaurado', 'Oficio restaurado correctamente.');
+            return redirect()->route('oficios.create')->with('successOficioRestore', 'Oficio restaurado correctamente.');
         } catch (\Exception $e) {
             // Revertir la transacción en caso de error
             DB::rollBack();
@@ -132,7 +132,7 @@ class OficioController extends Controller
             $oficio = Oficio::findOrFail($validatedData['idOficio']);
     
             // Verifica si tiene técnicos asociados en la tabla intermedia
-            if ($oficio->tecnicos()->exists()) {
+            if ($oficio->tecnicosOficios()->exists()) {
                 return redirect()->route('oficios.create')->with('errorOficioDelete', 'El oficio no puede ser eliminado porque hay técnicos asociados.');
             }
     

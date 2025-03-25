@@ -19,7 +19,7 @@ class TecnicoSeeder extends Seeder
             'fechaNacimiento_Tecnico' => '2005-05-16',
             'totalPuntosActuales_Tecnico' => 900, // Suma de puntos de ventas intermediadas En espera y Redimido (parcial)
             'historicoPuntos_Tecnico' => 1025, // Suma de los puntos de todas las ventas intermediadas
-            'idRango' => 2, // Menor a 24000 (más detalle en SettingsServiceProvider.php)
+            'idRango' => 2,
         ]);
         
         Tecnico::create([
@@ -29,7 +29,7 @@ class TecnicoSeeder extends Seeder
             'fechaNacimiento_Tecnico' => '1998-10-13',
             'totalPuntosActuales_Tecnico' => 0,
             'historicoPuntos_Tecnico' => 1775,
-            'idRango' => 2, // Menor a 24000 (más detalle en SettingsServiceProvider.php)
+            'idRango' => 2,
         ]);
 
         Tecnico::create([
@@ -39,7 +39,7 @@ class TecnicoSeeder extends Seeder
             'fechaNacimiento_Tecnico' => '1985-04-03',
             'totalPuntosActuales_Tecnico' => 1000, // Suma de puntos de ventas intermediadas En espera y Redimido (parcial)
             'historicoPuntos_Tecnico' => 25000, // Suma de los puntos de todas las ventas intermediadas
-            'idRango' => 3, // Menor a 60000 (más detalle en SettingsServiceProvider.php)
+            'idRango' => 3,
         ]);
 
         Tecnico::forceCreate([
@@ -49,8 +49,18 @@ class TecnicoSeeder extends Seeder
             'fechaNacimiento_Tecnico' => '2000-12-12',
             'totalPuntosActuales_Tecnico' => 0, 
             'historicoPuntos_Tecnico' => 0,
-            'idRango' => 2, // Menor a 24000 (más detalle en SettingsServiceProvider.php)
+            'idRango' => 2,
             'deleted_at' => now(),
+        ]);
+
+        Tecnico::create([
+            'idTecnico' => '11223344',
+            'nombreTecnico' => 'Probar Eliminación Técnico',
+            'celularTecnico' =>'987654321',
+            'fechaNacimiento_Tecnico' => '1990-10-10',
+            'totalPuntosActuales_Tecnico' => 0, 
+            'historicoPuntos_Tecnico' => 0,
+            'idRango' => 2,
         ]);
 
         //Tecnico::factory(97)->create();

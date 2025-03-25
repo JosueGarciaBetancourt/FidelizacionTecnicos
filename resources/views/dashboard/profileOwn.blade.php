@@ -136,17 +136,17 @@
 			@endif
 
             if (sessionStorage.getItem('usuarioInhabilitado') === 'true') {
-                openModal('successModalUsuarioInhabilitado');
+                justOpenModal('successModalUsuarioInhabilitado');
                 sessionStorage.removeItem('usuarioInhabilitado');
             }
 
             if (sessionStorage.getItem('usuarioHabilitado') === 'true') {
-                openModal('successModalUsuarioHabilitado');
+                justOpenModal('successModalUsuarioHabilitado');
                 sessionStorage.removeItem('usuarioHabilitado');
             }
 
             if (sessionStorage.getItem('usuarioEliminado') === 'true') {
-                openModal('successModalUsuarioEliminado');
+                justOpenModal('successModalUsuarioEliminado');
                 sessionStorage.removeItem('usuarioEliminado');
             }
         });

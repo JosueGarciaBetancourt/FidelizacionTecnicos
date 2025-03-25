@@ -30,7 +30,7 @@ class Tecnico extends Model
         return $this->hasMany(VentaIntermediada::class, 'idTecnico', 'idTecnico');
     }
 
-    public function LoginTecnico() {
+    public function loginTecnicos() {
         return $this->hasOne(Login_Tecnico::class, 'idTecnico', 'idTecnico');
     }
 
@@ -47,7 +47,7 @@ class Tecnico extends Model
                 ->select('Oficios.idOficio', 'Oficios.nombre_Oficio'); // Especifica las columnas a seleccionar
     }
 
-    public function rango() {
+    public function rangos() {
         return $this->belongsTo(Rango::class, 'idRango', 'idRango');
     }
 

@@ -69,8 +69,8 @@
 
 <script>
 	function aprobarSolicitudCanje(idSolicitudCanje){
-    // Mostrar el modal y esperar la respuesta del usuario
-    openConfirmSolicitudCanjeModal('modalConfirmActionAprobarSolicitudCanje').then((response) => {
+		// Mostrar el modal y esperar la respuesta del usuario
+		openConfirmSolicitudCanjeModal('modalConfirmActionAprobarSolicitudCanje').then((response) => {
 			if (response.answer) {
 				if (response.comment) {
 					aprobarSolicitud(idSolicitudCanje, response.comment); 
@@ -111,6 +111,8 @@
 
 			const mensaje = await response.json();
 			console.log(mensaje);
+
+			sessionStorage.setItem('solicitudAprobada', 'true');
 
 			// Recargar la página después de que la solicitud se haya procesado correctamente
 			location.reload();
