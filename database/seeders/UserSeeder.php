@@ -56,7 +56,7 @@ class UserSeeder extends Seeder
 
         User::create([
             'idPerfilUsuario' => 3,
-            'name' => 'Pablito',
+            'name' => 'Asistente',
             'email' => 'asistente' . '@' . $emailDomain,
             'password' => Hash::make('12345678'),
         ]);
