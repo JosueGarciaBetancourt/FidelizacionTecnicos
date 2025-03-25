@@ -85,4 +85,18 @@ class Tecnico extends Model
     public function getNombreRangoAttribute() {
         return $this->rango?->nombre_Rango ?? Rango::where('idRango', 1)->value('nombre_Rango');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($tecnico) {
+            $tecnico->created_at = Carbon::now()->addHours(5);
+            $tecnico->updated_at = Carbon::now()->addHours(5);
+        });
+
+        static::updating(function ($tecnico) {
+            $tecnico->updated_at = Carbon::now()->addHours(5);
+        });
+    }
 }

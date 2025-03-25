@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 
 class Rango extends Model
 {
@@ -37,5 +38,19 @@ class Rango extends Model
 
     public function getCodigoRangoAttribute() { 
         return 'RAN-' . str_pad($this->idRango, 2, '0', STR_PAD_LEFT);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($rango) {
+            $rango->created_at = Carbon::now()->addHours(5);
+            $rango->updated_at = Carbon::now()->addHours(5);
+        });
+
+        static::updating(function ($rango) {
+            $rango->updated_at = Carbon::now()->addHours(5);
+        });
     }
 }

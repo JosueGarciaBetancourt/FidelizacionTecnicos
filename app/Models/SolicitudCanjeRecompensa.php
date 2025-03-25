@@ -28,4 +28,18 @@ class SolicitudCanjeRecompensa extends Model
     {
         return $this->belongsTo(Recompensa::class, 'idRecompensa', 'idRecompensa');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($solicitudCanjeRecompensa) {
+            $solicitudCanjeRecompensa->created_at = Carbon::now()->addHours(5);
+            $solicitudCanjeRecompensa->updated_at = Carbon::now()->addHours(5);
+        });
+
+        static::updating(function ($solicitudCanjeRecompensa) {
+            $solicitudCanjeRecompensa->updated_at = Carbon::now()->addHours(5);
+        });
+    }
 }

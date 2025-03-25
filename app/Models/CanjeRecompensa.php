@@ -33,4 +33,18 @@ class CanjeRecompensa extends Model
     {
         return $this->belongsTo(Recompensa::class, 'idRecompensa', 'idRecompensa');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($canjeRecompensa) {
+            $canjeRecompensa->created_at = Carbon::now()->addHours(5);
+            $canjeRecompensa->updated_at = Carbon::now()->addHours(5);
+        });
+
+        static::updating(function ($canjeRecompensa) {
+            $canjeRecompensa->updated_at = Carbon::now()->addHours(5);
+        });
+    }
 }

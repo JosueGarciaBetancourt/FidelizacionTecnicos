@@ -85,4 +85,18 @@ class SolicitudesCanje extends Model
 
         return $recompensasJSON;
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($solicitudCanje) {
+            $solicitudCanje->created_at = Carbon::now()->addHours(5);
+            $solicitudCanje->updated_at = Carbon::now()->addHours(5);
+        });
+
+        static::updating(function ($solicitudCanje) {
+            $solicitudCanje->updated_at = Carbon::now()->addHours(5);
+        });
+    }
 }

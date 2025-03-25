@@ -13,4 +13,18 @@ class Setting extends Model
         'key',
         'value',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($setting) {
+            $setting->created_at = Carbon::now()->addHours(5);
+            $setting->updated_at = Carbon::now()->addHours(5);
+        });
+
+        static::updating(function ($setting) {
+            $setting->updated_at = Carbon::now()->addHours(5);
+        });
+    }
 }
