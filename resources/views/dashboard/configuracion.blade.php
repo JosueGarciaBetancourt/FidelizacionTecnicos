@@ -83,29 +83,6 @@
 							<input type="number" class="input-item" id="{{ $maxdaysCanjeInput}}" name="values[]" 
 								oninput="validateRealTimeInputLength(this, 3), validateNumberWithMaxLimitRealTime(this, 90)" value="{{ config('settings.maxdaysCanje') }}">
 						</div>
-						
-						 <h3> Técnicos</h3>
-
-						<div class="config-option">
-							<label for="{{ $puntosMinRangoPlataInput }}">Puntos mínimos para que un técnico alcance el rango PLATA:</label>
-							<input type="hidden" value="puntosMinRangoPlata" name="keys[]">
-							<input type="number" class="input-item" id="{{ $puntosMinRangoPlataInput }}" name="values[]"
-								oninput="validateRealTimeInputLength(this, 5)" value="{{ config('settings.puntosMinRangoPlata') }}">
-						</div>
-
-						<div class="config-option">
-							<label for="{{ $puntosMinRangoOroInput }}">Puntos mínimos para que un técnico alcance el rango ORO:</label>
-							<input type="hidden" value="puntosMinRangoOro" name="keys[]" readonly>
-							<input type="number" class="input-item" id="{{ $puntosMinRangoOroInput }}" name="values[]"
-								oninput="validateRealTimeInputLength(this, 5)" value="{{ config('settings.puntosMinRangoOro') }}">
-						</div>
-
-						<div class="config-option">
-							<label for="{{ $puntosMinRangoBlackInput }}">Puntos mínimos para que un técnico alcance el rango BLACK:</label>
-							<input type="hidden" value="puntosMinRangoBlack" name="keys[]" readonly>
-							<input type="number" class="input-item" id="{{ $puntosMinRangoBlackInput }}" name="values[]" 
-								oninput="validateRealTimeInputLength(this, 5)" value="{{ config('settings.puntosMinRangoBlack') }}">
-						</div>
  						--}}
 
 						<input type="hidden" id="{{ $maxdaysCanjeInput}}" value="{{ config('settings.maxdaysCanje') }}">
@@ -113,7 +90,7 @@
 						<h3> Notificaciones</h3>
 
 						<div class="config-option">
-							<label for="{{ $unidadesRestantesRecompensasNotificacionInput }}">Unidades mínimas de recompensas para notificar sobre agotamiento de stock:</label>
+							<label for="{{ $unidadesRestantesRecompensasNotificacionInput }}">Unidades mínimas restantes de recompensas para notificar sobre agotamiento de stock:</label>
 							<input type="hidden" value="unidadesRestantesRecompensasNotificacion" name="keys[]" readonly>
 							<input type="number" class="input-item" id="{{ $unidadesRestantesRecompensasNotificacionInput }}" name="values[]" 
 								oninput="validateRealTimeInputLength(this, 3)" value="{{ config('settings.unidadesRestantesRecompensasNotificacion') }}">

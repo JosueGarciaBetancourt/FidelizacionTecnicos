@@ -10,6 +10,7 @@
                     @csrf
 
                     @php
+                        $newIdOficio = $nuevoIdOficio;
                         $newCodigoOficio = $nuevoCodigoOficio;
                         $idCodigoOficioInput = 'codigoOficioInputRegistrar';
                         $idNombreOficioInput = 'nombreOficioInputRegistrar';
@@ -22,11 +23,12 @@
 
                     <div class="form-group gap">
                         <label class="primary-label" id="codigoOficioLabel" for='{{ $idCodigoOficioInput }}'>Código de oficio:</label>
+                        <input type="hidden" value="{{ $newIdOficio }}" name="idOficio" readonly>
                         <input class="input-item readonly" id='{{ $idCodigoOficioInput }}' maxlength="13" value="{{ $newCodigoOficio }}" disabled>
                     </div>
                 
                     <div class="form-group gap">
-                        <label class="primary-label marginX" id="nameLabel"  for='{{ $idNombreOficioInput }}'>Nombre:</label>
+                        <label class="primary-label" id="nameLabel" for='{{ $idNombreOficioInput }}'>Nombre:</label>
                         <input class="input-item" type="text" maxlength="60" id='{{ $idNombreOficioInput }}' placeholder="Ingresar nombre"
                                  name="nombre_Oficio">
                     </div>

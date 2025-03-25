@@ -10,7 +10,8 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 class SettingsSeeder extends Seeder
 {
     public function run(): void
-    {
+    {   
+        // Si se agrega un nuevo valor también actualizarlo en SettingsServiceProvider.php
         $settings = [
             [
                 'key' => 'emailDomain',
@@ -23,18 +24,6 @@ class SettingsSeeder extends Seeder
             [
                 'key' => 'maxdaysCanje',
                 'value' => 90,
-            ],
-            [
-                'key' => 'puntosMinRangoPlata',
-                'value' => 0,
-            ],
-            [
-                'key' => 'puntosMinRangoOro',
-                'value' => 24000,
-            ],
-            [
-                'key' => 'puntosMinRangoBlack',
-                'value' => 60000,
             ],
             [
                 'key' => 'unidadesRestantesRecompensasNotificacion',

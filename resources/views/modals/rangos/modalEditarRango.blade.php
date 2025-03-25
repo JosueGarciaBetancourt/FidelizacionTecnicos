@@ -38,7 +38,6 @@
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
                                         {{ json_encode($rangosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }},
                                         '{{ $idGeneralMessageError }}')"
-
                                 onclick="toggleOptions('{{ $idCodigoRangoInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
                                 @if (count($rangosDB) > 0)

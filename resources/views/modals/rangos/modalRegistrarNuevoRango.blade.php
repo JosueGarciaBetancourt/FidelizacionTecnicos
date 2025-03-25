@@ -10,6 +10,7 @@
                     @csrf
 
                     @php
+                        $newIdRango = $nuevoIdRango;
                         $newCodigoRango = $nuevoCodigoRango;
                         $idCodigoRangoInput = 'codigoRangoInputRegistrar';
                         $idNombreRangoInput = 'nombreRangoInputRegistrar';
@@ -23,11 +24,12 @@
 
                     <div class="form-group gap">
                         <label class="primary-label" id="codigoRangoLabel" for='{{ $idCodigoRangoInput }}'>Código de rango:</label>
+                        <input type="hidden" value="{{ $newIdRango }}" name="idRango" readonly>
                         <input class="input-item readonly" id='{{ $idCodigoRangoInput }}' maxlength="6" value="{{ $newCodigoRango }}" disabled>
                     </div>
                 
                     <div class="form-group gap">
-                        <label class="primary-label marginX" id="nameLabel"  for='{{ $idNombreRangoInput }}'>Nombre:</label>
+                        <label class="primary-label" id="nameLabel" for='{{ $idNombreRangoInput }}'>Nombre:</label>
                         <input class="input-item" type="text" maxlength="60" id='{{ $idNombreRangoInput }}' placeholder="Ingresar nombre"
                                  name="nombre_Rango">
                     </div>

@@ -20,8 +20,7 @@ class SettingsServiceProvider extends ServiceProvider
         $settings = Cache::rememberForever('settings_cache', function () {
             return Setting::pluck('value', 'key')->map(function ($value, $key) {
                 // Convertir valores específicos a enteros
-                return in_array($key, ['maxdaysCanje', 'puntosMinRangoPlata', 'puntosMinRangoOro',
-                                        'puntosMinRangoBlack', 'unidadesRestantesRecompensasNotificacion',
+                return in_array($key, ['maxdaysCanje', 'unidadesRestantesRecompensasNotificacion',
                                         'diasAgotarVentaIntermediadaNotificacion']) ? (int) $value : $value;
             })->toArray();
         });
@@ -30,9 +29,6 @@ class SettingsServiceProvider extends ServiceProvider
         $adminUsername = $settings['adminUsername'] ?? 'admin';
         $emailDomain = $settings['emailDomain'] ?? 'dimacof.com';
         $maxdaysCanje = $settings['maxdaysCanje'] ?? 90;
-        $puntosMinRangoPlata = $settings['puntosMinRangoPlata'] ?? 0;
-        $puntosMinRangoOro = $settings['puntosMinRangoOro'] ?? 24000;
-        $puntosMinRangoBlack = $settings['puntosMinRangoBlack'] ?? 60000;
         $unidadesRestantesRecompensasNotificacion = $settings['unidadesRestantesRecompensasNotificacion'] ?? 15;
         $diasAgotarVentaIntermediadaNotificacion = $settings['diasAgotarVentaIntermediadaNotificacion'] ?? 7;
         $adminEmail = $adminUsername . '@' . $emailDomain;
@@ -43,9 +39,6 @@ class SettingsServiceProvider extends ServiceProvider
             'settings.emailDomain' => $emailDomain,
             'settings.adminEmail' => $adminEmail,
             'settings.maxdaysCanje' => $maxdaysCanje,
-            'settings.puntosMinRangoPlata' => $puntosMinRangoPlata,
-            'settings.puntosMinRangoOro' => $puntosMinRangoOro,
-            'settings.puntosMinRangoBlack' => $puntosMinRangoBlack,
             'settings.unidadesRestantesRecompensasNotificacion' => $unidadesRestantesRecompensasNotificacion,
             'settings.diasAgotarVentaIntermediadaNotificacion' => $diasAgotarVentaIntermediadaNotificacion,
         ]);

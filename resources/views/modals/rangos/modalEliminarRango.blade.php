@@ -1,83 +1,91 @@
-<div class="modal first"  id="modalEliminarOficio">
-    <div class="modal-dialog" id="modalEliminarOficio-dialog">
-        <div class="modal-content" id="modalEliminarOficio-content">
+<div class="modal first"  id="modalEliminarRango">
+    <div class="modal-dialog" id="modalEliminarRango-dialog">
+        <div class="modal-content" id="modalEliminarRango-content">
             <div class="modal-header">
-                <h5 class="modal-title">Inhabilitar Oficio</h5>
-                <button class="close noUserSelect" onclick="closeModal('modalEliminarOficio')">&times;</button>
+                <h5 class="modal-title">Eliminar Rango</h5>
+                <button class="close noUserSelect" onclick="closeModal('modalEliminarRango')">&times;</button>
             </div>
-            <div class="modal-body" id="idModalBodyEliminarOficio">
-                <form id="formEliminarOficio" action="{{ route('oficios.delete') }}" method="POST">
+            <div class="modal-body" id="idModalBodyEliminarRango">
+                <form id="formEliminarRango" action="{{ route('rangos.delete') }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <!-- Variables globales -->
+                  
                     @php
-                        $oficiosDB = $oficios;
-                        $idCodigoOficioInput = 'codigoOficioInputDelete';
-                        $idOptions = 'oficioDeleteOptions';
-                        $idMessageError = 'searchDeleteOficioError';
-                        $idGeneralMessageError = 'generalDeleteOficioError';
-                        $idDescripcionOficioInputDelete = 'descripcionOficioInputDelete';
-                        $someHiddenIdInputsArray = ['idDeleteOficioInput'];
-                        $otherInputsArray = [$idDescripcionOficioInputDelete];
-                        $searchDBField = 'idOficio';
-                        $dbFieldsNameArray = ['descripcion_Oficio'];
+                        $rangosDB = $rangos->reject(fn($item) => $item->idRango === 1);
+                        $idCodigoRangoInput = 'codigoRangoInputDelete';
+                        $idOptions = 'rangoDeleteOptions';
+                        $idMessageError = 'searchDeleteRangoError';
+                        $idGeneralMessageError = 'generalDeleteRangoError';
+                        $idDescripcionRangoInputDelete = 'descripcionRangoInputDelete';
+                        $idPuntosMinimosInput = 'puntosMinimosRangoInputDelete';
+                        $someHiddenIdInputsArray = ['idDeleteRangoInput'];
+                        $otherInputsArray = [$idDescripcionRangoInputDelete, $idPuntosMinimosInput];
+                        $searchDBField = 'idRango';
+                        $dbFieldsNameArray = ['descripcion_Rango', 'puntosMinimos_Rango'];
                     @endphp
-                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idOficio">
+                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idRango">
                    
-                    <div class="form-group start paddingY" id="idH5DeleteOficioModalContainer">
-                        <h5>Seleccione el oficio que desee inhabilitar.</h5>
+                    <div class="form-group start paddingY" id="idH5DeleteRangoModalContainer">
+                        <h5>Seleccione el rango que desee inhabilitar.</h5>
                     </div>
 
                     <div class="form-group gap">
-                        <label class="primary-label" for="OficioDeleteSelect">Oficio:</label>
-                        <div class="input-select" id="OficioDeleteSelect">
-                            <input class="input-select-item" type="text" id='{{ $idCodigoOficioInput }}' maxlength="100" placeholder="Código | Descripción" autocomplete="off"
-                                oninput="filterOptions('{{ $idCodigoOficioInput }}', '{{ $idOptions }}'),
+                        <label class="primary-label" for="rangoDeleteSelect">Rango:</label>
+                        <div class="input-select" id="rangoDeleteSelect">
+                            <input class="input-select-item" type="text" id='{{ $idCodigoRangoInput }}' maxlength="100" placeholder="Código | Descripción" autocomplete="off"
+                                oninput="filterOptions('{{ $idCodigoRangoInput }}', '{{ $idOptions }}'),
                                         validateValueOnRealTimeIDInteger(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
-                                        {{ json_encode($oficiosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
-
-                                onclick="toggleOptions('{{ $idCodigoOficioInput }}', '{{ $idOptions }}')">
+                                        {{ json_encode($rangosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }},
+                                        '{{ $idGeneralMessageError }}')"
+                                onclick="toggleOptions('{{ $idCodigoRangoInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
-                                @if (count($oficiosDB) > 0)
-                                    @foreach ($oficiosDB as $oficio)
+                                @if (count($rangosDB) > 0)
+                                    @foreach ($rangosDB as $rango)
                                         @php
-                                            $idNumberOficio = htmlspecialchars($oficio->idOficio, ENT_QUOTES, 'UTF-8');
-                                            $codigoOficio = htmlspecialchars($oficio->codigoOficio, ENT_QUOTES, 'UTF-8');
-                                            $nombreOficio = htmlspecialchars($oficio->nombre_Oficio, ENT_QUOTES, 'UTF-8');
-                                            $descripcionOficio = htmlspecialchars($oficio->descripcion_Oficio, ENT_QUOTES, 'UTF-8');
-                                            $value = $codigoOficio . " | " . $nombreOficio;
+                                            $idNumberRango = htmlspecialchars($rango->idRango, ENT_QUOTES, 'UTF-8');
+                                            $codigoRango = htmlspecialchars($rango->codigoRango, ENT_QUOTES, 'UTF-8');
+                                            $nombreRango = htmlspecialchars($rango->nombre_Rango, ENT_QUOTES, 'UTF-8');
+                                            $descripcionRango = htmlspecialchars($rango->descripcion_Rango, ENT_QUOTES, 'UTF-8');
+                                            $puntosMinimosRango = htmlspecialchars($rango->puntosMinimos_Rango, ENT_QUOTES,'UTF-8');
+                                            $value = $codigoRango . " | " . $nombreRango;
                                         @endphp
                                 
-                                        <li onclick="selectOptionEliminarOficio('{{ $value }}', '{{ $idNumberOficio }}', '{{ $descripcionOficio }}', 
-                                                    '{{ $idCodigoOficioInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
+                                        <li onclick="selectOptionEliminarRango('{{ $value }}', '{{ $idNumberRango }}', '{{ $descripcionRango }}', 
+                                                    '{{ $puntosMinimosRango }}', '{{ $idCodigoRangoInput }}', '{{ $idOptions }}', 
+                                                    {{ json_encode($someHiddenIdInputsArray) }})">
                                             {{ $value }}
                                         </li>   
                                     @endforeach
                                 @else
                                     <li>
-                                        No hay oficios registrados aún
+                                        No hay rangos registrados aún
                                     </li>
                                 @endif
                             </ul>
                         </div>
-                        <span class="noInline-alert-message" id='{{ $idMessageError }}'>No se encontró la Oficio buscada</span>      
+                        <span class="noInline-alert-message" id='{{ $idMessageError }}'>No se encontró el rango buscado</span>      
                     </div>
 
                     <div class="form-group gap">
-                        <label class="primary-label noEditable" for='{{ $idDescripcionOficioInputDelete }}'>Descripción:</label>
-                        <textarea class="textarea normal" id='{{ $idDescripcionOficioInputDelete }}' placeholder="Breve descripción" disabled></textarea>
+                        <label class="primary-label noEditable" for='{{ $idDescripcionRangoInputDelete }}'>Descripción:</label>
+                        <textarea class="textarea normal" id='{{ $idDescripcionRangoInputDelete }}' placeholder="Breve descripción" disabled></textarea>
                     </div>
                 
+                    <div class="form-group gap">
+                        <label class="primary-label noEditable" id="puntosMinimosDeleteLabel"  for='{{ $idPuntosMinimosInput }}'>Puntos mínimos:</label>
+                        <input class="input-item" type="number" id='{{ $idPuntosMinimosInput }}' placeholder="10000" disabled>
+                    </div>
+
                     <div class="form-group start">
                         <span class="noInline-alert-message" id='{{ $idGeneralMessageError }}'> </span>      
                     </div>    
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarOficio')">Cancelar</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarRango')">Cancelar</button>
                 <button type="button" class="btn btn-primary delete" 
-                        onclick="guardarModalEliminarOficio('modalEliminarOficio', 'formEliminarOficio')">Inhabilitar</button>
+                        onclick="guardarModalEliminarRango('modalEliminarRango', 'formEliminarRango')">Eliminar</button>
             </div>
         </div>
     </div>

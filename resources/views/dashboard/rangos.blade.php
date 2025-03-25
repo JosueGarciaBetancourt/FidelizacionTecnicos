@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="{{ asset('css/rangosStyle.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalRegistrarNuevoRango.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalEditarRango.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalInhabilitarRango.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalRestaurarRango.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalEliminarRango.css') }}">
 @endpush
 
 @section('main-content')
@@ -22,11 +25,14 @@
                 <x-btn-edit-item onclick="openModal('modalEditarRango')"> Editar </x-btn-edit-item>
                 @include('modals.rangos.modalEditarRango')
 
-                <x-btn-delete-item onclick="openModal('modalEliminarRango')"> Inhabilitar </x-btn-delete-item>
-                {{--  @include('modals.rangos.modalEliminarRango') --}}
+                <x-btn-disable-item onclick="openModal('modalInhabilitarRango')"> Inhabilitar </x-btn-disable-item>
+                @include('modals.rangos.modalInhabilitarRango')
 
-                <x-btn-recover-item onclick="openModal('modalRestaurarRango')"> Habilitar </x-btn-delete-item>
-                {{-- @include('modals.rangos.modalRestaurarRango') --}}
+                <x-btn-recover-item onclick="openModal('modalRestaurarRango')"> Habilitar </x-btn-recover-item>
+                @include('modals.rangos.modalRestaurarRango')
+
+                <x-btn-delete-item onclick="openModal('modalEliminarRango')"> Eliminar </x-btn-delete-item>
+                @include('modals.rangos.modalEliminarRango')
             </div>
         @endif
         
@@ -38,7 +44,7 @@
                         <th class="celda-centered">Código</th>
                         <th>Nombre</th>
                         <th>Descripción</th>
-                        <th>Puntos mínimos</th>
+                        <th class="celda-centered">Puntos mínimos</th>
                         <th class="celda-centered">Fecha y Hora de creación</th>
                         <th class="celda-centered">Fecha y Hora de actualización</th>
                     </tr>
@@ -53,7 +59,7 @@
                             <td class="celda-centered">{{ $rango->codigoRango }}</td>
                             <td>{{ $rango->nombre_Rango }}</td>
                             <td>{{ $rango->descripcion_Rango }}</td>
-                            <td>{{ $rango->puntosMinimos_Rango }}</td>
+                            <td class="celda-centered">{{ $rango->puntosMinimos_Rango }}</td>
                             <td class="celda-centered">{{ $rango->created_at }}</td>
                             <td class="celda-centered">{{ $rango->updated_at }}</td>
                         </tr> 
@@ -73,7 +79,7 @@
         />
 
         <x-modalSuccessAction 
-            :idSuccesModal="'successModalRangoEliminado'"
+            :idSuccesModal="'successModalRangoDisable'"
             :message="'Rango inhabilitado correctamente'"
         />
 
@@ -81,12 +87,25 @@
             :idSuccesModal="'successModalRangoRestaurado'"
             :message="'Rango habilitado correctamente'"
         />
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalRangoDelete'"
+            :message="'Rango eliminado correctamente'"
+        />
+
+        <x-modalFailedAction 
+            :idErrorModal="'errorModalRangoDelete'"
+            :message="'El rango no puede ser eliminado porque hay técnicos asociados a este'"
+        />
     </div>
 @endsection
 
 @push('scripts')
     <script src="{{ asset('js/modalRegistrarNuevoRango.js') }}"> </script>
     <script src="{{ asset('js/modalEditarRango.js') }}"> </script>
+    <script src="{{ asset('js/modalInhabilitarRango.js') }}"> </script>
+    <script src="{{ asset('js/modalRestaurarRango.js') }}"> </script>
+    <script src="{{ asset('js/modalEliminarRango.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             @if(session('successRangoStore'))

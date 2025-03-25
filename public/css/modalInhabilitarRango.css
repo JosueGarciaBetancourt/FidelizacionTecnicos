@@ -1,0 +1,48 @@
+#modalInhabilitarRango-dialog {
+	max-width: 480px; 
+}
+
+#formInhabilitarRango {
+	padding: 0;
+}
+
+#modalInhabilitarRango .modal-dialog {
+    transform: translateY(0); /* Inicialmente desplazado hacia arriba */
+}
+
+#modalInhabilitarRango .modal-dialog.open {
+    transform: translateY(-3.5rem);
+}
+
+#rangoInputDisable {
+	width: 30rem;
+}
+
+#codigoRangoInputDisable {
+	width: 20rem;
+}
+
+#descripcionRangoInputDisable {
+	width: 17.5rem;
+}
+
+#idModalBodyInhabilitarRango {
+	padding: 0;
+}
+
+#idH5DisableRangoModalContainer > h5{
+	font-size: 0.9rem;
+	color: #555;
+}
+
+#costoPuntosInputDisable {
+	background-color: #fff;
+}
+
+#rangoDisableOptions.show {
+    max-height: 10.4rem !important;
+}
+
+#puntosMinimosRangoInputDisable {
+	width: 5rem;
+}

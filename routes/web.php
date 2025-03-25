@@ -128,6 +128,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard-rangos', [RangoController::class, 'create'])->name('rangos.create');  
     Route::post('/dashboard-storeRangos', [RangoController::class, 'store'])->name('rangos.store');  
     Route::put('/dashboard-updateRangos', [RangoController::class, 'update'])->name('rangos.update');  
+    Route::delete('/dashboard-disableRangos', [RangoController::class, 'disable'])->name('rangos.disable');  
+    Route::post('/dashboard-restoreRangos', [RangoController::class, 'restore'])->name('rangos.restore');  
+    Route::delete('/dashboard-deleteRangos', [RangoController::class, 'delete'])->name('rangos.delete');  
 
     // Configuración
     Route::get('/dashboard-configuracion', [DashboardController::class, 'configuracion'])->name('configuracion.create');  

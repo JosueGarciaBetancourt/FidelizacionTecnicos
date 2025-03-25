@@ -38,13 +38,13 @@ function selectOptionEliminarOficio(value, idNumberOficio, descripcionOficio, id
 }
 
 function validarCamposVaciosFormularioDelete() {
-  let allFilled = true;
-  formDeleteOficioArray.forEach(input => {
-      if (!input.value.trim()) {
-          allFilled = false;
-      }
-  });
-  return allFilled;
+    let allFilled = true;
+    formDeleteOficioArray.forEach(input => {
+        if (!input.value.trim()) {
+            allFilled = false;
+        }
+    });
+    return allFilled;
 }
 
 function guardarModalEliminarOficio(idModal, idForm) {

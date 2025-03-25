@@ -29,24 +29,28 @@ class OficioController extends Controller
         // Para depurar el códigoOficio
         //dd($oficios->pluck('codigoOficio'));
         //dd($oficios->pluck('codigoNombreOficio'));
-        
+
+        $nuevoIdOficio = Oficio::max('idOficio') ? Oficio::max('idOficio') + 1 : 1;
         $nuevoCodigoOficio = $this->returnNuevoCodigoOficio();
         $oficiosEliminados = Oficio::onlyTrashed()->get();
 
         // Obtener las notificaciones
         $notifications = SystemNotificationController::getActiveNotifications();
  
-        return view('dashboard.oficios', compact('oficios', 'nuevoCodigoOficio', 'oficiosEliminados', 'notifications'));
+        return view('dashboard.oficios', compact('oficios', 'nuevoIdOficio', 'nuevoCodigoOficio', 'oficiosEliminados', 'notifications'));
     }
 
     public function store(Request $request) {
         try {
             $validatedData = $request->validate([
+                'idOficio' => 'required|numeric',
                 'nombre_Oficio' => 'required|string',
                 'descripcion_Oficio' => 'nullable|string',
             ]);
+
             $oficio = new Oficio($validatedData);
-            $oficio->save(); // Guarda solo cuando estés seguro
+            $oficio->save();
+
             $messageStore = 'Recompensa guardada correctamente';
             return redirect()->route('oficios.create')->with('successOficioStore', $messageStore);
         } catch (\Exception $e) {
@@ -104,7 +108,6 @@ class OficioController extends Controller
             $oficioEliminado = Oficio::onlyTrashed()->where('idOficio', $validatedData['idOficio'])->first();
             
             if (!$oficioEliminado) {
-                // Recompensa no encontrada o ya existe en registros activos
                 return redirect()->route('oficios.create')->withErrors('Oficio no encontrado o ya restaurado.');
             }
             

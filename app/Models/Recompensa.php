@@ -48,18 +48,4 @@ class Recompensa extends Model
     {
         return $this->tipoRecompensa ? $this->tipoRecompensa->nombre_TipoRecompensa : null;
     }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($recompensa) {
-            $recompensa->created_at = Carbon::now()->addHours(5);
-            $recompensa->updated_at = Carbon::now()->addHours(5);
-        });
-
-        static::updating(function ($recompensa) {
-            $recompensa->updated_at = Carbon::now()->addHours(5);
-        });
-    }
 }

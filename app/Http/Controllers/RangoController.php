@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Rango;
 use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Controllers\ConfiguracionController;
 
@@ -12,6 +13,7 @@ class RangoController extends Controller
 {
     public function returnNuevoCodigoRango() {
         $lastNumberRangoID = Rango::max('idRango');
+        
         if (!$lastNumberRangoID) {
             return 'RAN-01';
         }
@@ -23,23 +25,35 @@ class RangoController extends Controller
     public function create()
     {
         $rangos = Rango::all();
+        $nuevoIdRango = Rango::max('idRango') ? Rango::max('idRango') + 1 : 1;
         $nuevoCodigoRango = $this->returnNuevoCodigoRango();
+
+        //dd($nuevoCodigoRango);
+
+        $rangosEliminados = Rango::onlyTrashed()->get();
 
         // Obtener las notificaciones
         $notifications = SystemNotificationController::getActiveNotifications();
-        return view('dashboard.rangos', compact('rangos', 'nuevoCodigoRango', 'notifications'));
+
+        return view('dashboard.rangos', compact('rangos', 'nuevoIdRango', 'nuevoCodigoRango', 'notifications', 'rangosEliminados'));
     }
 
     public function store(Request $request) {
         try {
             $validatedData = $request->validate([
+                'idRango' => 'required|numeric',
                 'nombre_Rango' => 'required|string',
-                'descripcion_Oficio' => 'nullable|string',
+                'descripcion_Rango' => 'nullable|string',
                 'puntosMinimos_Rango' => 'required|numeric',
             ]);
 
             $rango = new Rango($validatedData);
             $rango->save();
+
+        
+            // Actualizar técnicos y crear notificaciones si es necesario
+            ConfiguracionController::updateRangoTecnicos();
+            
             $messageStore = 'Rango guardado correctamente';
             return redirect()->route('rangos.create')->with('successRangoStore', $messageStore);
         } catch (\Exception $e) {
@@ -65,33 +79,82 @@ class RangoController extends Controller
         // Actualizar técnicos y crear notificaciones si es necesario
         ConfiguracionController::updateRangoTecnicos();
 
-        // Actualizar en la tabla Settings
-        $this->updateRangoInSettingsTable($rangoSolicitado);
-
         $messageUpdate = 'Rango actualizado correctamente';
         return redirect()->route('rangos.create')->with('successRangoUpdate', $messageUpdate);
     }
 
-    public function updateRangoInSettingsTable($rango)
-    {
-         // Verificar que los valores existen antes de actualizar
-        if (!isset($rango->nombre_Rango) || !isset($rango->puntosMinimos_Rango)) {
-            return;
-        }
-
-        // Actualizar la configuración en la tabla settings
-        /* $updatedSetting = Setting::where('key', 'puntosMinRango' . $rango->nombre_Rango)->update([
-            'value' => $rango->puntosMinimos_Rango,           
-        ]); */
-        $updatedSetting = Setting::where('key', 'puntosMinRango' . $rango->nombre_Rango)->first();
-
-        $updatedSetting->update([
-            'value' => $rango->puntosMinimos_Rango,
+    public function disable(Request $request) {
+        $validatedData = $request->validate([
+            'idRango' => 'required|exists:Rangos,idRango',
         ]);
 
-        //dd("updatedSetting: ", $updatedSetting);
+        $rango = Rango::where('idRango', $validatedData['idRango'])->first();
+    
+        if ($rango) {
+            // Aplica soft delete
+            $rango->delete();
+            $messageDisable = 'Rango inhabilitado correctamente';
+        } else {
+            $messageDisable = 'Rango no encontrado';
+        }
+    
+        // Actualizar técnicos y crear notificaciones si es necesario
+        ConfiguracionController::updateRangoTecnicos();
 
-        // Limpiar caché de configuración para reflejar cambios
-        Cache::forget('settings_cache');
+        return redirect()->route('rangos.create')->with('successRangoDisable', $messageDisable);
+    }
+
+    public function restore(Request $request) {
+        try {
+            $validatedData = $request->validate([
+                'idRango' => 'required|numeric|min:0',
+            ]);
+
+            DB::beginTransaction();
+            
+            //dd($validatedData);
+
+            $oficioEliminado = Rango::onlyTrashed()->where('idRango', $validatedData['idRango'])->first();
+            
+            if (!$oficioEliminado) {
+                return redirect()->route('rangos.create')->withErrors('Oficio no encontrado o ya restaurado.');
+            }
+            
+            $oficioEliminado->restore();
+            
+            DB::commit();
+
+            // Actualizar técnicos y crear notificaciones si es necesario
+            ConfiguracionController::updateRangoTecnicos();
+
+            return redirect()->route('rangos.create')->with('successRangoRestaurado', 'Rango restaurado correctamente.');
+        } catch (\Exception $e) {
+            // Revertir la transacción en caso de error
+            DB::rollBack();
+            return redirect()->route('rangos.create')->withErrors('Ocurrió un error al intentar restaurar el rango. Por favor, inténtelo de nuevo.');
+        }
+    }
+
+    public function delete(Request $request) {
+        try {
+            $validatedData = $request->validate([
+                'idRango' => 'required|exists:Rangos,idRango',
+            ]);
+    
+            // Encuentra el oficio
+            $rango = Rango::findOrFail($validatedData['idRango']);
+    
+            // Verifica si tiene técnicos asociados en la tabla intermedia
+            if ($rango->tecnicos()->exists()) {
+                return redirect()->route('rangos.create')->with('errorRangoDelete', 'El rango no puede ser eliminado porque hay técnicos asociados.');
+            }
+    
+            // Si no hay técnicos asociados, eliminar el oficio
+            $rango->forceDelete();
+    
+            return redirect()->route('rangos.create')->with('successRangoDelete', 'Rango eliminado correctamente');
+        } catch (\Exception $e) {
+            return redirect()->route('rangos.create');
+        }
     }
 }

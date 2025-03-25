@@ -128,12 +128,15 @@ class TecnicoController extends Controller
             if ($tecnicoEliminado) {
                 $tecnicoEliminado->restore();
             } else {
+                $idRango = $this->getIDRango(0);
+               
                 // Crear un nuevo técnico si no existe
                 Tecnico::create([
                     'idTecnico' => $validatedData['idTecnico'],
                     'nombreTecnico' => $validatedData['nombreTecnico'],
                     'celularTecnico' => $validatedData['celularTecnico'],
                     'fechaNacimiento_Tecnico' => $validatedData['fechaNacimiento_Tecnico'],
+                    'idRango' => $idRango, 
                 ]);
 
                 // Guardar oficios en la tabla TecnicosOficios

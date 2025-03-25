@@ -23,23 +23,6 @@ class PerfilUsuario extends Model
         'updated_at',
     ];
 
-    // Mutador para created_at
-    /* protected static function boot()
-    {
-        parent::boot();
-
-        // Ajuste de hora al crear un registro
-        static::creating(function ($perfilUsuario) {
-            $perfilUsuario->created_at = Carbon::now()->addHours(5);
-            $perfilUsuario->updated_at = Carbon::now()->addHours(5);
-        });
-
-        // Ajuste de hora al actualizar un registro
-        static::updating(function ($perfilUsuario) {
-            $perfilUsuario->updated_at = Carbon::now()->addHours(5);
-        });
-    } */
-      
     public function users()
     {
         return $this->hasMany(User::class, 'idPerfilUsuario', 'id'); 
