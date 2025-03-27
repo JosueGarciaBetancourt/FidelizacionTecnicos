@@ -3,7 +3,8 @@
 @section('title', 'Configuración')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/configuracionStyle.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/configuracionStyle.css') }}"> --}}
+	{{-- @vite(['resources/css/configuracionStyle.css']) --}}
 @endpush
 
 @section('main-content')
@@ -126,7 +127,7 @@
     <script src="{{ asset('js/configuracion.js') }}"></script>
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
-			@if(session('success'))
+			@if(session('successConfig'))
 				openModal('successModalConfiguracionGuardada');
 			@endif
 		});

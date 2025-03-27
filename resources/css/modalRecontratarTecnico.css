@@ -1,0 +1,55 @@
+#modalRecontratarTecnico-dialog {
+	max-width: 1000px; 
+    transform: translateY(-10px);
+}
+
+#modalRecontratarTecnico .modal-dialog.open {
+    transform: translateY(-124px); 
+}
+
+#modalRecontratarTecnico-content {
+	max-height: 45rem;
+	overflow: visible;
+}
+
+#tecnicoRecontratarInput {
+	width: 20rem;
+}
+
+#idModalBodyRecontratarTecnico {
+	padding: 0;
+}
+
+#historicoPuntosInputRecontratar, #puntosActualesInputRecontratar {
+	max-width: 5rem;
+}
+
+#rangoInputRecontratar {
+	max-width: 9rem;
+	padding-left: 5px;
+}
+
+#idH5RecontratarTecnicoModalContainer > h5{
+	font-size: 0.9rem;
+	color: #555;
+}
+
+#celularInputRecontratar {
+	max-width: 7rem;
+}
+
+#idMultiSelectDropdownContainer_RecontratarTecnico {
+	width: 55rem;
+}
+
+#tecnicoRecontratarOptions.show {
+    max-height: 13.5rem !important;
+}
+
+#idFormGroupCelularRecontratarTecnico {
+	gap: 0.6rem;
+}
+
+#idOficioLabelRecontratarTecnico {
+	margin-right: 1rem;
+}

@@ -3,8 +3,12 @@
 @section('title', 'Canjes')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/historialCanjesStyle.css') }}">
-	<link rel="stylesheet" href="{{ asset('css/modalDetalleHistorialCanje.css') }}">
+    {{-- 
+	<link rel="stylesheet" href="{{ asset('css/historialCanjesStyle.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/modalDetalleHistorialCanje.css') }}"> 
+	--}}
+	@vite(['resources/css/historialCanjesStyle.css'])
+	@vite(['resources/css/modalDetalleHistorialCanje.css'])
 @endpush
 
 @section('main-content')

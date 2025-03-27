@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }  
         }
     } catch (error) {
-        console.error( error);
+        console.error(error);
     }
 });
 
@@ -60,8 +60,10 @@ function saveStorageDataCrearUsuario() {
     // Cargar datos previos de sessionStorage o inicializar objeto vacío
     const currentData = StorageHelper.load('modalCrearUsuarioObject') || {};
 
+    console.log(currentData);
+
     // Cargar el valor guardado de currentData si existe
-    if (currentData != {}) {
+    if (Object.keys(currentData).length > 0) {
         fillFieldsCrearUsuario(currentData);
     }
 
@@ -78,15 +80,15 @@ function saveStorageDataCrearUsuario() {
 }
 
 function fillFieldsCrearUsuario(objUser) {
-    if (!objUser) {
+    if (!objUser || objUser == null || objUser.length == 0) {
         return;
-    }
+    }   
 
     const viewIcons = Array.from(document.getElementsByClassName('viewPasswordIcon'));  
     viewIcons.forEach(icon => {icon.textContent = "visibility_off";});
 
     // consoleLogJSONItems(objUser);
-
+    
     // Datos de usuario
     document.getElementById('nameInputCrearUsuario').value = objUser.name;
     document.getElementById('emailTextInputCrearUsuario').value = objUser.email.split('@')[0];
@@ -115,8 +117,9 @@ function fillFieldsCrearUsuario(objUser) {
 function openModalCrearUsuario(id) {
     // Guardar en sessionStorage que el modal se ha abierto
     StorageHelper.save('modalOpenedProfileOwn', 'crear');
-
     saveStorageDataCrearUsuario();
+
+    //StorageHelper.printTable();
 
     // Abrir el modal
     justOpenModal(id);
@@ -141,7 +144,6 @@ function saveStorageDataEditarDominioCorreo() {
 
         // Guardar el valor inicial (sin modificar el input)
         StorageHelper.save('modalEditarDominioCorreoObject', newDomainProfileOWn.value);
-        console.log("newDomain guardado: " + newDomainProfileOWn.value);
     } else {
         console.warn("El input 'newDomainInputEditarDominioCorreo' no se encontró en el DOM.");
     }

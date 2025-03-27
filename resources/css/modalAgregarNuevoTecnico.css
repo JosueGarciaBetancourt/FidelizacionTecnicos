@@ -1,0 +1,59 @@
+#idModalBodyAgregarNuevoTecnico {
+    padding: 10px 0 0 0;
+}
+
+.modal-content.modalAgregarNuevoTecnico {
+    overflow: visible;
+} 
+
+#modalAgregarNuevoTecnico .modal-dialog {
+    max-width: 1000px; 
+    transform: translateY(15px);
+}
+
+#modalAgregarNuevoTecnico .modal-dialog.open {
+    transform: translateY(-4rem); /* Inicialmente desplazado hacia arriba (-)*/
+}
+
+#dniInput {
+    max-width: 6.5rem;
+}
+
+#nameInput {
+    width: 31rem;
+}
+
+#phoneInput {
+    max-width: 7rem;
+}
+
+#oficioInput {
+    width: 22.2rem;
+}
+
+#idMultiSelectDropdownContainer_NuevoTecnico {
+    width: 97%;
+    margin-left: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+#oficioOptionsCreate.show {
+    max-height: 8rem !important;
+}
+
+#bornDateLabel {
+    margin-right: 0.8rem;
+}
+
+#bornDateInput {
+    min-width: 8.5rem;
+}
+
+#idMultiSelectDropdownContainer {
+    width: 55rem;
+}
+
+#idOficioLabelNuevoTecnico {
+    margin-left: 0.75rem;
+}
+

@@ -3,7 +3,7 @@
 @section('title', 'Inicio de sesión')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/loginStyle.css') }}">
+    @vite(['resources/css/loginStyle.css'])
 @endpush
 
 @section('content')

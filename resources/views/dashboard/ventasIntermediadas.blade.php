@@ -3,12 +3,20 @@
 @section('title', 'Ventas Intermediadas')
 
 @push('styles')
+    {{-- 
     <link rel="stylesheet" href="{{ asset('css/ventasIntermediadasStyling.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalAgregarVenta.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalAgregarNuevoTecnico.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalEditarMaxdayscanje.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalEliminarVentaIntermediada.css') }}">
     <link rel="stylesheet" href="{{ asset('css/multiselectDropdown.css') }}">
+    --}}
+    @vite(['resources/css/ventasIntermediadasStyling.css'])
+    @vite(['resources/css/modalAgregarVenta.css'])
+    @vite(['resources/css/modalAgregarNuevoTecnico.css'])
+    @vite(['resources/css/modalEditarMaxdayscanje.css'])
+    @vite(['resources/css/modalEliminarVentaIntermediada.css'])
+    @vite(['resources/css/multiselectDropdown.css'])
 @endpush
 
 @section('main-content')

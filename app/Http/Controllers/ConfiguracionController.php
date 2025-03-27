@@ -58,10 +58,15 @@ class ConfiguracionController extends Controller
         // Limpiar caché de configuración para reflejar cambios
         Cache::forget('settings_cache');
 
-        // Retornar según el origen de la request
         return match ($validatedData['originConfig'] ?? '') {
-            "originProfileOwn" => redirect()->route('usuarios.create')->with('successDominioCorreoUpdate', 'Dominio de correo actualizado correctamente.'),
-            default => redirect()->route('configuracion.create')->with('success', 'Configuraciones actualizadas correctamente.'),
+            "originProfileOwn" => 
+                Controller::$newNotifications
+                    ? redirect()->route('usuarios.create')
+                        ->with('successDominioCorreoUpdate', 'Dominio de correo actualizado correctamente.')
+                        ->with('newNotifications', '-')
+                    : redirect()->route('usuarios.create')
+                        ->with('successDominioCorreoUpdate', 'Dominio de correo actualizado correctamente.'),
+            default => redirect()->route('configuracion.create')->with('successConfig', 'Configuraciones actualizadas correctamente.'),
         };
     }
 
@@ -126,6 +131,8 @@ class ConfiguracionController extends Controller
                     'idTecnico' => $tecnico->idTecnico,
                     'description' => $descriptionTecNoti,
                 ]);
+
+                Controller::$newNotifications = true;
 
                 // Actualizar el rango en la base de datos
                 $tecnico->update([

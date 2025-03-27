@@ -3,7 +3,8 @@
 @section('title', 'Canjes')
 
 @push('styles')
-    <link rel="stylesheet" href="{{ asset('css/registrarCanjesStyle.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('css/registrarCanjesStyle.css') }}"> --}}
+	@vite(['resources/css/registrarCanjesStyle.css'])
 @endpush
 
 @section('main-content')
@@ -45,7 +46,7 @@
 					</div>
 				</div>
 				<div class="verticalPairGroup">
-					<label class="primary-label noEditable centered"> Puntos actuales </label>
+					<label class="primary-label noEditable centered" id="puntosActualesRegistrarCanjeLabel"> Puntos actuales </label>
 					<input class="input-item" id="puntosActualesTecnicoCanjesInput" maxlength="4" placeholder="0" readonly>
 				</div>
 				<span class="inline-alert-message" id="{{ $idTecnicoMessageError }}"> No se encontró el técnico buscado </span>      

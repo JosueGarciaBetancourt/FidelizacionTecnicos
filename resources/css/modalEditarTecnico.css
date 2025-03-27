@@ -1,0 +1,64 @@
+#modalEditarTecnico-dialog {
+	max-width: 1000px; 
+    transform: translateY(-10px);
+}
+
+#modalEditarTecnico .modal-dialog.open {
+    transform: translateY(-124px); 
+}
+
+#modalEditarTecnico-content {
+	max-height: 45rem;
+	overflow: visible;
+}
+
+#tecnicoEditInput {
+	width: 25rem;
+}
+
+#idModalBodyEditarTecnico {
+	padding: 0;
+}
+
+#oficioInputEdit {
+	width: 22rem;
+}
+
+#oficioOptionsEdit {
+	height: 11rem;
+}
+
+#historicoPuntosInputEdit, #puntosActualesInputEdit {
+	max-width: 5rem;
+}
+
+#rangoInputEdit {
+	max-width: 9rem;
+	padding-left: 5px;
+}
+
+#idH5EditTecnicoModalContainer > h5{
+	font-size: 0.9rem;
+	color: #555;
+}
+
+#celularInputEdit {
+	max-width: 7rem;
+}
+
+#modalEditarTecnico-footer {
+	margin-top: auto;
+}
+
+#idMultiSelectDropdownContainer_EditarTecnico {
+	width: 55rem;
+}
+
+#idFormGroupCelularEditarTecnico {
+	gap: 0.6rem;
+}
+
+#idOficioLabelEditarTecnico {
+	margin-right: 1rem;
+}
+

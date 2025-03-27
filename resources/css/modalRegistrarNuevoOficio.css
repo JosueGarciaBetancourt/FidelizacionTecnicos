@@ -1,0 +1,38 @@
+#modalRegistrarNuevoOficio-dialog {
+	max-width: 480px; 
+}
+
+#idModalBodyRegistrarNuevoOficio {
+    padding: 10px 0 0 0;
+}
+
+#formRegistrarNuevoOficio {
+	display: flex;
+	flex-direction: column;
+	gap: 0.3rem;
+}
+
+#modalRegistrarNuevoOficio .modal-dialog {
+    transform: translateY(0); /* Inicialmente desplazado hacia arriba */
+}
+
+#modalRegistrarNuevoOficio .modal-dialog.open {
+    transform: translateY(-3.5rem);
+}
+
+#codigoOficioInputRegistrar {
+	width: 5rem;
+	text-align: center;
+}
+
+#nombreOficioInputRegistrar {
+	width: 20rem;
+}
+
+#descripcionLabel {
+	width: 5.5rem;
+}
+
+#descripcionOficioInputRegistrar {
+	width: 20rem;
+}

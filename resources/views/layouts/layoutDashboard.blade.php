@@ -1,6 +1,7 @@
 @extends('layouts.layoutApp')
 
 @push('styles')
+    {{-- 
     <link rel="stylesheet" href="{{ asset('css/dashboardStyle.css') }}">
     <link rel="stylesheet" href="{{ asset('css/datatables.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tooltip.css') }}" />
@@ -11,6 +12,17 @@
     <link rel="stylesheet" href="{{ asset('css/modalLoadingFarewell.css') }}">
     <link rel="stylesheet" href="{{ asset('css/configuracionStyle.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalConfirmSolicitudCanje.css') }}">
+    --}}
+    @vite(['resources/css/dashboardStyle.css'])
+    @vite(['resources/css/datatables.css'])
+    @vite(['resources/css/tooltip.css'])
+    @vite(['resources/css/modals.css'])
+    @vite(['resources/css/modalSuccess.css'])
+    @vite(['resources/css/modalError.css'])
+    @vite(['resources/css/modalConfirm.css'])
+    @vite(['resources/css/modalLoadingFarewell.css'])
+    @vite(['resources/css/configuracionStyle.css'])
+    @vite(['resources/css/modalConfirmSolicitudCanje.css'])
     @stack('styles')
 @endpush
 
@@ -227,11 +239,16 @@
 
             document.documentElement.classList.add(`font-${localStorage.getItem('fontSize') || 'medium'}`);
             document.documentElement.style.setProperty('--button-color', localStorage.getItem('accentColor') || '#007bff');
-           
-            //StorageHelper.clearAll();
+            
+            @if(session('newNotifications'))
+                document.getElementById("notification-panel").classList.add('open');
+			@endif
+
+            // StorageHelper.clearAll();
 
             loadAsideScrollDown();
             closeLoadingModal();
+            
         });
 
         // Management Aside Scrolldown
@@ -294,16 +311,28 @@
                 StorageHelper.save(`pixelsScrollDownSidebar-${linkTextContent}`, parseInt(pixelsToScrollDown, 10));
             }
         }
-        
         // Ending Management Aside Scrolldown
 
+        window.addEventListener('popstate', function () {
+            closeLoadingModal(); // Cierra el modal si está abierto
+        });
+
+        // Modificar la función openLoadingModal
         function openLoadingModal() {
-            document.getElementById('loadingModal').classList.add("show");
+            const loadingModal = document.getElementById("loadingModal");
+            if (loadingModal) {
+                loadingModal.classList.add("show");
+            }
+
+            // Solución auxiliar
+            setTimeout(() => {
+                loadingModal.classList.remove("show");
+            }, 2500);
         }
 
         function closeLoadingModal() {
-            document.getElementById('loadingModal').classList.remove("show");
-            console.log("Cerrando modal de carga");
+            const loadingModal = document.getElementById('loadingModal');
+            loadingModal.classList.remove("show");
         }
 
         function openFarewellModal() {

@@ -3,10 +3,16 @@
 @section('title', 'Perfil de usuario')
 
 @push('styles')
+    {{-- 
     <link rel="stylesheet" href="{{ asset('css/profileOwn.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalCrearUsuario.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalEditarDominioCorreo.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/modalEditarUsuario.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalEditarUsuario.css') }}"> 
+    --}}
+    @vite(['resources/css/profileOwn.css'])
+    @vite(['resources/css/modalCrearUsuario.css'])
+    @vite(['resources/css/modalEditarDominioCorreo.css'])
+    @vite(['resources/css/modalEditarUsuario.css'])
 @endpush
 
 @section('main-content')

@@ -1,0 +1,24 @@
+#modalEliminarTipoRecompensa-dialog {
+	max-width: 450px; 
+}
+
+#codigoTipoRecompensaInputDelete {
+	width: 15rem;
+}
+
+#idModalBodyEliminarTipoRecompensa {
+	padding: 0;
+}
+
+#idH5DeleteTipoRecompensaModalContainer > h5{
+	font-size: 0.9rem;
+	color: #555;
+}
+
+#nombreTipoRecompensaInputDelete {
+	width: 15rem;
+}
+
+#form-group-CodigoTipoRecompensaDelete {
+	gap: 1.7rem;
+}

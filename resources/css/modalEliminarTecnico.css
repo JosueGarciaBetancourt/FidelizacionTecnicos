@@ -1,0 +1,49 @@
+#modalEliminarTecnico-dialog {
+	max-width: 900px; 
+    transform: translateY(-10px);
+}
+
+#modalEliminarTecnico .modal-dialog.open {
+    transform: translateY(-100px); 
+}
+
+#modalEliminarTecnico-content {
+	max-height: 50rem;
+}
+
+#tecnicoDeleteInput {
+	width: 20rem;
+}
+
+#idModalBodyDeleteTecnico {
+	padding: 0;
+}
+
+#historicoPuntosInputDelete, #puntosActualesInputDelete {
+	max-width: 5rem;
+}
+
+#rangoInputDelete {
+	max-width: 9rem;
+}
+
+#idH5DeleteTecnicoModalContainer > h5{
+	font-size: 1rem;
+	color: #555;
+}
+
+#celularInputDelete {
+	max-width: 7rem;
+}
+
+#idMultiSelectDropdownContainer_EliminarTecnico {
+	width: 55rem;
+}
+
+#modalEliminarTecnico-footer {
+	margin-top: auto;
+}
+
+#idOficioLabelEliminarTecnico {
+	margin-right: 1rem;
+}

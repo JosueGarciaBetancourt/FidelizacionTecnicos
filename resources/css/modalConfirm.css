@@ -1,0 +1,79 @@
+.modal-dialog.confirm {
+    background-color: #ffffff; /* Cambiado a blanco para un contraste limpio */
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #cccccc; /* Color de borde más claro */
+    width: 30rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Menos opacidad para suavizar */
+}
+
+.modal-content.confirm {
+    background-color: #ffffff;
+    width: 100%;
+    padding: 0;
+}
+
+.modal-header.confirm {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #e0e0e0; /* Línea sutil en el borde */
+}
+
+.modal-title.confirm {
+    padding: 0.5rem 0;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.modal-body.confirm {
+    padding: 20px 0;
+    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #f5f5f5; /* Suave gris claro */
+}
+
+.modal-body.confirm i {
+    font-size: 1.2rem;
+    color: #4a4a4a; /* Un gris suave para íconos */
+    margin: 0 1rem;
+}
+
+.modal-body.confirm p {
+    color: #4a4a4a;
+    padding-right: 0.5rem;
+}
+
+.modal-footer.confirm {
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid #e0e0e0; /* Línea sutil en el borde */
+    padding-top: 10px;
+    gap: 1rem;
+}
+
+.btn.btn-primary.confirm {
+    background-color: var(--clr-primary-variant); 
+    color: #fff;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn.btn-primary.confirm:hover {
+    background-color: var(--clr-primary-variant-hover); 
+}
+
+.btn.btn-secondary.confirm {
+    color: #721c24; /* Texto rojo oscuro */
+    border: 1px solid #f5c6cb;
+}
+
+.btn.btn-secondary.confirm:hover {
+    background-color: #f5b5b8; /* Tonalidad más viva en hover */
+    color: #721c24;
+}

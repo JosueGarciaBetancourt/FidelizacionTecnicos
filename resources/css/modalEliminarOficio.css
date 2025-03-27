@@ -1,0 +1,44 @@
+#modalEliminarOficio-dialog {
+	max-width: 480px; 
+}
+
+#formEliminarOficio {
+	padding: 0;
+}
+
+#modalEliminarOficio .modal-dialog {
+    transform: translateY(0); /* Inicialmente desplazado hacia arriba */
+}
+
+#modalEliminarOficio .modal-dialog.open {
+    transform: translateY(-3.5rem);
+}
+
+#oficioInputDelete {
+	width: 30rem;
+}
+
+#codigoOficioInputDelete {
+	width: 20rem;
+}
+
+#descripcionOficioInputDelete {
+	width: 17.5rem;
+}
+
+#idModalBodyEliminarOficio {
+	padding: 0;
+}
+
+#idH5DeleteOficioModalContainer > h5{
+	font-size: 1rem;
+	color: #555;
+}
+
+#costoPuntosInputDelete {
+	background-color: #fff;
+}
+
+#oficioDeleteOptions.show {
+    max-height: 11rem !important;
+}

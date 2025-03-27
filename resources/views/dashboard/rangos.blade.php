@@ -3,12 +3,20 @@
 @section('title', 'Rangos')
 
 @push('styles')
+    {{-- 
     <link rel="stylesheet" href="{{ asset('css/rangosStyle.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalRegistrarNuevoRango.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalEditarRango.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalInhabilitarRango.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalRestaurarRango.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/modalEliminarRango.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalEliminarRango.css') }}"> 
+    --}}
+    @vite(['resources/css/rangosStyle.css'])
+    @vite(['resources/css/modalRegistrarNuevoRango.css'])
+    @vite(['resources/css/modalEditarRango.css'])
+    @vite(['resources/css/modalInhabilitarRango.css'])
+    @vite(['resources/css/modalRestaurarRango.css'])
+    @vite(['resources/css/modalEliminarRango.css'])
 @endpush
 
 @section('main-content')

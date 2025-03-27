@@ -1,0 +1,113 @@
+.modal-dialog.modalCrearUsuario {
+	width: auto;
+}
+
+.modal-content.modalCrearUsuario {
+    height: auto;
+}
+
+.modal-content.modalCrearUsuario {
+	padding-left: 1.5rem;
+	padding-right: 1.5rem;
+	overflow: visible;
+}
+
+.modal-body {
+	padding: 0;
+}	
+
+/*NAVBAR*/
+.section-navbar {
+	display: flex;
+	justify-content: start;
+	gap: 1rem;
+}
+
+.section-tab {
+	color: #333;
+	text-decoration: none;
+	padding: 3px 0;
+	border-bottom: 2px solid transparent;
+}
+
+.section-tab.active {
+	color: #409eff;
+	border-bottom: 2px solid #409eff;
+}
+
+.section-tab:hover:not(.active) {
+	color: #409eff;
+}
+
+/*CONTENT*/
+#formCrearUsuario {
+	padding: 1rem 0 0 0;
+	height: auto;
+	width: auto;
+}
+
+.crearUsuarioContainer {
+	display: flex;
+	width: auto;
+	margin-bottom: 0.3rem;
+}
+
+.crearContent {
+	min-height: 12.3rem;
+	width: auto;
+}
+
+#perfilUsuarioInput {
+	font-size: 14px;
+}
+
+#editarUsuarioMessageError {
+	padding: 10px 0 0 0;
+}
+
+#nameInputCrearUsuario {
+	width: 13rem;
+}
+
+.modal-footer {
+	margin-top: 0;
+}
+
+.form-group.start {
+	margin-bottom: 0;
+}
+
+#crearUsuarioMessageError {
+	margin: 5px 0 0 0;
+	padding: 0;
+}
+
+#DNIInputCrearUsuario {
+	max-width: 6.5rem;
+}
+
+#personalNameInputCrearUsuario {
+	width: 12rem;
+}
+
+#surnameInputCrearUsuario {
+	width: 12rem;
+}
+
+#celularPersonalInputCrearUsuario, #celularCorporativoInputCrearUsuario {
+	max-width: 7rem;
+}
+
+#dateMessageCrearUsuarioError {
+	padding: 1.1rem 0 0 0;
+}
+
+#fechaNacimientoInputCrearUsuario {
+	height: 2.45rem;
+}
+
+#crearDatosUsuarioMessageError, #crearDatosPersonalesMessageError {
+	margin-top: 0.25rem;
+	padding: 0;
+	max-width: 100%;
+}

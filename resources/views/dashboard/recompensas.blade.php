@@ -3,6 +3,7 @@
 @section('title', 'Recompensas')
 
 @push('styles')
+    {{-- 
     <link rel="stylesheet" href="{{ asset('css/recompensasStyle.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalRegistrarNuevaRecompensa.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalEditarRecompensa.css') }}">
@@ -12,6 +13,15 @@
     <link rel="stylesheet" href="{{ asset('css/modalRegistrarNuevoTipoRecompensa.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalEditarTipoRecompensa.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalEliminarTipoRecompensa.css') }}">
+    --}}
+    @vite(['resources/css/recompensasStyle.css'])
+    @vite(['resources/css/modalRegistrarNuevaRecompensa.css'])
+    @vite(['resources/css/modalEditarRecompensa.css'])
+    @vite(['resources/css/modalInhabilitarRecompensa.css'])
+    @vite(['resources/css/modalRestaurarRecompensa.css'])
+    @vite(['resources/css/modalEliminarRecompensa.css'])
+    @vite(['resources/css/modalEditarTipoRecompensa.css'])
+    @vite(['resources/css/modalEliminarTipoRecompensa.css'])
 @endpush
 
 @section('main-content')

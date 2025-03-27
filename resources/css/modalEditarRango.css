@@ -1,0 +1,41 @@
+#modalEditarRango-dialog {
+	max-width: 500px; 
+	max-height: 1rem;
+}
+
+#idModalBodyEditarRango {
+	padding: 0;
+}
+
+#formEditarRango {
+	padding: 0;
+}
+
+#modalEditarRango .modal-dialog {
+    transform: translateY(0); /* Inicialmente desplazado hacia arriba */
+}
+
+#modalEditarRango .modal-dialog.open {
+    transform: translateY(-3.5rem);
+}
+
+#codigoRangoInputEdit {
+	width: 20rem;
+}
+
+#descripcionRangoInputEdit {
+	width: 17.5rem;
+}
+
+#idH5EditRangoModalContainer > h5 {
+	font-size: 0.9rem;
+	color: #555;
+}
+
+#RangoEditOptions.show {
+    max-height: 11rem !important;
+}
+
+#puntosMinimosRangoInputEdit {
+	width: 5rem;
+}

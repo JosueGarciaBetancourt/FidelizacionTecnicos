@@ -1,0 +1,40 @@
+#modalRestaurarRango-dialog {
+	max-width: 480px; 
+}
+
+#codigoRangoInputRestaurar {
+	width: 20rem;
+}
+
+#formRestaurarRango {
+	padding: 0;
+}
+
+#modalRestaurarRango .modal-dialog {
+    transform: translateY(0); /* Inicialmente desplazado hacia arriba */
+}
+
+#modalRestaurarRango .modal-dialog.open {
+    transform: translateY(-3.5rem);
+}
+
+#idModalBodyRestaurarRango {
+	padding: 0;
+}
+
+#idH5RestaurarRangoModalContainer > h5{
+	font-size: 0.9rem;
+	color: #555;
+}
+
+#costoPuntosInputRestaurar {
+	background-color: #fff;
+}
+
+#rangoRestaurarOptions.show {
+    max-height: 10.4rem !important;
+}
+
+#puntosMinimosRangoInputRestaurar {
+	width: 5rem;
+}

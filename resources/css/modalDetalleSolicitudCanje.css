@@ -1,0 +1,272 @@
+#modalDetalleSolicitudCanje-dialog {
+    max-width: 900px; /* Aumenta el ancho del modal */
+    max-height: auto;
+}
+
+#modalDetalleSolicitudCanje-content {
+    max-height: 530px;
+}
+
+#idModalBodyDetalleHistorialCanje {
+    padding: 1rem;
+}
+
+#modalDetalleSolicitudCanje-dialog.open {
+    transform: translateY(-110px); /* Inicialmente desplazado hacia arriba */
+}
+
+.modal-title-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+}
+
+.btnDetailOption-container {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.btn.btn-DetailOption {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.8rem;
+    width: 100%;
+    max-width: 6rem;
+    text-align: center;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.btn.btn-DetailOption span {
+    font-weight: 500;
+}
+
+.btn.btn-DetailOption:hover {
+    background-color: #36c0d5;
+    border-color: #36c0d5;
+}
+
+#codigoModalDetalleSolicitudCanje {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+#fechaHoraModalDetalleSolicitudCanje {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #444;
+}
+
+#numeroComprobantemodalDetalleSolicitudCanje {
+    max-width: 8rem;
+}
+
+#fechaHoraEmisionComprobantemodalDetalleSolicitudCanje {
+    max-width: 10rem;
+}
+
+#diasTranscurridosModalDetalleSolicitudCanje {
+    color: rgb(72, 95, 126);
+    font-weight: 600;
+}
+
+.h3DetalleSolicitudCanje {
+    display: flex;             
+    align-items: center;        
+    justify-content: center;    
+    font-size: 1rem;
+    padding: 0 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    margin: 0;
+    height: 1.4rem;
+}
+
+.h3DetalleSolicitudCanje.estadoAprobado {
+    color: #4caf50;
+    background-color: rgba(76, 175, 80, 0.2);
+}
+
+.h3DetalleSolicitudCanje.estadoRechazado {
+    color: #f44336;
+    background-color: rgba(244, 67, 54, 0.2);
+}
+
+.h3DetalleSolicitudCanje.estadoPendiente {
+    color: #6c757d;
+    background-color: rgba(96, 98, 107, 0.2);
+}
+
+.h3DetalleSolicitudCanje.estadoTiempoAgotado {
+    color: #ffffff; 
+    background-color: #6a4d57 !important; 
+}
+
+#puntosActualesComprobanteModalDetalleSolicitudCanje {
+    max-width: 5rem;
+}
+
+#puntosCanjeadosModalDetalleSolicitudCanje {
+    max-width: 5rem;
+}
+
+#puntosRestantesComprobanteModalDetalleSolicitudCanje {
+    max-width: 5rem;
+}
+
+/*Estilos de la tabla del detalle de canje*/
+.tblDetalleSolicitudCanje-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0.8rem 0;
+}
+
+#tblDetalleSolicitudCanje {
+    border-collapse: collapse;
+    min-width: 45rem;
+	max-width: 55rem;
+    background-color: var(--background-color-mainSectionContainer);
+}
+
+/* ================== Encabezado de la Tabla (thead) ================== */
+#tblDetalleSolicitudCanje thead {
+    background-color: #4b8dab; /* Color de fondo más oscuro */
+    color: #fff; /* Color de texto blanco para mejor legibilidad */
+}
+
+#tblDetalleSolicitudCanje thead th {
+    padding: 0.2rem 1rem; /* Espaciado adecuado */
+    font-size: 0.9rem;
+    font-weight: bold; /* Texto más grueso */
+}
+
+/* ================== Cuerpo de la Tabla (tbody) ================== */
+#tblDetalleSolicitudCanje td, #tblDetalleSolicitudCanje th {
+    padding: 0.4rem 0.8rem; /* Espaciado dentro de las celdas */
+    text-align: left; /* Alineación a la izquierda */
+    border-bottom: 1px solid #ddd; /* Línea inferior para separar filas */
+}
+
+/* Color de fondo de filas alternas */
+#tblDetalleSolicitudCanje tbody tr:nth-child(even) {
+    background-color: #f4f7f8; /* Color claro alterno */
+}
+
+/* Fila hover */
+/*#tblDetalleSolicitudCanje tbody tr:hover {
+    background-color: #d9f0fc; 
+    cursor: pointer;
+    transition: none; 
+}*/
+
+#tblDetalleSolicitudCanje tbody tr:hover td:first-child {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+#tblDetalleSolicitudCanje tbody tr:hover td:last-child {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+/* Fila seleccionada */
+#tblDetalleSolicitudCanje tbody tr.selectedCanjes {
+    background-color: #b3d9ff; /* Tono azul más fuerte */
+    color: #333; /* Texto oscuro para mejor contraste */
+    transition: none; /* Sin transición para selectedCanjes */
+}
+
+/* Animación personalizada para que el color aparezca y desaparezca */
+@keyframes cambiarColorFila {
+    0% {
+        background-color: white; /* Color inicial */
+    }
+    30% {
+        background-color: #9bed9b; /* Color verde en la mitad */
+    }
+    100% {
+        background-color: white; /* Vuelve al color blanco */
+    }
+}
+
+/* Fila duplicada al agregar recompensa */
+#tblDetalleSolicitudCanje tbody tr.duplicated {
+    animation: cambiarColorFila 1s ease-in-out; /* Animación de 1 segundo para entrada y salida */
+    color: #333; /* Texto oscuro */
+}
+
+/* Bordes redondeados en la fila seleccionada */
+#tblDetalleSolicitudCanje tbody tr.selectedCanjes td:first-child {
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+}
+
+#tblDetalleSolicitudCanje tbody tr.selectedCanjes td:last-child {
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+}
+
+
+/* ================== Pie de la Tabla (tfoot) ================== */
+#tblDetalleSolicitudCanje tfoot.hidden {
+    padding: 0 1rem;
+    background-color: #4b8dab; /* Mismo color que el encabezado */
+    color: #fff; /* Texto en blanco */
+	display: none;
+}
+
+#tblDetalleSolicitudCanje tfoot th {
+    padding: 0rem 1rem; /* Espaciado en el pie */
+}
+
+#tblDetalleSolicitudCanje tfoot {
+	display: table-row-group;
+}
+
+#tblCanjesMessageBelow {
+	display: block;
+	text-align: center;
+	width: 100%;
+}
+
+#tblCanjesMessageBelow.hidden {
+	display: none;
+}
+
+/*Estilo individual de cada celda del head de tblDetalleSolicitudCanje*/
+#celdaNumeroOrdenRecompensa {
+	width: 3rem; /* 47px ≈ 3rem */
+}
+
+#celdaCodigoRecompensa {
+	width: 7rem; /* 82.78px ≈ 5rem */
+}
+
+#celdaTipoRecompensa {
+	width: 7rem; /* 105.59px ≈ 7rem */
+}
+
+#celdaDescripcionRecompensa {
+	width: 14rem; /* 224.56px ≈ 14rem */
+}
+
+#celdaCostoPuntosRecompensa {
+	width: 6rem; /* 94.73px ≈ 6rem */
+}
+
+#celdaCantidadnRecompensa {
+	width: 6rem; /* 89.79px ≈ 6rem */
+}
+
+#celdaPuntosTotalesRecompensa {
+	width: 6rem; /* 100.1px ≈ 6rem */
+}

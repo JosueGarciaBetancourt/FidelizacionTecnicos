@@ -79,8 +79,10 @@ class RangoController extends Controller
         // Actualizar técnicos y crear notificaciones si es necesario
         ConfiguracionController::updateRangoTecnicos();
 
-        $messageUpdate = 'Rango actualizado correctamente';
-        return redirect()->route('rangos.create')->with('successRangoUpdate', $messageUpdate);
+        return Controller::$newNotifications
+                ? redirect()->route('rangos.create')->with('successRangoUpdate', 'Rango actualizado correctamente')
+                                                    ->with('newNotifications', '-')
+                : redirect()->route('rangos.create')->with('successRangoUpdate', 'Rango actualizado correctamente');
     }
 
     public function disable(Request $request) {

@@ -25,11 +25,11 @@ class DatabaseSeeder extends Seeder
         $this->call(RecompensaSeeder::class);
         $this->call(EstadoVentaSeeder::class);
         $this->call(VentaIntermediadaSeeder::class);
-        //$this->call(CanjeSeeder::class);
-        //$this->call(CanjeRecompensaSeeder::class);
-        //$this->call(EstadoSolicitudCanjeSeeder::class);
-        //$this->call(SolicitudesCanjeSeeder::class);
-        //$this->call(SolicitudCanjeRecompensaSeeder::class);
+        $this->call(CanjeSeeder::class);
+        $this->call(CanjeRecompensaSeeder::class);
+        $this->call(EstadoSolicitudCanjeSeeder::class);
+        $this->call(SolicitudesCanjeSeeder::class);
+        $this->call(SolicitudCanjeRecompensaSeeder::class);
         $this->call(SystemNotificationSeeder::class);
         $this->call(TecnicoNotificationSeeder::class);
 

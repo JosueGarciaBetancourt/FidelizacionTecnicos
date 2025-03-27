@@ -3,12 +3,20 @@
 @section('title', 'Oficios')
 
 @push('styles')
+    {{-- 
     <link rel="stylesheet" href="{{ asset('css/oficiosStyle.css') }}">
     <link rel="stylesheet" href="{{asset('css/modalRegistrarNuevoOficio.css')}}">
     <link rel="stylesheet" href="{{asset('css/modalEditarOficio.css')}}">
     <link rel="stylesheet" href="{{asset('css/modalInhabilitarOficio.css')}}">
     <link rel="stylesheet" href="{{asset('css/modalRestaurarOficio.css')}}">
     <link rel="stylesheet" href="{{asset('css/modalEliminarOficio.css')}}">
+    --}}
+    @vite(['resources/css/oficiosStyle.css'])
+    @vite(['resources/css/modalRegistrarNuevoOficio.css'])
+    @vite(['resources/css/modalEditarOficio.css'])
+    @vite(['resources/css/modalInhabilitarOficio.css'])
+    @vite(['resources/css/modalRestaurarOficio.css'])
+    @vite(['resources/css/modalEliminarOficio.css'])
 @endpush
 
 @section('main-content')

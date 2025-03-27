@@ -1,0 +1,20 @@
+#modalRestaurarRecompensa-dialog {
+	max-width: 700px; 
+}
+
+#recompensaInputRestaurar {
+	width: 30rem;
+}
+
+#idModalBodyRestaurarRecompensa {
+	padding: 0;
+}
+
+#idH5RestaurarRecompensaModalContainer > h5{
+	font-size: 1rem;
+	color: #555;
+}
+
+#costoPuntosInputRestaurar {
+	background-color: #fff;
+}
