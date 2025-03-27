@@ -110,7 +110,6 @@
 			}
 
 			const mensaje = await response.json();
-			console.log(mensaje);
 
 			sessionStorage.setItem('solicitudAprobada', 'true');
 
@@ -139,6 +138,8 @@
 			}
 
 			const mensaje = await response.json();
+
+			sessionStorage.setItem('solicitudRechazada', 'true');
 
 			// Recargar la página después de que la solicitud se haya procesado correctamente
 			location.reload();

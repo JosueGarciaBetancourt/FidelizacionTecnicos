@@ -1,0 +1,12 @@
+#modalEditarDominioCorreo .modal-dialog {
+    transform: translateY(30px);
+}
+
+#modalEditarDominioCorreo .modal-dialog.open {
+    transform: translateY(-5px); 
+}
+
+#idH5EditarDominicoCorreoContainer > h5{
+	font-size: 0.9rem;
+	color: #555;
+}

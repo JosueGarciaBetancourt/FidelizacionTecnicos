@@ -7,7 +7,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 abstract class Controller
-{
+{   
+    public static bool $newNotifications = false;
+
     // Función general para calcular los días transcurridos hasta el día de hoy considerando horas
     public static function returnDiasTranscurridosHastaHoy($fechaHora) {
         try {

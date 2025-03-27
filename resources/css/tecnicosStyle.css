@@ -1,0 +1,85 @@
+.tecnicosContainer {
+    border-radius: var(--border-radius-mainSectionContainer);
+    padding: var(--padding-mainSectionContainer);
+    background-color: var(--background-color-mainSectionContainer);
+    width: 100%;
+	height: auto;
+}
+
+.firstRow{
+    display: flex;
+	flex-direction: row;
+    width: 100%;
+    height: 5rem;
+    gap: 1.5rem;
+    grid-template-columns: 30rem 10rem;
+    align-items: center;
+}
+
+.secondRow{
+    margin-top: 1rem;
+    width: auto;
+    height: 5%;
+    align-items: left;
+}
+
+.celda-oficios {
+    min-width: 10rem !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.celda-acciones {
+    padding: 0 !important;
+    text-align: center !important; 
+}
+
+.celda-rango {
+    text-align: center !important;
+    padding-left: 1.5rem !important;
+}
+
+.celda__rangoTecnico {
+    padding: 0 !important;
+    margin: 0 !important;
+    text-align: center !important;
+}
+
+.celda__rangoTecnico span {
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0;
+    font-weight: bold;
+    font-size: 0.75rem;
+    display: inline-block;
+	width: 60%;
+    text-align: center;
+}
+
+.rangoTecnico__span-1 { /*sin rango*/ 
+    color: #ffffff; 
+    background-color: #6a4d57 !important; 
+}
+
+.rangoTecnico__span-2 { /*plata*/
+    color: #38495a;
+    background-color: #c0c1c3 !important;
+}
+
+.rangoTecnico__span-3 { /*oro*/
+    color: #694a01;
+    background-color: #FFD700 !important;
+}
+
+.rangoTecnico__span-4 { /*black*/
+    color: #fff;
+    background-color: #333 !important;
+}
+
+td {
+    padding: 1rem 0.5rem !important;
+}
+
+#tblTecnicos tbody tr:nth-child(even) {
+    background-color: #f8f8f8; /* Color claro alterno */
+}

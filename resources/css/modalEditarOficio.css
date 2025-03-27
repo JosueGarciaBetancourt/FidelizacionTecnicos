@@ -1,0 +1,37 @@
+#modalEditarOficio-dialog {
+	max-width: 480px; 
+	max-height: 1rem;
+}
+
+#idModalBodyEditarOficio {
+	padding: 0;
+}
+
+#formEditarOficio {
+	padding: 0;
+}
+
+#modalEditarOficio .modal-dialog {
+    transform: translateY(0); /* Inicialmente desplazado hacia arriba */
+}
+
+#modalEditarOficio .modal-dialog.open {
+    transform: translateY(-3.5rem);
+}
+
+#codigoOficioInputEdit {
+	width: 20rem;
+}
+
+#descripcionOficioInputEdit {
+	width: 17.5rem;
+}
+
+#idH5EditOficioModalContainer > h5 {
+	font-size: 0.9rem;
+	color: #555;
+}
+
+#oficioEditOptions.show {
+    max-height: 11rem !important;
+}

@@ -3,13 +3,22 @@
 @section('title', 'Técnicos')
 
 @push('styles')
+	{{-- 
 	<link rel="stylesheet" href="{{ asset('css/tecnicosStyle.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/modalAgregarNuevoTecnico.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/modalEditarTecnico.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/modalEliminarTecnico.css') }}">
 	<link rel="stylesheet" href="{{ asset('css/modalInhabilitarTecnico.css')}}">
 	<link rel="stylesheet" href="{{ asset('css/modalRecontratarTecnico.css') }}">
-	<link rel="stylesheet" href="{{ asset('css/multiselectDropdown.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/multiselectDropdown.css') }}"> 
+	--}}
+	@vite(['resources/css/tecnicosStyle.css'])
+    @vite(['resources/css/modalAgregarNuevoTecnico.css'])
+	@vite(['resources/css/modalEditarTecnico.css'])
+    @vite(['resources/css/modalEliminarTecnico.css'])
+	@vite(['resources/css/modalInhabilitarTecnico.css'])
+    @vite(['resources/css/modalRecontratarTecnico.css'])
+	@vite(['resources/css/multiselectDropdown.css'])
 @endpush
 
 @section('main-content')

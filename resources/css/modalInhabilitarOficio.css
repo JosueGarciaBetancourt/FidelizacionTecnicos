@@ -1,0 +1,44 @@
+#modalInhabilitarOficio-dialog {
+	max-width: 480px; 
+}
+
+#formInhabilitarOficio {
+	padding: 0;
+}
+
+#modalInhabilitarOficio .modal-dialog {
+    transform: translateY(0); /* Inicialmente desplazado hacia arriba */
+}
+
+#modalInhabilitarOficio .modal-dialog.open {
+    transform: translateY(-3.5rem);
+}
+
+#oficioInputDisable {
+	width: 30rem;
+}
+
+#codigoOficioInputDisable {
+	width: 20rem;
+}
+
+#descripcionOficioInputDisable {
+	width: 17.5rem;
+}
+
+#idModalBodyInhabilitarOficio {
+	padding: 0;
+}
+
+#idH5DisableOficioModalContainer > h5{
+	font-size: 0.9rem;
+	color: #555;
+}
+
+#costoPuntosInputDisable {
+	background-color: #fff;
+}
+
+#oficioDisableOptions.show {
+    max-height: 10.4rem !important;
+}

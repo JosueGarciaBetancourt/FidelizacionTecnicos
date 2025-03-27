@@ -1,0 +1,48 @@
+#modalEliminarRango-dialog {
+	max-width: 480px; 
+}
+
+#formEliminarRango {
+	padding: 0;
+}
+
+#modalEliminarRango .modal-dialog {
+    transform: translateY(0); /* Inicialmente desplazado hacia arriba */
+}
+
+#modalEliminarRango .modal-dialog.open {
+    transform: translateY(-3.5rem);
+}
+
+#rangoInputDelete {
+	width: 30rem;
+}
+
+#codigoRangoInputDelete {
+	width: 20rem;
+}
+
+#descripcionRangoInputDelete {
+	width: 17.5rem;
+}
+
+#idModalBodyEliminarRango {
+	padding: 0;
+}
+
+#idH5DeleteRangoModalContainer > h5{
+	font-size: 1rem;
+	color: #555;
+}
+
+#costoPuntosInputDelete {
+	background-color: #fff;
+}
+
+#rangoDeleteOptions.show {
+    max-height: 11rem !important;
+}
+
+#puntosMinimosRangoInputDelete {
+	width: 5rem;
+}

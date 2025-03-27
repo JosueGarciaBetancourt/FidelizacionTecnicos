@@ -1,0 +1,150 @@
+.solicitudesAppCanjesContainer {
+    border-radius: var(--border-radius-mainSectionContainer);
+    padding: var(--padding-mainSectionContainer);
+	padding-top: 0.5rem;
+    background-color: var(--background-color-mainSectionContainer);
+	display: flex;
+	flex-direction: column;
+    width: 100%;
+	height: auto;
+}
+
+.firstRowSolicitudCanje {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.secondRowSolicitudCanje {
+    padding-top: 1rem;
+}
+
+h3 {
+	font-size: 1.2rem;
+	color: var(--clr-primary-variant3);
+}
+
+/* Estilos de la tabla Canjes*/
+.celda-centered.short {
+    max-width: 6.5rem;
+}
+
+.celda-centered.date {
+    width: 9rem;
+}
+
+.ventaAsociada {
+    width: 11rem;
+}
+
+.celda-btnDetalle {
+	width: 5rem;
+	text-align: center;
+}
+
+#celda-numComprobante {
+    width: 10rem;
+}
+
+#celda-tecnico {
+    width: 15rem;
+}
+
+.tblSolicitudesAppCanje-container {
+    margin-top: 1rem;
+}
+
+#tblSolicitudesAppCanje tbody tr:nth-child(even) {
+    background-color: #f8f8f8; /* Color claro alterno */
+}
+
+/* Botón de detalle */
+.btnDetalle {
+    cursor: pointer;
+	max-width: 6rem;
+    background-color: #4c6faf; /* Verde más suave */
+    border: 2px solid #4c6faf; /* Borde verde claro */
+    color: #fff; /* Color de texto blanco */
+    padding: 5px 10px; /* Relleno más generoso */
+    border-radius: 5px; /* Bordes redondeados */
+    font-size: 0.8rem; /* Tamaño adecuado para el texto */
+    font-weight: 600; /* Texto en negrita */
+    display: inline-flex; /* Permite alinear el texto y el ícono */
+    align-items: center; /* Centra el texto e ícono verticalmente */
+	text-align: center;
+    gap: 8px; /* Espacio entre el texto y el ícono */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Transiciones suaves */
+    text-decoration: none; /* Elimina subrayado si es un enlace */
+}
+
+/* Efecto hover */
+.btnDetalle:hover {
+    background-color: #8daade; /* Fondo verde más oscuro */
+    border-color: #8daade; /* Borde más oscuro */
+    transform: translateY(-2px); /* Eleva ligeramente el botón */
+}
+
+/* Efecto focus */
+.btnDetalle:focus {
+    outline: none; /* Elimina el borde de enfoque por defecto */
+    box-shadow: 0 0 10px rgba(72, 145, 184, 0.5); /* Resalta el botón cuando está enfocado */
+}
+
+/* Icono dentro del botón */
+.btnDetalle .material-symbols-outlined {
+    font-size: 18px; /* Tamaño del ícono */
+    transition: transform 0.2s ease-in-out; /* Transición suave para el ícono */
+}
+
+/* Efecto hover sobre el icono */
+.btnDetalle:hover .material-symbols-outlined {
+    transform: translateX(4px); /* Mueve el ícono a la derecha cuando se hace hover */
+}
+
+#idCeldaAcciones {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/*ESTILOS DE LOS ESTADOS DE LAS VENTAS INTERMEDIADAS*/
+.estado__celda {
+    padding: 0 !important;
+    margin: 0 !important;
+    text-align: center !important; 
+}
+
+.estado__celda span {
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0;
+    font-weight: bold;
+    font-size: 0.85rem;
+    display: inline-block;
+    width: 90%;
+}
+
+/*Pendiente */
+.estado__span-1 { 
+    color: #6c757d;
+    background-color: rgba(96, 98, 107, 0.2) !important;
+}
+
+/* Aprobado */
+.estado__span-2 {
+    color: #4caf50;
+    background-color: rgba(76, 175, 80, 0.2) !important;
+}
+
+/* Rechazado */
+.estado__span-3 {
+    color: #f44336;
+    background-color: rgba(244, 67, 54, 0.2) !important;
+}   
+
+/* Tiempo agotado */
+.estado__span-4 {
+    color: #ffffff; 
+    background-color: #6a4d57 !important; 
+}   

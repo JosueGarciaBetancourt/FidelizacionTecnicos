@@ -1,0 +1,35 @@
+#modalEditarMaxdayscanje .modal-dialog {
+	max-width: 26.5rem;
+    transform: translateY(30px);
+}
+
+#modalEditarMaxdayscanje .modal-dialog.open {
+    transform: translateY(-5px); 
+}
+
+.modal-content.modalEditarMaxdayscanje {
+	padding-bottom: 1rem;
+	padding-top: 1rem;
+}
+
+#idModalBodyEditarMaxdayscanje {
+	padding: 0;
+}
+
+#idH5EditarMaxdayscanjeContainer > h5{
+	font-size: 0.9rem;
+	color: #555;
+}
+
+#idH5EditarMaxdayscanjeContainer > h5 > span {
+	color: #f44336;
+}
+
+#editarMaxdayscanjeInput {
+	max-width: 3rem;
+	text-align: center;
+}
+
+#editarMaxdayscanjeError {
+	padding: 0;
+}

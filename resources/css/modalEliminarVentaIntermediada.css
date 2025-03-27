@@ -1,0 +1,87 @@
+#modalEliminarVentaIntermediada-dialog {
+    max-width: 790px; 
+}
+
+#modalEliminarVentaIntermediada-dialog.open {
+    transform: translateY(-20%); /* En su posición original */
+}
+
+#modalEliminarVentaIntermediada-content {
+    max-height: 700px;
+}
+
+#modalEliminarVentaIntermediada-body {
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+#formEliminarVenta {
+    padding: 1rem 0;
+}
+
+#idH5DeleteVentaModalContainer > h5{
+    font-size: 1rem;
+    color: #555;
+}
+
+#idLabelTecnico {
+    margin-left: 0;
+}
+
+#idSelectFilesContainer {
+    height: 15rem;
+    margin: auto;
+}
+
+#labelClienteAgregarVenta,
+#labelVentaAgregarVenta {
+    margin-left: 0;
+}
+
+#tipoCodigoClienteInputDelete {
+    max-width: 5rem;
+}
+
+#puntosGeneradosInputDelete {
+    max-width: 7rem;
+    padding-left: 5px;
+}
+
+#nombreClienteInputDelete {
+    width: 20rem;
+}
+
+#group-items-centered {
+    align-items: center;
+}
+
+#montoTotalInputDelete {
+    max-width: 8rem;
+    text-align: center;
+}
+
+.marginTop {
+    margin: 15px 0 0 0;
+}
+
+#fechaHoraEmisionVentaIntermediadaInput {
+    max-width: 25rem;
+}
+
+#fechaEmisionVentaIntermediadaInput {
+    text-align: center;
+}
+
+#ventaTecnicoInputDelete {
+    width: 28rem;
+}
+
+#fechaEmisionVentaIntermediadaInputDelete {
+    text-align: center;
+}
+
+#eliminarVentaMessageError {
+    padding: 0;
+}

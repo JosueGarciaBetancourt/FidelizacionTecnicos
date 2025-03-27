@@ -1,0 +1,24 @@
+#modalEditarTipoRecompensa-dialog {
+	max-width: 700px; 
+}
+
+#codigoTipoRecompensaInputEdit {
+	width: 15rem;
+}
+
+#idModalBodyEditarTipoRecompensa {
+	padding: 0;
+}
+
+#idH5EditTipoRecompensaModalContainer > h5 {
+	font-size: 0.9rem;
+	color: #555;
+}
+
+#nombreTipoRecompensaInputEdit {
+	width: 15rem;
+}
+
+#form-group-CodigoTipoRecompensa {
+	gap: 1.7rem;
+}

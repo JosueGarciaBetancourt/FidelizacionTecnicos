@@ -3,8 +3,12 @@
 @section('title', 'Solicitudes de Canje')
 
 @push('styles')
+    {{-- 
     <link rel="stylesheet" href="{{ asset('css/solicitudesAppCanjes.css') }}">
-	<link rel="stylesheet" href="{{ asset('css/modalDetalleSolicitudCanje.css') }}">
+	<link rel="stylesheet" href="{{ asset('css/modalDetalleSolicitudCanje.css') }}"> 
+    --}}
+    @vite(['resources/css/solicitudesAppCanjes.css'])
+    @vite(['resources/css/modalDetalleSolicitudCanje.css'])
 @endpush
 
 @section('main-content')
