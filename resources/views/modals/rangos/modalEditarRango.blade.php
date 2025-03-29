@@ -14,14 +14,16 @@
                         $rangosDB = $rangos;
                         $idSearchMessageError = 'searchEditRangoError';
                         $idCodigoRangoInput = 'codigoRangoInputEdit';
+                        $idColorTextoRangoInput = 'colorTextoRangoInputEdit';
+                        $idColorFondoRangoInput = 'colorFondoRangoInputEdit';
                         $idOptions = 'rangoEditOptions';
-                        $idDescripcionRangoInputEdit = 'descripcionRangoInputEdit';
+                        $idDescripcionRangoInput = 'descripcionRangoInputEdit';
                         $idPuntosMinimosInput = 'puntosMinimosRangoInputEdit';
                         $someHiddenIdInputsArray = ['idNumberRango'];
-                        $otherInputsArray = [$idDescripcionRangoInputEdit, $idPuntosMinimosInput];
+                        $otherInputsArray = [$idDescripcionRangoInput, $idPuntosMinimosInput, $idColorTextoRangoInput, $idColorFondoRangoInput];
                         $idGeneralMessageError = 'generalEditRangoError';
                         $searchDBField = 'idRango';
-                        $dbFieldsNameArray = ['descripcion_Rango', 'puntosMinimos_Rango'];
+                        $dbFieldsNameArray = ['descripcion_Rango', 'puntosMinimos_Rango', 'colorTexto_Rango', 'colorFondo_Rango'];
                     @endphp
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idRango">
                    
@@ -48,11 +50,14 @@
                                             $nombreRango = htmlspecialchars($rango->nombre_Rango, ENT_QUOTES, 'UTF-8');
                                             $descripcionRango = htmlspecialchars($rango->descripcion_Rango, ENT_QUOTES, 'UTF-8');
                                             $puntosMinimosRango = htmlspecialchars($rango->puntosMinimos_Rango, ENT_QUOTES, 'UTF-8');
+                                            $colorTextoRango = htmlspecialchars($rango->colorTexto_Rango, ENT_QUOTES, 'UTF-8');
+                                            $colorFondoRango = htmlspecialchars($rango->colorFondo_Rango, ENT_QUOTES, 'UTF-8');
                                             $value = $codigoRango . " | " . $nombreRango;
                                         @endphp
                                 
                                         <li onclick="selectOptionEditRango('{{ $value }}', '{{ $idNumberRango }}', '{{ $descripcionRango }}',
-                                                    '{{ $puntosMinimosRango }}', '{{ $idCodigoRangoInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
+                                                    '{{ $puntosMinimosRango }}', '{{ $colorTextoRango }}', '{{ $colorFondoRango }}', 
+                                                    '{{ $idCodigoRangoInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
                                             {{ $value }}
                                         </li>   
                                     @endforeach
@@ -67,8 +72,8 @@
                     </div>
                    
                     <div class="form-group gap">
-                        <label class="primary-label" for='{{ $idDescripcionRangoInputEdit }}'>Descripción:</label>
-                        <textarea class="textarea normal" id='{{ $idDescripcionRangoInputEdit }}' name="descripcion_Rango" 
+                        <label class="primary-label" for='{{ $idDescripcionRangoInput }}'>Descripción:</label>
+                        <textarea class="textarea normal" id='{{ $idDescripcionRangoInput }}' name="descripcion_Rango" 
                                   placeholder="Breve descripción"></textarea>
                     </div>
 
@@ -76,6 +81,15 @@
                         <label class="primary-label" id="puntosMinimosLabel"  for='{{ $idPuntosMinimosInput }}'>Puntos mínimos:</label>
                         <input class="input-item" type="number" id='{{ $idPuntosMinimosInput }}' oninput="validateRealTimeInputLength(this, 5),
                             validateNumberRealTime(this)" placeholder="10000" name="puntosMinimos_Rango">
+                    </div>
+
+                    <div class="form-group gap">
+                        <label class="primary-label" for='{{ $idColorTextoRangoInput }}'>Color de texto:</label>
+                        <input type="color" class="colorPicker" id='{{ $idColorTextoRangoInput }}' title="Seleccionar color"
+                            name="colorTexto_Rango" value="#3206B0">
+                        <label class="primary-label" for='{{ $idColorFondoRangoInput }}'>Color de fondo:</label>
+                        <input type="color" class="colorPicker" id='{{ $idColorFondoRangoInput }}' title="Seleccionar color"
+                            name="colorFondo_Rango" value="#DCD5F0">
                     </div>
                     
                     <div class="form-group start">

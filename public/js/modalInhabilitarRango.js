@@ -3,13 +3,17 @@ let descripcionRangoInputDisable = document.getElementById('descripcionRangoInpu
 let puntosMinimosRangoInputDisable = document.getElementById('puntosMinimosRangoInputDisable');
 let searchMessageErrorRangoDisable = document.getElementById('searchDisableRangoError');
 let generalDisableRangoError = document.getElementById('generalDisableRangoError');
+let colorTextoRangoInputDisable = document.getElementById('colorTextoRangoInputDisable');
+let colorFondoRangoInputDisable = document.getElementById('colorFondoRangoInputDisable');
 
 let formDisableRangoArray = [
     descripcionRangoInputDisable,
     puntosMinimosRangoInputDisable,
 ];
 
-function selectOptionInhabilitarRango(value, idNumberRango, descripcionRango, puntosMinimosRango, idInput, idOptions, someHiddenIdInputsArray) {
+function selectOptionInhabilitarRango(value, idNumberRango, descripcionRango, puntosMinimosRango, colorTextoRango, colorFondoRango,
+                                    idInput, idOptions, someHiddenIdInputsArray) {
+
     function sanitizeString(str) {
         if (typeof str !== 'string') return str;
         return str
@@ -32,14 +36,30 @@ function selectOptionInhabilitarRango(value, idNumberRango, descripcionRango, pu
     if (descripcionRango && sanitizedDescripcionRango && puntosMinimosRango) {
         descripcionRangoInputDisable.value = descripcionRango;
         puntosMinimosRangoInputDisable.value = puntosMinimosRango;
-
+        colorTextoRangoInputDisable.value = colorTextoRango;
+        colorFondoRangoInputDisable.value = colorFondoRango;
+        
         // Llenar campos ocultos
         document.getElementById(someHiddenIdInputsArray[0]).value = idNumberRango;
         searchMessageErrorRangoDisable.classList.remove("shown");
         generalDisableRangoError.classList.remove("shown");
     } else {
         descripcionRangoInputDisable.value = "";
-        puntosMinimosRangoInputDisable.value = "";
+        puntosMinimosRangoInputDisable.value = "";  
+        colorTextoRangoInputDisable.value = "#3206B0";
+        colorFondoRangoInputDisable.value = "#DCD5F0";
+    }
+}
+
+function validateValueOnRealTimeRangoDisable(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
+    searchField, dbFieldsNameArray, idGeneralMessageError) {
+
+    validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
+    searchField, dbFieldsNameArray, idGeneralMessageError);
+
+    if (!isInputValueInOptions(input, idOptions)) {
+        colorTextoRangoInputDisable.value = "#3206B0";
+        colorFondoRangoInputDisable.value = "#DCD5F0";
     }
 }
 

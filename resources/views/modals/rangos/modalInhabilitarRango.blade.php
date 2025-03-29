@@ -13,15 +13,17 @@
                     @php
                         $rangosDB = $rangos->reject(fn($item) => $item->idRango === 1);
                         $idCodigoRangoInput = 'codigoRangoInputDisable';
+                        $idColorTextoRangoInput = 'colorTextoRangoInputDisable';
+                        $idColorFondoRangoInput = 'colorFondoRangoInputDisable';
                         $idOptions = 'rangoDisableOptions';
                         $idMessageError = 'searchDisableRangoError';
-                        $idDescripcionRangoInputDisable = 'descripcionRangoInputDisable';
+                        $idDescripcionRangoInput = 'descripcionRangoInputDisable';
                         $idPuntosMinimosInput = 'puntosMinimosRangoInputDisable';
                         $someHiddenIdInputsArray = ['idRangoInputDisable'];
-                        $otherInputsArray = [$idDescripcionRangoInputDisable, $idPuntosMinimosInput];
+                        $otherInputsArray = [$idDescripcionRangoInput, $idPuntosMinimosInput, $idColorTextoRangoInput, $idColorFondoRangoInput];
                         $idGeneralMessageError = 'generalDisableRangoError';
                         $searchDBField = 'idRango';
-                        $dbFieldsNameArray = ['descripcion_Rango', 'puntosMinimos_Rango'];
+                        $dbFieldsNameArray = ['descripcion_Rango', 'puntosMinimos_Rango', 'colorTexto_Rango', 'colorFondo_Rango'];
                     @endphp
 
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idRango">
@@ -36,7 +38,7 @@
                             <input class="input-select-item" type="text" id='{{ $idCodigoRangoInput }}'
                                 maxlength="100" placeholder="Código | Descripción" autocomplete="off"
                                 oninput="filterOptions('{{ $idCodigoRangoInput }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTimeIDInteger(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
+                                        validateValueOnRealTimeRangoDisable(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
                                         {{ json_encode($rangosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }},
                                         '{{ $idGeneralMessageError }}')"
@@ -50,15 +52,16 @@
                                             $nombreRango = htmlspecialchars($rango->nombre_Rango, ENT_QUOTES,'UTF-8');
                                             $descripcionRango = htmlspecialchars($rango->descripcion_Rango, ENT_QUOTES, 'UTF-8');
                                             $puntosMinimosRango = htmlspecialchars($rango->puntosMinimos_Rango, ENT_QUOTES,'UTF-8');
+                                            $colorTextoRango = htmlspecialchars($rango->colorTexto_Rango, ENT_QUOTES, 'UTF-8');
+                                            $colorFondoRango = htmlspecialchars($rango->colorFondo_Rango, ENT_QUOTES, 'UTF-8');
                                             $value = $codigoRango . ' | ' . $nombreRango;
                                         @endphp
 
-                                        <li
-                                            onclick="selectOptionInhabilitarRango('{{ $value }}', '{{ $idNumberRango }}', '{{ $descripcionRango }}',
-                                                    '{{ $puntosMinimosRango }}', '{{ $idCodigoRangoInput }}', '{{ $idOptions }}',
-                                                    {{ json_encode($someHiddenIdInputsArray) }})">
+                                        <li onclick="selectOptionInhabilitarRango('{{ $value }}', '{{ $idNumberRango }}', '{{ $descripcionRango }}',
+                                                    '{{ $puntosMinimosRango }}', '{{ $colorTextoRango }}', '{{ $colorFondoRango }}', 
+                                                    '{{ $idCodigoRangoInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
                                             {{ $value }}
-                                        </li>
+                                        </li> 
                                     @endforeach
                                 @else
                                     <li>
@@ -72,13 +75,20 @@
 
                     <div class="form-group gap">
                         <label class="primary-label noEditable"
-                            for='{{ $idDescripcionRangoInputDisable }}'>Descripción:</label>
-                        <textarea class="textarea normal" id='{{ $idDescripcionRangoInputDisable }}' placeholder="Breve descripción" disabled></textarea>
+                            for='{{ $idDescripcionRangoInput}}'>Descripción:</label>
+                        <textarea class="textarea normal" id='{{ $idDescripcionRangoInput }}' placeholder="Breve descripción" disabled></textarea>
                     </div>
 
                     <div class="form-group gap">
                         <label class="primary-label noEditable" id="puntosMinimosDisableLabel"  for='{{ $idPuntosMinimosInput }}'>Puntos mínimos:</label>
                         <input class="input-item" type="number" id='{{ $idPuntosMinimosInput }}' placeholder="10000" disabled>
+                    </div>
+
+                    <div class="form-group gap">
+                        <label class="primary-label" for='{{ $idColorTextoRangoInput }}'>Color de texto:</label>
+                        <input type="color" class="colorPicker" id='{{ $idColorTextoRangoInput }}' title="Seleccionar color" value="#3206B0">
+                        <label class="primary-label" for='{{ $idColorFondoRangoInput }}'>Color de fondo:</label>
+                        <input type="color" class="colorPicker" id='{{ $idColorFondoRangoInput }}' title="Seleccionar color" value="#DCD5F0">
                     </div>
 
                     <div class="form-group start">

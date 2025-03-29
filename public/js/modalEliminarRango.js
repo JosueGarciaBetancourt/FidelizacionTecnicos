@@ -1,15 +1,18 @@
-let idNumberRangoInputDelete = document.getElementById('idDeleteRangoInput');
+let idNumberRangoInputDelete = document.getElementById('idNumberRangoInputDelete');
 let descripcionRangoInputDelete = document.getElementById('descripcionRangoInputDelete');
 let puntosMinimosRangoInputDelete = document.getElementById('puntosMinimosRangoInputDelete');
 let searchErrorRangoDelete = document.getElementById('searchDeleteRangoError');
 let generalDeleteRangoError = document.getElementById('generalDeleteRangoError');
+let colorTextoRangoInputDelete = document.getElementById('colorTextoRangoInputDelete');
+let colorFondoRangoInputDelete = document.getElementById('colorFondoRangoInputDelete');
 
 let formDeleteRangoArray = [
     descripcionRangoInputDelete,
     puntosMinimosRangoInputDelete,
 ];
 
-function selectOptionEliminarRango(value, idNumberRango, descripcionRango, puntosMinimosRango, idInput, idOptions, someHiddenIdInputsArray) {
+function selectOptionEliminarRango(value, idNumberRango, descripcionRango, puntosMinimosRango, colorTextoRango, colorFondoRango,
+                                idInput, idOptions, someHiddenIdInputsArray) {
     function sanitizeString(str) {
         if (typeof str !== 'string') return str;
         return str
@@ -32,7 +35,9 @@ function selectOptionEliminarRango(value, idNumberRango, descripcionRango, punto
     if (descripcionRango && sanitizedDescripcionRango) {
         descripcionRangoInputDelete.value = descripcionRango;
         puntosMinimosRangoInputDelete.value = puntosMinimosRango;
-
+        colorTextoRangoInputDelete.value = colorTextoRango;
+        colorFondoRangoInputDelete.value = colorFondoRango;
+  
         // Llenar campos ocultos
         document.getElementById(someHiddenIdInputsArray[0]).value = idNumberRango;
         searchErrorRangoDelete.classList.remove("shown");
@@ -40,6 +45,20 @@ function selectOptionEliminarRango(value, idNumberRango, descripcionRango, punto
     } else {
         descripcionRangoInputDelete.value = "";
         puntosMinimosRangoInputDelete.value = "";
+        colorTextoRangoInputDelete.value = "#3206B0";
+        colorFondoRangoInputDelete.value = "#DCD5F0";
+    }
+}
+
+function validateValueOnRealTimeRangoDelete(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, colorInputsArray, itemsDB, 
+                                            searchField, dbFieldsNameArray, dbColorFieldsNameArray, idGeneralMessageError) {
+
+    validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
+                                    searchField, dbFieldsNameArray, idGeneralMessageError);
+
+    if (!fillColorInputOnRealTime(input, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB)) {
+        colorTextoRangoInputDelete.value = "#3206B0";
+        colorFondoRangoInputDelete.value = "#DCD5F0";
     }
 }
 

@@ -27,7 +27,8 @@
     <div class="rangosContainer">
         @if (!$isAsisstantLogged)
             <div class="firstRow">
-                <x-btn-create-item onclick="openModal('modalRegistrarNuevoRango')"> Registrar nuevo rango </x-btn-create-item>
+                <x-btn-create-item onclick="openModal('modalRegistrarNuevoRango')"> Registrar nuevo rango
+                </x-btn-create-item>
                 @include('modals.rangos.modalRegistrarNuevoRango')
 
                 <x-btn-edit-item onclick="openModal('modalEditarRango')"> Editar </x-btn-edit-item>
@@ -43,14 +44,14 @@
                 @include('modals.rangos.modalEliminarRango')
             </div>
         @endif
-        
+
         <div class="secondRow">
             <table id="tblRangos">
                 <thead>
                     <tr>
                         <th class="celda-centered">#</th>
                         <th class="celda-centered">Código</th>
-                        <th>Nombre</th>
+                        <th class="celda-centered">Nombre</th>
                         <th>Descripción</th>
                         <th class="celda-centered">Puntos mínimos</th>
                         <th class="celda-centered">Fecha y Hora de creación</th>
@@ -63,75 +64,61 @@
                     @endphp
                     @foreach ($rangos as $rango)
                         <tr>
-                            <td class="celda-centered">{{ $contador++ }}</td> 
+                            <td class="celda-centered">{{ $contador++ }}</td>
                             <td class="celda-centered">{{ $rango->codigoRango }}</td>
-                            <td>{{ $rango->nombre_Rango }}</td>
+                            <td class="celda-centered celdaRango"> 
+                                <span style="color: {{ $rango->colorTexto_Rango }}; background-color: {{ $rango->colorFondo_Rango }};">
+                                    {{ $rango->nombre_Rango }}
+                                </span> 
+                            </td>
                             <td>{{ $rango->descripcion_Rango }}</td>
                             <td class="celda-centered">{{ $rango->puntosMinimos_Rango }}</td>
                             <td class="celda-centered">{{ $rango->created_at }}</td>
                             <td class="celda-centered">{{ $rango->updated_at }}</td>
-                        </tr> 
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
         </div>
-        
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalRangoGuardado'"
-            :message="'Rango guardado correctamente'"
-        />
 
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalRangoActualizado'"
-            :message="'Rango actualizado correctamente'"
-        />
+        <x-modalSuccessAction :idSuccesModal="'successModalRangoGuardado'" :message="'Rango guardado correctamente'" />
 
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalRangoDisable'"
-            :message="'Rango inhabilitado correctamente'"
-        />
+        <x-modalSuccessAction :idSuccesModal="'successModalRangoActualizado'" :message="'Rango actualizado correctamente'" />
 
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalRangoRestaurado'"
-            :message="'Rango habilitado correctamente'"
-        />
+        <x-modalSuccessAction :idSuccesModal="'successModalRangoDisable'" :message="'Rango inhabilitado correctamente'" />
 
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalRangoDelete'"
-            :message="'Rango eliminado correctamente'"
-        />
+        <x-modalSuccessAction :idSuccesModal="'successModalRangoRestaurado'" :message="'Rango habilitado correctamente'" />
 
-        <x-modalFailedAction 
-            :idErrorModal="'errorModalRangoDelete'"
-            :message="'El rango no puede ser eliminado porque hay técnicos asociados a este'"
-        />
+        <x-modalSuccessAction :idSuccesModal="'successModalRangoDelete'" :message="'Rango eliminado correctamente'" />
+
+        <x-modalFailedAction :idErrorModal="'errorModalRangoDelete'" :message="'El rango no puede ser eliminado porque hay técnicos asociados a este'" />
     </div>
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('js/modalRegistrarNuevoRango.js') }}"> </script>
-    <script src="{{ asset('js/modalEditarRango.js') }}"> </script>
-    <script src="{{ asset('js/modalInhabilitarRango.js') }}"> </script>
-    <script src="{{ asset('js/modalRestaurarRango.js') }}"> </script>
+    <script src="{{ asset('js/modalRegistrarNuevoRango.js') }}"></script>
+    <script src="{{ asset('js/modalEditarRango.js') }}"></script>
+    <script src="{{ asset('js/modalInhabilitarRango.js') }}"></script>
+    <script src="{{ asset('js/modalRestaurarRango.js') }}"></script>
     <script src="{{ asset('js/modalEliminarRango.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            @if(session('successRangoStore'))
+            @if (session('successRangoStore'))
                 openModal('successModalRangoGuardado');
             @endif
-            @if(session('successRangoUpdate'))
+            @if (session('successRangoUpdate'))
                 openModal('successModalRangoActualizado');
             @endif
-            @if(session('successRangoDisable'))
+            @if (session('successRangoDisable'))
                 openModal('successModalRangoDisable');
             @endif
-            @if(session('successRangoRestaurado'))
+            @if (session('successRangoRestaurado'))
                 openModal('successModalRangoRestaurado');
             @endif
-            @if(session('successRangoDelete'))
+            @if (session('successRangoDelete'))
                 openModal('successModalRangoDelete');
             @endif
-            @if(session('errorRangoDelete'))
+            @if (session('errorRangoDelete'))
                 justOpenModal('errorModalRangoDelete');
             @endif
         });

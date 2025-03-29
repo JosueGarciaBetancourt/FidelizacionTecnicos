@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 abstract class Controller
 {   
-    public static bool $newNotifications = false;
+    public static bool $newNotifications = false; // Variable auxiliar para abrir notificaciones automáticamente en front end
 
     // Función general para calcular los días transcurridos hasta el día de hoy considerando horas
     public static function returnDiasTranscurridosHastaHoy($fechaHora) {

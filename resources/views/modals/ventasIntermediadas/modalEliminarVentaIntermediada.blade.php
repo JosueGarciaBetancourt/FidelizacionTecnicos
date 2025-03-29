@@ -41,7 +41,7 @@
 
                   
                     <div class="form-group gap start">
-                        <label class="primary-label" id="idLabelTecnico">Venta</label>
+                        <label class="primary-label" id="idLabelTecnico">Venta:</label>
 
                         <div class="input-select" id="tecnicoSelect">
                             <div class="tooltip-container">

@@ -440,6 +440,8 @@ class TecnicoController extends Controller
                 'idTecnico' => $tecnico['idTecnico'],
                 'description' => '¡Felicidades! Subiste de rango. Ahora eres rango ' . $newRango,
             ]);
+
+            Controller::$newNotifications = true;
         }
     }
     
@@ -503,7 +505,8 @@ class TecnicoController extends Controller
             ];
         });
         
-        Log::info($data);
+        Log::info("returnArrayTecnicosWithOficios:");
+        Controller::printJSON($data);
 
         return $data->toArray();
     }

@@ -95,7 +95,7 @@
                 
                 @auth
                     <div class="button_container">
-                        <a href="{{ url('/dashboard-ventasIntermediadas') }}" class="login_button">
+                        <a href="{{ route('ventasIntermediadas.create') }}" class="login_button">
                             Ir al dashboard
                         </a>
                     </div>

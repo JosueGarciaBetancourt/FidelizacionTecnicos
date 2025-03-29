@@ -11,19 +11,23 @@
                     <!-- Variables globales -->
                     @php
                         $rangosEliminadosDB = $rangosEliminados;
-                        $codigoInputRangoRestaurar = 'codigoRangoInputRestaurar';
-                        $idOptions = 'RangoRestaurarOptions';
+                        $idCodigoRangoInput = 'codigoRangoInputRestaurar';
+                        $idColorTextoRangoInput = 'colorTextoRangoInputRestaurar';
+                        $idColorFondoRangoInput = 'colorFondoRangoInputRestaurar';
+                        $idOptions = 'rangoRestaurarOptions';
                         $idMessageError = 'searchRestaurarRangoError';
                         $idGeneralMessageError = 'generalRestaurarRangoError';
-                        $idDescripcionRangoInputRestaurar = 'descripcionRangoInputRestaurar';
+                        $idDescripcionRangoInput = 'descripcionRangoInputRestaurar';
                         $idPuntosMinimosInput = 'puntosMinimosRangoInputRestaurar';
-                        $someHiddencodigoInputRangoRestaurarsArray = ['idNumberRangoInputRestaurar'];
-                        $otherInputsArray = [$idDescripcionRangoInputRestaurar, $idPuntosMinimosInput];
+                        $someHiddenIdInputsArray = ['idNumberRangoInputRestaurar'];
+                        $otherInputsArray = [$idDescripcionRangoInput, $idPuntosMinimosInput];
                         $searchDBField = 'idRango';
                         $dbFieldsNameArray = ['descripcion_Rango', 'puntosMinimos_Rango'];
+                        $colorInputsArray = [$idColorTextoRangoInput, $idColorFondoRangoInput];
+                        $dbColorFieldsNameArray = ['colorTexto_Rango', 'colorFondo_Rango'];
                     @endphp
 
-                    <input type="hidden" id='{{ $someHiddencodigoInputRangoRestaurarsArray[0] }}' maxlength="9" name="idRango">
+                    <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="9" name="idRango">
                    
                     <div class="form-group start paddingY" id="idH5RestaurarRangoModalContainer">
                         <h5>*Solo puede habilitar rangos previamente inhabilitados.</h5>
@@ -32,30 +36,32 @@
                     <div class="form-group gap">
                         <label class="primary-label" for="rangoRestaurarSelect">Rango:</label>
                         <div class="input-select" id="rangoRestaurarSelect">
-                            <input class="input-select-item" type="text" id='{{ $codigoInputRangoRestaurar }}' maxlength="100" placeholder="Código | Nombre" autocomplete="off"
-                                oninput="filterOptions('{{ $codigoInputRangoRestaurar }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTimeIDInteger(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
-                                        {{ json_encode($someHiddencodigoInputRangoRestaurarsArray) }}, {{ json_encode($otherInputsArray) }}, 
-                                        {{ json_encode($rangosEliminadosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }},
+                            <input class="input-select-item" type="text" id='{{ $idCodigoRangoInput }}' maxlength="100" placeholder="Código | Nombre" autocomplete="off"
+                                oninput="filterOptions('{{ $idCodigoRangoInput }}', '{{ $idOptions }}'),
+                                        validateValueOnRealTimeRangoRestore(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
+                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, {{ json_encode($colorInputsArray) }},
+                                        {{ json_encode($rangosEliminadosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }}, {{ json_encode($dbColorFieldsNameArray) }},
                                         '{{ $idGeneralMessageError }}')"
-                                onclick="toggleOptions('{{ $codigoInputRangoRestaurar }}', '{{ $idOptions }}')">
+                                onclick="toggleOptions('{{ $idCodigoRangoInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
                                 @if (count($rangosEliminadosDB) > 0)
                                 @foreach ($rangosEliminadosDB as $rango)
                                     @php
                                         $idNumberRango = htmlspecialchars($rango->idRango, ENT_QUOTES, 'UTF-8');
                                         $codigoRango = htmlspecialchars($rango->codigoRango, ENT_QUOTES, 'UTF-8');
-                                        $nombreRango = htmlspecialchars($rango->nombre_Rango, ENT_QUOTES, 'UTF-8');
+                                        $nombreRango = htmlspecialchars($rango->nombre_Rango, ENT_QUOTES,'UTF-8');
                                         $descripcionRango = htmlspecialchars($rango->descripcion_Rango, ENT_QUOTES, 'UTF-8');
                                         $puntosMinimosRango = htmlspecialchars($rango->puntosMinimos_Rango, ENT_QUOTES,'UTF-8');
-                                        $value = $codigoRango . " | " . $nombreRango;
+                                        $colorTextoRango = htmlspecialchars($rango->colorTexto_Rango, ENT_QUOTES, 'UTF-8');
+                                        $colorFondoRango = htmlspecialchars($rango->colorFondo_Rango, ENT_QUOTES, 'UTF-8');
+                                        $value = $codigoRango . ' | ' . $nombreRango;
                                     @endphp
-                            
-                                    <li onclick="selectOptionRestaurarRango('{{ $value }}', '{{ $idNumberRango }}', '{{ $descripcionRango }}', 
-                                                '{{ $puntosMinimosRango }}', '{{ $codigoInputRangoRestaurar }}', '{{ $idOptions }}', 
-                                                {{ json_encode($someHiddencodigoInputRangoRestaurarsArray) }})">
+
+                                    <li onclick="selectOptionRestaurarRango('{{ $value }}', '{{ $idNumberRango }}', '{{ $descripcionRango }}',
+                                                '{{ $puntosMinimosRango }}', '{{ $colorTextoRango }}', '{{ $colorFondoRango }}', 
+                                                '{{ $idCodigoRangoInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
                                         {{ $value }}
-                                    </li>
+                                    </li> 
                                 @endforeach
                                 @else
                                     <li>
@@ -68,13 +74,20 @@
                     </div>
 
                     <div class="form-group gap">
-                        <label class="primary-label noEditable" for='{{ $idDescripcionRangoInputRestaurar }}'>Descripción:</label>
-                        <textarea class="textarea normal" id='{{ $idDescripcionRangoInputRestaurar }}' placeholder="Breve descripción" disabled></textarea>
+                        <label class="primary-label noEditable" for='{{ $idDescripcionRangoInput }}'>Descripción:</label>
+                        <textarea class="textarea normal" id='{{ $idDescripcionRangoInput }}' placeholder="Breve descripción" disabled></textarea>
                     </div>
                 
                     <div class="form-group gap">
                         <label class="primary-label noEditable" id="puntosMinimosDisableLabel"  for='{{ $idPuntosMinimosInput }}'>Puntos mínimos:</label>
                         <input class="input-item" type="number" id='{{ $idPuntosMinimosInput }}' placeholder="10000" disabled>
+                    </div>
+                    
+                    <div class="form-group gap">
+                        <label class="primary-label" for='{{ $idColorTextoRangoInput }}'>Color de texto:</label>
+                        <input type="color" class="colorPicker" id='{{ $idColorTextoRangoInput }}' title="Seleccionar color" value="#3206B0">
+                        <label class="primary-label" for='{{ $idColorFondoRangoInput }}'>Color de fondo:</label>
+                        <input type="color" class="colorPicker" id='{{ $idColorFondoRangoInput }}' title="Seleccionar color" value="#DCD5F0">
                     </div>
 
                     <div class="form-group start">

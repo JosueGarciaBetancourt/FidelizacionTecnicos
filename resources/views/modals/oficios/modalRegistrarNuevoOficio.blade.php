@@ -22,7 +22,7 @@
                     @endphp
 
                     <div class="form-group gap">
-                        <label class="primary-label" id="codigoOficioLabel" for='{{ $idCodigoOficioInput }}'>Código de oficio:</label>
+                        <label class="primary-label" id="codigoOficioLabel" for='{{ $idCodigoOficioInput }}'>Código:</label>
                         <input type="hidden" value="{{ $newIdOficio }}" name="idOficio" readonly>
                         <input class="input-item readonly" id='{{ $idCodigoOficioInput }}' maxlength="13" value="{{ $newCodigoOficio }}" disabled>
                     </div>

@@ -2,6 +2,7 @@ let codigoRangoInputEdit = document.getElementById('codigoRangoInputEdit');
 let idNumberRangoInput = document.getElementById('idNumberRango');
 let descripcionRangoInputEdit = document.getElementById('descripcionRangoInputEdit');
 let puntosMinimosRangoInputEdit = document.getElementById('puntosMinimosRangoInputEdit');
+
 let searchEditMessageError = document.getElementById('searchEditRangoError');
 let generalEditRangoError = document.getElementById('generalEditRangoError');
 
@@ -12,7 +13,7 @@ let formEditRangoArray = [
 ];
 
 function enableDisablePuntosMinimosRangoInput(value = null) {
-    if (!value || value.toLowerCase() != "ran-01 | sin rango") {
+    if (!value || value != "RAN-01 | Sin rango") {
         puntosMinimosRangoInputEdit.classList.remove('blocked');
         puntosMinimosRangoInputEdit.removeAttribute('disabled', true); 
         return;
@@ -22,7 +23,8 @@ function enableDisablePuntosMinimosRangoInput(value = null) {
     puntosMinimosRangoInputEdit.setAttribute('disabled', true);
 }
 
-function selectOptionEditRango(value, idNumberRango, descripcionRango, puntosMinimosRango, idInput, idOptions, someHiddenIdInputsArray) {
+function selectOptionEditRango(value, idNumberRango, descripcionRango, puntosMinimosRango, colorTextoRango, colorFondoRango,
+                            idInput, idOptions, someHiddenIdInputsArray) {
     // Escapar caracteres especiales en la descripción
     function sanitizeString(str) {
         if (typeof str !== 'string') return str;
@@ -46,6 +48,8 @@ function selectOptionEditRango(value, idNumberRango, descripcionRango, puntosMin
     if (sanitizedDescripcionRango) {
         descripcionRangoInputEdit.value = sanitizedDescripcionRango;
         puntosMinimosRangoInputEdit.value = puntosMinimosRango;
+        colorTextoRangoInputEdit.value = colorTextoRango;
+        colorFondoRangoInputEdit.value = colorFondoRango;
 
         enableDisablePuntosMinimosRangoInput(value);
 
@@ -57,16 +61,23 @@ function selectOptionEditRango(value, idNumberRango, descripcionRango, puntosMin
     } else {
         descripcionRangoInputEdit.value = "";
         puntosMinimosRangoInputEdit.value = "";
+        colorTextoRangoInputEdit.value = "#3206B0";
+        colorFondoRangoInputEdit.value = "#DCD5F0";
     }
 }
 
 function validateValueOnRealTimeRangoEdit(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
                                             searchField, dbFieldsNameArray, idGeneralMessageError) {
+    
+    enableDisablePuntosMinimosRangoInput(input.value);      
                                                 
     validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
                                     searchField, dbFieldsNameArray, idGeneralMessageError);
-    
-    enableDisablePuntosMinimosRangoInput(input.value);
+
+    if (!isInputValueInOptions(input, idOptions)) {
+        colorTextoRangoInputEdit.value = "#3206B0";
+        colorFondoRangoInputEdit.value = "#DCD5F0";
+    }
 }
 
 let mensajeCombinadoEditRango = "";

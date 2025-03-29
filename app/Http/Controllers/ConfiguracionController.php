@@ -170,6 +170,7 @@ class ConfiguracionController extends Controller
                         'description' => "tiene {$recompensa->stock_Recompensa} unidades restantes",
                         'routeToReview' => 'recompensas.create',
                     ]);
+                    Controller::$newNotifications = true;
                 }
             });
         } catch (\Exception $e) {

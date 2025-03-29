@@ -4,6 +4,8 @@ let descripcionRangoInputRestaurar = document.getElementById('descripcionRangoIn
 let puntosMinimosRangoInputRestaurar = document.getElementById('puntosMinimosRangoInputRestaurar');
 let searchRestaurarError = document.getElementById('searchRestaurarRangoError');
 let generalRestaurarRangoError = document.getElementById('generalRestaurarRangoError');
+let colorTextoRangoInputRestaurar = document.getElementById('colorTextoRangoInputRestaurar');
+let colorFondoRangoInputRestaurar = document.getElementById('colorFondoRangoInputRestaurar');
 
 let formRestaurarInputsRangoArray = [
     descripcionRangoInputRestaurar,
@@ -11,7 +13,8 @@ let formRestaurarInputsRangoArray = [
 ];
 
 
-function selectOptionRestaurarRango(value, idNumberRango, descripcionRango, puntosMinimosRango, idInput, idOptions, someHiddenIdInputsArray) {
+function selectOptionRestaurarRango(value, idNumberRango, descripcionRango, puntosMinimosRango, colorTextoRango, colorFondoRango,
+                                    idInput, idOptions, someHiddenIdInputsArray) {
     // Escapar caracteres especiales en la descripción
     function sanitizeString(str) {
         if (typeof str !== 'string') return str;
@@ -35,6 +38,8 @@ function selectOptionRestaurarRango(value, idNumberRango, descripcionRango, punt
     if (sanitizedDescripcionRango) {
         descripcionRangoInputRestaurar.value = sanitizedDescripcionRango;
         puntosMinimosRangoInputRestaurar.value = puntosMinimosRango;
+        colorTextoRangoInputRestaurar.value = colorTextoRango;
+        colorFondoRangoInputRestaurar.value = colorFondoRango;
 
         // Llenar campos ocultos
         document.getElementById(someHiddenIdInputsArray[0]).value = idNumberRango;
@@ -43,6 +48,20 @@ function selectOptionRestaurarRango(value, idNumberRango, descripcionRango, punt
     } else {
         descripcionRangoInputRestaurar.value = "";
         puntosMinimosRangoInputRestaurar.value = "";
+        colorTextoRangoInputRestaurar.value = "#3206B0";
+        colorFondoRangoInputRestaurar.value = "#DCD5F0";
+    }
+}
+
+function validateValueOnRealTimeRangoRestore(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, colorInputsArray, itemsDB, 
+                                            searchField, dbFieldsNameArray, dbColorFieldsNameArray, idGeneralMessageError) {
+
+    validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
+                                    searchField, dbFieldsNameArray, idGeneralMessageError);
+
+    if (!fillColorInputOnRealTime(input, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB)) {
+        colorTextoRangoInputRestaurar.value = "#3206B0";
+        colorFondoRangoInputRestaurar.value = "#DCD5F0";
     }
 }
 

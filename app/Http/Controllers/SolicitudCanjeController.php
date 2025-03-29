@@ -153,7 +153,8 @@ class SolicitudCanjeController extends Controller
                 'description' => 'recibida desde app móvil',
                 'routeToReview' => 'solicitudescanjes.create',
             ]);
-
+            
+            Controller::$newNotifications = true;
 
             DB::commit();
 
