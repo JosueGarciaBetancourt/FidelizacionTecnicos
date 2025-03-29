@@ -1014,7 +1014,8 @@ $(document).ready(function() {
 			let tdRango = row.children[8];
 			let span = document.createElement('span');
 
-			span.classList.add('rangoTecnico__span-' + data['idRango']);
+			span.style.color = data['colorTexto_Rango'];
+			span.style.backgroundColor = data['colorFondo_Rango'];
 
 			span.innerHTML = data['rangoTecnico'];
 			tdRango.innerHTML = '';

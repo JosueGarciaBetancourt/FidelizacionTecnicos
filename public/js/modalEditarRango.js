@@ -15,12 +15,12 @@ let formEditRangoArray = [
 function enableDisablePuntosMinimosRangoInput(value = null) {
     if (!value || value != "RAN-01 | Sin rango") {
         puntosMinimosRangoInputEdit.classList.remove('blocked');
-        puntosMinimosRangoInputEdit.removeAttribute('disabled', true); 
+        puntosMinimosRangoInputEdit.removeAttribute('readonly', true); 
         return;
     }   
 
     puntosMinimosRangoInputEdit.classList.add('blocked');
-    puntosMinimosRangoInputEdit.setAttribute('disabled', true);
+    puntosMinimosRangoInputEdit.setAttribute('readonly', true);
 }
 
 function selectOptionEditRango(value, idNumberRango, descripcionRango, puntosMinimosRango, colorTextoRango, colorFondoRango,
@@ -66,15 +66,15 @@ function selectOptionEditRango(value, idNumberRango, descripcionRango, puntosMin
     }
 }
 
-function validateValueOnRealTimeRangoEdit(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
-                                            searchField, dbFieldsNameArray, idGeneralMessageError) {
+function validateValueOnRealTimeRangoEdit(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, colorInputsArray, itemsDB, 
+                                        searchField, dbFieldsNameArray, dbColorFieldsNameArray, idGeneralMessageError) {
     
     enableDisablePuntosMinimosRangoInput(input.value);      
-                                                
+
     validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
                                     searchField, dbFieldsNameArray, idGeneralMessageError);
 
-    if (!isInputValueInOptions(input, idOptions)) {
+    if (!fillColorInputOnRealTime(input, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB)) {
         colorTextoRangoInputEdit.value = "#3206B0";
         colorFondoRangoInputEdit.value = "#DCD5F0";
     }

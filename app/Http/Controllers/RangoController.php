@@ -68,30 +68,35 @@ class RangoController extends Controller
     }
 
     public function update(Request $request) {
-        $validatedData = $request->validate([
-            'idRango' => 'required|exists:Rangos,idRango',
-            'descripcion_Rango' => 'nullable|string',
-            'puntosMinimos_Rango' => 'required|string',
-            'colorTexto_Rango' => 'required|string|max:7', // Formato hexadecimal
-            'colorFondo_Rango' => 'required|string|max:7',
-        ]);
-
-        $rangoSolicitado = Rango::find($validatedData['idRango']);
-        
-        $rangoSolicitado->update([
-            'descripcion_Rango' => $validatedData['descripcion_Rango'],
-            'puntosMinimos_Rango' => $validatedData['puntosMinimos_Rango'],
-            'colorTexto_Rango' => $validatedData['colorTexto_Rango'],
-            'colorFondo_Rango' => $validatedData['colorFondo_Rango'],
-        ]);
-        
-        // Actualizar técnicos y crear notificaciones si es necesario
-        ConfiguracionController::updateRangoTecnicos();
-
-        return Controller::$newNotifications
-            ? redirect()->route('rangos.create')->with('successRangoUpdate', 'Rango actualizado correctamente')
-                                                    ->with('newNotifications', '-')
-            : redirect()->route('rangos.create')->with('successRangoUpdate', 'Rango actualizado correctamente');
+        try {
+            $validatedData = $request->validate([
+                'idRango' => 'required|exists:Rangos,idRango',
+                'descripcion_Rango' => 'nullable|string',
+                'puntosMinimos_Rango' => 'required|string',
+                'colorTexto_Rango' => 'required|string|max:7', // Formato hexadecimal
+                'colorFondo_Rango' => 'required|string|max:7',
+            ]);
+    
+            $rangoSolicitado = Rango::find($validatedData['idRango']);
+    
+            $rangoSolicitado->update([
+                'descripcion_Rango' => $validatedData['descripcion_Rango'],
+                'puntosMinimos_Rango' => $validatedData['puntosMinimos_Rango'],
+                'colorTexto_Rango' => $validatedData['colorTexto_Rango'],
+                'colorFondo_Rango' => $validatedData['colorFondo_Rango'],
+            ]);
+    
+            // Actualizar técnicos y crear notificaciones si es necesario
+            ConfiguracionController::updateRangoTecnicos();
+    
+            return Controller::$newNotifications
+                ? redirect()->route('rangos.create')->with('successRangoUpdate', 'Rango actualizado correctamente')
+                                                        ->with('newNotifications', '-')
+                : redirect()->route('rangos.create')->with('successRangoUpdate', 'Rango actualizado correctamente');
+        } catch (\Exception $e) {
+                dd($e);
+            return redirect()->route('rangos.create')->withErrors('Ocurrió un error al intentar crear el rango. Por favor, inténtelo de nuevo.');
+        }
     }
 
     public function disable(Request $request) {

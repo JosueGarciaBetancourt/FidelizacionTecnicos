@@ -12,7 +12,7 @@
                     <!-- Variables globales -->
                     @php
                         $rangosDB = $rangos;
-                        $idSearchMessageError = 'searchEditRangoError';
+                        $idMessageError = 'searchEditRangoError';
                         $idCodigoRangoInput = 'codigoRangoInputEdit';
                         $idColorTextoRangoInput = 'colorTextoRangoInputEdit';
                         $idColorFondoRangoInput = 'colorFondoRangoInputEdit';
@@ -20,10 +20,12 @@
                         $idDescripcionRangoInput = 'descripcionRangoInputEdit';
                         $idPuntosMinimosInput = 'puntosMinimosRangoInputEdit';
                         $someHiddenIdInputsArray = ['idNumberRango'];
-                        $otherInputsArray = [$idDescripcionRangoInput, $idPuntosMinimosInput, $idColorTextoRangoInput, $idColorFondoRangoInput];
+                        $otherInputsArray = [$idDescripcionRangoInput, $idPuntosMinimosInput];
                         $idGeneralMessageError = 'generalEditRangoError';
                         $searchDBField = 'idRango';
-                        $dbFieldsNameArray = ['descripcion_Rango', 'puntosMinimos_Rango', 'colorTexto_Rango', 'colorFondo_Rango'];
+                        $dbFieldsNameArray = ['descripcion_Rango', 'puntosMinimos_Rango'];
+                        $colorInputsArray = [$idColorTextoRangoInput, $idColorFondoRangoInput];
+                        $dbColorFieldsNameArray = ['colorTexto_Rango', 'colorFondo_Rango'];
                     @endphp
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idRango">
                    
@@ -36,9 +38,9 @@
                         <div class="input-select" id="rangoEditSelect">
                             <input class="input-select-item" type="text" id='{{ $idCodigoRangoInput }}' maxlength="100" placeholder="Código - Nombre" autocomplete="off"
                                 oninput="filterOptions('{{ $idCodigoRangoInput }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTimeRangoEdit(this, '{{ $idOptions }}', '{{ $idSearchMessageError }}', 
-                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
-                                        {{ json_encode($rangosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }},
+                                        validateValueOnRealTimeRangoEdit(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
+                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, {{ json_encode($colorInputsArray) }},
+                                        {{ json_encode($rangosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }}, {{ json_encode($dbColorFieldsNameArray) }},
                                         '{{ $idGeneralMessageError }}')"
                                 onclick="toggleOptions('{{ $idCodigoRangoInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
@@ -68,7 +70,7 @@
                                 @endif
                             </ul>
                         </div>
-                        <span class="noInline-alert-message" id='{{ $idSearchMessageError }}'>No se encontró el rango buscado</span>      
+                        <span class="noInline-alert-message" id='{{ $idMessageError }}'>No se encontró el rango buscado</span>      
                     </div>
                    
                     <div class="form-group gap">

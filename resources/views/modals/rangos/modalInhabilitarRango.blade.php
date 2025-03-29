@@ -20,10 +20,12 @@
                         $idDescripcionRangoInput = 'descripcionRangoInputDisable';
                         $idPuntosMinimosInput = 'puntosMinimosRangoInputDisable';
                         $someHiddenIdInputsArray = ['idRangoInputDisable'];
-                        $otherInputsArray = [$idDescripcionRangoInput, $idPuntosMinimosInput, $idColorTextoRangoInput, $idColorFondoRangoInput];
+                        $otherInputsArray = [$idDescripcionRangoInput, $idPuntosMinimosInput];
                         $idGeneralMessageError = 'generalDisableRangoError';
                         $searchDBField = 'idRango';
-                        $dbFieldsNameArray = ['descripcion_Rango', 'puntosMinimos_Rango', 'colorTexto_Rango', 'colorFondo_Rango'];
+                        $dbFieldsNameArray = ['descripcion_Rango', 'puntosMinimos_Rango'];
+                        $colorInputsArray = [$idColorTextoRangoInput, $idColorFondoRangoInput];
+                        $dbColorFieldsNameArray = ['colorTexto_Rango', 'colorFondo_Rango'];
                     @endphp
 
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idRango">
@@ -39,8 +41,8 @@
                                 maxlength="100" placeholder="Código | Descripción" autocomplete="off"
                                 oninput="filterOptions('{{ $idCodigoRangoInput }}', '{{ $idOptions }}'),
                                         validateValueOnRealTimeRangoDisable(this, '{{ $idOptions }}', '{{ $idMessageError }}', 
-                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
-                                        {{ json_encode($rangosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }},
+                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, {{ json_encode($colorInputsArray) }},
+                                        {{ json_encode($rangosDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }}, {{ json_encode($dbColorFieldsNameArray) }},
                                         '{{ $idGeneralMessageError }}')"
                                 onclick="toggleOptions('{{ $idCodigoRangoInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>

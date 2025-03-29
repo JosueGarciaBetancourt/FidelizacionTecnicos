@@ -51,13 +51,13 @@ function selectOptionInhabilitarRango(value, idNumberRango, descripcionRango, pu
     }
 }
 
-function validateValueOnRealTimeRangoDisable(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
-    searchField, dbFieldsNameArray, idGeneralMessageError) {
+function validateValueOnRealTimeRangoDisable(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, colorInputsArray, itemsDB, 
+                                            searchField, dbFieldsNameArray, dbColorFieldsNameArray, idGeneralMessageError) {
 
     validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
-    searchField, dbFieldsNameArray, idGeneralMessageError);
+                                    searchField, dbFieldsNameArray, idGeneralMessageError);
 
-    if (!isInputValueInOptions(input, idOptions)) {
+    if (!fillColorInputOnRealTime(input, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB)) {
         colorTextoRangoInputDisable.value = "#3206B0";
         colorFondoRangoInputDisable.value = "#DCD5F0";
     }
