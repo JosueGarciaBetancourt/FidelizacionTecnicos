@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\NotificationReviewed;
 use Illuminate\Http\Request;
 use App\Models\SystemNotification;
 use Illuminate\Support\Facades\Log;
@@ -43,16 +42,6 @@ class SystemNotificationController extends Controller
 
             if ($idNotificacion && $routeToReview) {
                 $notification = SystemNotification::findOrFail($idNotificacion);
-               /*  $notification->active = 0;
-                $notification->save(); */
-
-                /* Log::info("Datos recibidos en deactivateNotification", [
-                    'idNotificacion' => $idNotificacion,
-                    'routeToReview' => $routeToReview
-                ]); */
-                
-                // Disparar el evento para eliminar la notificación en la BD
-                //event(new NotificationReviewed($idNotificacion));
                 $notification->delete();
 
                 if (Route::has($routeToReview)) { 
