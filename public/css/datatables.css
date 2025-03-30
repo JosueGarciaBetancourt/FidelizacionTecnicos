@@ -603,7 +603,7 @@ input[type="search"]::-webkit-search-cancel-button {
   appearance: none;
   height: 1.2rem; 
   width: 1.2rem;
-  background: url('../images/close-icon.png') no-repeat center center; 
+  background: url('../../public/images/close-icon.png') no-repeat center center; 
   background-size: contain; /* Ajusta el tamaño del ícono al contenedor */
   cursor: pointer;
 }
