@@ -21,3 +21,7 @@ export default defineConfig({
         }),
     ],
 });
+
+
+// Copiar estilos css de resource/css a public/css
+// cp -r resources/css/* public/css/

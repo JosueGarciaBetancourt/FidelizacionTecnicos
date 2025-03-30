@@ -155,6 +155,7 @@ class RecompensaController extends Controller
                     'description' => 'tiene ' . config('settings.unidadesRestantesRecompensasNotificacion'). ' o menos unidades restantes',
                     'routeToReview' => 'recompensas.create',
                 ]);
+                Controller::$newNotifications = true;
             }
             
             DB::commit();
@@ -192,6 +193,7 @@ class RecompensaController extends Controller
                 'description' => 'tiene ' . config('settings.unidadesRestantesRecompensasNotificacion'). ' o menos unidades restantes',
                 'routeToReview' => 'recompensas.create',
             ]);
+            Controller::$newNotifications = true;
         }
 
         return redirect()->route('recompensas.create')->with('successRecompensaUpdate', $messageUpdate);
@@ -295,6 +297,7 @@ class RecompensaController extends Controller
                     'description' => 'tiene ' . config('settings.unidadesRestantesRecompensasNotificacion'). ' o menos unidades restantes',
                     'routeToReview' => 'recompensas.create',
                 ]);
+                Controller::$newNotifications = true;
             }
         } else {
             // Manejar el caso en el que la recompensa no se encuentra

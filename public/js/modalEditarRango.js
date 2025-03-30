@@ -2,6 +2,10 @@ let codigoRangoInputEdit = document.getElementById('codigoRangoInputEdit');
 let idNumberRangoInput = document.getElementById('idNumberRango');
 let descripcionRangoInputEdit = document.getElementById('descripcionRangoInputEdit');
 let puntosMinimosRangoInputEdit = document.getElementById('puntosMinimosRangoInputEdit');
+let colorTextoRangoInputEdit = document.getElementById('colorTextoRangoInputEdit');
+let colorFondoRangoInputEdit = document.getElementById('colorFondoRangoInputEdit');
+let previewColorSpanEdit = document.getElementById('previewColorSpanEdit');
+
 let searchEditMessageError = document.getElementById('searchEditRangoError');
 let generalEditRangoError = document.getElementById('generalEditRangoError');
 
@@ -12,17 +16,18 @@ let formEditRangoArray = [
 ];
 
 function enableDisablePuntosMinimosRangoInput(value = null) {
-    if (!value || value.toLowerCase() != "ran-01 | sin rango") {
+    if (!value || value != "RAN-01 | Sin rango") {
         puntosMinimosRangoInputEdit.classList.remove('blocked');
-        puntosMinimosRangoInputEdit.removeAttribute('disabled', true); 
+        puntosMinimosRangoInputEdit.removeAttribute('readonly', true); 
         return;
     }   
 
     puntosMinimosRangoInputEdit.classList.add('blocked');
-    puntosMinimosRangoInputEdit.setAttribute('disabled', true);
+    puntosMinimosRangoInputEdit.setAttribute('readonly', true);
 }
 
-function selectOptionEditRango(value, idNumberRango, descripcionRango, puntosMinimosRango, idInput, idOptions, someHiddenIdInputsArray) {
+function selectOptionEditRango(value, idNumberRango, descripcionRango, puntosMinimosRango, colorTextoRango, colorFondoRango,
+                            idInput, idOptions, someHiddenIdInputsArray) {
     // Escapar caracteres especiales en la descripción
     function sanitizeString(str) {
         if (typeof str !== 'string') return str;
@@ -42,11 +47,13 @@ function selectOptionEditRango(value, idNumberRango, descripcionRango, puntosMin
     // Colocar en el input la opción seleccionada 
     selectOption(value, idInput, idOptions); 
 
+    const name = value.split(' | ')[1];
+
     // Actualizar los demás campos del formulario
-    if (sanitizedDescripcionRango) {
+    if (sanitizedDescripcionRango && name) {
         descripcionRangoInputEdit.value = sanitizedDescripcionRango;
         puntosMinimosRangoInputEdit.value = puntosMinimosRango;
-
+        updateColorsInput(colorTextoRangoInputEdit, colorFondoRangoInputEdit, previewColorSpanEdit, colorTextoRango, colorFondoRango, name);
         enableDisablePuntosMinimosRangoInput(value);
 
         // Llenar campos ocultos
@@ -57,16 +64,21 @@ function selectOptionEditRango(value, idNumberRango, descripcionRango, puntosMin
     } else {
         descripcionRangoInputEdit.value = "";
         puntosMinimosRangoInputEdit.value = "";
+        updateColorsInput(colorTextoRangoInputEdit, colorFondoRangoInputEdit, previewColorSpanEdit);
     }
 }
 
-function validateValueOnRealTimeRangoEdit(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
-                                            searchField, dbFieldsNameArray, idGeneralMessageError) {
-                                                
+function validateValueOnRealTimeRangoEdit(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, colorInputsArray, itemsDB, 
+                                        searchField, dbFieldsNameArray, dbColorFieldsNameArray, idGeneralMessageError) {
+    
+    enableDisablePuntosMinimosRangoInput(input.value);      
+
     validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
                                     searchField, dbFieldsNameArray, idGeneralMessageError);
-    
-    enableDisablePuntosMinimosRangoInput(input.value);
+
+    if (!fillColorInputOnRealTimeIDInteger(input, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB, previewColorSpanEdit)) {
+        updateColorsInput(colorTextoRangoInputEdit, colorFondoRangoInputEdit, previewColorSpanEdit);
+    }
 }
 
 let mensajeCombinadoEditRango = "";

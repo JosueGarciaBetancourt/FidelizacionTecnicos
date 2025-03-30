@@ -440,6 +440,8 @@ class TecnicoController extends Controller
                 'idTecnico' => $tecnico['idTecnico'],
                 'description' => '¡Felicidades! Subiste de rango. Ahora eres rango ' . $newRango,
             ]);
+
+            Controller::$newNotifications = true;
         }
     }
     
@@ -481,14 +483,17 @@ class TecnicoController extends Controller
 
     public function returnArrayTecnicosWithOficios() {
         // Cargar técnicos con sus oficios en una sola consulta
-        $tecnicos = Tecnico::with('oficios')->get();
+        $tecnicos = Tecnico::with('oficios', 'rangos')->get();
         $index = 1;
 
         // Mapear los datos para transformarlos
         $data = $tecnicos->map(function ($tecnico) use (&$index) {
             // Obtener nombres de los oficios y concatenarlos
             $oficios = $tecnico->oficios->pluck('nombre_Oficio')->implode(' / ') ?: 'No tiene';
-    
+            $nombre_Rango = $tecnico->rangos->nombre_Rango;
+            $colorTexto_Rango = $tecnico->rangos->colorTexto_Rango;
+            $colorFondo_Rango = $tecnico->rangos->colorFondo_Rango;
+
             return [
                 'index' => $index++,
                 'idTecnico' => $tecnico->idTecnico,
@@ -499,11 +504,13 @@ class TecnicoController extends Controller
                 'totalPuntosActuales_Tecnico' => $tecnico->totalPuntosActuales_Tecnico,
                 'historicoPuntos_Tecnico' => $tecnico->historicoPuntos_Tecnico,
                 'idRango' => $tecnico->idRango,
-                'rangoTecnico' => $tecnico->nombre_Rango, // usando atributo de appends
+                'rangoTecnico' => $nombre_Rango,
+                'colorTexto_Rango' => $colorTexto_Rango,
+                'colorFondo_Rango' => $colorFondo_Rango,
             ];
         });
         
-        Log::info($data);
+        // Log::info("returnArrayTecnicosWithOficios"); Controller::printJSON($data);
 
         return $data->toArray();
     }

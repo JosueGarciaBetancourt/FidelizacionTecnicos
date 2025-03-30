@@ -15,7 +15,7 @@
                     @endphp
 
                     <div class="form-group gap">
-                        <label class="primary-label" id="codigoRecompensaLabel" for="codigoRecompensaInput">Código de recompensa:</label>
+                        <label class="primary-label" id="codigoRecompensaLabel" for="codigoRecompensaInput">Código:</label>
                         <input class="input-item readonly" id="codigoRecompensaInput" name="idRecompensa" 
                                maxlength="13" value="{{ $idNuevaRecompensa }}" disabled>
                     </div>

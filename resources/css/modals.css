@@ -710,3 +710,30 @@ input[type="date"].empty{
 .viewPasswordIcon:hover {
     color:  #409eff;
 }
+
+/* Color pickers */
+.colorPicker {
+    cursor: default;
+    border: 1px solid #aaa;       /* Elimina el borde */
+    outline: none;      /* Evita el borde al hacer clic */
+    background: none;   /* Evita fondos extra */
+    appearance: none;   /* Oculta el estilo predeterminado del navegador */
+    -webkit-appearance: none; /* Para Safari y Chrome */
+    -moz-appearance: none;    /* Para Firefox */
+    height: 20px;       /* Opcional: ajusta la altura si es necesario */
+    padding: 0;         /* Elimina cualquier padding adicional */
+}
+
+/* Selector específico para navegadores WebKit */
+.colorPicker::-webkit-color-swatch-wrapper {
+    padding: 0;
+    border: none;
+}
+
+.colorPicker::-webkit-color-swatch {
+    border: none;
+}
+
+.cursorPointer {
+    cursor: pointer !important;
+}

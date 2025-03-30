@@ -45,17 +45,22 @@ class RangoController extends Controller
                 'nombre_Rango' => 'required|string',
                 'descripcion_Rango' => 'nullable|string',
                 'puntosMinimos_Rango' => 'required|numeric',
+                'colorTexto_Rango' => 'required|string|max:7', // Formato hexadecimal
+                'colorFondo_Rango' => 'required|string|max:7',
             ]);
 
             $rango = new Rango($validatedData);
             $rango->save();
-
         
             // Actualizar técnicos y crear notificaciones si es necesario
             ConfiguracionController::updateRangoTecnicos();
             
             $messageStore = 'Rango guardado correctamente';
-            return redirect()->route('rangos.create')->with('successRangoStore', $messageStore);
+
+            return Controller::$newNotifications
+                ? redirect()->route('rangos.create')->with('successRangoStore', $messageStore)
+                                                    ->with('newNotifications', '-')
+                : redirect()->route('rangos.create')->with('successRangoStore', $messageStore);
         } catch (\Exception $e) {
             dd($e);
             return redirect()->route('rangos.create')->withErrors('Ocurrió un error al intentar crear el rango. Por favor, inténtelo de nuevo.');
@@ -63,26 +68,35 @@ class RangoController extends Controller
     }
 
     public function update(Request $request) {
-        $validatedData = $request->validate([
-            'idRango' => 'required|exists:Rangos,idRango',
-            'descripcion_Rango' => 'nullable|string',
-            'puntosMinimos_Rango' => 'required|string',
-        ]);
-
-        $rangoSolicitado = Rango::find($validatedData['idRango']);
-        
-        $rangoSolicitado->update([
-            'descripcion_Rango' => $validatedData['descripcion_Rango'],
-            'puntosMinimos_Rango' => $validatedData['puntosMinimos_Rango'],
-        ]);
-        
-        // Actualizar técnicos y crear notificaciones si es necesario
-        ConfiguracionController::updateRangoTecnicos();
-
-        return Controller::$newNotifications
+        try {
+            $validatedData = $request->validate([
+                'idRango' => 'required|exists:Rangos,idRango',
+                'descripcion_Rango' => 'nullable|string',
+                'puntosMinimos_Rango' => 'required|string',
+                'colorTexto_Rango' => 'required|string|max:7', // Formato hexadecimal
+                'colorFondo_Rango' => 'required|string|max:7',
+            ]);
+    
+            $rangoSolicitado = Rango::find($validatedData['idRango']);
+    
+            $rangoSolicitado->update([
+                'descripcion_Rango' => $validatedData['descripcion_Rango'],
+                'puntosMinimos_Rango' => $validatedData['puntosMinimos_Rango'],
+                'colorTexto_Rango' => $validatedData['colorTexto_Rango'],
+                'colorFondo_Rango' => $validatedData['colorFondo_Rango'],
+            ]);
+    
+            // Actualizar técnicos y crear notificaciones si es necesario
+            ConfiguracionController::updateRangoTecnicos();
+    
+            return Controller::$newNotifications
                 ? redirect()->route('rangos.create')->with('successRangoUpdate', 'Rango actualizado correctamente')
-                                                    ->with('newNotifications', '-')
+                                                        ->with('newNotifications', '-')
                 : redirect()->route('rangos.create')->with('successRangoUpdate', 'Rango actualizado correctamente');
+        } catch (\Exception $e) {
+                dd($e);
+            return redirect()->route('rangos.create')->withErrors('Ocurrió un error al intentar crear el rango. Por favor, inténtelo de nuevo.');
+        }
     }
 
     public function disable(Request $request) {
@@ -103,7 +117,10 @@ class RangoController extends Controller
         // Actualizar técnicos y crear notificaciones si es necesario
         ConfiguracionController::updateRangoTecnicos();
 
-        return redirect()->route('rangos.create')->with('successRangoDisable', $messageDisable);
+        return Controller::$newNotifications
+            ? redirect()->route('rangos.create')->with('successRangoDisable', $messageDisable)
+                                                    ->with('newNotifications', '-')
+            : redirect()->route('rangos.create')->with('successRangoDisable', $messageDisable);
     }
 
     public function restore(Request $request) {
@@ -129,7 +146,10 @@ class RangoController extends Controller
             // Actualizar técnicos y crear notificaciones si es necesario
             ConfiguracionController::updateRangoTecnicos();
 
-            return redirect()->route('rangos.create')->with('successRangoRestaurado', 'Rango restaurado correctamente.');
+            return Controller::$newNotifications
+                ? redirect()->route('rangos.create')->with('successRangoRestaurado', 'Rango restaurado correctamente.')
+                                                    ->with('newNotifications', '-')
+                : redirect()->route('rangos.create')->with('successRangoRestaurado', 'Rango restaurado correctamente.');
         } catch (\Exception $e) {
             // Revertir la transacción en caso de error
             DB::rollBack();
@@ -153,8 +173,11 @@ class RangoController extends Controller
     
             // Si no hay técnicos asociados, eliminar el oficio
             $rango->forceDelete();
-    
-            return redirect()->route('rangos.create')->with('successRangoDelete', 'Rango eliminado correctamente');
+
+            return Controller::$newNotifications
+                ? redirect()->route('rangos.create')->with('successRangoDelete', 'Rango eliminado correctamente')
+                                                    ->with('newNotifications', '-')
+                : redirect()->route('rangos.create')->with('successRangoDelete', 'Rango eliminado correctamente');
         } catch (\Exception $e) {
             return redirect()->route('rangos.create');
         }

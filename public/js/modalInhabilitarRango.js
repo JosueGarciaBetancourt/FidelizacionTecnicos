@@ -3,13 +3,18 @@ let descripcionRangoInputDisable = document.getElementById('descripcionRangoInpu
 let puntosMinimosRangoInputDisable = document.getElementById('puntosMinimosRangoInputDisable');
 let searchMessageErrorRangoDisable = document.getElementById('searchDisableRangoError');
 let generalDisableRangoError = document.getElementById('generalDisableRangoError');
+let colorTextoRangoInputDisable = document.getElementById('colorTextoRangoInputDisable');
+let colorFondoRangoInputDisable = document.getElementById('colorFondoRangoInputDisable');
+let previewColorSpanDisable = document.getElementById('previewColorSpanDisable');
 
 let formDisableRangoArray = [
     descripcionRangoInputDisable,
     puntosMinimosRangoInputDisable,
 ];
 
-function selectOptionInhabilitarRango(value, idNumberRango, descripcionRango, puntosMinimosRango, idInput, idOptions, someHiddenIdInputsArray) {
+function selectOptionInhabilitarRango(value, idNumberRango, descripcionRango, puntosMinimosRango, colorTextoRango, colorFondoRango,
+                                    idInput, idOptions, someHiddenIdInputsArray) {
+
     function sanitizeString(str) {
         if (typeof str !== 'string') return str;
         return str
@@ -28,10 +33,13 @@ function selectOptionInhabilitarRango(value, idNumberRango, descripcionRango, pu
     // Colocar en el input la opción seleccionada 
     selectOption(value, idInput, idOptions); 
 
+    const name = value.split(' | ')[1];
+
     // Actualizar los demás campos del formulario
-    if (descripcionRango && sanitizedDescripcionRango && puntosMinimosRango) {
+    if (descripcionRango && sanitizedDescripcionRango && puntosMinimosRango && name) {
         descripcionRangoInputDisable.value = descripcionRango;
         puntosMinimosRangoInputDisable.value = puntosMinimosRango;
+        updateColorsInput(colorTextoRangoInputDisable, colorFondoRangoInputDisable, previewColorSpanDisable, colorTextoRango, colorFondoRango, name);
 
         // Llenar campos ocultos
         document.getElementById(someHiddenIdInputsArray[0]).value = idNumberRango;
@@ -39,7 +47,19 @@ function selectOptionInhabilitarRango(value, idNumberRango, descripcionRango, pu
         generalDisableRangoError.classList.remove("shown");
     } else {
         descripcionRangoInputDisable.value = "";
-        puntosMinimosRangoInputDisable.value = "";
+        puntosMinimosRangoInputDisable.value = "";  
+        updateColorsInput(colorTextoRangoInputDisable, colorFondoRangoInputDisable, previewColorSpanDisable);
+    }
+}
+
+function validateValueOnRealTimeRangoDisable(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, colorInputsArray, itemsDB, 
+                                            searchField, dbFieldsNameArray, dbColorFieldsNameArray, idGeneralMessageError) {
+
+    validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
+                                    searchField, dbFieldsNameArray, idGeneralMessageError);
+
+    if (!fillColorInputOnRealTimeIDInteger(input, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB, previewColorSpanDisable)) {
+        updateColorsInput(colorTextoRangoInputDisable, colorFondoRangoInputDisable, previewColorSpanDisable);
     }
 }
 

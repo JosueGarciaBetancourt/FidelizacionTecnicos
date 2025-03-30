@@ -1,5 +1,5 @@
 #modalRegistrarNuevoRango-dialog {
-	max-width: 480px; 
+	max-width: 500px; 
 }
 
 #idModalBodyRegistrarNuevoRango {
@@ -17,11 +17,11 @@
 }
 
 #modalRegistrarNuevoRango .modal-dialog.open {
-    transform: translateY(-3.5rem);
+    transform: translateY(-4rem);
 }
 
 #codigoRangoInputRegistrar {
-	width: 5rem;
+	width: 4.5rem;
 	text-align: center;
 }
 

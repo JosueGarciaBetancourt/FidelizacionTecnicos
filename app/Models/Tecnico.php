@@ -83,7 +83,7 @@ class Tecnico extends Model
 
     // Método de acceso corregido
     public function getNombreRangoAttribute() {
-        return $this->rango?->nombre_Rango ?? Rango::where('idRango', 1)->value('nombre_Rango');
+        return $this->rangos?->nombre_Rango ?? Rango::where('idRango', 1)->value('nombre_Rango');
     }
 
     protected static function boot()

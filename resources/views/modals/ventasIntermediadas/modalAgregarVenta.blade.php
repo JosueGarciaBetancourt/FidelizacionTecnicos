@@ -54,7 +54,7 @@
                                 :spanClassName="'noUserSelect'"
                             />
                         </div>
-                        <div class = "group-items">
+                        <div class="group-items">
                             <label class="secondary-label"> Número de documento </label>
                             <div class="tooltip-container">
                                 <span class="tooltip red" id="idCodigoClienteTooltip">Este es el mensaje del tooltip</span>
@@ -62,7 +62,7 @@
                             <input class="input-item" id="idClienteInput" name="codigoCliente_VentaIntermediada" maxlength="11"
                                    oninput="updateDNIRUCMaxLength(this), validateNumberRealTime(this)" placeholder="12345678">
                         </div>
-                        <div class = "group-items">
+                        <div class="group-items">
                             <label class="secondary-label"> Nombre </label>
                             <input class="input-item" id="nombreClienteInput" name="nombreCliente_VentaIntermediada"
                                    oninput="validateRealTimeInputLength(this, 60)" placeholder="AP. PATERNO AP. MATERNO, NOMBRE">

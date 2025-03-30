@@ -542,8 +542,8 @@ function returnIDIntegerByStringID(idString) {
     return numberID;
 }
 
-function validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray = null, itemsDB = null, 
-                                            searchField = null, dbFieldsNameArray = null, idGeneralMessageError = null) {
+function validateValueOnRealTimeIDInteger (input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray = null,
+                                        itemsDB = null, searchField = null, dbFieldsNameArray = null, idGeneralMessageError = null) {
     const value = input.value;
     const searchMessageError = document.getElementById(idSearchMessageError);
     const generalMessageError = idGeneralMessageError ? document.getElementById(idGeneralMessageError) : null;
@@ -575,7 +575,7 @@ function validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError
         clearInputs();
         searchMessageError.classList.remove('shown');
         if (generalMessageError) {generalMessageError.classList.remove('shown');}
-        return; 
+        return false; 
     }
 
     // Obtener todos los valores del item
@@ -588,7 +588,7 @@ function validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError
         clearInputs();
         searchMessageError.classList.add('shown'); 
         if (generalMessageError) {generalMessageError.classList.remove('shown');}
-        return; 
+        return false; 
     }
 
     searchMessageError.classList.remove('shown');

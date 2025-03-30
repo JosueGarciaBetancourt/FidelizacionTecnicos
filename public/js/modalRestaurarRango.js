@@ -4,6 +4,9 @@ let descripcionRangoInputRestaurar = document.getElementById('descripcionRangoIn
 let puntosMinimosRangoInputRestaurar = document.getElementById('puntosMinimosRangoInputRestaurar');
 let searchRestaurarError = document.getElementById('searchRestaurarRangoError');
 let generalRestaurarRangoError = document.getElementById('generalRestaurarRangoError');
+let colorTextoRangoInputRestaurar = document.getElementById('colorTextoRangoInputRestaurar');
+let colorFondoRangoInputRestaurar = document.getElementById('colorFondoRangoInputRestaurar');
+let previewColorSpanRestaurar= document.getElementById('previewColorSpanRestaurar');
 
 let formRestaurarInputsRangoArray = [
     descripcionRangoInputRestaurar,
@@ -11,7 +14,8 @@ let formRestaurarInputsRangoArray = [
 ];
 
 
-function selectOptionRestaurarRango(value, idNumberRango, descripcionRango, puntosMinimosRango, idInput, idOptions, someHiddenIdInputsArray) {
+function selectOptionRestaurarRango(value, idNumberRango, descripcionRango, puntosMinimosRango, colorTextoRango, colorFondoRango,
+                                    idInput, idOptions, someHiddenIdInputsArray) {
     // Escapar caracteres especiales en la descripción
     function sanitizeString(str) {
         if (typeof str !== 'string') return str;
@@ -31,18 +35,31 @@ function selectOptionRestaurarRango(value, idNumberRango, descripcionRango, punt
     // Colocar en el input la opción seleccionada 
     selectOption(value, idInput, idOptions); 
 
+    const name = value.split(' | ')[1];
+
     // Actualizar los demás campos del formulario
-    if (sanitizedDescripcionRango) {
+    if (descripcionRango && sanitizedDescripcionRango && puntosMinimosRango && name) {
         descripcionRangoInputRestaurar.value = sanitizedDescripcionRango;
         puntosMinimosRangoInputRestaurar.value = puntosMinimosRango;
+        updateColorsInput(colorTextoRangoInputRestaurar, colorFondoRangoInputRestaurar, previewColorSpanRestaurar, colorTextoRango, colorFondoRango, name);
 
         // Llenar campos ocultos
         document.getElementById(someHiddenIdInputsArray[0]).value = idNumberRango;
         searchRestaurarError.classList.remove("shown");
         generalRestaurarRangoError.classList.remove("shown");
     } else {
-        descripcionRangoInputRestaurar.value = "";
-        puntosMinimosRangoInputRestaurar.value = "";
+        updateColorsInput(colorTextoRangoInputRestaurar, colorFondoRangoInputRestaurar, previewColorSpanRestaurar);
+    }
+}
+
+function validateValueOnRealTimeRangoRestore(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, colorInputsArray, itemsDB, 
+                                            searchField, dbFieldsNameArray, dbColorFieldsNameArray, idGeneralMessageError) {
+
+    validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
+                                    searchField, dbFieldsNameArray, idGeneralMessageError);
+
+    if (!fillColorInputOnRealTimeIDInteger(input, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB, previewColorSpanRestaurar)) {
+        updateColorsInput(colorTextoRangoInputRestaurar, colorFondoRangoInputRestaurar, previewColorSpanRestaurar);
     }
 }
 

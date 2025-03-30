@@ -22,12 +22,24 @@ class Rango extends Model
         'nombre_Rango',
         'descripcion_Rango',
         'puntosMinimos_Rango',
+        'colorTexto_Rango',
+        'colorFondo_Rango',
     ];
     
     // Mutator para aplicar el valor por defecto
     public function setDescripcionRangoAttribute($value)
     {
         $this->attributes['descripcion_Rango'] = $value ?? 'Sin descripción';
+    }
+
+    public function setColorTextoRangoAttribute($value)
+    {
+        $this->attributes['colorTexto_Rango'] = $value ?? '#3206B0';
+    }
+
+    public function setColorFondoRangoAttribute($value)
+    {
+        $this->attributes['colorFondo_Rango'] = $value ?? '#DCD5F0';
     }
 
     public function tecnicos() {
