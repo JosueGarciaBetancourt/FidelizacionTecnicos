@@ -41,8 +41,8 @@ class CheckVentasIntermediadas implements ShouldQueue
                     "idTecnico" => $venta->idTecnico,
                     "idVentaIntermediada" => $venta->idVentaIntermediada,
                     "description" => "La venta intermediada " .  $venta->idVentaIntermediada . " se agotará en " . $remainingDays . " días",
-                    /* "created_at" => now(),
-                    "updated_at" => now(), */
+                    "created_at" => now(),
+                    "updated_at" => now(),
                 ]);
             }
             Controller::printJSON($ventas);
