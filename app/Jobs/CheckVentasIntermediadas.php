@@ -22,6 +22,8 @@ class CheckVentasIntermediadas implements ShouldQueue
     {
         //Controller::printJSON(config('settings'));
 
+        dd("Probando CheckVentasIntermediadas en produccion ");
+        
         // Obtener valores desde la configuración
         $maxDaysCanje = config('settings.maxdaysCanje');
         $diasAgotarVentaIntermediadaNotificacion = config('settings.diasAgotarVentaIntermediadaNotificacion');
