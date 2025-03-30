@@ -205,8 +205,8 @@ class ConfiguracionController extends Controller
                     'idTecnico' => $venta->idTecnico,
                     'idVentaIntermediada' => $venta->idVentaIntermediada,
                     'description' => $description,
-                    'created_at' => now(),
-                    'updated_at' => now(),
+                    'created_at' => now()->addHours(5),
+                    'updated_at' => now()->addHours(5),
                 ];
             })->filter();
 
