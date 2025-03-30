@@ -40,3 +40,7 @@
 #puntosMinimosRangoInputRegistrar {
 	width: 10rem;
 }
+
+.form-group.colorFondo {
+	gap: 0.5rem;
+}

@@ -25,6 +25,7 @@
                         $dbFieldsNameArray = ['descripcion_Rango', 'puntosMinimos_Rango'];
                         $colorInputsArray = [$idColorTextoRangoInput, $idColorFondoRangoInput];
                         $dbColorFieldsNameArray = ['colorTexto_Rango', 'colorFondo_Rango'];
+                        $idPreviewColorSpan = 'previewColorSpanRestaurar';
                     @endphp
 
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="9" name="idRango">
@@ -82,12 +83,25 @@
                         <label class="primary-label noEditable" id="puntosMinimosDisableLabel"  for='{{ $idPuntosMinimosInput }}'>Puntos mínimos:</label>
                         <input class="input-item" type="number" id='{{ $idPuntosMinimosInput }}' placeholder="10000" disabled>
                     </div>
-                    
+
                     <div class="form-group gap">
-                        <label class="primary-label" for='{{ $idColorTextoRangoInput }}'>Color de texto:</label>
-                        <input type="color" class="colorPicker" id='{{ $idColorTextoRangoInput }}' title="Seleccionar color" value="#3206B0">
-                        <label class="primary-label" for='{{ $idColorFondoRangoInput }}'>Color de fondo:</label>
-                        <input type="color" class="colorPicker" id='{{ $idColorFondoRangoInput }}' title="Seleccionar color" value="#DCD5F0">
+                        <div class="group-items">
+                            <div class="form-group gap">
+                                <label class="primary-label noEditable">Color de texto:</label>
+                                <input type="color" class="colorPicker" id='{{ $idColorTextoRangoInput }}' title="Seleccionar color"
+                                    oninput="fillPreviewColorTextoSpan(this, '{{ $idPreviewColorSpan }}')" value="#3206B0" disabled>
+                            </div>
+                            <div class="form-group colorFondoGap">
+                                <label class="primary-label noEditable">Color de fondo:</label>
+                                <input type="color" class="colorPicker" id='{{ $idColorFondoRangoInput }}' title="Seleccionar color"
+                                    oninput="fillPreviewColorFondoSpan(this, '{{ $idPreviewColorSpan }}')" value="#DCD5F0" disabled>
+                            </div>
+                        </div>
+                        
+                        <div class="previewRangoContainer">
+                            <label class="primary-label noEditable">Previsualización:</label>
+                            <span class="previewRango" id="{{ $idPreviewColorSpan }}" style="color:#3206B0; background-color: #DCD5F0;" disabled></span> 
+                        </div>
                     </div>
 
                     <div class="form-group start">

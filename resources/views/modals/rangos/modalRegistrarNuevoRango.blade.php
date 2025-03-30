@@ -19,9 +19,7 @@
                         $idDescripcionRangoInputRegistrar = 'descripcionRangoInputRegistrar';
                         $idPuntosMinimosInput = 'puntosMinimosRangoInputRegistrar';
                         $idGeneralMessageError = 'generalRegistrarRangoError';
-                        // $otherInputsArray = [$idDescripcionRangoInputRegistrar];
-                        // $searchDBField = 'idRango';
-                        // $dbFieldsNameArray = ['nombre_Rango', 'descripcion_Rango'];
+                        $idPreviewColorSpan = 'previewColorSpanRegistrar';
                     @endphp
 
                     <div class="form-group gap">
@@ -32,8 +30,8 @@
                 
                     <div class="form-group gap">
                         <label class="primary-label" id="nameLabel" for='{{ $idNombreRangoInput }}'>Nombre:</label>
-                        <input class="input-item" type="text" maxlength="60" id='{{ $idNombreRangoInput }}' placeholder="Ingresar nombre"
-                                name="nombre_Rango">
+                        <input class="input-item" type="text" maxlength="35" id='{{ $idNombreRangoInput }}'
+                            oninput="fillNamePreviewColorSpan(this, '{{ $idPreviewColorSpan }}')" placeholder="Ingresar nombre" name="nombre_Rango">
                     </div>
 
                     <div class="form-group gap">
@@ -49,16 +47,27 @@
                     </div>
 
                     <div class="form-group gap">
-                        <label class="primary-label" for='{{ $idColorTextoRangoInput }}'>Color de texto:</label>
-                        <input type="color" class="colorPicker" id='{{ $idColorTextoRangoInput }}' title="Seleccionar color"
-                            name="colorTexto_Rango" value="#3206B0">
-                        <label class="primary-label" for='{{ $idColorFondoRangoInput }}'>Color de fondo:</label>
-                        <input type="color" class="colorPicker" id='{{ $idColorFondoRangoInput }}' title="Seleccionar color"
-                            name="colorFondo_Rango" value="#DCD5F0">
+                        <div class="group-items">
+                            <div class="form-group gap">
+                                <label class="primary-label" for='{{ $idColorTextoRangoInput }}'>Color de texto:</label>
+                                <input type="color" class="colorPicker cursorPointer" id='{{ $idColorTextoRangoInput }}' title="Seleccionar color"
+                                    oninput="fillPreviewColorTextoSpan(this, '{{ $idPreviewColorSpan }}')" name="colorTexto_Rango" value="#3206B0">
+                            </div>
+                            <div class="form-group colorFondoGap">
+                                <label class="primary-label" for='{{ $idColorFondoRangoInput }}'>Color de fondo:</label>
+                                <input type="color" class="colorPicker cursorPointer" id='{{ $idColorFondoRangoInput }}' title="Seleccionar color"
+                                    oninput="fillPreviewColorFondoSpan(this, '{{ $idPreviewColorSpan }}')" name="colorFondo_Rango" value="#DCD5F0">
+                            </div>
+                        </div>
+                        
+                        <div class="previewRangoContainer">
+                            <label class="primary-label noEditable">Previsualización:</label>
+                            <span class="previewRango" id="{{ $idPreviewColorSpan }}" style="color:#3206B0; background-color: #DCD5F0;"></span> 
+                        </div>
                     </div>
-
+                    
                     <div class="form-group start">
-                        <span class="inline-alert-message" id='{{ $idGeneralMessageError }}'> multiMessageError </span>      
+                        <span class="noInline-alert-message" id='{{ $idGeneralMessageError }}'></span>      
                     </div>
                 </form>
             </div>

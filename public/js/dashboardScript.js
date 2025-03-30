@@ -183,6 +183,7 @@ function getAllLiText(idOptions) {
     
     // Obtener todos los elementos LI dentro de la UL
     const liElements = ul.getElementsByTagName('li');
+    
     // Extraer el texto de cada LI y almacenarlo en un array
     let items = [];
     for (let li of liElements) {

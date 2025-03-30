@@ -6,6 +6,7 @@ let searchRestaurarError = document.getElementById('searchRestaurarRangoError');
 let generalRestaurarRangoError = document.getElementById('generalRestaurarRangoError');
 let colorTextoRangoInputRestaurar = document.getElementById('colorTextoRangoInputRestaurar');
 let colorFondoRangoInputRestaurar = document.getElementById('colorFondoRangoInputRestaurar');
+let previewColorSpanRestaurar= document.getElementById('previewColorSpanRestaurar');
 
 let formRestaurarInputsRangoArray = [
     descripcionRangoInputRestaurar,
@@ -34,22 +35,20 @@ function selectOptionRestaurarRango(value, idNumberRango, descripcionRango, punt
     // Colocar en el input la opción seleccionada 
     selectOption(value, idInput, idOptions); 
 
+    const name = value.split(' | ')[1];
+
     // Actualizar los demás campos del formulario
-    if (sanitizedDescripcionRango) {
+    if (descripcionRango && sanitizedDescripcionRango && puntosMinimosRango && name) {
         descripcionRangoInputRestaurar.value = sanitizedDescripcionRango;
         puntosMinimosRangoInputRestaurar.value = puntosMinimosRango;
-        colorTextoRangoInputRestaurar.value = colorTextoRango;
-        colorFondoRangoInputRestaurar.value = colorFondoRango;
+        updateColorsInput(colorTextoRangoInputRestaurar, colorFondoRangoInputRestaurar, previewColorSpanRestaurar, colorTextoRango, colorFondoRango, name);
 
         // Llenar campos ocultos
         document.getElementById(someHiddenIdInputsArray[0]).value = idNumberRango;
         searchRestaurarError.classList.remove("shown");
         generalRestaurarRangoError.classList.remove("shown");
     } else {
-        descripcionRangoInputRestaurar.value = "";
-        puntosMinimosRangoInputRestaurar.value = "";
-        colorTextoRangoInputRestaurar.value = "#3206B0";
-        colorFondoRangoInputRestaurar.value = "#DCD5F0";
+        updateColorsInput(colorTextoRangoInputRestaurar, colorFondoRangoInputRestaurar, previewColorSpanRestaurar);
     }
 }
 
@@ -59,9 +58,8 @@ function validateValueOnRealTimeRangoRestore(input, idOptions, idSearchMessageEr
     validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
                                     searchField, dbFieldsNameArray, idGeneralMessageError);
 
-    if (!fillColorInputOnRealTime(input, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB)) {
-        colorTextoRangoInputRestaurar.value = "#3206B0";
-        colorFondoRangoInputRestaurar.value = "#DCD5F0";
+    if (!fillColorInputOnRealTimeIDInteger(input, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB, previewColorSpanRestaurar)) {
+        updateColorsInput(colorTextoRangoInputRestaurar, colorFondoRangoInputRestaurar, previewColorSpanRestaurar);
     }
 }
 

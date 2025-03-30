@@ -542,8 +542,8 @@ function returnIDIntegerByStringID(idString) {
     return numberID;
 }
 
-function validateValueOnRealTimeIDInteger (input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray = null, itemsDB = null, 
-                                            searchField = null, dbFieldsNameArray = null, idGeneralMessageError = null) {
+function validateValueOnRealTimeIDInteger (input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray = null,
+                                        itemsDB = null, searchField = null, dbFieldsNameArray = null, idGeneralMessageError = null) {
     const value = input.value;
     const searchMessageError = document.getElementById(idSearchMessageError);
     const generalMessageError = idGeneralMessageError ? document.getElementById(idGeneralMessageError) : null;
@@ -628,43 +628,6 @@ function validateValueOnRealTimeIDInteger (input, idOptions, idSearchMessageErro
             });
         }
     }
-}
-
-function fillColorInputOnRealTime(input, idOptions, inputsArray, dbFieldsNameArray, searchField, itemsDB) {
-    const value = input.value;
-
-    if (!value) {
-        return false; 
-    }
-
-    // Obtener todos los valores de la lista
-    const allItems = getAllLiText(idOptions);
-    const itemEncontrado = allItems.includes(value);
-    
-    if (!itemEncontrado) {
-        return false; 
-    }
-
-    // Rellenar inputs visibles si se requiere
-    if (inputsArray && dbFieldsNameArray && searchField && itemsDB) {
-        const idRango = returnIDIntegerByStringID(value.split(' | ')[0]);
-        const itemArraySearched = returnItemDBValueWithRequestedID(searchField, idRango, itemsDB);
-        
-        if (itemArraySearched) {
-            inputsArray.forEach((idInput, index) => {
-                const inputElement = document.getElementById(idInput);
-                if (inputElement) {
-                    // Usar el índice para acceder al nombre del campo en dbFieldsNameArray
-                    const dbField = dbFieldsNameArray[index];
-                    inputElement.value = itemArraySearched[dbField]; 
-                }
-            });
-        }
-
-        return true;
-    }
-
-    return false;
 }
 
 function returnObjTecnicoById(idTecnico, tecnicosDB) {

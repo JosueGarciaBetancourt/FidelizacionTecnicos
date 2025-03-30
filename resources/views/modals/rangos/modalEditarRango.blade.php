@@ -26,6 +26,7 @@
                         $dbFieldsNameArray = ['descripcion_Rango', 'puntosMinimos_Rango'];
                         $colorInputsArray = [$idColorTextoRangoInput, $idColorFondoRangoInput];
                         $dbColorFieldsNameArray = ['colorTexto_Rango', 'colorFondo_Rango'];
+                        $idPreviewColorSpan = 'previewColorSpanEdit';
                     @endphp
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idRango">
                    
@@ -86,16 +87,27 @@
                     </div>
 
                     <div class="form-group gap">
-                        <label class="primary-label" for='{{ $idColorTextoRangoInput }}'>Color de texto:</label>
-                        <input type="color" class="colorPicker" id='{{ $idColorTextoRangoInput }}' title="Seleccionar color"
-                            name="colorTexto_Rango" value="#3206B0">
-                        <label class="primary-label" for='{{ $idColorFondoRangoInput }}'>Color de fondo:</label>
-                        <input type="color" class="colorPicker" id='{{ $idColorFondoRangoInput }}' title="Seleccionar color"
-                            name="colorFondo_Rango" value="#DCD5F0">
+                        <div class="group-items">
+                            <div class="form-group gap">
+                                <label class="primary-label" for='{{ $idColorTextoRangoInput }}'>Color de texto:</label>
+                                <input type="color" class="colorPicker cursorPointer" id='{{ $idColorTextoRangoInput }}' title="Seleccionar color"
+                                    oninput="fillPreviewColorTextoSpan(this, '{{ $idPreviewColorSpan }}')" name="colorTexto_Rango" value="#3206B0">
+                            </div>
+                            <div class="form-group colorFondoGap">
+                                <label class="primary-label" for='{{ $idColorFondoRangoInput }}'>Color de fondo:</label>
+                                <input type="color" class="colorPicker cursorPointer" id='{{ $idColorFondoRangoInput }}' title="Seleccionar color"
+                                    oninput="fillPreviewColorFondoSpan(this, '{{ $idPreviewColorSpan }}')" name="colorFondo_Rango" value="#DCD5F0">
+                            </div>
+                        </div>
+                        
+                        <div class="previewRangoContainer">
+                            <label class="primary-label noEditable">Previsualización:</label>
+                            <span class="previewRango" id="{{ $idPreviewColorSpan }}" style="color:#3206B0; background-color: #DCD5F0;"></span> 
+                        </div>
                     </div>
                     
                     <div class="form-group start">
-                        <span class="noInline-alert-message" id='{{ $idGeneralMessageError }}'>  </span>      
+                        <span class="noInline-alert-message" id='{{ $idGeneralMessageError }}'></span>      
                     </div>
                 </form>
             </div>

@@ -5,6 +5,7 @@ let searchMessageErrorRangoDisable = document.getElementById('searchDisableRango
 let generalDisableRangoError = document.getElementById('generalDisableRangoError');
 let colorTextoRangoInputDisable = document.getElementById('colorTextoRangoInputDisable');
 let colorFondoRangoInputDisable = document.getElementById('colorFondoRangoInputDisable');
+let previewColorSpanDisable = document.getElementById('previewColorSpanDisable');
 
 let formDisableRangoArray = [
     descripcionRangoInputDisable,
@@ -32,13 +33,14 @@ function selectOptionInhabilitarRango(value, idNumberRango, descripcionRango, pu
     // Colocar en el input la opción seleccionada 
     selectOption(value, idInput, idOptions); 
 
+    const name = value.split(' | ')[1];
+
     // Actualizar los demás campos del formulario
-    if (descripcionRango && sanitizedDescripcionRango && puntosMinimosRango) {
+    if (descripcionRango && sanitizedDescripcionRango && puntosMinimosRango && name) {
         descripcionRangoInputDisable.value = descripcionRango;
         puntosMinimosRangoInputDisable.value = puntosMinimosRango;
-        colorTextoRangoInputDisable.value = colorTextoRango;
-        colorFondoRangoInputDisable.value = colorFondoRango;
-        
+        updateColorsInput(colorTextoRangoInputDisable, colorFondoRangoInputDisable, previewColorSpanDisable, colorTextoRango, colorFondoRango, name);
+
         // Llenar campos ocultos
         document.getElementById(someHiddenIdInputsArray[0]).value = idNumberRango;
         searchMessageErrorRangoDisable.classList.remove("shown");
@@ -46,8 +48,7 @@ function selectOptionInhabilitarRango(value, idNumberRango, descripcionRango, pu
     } else {
         descripcionRangoInputDisable.value = "";
         puntosMinimosRangoInputDisable.value = "";  
-        colorTextoRangoInputDisable.value = "#3206B0";
-        colorFondoRangoInputDisable.value = "#DCD5F0";
+        updateColorsInput(colorTextoRangoInputDisable, colorFondoRangoInputDisable, previewColorSpanDisable);
     }
 }
 
@@ -57,9 +58,8 @@ function validateValueOnRealTimeRangoDisable(input, idOptions, idSearchMessageEr
     validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
                                     searchField, dbFieldsNameArray, idGeneralMessageError);
 
-    if (!fillColorInputOnRealTime(input, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB)) {
-        colorTextoRangoInputDisable.value = "#3206B0";
-        colorFondoRangoInputDisable.value = "#DCD5F0";
+    if (!fillColorInputOnRealTimeIDInteger(input, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB, previewColorSpanDisable)) {
+        updateColorsInput(colorTextoRangoInputDisable, colorFondoRangoInputDisable, previewColorSpanDisable);
     }
 }
 

@@ -5,6 +5,7 @@ let searchErrorRangoDelete = document.getElementById('searchDeleteRangoError');
 let generalDeleteRangoError = document.getElementById('generalDeleteRangoError');
 let colorTextoRangoInputDelete = document.getElementById('colorTextoRangoInputDelete');
 let colorFondoRangoInputDelete = document.getElementById('colorFondoRangoInputDelete');
+let previewColorSpanDelete= document.getElementById('previewColorSpanDelete');
 
 let formDeleteRangoArray = [
     descripcionRangoInputDelete,
@@ -31,22 +32,20 @@ function selectOptionEliminarRango(value, idNumberRango, descripcionRango, punto
     // Colocar en el input la opción seleccionada 
     selectOption(value, idInput, idOptions); 
 
+    const name = value.split(' | ')[1];
+
     // Actualizar los demás campos del formulario
     if (descripcionRango && sanitizedDescripcionRango) {
         descripcionRangoInputDelete.value = descripcionRango;
         puntosMinimosRangoInputDelete.value = puntosMinimosRango;
-        colorTextoRangoInputDelete.value = colorTextoRango;
-        colorFondoRangoInputDelete.value = colorFondoRango;
-  
+        updateColorsInput(colorTextoRangoInputDelete, colorFondoRangoInputDelete, previewColorSpanDelete, colorTextoRango, colorFondoRango, name);
+
         // Llenar campos ocultos
         document.getElementById(someHiddenIdInputsArray[0]).value = idNumberRango;
         searchErrorRangoDelete.classList.remove("shown");
         generalDeleteRangoError.classList.remove("shown");
     } else {
-        descripcionRangoInputDelete.value = "";
-        puntosMinimosRangoInputDelete.value = "";
-        colorTextoRangoInputDelete.value = "#3206B0";
-        colorFondoRangoInputDelete.value = "#DCD5F0";
+        updateColorsInput(colorTextoRangoInputDelete, colorFondoRangoInputDelete, previewColorSpanDelete);
     }
 }
 
@@ -56,9 +55,8 @@ function validateValueOnRealTimeRangoDelete(input, idOptions, idSearchMessageErr
     validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
                                     searchField, dbFieldsNameArray, idGeneralMessageError);
 
-    if (!fillColorInputOnRealTime(input, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB)) {
-        colorTextoRangoInputDelete.value = "#3206B0";
-        colorFondoRangoInputDelete.value = "#DCD5F0";
+    if (!fillColorInputOnRealTimeIDInteger(input, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB, previewColorSpanDelete)) {
+        updateColorsInput(colorTextoRangoInputDelete, colorFondoRangoInputDelete, previewColorSpanDelete);
     }
 }
 

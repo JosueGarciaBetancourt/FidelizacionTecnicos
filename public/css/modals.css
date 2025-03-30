@@ -711,9 +711,12 @@ input[type="date"].empty{
     color:  #409eff;
 }
 
+.cursorPointer {
+    cursor: pointer;
+}
+
 /* Color pickers */
 .colorPicker {
-    cursor: pointer;
     border: 1px solid #aaa;       /* Elimina el borde */
     outline: none;      /* Evita el borde al hacer clic */
     background: none;   /* Evita fondos extra */

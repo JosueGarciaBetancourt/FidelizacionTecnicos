@@ -324,7 +324,7 @@
                 loadingModal.classList.add("show");
             }
 
-            // Solución auxiliar
+            // Solución auxiliar para cerrar modal de carga al retroceder o avanzar en el navegador 
             setTimeout(() => {
                 loadingModal.classList.remove("show");
             }, 2500);

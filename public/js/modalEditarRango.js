@@ -2,6 +2,9 @@ let codigoRangoInputEdit = document.getElementById('codigoRangoInputEdit');
 let idNumberRangoInput = document.getElementById('idNumberRango');
 let descripcionRangoInputEdit = document.getElementById('descripcionRangoInputEdit');
 let puntosMinimosRangoInputEdit = document.getElementById('puntosMinimosRangoInputEdit');
+let colorTextoRangoInputEdit = document.getElementById('colorTextoRangoInputEdit');
+let colorFondoRangoInputEdit = document.getElementById('colorFondoRangoInputEdit');
+let previewColorSpanEdit = document.getElementById('previewColorSpanEdit');
 
 let searchEditMessageError = document.getElementById('searchEditRangoError');
 let generalEditRangoError = document.getElementById('generalEditRangoError');
@@ -44,13 +47,13 @@ function selectOptionEditRango(value, idNumberRango, descripcionRango, puntosMin
     // Colocar en el input la opción seleccionada 
     selectOption(value, idInput, idOptions); 
 
+    const name = value.split(' | ')[1];
+
     // Actualizar los demás campos del formulario
-    if (sanitizedDescripcionRango) {
+    if (sanitizedDescripcionRango && name) {
         descripcionRangoInputEdit.value = sanitizedDescripcionRango;
         puntosMinimosRangoInputEdit.value = puntosMinimosRango;
-        colorTextoRangoInputEdit.value = colorTextoRango;
-        colorFondoRangoInputEdit.value = colorFondoRango;
-
+        updateColorsInput(colorTextoRangoInputEdit, colorFondoRangoInputEdit, previewColorSpanEdit, colorTextoRango, colorFondoRango, name);
         enableDisablePuntosMinimosRangoInput(value);
 
         // Llenar campos ocultos
@@ -61,8 +64,7 @@ function selectOptionEditRango(value, idNumberRango, descripcionRango, puntosMin
     } else {
         descripcionRangoInputEdit.value = "";
         puntosMinimosRangoInputEdit.value = "";
-        colorTextoRangoInputEdit.value = "#3206B0";
-        colorFondoRangoInputEdit.value = "#DCD5F0";
+        updateColorsInput(colorTextoRangoInputEdit, colorFondoRangoInputEdit, previewColorSpanEdit);
     }
 }
 
@@ -74,9 +76,8 @@ function validateValueOnRealTimeRangoEdit(input, idOptions, idSearchMessageError
     validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
                                     searchField, dbFieldsNameArray, idGeneralMessageError);
 
-    if (!fillColorInputOnRealTime(input, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB)) {
-        colorTextoRangoInputEdit.value = "#3206B0";
-        colorFondoRangoInputEdit.value = "#DCD5F0";
+    if (!fillColorInputOnRealTimeIDInteger(input, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB, previewColorSpanEdit)) {
+        updateColorsInput(colorTextoRangoInputEdit, colorFondoRangoInputEdit, previewColorSpanEdit);
     }
 }
 

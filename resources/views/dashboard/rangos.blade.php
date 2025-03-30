@@ -96,6 +96,7 @@
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('js/rangos.js') }}"></script>
     <script src="{{ asset('js/modalRegistrarNuevoRango.js') }}"></script>
     <script src="{{ asset('js/modalEditarRango.js') }}"></script>
     <script src="{{ asset('js/modalInhabilitarRango.js') }}"></script>
