@@ -367,4 +367,23 @@ class Login_tecnicoController extends Controller
         $tecnicos = TecnicoController::returnModelsTecnicosWithOficios();
         return $tecnicos;
     }
+
+    public function getNotificacionesTecnico($idTecnico)
+    {
+        try {
+            $notificaciones = DB::table('tecnicos_notifications')
+                ->where('idTecnico', $idTecnico)
+                ->where('active', true)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            return response()->json($notificaciones);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Error al obtener notificaciones',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
