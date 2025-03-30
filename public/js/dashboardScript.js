@@ -197,3 +197,11 @@ function getAllLiText(idOptions) {
 function closeUserList() {
     userList.style.opacity = 0;
 }
+
+function openNotificationsPanel() {
+    setTimeout(() => {
+        console.log("openNotificationsPanel");
+        const notificationPanel = document.getElementById("notification-panel");
+        notificationPanel.classList.add('open');
+    }, 1);
+}

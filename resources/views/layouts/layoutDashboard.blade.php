@@ -241,7 +241,8 @@
             document.documentElement.style.setProperty('--button-color', localStorage.getItem('accentColor') || '#007bff');
             
             @if(session('newNotifications'))
-                document.getElementById("notification-panel").classList.add('open');
+                const notificationPanel = document.getElementById("notification-panel");
+                notificationPanel.classList.add('open');
 			@endif
 
             loadAsideScrollDown();

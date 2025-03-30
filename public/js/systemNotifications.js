@@ -12,14 +12,28 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
         notificationPanel.classList.toggle("open");
     });
-    
+
     // Cerrar panel si se hace clic fuera de él
     document.addEventListener("click", function (event) {
+        // Verificar si el modal de éxito está abierto
+        const successModalOpened = document.querySelector(".modal-dialog.success.open");
+
+        if (successModalOpened) {
+            console.log(successModalOpened.closest(".modal").id);
+        }
+
+        // Si el usuario hizo clic dentro del modal de éxito O si el modal está abierto,
+        if ((successModalOpened && successModalOpened.contains(event.target)) || successModalOpened !== null) {
+            console.log("Modal de éxito abierto o clic dentro del modal");
+            return;
+        }
+
+        // Solo cerrar el panel si el clic no fue dentro del panel ni del toggle y si no hay un modal de éxito abierto
         if (!notificationPanel.contains(event.target) && !notificationToggle.contains(event.target)) {
             notificationPanel.classList.remove("open");
         }
     });
-
+    
     // Función para actualizar el contador de notificaciones no leídas
     function actualizarContador() {
         const unreadNotifications = document.querySelectorAll(".notification_item.unread").length;

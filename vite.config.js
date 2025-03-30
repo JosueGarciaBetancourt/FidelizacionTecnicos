@@ -20,9 +20,6 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    server: {
-        https: true // Activa HTTPS
-    }
 });
 
 
