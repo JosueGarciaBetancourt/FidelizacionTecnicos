@@ -81,17 +81,35 @@
             </table>
         </div>
 
-        <x-modalSuccessAction :idSuccesModal="'successModalRangoGuardado'" :message="'Rango guardado correctamente'" />
+        <x-modalSuccessAction
+            :idSuccesModal="'successModalRangoGuardado'" 
+            :message="'Rango guardado correctamente'"
+        />
 
-        <x-modalSuccessAction :idSuccesModal="'successModalRangoActualizado'" :message="'Rango actualizado correctamente'" />
+        <x-modalSuccessAction
+            :idSuccesModal="'successModalRangoActualizado'" 
+            :message="'Rango actualizado correctamente'"
+        />
 
-        <x-modalSuccessAction :idSuccesModal="'successModalRangoDisable'" :message="'Rango inhabilitado correctamente'" />
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalRangoDisable'" 
+            :message="'Rango inhabilitado correctamente'"
+        />
 
-        <x-modalSuccessAction :idSuccesModal="'successModalRangoRestaurado'" :message="'Rango habilitado correctamente'" />
+        <x-modalSuccessAction
+            :idSuccesModal="'successModalRangoRestaurado'" 
+            :message="'Rango habilitado correctamente'" 
+        />
 
-        <x-modalSuccessAction :idSuccesModal="'successModalRangoDelete'" :message="'Rango eliminado correctamente'" />
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalRangoDelete'" 
+            :message="'Rango eliminado correctamente'"
+            />
 
-        <x-modalFailedAction :idErrorModal="'errorModalRangoDelete'" :message="'El rango no puede ser eliminado porque hay técnicos asociados a este'" />
+        <x-modalFailedAction 
+            :idErrorModal="'errorModalRangoDelete'" 
+            :message="'El rango no puede ser eliminado porque hay técnicos asociados a este'" 
+        />
     </div>
 @endsection
 

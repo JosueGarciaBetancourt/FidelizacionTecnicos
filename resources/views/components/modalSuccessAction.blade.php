@@ -14,7 +14,7 @@
                 <p>{{ $messageSucess }}</p>
             </div>
             <div class="modal-footer success">
-                <button type="button" class="btn btn-secondary" onclick="closeModal('{{ $successModal }}')">Cerrar</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('{{ $successModal }}'), openNotificationsPanel()">Cerrar</button>
             </div>
         </div>
     </div>
