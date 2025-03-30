@@ -19,7 +19,7 @@ Route::get('/user', function (Request $request) {
     Route::get('/ventasIntermediadasSolicitud/{idTecnico}', [Login_tecnicoController::class, 'getVentasIntermediadasFiltradas']);
     Route::get('/ventas-intermediadas/{idTecnico}', [Login_tecnicoController::class, 'getVentasIntermediadas']);
     Route::get('/recompensas', [Login_tecnicoController::class, 'obtenerRecompensas']);
-    Route::get('/notificaciones', [Login_tecnicoController::class, 'getNotificacionesTecnico']);
+    Route::get('/notificaciones/{idTecnico}', [Login_tecnicoController::class, 'getNotificacionesTecnico']);
     Route::get('/oficios', [Login_tecnicoController::class, 'getAvailableJobs']);
     Route::post('/cambiar-password', [Login_tecnicoController::class, 'changePassword']);
     Route::put('/tecnico/{idTecnico}/oficios', [Login_tecnicoController::class, 'changeJobs']);
