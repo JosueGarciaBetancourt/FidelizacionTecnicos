@@ -244,11 +244,10 @@
                 document.getElementById("notification-panel").classList.add('open');
 			@endif
 
-            // StorageHelper.clearAll();
-
             loadAsideScrollDown();
             closeLoadingModal();
-            
+
+            // StorageHelper.clearAll();
         });
 
         // Management Aside Scrolldown
