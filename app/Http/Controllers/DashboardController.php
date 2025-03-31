@@ -11,11 +11,5 @@ use App\Http\Controllers\SystemNotificationController;
 
 class DashboardController extends Controller
 {   
-    public function configuracion()
-    {
-        // Obtener las notificaciones
-        $notifications = SystemNotificationController::getActiveNotifications();
-
-        return view('dashboard.configuracion', compact('notifications'));
-    }
+    //
 }

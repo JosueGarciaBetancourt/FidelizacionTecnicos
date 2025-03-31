@@ -239,6 +239,8 @@ class VentaIntermediadaController extends Controller
             'puntosGanados_VentaIntermediada' => 'required|numeric',
         ]);
 
+        Controller::$newNotifications = false;
+
         // Iniciar una transacción
         DB::transaction(function () use ($validatedData) {
             // Crear la venta intermediada
@@ -252,7 +254,10 @@ class VentaIntermediadaController extends Controller
             TecnicoController::updatePuntosHistoricosTecnicoById($venta['idTecnico']); 
         });
 
-        return redirect()->route('ventasIntermediadas.create')->with('successVentaIntermiadaStore', 'Venta Intermediada guardada correctamente');
+        return Controller::$newNotifications
+            ? redirect()->route('ventasIntermediadas.create')->with('successVentaIntermiadaStore', 'Venta Intermediada guardada correctamente')
+                ->with('newNotifications', '-')
+            : redirect()->route('ventasIntermediadas.create')->with('successVentaIntermiadaStore', 'Venta Intermediada guardada correctamente');
     }
 
     public function delete(Request $request) {
@@ -394,54 +399,13 @@ class VentaIntermediadaController extends Controller
         }
     }
 
-    public function updateEstadoVentasIntermediadasSolicitudesCanjes(int $newMaxdaysCanje) 
-    {
-        try {
-            // Actualizar las ventas
-            VentaIntermediada::all()->each(function ($venta) use ($newMaxdaysCanje) {
-                $idEstadoVenta = VentaIntermediadaController::returnStateIdVentaIntermediada(
-                    $venta->idVentaIntermediada,
-                    $venta->puntosActuales_VentaIntermediada,
-                    $newMaxdaysCanje
-                );
-
-                $venta->update(['idEstadoVenta' => $idEstadoVenta]);
-            });
-
-            // Actualizar solicitudes pendientes y con tiempo agotado
-            SolicitudesCanje::whereIn('idEstadoSolicitudCanje', [1, 4])->each(function ($soli) use ($newMaxdaysCanje) {
-                $idEstadoSolicitudCanje = SolicitudCanjeController::returnStateIdSolicitudCanje(
-                    $soli->idSolicitudCanje,
-                    $soli->diasTranscurridosVenta,
-                    $newMaxdaysCanje
-                );
-
-                $soli->update(['idEstadoSolicitudCanje' => $idEstadoSolicitudCanje]);
-            });
-        } catch (\Exception $e) {
-            dd("updateEstadoVentasIntermediadasSolicitudesCanjes: " . $e);
-            //Log::error("Error en createAgotamientoVentasIntermediadasNotifications: " . $e->getMessage());
-        }
-    }
-
     public function updateMaxdayscanje(Request $request) {
         $maxdayscanjeValidated = $request->validate([
             'maxdaysCanje' => 'required|numeric|min:0|max:90'
         ]);
     
-        $settingMaxdayscanje = Setting::where('key', 'maxdaysCanje')->first();
-    
-        if ($settingMaxdayscanje) {
-            $settingMaxdayscanje->update(['value' => $maxdayscanjeValidated['maxdaysCanje']]);
-        }
-
-        // Actualizar los estados de las ventas y generar notificaciones
-        $this->updateEstadoVentasIntermediadasSolicitudesCanjes($maxdayscanjeValidated['maxdaysCanje']);
-        ConfiguracionController::createAgotamientoVentasIntermediadasNotifications(config('settings.diasAgotarVentaIntermediadaNotificacion'));
-
-        // Limpiar caché de configuración para reflejar cambios
-        Cache::forget('settings_cache');
-
+        ConfiguracionController::updateMaxdayscanjeConfiguracion($maxdayscanjeValidated['maxdaysCanje']);
+        
         return redirect()->route('ventasIntermediadas.create')->with('successMaxdayscanjeStore', 'Días máximos de canje guardados correctamente');
     }
 

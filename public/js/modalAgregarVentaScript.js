@@ -12,6 +12,7 @@ let horaEmisionVentaIntermediadaInput = document.getElementById('horaEmisionVent
 let fechaHoraEmisionInput = document.getElementById('fechaHoraEmisionVentaIntermediadaInput');
 let montoTotalInput = document.getElementById('montoTotalInput');
 let puntosGanadosInput = document.getElementById('puntosGanadosInput');
+let diasTranscurridosVentaHastaHoy = 0;
 
 let formInputsArrayAgregarVenta = [
     idVentaIntermediadaInput, 
@@ -803,7 +804,8 @@ function validarCamposCorrectosFormulario() {
 
     // Validando máximo de 90 días transcurridos
     if (!validarMaximoDiasTranscurridosHastaHoyFechaHora(fechaHoraEmisionInput.value)) {
-        mensajeCombinado += `La fecha supera el máximo de ${maxdaysCanjeMAIN} días para el registro de la venta intermediada. `;
+        mensajeCombinado += `Los días transcurridos de la venta hasta hoy (${Math.floor(diasTranscurridosVentaHastaHoy)}) superan el máximo de \
+                            días para el registro de la venta intermediada (${maxdaysCanjeMAIN}). `;
         returnError = true;
     }
     
@@ -821,12 +823,14 @@ function getStringFormatCurrentDate() {
     return fechaHoraActual
 }
 
+
+
 // Función mejorada para validar días transcurridos
 function validarMaximoDiasTranscurridosHastaHoyFechaHora(fechaHora) {
     const fechaHoraActual = getStringFormatCurrentDate();
-    const dias = getDiasTranscurridosFechaHora(fechaHora, fechaHoraActual);
+    diasTranscurridosVentaHastaHoy = getDiasTranscurridosFechaHora(fechaHora, fechaHoraActual);
     
-    return dias <= maxdaysCanjeMAIN;
+    return diasTranscurridosVentaHastaHoy <= maxdaysCanjeMAIN;
 }
 
 function removeZerosIDVentaIntermediada(idVentaIntermediada) {

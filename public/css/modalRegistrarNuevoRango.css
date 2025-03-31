@@ -17,7 +17,7 @@
 }
 
 #modalRegistrarNuevoRango .modal-dialog.open {
-    transform: translateY(-3.5rem);
+    transform: translateY(-4rem);
 }
 
 #codigoRangoInputRegistrar {
@@ -38,9 +38,5 @@
 }
 
 #puntosMinimosRangoInputRegistrar {
-	width: 10rem;
-}
-
-.form-group.colorFondo {
-	gap: 0.5rem;
+	width: 5rem;
 }
