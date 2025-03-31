@@ -18,13 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Verificar si el modal de éxito está abierto
         const successModalOpened = document.querySelector(".modal-dialog.success.open");
 
-        if (successModalOpened) {
-            console.log(successModalOpened.closest(".modal").id);
-        }
-
         // Si el usuario hizo clic dentro del modal de éxito O si el modal está abierto,
         if ((successModalOpened && successModalOpened.contains(event.target)) || successModalOpened !== null) {
-            console.log("Modal de éxito abierto o clic dentro del modal");
             return;
         }
 

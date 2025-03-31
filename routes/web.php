@@ -115,6 +115,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/dashboard-tecnicos/restorePassword', [TecnicoController::class, 'restorePassword'])->name('tecnicos.restorePassword');
     Route::get('/dashboard-tecnicos/export-pdf', [TecnicoController::class, 'exportarAllTecnicosPDF'])->name('tecnicos.tablaPDF');
 
+
     // Oficios
     Route::get('/dashboard-oficios', [OficioController::class, 'create'])->name('oficios.create');  
     Route::post('/dashboard-storeOficios', [OficioController::class, 'store'])->name('oficios.store');  
@@ -125,6 +126,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/tblOficiosData', [OficioController::class, 'tabla'])->name('oficios.tabla');
     Route::get('/dashboard-oficios/export-pdf', [OficioController::class, 'exportarAllOficiosPDF'])->name('oficios.tablaPDF');
 
+
     // Rangos
     Route::get('/dashboard-rangos', [RangoController::class, 'create'])->name('rangos.create');  
     Route::post('/dashboard-storeRangos', [RangoController::class, 'store'])->name('rangos.store');  
@@ -133,12 +135,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/dashboard-restoreRangos', [RangoController::class, 'restore'])->name('rangos.restore');  
     Route::delete('/dashboard-deleteRangos', [RangoController::class, 'delete'])->name('rangos.delete');  
 
+    
     // Configuración
-    Route::get('/dashboard-configuracion', [DashboardController::class, 'configuracion'])->name('configuracion.create');  
-    Route::put('/changeSettingsVariables', [ConfiguracionController::class, 'changeSettingsVariables'])->name('configuracion.update');
+    Route::get('/dashboard-configuracion', [ConfiguracionController::class, 'create'])->name('configuracion.create');  
+    Route::put('/dashboard-updateConfiguracion', [ConfiguracionController::class, 'update'])->name('configuracion.update');
+
 
     // Notificaciones
     Route::post('/systemNotification/deactivateNotification', [SystemNotificationController::class, 'deactivateNotification'])->name('systemNotification.deactivate');
+
 
     // Correos
     Route::get('emailExample', function () {

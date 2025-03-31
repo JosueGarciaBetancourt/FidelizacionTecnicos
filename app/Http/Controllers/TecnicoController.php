@@ -423,7 +423,7 @@ class TecnicoController extends Controller
             'historicoPuntos_Tecnico' => $nuevoHistoricoPuntos,
             'idRango' => $newIDRango,
         ]);
-
+        
         // Crear notificación de sistema y notificación de técnico (móvil) al detectar cambio de rango del técnico
         if ($newIDRango !== $oldIDRango) {
             $newRango = Rango::find($newIDRango)->nombre_Rango;

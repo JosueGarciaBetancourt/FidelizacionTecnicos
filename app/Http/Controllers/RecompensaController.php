@@ -114,6 +114,8 @@ class RecompensaController extends Controller
                 'stock_Recompensa' => 'required|numeric|min:1',
             ]);
 
+            Controller::$newNotifications = false;
+
             DB::beginTransaction();
 
             // Verificar si el tipo de recompensa existe
@@ -160,9 +162,12 @@ class RecompensaController extends Controller
             
             DB::commit();
             
-            // Redirigir con éxito
             $messageStore = 'Recompensa guardada correctamente.';
-            return redirect()->route('recompensas.create')->with('successRecompensaStore', $messageStore);
+
+            return Controller::$newNotifications
+                ? redirect()->route('recompensas.create')->with('successRecompensaStore', $messageStore)
+                    ->with('newNotifications', '-')
+                : redirect()->route('recompensas.create')->with('successRecompensaStore', $messageStore);
         } catch (\Exception $e) {
             // Revertir la transacción en caso de error
             DB::rollBack();
@@ -175,13 +180,13 @@ class RecompensaController extends Controller
     {
         $recompensaSolicitada = Recompensa::find($request->idRecompensa);
 
+        Controller::$newNotifications = false;
+
         // Actualizar los campos
         $recompensaSolicitada->update([
             'costoPuntos_Recompensa' => $request->costoPuntos_Recompensa,
             'stock_Recompensa' => $request->stock_Recompensa,
         ]);
-
-        $messageUpdate = 'Recompensa actualizada correctamente';
 
         // Si el stock de la recompensa es menor o igual a 15, crear una notificación
         if ($recompensaSolicitada['stock_Recompensa'] <= config('settings.unidadesRestantesRecompensasNotificacion')) {
@@ -196,7 +201,12 @@ class RecompensaController extends Controller
             Controller::$newNotifications = true;
         }
 
-        return redirect()->route('recompensas.create')->with('successRecompensaUpdate', $messageUpdate);
+        $messageUpdate = 'Recompensa actualizada correctamente';
+
+        return Controller::$newNotifications
+            ? redirect()->route('recompensas.create')->with('successRecompensaStore', $messageUpdate)
+                ->with('newNotifications', '-')
+            : redirect()->route('recompensas.create')->with('successRecompensaStore', $messageUpdate);
     }
 
     public function disable(Request $request) 

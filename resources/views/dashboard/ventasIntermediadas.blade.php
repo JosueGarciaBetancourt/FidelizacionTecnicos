@@ -31,7 +31,7 @@
                 @include('modals.ventasIntermediadas.modalAgregarVenta')
                 @include('modals.tecnicos.modalAgregarNuevoTecnico')
                 
-                <x-btn-edit-item onclick="openModal('modalEditarMaxdayscanje')"> Editar días máximos de canje </x-btn-edit-item>
+                <x-btn-edit-item onclick="openModal('modalEditarMaxdayscanje')"> Editar días máximos de registro de venta </x-btn-edit-item>
                 @include('modals.ventasIntermediadas.modalEditarMaxdayscanje')
 
                 <x-btn-delete-item onclick="openModal('modalEliminarVentaIntermediada')"> Eliminar </x-btn-delete-item>

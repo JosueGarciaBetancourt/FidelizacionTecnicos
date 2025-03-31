@@ -75,16 +75,16 @@
 							<input type="hidden" value="adminUsername" name="keys[]" readonly>
 							<input type="text" class="input-item" id="{{ $adminUsernameInput}}" name="values[]" value="{{ config('settings.adminUsername') }}">
 						</div>
+ 						--}}
 
-						<h3> Ventas intermediadas</h3>
+						<h3> Ventas intermediadas y Canjes</h3>
 						
 						<div class="config-option">
-							<label for="{{ $maxdaysCanjeInput }}">Días máximos para canjear una venta:</label>
+							<label for="{{ $maxdaysCanjeInput }}">Días máximos de registro de venta/Días máximos para canjear una venta:</label>
 							<input type="hidden" value="maxdaysCanje" name="keys[]" readonly>
 							<input type="number" class="input-item" id="{{ $maxdaysCanjeInput}}" name="values[]" 
 								oninput="validateRealTimeInputLength(this, 3), validateNumberWithMaxLimitRealTime(this, 90)" value="{{ config('settings.maxdaysCanje') }}">
 						</div>
- 						--}}
 
 						<input type="hidden" id="{{ $maxdaysCanjeInput}}" value="{{ config('settings.maxdaysCanje') }}">
 						

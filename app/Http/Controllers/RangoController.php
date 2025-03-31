@@ -17,6 +17,7 @@ class RangoController extends Controller
         if (!$lastNumberRangoID) {
             return 'RAN-01';
         }
+
         $newNumberRangoID = $lastNumberRangoID + 1;
         $newCodigoRango = 'RAN-'. str_pad($newNumberRangoID, 2, '0', STR_PAD_LEFT);
         return $newCodigoRango;
@@ -49,9 +50,12 @@ class RangoController extends Controller
                 'colorFondo_Rango' => 'required|string|max:7',
             ]);
 
+            
             $rango = new Rango($validatedData);
             $rango->save();
         
+            Controller::$newNotifications = false;
+
             // Actualizar técnicos y crear notificaciones si es necesario
             ConfiguracionController::updateRangoTecnicos();
             
@@ -86,6 +90,8 @@ class RangoController extends Controller
                 'colorFondo_Rango' => $validatedData['colorFondo_Rango'],
             ]);
     
+            Controller::$newNotifications = false;
+
             // Actualizar técnicos y crear notificaciones si es necesario
             ConfiguracionController::updateRangoTecnicos();
     
@@ -114,6 +120,8 @@ class RangoController extends Controller
             $messageDisable = 'Rango no encontrado';
         }
     
+        Controller::$newNotifications = false;
+
         // Actualizar técnicos y crear notificaciones si es necesario
         ConfiguracionController::updateRangoTecnicos();
 
@@ -142,6 +150,8 @@ class RangoController extends Controller
             $oficioEliminado->restore();
             
             DB::commit();
+
+            Controller::$newNotifications = false;
 
             // Actualizar técnicos y crear notificaciones si es necesario
             ConfiguracionController::updateRangoTecnicos();

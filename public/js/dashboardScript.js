@@ -199,9 +199,12 @@ function closeUserList() {
 }
 
 function openNotificationsPanel() {
-    setTimeout(() => {
-        console.log("openNotificationsPanel");
-        const notificationPanel = document.getElementById("notification-panel");
-        notificationPanel.classList.add('open');
-    }, 1);
+    const notificactionCount = document.getElementById("notification-count").textContent;
+    
+    if (parseInt(notificactionCount) > 0) {
+        setTimeout(() => {
+            const notificationPanel = document.getElementById("notification-panel");
+            notificationPanel.classList.add('open');
+        }, 1);
+    }
 }

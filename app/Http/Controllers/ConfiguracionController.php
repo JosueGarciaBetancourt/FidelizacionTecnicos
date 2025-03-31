@@ -9,14 +9,15 @@ use App\Models\Setting;
 use App\Models\Tecnico;
 use App\Models\Recompensa;
 use Illuminate\Http\Request;
+use App\Models\SolicitudesCanje;
 use App\Models\VentaIntermediada;
 use App\Models\SystemNotification;
 use App\Models\TecnicoNotification;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
+use App\Http\Controllers\RangoController;
 use App\Http\Controllers\TecnicoController;
 use App\Http\Controllers\VentaIntermediadaController;
-use App\Http\Controllers\RangoController;
 
 class ConfiguracionController extends Controller
 {
@@ -29,7 +30,13 @@ class ConfiguracionController extends Controller
     private $unidadesRestantesRecompensasNotificacionKey = 'unidadesRestantesRecompensasNotificacion';
     private $diasAgotarVentaIntermediadaNotificacionKey = 'diasAgotarVentaIntermediadaNotificacion';
 
-    public function changeSettingsVariables(Request $request)
+    public function create() {
+        $notifications = SystemNotificationController::getActiveNotifications();
+
+        return view('dashboard.configuracion', compact('notifications'));
+    }
+
+    public function update(Request $request)
     {
         $validatedData = $request->validate([
             'keys' => 'required|array',
@@ -38,6 +45,8 @@ class ConfiguracionController extends Controller
             'values.*' => 'required|string',
             'originConfig' => 'nullable|string',
         ]);
+
+        Controller::$newNotifications = false;
 
         // Iterar sobre los valores enviados
         foreach ($validatedData['keys'] as $index => $key) {
@@ -48,6 +57,8 @@ class ConfiguracionController extends Controller
 
             if ($key === $this->emailDomainKey) {
                 $this->updateUserEmails($value);
+            } else if ($key === $this->maxdaysCanjeKey) {
+                $this->updateMaxdayscanjeConfiguracion($value);
             } else if ($key === $this->unidadesRestantesRecompensasNotificacionKey) {
                 $this->createRecompensasNotifications($value);
             } else if ($key === $this->diasAgotarVentaIntermediadaNotificacionKey) {
@@ -66,7 +77,11 @@ class ConfiguracionController extends Controller
                         ->with('newNotifications', '-')
                     : redirect()->route('usuarios.create')
                         ->with('successDominioCorreoUpdate', 'Dominio de correo actualizado correctamente.'),
-            default => redirect()->route('configuracion.create')->with('successConfig', 'Configuraciones actualizadas correctamente.'),
+            default => 
+                Controller::$newNotifications
+                    ? redirect()->route('configuracion.create')->with('successConfig', 'Configuración guardada correctamente.')
+                        ->with('newNotifications', '-')
+                    : redirect()->route('configuracion.create')->with('successConfig', 'Configuración guardada correctamente.')
         };
     }
 
@@ -76,6 +91,51 @@ class ConfiguracionController extends Controller
             $username = strstr($user->email, '@', true); // Obtener parte antes del @
             $user->update(['email' => $username . '@' . $newDomain]);
         });
+    }
+
+    public static function updateEstadoVentasIntermediadasSolicitudesCanjes(int $newMaxdaysCanje) 
+    {
+        try {
+            // Actualizar las ventas
+            VentaIntermediada::all()->each(function ($venta) use ($newMaxdaysCanje) {
+                $idEstadoVenta = VentaIntermediadaController::returnStateIdVentaIntermediada(
+                    $venta->idVentaIntermediada,
+                    $venta->puntosActuales_VentaIntermediada,
+                    $newMaxdaysCanje
+                );
+
+                $venta->update(['idEstadoVenta' => $idEstadoVenta]);
+            });
+
+            // Actualizar solicitudes pendientes y con tiempo agotado
+            SolicitudesCanje::whereIn('idEstadoSolicitudCanje', [1, 4])->each(function ($soli) use ($newMaxdaysCanje) {
+                $idEstadoSolicitudCanje = SolicitudCanjeController::returnStateIdSolicitudCanje(
+                    $soli->idSolicitudCanje,
+                    $soli->diasTranscurridosVenta,
+                    $newMaxdaysCanje
+                );
+
+                $soli->update(['idEstadoSolicitudCanje' => $idEstadoSolicitudCanje]);
+            });
+        } catch (\Exception $e) {
+            dd("updateEstadoVentasIntermediadasSolicitudesCanjes: " . $e);
+            //Log::error("Error en createAgotamientoVentasIntermediadasNotifications: " . $e->getMessage());
+        }
+    }
+
+    public static function updateMaxdayscanjeConfiguracion($newMaxdaysCanje) {
+        $settingMaxdayscanje = Setting::where('key', 'maxdaysCanje')->first();
+    
+        if ($settingMaxdayscanje) {
+            $settingMaxdayscanje->update(['value' => $newMaxdaysCanje]);
+        }
+
+        // Actualizar los estados de las ventas y generar notificaciones
+        ConfiguracionController::updateEstadoVentasIntermediadasSolicitudesCanjes($newMaxdaysCanje);
+        ConfiguracionController::createAgotamientoVentasIntermediadasNotifications(config('settings.diasAgotarVentaIntermediadaNotificacion'));
+
+        // Limpiar caché de configuración para reflejar cambios
+        Cache::forget('settings_cache');
     }
 
     public static function updateRangoTecnicos()
@@ -191,7 +251,7 @@ class ConfiguracionController extends Controller
 
             // Eliminar todas las notificaciones de las ventas en una sola consulta
             TecnicoNotification::whereIn('idVentaIntermediada', $ventas->pluck('idVentaIntermediada'))->delete();
-
+            
             $notificaciones = $ventas->map(function ($venta) use ($maxDaysCanje) {
                 $remainingDays = $maxDaysCanje - $venta->diasTranscurridos;
                 
@@ -208,9 +268,12 @@ class ConfiguracionController extends Controller
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
-            })->filter();
+            })->filter(); // Filtrar valores falsy
 
-            TecnicoNotification::insert($notificaciones->toArray());
+            if ($notificaciones) {
+                TecnicoNotification::insert($notificaciones->toArray());
+                Controller::$newNotifications = true;
+            }
         } catch (\Exception $e) {
             dd("createAgotamientoVentasIntermediadasNotifications: " . $e);
             Log::error("Error en createAgotamientoVentasIntermediadasNotifications: " . $e->getMessage());
