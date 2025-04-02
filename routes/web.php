@@ -15,6 +15,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RecompensaController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\SolicitudCanjeController;
+use App\Http\Controllers\TipoRecompensaController;
 use App\Http\Controllers\VentaIntermediadaController;
 use App\Http\Controllers\SystemNotificationController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -40,7 +41,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard-getAdminEmail', [ProfileController::class, 'getAdminEmail'])->name('usuarios.getAdminEmail');
     Route::get('/dashboard-getEmailDomain', [ProfileController::class, 'getEmailDomain'])->name('usuarios.getEmailDomain');
     Route::get('/dashboard-getMaxdaysCanje', [ProfileController::class, 'getMaxdaysCanje'])->name('usuarios.getMaxdaysCanje');
-    
+    Route::get('/dashboard-getdiasAgotarVentaIntermediadaNotificacion', [ProfileController::class, 'getdiasAgotarVentaIntermediadaNotificacion'])
+        ->name('usuarios.getdiasAgotarVentaIntermediadaNotificacion');
+
 
     // Ventas Intermediadas
     Route::get('/dashboard-ventasIntermediadas', [VentaIntermediadaController::class, 'create'])->name('ventasIntermediadas.create');
@@ -94,9 +97,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     // Tipos recompensas
-    Route::post('/modal-storeTipoRecompensa', [RecompensaController::class, 'storeTipoRecompensa'])->name('tiposRecompensas.store');  
-    Route::put('/modal-updateTipoRecompensa', [RecompensaController::class, 'updateTipoRecompensa'])->name('tiposRecompensas.update'); 
-    Route::delete('/modal-deleteTipoRecompensa', [RecompensaController::class, 'deleteTipoRecompensa'])->name('tiposRecompensas.delete');
+    Route::get('/dashboard-tiposRecompensas', [TipoRecompensaController::class, 'create'])->name('tiposRecompensas.create');  
+    Route::post('/modal-storeTipoRecompensa', [TipoRecompensaController::class, 'store'])->name('tiposRecompensas.store');  
+    Route::put('/modal-updateTipoRecompensa', [TipoRecompensaController::class, 'update'])->name('tiposRecompensas.update'); 
+    Route::delete('/modal-deleteTipoRecompensa', [TipoRecompensaController::class, 'delete'])->name('tiposRecompensas.delete');
+    Route::get('/dashboard-tiposRecompensas/export-pdf', [RangoController::class, 'exportarAllTiposRecompensasPDF'])->name('tiposRecompensas.tablaPDF');
 
 
     // Técnicos
@@ -134,6 +139,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/dashboard-disableRangos', [RangoController::class, 'disable'])->name('rangos.disable');  
     Route::post('/dashboard-restoreRangos', [RangoController::class, 'restore'])->name('rangos.restore');  
     Route::delete('/dashboard-deleteRangos', [RangoController::class, 'delete'])->name('rangos.delete');  
+    Route::get('/dashboard-rangos/export-pdf', [RangoController::class, 'exportarAllRangosPDF'])->name('rangos.tablaPDF');
 
     
     // Configuración

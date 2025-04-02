@@ -20,8 +20,6 @@
     @vite(['resources/css/modalInhabilitarRecompensa.css'])
     @vite(['resources/css/modalRestaurarRecompensa.css'])
     @vite(['resources/css/modalEliminarRecompensa.css'])
-    @vite(['resources/css/modalEditarTipoRecompensa.css'])
-    @vite(['resources/css/modalEliminarTipoRecompensa.css'])
 @endpush
 
 @section('main-content')
@@ -31,7 +29,6 @@
         @endphp
 
         @if (!$isAsisstantLogged)
-            <h3>Recompensa</h3>
             <div class="firstRowRecompensas">
                 <x-btn-create-item onclick="openModal('modalRegistrarNuevaRecompensa')"> 
                     Nueva recompensa
@@ -51,19 +48,19 @@
                 @include('modals.recompensas.modalEliminarRecompensa')
             </div>
 
-            <h3>Tipo de recompensa</h3>
+            {{-- <h3>Tipo de recompensa</h3>
             <div class="secondRowRecompensas">
                 <x-btn-create-item onclick="openModal('modalRegistrarNuevoTipoRecompensa')"> 
                     Nuevo tipo de recompensa
                 </x-btn-create-item>
-                @include('modals.recompensas.modalRegistrarNuevoTipoRecompensa')
+                @include('modals.tiposRecompensas.modalRegistrarNuevoTipoRecompensa')
 
                 <x-btn-edit-item onclick="openModal('modalEditarTipoRecompensa')"> Editar </x-btn-edit-item>
-                @include('modals.recompensas.modalEditarTipoRecompensa')
+                @include('modals.tiposRecompensas.modalEditarTipoRecompensa')
 
                 <x-btn-delete-item onclick="openModal('modalEliminarTipoRecompensa')"> Eliminar </x-btn-delete-item>
-                @include('modals.recompensas.modalEliminarTipoRecompensa')
-            </div>
+                @include('modals.tiposRecompensas.modalEliminarTipoRecompensa')
+            </div> --}}
         @endif
 
         <div class="thirdRow">
@@ -88,7 +85,7 @@
                     <tr>
                         <td class="celda-centered">{{ $contador++ }}</td> 
                         <td>{{ $recompensa->idRecompensa }}</td>
-                        <td class="celda__tipoRecompensa">
+                        <td class="celda-centered celdaTipoRecompensa">
                             <span class="tipoRecompensa__span-{{strtolower(str_replace(' ', '-', $recompensa->idTipoRecompensa))}}">
                                 {{ $recompensa->nombre_TipoRecompensa }}
                             </span>

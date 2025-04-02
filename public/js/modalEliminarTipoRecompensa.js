@@ -51,7 +51,7 @@ function validarCamposVaciosFormularioTipoRecompensaDelete() {
     return allFilled;
 }
 
-function isTipoAsociadoRecompensaEdit(recompensasDB) {
+function isTipoAsociadoRecompensaDelete(recompensasDB) {
     const idNumberTipoRecompensa= idNumberTipoRecompensaInputDelete.value.trim(); 
     const recompensaAsociadaExistente = recompensasDB.find(recompensa => recompensa.idTipoRecompensa == idNumberTipoRecompensa);
     // Retornar true si se encuentra una coincidencia, false en caso contrario
@@ -62,9 +62,11 @@ function validarCamposCorrectosTipoRecompensaDelete(recompensasDB) {
     mensajeCombinadoDeleteOficio = "";
     var returnError = false;
 
-    if (isTipoAsociadoRecompensaEdit(recompensasDB)) {
-        mensajeCombinadoDeleteOficio += `El tipo de recompensa con código ${codigoTipoRecompensaInputDelete.value} ya tiene recompensas asociadas, no puede eliminarlo.`;
+    if (isTipoAsociadoRecompensaDelete(recompensasDB)) {
+        // mensajeCombinadoDeleteOficio += `El tipo de recompensa con código ${codigoTipoRecompensaInputDelete.value} ya tiene recompensas asociadas, no puede eliminarlo.`;
         returnError = true;
+        const msg = `El Tipo de Recompensa con código ${codigoTipoRecompensaInputDelete.value} ya tiene recompensas asociadas, no puede eliminarlo`;
+        openErrorModal("errorModalTipoRecompensa", msg);
     }
 
     if (returnError) {

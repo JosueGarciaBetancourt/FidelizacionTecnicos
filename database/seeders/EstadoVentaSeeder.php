@@ -25,7 +25,8 @@ class EstadoVentaSeeder extends Seeder
             ],
             [
                 //'idEstadoVenta' => 4,
-                'nombre_EstadoVenta' => 'Tiempo Agotado', // Tiene que ser una venta En espera ó Redimido (parcial) y supera los 90 días
+                'nombre_EstadoVenta' => 'Tiempo Agotado', // Tiene que ser una venta En espera, Redimido (parcial) ó 
+                                                        // En espera (solicitado desde app) y tiene que superar los 90 días
             ],
             [
                 //'idEstadoVenta' => 5,

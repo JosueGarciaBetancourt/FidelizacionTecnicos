@@ -14,8 +14,8 @@ return new class extends Migration
             $table->string('nombre_Rango');
             $table->string('descripcion_Rango')->default('Sin descripción'); 
             $table->unsignedInteger('puntosMinimos_Rango'); 
-            $table->string('colorTexto_Rango')->default('#3206B0'); // En mayúsculas para evitar inconsistencias
-            $table->string('colorFondo_Rango')->default('#DCD5F0'); // En mayúsculas para evitar inconsistencias
+            $table->string('colorTexto_Rango')->default('#3206B0');
+            $table->string('colorFondo_Rango')->default('#DCD5F0');
             $table->timestamps(); //created_at updated_at
             $table->softDeletes(); //deleted_at
         });

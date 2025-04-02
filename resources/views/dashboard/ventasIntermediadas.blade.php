@@ -61,6 +61,11 @@
             </table>
         </div>
         
+        <x-modalConfirmAction
+            :idConfirmModal="'modalConfirmActionVentaIntermediada'"
+            :message="'¿Está seguro de esta acción?'"
+        />
+        
         <x-modalSuccessAction 
             :idSuccesModal="'successModalVentaIntermediadaGuardada'"
             :message="'Venta Intermediada registrada correctamente'"

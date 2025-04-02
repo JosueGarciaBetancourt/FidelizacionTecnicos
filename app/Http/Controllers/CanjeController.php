@@ -417,8 +417,8 @@ class CanjeController extends Controller
                 ];
             });
             
-            /* Log::info("DATA CANJES PDF:");
-            Controller::printJSON($data); */
+            // Log::info("DATA CANJES PDF:");
+            // Controller::printJSON($data);
             return $data->toArray();
         } catch (\Exception $e) {
             dd($e->getMessage());
@@ -431,8 +431,8 @@ class CanjeController extends Controller
             // Cargar datos de técnicos con oficios
             $data = $this->returnArrayHistorialCanjesTablaPDF();
             
-            /* Log::info("DATA exportarAllCanjesPDF:");
-            Controller::printJSON($data); */
+            // Log::info("DATA exportarAllCanjesPDF:");
+            // Controller::printJSON($data); 
 
             // Verificar si hay datos para exportar
             if (count($data) === 0) {

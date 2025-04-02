@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('puntosCanjeados_SolicitudCanje')->unsigned();
             $table->integer('puntosRestantes_SolicitudCanje')->unsigned(); 
             $table->text('comentario_SolicitudCanje')->nullable(); // Cuando un usuario aprueba o rechaza se realiza un comentario
-           
+
             $table->foreign('idVentaIntermediada')->references('idVentaIntermediada')->on('VentasIntermediadas');
             $table->foreign('idTecnico')->references('idTecnico')->on('Tecnicos');
             $table->foreign('idEstadoSolicitudCanje')->references('idEstadoSolicitudCanje')->on('EstadosSolicitudesCanjes');

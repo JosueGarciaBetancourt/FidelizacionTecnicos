@@ -12,8 +12,10 @@ use Yajra\DataTables\DataTables;
 use App\Models\VentaIntermediada;
 use App\Models\SystemNotification;
 use Illuminate\Support\Facades\DB;
+use App\Models\TecnicoNotification;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use App\Models\SolicitudCanjeRecompensa;
 use App\Http\Controllers\CanjeController;
 use App\Http\Controllers\SystemNotificationController;
@@ -22,6 +24,33 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class SolicitudCanjeController extends Controller
 {
+    public static function updateEstadosSolicitudCanjeMaxDayCanje() {
+        $solicitudesFiltered = SolicitudesCanje::with(['ventasIntermediadas' => function($query) {
+                $query->select('idVentaIntermediada', 'idEstadoVenta', 'fechaHoraEmision_VentaIntermediada');
+            }])
+            ->select(['idSolicitudCanje', 'idEstadoSolicitudCanje', 'idVentaIntermediada']) // Agrega 'idVentaIntermediada' para enlazar con la relación
+            ->get()
+            ->filter(function ($solicitud) { 
+                return in_array($solicitud->idEstadoSolicitudCanje, [1/* , 4 */]) && in_array($solicitud->ventasIntermediadas->idEstadoVenta, [4]);
+                // Descomentar y reemplazar la segunda condición con !in_array($solicitud->ventasIntermediadas->idEstadoVenta, [3])
+                // para probar como regresa a su estado anterior al cambiar fechaHoraEmision_VentaIntermediada en la BD
+        });
+
+        //dd($solicitudesFiltered->pluck("idEstadoSolicitudCanje", "idSolicitudCanje"));
+        //dd($solicitudesFiltered);
+        //dd($solicitudesFiltered->pluck("ventasIntermediadas.idEstadoVenta"));
+
+        if ($solicitudesFiltered) {
+            foreach ($solicitudesFiltered as $soli) {
+                $newIdEstadoSolicitudCanje = ($soli->ventasIntermediadas->idEstadoVenta == 4) ? 4 : 1;
+                $soli->update([
+                    'fechaHoraEmision_VentaIntermediada' => $soli->ventasIntermediadas->fechaHoraEmision_VentaIntermediada,
+                    'idEstadoSolicitudCanje' => $newIdEstadoSolicitudCanje
+                ]);
+            }
+        }
+    }
+
     public function create()
     {
         // Obtener las notificaciones
@@ -62,7 +91,7 @@ class SolicitudCanjeController extends Controller
     }
     
     public function crearSolicitud(Request $request)
-    {
+    {   
         $validatedData = $request->validate([
             'idVentaIntermediada' => 'required|string|exists:VentasIntermediadas,idVentaIntermediada',
             'idTecnico' => 'required|string|exists:Tecnicos,idTecnico',
@@ -110,6 +139,7 @@ class SolicitudCanjeController extends Controller
 
             // Generar un ID único para la solicitud
             $idSolicitudCanje = 'SOLICANJ-' . str_pad(SolicitudesCanje::count() + 1, 5, '0', STR_PAD_LEFT);
+            Cache::forget('settings_cache');
 
             // Crear la solicitud de canje
             $solicitud = SolicitudesCanje::create([
@@ -124,6 +154,7 @@ class SolicitudCanjeController extends Controller
                 'puntosCanjeados_SolicitudCanje' => $puntosCanjeados,
                 'puntosRestantes_SolicitudCanje' => $puntosRestantes,
                 'comentario_SolicitudCanje' => 'No registrado aún',
+                'maxdayscanje_SolicitudCanje' => config('settings.maxdayscanje'),
             ]);
 
             // Crear los registros en la tabla de recompensas asociadas
@@ -164,6 +195,7 @@ class SolicitudCanjeController extends Controller
             ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::info('Error al crear la solicitud de canje.' . $e);
             return response()->json([
                 'message' => 'Error al crear la solicitud de canje.',
                 'error' => $e->getMessage(),
@@ -325,6 +357,13 @@ class SolicitudCanjeController extends Controller
                 'comentario_SolicitudCanje' => $comentarioSolicitudCanje ?? 'Sin comentario',
             ]);
             
+            // Crear notificación para el técnico
+            TecnicoNotification::create([
+                'idTecnico' => $solicitudCanje->idTecnico,
+                'idSolicitudCanje' => $solicitudCanje->idSolicitudCanje,
+                'description' => "Tu solicitud de canje con código $solicitudCanje->idSolicitudCanje fue Aprobada",
+            ]);
+
             DB::commit();
     
             return response()->json(['message' => 'Aprobación completada', 'venta' => $solicitudCanje->idVentaIntermediada]);
@@ -355,6 +394,14 @@ class SolicitudCanjeController extends Controller
             $ventaAsociada->update(['apareceEnSolicitud' => 0]);
             VentaIntermediadaController::returnUpdatedIDEstadoVenta($ventaAsociada->idVentaIntermediada,
                                                                     $ventaAsociada->puntosActuales_VentaIntermediada);
+
+            // Crear notificación para el técnico
+            TecnicoNotification::create([
+                'idTecnico' => $solicitudCanje->idTecnico,
+                'idSolicitudCanje' => $solicitudCanje->idSolicitudCanje,
+                'description' => "Tu solicitud de canje con código $solicitudCanje->idSolicitudCanje fue Rechazada",
+            ]);
+
             // Si todo sale bien, confirmar la transacción
             DB::commit();
             $message = "Rechazando solicitud de canje: " . $solicitudCanje->idSolicitudCanje;
@@ -371,7 +418,8 @@ class SolicitudCanjeController extends Controller
     public function returnArraySolicitudesCanjesTabla() {
         try {
             // Obtener las ventas intermediadas con los datos relacionados
-            $solicitudescanjes = SolicitudesCanje::query()
+            /*
+              $solicitudescanjes = SolicitudesCanje::query()
                     ->join('Tecnicos', 'SolicitudesCanjes.idTecnico', '=', 'Tecnicos.idTecnico')
                     ->join('EstadosSolicitudesCanjes', 'SolicitudesCanjes.idEstadoSolicitudCanje', '=', 'EstadosSolicitudesCanjes.idEstadoSolicitudCanje')
                     ->select(['SolicitudesCanjes.idSolicitudCanje', 
@@ -383,7 +431,14 @@ class SolicitudCanjeController extends Controller
                             'EstadosSolicitudesCanjes.nombre_EstadoSolicitudCanje',
                             'EstadosSolicitudesCanjes.idEstadoSolicitudCanje'])
                     ->orderBy('SolicitudesCanjes.idSolicitudCanje', 'ASC') 
-                    ->get();
+                    ->get(); 
+            */
+
+            $solicitudescanjes = SolicitudesCanje::with(['tecnicos', 'estadosSolicitudCanje'])
+                ->orderBy('idSolicitudCanje', 'ASC')
+                ->get();
+
+            // Controller::printJSON($solicitudescanjes);
 
             $index = 1;
         
@@ -393,21 +448,27 @@ class SolicitudCanjeController extends Controller
                     'index' => $index++,
                     'idSolicitudCanje' => $solicanje->idSolicitudCanje,
                     'fechaHora_SolicitudCanje' => $solicanje->fechaHora_SolicitudCanje,
-                    'nombreTecnico' => $solicanje->nombreTecnico,
-                    'idTecnico' => $solicanje->idTecnico,
+                    'nombreTecnico' => $solicanje->tecnicos->nombreTecnico,
+                    'idTecnico' => $solicanje->tecnicos->idTecnico,
+                    'fechaHoraEmision_VentaIntermediada' => $solicanje->fechaHoraEmision_VentaIntermediada,
                     'idVentaIntermediada' => $solicanje->idVentaIntermediada,
                     'puntosComprobante_SolicitudCanje' => $solicanje->puntosComprobante_SolicitudCanje,
-                    'nombre_EstadoSolicitudCanje' => $solicanje->nombre_EstadoSolicitudCanje,
-                    'idEstadoSolicitudCanje' => $solicanje->idEstadoSolicitudCanje,
+                    'nombre_EstadoSolicitudCanje' => $solicanje->estadosSolicitudCanje->nombre_EstadoSolicitudCanje,
+                    'diasTranscurridosVenta' => $solicanje->diasTranscurridosVenta,
+                    'diasTranscurridos_SolicitudCanje' => $solicanje->diasTranscurridos_SolicitudCanje,
+                    'idEstadoSolicitudCanje' => $solicanje->estadosSolicitudCanje->idEstadoSolicitudCanje,
 
                     // Campos compuestos
-                    'idVentaIntermediada_puntosGenerados' => $solicanje->idVentaIntermediada . " " . $solicanje->puntosComprobante_Canje,
-                    'nombreTecnico_idTecnico' => $solicanje->nombreTecnico . " DNI: " . $solicanje->idTecnico,
+                    'idVentaIntermediada_puntosGenerados' => $solicanje->idVentaIntermediada . " " . $solicanje->puntosComprobante_SolicitudCanje,
+                    'nombreTecnico_idTecnico' => $solicanje->tecnicos->nombreTecnico . " DNI: " . $solicanje->tecnicos->idTecnico,
+                    'diasTranscurridosVenta_diasTranscurridosSolicitud' => "Venta: " . $solicanje->diasTranscurridosVenta .
+                                                                        "Solicitud: " . $solicanje->diasTranscurridos_SolicitudCanje,
                 ];
             });
         
-            return $data->toArray();
+            // Controller::printJSON($data);
 
+            return $data->toArray();
         } catch (\Exception $e) {
             Log::error('Error en returnArraySolicitudesCanjesTabla: ' . $e->getMessage());
         }
@@ -525,8 +586,8 @@ class SolicitudCanjeController extends Controller
         try {
             $data = $this->returnArraySolicitudesCanjesTablaPDF();
             
-            /* Log::info("DATA exportarAllSolicitudesCanjesPDF:");
-            Controller::printJSON($data); */
+            // Log::info("DATA exportarAllSolicitudesCanjesPDF:");
+            // Controller::printJSON($data);
 
             // Verificar si hay datos para exportar
             if (count($data) === 0) {
@@ -564,6 +625,7 @@ class SolicitudCanjeController extends Controller
     public static function returnStateIdSolicitudCanje($idSolicitudCanje, $diasTranscurridosVenta, $maxdaysCanjeAux=null)
     {
         try {
+            Cache::forget('settings_cache');
             $solicitud = SolicitudesCanje::findOrFail($idSolicitudCanje);
             $oldIdEstado = $solicitud->idEstadoSolicitudCanje;
             $maxdaysCanje = $maxdaysCanjeAux ?? config('settings.maxdaysCanje');

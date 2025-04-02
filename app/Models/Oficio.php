@@ -47,18 +47,4 @@ class Oficio extends Model
         $codigoNombreOficio = 'OFI-' . str_pad($this->idOficio, 2, '0', STR_PAD_LEFT) . " | " . $this->nombre_Oficio;
         return $codigoNombreOficio;
     }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($oficio) {
-            $oficio->created_at = Carbon::now()->addHours(5);
-            $oficio->updated_at = Carbon::now()->addHours(5);
-        });
-
-        static::updating(function ($oficio) {
-            $oficio->updated_at = Carbon::now()->addHours(5);
-        });
-    }
 }

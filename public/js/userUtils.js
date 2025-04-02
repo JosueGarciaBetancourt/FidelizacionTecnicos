@@ -2,7 +2,7 @@ let userLoggedMAIN;
 let adminEmailMAIN;
 let emailDomainMAIN;
 let maxdaysCanjeMAIN;
-
+let diasAgotarVentaIntermediadaNotificacionMAIN;
 
 async function getUserLogged() {
     const url = `${baseUrlMAIN}/dashboard-getLoggedUser`;
@@ -36,6 +36,7 @@ async function initUserLogged() {
     //consoleLogJSONItems(userLoggedMAIN);
 }
 
+
 async function getAdminEmail() {
     const url = `${baseUrlMAIN}/dashboard-getAdminEmail`;
 
@@ -67,6 +68,7 @@ async function initAdminEmail() {
     //console.log("adminEmailMAIN: " + adminEmailMAIN);
 }
 
+
 async function getEmailDomain() {
     const url = `${baseUrlMAIN}/dashboard-getEmailDomain`;
 
@@ -93,11 +95,11 @@ async function getEmailDomain() {
     }
 }
 
-
 async function initEmailDomain() {
     emailDomainMAIN = await getEmailDomain();
     //console.log("emailDomainMAIN: " + emailDomainMAIN);
 }
+
 
 async function getMaxdaysCanje() {
     const url = `${baseUrlMAIN}/dashboard-getMaxdaysCanje`;
@@ -130,7 +132,42 @@ async function initMaxdaysCanje() {
     //console.log("maxdaysCanjeMAIN: " + maxdaysCanjeMAIN);
 }
 
+
+async function getDiasAgotarVentaIntermediadaNotificacion() {
+    const url = `${baseUrlMAIN}/dashboard-getdiasAgotarVentaIntermediadaNotificacion`;
+
+    try {
+        const response = await fetch(url);
+
+        // Verificar si la respuesta HTTP es un error (por ejemplo, 401)
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`${errorData.message || 'Error desconocido'}`);
+        }
+
+        // Convertir la respuesta a JSON
+        const diasAgotarVentaIntermediadaNotificacion = await response.json();
+
+        // Validar la estructura esperada
+        if (!diasAgotarVentaIntermediadaNotificacion.success) {
+            throw new Error(diasAgotarVentaIntermediadaNotificacion.message || 'No autenticado');
+        }
+
+        return diasAgotarVentaIntermediadaNotificacion.diasAgotarVentaIntermediadaNotificacion;
+    } catch (error) {
+        console.log("Error al obtener diasAgotarVentaIntermediadaNotificacion:", error.message);
+    }
+}
+
+async function initDiasAgotarVentaIntermediada() {
+    diasAgotarVentaIntermediadaNotificacionMAIN = await getDiasAgotarVentaIntermediadaNotificacion();
+    //console.log("diasAgotarVentaIntermediadaNotificacionMAIN: " + diasAgotarVentaIntermediadaNotificacionMAIN);
+}
+
+
 initMaxdaysCanje();
 initUserLogged();
 initAdminEmail();
 initEmailDomain();
+initEmailDomain();
+initDiasAgotarVentaIntermediada();
