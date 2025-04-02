@@ -30,9 +30,7 @@
 
         @if (!$isAsisstantLogged)
             <div class="firstRowRecompensas">
-                <x-btn-create-item onclick="openModal('modalRegistrarNuevaRecompensa')"> 
-                    Nueva recompensa
-                </x-btn-create-item>
+                <x-btn-create-item onclick="openModal('modalRegistrarNuevaRecompensa')"> Nueva recompensa </x-btn-create-item>
                 @include('modals.recompensas.modalRegistrarNuevaRecompensa')
 
                 <x-btn-edit-item onclick="openModal('modalEditarRecompensa')"> Editar </x-btn-edit-item>
@@ -86,14 +84,13 @@
                         <td class="celda-centered">{{ $contador++ }}</td> 
                         <td>{{ $recompensa->idRecompensa }}</td>
                         <td class="celda-centered celdaTipoRecompensa">
-                            <span class="tipoRecompensa__span-{{strtolower(str_replace(' ', '-', $recompensa->idTipoRecompensa))}}">
+							<span style="color: {{ $recompensa->colorTexto_TipoRecompensa }}; background-color: {{ $recompensa->colorFondo_TipoRecompensa }};">
                                 {{ $recompensa->nombre_TipoRecompensa }}
-                            </span>
+							</span> 
                         </td>
                         <td>{{ $recompensa->descripcionRecompensa }}</td>
                         <td class="celda-centered">{{ $recompensa->costoPuntos_Recompensa }}</td>
-                        <td @class(['celda-centered', 
-                            'fewStock' => $recompensa->stock_Recompensa <= config('settings.unidadesRestantesRecompensasNotificacion')])>
+                        <td @class(['celda-centered', 'fewStock' => $recompensa->stock_Recompensa <= config('settings.unidadesRestantesRecompensasNotificacion')])>
                             {{ $recompensa->stock_Recompensa }}</td>
                         {{-- <td class="celda-centered">{{ $recompensa->stock_Recompensa }}</td> --}}
                         <td class="celda-centered">{{ $recompensa->created_at}}</td>

@@ -54,7 +54,8 @@ td {
     font-weight: bold;
     font-size: 0.75rem;
     display: inline-block;
-    width: 85%;
+    width: 75%;
+    max-width: 12rem;
 }
 
 #tblTiposRecompensas tbody tr:nth-child(even) {
@@ -65,24 +66,29 @@ td {
     color: red;
 }
 
-/* 
-.tipoRecompensa__span-1 {
-    color: #139161;
-    background-color: rgba(19, 145, 97, 0.15) !important;
+.form-group.colorFondoGap {
+	gap: 0.9rem;
 }
 
-.tipoRecompensa__span-2 {
-    color: #9C27B0;
-    background-color: rgba(156, 39, 176, 0.15) !important;
+.previewTipoRecompensaContainer {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 1rem;
+	margin-bottom: 0.5rem;
 }
 
-.tipoRecompensa__span-3 {
-    color: #2196F3;
-    background-color: rgba(33, 150, 243, 0.15) !important;
+.previewTipoRecompensa {
+    padding: 5px 10px 5px 10px;
+    margin: 0;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    display: inline-block;
+    text-align: center;
+	min-width: 5rem;
+	max-width: 8rem;
+	min-height: 2rem;
+	height: 100%;
+	word-break: break-word;
 }
-
-.tipoRecompensa__span-4 {
-    color: #FF9800;
-    background-color: rgba(255, 152, 0, 0.15) !important;
-} */
-

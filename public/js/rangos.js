@@ -45,6 +45,7 @@ function fillColorInputOnRealTimeIDInteger(input, idOptions, inputsArray, dbFiel
     return false;
 }
 
+/* 
 function fillNamePreviewColorSpan(input, idSpan) {
     const value = input.value;
     const span = document.getElementById(idSpan);
@@ -76,7 +77,7 @@ function fillPreviewColorFondoSpan(input, idSpan) {
     } else {
         console.error(`Error: No se encontró el elemento con id "${idSpan}"`);
     }
-}
+} */
 
 function updateColorsInput(colorTextoRangoInput, colorFondoRangoInput, previewColorSpan,
                             colorTextoRango="#3206B0", colorFondoRango="#DCD5F0", name="") {

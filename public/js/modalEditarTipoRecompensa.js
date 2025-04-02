@@ -53,8 +53,8 @@ function validarCamposVaciosFormularioTipoRecompensaEdit() {
 }
 
 function isTipoRecompensaEditDuplicado(tiposRecompensasDB) {    
-    const nombre = nombreTipoRecompensaInputEdit.value.trim(); 
-    const tipoRecompensaExistente = tiposRecompensasDB.find(tipoRecompensa => tipoRecompensa.nombre_TipoRecompensa === nombre);
+    const nombre = nombreTipoRecompensaInputEdit.value.trim().toLowerCase(); 
+    const tipoRecompensaExistente = tiposRecompensasDB.find(tipoRecompensa => tipoRecompensa.nombre_TipoRecompensa.toLowerCase() === nombre);
 
     // Retornar true si se encuentra una coincidencia, false en caso contrario
     return !!tipoRecompensaExistente; 
@@ -75,14 +75,14 @@ function validarCamposCorrectosTipoRecompensaEdit(tiposRecompensasDB, recompensa
     if (isTipoRecompensaEditDuplicado(tiposRecompensasDB)) {
         // mensajeCombinadoEditTipoRecompensa += "El nombre de este tipo de recompensa ya ha sido registrado anteriormente. ";
         returnError = true;
-        const msg = `El nombre ${nombreTipoRecompensaInputEdit.value} ya ha sido registrado anteriormente`;
+        const msg = `El nombre "${nombreTipoRecompensaInputEdit.value}" ya ha sido registrado anteriormente`;
         openErrorModal("errorModalTipoRecompensa", msg);
     }
 
     if (isTipoAsociadoRecompensaEdit(recompensasDB)) {
         // mensajeCombinadoEditTipoRecompensa += `El tipo de recompensa con código ${codigoTipoRecompensaInputEdit.value} ya tiene recompensas asociadas, no puede editarlo.`;
         returnError = true;
-        const msg = `El Tipo de Recompensa con código ${codigoTipoRecompensaInputEdit.value} ya tiene recompensas asociadas, no puede editarlo`;
+        const msg = `El Tipo de Recompensa con código ${codigoTipoRecompensaInputEdit.value} tiene recompensas asociadas, no puede editarlo`;
         openErrorModal("errorModalTipoRecompensa", msg);
     }
 

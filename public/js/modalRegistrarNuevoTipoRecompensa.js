@@ -21,9 +21,8 @@ function validarCamposVaciosFormularioRegistrarNuevoTipoRecompensa() {
 }
 
 function isTipoRecompensaDuplicado(tiposRecompensasDB) {
-    const nombre = nombreTipoRecompensaInput.value.trim(); 
-
-    const tipoRecompensaExistente = tiposRecompensasDB.find(tipoRecompensa => tipoRecompensa.nombre_TipoRecompensa === nombre);
+    const nombre = nombreTipoRecompensaInput.value.trim().toLowerCase(); 
+    const tipoRecompensaExistente = tiposRecompensasDB.find(tipoRecompensa => tipoRecompensa.nombre_TipoRecompensa.toLowerCase() === nombre);
 
     // Retornar true si se encuentra una coincidencia, false en caso contrario
     return !!tipoRecompensaExistente; 
@@ -34,9 +33,10 @@ function validarCamposCorrectosFormularioRegistrarNuevoTipoRecompensa(tiposRecom
     var returnError = false;
 
     if (isTipoRecompensaDuplicado(tiposRecompensasDB)) {
-        console.log("isTipoRecompensaDuplicado");
-        mensajeCombinado += "El nombre de este tipo de recompensa ya ha sido registrado anteriormente.";
+        //mensajeCombinado += "El nombre de este tipo de recompensa ya ha sido registrado anteriormente.";
         returnError = true;
+        const msg = `El nombre "${nombreTipoRecompensaInput.value}" ya ha sido registrado anteriormente`;
+        openErrorModal("errorModalTipoRecompensa", msg);
     }
 
     if (returnError) {

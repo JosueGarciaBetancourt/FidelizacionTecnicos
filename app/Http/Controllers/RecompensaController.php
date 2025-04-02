@@ -63,7 +63,8 @@ class RecompensaController extends Controller
         // Obtener todas las recompensas activas (Inicialmente "RECOM-000, Efectivo" está inactivo)
         $recompensas = Recompensa::query()
                                 ->join('TiposRecompensas', 'Recompensas.idTipoRecompensa', '=', 'TiposRecompensas.idTipoRecompensa')
-                                ->select(['Recompensas.*', 'TiposRecompensas.nombre_TipoRecompensa'])
+                                ->select(['Recompensas.*', 'TiposRecompensas.nombre_TipoRecompensa',
+                                        'TiposRecompensas.colorTexto_TipoRecompensa', 'TiposRecompensas.colorFondo_TipoRecompensa' ])
                                 ->whereNull('Recompensas.deleted_at')
                                 ->orderBy('Recompensas.idRecompensa', 'ASC') 
                                 ->get(); 
@@ -71,7 +72,8 @@ class RecompensaController extends Controller
         // Obtener todas las recompensas no activas (soft deleted) con sus tipos
         $recompensasEliminadas = Recompensa::onlyTrashed()
                                             ->join('TiposRecompensas', 'Recompensas.idTipoRecompensa', '=', 'TiposRecompensas.idTipoRecompensa')
-                                            ->select(['Recompensas.*', 'TiposRecompensas.nombre_TipoRecompensa'])
+                                            ->select(['Recompensas.*', 'TiposRecompensas.nombre_TipoRecompensa',
+                                                    'TiposRecompensas.colorTexto_TipoRecompensa', 'TiposRecompensas.colorFondo_TipoRecompensa' ])
                                             ->orderBy('Recompensas.idRecompensa', 'ASC') 
                                             ->get();
 

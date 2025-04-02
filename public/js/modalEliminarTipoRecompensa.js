@@ -65,7 +65,7 @@ function validarCamposCorrectosTipoRecompensaDelete(recompensasDB) {
     if (isTipoAsociadoRecompensaDelete(recompensasDB)) {
         // mensajeCombinadoDeleteOficio += `El tipo de recompensa con código ${codigoTipoRecompensaInputDelete.value} ya tiene recompensas asociadas, no puede eliminarlo.`;
         returnError = true;
-        const msg = `El Tipo de Recompensa con código ${codigoTipoRecompensaInputDelete.value} ya tiene recompensas asociadas, no puede eliminarlo`;
+        const msg = `El Tipo de Recompensa con código ${codigoTipoRecompensaInputDelete.value} tiene recompensas asociadas, no puede eliminarlo`;
         openErrorModal("errorModalTipoRecompensa", msg);
     }
 

@@ -674,3 +674,36 @@ function getDiasTranscurridosFechaHora(fechaEmision, fechaCargada) {
     return diferenciaMilisegundos / (1000 * 60 * 60 * 24);
 }
 
+/*COLORES DE TIPOS DE RECOMPENSA, RANGOS, ETC*/
+function fillNamePreviewColorSpan(input, idSpan) {
+    const value = input.value;
+    const span = document.getElementById(idSpan);
+
+    if (span) {  // Verifica si el span existe antes de modificarlo
+        span.textContent = value;
+    } else {
+        console.error(`Error: No se encontró el elemento con id "${idSpan}"`);
+    }
+}
+
+function fillPreviewColorTextoSpan(input, idSpan) {
+	const value = input.value;
+    const span = document.getElementById(idSpan);
+
+    if (span) {  // Verifica si el span existe antes de modificarlo
+        span.style.color = value;
+    } else {
+        console.error(`Error: No se encontró el elemento con id "${idSpan}"`);
+    }
+}
+
+function fillPreviewColorFondoSpan(input, idSpan) {
+	const value = input.value;
+    const span = document.getElementById(idSpan);
+
+    if (span) { 
+        span.style.backgroundColor = value;
+    } else {
+        console.error(`Error: No se encontró el elemento con id "${idSpan}"`);
+    }
+}

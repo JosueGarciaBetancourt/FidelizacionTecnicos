@@ -17,13 +17,17 @@
 
         @if (!$isAsisstantLogged)
             <div class="firstRowTiposRecompensas">
-                <x-btn-create-item onclick="openModal('modalRegistrarNuevoTipoRecompensa')"> 
-                    Nuevo tipo de recompensa
-                </x-btn-create-item>
+                <x-btn-create-item onclick="openModal('modalRegistrarNuevoTipoRecompensa')"> Nuevo tipo de recompensa </x-btn-create-item>
                 @include('modals.tiposRecompensas.modalRegistrarNuevoTipoRecompensa')
 
                 <x-btn-edit-item onclick="openModal('modalEditarTipoRecompensa')"> Editar </x-btn-edit-item>
                 @include('modals.tiposRecompensas.modalEditarTipoRecompensa')
+                
+                {{-- <x-btn-disable-item onclick="openModal('modalInhabilitarTipoRecompensa')"> Inhabilitar </x-btn-disable-item>
+                @include('modals.tiposRecompensas.modalInhabilitarTipoRecompensa')
+
+                <x-btn-recover-item onclick="openModal('modalRestaurarTipoRecompensa')"> Habilitar </x-btn-recover-item>
+                @include('modals.tiposRecompensas.modalRestaurarTipoRecompensa') --}}
 
                 <x-btn-delete-item onclick="openModal('modalEliminarTipoRecompensa')"> Eliminar </x-btn-delete-item>
                 @include('modals.tiposRecompensas.modalEliminarTipoRecompensa')

@@ -21,6 +21,9 @@ class TipoRecompensaController extends Controller
     }
 
     public function create() {
+        $nuevoIdTipoRecompensa = TipoRecompensa::max('idTipoRecompensa') ? TipoRecompensa::max('idTipoRecompensa') + 1 : 1;
+        $nuevoCodigoTipoRecompensa = self::returnNuevoCodigoTipoRecompensa();
+
         $tiposRecompensas = TipoRecompensa::all()->reject(function ($recompensa) {
             return $recompensa->idTipoRecompensa == 1;
         })->values(); // Reindexa los índices de la colección
@@ -31,21 +34,24 @@ class TipoRecompensaController extends Controller
                         ->whereNull('Recompensas.deleted_at')
                         ->orderBy('Recompensas.idRecompensa', 'ASC') 
                         ->get(); 
-
-        $idNuevoTipoRecompensa = self::returnNuevoCodigoTipoRecompensa();
-
+                        
         // dd($tiposRecompensas);
 
         // Obtener las notificaciones
         $notifications = SystemNotificationController::getActiveNotifications();
         
-        return view('dashboard.tiposRecompensas', compact('tiposRecompensas', 'idNuevoTipoRecompensa', 'recompensas', 'notifications'));
+        return view('dashboard.tiposRecompensas', compact('nuevoIdTipoRecompensa', 'nuevoCodigoTipoRecompensa', 'tiposRecompensas', 
+                                                        'recompensas', 'notifications'));
     }
 
     public function store(Request $request) {
         try {
             $validatedData = $request->validate([
+                'idTipoRecompensa' => 'required|numeric',
                 'nombre_TipoRecompensa' => 'required|string',
+                'descripcion_TipoRecompensa' => 'nullable|string',
+                'colorTexto_TipoRecompensa' => 'required|string|max:7', // Formato hexadecimal
+                'colorFondo_TipoRecompensa' => 'required|string|max:7',
             ]);
     
             DB::beginTransaction();
