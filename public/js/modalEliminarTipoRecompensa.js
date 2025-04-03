@@ -1,6 +1,10 @@
 let codigoTipoRecompensaInputDelete = document.getElementById('codigoTipoRecompensaInputDelete');
 let idNumberTipoRecompensaInputDelete = document.getElementById('idNumberTipoRecompensaDelete');
 let nombreTipoRecompensaInputDelete = document.getElementById('nombreTipoRecompensaInputDelete');
+let descripcionTipoRecompensaInputDelete = document.getElementById('descripcionTipoRecompensaInputDelete');
+let colorTextoTipoRecompensaInputDelete = document.getElementById('colorTextoTipoRecompensaInputDelete');
+let colorFondoTipoRecompensaInputDelete = document.getElementById('colorFondoTipoRecompensaInputDelete');
+let previewColorSpanTipoRecompensaDelete = document.getElementById('previewColorSpanTipoRecompensaDelete');
 let searchDeleteTipoRecompensaMessageError = document.getElementById('searchDeleteTipoRecompensaError');
 let generalDeleteTipoRecompensaError = document.getElementById('generalDeleteTipoRecompensaError');
 
@@ -73,7 +77,7 @@ function validarCamposCorrectosTipoRecompensaDelete(recompensasDB) {
         return false;
     }
 
-    generalEditTipoRecompensaError.classList.remove("shown");
+    generalDeleteTipoRecompensaError.classList.remove("shown");
     return true;
 }
 

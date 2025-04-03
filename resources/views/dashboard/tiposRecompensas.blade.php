@@ -101,6 +101,7 @@
 @endsection
 
 @push('scripts')
+    <script src="{{ asset('js/tiposRecompensas.js') }}"></script>
     <script src="{{ asset('js/modalRegistrarNuevoTipoRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalEditarTipoRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalEliminarTipoRecompensa.js') }}"></script>

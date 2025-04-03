@@ -1,23 +1,24 @@
-/* function fillColorInputOnRealTimeIDInteger(input, idOptions, inputsArray, dbFieldsNameArray, searchIdField, itemsDB, previewColorSpan) {
-    const value = input.value;
-
-    if (!value) {
+function fillColorInputOnRealTimeIDIntegerNameApart(input, nameInput, idOptions, inputsArray, dbFieldsNameArray, searchIdField, itemsDB, previewColorSpan) {
+    const codigoTipoRecompensa = input.value;
+    const nameTipoRecompensa = nameInput.value;
+    
+    if (!codigoTipoRecompensa) {
         return false; 
     }
 
     // Obtener todos los valores de la lista
     const allItems = getAllLiText(idOptions);
-    const itemEncontrado = allItems.includes(value);
+    const itemEncontrado = allItems.includes(codigoTipoRecompensa);
     
     if (!itemEncontrado) {
         return false; 
     }
 
     // Rellenar inputs visibles si se requiere
-    if (inputsArray && dbFieldsNameArray && searchIdField && itemsDB) {
-        const idRango = returnIDIntegerByStringID(value.split(' | ')[0]);
-        const name = value.split(' | ')[1];
-        const itemArraySearched = returnItemDBValueWithRequestedID(searchIdField, idRango, itemsDB);
+    if (inputsArray && dbFieldsNameArray && searchIdField && itemsDB && nameTipoRecompensa) {
+        const idTipoRecompensa = returnIDIntegerByStringID(codigoTipoRecompensa);
+        const name = nameTipoRecompensa;
+        const itemArraySearched = returnItemDBValueWithRequestedID(searchIdField, idTipoRecompensa, itemsDB);
         
         if (itemArraySearched) {
             inputsArray.forEach((idInput, index) => {
@@ -44,12 +45,3 @@
 
     return false;
 }
-
-function updateColorsInput(colorTextoRangoInput, colorFondoRangoInput, previewColorSpan,
-                            colorTextoRango="#3206B0", colorFondoRango="#DCD5F0", name="") {
-    colorTextoRangoInput.value = colorTextoRango;
-    colorFondoRangoInput.value = colorFondoRango;
-    previewColorSpan.style.color = colorTextoRango;
-    previewColorSpan.style.backgroundColor = colorFondoRango;
-    previewColorSpan.textContent = name;
-} */

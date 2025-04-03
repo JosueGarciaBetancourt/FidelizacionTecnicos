@@ -75,14 +75,25 @@ class TipoRecompensaController extends Controller
             $validatedData = $request->validate([
                 'idTipoRecompensa' => 'required|exists:TiposRecompensas,idTipoRecompensa',
                 'nombre_TipoRecompensa' => 'required|string',
+                'descripcion_TipoRecompensa' => 'nullable|string',
+                'colorTexto_TipoRecompensa' => 'required|string|max:7', // Formato hexadecimal
+                'colorFondo_TipoRecompensa' => 'required|string|max:7',
             ]);
+
             DB::beginTransaction();
+
             $tipoRecompensaSolicitado = TipoRecompensa::find($validatedData['idTipoRecompensa']);
             $tipoRecompensaSolicitado->update([
                 'nombre_TipoRecompensa' => $validatedData['nombre_TipoRecompensa'],
+                'descripcion_TipoRecompensa' => $validatedData['descripcion_TipoRecompensa'],
+                'colorTexto_TipoRecompensa' => $validatedData['colorTexto_TipoRecompensa'],
+                'colorFondo_TipoRecompensa' => $validatedData['colorFondo_TipoRecompensa'],
             ]);
+
             // dd($tipoRecompensaSolicitado);
+
             $messageUpdate = 'Tipo de recompensa actualizado correctamente';
+            
             DB::commit();
             return redirect()->route('tiposRecompensas.create')->with('successTipoRecompensaUpdate', $messageUpdate);
         } catch (\Exception $e) {
