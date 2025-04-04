@@ -32,6 +32,7 @@ class Canje extends Model
         'recompensas_Canje',
         'comentario_Canje',
         'idUser',
+        'userName'
     ];
 
     protected $appends = ['recompensasJSON']; 
@@ -56,19 +57,5 @@ class Canje extends Model
     public function canjesRecompensas()
     {
         return $this->hasMany(CanjeRecompensa::class, 'idCanje', 'idCanje'); 
-    }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($canje) {
-            $canje->created_at = Carbon::now()->addHours(5);
-            $canje->updated_at = Carbon::now()->addHours(5);
-        });
-
-        static::updating(function ($canje) {
-            $canje->updated_at = Carbon::now()->addHours(5);
-        });
     }
 }

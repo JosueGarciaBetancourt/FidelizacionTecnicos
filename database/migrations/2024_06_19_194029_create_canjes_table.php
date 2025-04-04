@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('idCanje', 10)->primary(); // CANJ-00001 (se genera automáticamente)
             $table->string('idVentaIntermediada', 13);
             $table->dateTime('fechaHoraEmision_VentaIntermediada');
-            $table->dateTime('fechaHora_Canje')->default(now());
+            $table->dateTime('fechaHora_Canje')->useCurrent();
             $table->integer('diasTranscurridos_Canje')->unsigned(); 
             $table->integer('puntosComprobante_Canje')->unsigned(); // Puntos generados
             $table->integer('puntosActuales_Canje')->unsigned();
@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('puntosRestantes_Canje')->unsigned(); 
             $table->text('comentario_Canje')->nullable();
             $table->unsignedBigInteger('idUser');
+            $table->string('userName');
 
             $table->foreign('idVentaIntermediada')->references('idVentaIntermediada')->on('VentasIntermediadas');
             $table->foreign('idUser')->references('id')->on('users');

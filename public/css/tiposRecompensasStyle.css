@@ -1,0 +1,66 @@
+.tiposRecompensasContainer {
+    border-radius: var(--border-radius-mainSectionContainer);
+    padding: var(--padding-mainSectionContainer);
+    background-color: var(--background-color-mainSectionContainer);
+    width: 100%;
+	height: auto;
+}
+
+.firstRowTiposRecompensas {
+    display: flex;
+	flex-direction: row;
+    width: 100%;
+    height: auto;
+    margin: 0.1rem 0 1rem 0;
+    gap: 1.5rem;
+    grid-template-columns: 30rem 10rem;
+    align-items: center;
+}
+
+.secondRowTiposRecompensas {
+    margin-top: 1rem;
+    width: auto;
+    height: 5%;
+    align-items: left;
+}
+
+td {
+    padding: 1rem 0.5rem !important;
+}
+
+/* .celda-centered.short {
+    max-width: 6.5rem;
+} */
+
+.celda-centered.date {
+    width: 9rem;
+}
+
+#idCeldaDescripcionTipoRecompensa {
+    width: 15rem;
+}
+
+/*Estilos de las celdas de los Tipos de TiposRecompensas*/
+.celdaTipoRecompensa {
+    padding: 15px !important;
+    margin: 0 !important;
+    text-align: center !important; 
+}
+
+.celdaTipoRecompensa span {
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0;
+    font-weight: bold;
+    font-size: 0.75rem;
+    display: inline-block;
+    width: 100%; /*max-width: 100% para anchos dinámicos*/
+}
+
+#tblTiposRecompensas tbody tr:nth-child(even) {
+    background-color: #f8f8f8; /* Color claro alterno */
+}
+
+.fewStock {
+    color: red;
+}

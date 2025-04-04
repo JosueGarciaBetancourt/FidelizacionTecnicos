@@ -12,6 +12,7 @@
                     @php
                         $newIdRango = $nuevoIdRango;
                         $newCodigoRango = $nuevoCodigoRango;
+                        $rangosDB = $rangos;
                         $idCodigoRangoInput = 'codigoRangoInputRegistrar';
                         $idColorTextoRangoInput = 'colorTextoRangoInputRegistrar';
                         $idColorFondoRangoInput = 'colorFondoRangoInputRegistrar';
@@ -74,7 +75,8 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalRegistrarNuevoRango')">Cancelar</button>
                 <button type="button" class="btn btn-primary" 
-                        onclick="guardarModalRegistrarNuevoRango('modalRegistrarNuevoRango', 'formRegistrarNuevoRango')">Guardar</button>
+                        onclick="guardarModalRegistrarNuevoRango('modalRegistrarNuevoRango', 'formRegistrarNuevoRango',
+                                                                {{ json_encode($rangosDB) }})">Guardar</button>
             </div>
         </div>
     </div>

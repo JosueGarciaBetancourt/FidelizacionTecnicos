@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use Carbon\Carbon;
 use App\Models\Setting;
 use App\Models\Tecnico;
 use App\Models\EstadoVenta;
@@ -182,22 +183,49 @@ class VentaIntermediadaController extends Controller
     }
 
     public static function updateEstadosVentasIntermediadasMaxDayCanje() {
+        Cache::forget('settings_cache');
+
         $maxdaysCanje = config('settings.maxdaysCanje');
-        $ventasMaxDayCanje = VentaIntermediada::get()->filter(function ($venta) use ($maxdaysCanje) {
-            return $venta->diasTranscurridos > $maxdaysCanje;
+
+        $ventasMaxDayCanje = VentaIntermediada::get(['idVentaIntermediada', 'fechaHoraEmision_VentaIntermediada',
+                                                'puntosActuales_VentaIntermediada', 'idEstadoVenta'])
+            ->filter(function ($venta) use ($maxdaysCanje) {
+                return !in_array($venta->idEstadoVenta, [3, 4]) && ($venta->diasTranscurridos > $maxdaysCanje);
+                // Comentar la segunda condición para probar como regresa a su estado anterior al cambiar fechaHoraEmision_VentaIntermediada en la BD
         });
-
-
+        
         foreach ($ventasMaxDayCanje as $venta) {
             $idEstado = self::returnStateIdVentaIntermediada($venta->idVentaIntermediada, $venta->puntosActuales_VentaIntermediada);
-            $venta->update([
-                'idEstadoVenta' => $idEstado,
-            ]);
+            $venta->update(['idEstadoVenta' => $idEstado]);
         }
-
-        /* dd($ventasMaxDayCanje);
-        dd($ventasMaxDayCanje->pluck('diasTranscurridos', 'idVentaIntermediada')); */
     }
+
+    /* public static function updateEstadosVentasIntermediadasMaxDayCanje() {
+        Cache::forget('settings_cache');
+        
+        $maxdaysCanje = config('settings.maxdaysCanje');
+    
+        // Obtener la zona horaria desde .env
+        $zonaHoraria = env('APP_TIMEZONE', 'UTC');
+    
+        // Obtener la fecha actual con la zona horaria configurada
+        $fechaActual = Carbon::now($zonaHoraria);
+    
+        // Obtener solo los registros necesarios para evitar cargar toda la base de datos
+        $ventas = VentaIntermediada::select(['idVentaIntermediada', 'fechaHoraEmision_VentaIntermediada', 'puntosActuales_VentaIntermediada'])
+            ->get();
+    
+        // Filtrar y actualizar
+        foreach ($ventas as $venta) {
+            $fechaVenta = Carbon::parse($venta->fechaHoraEmision_VentaIntermediada, $zonaHoraria);
+            $diasTranscurridos = (int)($fechaVenta->diffInHours($fechaActual, false) / 24);
+    
+            if ($diasTranscurridos > $maxdaysCanje) {
+                $idEstado = self::returnStateIdVentaIntermediada($venta->idVentaIntermediada, $venta->puntosActuales_VentaIntermediada);
+                $venta->update(['idEstadoVenta' => $idEstado]);
+            }
+        }
+    } */
 
     public function create() {
         try {
@@ -208,9 +236,6 @@ class VentaIntermediadaController extends Controller
             //dd($ventas->pluck('horaCargada', 'idVentaIntermediada'));
             //dd($ventas->pluck('diasTranscurridos', 'idVentaIntermediada'));
 
-            //Actualizar estado de ventas con días transcurridos mayor a MaxDayCanje de .env
-            $this->updateEstadosVentasIntermediadasMaxDayCanje();
-            
             $tecnicoController = new TecnicoController();
             $idsNombresOficios = $tecnicoController->returnArrayIdsNombresOficios(); 
 
@@ -222,7 +247,7 @@ class VentaIntermediadaController extends Controller
             
             return view('dashboard.ventasIntermediadas', compact('idsNombresOficios', 'notifications', 'maxdaysCanje'));
         } catch (\Exception $e) {
-            dd("Error al mostrar las ventas intermediadas: " . $e->getMessage());
+            dd("Error al mostrar la sección de ventas intermediadas: " . $e->getMessage());
         }
     }
     

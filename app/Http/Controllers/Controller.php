@@ -25,9 +25,8 @@ abstract class Controller
             
             // Convertir a días enteros (división entera)
             $diasTranscurridos = (int)($horasTotales / 24);
-            
+
             return $diasTranscurridos;
-            
         } catch (\Exception $e) {
             Log::error("Error al calcular días transcurridos: " . $e->getMessage());
             return 0;

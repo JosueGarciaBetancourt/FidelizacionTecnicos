@@ -17,11 +17,17 @@
                         $idCodigoTipoRecompensaInput = 'codigoTipoRecompensaInputDelete';
                         $idOptions = 'tipoRecompensaDeleteOptions';
                         $idNombreTipoRecompensaInput = 'nombreTipoRecompensaInputDelete';
+                        $idDescripcionTipoRecompensaInput = 'descripcionTipoRecompensaInputDelete';
+                        $idColorTextoTipoRecompensaInput = 'colorTextoTipoRecompensaInputDelete';
+                        $idColorFondoTipoRecompensaInput = 'colorFondoTipoRecompensaInputDelete';
                         $someHiddenIdInputsArray = ['idNumberTipoRecompensaDelete'];
                         $otherInputsArray = [$idNombreTipoRecompensaInput];
                         $idGeneralMessageError = 'generalDeleteTipoRecompensaError';
                         $searchDBField = 'idTipoRecompensa';
-                        $dbFieldsNameArray = ['nombre_TipoRecompensa'];
+                        $dbFieldsNameArray = ['nombre_TipoRecompensa', 'descripcion_TipoRecompensa'];
+                        $colorInputsArray = [$idColorTextoTipoRecompensaInput, $idColorFondoTipoRecompensaInput];
+                        $dbColorFieldsNameArray = ['colorTexto_TipoRecompensa', 'colorFondo_TipoRecompensa'];
+                        $idPreviewColorSpan = 'previewColorSpanTipoRecompensaDelete';
                     @endphp
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idTipoRecompensa">
                    
@@ -30,26 +36,31 @@
                     </div>
 
                     <div class="form-group gap" id="form-group-CodigoTipoRecompensaDelete">
-                        <label class="primary-label" for="tipoRecompensaEditSelect">Código:</label>
-                        <div class="input-select" id="tipoRecompensaEditSelect">
+                        <label class="primary-label" for="tipoRecompensaDeleteSelect">Código:</label>
+                        <div class="input-select" id="tipoRecompensaDeleteSelect">
                             <input class="input-select-item" type="text" id='{{ $idCodigoTipoRecompensaInput }}' maxlength="100" placeholder="Código" autocomplete="off"
                                 oninput="filterOptions('{{ $idCodigoTipoRecompensaInput }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTimeIDInteger(this, '{{ $idOptions }}', '{{ $idSearchMessageError }}', 
-                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, 
-                                        {{ json_encode($tiposRecompensasDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }})"
+                                        validateValueOnRealTimeTipoRecompensaDelete(this, '{{ $idOptions }}', '{{ $idSearchMessageError }}', 
+                                        {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, {{ json_encode($colorInputsArray) }},
+                                        {{ json_encode($tiposRecompensasDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }}, 
+                                        {{ json_encode($dbColorFieldsNameArray) }}, '{{ $idGeneralMessageError }}')"
                                 onclick="toggleOptions('{{ $idCodigoTipoRecompensaInput }}', '{{ $idOptions }}')">
                             <ul class="select-items" id='{{ $idOptions }}'>
                                 @if (count($tiposRecompensasDB) > 0)
                                     @foreach ($tiposRecompensasDB as $tipoRecompensa)
                                         @php
                                             $idNumberTipoRecompensa = htmlspecialchars($tipoRecompensa->idTipoRecompensa, ENT_QUOTES, 'UTF-8');
-                                            $nombreTipoRecompensa = htmlspecialchars($tipoRecompensa->nombre_TipoRecompensa, ENT_QUOTES, 'UTF-8');
                                             $codigoTipoRecompensa = htmlspecialchars($tipoRecompensa->codigoTipoRecompensa, ENT_QUOTES, 'UTF-8');
+                                            $nombreTipoRecompensa = htmlspecialchars($tipoRecompensa->nombre_TipoRecompensa, ENT_QUOTES, 'UTF-8');
+                                            $descripcionTipoRecompensa = htmlspecialchars($tipoRecompensa->descripcion_TipoRecompensa, ENT_QUOTES, 'UTF-8');
+                                            $colorTextoTipoRecompensa = htmlspecialchars($tipoRecompensa->colorTexto_TipoRecompensa, ENT_QUOTES, 'UTF-8');
+                                            $colorFondoTipoRecompensa = htmlspecialchars($tipoRecompensa->colorFondo_TipoRecompensa, ENT_QUOTES, 'UTF-8');
                                             $value = $codigoTipoRecompensa;
                                         @endphp
                                 
-                                        <li onclick="selectOptionEliminarTipoRecompensa('{{ $value }}', '{{ $idNumberTipoRecompensa }}', '{{ $nombreTipoRecompensa }}', 
-                                                    '{{ $idCodigoTipoRecompensaInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
+                                        <li onclick="selectOptionEliminarTipoRecompensa('{{ $value }}', '{{ $idNumberTipoRecompensa }}', '{{ $nombreTipoRecompensa }}',
+                                            '{{ $descripcionTipoRecompensa }}', '{{ $colorTextoTipoRecompensa }}', '{{ $colorFondoTipoRecompensa }}', 
+                                            '{{ $idCodigoTipoRecompensaInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
                                             {{ $value }}
                                         </li>   
                                     @endforeach
@@ -64,11 +75,39 @@
                     </div>
                    
                     <div class="form-group gap">
-                        <label class="primary-label" id="nameLabel"  for='{{ $idNombreTipoRecompensaInput }}'>Nombre:</label>
+                        <label class="primary-label noEditable" id="nameLabel"  for='{{ $idNombreTipoRecompensaInput }}'>Nombre:</label>
                         <input class="input-item" type="text" maxlength="50" id='{{ $idNombreTipoRecompensaInput }}' placeholder="Ingresar tipo de recompensa"
                                 disabled>
                     </div>
                     
+                    <div class="form-group gap">
+                        <label class="primary-label noEditable" for='{{ $idDescripcionTipoRecompensaInput }}'>Descripción:</label>
+                        <textarea class="textarea normal" id='{{ $idDescripcionTipoRecompensaInput }}'
+                                placeholder="Breve descripción" disabled></textarea>
+                    </div>
+
+                    <div class="form-group gap">
+                        <div class="group-items">
+                            <div class="form-group gap">
+                                <label class="primary-label noEditable" for='{{ $idColorTextoTipoRecompensaInput }}'>Color de texto:</label>
+                                <input type="color" class="colorPicker" id='{{ $idColorTextoTipoRecompensaInput }}' title="Seleccionar color"
+                                    oninput="fillPreviewColorTextoSpan(this, '{{ $idPreviewColorSpan }}')"
+                                    value="#3206B0" disabled>
+                            </div>
+                            <div class="form-group colorFondoGap">
+                                <label class="primary-label noEditable" for='{{ $idColorFondoTipoRecompensaInput }}'>Color de fondo:</label>
+                                <input type="color" class="colorPicker" id='{{ $idColorFondoTipoRecompensaInput }}' title="Seleccionar color"
+                                    oninput="fillPreviewColorFondoSpan(this, '{{ $idPreviewColorSpan }}')"
+                                    value="#DCD5F0" disabled>
+                            </div>
+                        </div>
+                        
+                        <div class="previewTipoRecompensaContainer">
+                            <label class="primary-label noEditable">Previsualización:</label>
+                            <span class="previewTipoRecompensa" id="{{ $idPreviewColorSpan }}" style="color:#3206B0; background-color: #DCD5F0;" disabled></span> 
+                        </div>
+                    </div>
+
                     <div class="form-group start">
                         <span class="noInline-alert-message" id='{{ $idGeneralMessageError }}'></span>      
                     </div>  

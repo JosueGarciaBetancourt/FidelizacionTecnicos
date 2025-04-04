@@ -30,6 +30,7 @@
                     <th class="celda-centered">Fecha y Hora</th>
                     <th class="celda-centered">Técnico</th>
                     <th class="ventaAsociada">Venta Asociada</th>
+                    <th class="celda-centered">Días hasta hoy</th>
                     <th class="celda-centered">Estado</th>
                     <th class="celda-centered">Detalles</th>
                     @if (!$isAsisstantLogged)

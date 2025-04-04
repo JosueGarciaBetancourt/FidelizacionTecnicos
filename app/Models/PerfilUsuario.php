@@ -27,18 +27,4 @@ class PerfilUsuario extends Model
     {
         return $this->hasMany(User::class, 'idPerfilUsuario', 'id'); 
     }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($perfilUsuario) {
-            $perfilUsuario->created_at = Carbon::now()->addHours(5);
-            $perfilUsuario->updated_at = Carbon::now()->addHours(5);
-        });
-
-        static::updating(function ($perfilUsuario) {
-            $perfilUsuario->updated_at = Carbon::now()->addHours(5);
-        });
-    }
 }

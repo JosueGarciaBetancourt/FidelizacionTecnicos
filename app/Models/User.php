@@ -66,18 +66,4 @@ class User extends Authenticatable
     {
         return $this->PerfilUsuario->nombre_PerfilUsuario ?? 'Sin perfil';
     }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($user) {
-            $user->created_at = Carbon::now()->addHours(5);
-            $user->updated_at = Carbon::now()->addHours(5);
-        });
-
-        static::updating(function ($user) {
-            $user->updated_at = Carbon::now()->addHours(5);
-        });
-    }
 }

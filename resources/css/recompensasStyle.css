@@ -6,12 +6,6 @@
 	height: auto;
 }
 
-h3 {
-    color: var(--clr-dark);
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
 .firstRowRecompensas {
     display: flex;
 	flex-direction: row;
@@ -41,20 +35,17 @@ h3 {
     align-items: left;
 }
 
-.celda__tipoRecompensa {
-    padding: 15px !important;
-    margin: 0 !important;
-    text-align: center !important; 
-}
-
-.celda__tipoRecompensa span {
+.celdaTipoRecompensa span {
     padding: 5px;
-    border-radius: 5px;
     margin: 0;
+    margin-right: 1rem;
+    border-radius: 5px;
     font-weight: bold;
     font-size: 0.75rem;
     display: inline-block;
-    width: 100%; /*max-width: 100% para anchos dinámicos*/
+    width: 85%;
+    max-width: 12rem;
+    text-align: center;
 }
 
 td {
@@ -71,31 +62,6 @@ td {
 
 #idCeldaDescripcionRecompensa {
     width: 15rem;
-}
-
-/*Estilos de las celdas de los Tipos de Recompensas*/
-.tipoRecompensa__span-1 {
-    color: #139161;
-    background-color: rgba(19, 145, 97, 0.15) !important;
-}
-
-.tipoRecompensa__span-2 {
-    color: #9C27B0;
-    background-color: rgba(156, 39, 176, 0.15) !important;
-}
-
-.tipoRecompensa__span-3 {
-    color: #2196F3;
-    background-color: rgba(33, 150, 243, 0.15) !important;
-}
-
-.tipoRecompensa__span-4 {
-    color: #FF9800;
-    background-color: rgba(255, 152, 0, 0.15) !important;
-}
-
-#tblRecompensas tbody tr:nth-child(even) {
-    background-color: #f8f8f8; /* Color claro alterno */
 }
 
 .fewStock {

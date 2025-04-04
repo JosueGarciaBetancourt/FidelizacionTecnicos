@@ -107,6 +107,11 @@
         />
 
 		<x-modalFailedAction 
+            :idErrorModal="'errorModalTecnicoDisable'"
+            :message="'El técnico no puede ser inhabilitado porque tiene solicitudes de canjes pendientes asociadas a él'"
+        />
+
+		<x-modalFailedAction 
             :idErrorModal="'errorModalTecnicoDelete'"
             :message="'El técnico no puede ser eliminado porque tiene ventas intermediadas asociadas a él'"
         />
@@ -142,6 +147,9 @@
 			@if(session('successTecnicoDelete'))
 				openModal('successModalTecnicoEliminado');
 			@endif
+			@if(session('errorTecnicoDisable'))
+                justOpenModal('errorModalTecnicoDisable');
+            @endif
 			@if(session('errorTecnicoDelete'))
                 justOpenModal('errorModalTecnicoDelete');
             @endif

@@ -83,6 +83,11 @@ class OficioController extends Controller
         // Encuentra la recompensa usando el idRecompensa
         $oficio = Oficio::where("idOficio", $validatedData['idOficio'])->first();
     
+        // Verifica si tiene técnicos asociados en la tabla intermedia
+        if ($oficio->tecnicosOficios()->exists()) {
+            return redirect()->route('oficios.create')->with('errorOficioDisable', 'El oficio no puede ser inhabilitado porque hay técnicos asociados.');
+        }
+
         // Verifica si se encontró la recompensa
         if ($oficio) {
             // Aplica soft delete

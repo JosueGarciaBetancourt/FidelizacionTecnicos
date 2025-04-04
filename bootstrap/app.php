@@ -14,8 +14,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
+            $middleware->prepend(\App\Http\Middleware\UpdateEstadosMiddleware::class),
             'auth.api' => \App\Http\Middleware\VerifyApiKey::class,
-          ]);
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->renderable(function (ThrottleRequestsException $e, $request) {
@@ -25,7 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         // Manejo del error 405 (Method Not Allowed)
-       /*  $exceptions->renderable(function (\Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $e, $request) {
+        /* $exceptions->renderable(function (\Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $e, $request) {
             return redirect()->route('ventasIntermediadas.create')->with('error', 'La acción que intentas realizar no está autorizada.');
         }); */
     })

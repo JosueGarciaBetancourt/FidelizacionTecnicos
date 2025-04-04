@@ -10,18 +10,17 @@
     <link rel="stylesheet" href="{{ asset('css/modalInhabilitarRecompensa.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalRestaurarRecompensa.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modalEliminarRecompensa.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/modalRegistrarNuevoTipoRecompensa.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/modalEditarTipoRecompensa.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/modalEliminarTipoRecompensa.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalRegistrarNuevoRecompensa.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalEditarRecompensa.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modalEliminarRecompensa.css') }}">
     --}}
     @vite(['resources/css/recompensasStyle.css'])
     @vite(['resources/css/modalRegistrarNuevaRecompensa.css'])
+    @vite(['resources/css/modalRegistrarNuevoTipoRecompensa.css'])
     @vite(['resources/css/modalEditarRecompensa.css'])
     @vite(['resources/css/modalInhabilitarRecompensa.css'])
     @vite(['resources/css/modalRestaurarRecompensa.css'])
     @vite(['resources/css/modalEliminarRecompensa.css'])
-    @vite(['resources/css/modalEditarTipoRecompensa.css'])
-    @vite(['resources/css/modalEliminarTipoRecompensa.css'])
 @endpush
 
 @section('main-content')
@@ -31,12 +30,10 @@
         @endphp
 
         @if (!$isAsisstantLogged)
-            <h3>Recompensa</h3>
             <div class="firstRowRecompensas">
-                <x-btn-create-item onclick="openModal('modalRegistrarNuevaRecompensa')"> 
-                    Nueva recompensa
-                </x-btn-create-item>
+                <x-btn-create-item onclick="openModal('modalRegistrarNuevaRecompensa')"> Nueva recompensa </x-btn-create-item>
                 @include('modals.recompensas.modalRegistrarNuevaRecompensa')
+                @include('modals.tiposRecompensas.modalRegistrarNuevoTipoRecompensa')
 
                 <x-btn-edit-item onclick="openModal('modalEditarRecompensa')"> Editar </x-btn-edit-item>
                 @include('modals.recompensas.modalEditarRecompensa')
@@ -49,20 +46,6 @@
 
                 <x-btn-delete-item onclick="openModal('modalEliminarRecompensa')"> Eliminar </x-btn-delete-item>
                 @include('modals.recompensas.modalEliminarRecompensa')
-            </div>
-
-            <h3>Tipo de recompensa</h3>
-            <div class="secondRowRecompensas">
-                <x-btn-create-item onclick="openModal('modalRegistrarNuevoTipoRecompensa')"> 
-                    Nuevo tipo de recompensa
-                </x-btn-create-item>
-                @include('modals.recompensas.modalRegistrarNuevoTipoRecompensa')
-
-                <x-btn-edit-item onclick="openModal('modalEditarTipoRecompensa')"> Editar </x-btn-edit-item>
-                @include('modals.recompensas.modalEditarTipoRecompensa')
-
-                <x-btn-delete-item onclick="openModal('modalEliminarTipoRecompensa')"> Eliminar </x-btn-delete-item>
-                @include('modals.recompensas.modalEliminarTipoRecompensa')
             </div>
         @endif
 
@@ -88,15 +71,14 @@
                     <tr>
                         <td class="celda-centered">{{ $contador++ }}</td> 
                         <td>{{ $recompensa->idRecompensa }}</td>
-                        <td class="celda__tipoRecompensa">
-                            <span class="tipoRecompensa__span-{{strtolower(str_replace(' ', '-', $recompensa->idTipoRecompensa))}}">
-                                {{ $recompensa->nombre_TipoRecompensa }}
-                            </span>
+                        <td class="celda-centered celdaRecompensa">
+							<span style="color: {{ $recompensa->colorTexto_Recompensa }}; background-color: {{ $recompensa->colorFondo_Recompensa }};">
+                                {{ $recompensa->nombre_Recompensa }}
+							</span> 
                         </td>
                         <td>{{ $recompensa->descripcionRecompensa }}</td>
                         <td class="celda-centered">{{ $recompensa->costoPuntos_Recompensa }}</td>
-                        <td @class(['celda-centered', 
-                            'fewStock' => $recompensa->stock_Recompensa <= config('settings.unidadesRestantesRecompensasNotificacion')])>
+                        <td @class(['celda-centered', 'fewStock' => $recompensa->stock_Recompensa <= config('settings.unidadesRestantesRecompensasNotificacion')])>
                             {{ $recompensa->stock_Recompensa }}</td>
                         {{-- <td class="celda-centered">{{ $recompensa->stock_Recompensa }}</td> --}}
                         <td class="celda-centered">{{ $recompensa->created_at}}</td>
@@ -137,37 +119,30 @@
             :message="'Tipo de recompensa guardado correctamente'"
         />
 
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalTipoRecompensaActualizado'"
-            :message="'Tipo de recompensa actualizado correctamente'"
-        />
-
-        <x-modalSuccessAction 
-            :idSuccesModal="'successModalTipoRecompensaEliminado'"
-            :message="'Tipo de recompensa eliminado correctamente'"
-        />
-
         <x-modalFailedAction 
             :idErrorModal="'errorModalRecompensaDisable'"
-            :message="'La recompensa no puede ser inhabilitada porque aparece en solicitudes de canje pendientes'"
+            :message="'La recompensa no puede ser inhabilitada porque hay canjes ó solicitudes de canje asociados'"
         />
 
         <x-modalFailedAction 
             :idErrorModal="'errorModalRecompensaDelete'"
             :message="'La recompensa no puede ser eliminada porque hay canjes ó solicitudes de canje asociados'"
         />
+
+        <x-modalFailedAction 
+            :idErrorModal="'errorModalTipoRecompensa'"
+            :message="'No puedes realizar esta acción'"
+        />
     </div>
 @endsection
 
 @push('scripts')
     <script src="{{ asset('js/modalRegistrarNuevaRecompensa.js') }}"></script>
+    <script src="{{ asset('js/modalRegistrarNuevoTipoRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalEditarRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalInhabilitarRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalRestaurarRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalEliminarRecompensa.js') }}"></script>
-    <script src="{{ asset('js/modalRegistrarNuevoTipoRecompensa.js') }}"></script>
-    <script src="{{ asset('js/modalEditarTipoRecompensa.js') }}"></script>
-    <script src="{{ asset('js/modalEliminarTipoRecompensa.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             @if(session('successRecompensaStore'))
@@ -185,21 +160,14 @@
             @if(session('successRecompensaDelete'))
                 openModal('successModalRecompensaEliminada');
             @endif
+            @if(session('successTipoRecompensaStore'))
+                openModal('successModalTipoRecompensaGuardado');
+            @endif
             @if(session('errorRecompensaDisable'))
                 justOpenModal('errorModalRecompensaDisable');
             @endif
             @if(session('errorRecompensaDelete'))
                 justOpenModal('errorModalRecompensaDelete');
-            @endif
-         
-            @if(session('successTipoRecompensaStore'))
-                openModal('successModalTipoRecompensaGuardado');
-            @endif
-            @if(session('successTipoRecompensaUpdate'))
-                openModal('successModalTipoRecompensaActualizado');
-            @endif
-            @if(session('successTipoRecompensaDelete'))
-                openModal('successModalTipoRecompensaEliminado');
             @endif
         });
     </script>

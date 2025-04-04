@@ -1,4 +1,4 @@
-function fillColorInputOnRealTimeIDInteger(input, idOptions, inputsArray, dbFieldsNameArray, searchIdField, itemsDB, previewColorSpan) {
+/* function fillColorInputOnRealTimeIDInteger(input, idOptions, inputsArray, dbFieldsNameArray, searchIdField, itemsDB, previewColorSpan) {
     const value = input.value;
 
     if (!value) {
@@ -45,39 +45,6 @@ function fillColorInputOnRealTimeIDInteger(input, idOptions, inputsArray, dbFiel
     return false;
 }
 
-function fillNamePreviewColorSpan(input, idSpan) {
-    const value = input.value;
-    const span = document.getElementById(idSpan);
-
-    if (span) {  // Verifica si el span existe antes de modificarlo
-        span.textContent = value;
-    } else {
-        console.error(`Error: No se encontró el elemento con id "${idSpan}"`);
-    }
-}
-
-function fillPreviewColorTextoSpan(input, idSpan) {
-	const value = input.value;
-    const span = document.getElementById(idSpan);
-
-    if (span) {  // Verifica si el span existe antes de modificarlo
-        span.style.color = value;
-    } else {
-        console.error(`Error: No se encontró el elemento con id "${idSpan}"`);
-    }
-}
-
-function fillPreviewColorFondoSpan(input, idSpan) {
-	const value = input.value;
-    const span = document.getElementById(idSpan);
-
-    if (span) { 
-        span.style.backgroundColor = value;
-    } else {
-        console.error(`Error: No se encontró el elemento con id "${idSpan}"`);
-    }
-}
-
 function updateColorsInput(colorTextoRangoInput, colorFondoRangoInput, previewColorSpan,
                             colorTextoRango="#3206B0", colorFondoRango="#DCD5F0", name="") {
     colorTextoRangoInput.value = colorTextoRango;
@@ -85,4 +52,4 @@ function updateColorsInput(colorTextoRangoInput, colorFondoRangoInput, previewCo
     previewColorSpan.style.color = colorTextoRango;
     previewColorSpan.style.backgroundColor = colorFondoRango;
     previewColorSpan.textContent = name;
-}
+} */

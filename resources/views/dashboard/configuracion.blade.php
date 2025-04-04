@@ -109,9 +109,13 @@
 				</form>
 			@endif
 		</div>
-		<button type="submit" id="saveConfig" class="save-config">Guardar Configuración</button>
+		<button type="button" id="saveConfig" class="save-config">Guardar Configuración</button>
 	</div>
 
+	<x-modalConfirmAction
+		:idConfirmModal="'modalConfirmActionConfiguracion'"
+		:message="'¿Está seguro de esta acción?'"
+	/>
 	<x-modalSuccessAction 
 		:idSuccesModal="'successModalConfiguracionGuardada'"
 		:message="'Configuración guardada correctamente'"

@@ -74,6 +74,12 @@
                     <h5>Recompensas</h5>
                 </a>
 
+                <a href="{{ route('tiposRecompensas.create') }}" onclick="openLoadingModal()"
+                    class="{{ Request::routeIs('tiposRecompensas.create') ? 'active' : '' }}">
+                    <span class="material-symbols-outlined">home_repair_service</span>
+                    <h5>Tipos de recompensas</h5>
+                </a>
+
                 <a href="{{ route('tecnicos.create') }}" onclick="openLoadingModal()"
                     class="{{ Request::routeIs('tecnicos.create') ? 'active' : '' }}">
                     <span class="material-symbols-outlined">groups</span>

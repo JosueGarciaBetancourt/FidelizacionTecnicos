@@ -2,7 +2,7 @@
     <div class="modal-dialog modalEditarMaxdayscanje">
         <div class="modal-content modalEditarMaxdayscanje">
             <div class="modal-header">
-                <h5 class="modal-title">Editar días máximos de registro de venta</h5>
+                <h5 class="modal-title">Editar días máximos de canje</h5>
                 <button class="close noUserSelect" onclick="closeModal('modalEditarMaxdayscanje')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyEditarMaxdayscanje">
@@ -17,8 +17,8 @@
                     @endphp
 
                     <div class="form-group start paddingY" id="idH5EditarMaxdayscanjeContainer">
-                        <h5>Los días máximos de registro de venta ó también días máximos de canje determinan el tiempo límite para que una venta intermediada pase al estado
-                            <span>Tiempo Agotado</span> y el tiempo límite para que un técnico pueda canjearla.
+                        <h5>Los días máximos de canje ó también días máximos de registro de venta determinan el tiempo límite para que una venta intermediada pase al estado
+                            <span>Tiempo Agotado</span> y el tiempo límite para que un técnico pueda registrarla.
                         </h5>
                     </div>
 

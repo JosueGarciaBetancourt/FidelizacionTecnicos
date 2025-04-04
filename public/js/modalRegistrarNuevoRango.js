@@ -24,14 +24,23 @@ function validarCamposVaciosFormularioRangoRegistrar() {
     return allFilled;
 }
 
-function validarCamposCorrectosFormularioRangoRegistrar() {
+function isRangoDuplicado(rangosDB) {
+    const nombre = nombreRangoRegistrarInput.value.trim().toLowerCase(); 
+    const rangoExistente = rangosDB.find(rango => rango.nombre_Rango.toLowerCase() === nombre);
+
+    // Retornar true si se encuentra una coincidencia, false en caso contrario
+    return !!rangoExistente; 
+}
+
+function validarCamposCorrectosFormularioRangoRegistrar(rangosDB) {
     mensajeCombinadoRegistrarRango = "";
     var returnError = false;
 
-    /*if (costoUnitarioInput.value == 0) {
-        mensajeCombinado += "El costo unitario no puede ser 0.";
+    if (isRangoDuplicado(rangosDB)) {
         returnError = true;
-	}*/
+        const msg = `El rango "${nombreRangoRegistrarInput.value}" ya ha sido registrado anteriormente`;
+        openErrorModal("errorModalRangoDelete", msg);
+    }
 
     if (returnError) {
         return false;
@@ -41,9 +50,9 @@ function validarCamposCorrectosFormularioRangoRegistrar() {
     return true;
 }
 
-function guardarModalRegistrarNuevoRango(idModal, idForm) {
+function guardarModalRegistrarNuevoRango(idModal, idForm, rangosDB) {
 	if (validarCamposVaciosFormularioRangoRegistrar()) {
-		if (validarCamposCorrectosFormularioRangoRegistrar()) {
+		if (validarCamposCorrectosFormularioRangoRegistrar(rangosDB)) {
 			console.log("Enviando formulario satisfactoriamente");
 			registrarRangoMessageError.classList.remove("shown");
 			guardarModal(idModal, idForm);	

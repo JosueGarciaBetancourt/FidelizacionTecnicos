@@ -23,48 +23,8 @@
     align-items: left;
 }
 
-.celda__tipoRecompensa {
-    padding: 15px !important;
-    margin: 0 !important;
-    text-align: center !important; 
-}
-
-.celda__tipoRecompensa span {
-    padding: 5px;
-    border-radius: 5px;
-    margin: 0;
-    font-weight: bold;
-    font-size: 0.75rem;
-    display: inline-block;
-    width: 100%; /*max-width: 100% para anchos dinámicos*/
-}
-
-.tipoRecompensa__span-efectivo {
-    color: #139161;
-    background-color: rgba(19, 145, 97, 0.15) !important;
-}
-
-.tipoRecompensa__span-epp {
-    color: #2196F3;
-    background-color: rgba(33, 150, 243, 0.15) !important;
-}
-
-.tipoRecompensa__span-accesorio {
-    color: #9C27B0;
-    background-color: rgba(156, 39, 176, 0.15) !important;
-}
-
-.tipoRecompensa__span-herramienta {
-    color: #FF9800;
-    background-color: rgba(255, 152, 0, 0.15) !important;
-}
-
 td {
     padding: 1rem 0.5rem !important;
-}
-
-.celda-centered.short {
-    max-width: 6.5rem;
 }
 
 .celda-centered.date {
@@ -87,7 +47,7 @@ td {
     font-weight: bold;
     font-size: 0.75rem;
     display: inline-block;
-	width: 65%;
+    min-width: 65%;
     text-align: center;
 }
 

@@ -6,8 +6,10 @@ use App\Models\Rango;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Controllers\ConfiguracionController;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class RangoController extends Controller
 {
@@ -112,23 +114,21 @@ class RangoController extends Controller
 
         $rango = Rango::where('idRango', $validatedData['idRango'])->first();
     
-        if ($rango) {
-            // Aplica soft delete
-            $rango->delete();
-            $messageDisable = 'Rango inhabilitado correctamente';
-        } else {
-            $messageDisable = 'Rango no encontrado';
+        // Verifica si tiene técnicos asociados en la tabla intermedia
+        if ($rango->tecnicos()->exists()) {
+            return redirect()->route('rangos.create')->with('errorRangoDisable', 'El rango no puede ser inhabilitado porque hay técnicos asociados a este');
         }
     
+        $rango->delete();
+
         Controller::$newNotifications = false;
 
         // Actualizar técnicos y crear notificaciones si es necesario
         ConfiguracionController::updateRangoTecnicos();
 
         return Controller::$newNotifications
-            ? redirect()->route('rangos.create')->with('successRangoDisable', $messageDisable)
-                                                    ->with('newNotifications', '-')
-            : redirect()->route('rangos.create')->with('successRangoDisable', $messageDisable);
+            ? redirect()->route('rangos.create')->with('successRangoDisable', 'Rango inhabilitado correctamente')->with('newNotifications', '-')
+            : redirect()->route('rangos.create')->with('successRangoDisable', 'Rango inhabilitado correctamente');
     }
 
     public function restore(Request $request) {
@@ -190,6 +190,59 @@ class RangoController extends Controller
                 : redirect()->route('rangos.create')->with('successRangoDelete', 'Rango eliminado correctamente');
         } catch (\Exception $e) {
             return redirect()->route('rangos.create');
+        }
+    }
+
+    public function returnArrayRangos() {
+        $rangos = Rango::all();
+        $index = 1;
+
+        $data = $rangos->map(function ($rango) use (&$index) {
+            return [
+                'index' => $index++,
+                'codigoRango' => $rango->codigoRango,
+                'nombre_Rango' => $rango->nombre_Rango,
+                'descripcion_Rango' => $rango->descripcion_Rango,
+                'puntosMinimos_Rango' => $rango->puntosMinimos_Rango,
+                'created_at' => $rango->created_at,
+                'updated_at' => $rango->updated_at,
+            ];
+        });
+        
+        return $data->toArray();
+    }
+
+    public function exportarAllRangosPDF()
+    {
+        try {
+            // Cargar datos de técnicos con rangos
+            $data = $this->returnArrayRangos();
+
+            // Verificar si hay datos para exportar
+            if (count($data) === 0) {
+                throw new \Exception("No hay datos disponibles para exportar la tabla de rangos.");
+            }
+
+            // Configurar los parámetros del PDF
+            $paperSize = 'A4';
+            $view = 'tables.tablaRangosPDFA4';
+            $fileName = "Club de técnicos DIMACOF-Listado de Rangos-" . $this->obtenerFechaHoraFormateadaExportaciones() . ".pdf";
+
+            // Generar el PDF con los datos
+            $pdf = Pdf::loadView($view, ['data' => $data])
+                    ->setPaper($paperSize, 'landscape');
+
+            // Retornar el PDF para visualizar o descargar
+            return $pdf->stream($fileName);
+        } catch (\Exception $e) {
+            // Registrar el error en los logs
+            Log::error("Error en exportarAllRangosPDF: " . $e->getMessage());
+
+            // Retornar una respuesta clara al usuario
+            return response()->json([
+                'message' => 'Ocurrió un error al generar el PDF.',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 }

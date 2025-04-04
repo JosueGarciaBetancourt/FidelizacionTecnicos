@@ -23,18 +23,4 @@ class SystemNotification extends Model
     {
         return $this->created_at->diffForHumans(); // "Hace 2 min"
     }
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($systemNotification) {
-            $systemNotification->created_at = Carbon::now()->addHours(5);
-            $systemNotification->updated_at = Carbon::now()->addHours(5);
-        });
-
-        static::updating(function ($systemNotification) {
-            $systemNotification->updated_at = Carbon::now()->addHours(5);
-        });
-    }
 }

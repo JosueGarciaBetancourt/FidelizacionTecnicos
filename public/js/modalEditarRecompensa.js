@@ -1,4 +1,4 @@
-let idRecompensaInput = document.getElementById('recompensaEditInput');
+let idRecompensaInputEdit = document.getElementById('recompensaEditInput');
 let tipoRecompensaInputEdit = document.getElementById('tipoRecompensaInputEdit');
 let descripcionRecompensaInputEdit = document.getElementById('descripcionRecompensaInputEdit');
 let costoPuntosInput = document.getElementById('costoPuntosInputEdit');
@@ -8,7 +8,7 @@ let editarRecompensaMessageError = document.getElementById('editarRecompensaMess
 let mensajeCombinadoEditRecompensa = "";
 
 let formEditRecompensaArray = [
-  idRecompensaInput,
+  idRecompensaInputEdit,
   tipoRecompensaInputEdit,
   descripcionRecompensaInputEdit,
   costoPuntosInput, 

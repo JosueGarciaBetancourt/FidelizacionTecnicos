@@ -45,7 +45,7 @@ class CheckVentasIntermediadas implements ShouldQueue
                     "updated_at" => now(),
                 ]);
             }
-            Controller::printJSON($ventas);
+            //Controller::printJSON($ventas);
         }
     }
 }

@@ -23,6 +23,18 @@ class TecnicoNotificationSeeder extends Seeder
                 'idVentaIntermediada' => 'F001-00000076',
                 'description' => 'La venta intermediada F001-00000076 se agotará en 7 días', // Los días para agotarse pueden modificarse
             ],
+            // Solicitud de canje aprobada
+            [  
+                'idTecnico' => '77043114',
+                'idSolicitudCanje' => 'SOLICANJ-00001',
+                'description' => 'Tu solicitud de canje SOLICANJ-00001 fue Aprobada',
+            ],
+            // Solicitud de canje rechazada
+            [  
+                'idTecnico' => '77043114',
+                'idSolicitudCanje' => 'SOLICANJ-00005',
+                'description' => 'Tu solicitud de canje con código SOLICANJ-00005 fue Rechazada',
+            ],
         ];
 
         foreach ($tecnicosNotifications as $tecNoti) {

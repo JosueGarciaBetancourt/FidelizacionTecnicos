@@ -125,6 +125,7 @@ class CanjeController extends Controller
     
         // Obtener ID del usuario autenticado
         $idUser = Auth::id();
+        $userName = Auth::user()->name;
         $recompensasJson = $validatedData['recompensas_Canje'];
         
         // Crear el nuevo canje
@@ -139,6 +140,7 @@ class CanjeController extends Controller
             'puntosRestantes_Canje' => $validatedData['puntosRestantes_Canje'],
             'comentario_Canje'=> $validatedData['comentario_Canje'],
             'idUser' => $idUser,
+            'userName' => $userName,
         ]);
     
         // Actualizar la venta intermediada
@@ -417,8 +419,8 @@ class CanjeController extends Controller
                 ];
             });
             
-            /* Log::info("DATA CANJES PDF:");
-            Controller::printJSON($data); */
+            // Log::info("DATA CANJES PDF:");
+            // Controller::printJSON($data);
             return $data->toArray();
         } catch (\Exception $e) {
             dd($e->getMessage());
@@ -431,8 +433,8 @@ class CanjeController extends Controller
             // Cargar datos de técnicos con oficios
             $data = $this->returnArrayHistorialCanjesTablaPDF();
             
-            /* Log::info("DATA exportarAllCanjesPDF:");
-            Controller::printJSON($data); */
+            // Log::info("DATA exportarAllCanjesPDF:");
+            // Controller::printJSON($data); 
 
             // Verificar si hay datos para exportar
             if (count($data) === 0) {
