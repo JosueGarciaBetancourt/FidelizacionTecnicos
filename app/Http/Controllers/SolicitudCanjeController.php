@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Canje;
+use App\Models\Tecnico;
 use App\Models\Recompensa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Cache;
 use App\Models\SolicitudCanjeRecompensa;
 use App\Http\Controllers\CanjeController;
 use App\Http\Controllers\SystemNotificationController;
+use Database\Seeders\VentaIntermediadaSeeder;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 
@@ -79,7 +81,9 @@ class SolicitudCanjeController extends Controller
                 $item->index = $key + 1; // Asignar índice a cada elemento
                 return $item;
             });
-    
+            
+            // Controller::printJSON($objSolicitudCanje);
+
             return response()->json([
                 'objSolicitudCanje' => $objSolicitudCanje,
                 'detallesSolicitudesCanjes' => $detallesSolicitudesCanjes
@@ -107,6 +111,7 @@ class SolicitudCanjeController extends Controller
         try {
             // Obtener la venta solicitada
             $venta = VentaIntermediada::where('idVentaIntermediada', $validatedData['idVentaIntermediada'])->firstOrFail();
+            $nombreTecnico = Tecnico::find($validatedData['idTecnico'])->value('nombreTecnico');
 
             // Convertir fechaHoraEmision_VentaIntermediada a Carbon
             $fechaEmision = \Carbon\Carbon::parse($venta->fechaHoraEmision_VentaIntermediada);
@@ -146,6 +151,7 @@ class SolicitudCanjeController extends Controller
                 'idSolicitudCanje' => $idSolicitudCanje,
                 'idVentaIntermediada' => $validatedData['idVentaIntermediada'],
                 'idTecnico' => $validatedData['idTecnico'],
+                'nombreTecnico' => $nombreTecnico,
                 'idEstadoSolicitudCanje' => 1, // Estado por defecto: Pendiente
                 'fechaHoraEmision_VentaIntermediada' => $venta->fechaHoraEmision_VentaIntermediada,
                 'diasTranscurridos_SolicitudCanje' => $diasTranscurridos,
@@ -417,29 +423,10 @@ class SolicitudCanjeController extends Controller
 
     public function returnArraySolicitudesCanjesTabla() {
         try {
-            // Obtener las ventas intermediadas con los datos relacionados
-            /*
-              $solicitudescanjes = SolicitudesCanje::query()
-                    ->join('Tecnicos', 'SolicitudesCanjes.idTecnico', '=', 'Tecnicos.idTecnico')
-                    ->join('EstadosSolicitudesCanjes', 'SolicitudesCanjes.idEstadoSolicitudCanje', '=', 'EstadosSolicitudesCanjes.idEstadoSolicitudCanje')
-                    ->select(['SolicitudesCanjes.idSolicitudCanje', 
-                            'SolicitudesCanjes.fechaHora_SolicitudCanje', 
-                            'Tecnicos.nombreTecnico', 
-                            'Tecnicos.idTecnico', 
-                            'SolicitudesCanjes.idVentaIntermediada', 
-                            'SolicitudesCanjes.puntosComprobante_SolicitudCanje', // Puntos generados
-                            'EstadosSolicitudesCanjes.nombre_EstadoSolicitudCanje',
-                            'EstadosSolicitudesCanjes.idEstadoSolicitudCanje'])
-                    ->orderBy('SolicitudesCanjes.idSolicitudCanje', 'ASC') 
-                    ->get(); 
-            */
-
-            $solicitudescanjes = SolicitudesCanje::with(['tecnicos', 'estadosSolicitudCanje'])
-                ->orderBy('idSolicitudCanje', 'ASC')
-                ->get();
-
-            // Controller::printJSON($solicitudescanjes);
-
+            $solicitudescanjes = SolicitudesCanje::with(['estadosSolicitudCanje'])
+                                                ->orderBy('idSolicitudCanje', 'ASC')
+                                                ->get();
+        
             $index = 1;
         
             // Mapear las ventas para estructurarlas
@@ -448,8 +435,8 @@ class SolicitudCanjeController extends Controller
                     'index' => $index++,
                     'idSolicitudCanje' => $solicanje->idSolicitudCanje,
                     'fechaHora_SolicitudCanje' => $solicanje->fechaHora_SolicitudCanje,
-                    'nombreTecnico' => $solicanje->tecnicos->nombreTecnico,
-                    'idTecnico' => $solicanje->tecnicos->idTecnico,
+                    'nombreTecnico' => $solicanje->nombreTecnico,
+                    'idTecnico' => $solicanje->idTecnico,
                     'fechaHoraEmision_VentaIntermediada' => $solicanje->fechaHoraEmision_VentaIntermediada,
                     'idVentaIntermediada' => $solicanje->idVentaIntermediada,
                     'puntosComprobante_SolicitudCanje' => $solicanje->puntosComprobante_SolicitudCanje,
@@ -460,13 +447,13 @@ class SolicitudCanjeController extends Controller
 
                     // Campos compuestos
                     'idVentaIntermediada_puntosGenerados' => $solicanje->idVentaIntermediada . " " . $solicanje->puntosComprobante_SolicitudCanje,
-                    'nombreTecnico_idTecnico' => $solicanje->tecnicos->nombreTecnico . " DNI: " . $solicanje->tecnicos->idTecnico,
+                    'nombreTecnico_idTecnico' => $solicanje->nombreTecnico . " DNI: " . $solicanje->idTecnico,
                     'diasTranscurridosVenta_diasTranscurridosSolicitud' => "Venta: " . $solicanje->diasTranscurridosVenta .
                                                                         "Solicitud: " . $solicanje->diasTranscurridos_SolicitudCanje,
                 ];
             });
         
-            // Controller::printJSON($data);
+            //Controller::printJSON($data);
 
             return $data->toArray();
         } catch (\Exception $e) {

@@ -121,7 +121,7 @@
 
         <x-modalFailedAction 
             :idErrorModal="'errorModalRecompensaDisable'"
-            :message="'La recompensa no puede ser inhabilitada porque aparece en solicitudes de canje pendientes'"
+            :message="'La recompensa no puede ser inhabilitada porque hay canjes ó solicitudes de canje asociados'"
         />
 
         <x-modalFailedAction 

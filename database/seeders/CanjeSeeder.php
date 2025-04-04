@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
+use App\Models\User;
 use App\Models\Canje;
+use Illuminate\Database\Seeder;
 use App\Http\Controllers\CanjeController;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class CanjeSeeder extends Seeder
 {
@@ -26,6 +27,7 @@ class CanjeSeeder extends Seeder
                 'puntosRestantes_Canje' => 0,
                 'comentario_Canje' => 'Ejemplo de comentario de canje',
                 'idUser' => 2,
+                'userName' => User::find(2)->value('name'),
             ],
             // Canje parcial
             [
@@ -39,6 +41,7 @@ class CanjeSeeder extends Seeder
                 'puntosCanjeados_Canje' => 50,
                 'puntosRestantes_Canje' => 400,
                 'idUser' => 1,
+                'userName' => User::find(1)->value('name'),
             ],
             // Canje completo en dos partes
             [
@@ -52,6 +55,7 @@ class CanjeSeeder extends Seeder
                 'puntosCanjeados_Canje' => 440,
                 'puntosRestantes_Canje' => 10,
                 'idUser' => 2,
+                'userName' => User::find(2)->value('name'),
             ],
             [
                 // CANJ-00004
@@ -65,6 +69,7 @@ class CanjeSeeder extends Seeder
                 'puntosRestantes_Canje' => 0,
                 'comentario_Canje' => 'El vendedor 1 no se encontraba en caja, vendedor 2 realizó el canje.',
                 'idUser' => 3,
+                'userName' => User::find(3)->value('name'),
             ],
             // Solicitud canje aprobado
             [
@@ -79,6 +84,7 @@ class CanjeSeeder extends Seeder
                 'puntosRestantes_Canje' => 95,
                 'comentario_Canje' => 'Canje creado a partir de la aprobación de una solicitud de canje desde aplicación.',
                 'idUser' => 1,
+                'userName' => User::find(1)->value('name'),
             ],
         ];
 

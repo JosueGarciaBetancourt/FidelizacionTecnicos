@@ -28,7 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard-canjes/historialCanje/pdf/{size}/{idCanje}', [CanjeController::class, 'canjePDF'])->name('canjes.pdf');
 
 
-    // Perfil
+    // Perfil de usuario
     Route::get('/dashboard-usuarios', [ProfileController::class, 'create'])->name('usuarios.create');
     Route::post('/dashboard-storeUsuario', [RegisteredUserController::class, 'store'])->name('usuarios.store');
     Route::patch('/dashboard-updateUsuario', [ProfileController::class, 'update'])->name('usuarios.update');

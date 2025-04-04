@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('puntosRestantes_Canje')->unsigned(); 
             $table->text('comentario_Canje')->nullable();
             $table->unsignedBigInteger('idUser');
+            $table->string('userName');
 
             $table->foreign('idVentaIntermediada')->references('idVentaIntermediada')->on('VentasIntermediadas');
             $table->foreign('idUser')->references('id')->on('users');

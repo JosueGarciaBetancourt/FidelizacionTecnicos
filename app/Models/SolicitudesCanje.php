@@ -21,8 +21,10 @@ class SolicitudesCanje extends Model
         'idVentaIntermediada',
         'fechaHoraEmision_VentaIntermediada',
         'idTecnico',
+        'nombreTecnico',
         'idEstadoSolicitudCanje',
         'idUser',
+        'userName',
         'fechaHora_SolicitudCanje',
         'diasTranscurridos_SolicitudCanje',
         'puntosComprobante_SolicitudCanje',
@@ -32,7 +34,7 @@ class SolicitudesCanje extends Model
         'comentario_SolicitudCanje',
     ];
 
-    protected $appends = ['userName', 'nombreEstado', 'recompensasJSON', 'diasTranscurridosVenta'];
+    protected $appends = [/* 'userName',  */'nombreEstado', 'recompensasJSON', 'diasTranscurridosVenta'];
     
     public function getDiasTranscurridosVentaAttribute() {
         $diasTranscurridos = Controller::returnDiasTranscurridosHastaHoy($this->fechaHoraEmision_VentaIntermediada);
@@ -64,12 +66,12 @@ class SolicitudesCanje extends Model
         return $this->hasMany(SolicitudCanjeRecompensa::class, 'idSolicitudCanje', 'idSolicitudCanje');
     }
 
-    public function getUserNameAttribute()
+    /* public function getUserNameAttribute()
     {
         $user = User::find($this->idUser);
 
         return $user ? $user->name : null;
-    }
+    } */
 
     public function getNombreEstadoAttribute()
     {

@@ -21,8 +21,8 @@ window.linkOptionPDF = function(size, idCanje) {
         if (route && size && idCanje) {
             const urlWithParams = route.replace(':size', size).replace(':idCanje', idCanje);
             window.open(urlWithParams, '_blank');
-            console.log('window.location.origin', window.location.origin);
-            console.log('urlWithParams: ', urlWithParams);
+            // console.log('window.location.origin', window.location.origin);
+            // console.log('urlWithParams: ', urlWithParams);
             // console.log(`Abriendo PDF con tamaño ${size} y ID ${idCanje} en nueva pestaña`);
         }
     } catch (error) {

@@ -32,6 +32,7 @@ class Canje extends Model
         'recompensas_Canje',
         'comentario_Canje',
         'idUser',
+        'userName'
     ];
 
     protected $appends = ['recompensasJSON']; 

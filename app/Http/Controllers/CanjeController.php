@@ -125,6 +125,7 @@ class CanjeController extends Controller
     
         // Obtener ID del usuario autenticado
         $idUser = Auth::id();
+        $userName = Auth::user()->name;
         $recompensasJson = $validatedData['recompensas_Canje'];
         
         // Crear el nuevo canje
@@ -139,6 +140,7 @@ class CanjeController extends Controller
             'puntosRestantes_Canje' => $validatedData['puntosRestantes_Canje'],
             'comentario_Canje'=> $validatedData['comentario_Canje'],
             'idUser' => $idUser,
+            'userName' => $userName,
         ]);
     
         // Actualizar la venta intermediada

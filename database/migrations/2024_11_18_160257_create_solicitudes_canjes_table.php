@@ -15,7 +15,9 @@ return new class extends Migration
             $table->dateTime('fechaHoraEmision_VentaIntermediada')->nullable();
             $table->unsignedBigInteger('idEstadoSolicitudCanje')->default(1); // Estado de la solicitud con referencia a EstadosCanje
             $table->string('idTecnico', 8); // ID del técnico que hace la solicitud
+            $table->string('nombreTecnico', 255)->nullable();   
             $table->unsignedBigInteger('idUser')->nullable(); // Solo se registra cuando el estado es 'Aprobado' o 'Rechazado'
+            $table->string('userName')->nullable(); // Solo se registra cuando el estado es 'Aprobado' o 'Rechazado'
             $table->timestamp('fechaHora_SolicitudCanje')->default(DB::raw('(CURRENT_TIMESTAMP - INTERVAL 5 HOUR)'));
             $table->integer('diasTranscurridos_SolicitudCanje')->unsigned(); 
             $table->integer('puntosComprobante_SolicitudCanje')->unsigned(); // Puntos generados

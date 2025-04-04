@@ -245,9 +245,15 @@ class TecnicoController extends Controller
             ]);
 
             $tecnico = Tecnico::findOrFail($validatedData['idTecnico']);
-        
+            $solicitudesPendientes = $tecnico->solicitudesCanje()->where('idEstadoSolicitudCanje', 1)->get(); // Obtener las solicitudes pendientes asociadas
+
+            if ($solicitudesPendientes->count() > 0) {
+                return redirect()->route('tecnicos.create')
+                    ->with('errorTecnicoDisable', 'El técnico no puede ser inhabilitado porque tiene solicitudes de canjes pendientes asociadas a él');
+            }
+
             $tecnico->delete();
-            $messageDelete = 'Técnico eliminado correctamente';
+            $messageDelete = 'Técnico inhabilitado correctamente';
 
             return redirect()->route('tecnicos.create')->with('successTecnicoDisable', $messageDelete);
         } catch (\Exception $e) {
