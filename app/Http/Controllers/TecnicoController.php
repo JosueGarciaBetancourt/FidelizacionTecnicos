@@ -253,6 +253,7 @@ class TecnicoController extends Controller
             }
 
             $tecnico->delete();
+        
             $messageDelete = 'Técnico inhabilitado correctamente';
 
             return redirect()->route('tecnicos.create')->with('successTecnicoDisable', $messageDelete);
