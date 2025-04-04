@@ -253,6 +253,11 @@ class TecnicoController extends Controller
             }
 
             $tecnico->delete();
+            
+            // Desactivar el login del técnico (soft delete)
+            $loginTecnico = Login_Tecnico::find($validatedData['idTecnico']);
+            $loginTecnico->delete();
+
             $messageDelete = 'Técnico inhabilitado correctamente';
 
             return redirect()->route('tecnicos.create')->with('successTecnicoDisable', $messageDelete);
@@ -328,6 +333,10 @@ class TecnicoController extends Controller
                     'idOficio' => $idOficio,
                 ]);
             }
+
+            // Restaurar el login del técnico
+            $loginTecnicoEliminado = Login_Tecnico::find($validatedData['idTecnico']);
+            $loginTecnicoEliminado->restore();
 
             //dd($tecnicoEliminado);
             // Confirmar transacción
