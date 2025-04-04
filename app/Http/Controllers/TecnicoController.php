@@ -257,7 +257,7 @@ class TecnicoController extends Controller
             // Desactivar el login del técnico (soft delete)
             $loginTecnico = Login_Tecnico::find($validatedData['idTecnico']);
             $loginTecnico->delete();
-
+            
             $messageDelete = 'Técnico inhabilitado correctamente';
 
             return redirect()->route('tecnicos.create')->with('successTecnicoDisable', $messageDelete);
