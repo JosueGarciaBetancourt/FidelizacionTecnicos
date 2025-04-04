@@ -45,3 +45,4 @@ function fillColorInputOnRealTimeIDIntegerNameApart(input, nameInput, idOptions,
 
     return false;
 }
+

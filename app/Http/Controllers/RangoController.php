@@ -114,23 +114,21 @@ class RangoController extends Controller
 
         $rango = Rango::where('idRango', $validatedData['idRango'])->first();
     
-        if ($rango) {
-            // Aplica soft delete
-            $rango->delete();
-            $messageDisable = 'Rango inhabilitado correctamente';
-        } else {
-            $messageDisable = 'Rango no encontrado';
+        // Verifica si tiene técnicos asociados en la tabla intermedia
+        if ($rango->tecnicos()->exists()) {
+            return redirect()->route('rangos.create')->with('errorRangoDisable', 'El rango no puede ser inhabilitado porque hay técnicos asociados a este');
         }
     
+        $rango->delete();
+
         Controller::$newNotifications = false;
 
         // Actualizar técnicos y crear notificaciones si es necesario
         ConfiguracionController::updateRangoTecnicos();
 
         return Controller::$newNotifications
-            ? redirect()->route('rangos.create')->with('successRangoDisable', $messageDisable)
-                                                    ->with('newNotifications', '-')
-            : redirect()->route('rangos.create')->with('successRangoDisable', $messageDisable);
+            ? redirect()->route('rangos.create')->with('successRangoDisable', 'Rango inhabilitado correctamente')->with('newNotifications', '-')
+            : redirect()->route('rangos.create')->with('successRangoDisable', 'Rango inhabilitado correctamente');
     }
 
     public function restore(Request $request) {

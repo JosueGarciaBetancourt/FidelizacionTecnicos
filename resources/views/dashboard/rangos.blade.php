@@ -107,6 +107,11 @@
             />
 
         <x-modalFailedAction 
+            :idErrorModal="'errorModalRangoDisable'" 
+            :message="'El rango no puede ser inhabilitado porque hay técnicos asociados a este'" 
+        />
+
+        <x-modalFailedAction 
             :idErrorModal="'errorModalRangoDelete'" 
             :message="'El rango no puede ser eliminado porque hay técnicos asociados a este'" 
         />
@@ -136,6 +141,9 @@
             @endif
             @if (session('successRangoDelete'))
                 openModal('successModalRangoDelete');
+            @endif
+            @if (session('errorRangoDisable'))
+                justOpenModal('errorModalRangoDisable');
             @endif
             @if (session('errorRangoDelete'))
                 justOpenModal('errorModalRangoDelete');

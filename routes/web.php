@@ -100,6 +100,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard-tiposRecompensas', [TipoRecompensaController::class, 'create'])->name('tiposRecompensas.create');  
     Route::post('/modal-storeTipoRecompensa', [TipoRecompensaController::class, 'store'])->name('tiposRecompensas.store');  
     Route::put('/modal-updateTipoRecompensa', [TipoRecompensaController::class, 'update'])->name('tiposRecompensas.update'); 
+    Route::delete('/modal-disableTipoRecompensa', [TipoRecompensaController::class, 'disable'])->name('tiposRecompensas.disable'); 
+    Route::post('/modal-restoreTipoRecompensa', [TipoRecompensaController::class, 'restore'])->name('tiposRecompensas.restore'); 
     Route::delete('/modal-deleteTipoRecompensa', [TipoRecompensaController::class, 'delete'])->name('tiposRecompensas.delete');
     Route::get('/dashboard-tiposRecompensas/export-pdf', [RangoController::class, 'exportarAllTiposRecompensasPDF'])->name('tiposRecompensas.tablaPDF');
 

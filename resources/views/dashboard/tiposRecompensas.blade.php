@@ -6,7 +6,10 @@
 	@vite(['resources/css/tiposRecompensasStyle.css'])
 	@vite(['resources/css/modalRegistrarNuevoTipoRecompensa.css'])
     @vite(['resources/css/modalEditarTipoRecompensa.css'])
+    @vite(['resources/css/modalInhabilitarTipoRecompensa.css'])
+    @vite(['resources/css/modalRestaurarTipoRecompensa.css'])
     @vite(['resources/css/modalEliminarTipoRecompensa.css'])
+
 @endpush
 
 @section('main-content')
@@ -23,11 +26,11 @@
                 <x-btn-edit-item onclick="openModal('modalEditarTipoRecompensa')"> Editar </x-btn-edit-item>
                 @include('modals.tiposRecompensas.modalEditarTipoRecompensa')
                 
-                {{-- <x-btn-disable-item onclick="openModal('modalInhabilitarTipoRecompensa')"> Inhabilitar </x-btn-disable-item>
+                <x-btn-disable-item onclick="openModal('modalInhabilitarTipoRecompensa')"> Inhabilitar </x-btn-disable-item>
                 @include('modals.tiposRecompensas.modalInhabilitarTipoRecompensa')
 
                 <x-btn-recover-item onclick="openModal('modalRestaurarTipoRecompensa')"> Habilitar </x-btn-recover-item>
-                @include('modals.tiposRecompensas.modalRestaurarTipoRecompensa') --}}
+                @include('modals.tiposRecompensas.modalRestaurarTipoRecompensa')
 
                 <x-btn-delete-item onclick="openModal('modalEliminarTipoRecompensa')"> Eliminar </x-btn-delete-item>
                 @include('modals.tiposRecompensas.modalEliminarTipoRecompensa')
@@ -84,18 +87,28 @@
         />
 
         <x-modalSuccessAction 
-            :idSuccesModal="'successModalTipoRecompensaEnable'"
+            :idSuccesModal="'successModalTipoRecompensaRestore'"
             :message="'Tipos de Recompensa habilitado correctamente'"
+        />
+
+        <x-modalSuccessAction 
+            :idSuccesModal="'successModalTipoRecompensaDelete'"
+            :message="'Tipo de Recompensa inhabilitado correctamente'"
         />
 
         <x-modalSuccessAction 
             :idSuccesModal="'successModalTipoRecompensaDelete'"
             :message="'Tipo de Recompensa eliminado correctamente'"
         />
-
+        
         <x-modalFailedAction 
-            :idErrorModal="'errorModalTipoRecompensa'"
-            :message="'No puede realizar esta acción porque hay datos asociados al Tipo de Recompensa'"
+            :idErrorModal="'errorModalTipoRecompensaDisable'"
+            :message="'El Tipo de Recompensa no puede ser inhabilitado porque hay técnicos asociados a este'"
+        />
+        
+        <x-modalFailedAction 
+            :idErrorModal="'errorModalTipoRecompensaDelete'"
+            :message="'El Tipo de Recompensa no puede ser eliminado porque hay técnicos asociados a este'"
         />
     </div>
 @endsection
@@ -104,6 +117,8 @@
     <script src="{{ asset('js/tiposRecompensas.js') }}"></script>
     <script src="{{ asset('js/modalRegistrarNuevoTipoRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalEditarTipoRecompensa.js') }}"></script>
+    <script src="{{ asset('js/modalInhabilitarTipoRecompensa.js') }}"></script>
+    <script src="{{ asset('js/modalRestaurarTipoRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalEliminarTipoRecompensa.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -116,11 +131,17 @@
             @if(session('successTipoRecompensaDisable'))
                 openModal('successModalTipoRecompensaDisable');
             @endif
-            @if(session('successTipoRecompensaEnable'))
-                openModal('successModalTipoRecompensaEnable');
+            @if(session('successTipoRecompensaRestore'))
+                openModal('successModalTipoRecompensaRestore');
             @endif
             @if(session('successTipoRecompensaDelete'))
                 openModal('successModalTipoRecompensaDelete');
+            @endif
+            @if (session('errorTipoRecompensaDisable'))
+                justOpenModal('errorModalTipoRecompensaDisable');
+            @endif
+            @if (session('errorTipoRecompensaDelete'))
+                justOpenModal('errorModalTipoRecompensaDelete');
             @endif
         });
     </script>

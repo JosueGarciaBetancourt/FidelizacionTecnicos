@@ -37,11 +37,14 @@ class TipoRecompensaController extends Controller
                         
         // dd($tiposRecompensas);
 
+        // Obtener todas las recompensas no activas (soft deleted) con sus tipos
+        $tiposRecompensasEliminados = TipoRecompensa::onlyTrashed()->get();
+
         // Obtener las notificaciones
         $notifications = SystemNotificationController::getActiveNotifications();
         
         return view('dashboard.tiposRecompensas', compact('nuevoIdTipoRecompensa', 'nuevoCodigoTipoRecompensa', 'tiposRecompensas', 
-                                                        'recompensas', 'notifications'));
+                                                        'recompensas', 'tiposRecompensasEliminados', 'notifications'));
     }
 
     public function store(Request $request) {
@@ -104,27 +107,76 @@ class TipoRecompensaController extends Controller
         }
     }
 
+    public function disable(Request $request) {
+        try {
+            $validatedData = $request->validate([
+                'idTipoRecompensa' => 'required|exists:TiposRecompensas,idTipoRecompensa',
+            ]);
+
+            DB::beginTransaction();
+
+            $tipoRecompensa = TipoRecompensa::find($validatedData['idTipoRecompensa']);
+           
+            if ($tipoRecompensa) {
+                $tipoRecompensa->delete(); // Eliminar registro de la BD lógicamente
+            }
+
+            DB::commit();
+            return redirect()->route('tiposRecompensas.create')->with('successTipoRecompensaDelete', 'Tipo de recompensa eliminado correctamente');
+        } catch (\Exception $e) {
+            // Revertir la transacción en caso de error
+            DB::rollBack();
+            return redirect()->route('tiposRecompensas.create')->withErrors('Ocurrió un error al intentar inhabilitar el tipo de recompensa. 
+                                                                            Por favor, inténtelo de nuevo.');
+        }
+    }
+
+    public function restore(Request $request) {
+        try {
+            $validatedData = $request->validate([
+                'idTipoRecompensa' => 'required|exists:TiposRecompensas,idTipoRecompensa',
+            ]);
+
+            DB::beginTransaction();
+
+            // Obtener la recompensa eliminada lógicamente
+            $tipoRecompensa = TipoRecompensa::onlyTrashed()->where('idTipoRecompensa', $validatedData['idTipoRecompensa'])->first();
+        
+            if ($tipoRecompensa) {
+                $tipoRecompensa->restore(); // Restaurar registro
+            }
+
+            DB::commit();
+            return redirect()->route('tiposRecompensas.create')->with('successTipoRecompensaRestore', 'Tipo de recompensa eliminado correctamente');
+        } catch (\Exception $e) {
+            // Revertir la transacción en caso de error
+            DB::rollBack();
+            return redirect()->route('tiposRecompensas.create')->withErrors('Ocurrió un error al intentar restaurar el tipo de recompensa. 
+                                                                            Por favor, inténtelo de nuevo.');
+        }
+    }
+
     public function delete(Request $request) {
         try {
             $validatedData = $request->validate([
                 'idTipoRecompensa' => 'required|exists:TiposRecompensas,idTipoRecompensa',
             ]);
+
             DB::beginTransaction();
-            $tipoRecompensa = TipoRecompensa::where("idTipoRecompensa", $validatedData['idTipoRecompensa'])->first();
+
+            $tipoRecompensa = TipoRecompensa::find($validatedData['idTipoRecompensa']);
+           
             if ($tipoRecompensa) {
                 $tipoRecompensa->forceDelete(); // Eliminar registro de la BD físicamente
-                $messageDelete = 'Tipo de recompensa eliminado correctamente';
-            } else {
-                $messageDelete = 'Tipo de recompensa no encontrado';
             }
+
             DB::commit();
-            return redirect()->route('tiposRecompensas.create')->with('successTipoRecompensaDelete', $messageDelete);
+            return redirect()->route('tiposRecompensas.create')->with('successTipoRecompensaDelete', 'Tipo de recompensa eliminado correctamente');
         } catch (\Exception $e) {
             // Revertir la transacción en caso de error
             DB::rollBack();
             return redirect()->route('tiposRecompensas.create')->withErrors('Ocurrió un error al intentar eliminar el tipo de recompensa. 
-                                                                        Por favor, inténtelo de nuevo.');
+                                                                            Por favor, inténtelo de nuevo.');
         }
     }
-
 }

@@ -1,0 +1,24 @@
+#modalInhabilitarTipoRecompensa-dialog {
+	max-width: 500px; 
+}
+
+#codigoTipoRecompensaInputDisable {
+	width: 15rem;
+}
+
+#idModalBodyInhabilitarTipoRecompensa {
+	padding: 0;
+}
+
+#idH5DisableTipoRecompensaModalContainer > h5{
+	font-size: 0.9rem;
+	color: #555;
+}
+
+#nombreTipoRecompensaInputDisable {
+	width: 15rem;
+}
+
+#form-group-CodigoTipoRecompensaDisable {
+	gap: 1.7rem;
+}

@@ -15,7 +15,8 @@ let formDeleteTipoRecompensaArray = [
 
 let mensajeCombinadoDeleteOficio = "";
 
-function selectOptionEliminarTipoRecompensa(value, idNumberTipoRecompensa, nombreTipoRecompensa, idInput, idOptions, someHiddenIdInputsArray) {
+function selectOptionEliminarTipoRecompensa(value, idNumberTipoRecompensa, nombreTipoRecompensa, descripcionTipoRecompensa,
+                                            colorTextoTipoRecompensa, colorFondoTipoRecompensa, idInput, idOptions, someHiddenIdInputsArray) {
     // Escapar caracteres especiales en la descripción
     function sanitizeString(str) {
         if (typeof str !== 'string') return str;
@@ -29,22 +30,40 @@ function selectOptionEliminarTipoRecompensa(value, idNumberTipoRecompensa, nombr
             .replace(/\r/g, '\\r');  // Reemplazar retornos de carro por \r
     }
 
-    // Sanitizar solo la descripción
-    const sanitizednombreTipoRecompensa = sanitizeString(nombreTipoRecompensa);
+    const sanitizedNombreTipoRecompensa = sanitizeString(nombreTipoRecompensa);
+    const sanitizedDescripcionTipoRecompensa = sanitizeString(descripcionTipoRecompensa);
 
     // Colocar en el input la opción seleccionada 
     selectOption(value, idInput, idOptions); 
 
     // Actualizar los demás campos del formulario
-    if (sanitizednombreTipoRecompensa) {
-        nombreTipoRecompensaInputDelete.value = sanitizednombreTipoRecompensa;
+    if (sanitizedNombreTipoRecompensa  && sanitizedDescripcionTipoRecompensa) {
+        nombreTipoRecompensaInputDelete.value = sanitizedNombreTipoRecompensa;
+        descripcionTipoRecompensaInputDelete.value = sanitizedDescripcionTipoRecompensa;
+        updateColorsInput(colorTextoTipoRecompensaInputDelete, colorFondoTipoRecompensaInputDelete, previewColorSpanTipoRecompensaDelete,
+                        colorTextoTipoRecompensa, colorFondoTipoRecompensa, sanitizedNombreTipoRecompensa);
+
         // Llenar campos ocultos
         document.getElementById(someHiddenIdInputsArray[0]).value = idNumberTipoRecompensa;
         searchDeleteTipoRecompensaMessageError.classList.remove("shown");
     } else {
         nombreTipoRecompensaInputDelete.value = "";
+        descripcionRangoInputDelete.value = "";
+        updateColorsInput(colorTextoTipoRecompensaInputDelete, colorFondoTipoRecompensaInputDelete, previewColorSpanTipoRecompensaDelete);
     }
 }
+
+function validateValueOnRealTimeTipoRecompensaDelete(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, colorInputsArray, itemsDB, 
+                                                    searchField, dbFieldsNameArray, dbColorFieldsNameArray, idGeneralMessageError) {
+
+    validateValueOnRealTimeIDInteger(input, idOptions, idSearchMessageError, someHiddenIdInputsArray, otherInputsArray, itemsDB, 
+                                    searchField, dbFieldsNameArray, idGeneralMessageError);
+
+    if (!fillColorInputOnRealTimeIDIntegerNameApart(input, nombreTipoRecompensaInputDelete, idOptions, colorInputsArray, dbColorFieldsNameArray, searchField, itemsDB, previewColorSpanTipoRecompensaDelete)) {
+        updateColorsInput(colorTextoTipoRecompensaInputDelete, colorFondoTipoRecompensaInputDelete, previewColorSpanTipoRecompensaDelete);
+    }
+}
+
 function validarCamposVaciosFormularioTipoRecompensaDelete() {
     let allFilled = true;
     formDeleteTipoRecompensaArray.forEach(input => {

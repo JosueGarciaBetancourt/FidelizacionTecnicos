@@ -570,7 +570,6 @@ function validateValueOnRealTimeIDInteger (input, idOptions, idSearchMessageErro
     };
 
     // VALIDACIONES
-
     if (!value || value === "") {
         clearInputs();
         searchMessageError.classList.remove('shown');

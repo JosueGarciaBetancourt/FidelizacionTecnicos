@@ -100,6 +100,11 @@
         />
 
         <x-modalFailedAction 
+            :idErrorModal="'errorModalOficioDisable'"
+            :message="'El oficio no puede ser inhabilitado porque hay técnicos asociados a este'"
+        />
+
+        <x-modalFailedAction 
             :idErrorModal="'errorModalOficioDelete'"
             :message="'El oficio no puede ser eliminado porque hay técnicos asociados a este'"
         />
@@ -128,6 +133,9 @@
             @endif
             @if(session('successOficioDelete'))
                 openModal('successModalOficioDelete');
+            @endif
+            @if(session('errorOficioDisable'))
+                justOpenModal('errorModalOficioDisable');
             @endif
             @if(session('errorOficioDelete'))
                 justOpenModal('errorModalOficioDelete');

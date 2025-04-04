@@ -1,0 +1,24 @@
+#modalRestaurarTipoRecompensa-dialog {
+	max-width: 500px; 
+}
+
+#codigoTipoRecompensaInputRestore {
+	width: 15rem;
+}
+
+#idModalBodyRestaurarTipoRecompensa {
+	padding: 0;
+}
+
+#idH5RestoreTipoRecompensaModalContainer > h5{
+	font-size: 0.9rem;
+	color: #555;
+}
+
+#nombreTipoRecompensaInputRestore {
+	width: 15rem;
+}
+
+#form-group-CodigoTipoRecompensaRestore {
+	gap: 1.7rem;
+}

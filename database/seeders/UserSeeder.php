@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
             'idPerfilUsuario' => 2,
             'name' => 'Vendedor Guillermo Peña',
             'email' => 'guillermo' . '@' . $emailDomain,
-            'password' => Hash::make('continental'),
+            'password' => Hash::make('12345678'),
             'DNI' => '44221100',
             'personalName' => 'Guillermo Eduardo',
             'surname' => 'Peña Santiago',

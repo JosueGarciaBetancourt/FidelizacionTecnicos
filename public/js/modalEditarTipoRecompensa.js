@@ -30,7 +30,6 @@ function selectOptionEditTipoRecompensa(value, idNumberTipoRecompensa, nombreTip
             .replace(/\r/g, '\\r');  // Reemplazar retornos de carro por \r
     }
 
-    // Sanitizar solo la descripción
     const sanitizedNombreTipoRecompensa = sanitizeString(nombreTipoRecompensa);
     const sanitizedDescripcionTipoRecompensa = sanitizeString(descripcionTipoRecompensa);
 
@@ -100,7 +99,6 @@ function isTipoRecompensaEditDuplicado(tiposRecompensasDB) {
     console.log("El nombre no se repite en otros tipos de recompensas");
     return false;
 }
-
 
 function isTipoAsociadoRecompensaEdit(tiposRecompensasDB, recompensasDB) {
     const id = idNumberTipoRecompensaInputEdit.value; 

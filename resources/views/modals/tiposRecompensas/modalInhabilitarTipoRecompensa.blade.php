@@ -1,46 +1,46 @@
-<div class="modal first"  id="modalEliminarTipoRecompensa">
-    <div class="modal-dialog" id="modalEliminarTipoRecompensa-dialog">
-        <div class="modal-content" id="modalEliminarTipoRecompensa-content">
+<div class="modal first"  id="modalInhabilitarTipoRecompensa">
+    <div class="modal-dialog" id="modalInhabilitarTipoRecompensa-dialog">
+        <div class="modal-content" id="modalInhabilitarTipoRecompensa-content">
             <div class="modal-header">
-                <h5 class="modal-title">Eliminar tipo de recompensa</h5>
-                <button class="close noUserSelect" onclick="closeModal('modalEliminarTipoRecompensa')">&times;</button>
+                <h5 class="modal-title">Inhabilitar tipo de recompensa</h5>
+                <button class="close noUserSelect" onclick="closeModal('modalInhabilitarTipoRecompensa')">&times;</button>
             </div>
             <div class="modal-body" id="idModalBodyEliminarTipoRecompensa">
-                <form id="formEliminarTipoRecompensa" action="{{ route('tiposRecompensas.delete') }}" method="POST">
+                <form id="formInhabilitarTipoRecompensa" action="{{ route('tiposRecompensas.disable') }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <!-- Variables globales -->
+
                     @php
                         $tiposRecompensasDB = $tiposRecompensas;
                         $recompensasDB = $recompensas;
-                        $idSearchMessageError = 'searchDeleteTipoRecompensaError';
-                        $idCodigoTipoRecompensaInput = 'codigoTipoRecompensaInputDelete';
-                        $idOptions = 'tipoRecompensaDeleteOptions';
-                        $idNombreTipoRecompensaInput = 'nombreTipoRecompensaInputDelete';
-                        $idDescripcionTipoRecompensaInput = 'descripcionTipoRecompensaInputDelete';
-                        $idColorTextoTipoRecompensaInput = 'colorTextoTipoRecompensaInputDelete';
-                        $idColorFondoTipoRecompensaInput = 'colorFondoTipoRecompensaInputDelete';
-                        $someHiddenIdInputsArray = ['idNumberTipoRecompensaDelete'];
-                        $otherInputsArray = [$idNombreTipoRecompensaInput];
-                        $idGeneralMessageError = 'generalDeleteTipoRecompensaError';
+                        $idSearchMessageError = 'searchDisableTipoRecompensaError';
+                        $idCodigoTipoRecompensaInput = 'codigoTipoRecompensaInputDisable';
+                        $idOptions = 'tipoRecompensaDisableOptions';
+                        $idNombreTipoRecompensaInput = 'nombreTipoRecompensaInputDisable';
+                        $idDescripcionTipoRecompensaInput = 'descripcionTipoRecompensaInputDisable';
+                        $idColorTextoTipoRecompensaInput = 'colorTextoTipoRecompensaInputDisable';
+                        $idColorFondoTipoRecompensaInput = 'colorFondoTipoRecompensaInputDisable';
+                        $someHiddenIdInputsArray = ['idNumberTipoRecompensaDisable'];
+                        $otherInputsArray = [$idNombreTipoRecompensaInput, $idDescripcionTipoRecompensaInput];
+                        $idGeneralMessageError = 'generalDisableTipoRecompensaError';
                         $searchDBField = 'idTipoRecompensa';
                         $dbFieldsNameArray = ['nombre_TipoRecompensa', 'descripcion_TipoRecompensa'];
                         $colorInputsArray = [$idColorTextoTipoRecompensaInput, $idColorFondoTipoRecompensaInput];
                         $dbColorFieldsNameArray = ['colorTexto_TipoRecompensa', 'colorFondo_TipoRecompensa'];
-                        $idPreviewColorSpan = 'previewColorSpanTipoRecompensaDelete';
+                        $idPreviewColorSpan = 'previewColorSpanTipoRecompensaDisable';
                     @endphp
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="13" name="idTipoRecompensa">
                    
-                    <div class="form-group start paddingY" id="idH5DeleteTipoRecompensaModalContainer">
-                        <h5> *Solo puede eliminar un Tipo de Recompensa previamente creado que no tenga alguna recompensa asociada.</h5>
+                    <div class="form-group start paddingY" id="idH5DisableTipoRecompensaModalContainer">
+                        <h5> *Solo puede inhabilitar un Tipo de Recompensa previamente creado que no tenga alguna recompensa asociada.</h5>
                     </div>
 
-                    <div class="form-group gap" id="form-group-CodigoTipoRecompensaDelete">
-                        <label class="primary-label" for="tipoRecompensaDeleteSelect">Código:</label>
-                        <div class="input-select" id="tipoRecompensaDeleteSelect">
+                    <div class="form-group gap" id="form-group-CodigoTipoRecompensaDisable">
+                        <label class="primary-label" for="tipoRecompensaDisableSelect">Código:</label>
+                        <div class="input-select" id="tipoRecompensaDisableSelect">
                             <input class="input-select-item" type="text" id='{{ $idCodigoTipoRecompensaInput }}' maxlength="100" placeholder="Código" autocomplete="off"
                                 oninput="filterOptions('{{ $idCodigoTipoRecompensaInput }}', '{{ $idOptions }}'),
-                                        validateValueOnRealTimeTipoRecompensaDelete(this, '{{ $idOptions }}', '{{ $idSearchMessageError }}', 
+                                        validateValueOnRealTimeTipoRecompensaDisable(this, '{{ $idOptions }}', '{{ $idSearchMessageError }}', 
                                         {{ json_encode($someHiddenIdInputsArray) }}, {{ json_encode($otherInputsArray) }}, {{ json_encode($colorInputsArray) }},
                                         {{ json_encode($tiposRecompensasDB) }}, '{{ $searchDBField }}', {{ json_encode($dbFieldsNameArray) }}, 
                                         {{ json_encode($dbColorFieldsNameArray) }}, '{{ $idGeneralMessageError }}')"
@@ -58,7 +58,7 @@
                                             $value = $codigoTipoRecompensa;
                                         @endphp
                                 
-                                        <li onclick="selectOptionEliminarTipoRecompensa('{{ $value }}', '{{ $idNumberTipoRecompensa }}', '{{ $nombreTipoRecompensa }}',
+                                        <li onclick="selectOptionInhabilitarTipoRecompensa('{{ $value }}', '{{ $idNumberTipoRecompensa }}', '{{ $nombreTipoRecompensa }}',
                                             '{{ $descripcionTipoRecompensa }}', '{{ $colorTextoTipoRecompensa }}', '{{ $colorFondoTipoRecompensa }}', 
                                             '{{ $idCodigoTipoRecompensaInput }}', '{{ $idOptions }}', {{ json_encode($someHiddenIdInputsArray) }})">
                                             {{ $value }}
@@ -97,7 +97,7 @@
                             <div class="form-group colorFondoGap">
                                 <label class="primary-label noEditable" for='{{ $idColorFondoTipoRecompensaInput }}'>Color de fondo:</label>
                                 <input type="color" class="colorPicker" id='{{ $idColorFondoTipoRecompensaInput }}' title="Seleccionar color"
-                                    oninput="fillPreviewColorFondoSpan(this, '{{ $idPreviewColorSpan }}')"
+                                    oninput="fillPreviewColorFondoSpan(this, '{{ $idPreviewColorSpan }}')" 
                                     value="#DCD5F0" disabled>
                             </div>
                         </div>
@@ -114,9 +114,9 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="closeModal('modalEliminarTipoRecompensa')">Cancelar</button>
-                <button type="button" class="btn btn-primary delete" 
-                        onclick="guardarModalEliminarTipoRecompensa('modalEliminarTipoRecompensa', 'formEliminarTipoRecompensa', {{ json_encode($recompensasDB) }})">Eliminar</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModal('modalInhabilitarTipoRecompensa')">Cancelar</button>
+                <button type="button" class="btn btn-primary disable" 
+                        onclick="guardarModalInhabilitarTipoRecompensa('modalInhabilitarTipoRecompensa', 'formInhabilitarTipoRecompensa', {{ json_encode($recompensasDB) }})">Inhabilitar</button>
             </div>
         </div>
     </div>
