@@ -103,7 +103,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/modal-disableTipoRecompensa', [TipoRecompensaController::class, 'disable'])->name('tiposRecompensas.disable'); 
     Route::post('/modal-restoreTipoRecompensa', [TipoRecompensaController::class, 'restore'])->name('tiposRecompensas.restore'); 
     Route::delete('/modal-deleteTipoRecompensa', [TipoRecompensaController::class, 'delete'])->name('tiposRecompensas.delete');
-    Route::get('/dashboard-tiposRecompensas/export-pdf', [RangoController::class, 'exportarAllTiposRecompensasPDF'])->name('tiposRecompensas.tablaPDF');
+    Route::get('/dashboard-tiposRecompensas/export-pdf', [TipoRecompensaController::class, 'exportarAllTiposRecompensasPDF'])->name('tiposRecompensas.tablaPDF');
 
 
     // Técnicos

@@ -42,12 +42,12 @@ function validarCamposCorrectosFormularioRegistrarNuevoTipoRecompensa(tiposRecom
     if (returnError) {
         return false;
     }
-
+    
     idGeneralTipoRecompensaMessageError.classList.remove("shown");
     return true;
 }
 
-function guardarmodalRegistrarNuevoTipoRecompensa(idModal, idForm, tiposRecompensasDB) {
+function guardarModalRegistrarNuevoTipoRecompensa(idModal, idForm, tiposRecompensasDB) {
 	if (validarCamposVaciosFormularioRegistrarNuevoTipoRecompensa()) {
         if (validarCamposCorrectosFormularioRegistrarNuevoTipoRecompensa(tiposRecompensasDB)) {
             idGeneralTipoRecompensaMessageError.classList.remove("shown");

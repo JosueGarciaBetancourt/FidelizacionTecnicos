@@ -18,6 +18,10 @@
                         <label class="primary-label" id="codigoRecompensaLabel" for="codigoRecompensaInput">Código:</label>
                         <input class="input-item readonly" id="codigoRecompensaInput" name="idRecompensa" 
                                maxlength="13" value="{{ $idNuevaRecompensa }}" disabled>
+
+                        <label class="primary-label" id="idLabelNuevoTipoRecompensa">
+                            <a onclick="openModal('modalRegistrarNuevoTipoRecompensa', 'recompensas.create')">[+ Nuevo Tipo de Recompensa]</a>
+                        </label>
                     </div>
                     
                     <div class="form-group gap">

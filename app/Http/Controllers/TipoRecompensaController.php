@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Recompensa;
 use Illuminate\Http\Request;
 use App\Models\TipoRecompensa;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\SystemNotificationController;
 
 class TipoRecompensaController extends Controller
@@ -65,7 +67,17 @@ class TipoRecompensaController extends Controller
             $tipoRecompensa->save(); // Guarda solo cuando estés seguro
             DB::commit();
             $messageStore = 'Tipo de recompensa guardado correctamente';
-            return redirect()->route('tiposRecompensas.create')->with('successTipoRecompensaStore', $messageStore);
+
+            // Obtener el origen de la solicitud
+            $origin = $request->input('origin'); // Con JS se modifica el valor del input en modalRegistrarNuevoTipoRecompensa.blade.php
+
+            // Redirigir basado en el origen
+            switch ($origin) { 
+                case 'recompensas.create':
+                    return redirect()->route('recompensas.create')->with('successTipoRecompensaStore', $messageStore);
+                default:
+                    return redirect()->route('tiposRecompensas.create')->with('successTipoRecompensaStore', $messageStore);
+            }
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->route('tiposRecompensas.create')->withErrors('Ocurrió un error al intentar crear el tipo de recompensa. 
@@ -177,6 +189,57 @@ class TipoRecompensaController extends Controller
             DB::rollBack();
             return redirect()->route('tiposRecompensas.create')->withErrors('Ocurrió un error al intentar eliminar el tipo de recompensa. 
                                                                             Por favor, inténtelo de nuevo.');
+        }
+    }
+
+    public function returnArrayTiposRecompensas() {
+        $tiposRecompensas = TipoRecompensa::all();
+        $index = 1;
+
+        $data = $tiposRecompensas->map(function ($tipoRecom) use (&$index) {
+            return [
+                'index' => $index++,
+                'codigoTipoRecompensa' => $tipoRecom->codigoTipoRecompensa,
+                'nombre_TipoRecompensa' => $tipoRecom->nombre_TipoRecompensa,
+                'descripcion_TipoRecompensa' => $tipoRecom->descripcion_TipoRecompensa,
+                'created_at' => $tipoRecom->created_at,
+                'updated_at' => $tipoRecom->updated_at,
+            ];
+        });
+        
+        return $data->toArray();
+    }
+
+    public function exportarAllTiposRecompensasPDF()
+    {
+        try {
+            $data = $this->returnArrayTiposRecompensas();
+
+            // Verificar si hay datos para exportar
+            if (count($data) === 0) {
+                throw new \Exception("No hay datos disponibles para exportar la tabla de rangos.");
+            }
+
+            // Configurar los parámetros del PDF
+            $paperSize = 'A4';
+            $view = 'tables.tablaTiposRecompensasPDFA4';
+            $fileName = "Club de técnicos DIMACOF-Listado de Tipos de Recompensas-" . $this->obtenerFechaHoraFormateadaExportaciones() . ".pdf";
+
+            // Generar el PDF con los datos
+            $pdf = Pdf::loadView($view, ['data' => $data])
+                    ->setPaper($paperSize, 'landscape');
+
+            // Retornar el PDF para visualizar o descargar
+            return $pdf->stream($fileName);
+        } catch (\Exception $e) {
+            // Registrar el error en los logs
+            Log::error("Error en exportarAllTiposRecompensasPDF: " . $e->getMessage());
+
+            // Retornar una respuesta clara al usuario
+            return response()->json([
+                'message' => 'Ocurrió un error al generar el PDF.',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 }

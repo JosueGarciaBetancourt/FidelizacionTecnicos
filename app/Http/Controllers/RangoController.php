@@ -197,14 +197,15 @@ class RangoController extends Controller
         $rangos = Rango::all();
         $index = 1;
 
-        $data = $rangos->map(function ($oficio) use (&$index) {
+        $data = $rangos->map(function ($rango) use (&$index) {
             return [
                 'index' => $index++,
-                'codigoOficio' => $oficio->codigoOficio,
-                'nombre_Oficio' => $oficio->nombre_Oficio,
-                'descripcion_Oficio' => $oficio->descripcion_Oficio,
-                'created_at' => $oficio->created_at,
-                'updated_at' => $oficio->updated_at,
+                'codigoRango' => $rango->codigoRango,
+                'nombre_Rango' => $rango->nombre_Rango,
+                'descripcion_Rango' => $rango->descripcion_Rango,
+                'puntosMinimos_Rango' => $rango->puntosMinimos_Rango,
+                'created_at' => $rango->created_at,
+                'updated_at' => $rango->updated_at,
             ];
         });
         

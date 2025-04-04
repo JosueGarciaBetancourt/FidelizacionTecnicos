@@ -65,12 +65,14 @@
                     <div class="form-group start">
                         <span class="inline-alert-message" id='{{ $idGeneralMessageError }}'> multiMessageError </span>      
                     </div>
+
+                    <input type="hidden" name="origin" id="origin">
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="closeModal('modalRegistrarNuevoTipoRecompensa')">Cancelar</button>
                 <button type="button" class="btn btn-primary" 
-                        onclick="guardarmodalRegistrarNuevoTipoRecompensa('modalRegistrarNuevoTipoRecompensa', 'formRegistrarNuevoTipoRecompensa',
+                        onclick="guardarModalRegistrarNuevoTipoRecompensa('modalRegistrarNuevoTipoRecompensa', 'formRegistrarNuevoTipoRecompensa',
                                                                             {{ json_encode($tiposRecompensasDB) }})">Guardar</button>
             </div>
         </div>

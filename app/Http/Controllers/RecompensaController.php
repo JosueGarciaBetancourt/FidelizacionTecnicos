@@ -83,6 +83,9 @@ class RecompensaController extends Controller
 
         // dd($tiposRecompensas->pluck('codigoTipoRecompensa')); 
 
+        $nuevoIdTipoRecompensa = TipoRecompensa::max('idTipoRecompensa') ? TipoRecompensa::max('idTipoRecompensa') + 1 : 1;
+        $nuevoCodigoTipoRecompensa = TipoRecompensaController::returnNuevoCodigoTipoRecompensa();
+
         $nombresTiposRecompensas = $this->returnArrayNombresTiposRecompensas();
 
         //dd($nombresTiposRecompensas);
@@ -92,8 +95,8 @@ class RecompensaController extends Controller
 
 
         return view('dashboard.recompensas', compact('recompensas', 'tiposRecompensas', 'idNuevaRecompensa', 
-                                                    'idNuevoTipoRecompensa', 'recompensasEliminadas', 'nombresTiposRecompensas',
-                                                    'notifications'));
+                                                    'idNuevoTipoRecompensa', 'recompensasEliminadas', 'nuevoIdTipoRecompensa', 'nuevoCodigoTipoRecompensa',
+                                                    'nombresTiposRecompensas', 'notifications'));
     }
     
     public function store(Request $request) 
@@ -156,7 +159,7 @@ class RecompensaController extends Controller
             DB::commit();
             
             $messageStore = 'Recompensa guardada correctamente.';
-
+            
             return Controller::$newNotifications
                 ? redirect()->route('recompensas.create')->with('successRecompensaStore', $messageStore)
                     ->with('newNotifications', '-')

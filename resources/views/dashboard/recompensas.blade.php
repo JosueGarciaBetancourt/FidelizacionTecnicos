@@ -16,6 +16,7 @@
     --}}
     @vite(['resources/css/recompensasStyle.css'])
     @vite(['resources/css/modalRegistrarNuevaRecompensa.css'])
+    @vite(['resources/css/modalRegistrarNuevoTipoRecompensa.css'])
     @vite(['resources/css/modalEditarRecompensa.css'])
     @vite(['resources/css/modalInhabilitarRecompensa.css'])
     @vite(['resources/css/modalRestaurarRecompensa.css'])
@@ -32,6 +33,7 @@
             <div class="firstRowRecompensas">
                 <x-btn-create-item onclick="openModal('modalRegistrarNuevaRecompensa')"> Nueva recompensa </x-btn-create-item>
                 @include('modals.recompensas.modalRegistrarNuevaRecompensa')
+                @include('modals.tiposRecompensas.modalRegistrarNuevoTipoRecompensa')
 
                 <x-btn-edit-item onclick="openModal('modalEditarRecompensa')"> Editar </x-btn-edit-item>
                 @include('modals.recompensas.modalEditarRecompensa')
@@ -126,17 +128,20 @@
             :idErrorModal="'errorModalRecompensaDelete'"
             :message="'La recompensa no puede ser eliminada porque hay canjes ó solicitudes de canje asociados'"
         />
+
+        <x-modalFailedAction 
+            :idErrorModal="'errorModalTipoRecompensa'"
+            :message="'No puedes realizar esta acción'"
+        />
     </div>
 @endsection
 
 @push('scripts')
     <script src="{{ asset('js/modalRegistrarNuevaRecompensa.js') }}"></script>
+    <script src="{{ asset('js/modalRegistrarNuevoTipoRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalEditarRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalInhabilitarRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalRestaurarRecompensa.js') }}"></script>
-    <script src="{{ asset('js/modalEliminarRecompensa.js') }}"></script>
-    <script src="{{ asset('js/modalRegistrarNuevoRecompensa.js') }}"></script>
-    <script src="{{ asset('js/modalEditarRecompensa.js') }}"></script>
     <script src="{{ asset('js/modalEliminarRecompensa.js') }}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

@@ -117,10 +117,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Función para abrir el modal (asumiendo que tienes una función similar en tu aplicación)
+/* // Función para abrir el modal (asumiendo que tienes una función similar en tu aplicación)
 function openModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.style.display = 'block';
-    }
+    } 
 }
+*/

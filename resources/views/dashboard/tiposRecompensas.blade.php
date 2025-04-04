@@ -102,6 +102,11 @@
         />
         
         <x-modalFailedAction 
+            :idErrorModal="'errorModalTipoRecompensa'"
+            :message="'No puedes realizar esta acción'"
+        />
+        
+        <x-modalFailedAction 
             :idErrorModal="'errorModalTipoRecompensaDisable'"
             :message="'El Tipo de Recompensa no puede ser inhabilitado porque hay técnicos asociados a este'"
         />

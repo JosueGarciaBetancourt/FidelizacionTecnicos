@@ -65,30 +65,3 @@ td {
 .fewStock {
     color: red;
 }
-
-.form-group.colorFondoGap {
-	gap: 0.9rem;
-}
-
-.previewTipoRecompensaContainer {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	gap: 1rem;
-	margin-bottom: 0.5rem;
-}
-
-.previewTipoRecompensa {
-    padding: 5px 10px 5px 10px;
-    margin: 0;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 0.9rem;
-    display: inline-block;
-    text-align: center;
-	min-width: 5rem;
-	max-width: 8rem;
-	min-height: 2rem;
-	height: 100%;
-	word-break: break-word;
-}
