@@ -24,5 +24,20 @@ class EstadoVenta extends Model
     public function solicitudesCanjes() {
         return $this->hasMany(SolicitudesCanje::class, 'idEstadoVenta', 'idEstadoVentas');
     }
+
+    
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($estadoVenta) {
+            $estadoVenta->created_at = Carbon::now()->addHours(5);
+            $estadoVenta->updated_at = Carbon::now()->addHours(5);
+        });
+
+        static::updating(function ($estadoVenta) {
+            $estadoVenta->updated_at = Carbon::now()->addHours(5);
+        });
+    }
 }
 

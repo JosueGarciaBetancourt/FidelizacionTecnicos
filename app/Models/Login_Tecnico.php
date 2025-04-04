@@ -27,4 +27,18 @@ class Login_Tecnico extends Model
     {
         return $this->belongsTo(Tecnico::class, 'idTecnico', 'idTecnico');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($login_tecnico) {
+            $login_tecnico->created_at = Carbon::now()->addHours(5);
+            $login_tecnico->updated_at = Carbon::now()->addHours(5);
+        });
+
+        static::updating(function ($login_tecnico) {
+            $login_tecnico->updated_at = Carbon::now()->addHours(5);
+        });
+    }
 }

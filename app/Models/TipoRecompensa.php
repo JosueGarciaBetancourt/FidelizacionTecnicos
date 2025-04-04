@@ -40,4 +40,18 @@ class TipoRecompensa extends Model
     public function getCodigoTipoRecompensaAttribute() {
         return 'TIPO-' . str_pad($this->idTipoRecompensa, 2, '0', STR_PAD_LEFT);
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($tipoRecompensa) {
+            $tipoRecompensa->created_at = Carbon::now()->addHours(5);
+            $tipoRecompensa->updated_at = Carbon::now()->addHours(5);
+        });
+
+        static::updating(function ($tipoRecompensa) {
+            $tipoRecompensa->updated_at = Carbon::now()->addHours(5);
+        });
+    }
 }

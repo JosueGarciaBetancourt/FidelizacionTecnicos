@@ -39,4 +39,18 @@ class TecnicoOficio extends Model
     {
         return $this->belongsTo(Oficio::class, 'idOficio', 'idOficio');
     }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($tecnicoOficio) {
+            $tecnicoOficio->created_at = Carbon::now()->addHours(5);
+            $tecnicoOficio->updated_at = Carbon::now()->addHours(5);
+        });
+
+        static::updating(function ($tecnicoOficio) {
+            $tecnicoOficio->updated_at = Carbon::now()->addHours(5);
+        });
+    }
 }

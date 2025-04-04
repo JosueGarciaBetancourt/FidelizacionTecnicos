@@ -24,4 +24,6 @@ class EstadosSolicitudCanje extends Model
     public function solicitudesCanje() {
         return $this->hasMany(SolicitudesCanje::class, 'idEstadoSolicitudCanje', 'idEstadoSolicitudCanje');
     }
+
+    
 }
