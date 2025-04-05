@@ -18,7 +18,7 @@ class Login_tecnicoController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'celularTecnico' => 'required|string|max:9',
+            'celularTecnico' => 'required|string',
             'password' => 'required|string',
         ]);
 
@@ -27,7 +27,8 @@ class Login_tecnicoController extends Controller
 
         // Buscar el técnico por celularTecnico en la tabla Tecnicos
         $tecnico = Tecnico::where('celularTecnico', $celularTecnico)->first();
-
+        dd($tecnico);
+        
         // Verificar si se encontró el técnico y luego validar la contraseña
         if ($tecnico) {
             $loginTecnico = DB::table('login_tecnicos')
