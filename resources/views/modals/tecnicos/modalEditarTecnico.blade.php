@@ -9,7 +9,7 @@
                 <form id="formEditarTecnico" action="{{ route('tecnicos.update') }}" method="POST">
                     @method('PUT')
                     @csrf
-                    <!-- Variables globales -->
+
                     @php
                         $idsNombresOficiosBD = $idsNombresOficios;
                         $dbOficioName = 'oficio';
@@ -26,6 +26,7 @@
                         $otherInputsArray = [$idCelularInput , $idOficioInputEdit, $idFechaNacimientoInput, $idPuntosActualesInput,
 											$idHistoricoPuntosInput, $idRangoInputEdit];
                     @endphp
+                    
                     <input type="hidden" id='{{ $someHiddenIdInputsArray[0] }}' maxlength="8" name='idTecnico'>
                    
                     <div class="form-group start paddingY" id="idH5EditTecnicoModalContainer">

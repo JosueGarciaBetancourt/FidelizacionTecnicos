@@ -550,41 +550,94 @@ class TecnicoController extends Controller
         return abort(403);
     }
 
-    public function verificarExistenciaTecnico(Request $request) {
+    public function verificarDuplicadoCelularTecnico(Request $request) {
         try {
             // Validar entrada
             $validated = $request->validate([
-                'idTecnico' => 'required|digits:8'
+                'idTecnico' => 'required|string|digits:8',
+                'celularTecnico' => 'required|digits:9',
             ]);
     
-            // Verificar existencia del técnico
-            $tecnico = Tecnico::withTrashed()->where('idTecnico', $validated['idTecnico'])->first();
+            // Buscar si el celular ya existe para otro técnico distinto al actual
+            $celularDuplicado = Tecnico::withTrashed()
+                ->where('celularTecnico', $validated['celularTecnico'])
+                ->where('idTecnico', '!=', $validated['idTecnico']) // Evita compararse consigo mismo
+                ->first();
 
-            if ($tecnico) {
-                if ($tecnico->trashed()) {
-                    $message = "El técnico con DNI: " . $tecnico->idTecnico . " ya ha sido registrado anteriormente pero está inhabilitado";
-                } else {
-                    $message = "El técnico con DNI: " . $tecnico->idTecnico . " ya ha sido registrado anteriormente";
-                }
-            } else {
-                $message = "";
+            if ($celularDuplicado) {
+                return response()->json([
+                    'exists' => true,
+                    'message' => "El celular ingresado ya está en uso por otro técnico."
+                ]);
             }
 
             return response()->json([
-                'exists' => (bool) $tecnico,
-                'message' => $message
+                'exists' => false,
+                'message' => "Celular disponible para registro"
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['error' => 'Validación fallida', 'details' => $e->errors()], 422);
         } catch (\Exception $e) {
             // Registrar detalles del error para depuración
-            /* Log::info('Error en verificarTecnico', [
+           Log::info('Error en verificarTecnico', [
                 'message' => $e->getMessage(),
                 'code' => $e->getCode(),
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
                 'trace' => $e->getTraceAsString()
-            ]); */
+            ]);
+
+            return response()->json(['error' => 'Error al verificar duplicididad del celular del técnico', 'details' => $e->getMessage()], 500);
+        }
+    }
+
+    public function verificarExistenciaTecnico(Request $request) {
+        try {
+            // Validar entrada
+            $validated = $request->validate([
+                'idTecnico' => 'required|string|digits:8',
+                'celularTecnico' => 'required|digits:9',
+            ]);
+    
+            // Verificar existencia del técnico
+            $tecnico = Tecnico::withTrashed()->where('idTecnico', $validated['idTecnico'])->first();
+
+            $message = [];
+
+            if ($tecnico) {
+                $message[] = $tecnico->trashed()
+                    ? "El técnico con DNI: {$tecnico->idTecnico} ya ha sido registrado anteriormente pero está inhabilitado."
+                    : "El técnico con DNI: {$tecnico->idTecnico} ya ha sido registrado anteriormente.";
+            }
+
+            $celularDuplicado = Tecnico::withTrashed()->where('celularTecnico', $validated['celularTecnico'])->first();
+
+            if ($celularDuplicado) {
+                $message[] = "El celular ingresado ya está en uso por otro técnico.";
+            }
+
+            if (!empty($message)) {
+                return response()->json([
+                    'exists' => true,
+                    'message' => implode(' ', $message)
+                ]);
+            }
+
+            return response()->json([
+                'exists' => false,
+                'message' => "Técnico y celular disponibles para registro"
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json(['error' => 'Validación fallida', 'details' => $e->errors()], 422);
+        } catch (\Exception $e) {
+            // Registrar detalles del error para depuración
+           Log::info('Error en verificarTecnico', [
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
 
             return response()->json(['error' => 'Error al verificar el técnico', 'details' => $e->getMessage()], 500);
         }

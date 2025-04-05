@@ -8,7 +8,6 @@ let historicoPuntosEditInput = document.getElementById('historicoPuntosInputEdit
 let rangoInputEdit = document.getElementById('rangoInputEdit');
 let searchEditTecnicoMessageError = document.getElementById('searchEditTecnicoMessageError');
 let editarTecnicoMessageError = document.getElementById('editarTecnicoMessageError');
-let celularTecnicoEditHiddenInput = document.getElementById('idcelularTecnicoEditInput');
 let idsOficioEditArrayInput = document.getElementById('idsOficioEditArrayInput');
 let someHiddenIdInputsTecnicoEditArray = ['idEditTecnicoInput', 'idsOficioEditArrayInput'];
 let multiselectDropdownContainerEditarTecnico = document.getElementById('idMultiSelectDropdownContainer_EditarTecnico');
@@ -75,19 +74,48 @@ function validarCamposVaciosFormularioEdit() {
 }
 
 function validarCamposCorrectosFormularioTecnicoEdit() {
-    if (celularEditInput.value.length != 9) {
+    const celularTecnico = celularEditInput.value;
+    
+    if (celularTecnico.length != 9) {
         showHideTooltip(celularTecnicoEditTooltip, "El número de celular debe contener 9 dígitos");
         editarTecnicoMessageError.textContent = "El número de celular debe contener 9 dígitos";
         editarTecnicoMessageError.classList.add("shown");
         return false
     }
-    
+
     return true;
 }
 
-function guardarModalEditarTecnico(idModal, idForm) {
+async function guardarModalEditarTecnico(idModal, idForm) {
     if (validarCamposVaciosFormularioEdit()) {
         if (validarCamposCorrectosFormularioTecnicoEdit()) {
+            const idTecnico = tecnicoEditInput.value.trim().split('|')[0];
+            const celularTecnico = celularEditInput.value;
+
+            // Validar celular duplicado con fetch
+            const url = `${baseUrlMAIN}/verificar-celularTecnico`;
+        
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfTokenMAIN
+                },
+                body: JSON.stringify({ idTecnico: idTecnico,  celularTecnico: celularTecnico})
+            });
+        
+            if (!response.ok) {
+                throw new Error('Error en la comunicación con el servidor.');
+            }
+        
+            const data = await response.json();
+        
+            if (data.exists) {
+                editarTecnicoMessageError.textContent = data.message;
+                editarTecnicoMessageError.classList.add('shown');
+                return; 
+            }
+
             editarTecnicoMessageError.classList.remove("shown");
             guardarModal(idModal, idForm);	
         } 
@@ -125,7 +153,7 @@ function selectOptionEditarTecnico(value, tecnico) {
     // Colocar en el input la opción seleccionada 
     selectOption(value, tecnicoEditInput.id, tecnicoEditOptions.id); 
     
-    consoleLogJSONItems(tecnico);
+    //consoleLogJSONItems(tecnico);
     //console.log(tecnico.idNameOficioTecnico);
     
     if (!tecnico) {
