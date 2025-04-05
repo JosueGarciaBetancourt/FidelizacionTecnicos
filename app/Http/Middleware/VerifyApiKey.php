@@ -3,13 +3,16 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class VerifyApiKey
 {
     public function handle(Request $request, Closure $next)
-    {
+    {   
+        Log::info("Ingresando a VerifyApiKey");
+        
         // Obtener la API Key del encabezado
         $apiKey = $request->header('Authorization');
 

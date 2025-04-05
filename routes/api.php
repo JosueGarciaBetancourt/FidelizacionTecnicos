@@ -13,8 +13,6 @@ Route::get('/user', function (Request $request) {
     //RUTAS API
     Route::post('/loginmovil/login-tecnicos', [Login_tecnicoController::class, 'login']);
 
-
-    
     Route::get('/getTecnico/{idTecnico}', [Login_tecnicoController::class, 'obtenerTecnicoPorId']);  
     Route::get('/ventasIntermediadasSolicitud/{idTecnico}', [Login_tecnicoController::class, 'getVentasIntermediadasFiltradas']);
     Route::get('/ventas-intermediadas/{idTecnico}', [Login_tecnicoController::class, 'getVentasIntermediadas']);
