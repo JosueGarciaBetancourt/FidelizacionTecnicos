@@ -255,7 +255,7 @@ class TecnicoController extends Controller
             $tecnico->delete();
             
             // Desactivar el login del técnico (soft delete)
-            $loginTecnico = Login_Tecnico::find($validatedData['idTecnico']);
+            $loginTecnico = Login_Tecnico::where('idTecnico', $validatedData['idTecnico'])->first();
             $loginTecnico->delete();
 
             $messageDelete = 'Técnico inhabilitado correctamente';
@@ -335,7 +335,7 @@ class TecnicoController extends Controller
             }
 
             // Restaurar el login del técnico
-            $loginTecnicoEliminado = Login_Tecnico::find($validatedData['idTecnico']);
+            $loginTecnicoEliminado = Login_Tecnico::onlyTrashed()->where('idTecnico', $validatedDataTecnico['idTecnico'])->first();
             $loginTecnicoEliminado->restore();
 
             //dd($tecnicoEliminado);
