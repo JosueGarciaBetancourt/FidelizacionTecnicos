@@ -17,7 +17,7 @@ class Login_tecnicoController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'celularTecnico' => 'required|string',
+            'celularTecnico' => 'required|string|9',
             'password' => 'required|string',
         ]);
 
