@@ -28,17 +28,14 @@ class Login_tecnicoController extends Controller
         $password = $request->input('password');
 
         // Buscar el técnico por celularTecnico en la tabla Tecnicos
-        $tecnico = Tecnico::where('celularTecnico', $celularTecnico)->first();
-        dd($tecnico);
+        $tecnico = DB::table('Tecnicos')->where('celularTecnico', $celularTecnico)->first();
 
         // Verificar si se encontró el técnico y luego validar la contraseña
         if ($tecnico) {
-           /*  $loginTecnico = DB::table('login_tecnicos')
+            $loginTecnico = DB::table('login_tecnicos')
                 ->where('idTecnico', $tecnico->idTecnico) // Usar idTecnico del técnico encontrado
-                ->first(); */
+                ->first();
             
-            $loginTecnico = Login_Tecnico::where('idTecnico', $tecnico->idTecnico)->first();
-
             if ($loginTecnico && Hash::check($password, $loginTecnico->password)) {
                 // Verificar si es el primer inicio de sesión
                 $isFirstLogin = $loginTecnico->isFirstLogin;
