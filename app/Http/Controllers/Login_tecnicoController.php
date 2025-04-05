@@ -28,7 +28,10 @@ class Login_tecnicoController extends Controller
         $password = $request->input('password');
 
         // Buscar el técnico por celularTecnico en la tabla Tecnicos
-        $tecnico = DB::table('Tecnicos')->where('celularTecnico', $celularTecnico)->first();
+        $tecnico = DB::table('Tecnicos')
+            ->where('celularTecnico', $celularTecnico)
+            ->where('deleted_at', null)
+            ->first();
 
         // Verificar si se encontró el técnico y luego validar la contraseña
         if ($tecnico) {
