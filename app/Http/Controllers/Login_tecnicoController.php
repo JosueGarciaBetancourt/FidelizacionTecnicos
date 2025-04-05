@@ -33,6 +33,8 @@ class Login_tecnicoController extends Controller
             ->where('deleted_at', null)
             ->first();
 
+        //Controller::printJSON($tecnico);
+
         // Verificar si se encontró el técnico y luego validar la contraseña
         if ($tecnico) {
             $loginTecnico = DB::table('login_tecnicos')

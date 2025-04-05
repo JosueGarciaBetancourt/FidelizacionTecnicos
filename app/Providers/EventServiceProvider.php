@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Event;
 class EventServiceProvider extends ServiceProvider
 {
     protected $listen = [
-        \App\Events\NotificationReviewed::class => [
+        /* \App\Events\NotificationReviewed::class => [
             \App\Listeners\DeleteNotification::class,
-        ],
+        ], */
     ];
 
     public function boot()
