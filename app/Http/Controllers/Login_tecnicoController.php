@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Rango;
+use App\Models\Tecnico;
 use App\Models\Recompensa;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -25,10 +26,7 @@ class Login_tecnicoController extends Controller
         $password = $request->input('password');
 
         // Buscar el técnico por celularTecnico en la tabla Tecnicos
-        $tecnico = DB::table('Tecnicos')
-            ->where('celularTecnico', $celularTecnico)
-            ->whereNull('deleted_at')
-            ->first();
+        $tecnico = Tecnico::where('celularTecnico', $celularTecnico)->first();
 
         // Verificar si se encontró el técnico y luego validar la contraseña
         if ($tecnico) {
