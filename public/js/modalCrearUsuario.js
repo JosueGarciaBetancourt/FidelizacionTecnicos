@@ -255,6 +255,9 @@ async function guardarModalCrearUsuario(idModal, idForm) {
                 crearDatosUsuarioMessageError.classList.remove("shown");
                 crearDatosPersonalesMessageError.classList.remove("shown");
 
+                const loadingModal = document.getElementById('loadingModal');
+                loadingModal.classList.add('show');
+                
                 // Limpiar storage
                 StorageHelper.clear('modalOpenedProfileOwn');
                 guardarModal(idModal, idForm);	

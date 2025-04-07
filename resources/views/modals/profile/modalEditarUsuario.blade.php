@@ -114,7 +114,7 @@
 
                                     @if (Auth::check() && Auth::user()->idPerfilUsuario !== 2)
                                         <span class="limit-text"> 
-                                            El perfil de asistente tiene permisos únicamente para visualizar en el sistema.
+                                            El perfil de Asistente tiene permisos únicamente para visualizar en el sistema.
                                         </span>  
                                     @endif
                                 </div>

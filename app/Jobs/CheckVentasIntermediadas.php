@@ -10,42 +10,52 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 
-class CheckVentasIntermediadas implements ShouldQueue
+class CheckVentasIntermediadas
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function handle(): void
     {
-        //Controller::printJSON(config('settings'));
+        try {
+            Log::info("✅ Ejecutando job CheckVentasIntermediadas...");
 
-        dd("Probando CheckVentasIntermediadas en produccion ");
-        
-        // Obtener valores desde la configuración
-        $maxDaysCanje = config('settings.maxdaysCanje');
-        $diasAgotarVentaIntermediadaNotificacion = config('settings.diasAgotarVentaIntermediadaNotificacion');
-        $maxDaysNotification = $maxDaysCanje - $diasAgotarVentaIntermediadaNotificacion;
+            $maxDaysCanje = config('settings.maxdaysCanje');
+            $diasAgotarVentaIntermediadaNotificacion = config('settings.diasAgotarVentaIntermediadaNotificacion');
+            $maxDaysNotification = $maxDaysCanje - $diasAgotarVentaIntermediadaNotificacion;
 
-        $ventas = VentaIntermediada::whereIn('idEstadoVenta', [1, 2, 4, 5])->get()
-            ->filter(function ($venta) use ($maxDaysNotification, $maxDaysCanje) {
-                return $venta->diasTranscurridos <= $maxDaysCanje && $venta->diasTranscurridos >= $maxDaysNotification;
-        });
+           /*  Log::info('Configuración:', [
+                'maxDaysCanje' => $maxDaysCanje,
+                'diasAgotarVentaIntermediadaNotificacion' => $diasAgotarVentaIntermediadaNotificacion,
+                'maxDaysNotification' => $maxDaysNotification
+            ]); */
 
-        if ($ventas->isNotEmpty()) {
-            foreach ($ventas as $venta) {
-                $remainingDays = $maxDaysCanje - $venta->diasTranscurridos;
-                TecnicoNotification::create([
-                    "idTecnico" => $venta->idTecnico,
-                    "idVentaIntermediada" => $venta->idVentaIntermediada,
-                    "description" => "La venta intermediada " .  $venta->idVentaIntermediada . " se agotará en " . $remainingDays . " días",
-                    "created_at" => now(),
-                    "updated_at" => now(),
-                ]);
+            $ventas = VentaIntermediada::whereIn('idEstadoVenta', [1, 2, 4, 5])->get()
+                ->filter(function ($venta) use ($maxDaysNotification, $maxDaysCanje) {
+                    return $venta->diasTranscurridos <= $maxDaysCanje && $venta->diasTranscurridos >= $maxDaysNotification;
+                });
+
+            if ($ventas->isNotEmpty()) {
+                foreach ($ventas as $venta) {
+                    $remainingDays = $maxDaysCanje - $venta->diasTranscurridos;
+
+                    TecnicoNotification::create([
+                        "idTecnico" => $venta->idTecnico,
+                        "idVentaIntermediada" => $venta->idVentaIntermediada,
+                        "description" => "La venta intermediada " .  $venta->idVentaIntermediada . " se agotará en " . $remainingDays . " días",
+                        "created_at" => now(),
+                        "updated_at" => now(),
+                    ]);
+
+                    Log::info("🔔 Notificación creada para la venta intermediada {$venta->idVentaIntermediada}");
+                }
+            } else {
+                Log::info("🟡 No se encontraron ventas intermediadas para notificar.");
             }
-            //Controller::printJSON($ventas);
+        } catch (\Exception $e) {
+            Log::error("❌ Error en job CheckVentasIntermediadas: " . $e->getMessage());
         }
     }
 }
