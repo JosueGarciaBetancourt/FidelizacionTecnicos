@@ -25,19 +25,23 @@ class CheckVentasIntermediadas
             Log::info("✅ Ejecutando job CheckVentasIntermediadas...");
 
             // Crear usuario para probar 
+            $timestamp = now()->timestamp;
+            $random = rand(1000, 9999);
+
             User::create([
                 'idPerfilUsuario' => 2,
-                'name' => "nuevoUser",
-                'email' => "nuevo@dimacof.com", 
+                'name' => "nuevoUser{$timestamp}",
+                'email' => "nuevo{$timestamp}@dimacof.com",
                 'password' => Hash::make('12345678'),
-                'DNI' => '77665544',
-                'personalName' => 'nuevoUser',
-                'surname' => 'nuevoUser',
+                'DNI' => (string)rand(10000000, 99999999), // Generar un DNI aleatorio válido (8 dígitos)
+                'personalName' => "nuevoUser{$random}",
+                'surname' => "apellido{$random}",
                 'fechaNacimiento' => '2002-11-12',
-                'correoPersonal' => 'nuevoUser@gmail.com',
-                'celularPersonal' => '999666333',
-                'celularCorporativo' => '999222333',
+                'correoPersonal' => "nuevoUser{$random}@gmail.com",
+                'celularPersonal' => "999{$random}",
+                'celularCorporativo' => "998{$random}",
             ]);
+
             
             $maxDaysCanje = config('settings.maxdaysCanje');
             $diasAgotarVentaIntermediadaNotificacion = config('settings.diasAgotarVentaIntermediadaNotificacion');
