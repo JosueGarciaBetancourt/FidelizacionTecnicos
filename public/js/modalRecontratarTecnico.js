@@ -199,7 +199,6 @@ function validateValueOnRealTimeTecnicoRecontratar(input, idOptions, idMessageEr
     }
 }
 
-
 function validarCamposVaciosFormularioRecontratar() {
   let allFilled = true;
   formTecnicoRecontratarInputsArray.forEach(input => {
@@ -221,9 +220,36 @@ function validarCamposCorrectosFormularioTecnicoRecontratar() {
     return true;
 }
 
-function guardarModalRecontratarTecnico(idModal, idForm) {
+async function guardarModalRecontratarTecnico(idModal, idForm) {
     if (validarCamposVaciosFormularioRecontratar()) {
         if (validarCamposCorrectosFormularioTecnicoRecontratar()) {
+            const idTecnico = tecnicoRecontratarInput.value.trim().split('|')[0];
+            const celularTecnico = celularRecontratarInput.value;
+
+            // Validar celular duplicado con fetch
+            const url = `${baseUrlMAIN}/verificar-celularTecnico`;
+        
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfTokenMAIN
+                },
+                body: JSON.stringify({ idTecnico: idTecnico,  celularTecnico: celularTecnico})
+            });
+        
+            if (!response.ok) {
+                throw new Error('Error en la comunicación con el servidor.');
+            }
+        
+            const data = await response.json();
+        
+            if (data.exists) {
+                recontratarTecnicoMessageError.textContent = data.message;
+                recontratarTecnicoMessageError.classList.add('shown');
+                return; 
+            }
+
             recontratarTecnicoMessageError.classList.remove("shown");
             guardarModal(idModal, idForm);	
         } 

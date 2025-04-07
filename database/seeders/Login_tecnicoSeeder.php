@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Login_Tecnico;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -11,7 +12,16 @@ use Illuminate\Support\Collection;
 class Login_tecnicoSeeder extends Seeder
 {
     public function run(): void
-    {
+    {   
+        // Crear login inhabilitado para pruebas
+        Login_Tecnico::forceCreate([
+            'idTecnico' => '11111111',
+            'password' => Hash::make('11111111'),
+            'created_at' => now(),
+            'updated_at' => now(),
+            'deleted_at' => now(),
+        ]);
+
         // Obtener solo los IDs de técnicos que aún no tienen login
         $existingLoginIds = DB::table('login_tecnicos')->pluck('idTecnico')->toArray();
 

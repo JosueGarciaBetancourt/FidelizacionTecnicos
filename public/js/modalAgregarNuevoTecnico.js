@@ -85,7 +85,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-
 function validateDate() {
     var selectedDate = fechaNacimientoInput.value;
 
@@ -130,7 +129,7 @@ function validateFormAgregarNuevoTecnico() {
 async function guardarModalAgregarNuevoTecnico(idModal, idForm) { 
     try {
         const idTecnico = dniInput.value.trim();
-        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const celularTecnico = phoneInput.value.trim();
         const url = `${baseUrlMAIN}/verificar-tecnico`;
         
         // Validar el formulario en el cliente
@@ -153,14 +152,14 @@ async function guardarModalAgregarNuevoTecnico(idModal, idForm) {
             return;
         }
 
-        // Validar existencia de técnico o técnico inhabilitado con fetch
+        // Validar existencia de técnico, técnico inhabilitado ó celular duplicado con fetch
         const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': csrfToken
+                'X-CSRF-TOKEN': csrfTokenMAIN
             },
-            body: JSON.stringify({ idTecnico })
+            body: JSON.stringify({ idTecnico: idTecnico,  celularTecnico: celularTecnico})
         });
 
         if (!response.ok) {

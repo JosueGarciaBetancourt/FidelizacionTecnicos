@@ -1,5 +1,6 @@
 let nameInputEditarUsuario = document.getElementById('nameInputEditarUsuario');
 let emailTextInputEditarUsuario = document.getElementById('emailTextInputEditarUsuario');
+let emailHiddenInputEditarUsuario = document.getElementById('emailHiddenInputEditarUsuario');
 let passwordInputEditarUsuario = document.getElementById('passwordInputEditarUsuario');
 let confirmPasswordInputEditarUsuario = document.getElementById('confirmPasswordInputEditarUsuario');
 let perfilUsuarioInputEditarUsuario = document.getElementById('perfilUsuarioInputEditarUsuario');
@@ -205,11 +206,11 @@ async function guardarModalEditarUsuario(idModal, idForm) {
 
         // Validar duplicados en BD
         const url = `${baseUrlMAIN}/verificar-userEditDataDuplication`;
-        const userEmail = emailTextInputEditarUsuario.value.trim();
+        const userID = objUserToEdit.id;
+        const userEmail = emailHiddenInputEditarUsuario.value.trim();
         const userDNI = DNIEditarUsuarioInput.value.trim();
         const userPersonalEmail = correoPersonalEditarUsuarioInput.value.trim();
         const userPersonalPhone = celularPersonalEditarUsuarioInput.value.trim();
-        const userID =  objUserToEdit.id;
 
         try {
             const response = await fetch(url, {
@@ -246,6 +247,9 @@ async function guardarModalEditarUsuario(idModal, idForm) {
 
                 editarDatosUsuarioMessageError.classList.remove("shown");
                 editarDatosPersonalesMessageError.classList.remove("shown");
+               
+                const loadingModal = document.getElementById('loadingModal');
+                loadingModal.classList.add('show');
 
                 // Limpiar storage
                 StorageHelper.clear('modalOpenedProfileOwn');

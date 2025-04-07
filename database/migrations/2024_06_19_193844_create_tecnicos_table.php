@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('Tecnicos', function (Blueprint $table) {
             $table->string('idTecnico', 8)->primary(); 
             $table->string('nombreTecnico', 100); 
-            $table->string('celularTecnico', 9); 
+            $table->string('celularTecnico', 9)->unique(); 
             $table->date('fechaNacimiento_Tecnico');  
             $table->integer('totalPuntosActuales_Tecnico')->unsigned()->default(0);
             $table->integer('historicoPuntos_Tecnico')->unsigned()->default(0);

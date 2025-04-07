@@ -105,7 +105,7 @@
                                     
                                 
                                     <span class="limit-text"> 
-                                        El perfil de asistente tiene permisos únicamente para visualizar en el sistema.
+                                        El perfil de Asistente tiene permisos únicamente para visualizar en el sistema.
                                     </span>  
                                 </div>
                             </div>
