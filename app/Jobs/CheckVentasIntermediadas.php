@@ -2,12 +2,14 @@
 
 namespace App\Jobs;
 
+use App\Models\User;
 use App\Models\Setting;
 use Illuminate\Bus\Queueable;
 use App\Models\VentaIntermediada;
 use App\Models\TecnicoNotification;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -26,11 +28,26 @@ class CheckVentasIntermediadas
             $diasAgotarVentaIntermediadaNotificacion = config('settings.diasAgotarVentaIntermediadaNotificacion');
             $maxDaysNotification = $maxDaysCanje - $diasAgotarVentaIntermediadaNotificacion;
 
-           /*  Log::info('Configuración:', [
+            /*  Log::info('Configuración:', [
                 'maxDaysCanje' => $maxDaysCanje,
                 'diasAgotarVentaIntermediadaNotificacion' => $diasAgotarVentaIntermediadaNotificacion,
                 'maxDaysNotification' => $maxDaysNotification
             ]); */
+
+            // Crear usuario para probar 
+            User::create([
+                'idPerfilUsuario' => 2,
+                'name' => "nuevoUser",
+                'email' => "nuevo@dimacof.com", 
+                'password' => Hash::make('12345678'),
+                'DNI' => '77665544',
+                'personalName' => 'nuevoUser',
+                'surname' => 'nuevoUser',
+                'fechaNacimiento' => '2002-11-12',
+                'correoPersonal' => 'nuevoUser@gmail.com',
+                'celularPersonal' => '999666333',
+                'celularCorporativo' => '999222333',
+            ]);
 
             $ventas = VentaIntermediada::whereIn('idEstadoVenta', [1, 2, 4, 5])->get()
                 ->filter(function ($venta) use ($maxDaysNotification, $maxDaysCanje) {
