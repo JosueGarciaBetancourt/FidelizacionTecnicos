@@ -34,21 +34,6 @@ class CheckVentasIntermediadas
                 'maxDaysNotification' => $maxDaysNotification
             ]); */
 
-            // Crear usuario para probar 
-            User::create([
-                'idPerfilUsuario' => 2,
-                'name' => "nuevoUser",
-                'email' => "nuevo@dimacof.com", 
-                'password' => Hash::make('12345678'),
-                'DNI' => '77665544',
-                'personalName' => 'nuevoUser',
-                'surname' => 'nuevoUser',
-                'fechaNacimiento' => '2002-11-12',
-                'correoPersonal' => 'nuevoUser@gmail.com',
-                'celularPersonal' => '999666333',
-                'celularCorporativo' => '999222333',
-            ]);
-
             $ventas = VentaIntermediada::whereIn('idEstadoVenta', [1, 2, 4, 5])->get()
                 ->filter(function ($venta) use ($maxDaysNotification, $maxDaysCanje) {
                     return $venta->diasTranscurridos <= $maxDaysCanje && $venta->diasTranscurridos >= $maxDaysNotification;
